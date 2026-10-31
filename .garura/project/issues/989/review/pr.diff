@@ -1,0 +1,2988 @@
+diff --git a/.garura/project/issues/989/context/analysis.yaml b/.garura/project/issues/989/context/analysis.yaml
+new file mode 100644
+index 000000000..597e35ad0
+--- /dev/null
++++ b/.garura/project/issues/989/context/analysis.yaml
+@@ -0,0 +1,77 @@
++---
++# assess-changes output (round 1 grouping judgment) for the /commit-change loop
++# branch: plan/717/989-plan-branch-start-and-propose
++needs_judgment: false
++branch: plan/717/989-plan-branch-start-and-propose
++issue: 989
++
++change_groups:
++  - id: feat-start-change-plan-start
++    issue: 989
++    commit_type: feat
++    scope: start-change
++    subject: "start the change the person typed, start a plan on its own, and cut a plan's branch main first"
++    confidence: high
++    files:
++      - core/components/plays/start-change/SKILL.md
++      - core/components/plays/start-change/reference/ice.md
++      - core/components/plays/start-change/stop-condition.yaml
++      - core/components/plays/start-change/stop-condition-plan.yaml
++      - core/components/plays/start-change/scripts/resolve_args.py
++      - core/components/plays/start-change/scripts/check_plan_start.py
++      - core/components/plays/start-change/scripts/setup_branch.py
++      - core/components/plays/start-change/scripts/test_start_change.py
++      - core/components/plays/create-play/references/setup_branch.py
++      - core/tools/plan/plan_branch.py
++      - core/tools/plan/test_plan_branch.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "#989. Includes the master copy of setup_branch.py (create-play/references) so both copies stay equal, and the plan tool's stale-copy rule (#953) with its tests, which setup_branch.py now calls."
++
++  - id: feat-plan-land-propose-merge
++    issue: 991
++    commit_type: feat
++    scope: plan-land
++    subject: "ask Status and Direction when a plan's branch is raised, and check the plan file before and after the merge"
++    confidence: high
++    files:
++      - core/tools/plan/plan_land.py
++      - core/tools/plan/test_plan_land.py
++      - core/components/plays/propose-change/SKILL.md
++      - core/components/plays/propose-change/reference/ice.md
++      - core/components/plays/merge-change/SKILL.md
++      - core/components/plays/merge-change/reference/ice.md
++      - core/tools/plan/README.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "#991. The plan tool README covers both issues (stale-copy rule for #989, plan_land.py for #991); it sits here because this commit comes second, so the README never describes a script that is not yet committed, and its largest new section is plan_land.py."
++
++  - id: docs-design-989
++    issue: 989
++    commit_type: docs
++    scope: design
++    subject: "record the approved design for starting a plan's work and landing a plan's branch"
++    confidence: high
++    files:
++      - .garura/project/issues/989/specs/design.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Design file for #989 and #991, approved by the product owner on 2026-10-31."
++
++exclusions:
++  - path: ".garura/project/issues/989/context/porcelain.txt"
++    reason: "run state, committed by the executor's final group"
++    blocking: false
++  - path: ".garura/project/issues/989/context/templates/"
++    reason: "run state, committed by the executor's final group"
++    blocking: false
++
++risks:
++  sensitive_files: []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "grouped by issue: 989 (start-change, plan tool branch script, design) and 991 (plan_land, propose-change, merge-change, README); every porcelain path placed once or excluded as run state"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched in the changed files"}
+diff --git a/.garura/project/issues/989/context/branch.json b/.garura/project/issues/989/context/branch.json
+new file mode 100644
+index 000000000..f6ea7ec58
+--- /dev/null
++++ b/.garura/project/issues/989/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "plan/717/989-plan-branch-start-and-propose",
++  "base_sha": "86385d4158bd31b7abe281f173a85caeae51aea4",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/989/context/commits.yaml b/.garura/project/issues/989/context/commits.yaml
+new file mode 100644
+index 000000000..ed0e27c60
+--- /dev/null
++++ b/.garura/project/issues/989/context/commits.yaml
+@@ -0,0 +1,41 @@
++commits:
++  - sha: 3a8a766b
++    message: "feat(start-change): start the change the person typed, start a plan on its own, and cut a plan's branch main first (#989)"
++    files:
++      - core/components/plays/start-change/SKILL.md
++      - core/components/plays/start-change/reference/ice.md
++      - core/components/plays/start-change/stop-condition.yaml
++      - core/components/plays/start-change/stop-condition-plan.yaml
++      - core/components/plays/start-change/scripts/resolve_args.py
++      - core/components/plays/start-change/scripts/check_plan_start.py
++      - core/components/plays/start-change/scripts/setup_branch.py
++      - core/components/plays/start-change/scripts/test_start_change.py
++      - core/components/plays/create-play/references/setup_branch.py
++      - core/tools/plan/plan_branch.py
++      - core/tools/plan/test_plan_branch.py
++    branch: plan/717/989-plan-branch-start-and-propose
++  - sha: ee2734ab
++    message: "feat(plan-land): ask Status and Direction when a plan's branch is raised, and check the plan file before and after the merge (#991)"
++    files:
++      - core/tools/plan/plan_land.py
++      - core/tools/plan/test_plan_land.py
++      - core/components/plays/propose-change/SKILL.md
++      - core/components/plays/propose-change/reference/ice.md
++      - core/components/plays/merge-change/SKILL.md
++      - core/components/plays/merge-change/reference/ice.md
++      - core/tools/plan/README.md
++    branch: plan/717/989-plan-branch-start-and-propose
++  - sha: 5a988f78
++    message: "docs(design): record the approved design for starting a plan's work and landing a plan's branch (#989)"
++    files:
++      - .garura/project/issues/989/specs/design.md
++    branch: plan/717/989-plan-branch-start-and-propose
++excluded_files:
++  - path: ".garura/project/issues/989/context/porcelain.txt"
++    reason: "run state, committed by the executor's final group"
++  - path: ".garura/project/issues/989/context/templates/"
++    reason: "run state, committed by the executor's final group"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/989/context/issue.json b/.garura/project/issues/989/context/issue.json
+new file mode 100644
+index 000000000..7128f76ec
+--- /dev/null
++++ b/.garura/project/issues/989/context/issue.json
+@@ -0,0 +1 @@
++{ "resolved": true, "issue_number": 989, "title": "start-change starts a plan on its own: it cuts the plan's branch from main, with no story branch", "created": false }
+diff --git a/.garura/project/issues/989/context/plan.json b/.garura/project/issues/989/context/plan.json
+new file mode 100644
+index 000000000..ee6018c77
+--- /dev/null
++++ b/.garura/project/issues/989/context/plan.json
+@@ -0,0 +1,13 @@
++{
++  "issue": "989",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/989-plan-branch-start-and-propose",
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": [
++      "plan/717/base"
++    ]
++  }
++}
+diff --git a/.garura/project/issues/989/context/porcelain.txt b/.garura/project/issues/989/context/porcelain.txt
+new file mode 100644
+index 000000000..4f3afdb7d
+--- /dev/null
++++ b/.garura/project/issues/989/context/porcelain.txt
+@@ -0,0 +1,21 @@
++ M core/components/plays/create-play/references/setup_branch.py
++ M core/components/plays/merge-change/SKILL.md
++ M core/components/plays/merge-change/reference/ice.md
++ M core/components/plays/propose-change/SKILL.md
++ M core/components/plays/propose-change/reference/ice.md
++ M core/components/plays/start-change/SKILL.md
++ M core/components/plays/start-change/reference/ice.md
++ M core/components/plays/start-change/scripts/setup_branch.py
++ M core/components/plays/start-change/stop-condition.yaml
++ M core/tools/plan/README.md
++ M core/tools/plan/plan_branch.py
++ M core/tools/plan/test_plan_branch.py
++?? .garura/project/issues/989/context/porcelain.txt
++?? .garura/project/issues/989/context/templates/
++?? .garura/project/issues/989/specs/
++?? core/components/plays/start-change/scripts/check_plan_start.py
++?? core/components/plays/start-change/scripts/resolve_args.py
++?? core/components/plays/start-change/scripts/test_start_change.py
++?? core/components/plays/start-change/stop-condition-plan.yaml
++?? core/tools/plan/plan_land.py
++?? core/tools/plan/test_plan_land.py
+diff --git a/.garura/project/issues/989/context/pr-body.md b/.garura/project/issues/989/context/pr-body.md
+new file mode 100644
+index 000000000..ddac55f3a
+--- /dev/null
++++ b/.garura/project/issues/989/context/pr-body.md
+@@ -0,0 +1,53 @@
++Starts a plan's work on its own, keeps start-change open for any change, and lands a plan's branch on main with the person's Status and Direction and the branch's plan file whole. Two issues in one change, under plan 717 (#717).
++
++- #989 — start-change starts a plan on its own: it cuts the plan's branch from main, with no story branch.
++- #991 — /propose-change asks the plan's Status and Direction when a plan's branch is proposed for main, and the branch's plan file replaces main's.
++
++## What changes
++
++**start-change (#989)**
++- The change is what the person typed: an issue number, a short description, or `plan <id>`. Nothing typed starts nothing (one line says what to give). The branch name never names the change, so a bare start-change on `plan/717/base` no longer takes the business intent as the change.
++- `/start-change plan <id>` sets main's plan file to In Progress with the branch named, commits and pushes that on main, cuts `plan/<id>/base` from that commit, and stops: no issue, no story branch, nothing committed on the plan's branch. Again on a plan with a branch: it switches and changes nothing. A plan main does not have, or marks Done or Dropped: a plain message.
++- The first story of a plan with no branch also gets the plan's branch main first, through the plan tool (ADR 061).
++- The stale-copy rule (#953) moves into the plan tool's `plan_branch.py`, so `/update-plan` has it too.
++
++**Landing a plan's branch (#991)**
++- New plan tool script `plan_land.py`: `ready` (Status and Direction checked against the plan-view template, empty branch field, latest main merged in keeping the branch's plan file, main's changes to it named), `check` (main's plan file unchanged since `ready`), `landed` (after the merge, main's plan file is the branch's).
++- `/propose-change` on a plan's own branch asks Status and Direction before any push (never skipped by the gate switch; an unknown answer is asked again) and names main's plan-file changes in the PR.
++- `/merge-change` merges a plan's own branch only when `check` holds, and proves `landed` after.
++
++Design: `.garura/project/issues/989/specs/design.md` (approved 2026-10-31). Builds on the #720 design, ADR 060 and ADR 061; no new ADR.
++
++Owed to the product owner (not changed here): a line in `.garura/user-provided/managing-work.md`, "A plan's branch: start, pause, start again", on `/start-change plan <id>`.
++
++## Self-review
++
++
++Blocking findings: none
++
++## Scope checks
++
++- [PASS] Matches the issue. Every changed file in core/ maps to the design: start-change (ICE, SKILL, resolve_args.py, check_plan_start.py, stop-condition-plan.yaml, setup_branch.py, tests) for #989; propose-change and merge-change (ICE, SKILL) plus plan_land.py and its tests for #991; plan_branch.py (stale-copy rule moved in) and the plan tool README.
++- [PASS] No scope creep. create-play/references/setup_branch.py is byte-identical to start-change's setup_branch.py (checked with diff); it is the compiler's copy, so a rebuild keeps the same script. check-change is untouched, as the design says.
++- [NOTE] Size. 18 files and about 1,470 added lines under core/, plus 11 STM files (about 440 lines). It is big, but it is two issues and three plays and one tool, which is what the design set as one change. About 600 of the lines are tests.
++- [PASS] No stray artifacts. No commented-out code, debug prints, TODO or FIXME in the added lines (grepped). The .garura/project/issues/989/ files are the run records this repo commits on purpose (chore(stm) commits). Two files (resolved-rules.json, target.json) are not committed yet; propose-change commits the run artifacts before the push.
++- [NOTE] The design says managing-work.md ("A plan's branch: start, pause, start again") may need a line on `/start-change plan <id>`. It is the product owner's file and was not touched, as the design says. It is owed to him by name.
++
++## Quality checks
++
++- [PASS] Tests present and green, run just now:
++  - plan tool: test_plan, test_plan_branch, test_plan_status, test_plan_land: 57 tests, OK
++  - start-change test_start_change.py: 12 tests, OK
++  - merge-change test_merge_pr.py: 3 tests, OK
++  - update-plan test_update_plan_scripts and test_feature_ice: 66 tests, OK (it uses plan_branch.py, which changed)
++  - play linter on start-change, propose-change and merge-change: VERDICT PASS (0 gaps) for each
++  - lint-components on core/components: 36 errors, 1 warning, the same 36 the caller said exist outside this change. None of them is in a file this change touches (the only create-play file named is SKILL.md, which this diff does not change).
++- [PASS] Commits are clean. Five commits, conventional format, each names #989 or #991: feat(start-change) #989, feat(plan-land) #991, docs(design) #989, and two chore(stm) record commits #989.
++- [PASS] No secrets. Nothing credential-like in the added lines.
++- [PASS] Docs in step. The plan tool README, both ICE files and all three SKILL.md files carry the change (fingerprints, step and scenario counts updated). The ICE and the compiled plays agree on constraints, failure conditions and scenarios.
++- [PASS] Nothing obviously broken. Checked the hand-offs between plays: propose-change writes plan-landing.json into its working folder (the issue's context folder), and merge-change reads it from {stm_base}{issue}/context/plan-landing.json, the same place. The `check` and `landed` records line up with what `ready` writes. The stale-copy rule now lives once, in plan_branch.py, and start-change's setup_branch.py calls it instead of keeping its own copy.
++
++## Observations for the reviewer (none stops the raise)
++
++- A description that starts with a number is read as an issue number plus a note. For example "500 error on login" would start issue 500. This follows the design (a bare number is an issue), and resolve_args.py says so in its header, but the person has no warning. Worth a look in check-change; a later issue if wanted.
++- `plan_branch.py` now runs `git fetch --prune`. This is needed to see that a plan's branch is gone on origin. It also removes other stale remote-tracking names in the clone, which is harmless, and update-plan's tests pass with it.
+diff --git a/.garura/project/issues/989/context/pr.json b/.garura/project/issues/989/context/pr.json
+new file mode 100644
+index 000000000..bfd553f84
+--- /dev/null
++++ b/.garura/project/issues/989/context/pr.json
+@@ -0,0 +1,8 @@
++{
++  "number": 1016,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1016",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "from_host": true,
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/989/context/resolved-rules.json b/.garura/project/issues/989/context/resolved-rules.json
+new file mode 100644
+index 000000000..ad1581750
+--- /dev/null
++++ b/.garura/project/issues/989/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/989/context/self-review.md b/.garura/project/issues/989/context/self-review.md
+new file mode 100644
+index 000000000..0a62f00f2
+--- /dev/null
++++ b/.garura/project/issues/989/context/self-review.md
+@@ -0,0 +1,35 @@
++# Self-review — #989 (closes #991 too)
++
++Branch: plan/717/989-plan-branch-start-and-propose, against plan/717/base.
++Rules: /Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md (base file, no project override).
++Scope source: .garura/project/issues/989/specs/design.md (approved 2026-10-31).
++Informational only. The approve/reject gate is check-change's.
++
++Blocking findings: none
++
++## Scope checks
++
++- [PASS] Matches the issue. Every changed file in core/ maps to the design: start-change (ICE, SKILL, resolve_args.py, check_plan_start.py, stop-condition-plan.yaml, setup_branch.py, tests) for #989; propose-change and merge-change (ICE, SKILL) plus plan_land.py and its tests for #991; plan_branch.py (stale-copy rule moved in) and the plan tool README.
++- [PASS] No scope creep. create-play/references/setup_branch.py is byte-identical to start-change's setup_branch.py (checked with diff); it is the compiler's copy, so a rebuild keeps the same script. check-change is untouched, as the design says.
++- [NOTE] Size. 18 files and about 1,470 added lines under core/, plus 11 STM files (about 440 lines). It is big, but it is two issues and three plays and one tool, which is what the design set as one change. About 600 of the lines are tests.
++- [PASS] No stray artifacts. No commented-out code, debug prints, TODO or FIXME in the added lines (grepped). The .garura/project/issues/989/ files are the run records this repo commits on purpose (chore(stm) commits). Two files (resolved-rules.json, target.json) are not committed yet; propose-change commits the run artifacts before the push.
++- [NOTE] The design says managing-work.md ("A plan's branch: start, pause, start again") may need a line on `/start-change plan <id>`. It is the product owner's file and was not touched, as the design says. It is owed to him by name.
++
++## Quality checks
++
++- [PASS] Tests present and green, run just now:
++  - plan tool: test_plan, test_plan_branch, test_plan_status, test_plan_land: 57 tests, OK
++  - start-change test_start_change.py: 12 tests, OK
++  - merge-change test_merge_pr.py: 3 tests, OK
++  - update-plan test_update_plan_scripts and test_feature_ice: 66 tests, OK (it uses plan_branch.py, which changed)
++  - play linter on start-change, propose-change and merge-change: VERDICT PASS (0 gaps) for each
++  - lint-components on core/components: 36 errors, 1 warning, the same 36 the caller said exist outside this change. None of them is in a file this change touches (the only create-play file named is SKILL.md, which this diff does not change).
++- [PASS] Commits are clean. Five commits, conventional format, each names #989 or #991: feat(start-change) #989, feat(plan-land) #991, docs(design) #989, and two chore(stm) record commits #989.
++- [PASS] No secrets. Nothing credential-like in the added lines.
++- [PASS] Docs in step. The plan tool README, both ICE files and all three SKILL.md files carry the change (fingerprints, step and scenario counts updated). The ICE and the compiled plays agree on constraints, failure conditions and scenarios.
++- [PASS] Nothing obviously broken. Checked the hand-offs between plays: propose-change writes plan-landing.json into its working folder (the issue's context folder), and merge-change reads it from {stm_base}{issue}/context/plan-landing.json, the same place. The `check` and `landed` records line up with what `ready` writes. The stale-copy rule now lives once, in plan_branch.py, and start-change's setup_branch.py calls it instead of keeping its own copy.
++
++## Observations for the reviewer (none stops the raise)
++
++- A description that starts with a number is read as an issue number plus a note. For example "500 error on login" would start issue 500. This follows the design (a bare number is an issue), and resolve_args.py says so in its header, but the person has no warning. Worth a look in check-change; a later issue if wanted.
++- `plan_branch.py` now runs `git fetch --prune`. This is needed to see that a plan's branch is gone on origin. It also removes other stale remote-tracking names in the clone, which is harmless, and update-plan's tests pass with it.
+diff --git a/.garura/project/issues/989/context/target.json b/.garura/project/issues/989/context/target.json
+new file mode 100644
+index 000000000..44f777681
+--- /dev/null
++++ b/.garura/project/issues/989/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/989-plan-branch-start-and-propose",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "989",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/989/context/templates/manifest-close-start-change.json b/.garura/project/issues/989/context/templates/manifest-close-start-change.json
+new file mode 100644
+index 000000000..d977ff851
+--- /dev/null
++++ b/.garura/project/issues/989/context/templates/manifest-close-start-change.json
+@@ -0,0 +1,31 @@
++{
++  "status": "completed",
++  "outputs": {
++    "manifest": ".garura/project/issues/989/context/templates/manifest-close-start-change.json"
++  },
++  "templates": [
++    {
++      "name": "standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/989/context/templates/standards/templates/delivery-report.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/templates/delivery-report.md",
++        "version": "c14f515d910f",
++        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
++      }
++    },
++    {
++      "name": "standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/989/context/templates/standards/rules/pipeline-next.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/rules/pipeline-next.md",
++        "version": "c14f515d910f",
++        "fingerprint": "sha256:b76c52d6e15aaa17e5ea20d161ccb76b0f3b784bfde3b721cb5285cd5e4a3c65"
++      }
++    }
++  ],
++  "missing": [],
++  "task_id": "load-close-templates",
++  "error": null
++}
+diff --git a/.garura/project/issues/989/context/templates/standards/rules/pipeline-next.md b/.garura/project/issues/989/context/templates/standards/rules/pipeline-next.md
+new file mode 100644
+index 000000000..2078bacf6
+--- /dev/null
++++ b/.garura/project/issues/989/context/templates/standards/rules/pipeline-next.md
+@@ -0,0 +1,95 @@
++# Pipeline-next — the successor map (single source of truth)
++
++Every user-invocable compiled play — and every loop, which closes like a play (ADR 029) —
++when it finishes, tells the user what to run next when it has one successor. This file is the one place that mapping lives. The **Standard Play Close**
++(`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
++`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
++`meta_exempt`.
++
++The rendered line reads:
++
++> **Next:** `/<command>` — <why>.
++
++When a play's `command` is `null`, the play has no single successor and the close leaves the
++Next line out. The person picks the next piece of work from the plan (one plan for each
++business intent, with done / now / next) or from `/list-focus-issues` (ADR 051).
++
++## The flow
++
++The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
++
++- **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge step is a step of the loop run by one agent, not a play (ADR 059).
++- **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then `/shape-plan <intent>`, then `/shape-eval <intent>`. `/shape-slice` hands to `/shape-plan`, which makes the intent's one plan, once: the plan file, one epic for each slice and one story for each feature. When the intent already has a plan, `/shape-plan` stops and a later slice joins the plan through `/update-plan <intent>`; `/shape-plan` hands to `/shape-eval`, which writes each slice's eval. The build stage (#819) is not built yet, so `/shape-eval` has no Next line. The Discovery plays hand to the loop (`/shape-slice <intent>`, the business intent's issue number).
++- **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
++  - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
++  - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
++  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/shape-slice` no longer reads that mark (ADR 049).
++  ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
++- **Execute loop (per epic):** `/build-epic → /validate-epic → /release-epic`. `/release-epic` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
++- **Change loop (git):** `/start-change` (injected at a play's head) `→ /commit-change → /propose-change → /check-change → /merge-change`.
++- **Learn loop:** `/learn-outcomes`. `/list-focus-issues` lists the open issues worth attention.
++- Branch points (at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
++
++## The map
++
++```yaml
++next:
++  # Standalone (no loop)
++  record-decision:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
++  # Discovery loop, then the Shaping loop (/shape-slice <intent>)
++  complete-discovery:      { command: shape-slice,          why: "the model holds the business intents — shape the slice that serves one (/shape-slice <intent>)" }
++  discover-intent:         { command: discover-domains,         why: "seed the product model from a confirmed business intent (give /discover-domains its title, outcome and why as the goal)" }
++  discover-domains:         { command: discover-capabilities,     why: "expand this capability's intent (ICE)" }
++  discover-capabilities:     { command: shape-slice,     why: "the capabilities are detailed — shape the slice that serves a business intent (/shape-slice <intent>)" }
++  # Older chain, stale (#855): old Shape loop — design plays, functional (ux → agentic → marketing)
++  shape-ux-lens:             { command: shape-agentic-lens,        why: "next lens in the functional pipe" }
++  shape-agentic-lens:        { command: shape-marketing-lens,      why: "next lens in the functional pipe" }
++  shape-marketing-lens:      { command: null,           why: "functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain, stale (#855): old Shape loop — design plays, non-functional (arch → quality → run)
++  shape-architecture-lens:           { command: shape-quality-lens,        why: "next lens in the non-functional pipe" }
++  shape-quality-lens:        { command: shape-run-lens,            why: "next lens in the non-functional pipe" }
++  shape-run-lens:            { command: null,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
++  shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /shape-slice, not from this mark" }
++
++  # Shaping loop (ADR 049) — the live shape loop: /shape-slice, then /shape-plan, then /shape-eval
++  shape-slice:          { command: shape-plan,     why: "the slice is shaped; make its plan, epic and stories (/shape-plan <intent>), or add them to the plan that exists (/update-plan <intent>)" }
++  shape-plan:           { command: shape-eval,     why: "the plan, its epics and its stories are made; write each slice's eval (/shape-eval <intent>)" }
++  shape-eval:           { command: null,           why: "each slice's eval is written; the build stage (#819) is not built yet" }
++
++  # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
++  build-epic:      { command: validate-epic,       why: "independently verify the built epic" }
++  validate-epic:       { command: release-epic,         why: "land the validated epic on human acceptance" }
++  release-epic:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
++  release-increment:         { command: null,           why: "increment deployed — the plan shows what comes next" }
++
++  # Defect and refactor lanes (ADR 023); /learn-outcomes is the Learn loop
++  fix-bug:        { command: null,           why: "defect resolved — the plan shows what comes next" }
++  refactor-code:       { command: null,           why: "refactor landed — the plan shows what comes next" }
++  learn-outcomes:          { command: null,           why: "model updated from outcomes — the plan shows what comes next" }
++
++  # Navigation
++  list-focus-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
++  list-plans:     { command: null,           why: "shows every plan — it has no successor" }
++  show-plan:      { command: null,           why: "shows one plan — it has no successor" }
++  update-plan:    { command: null,           why: "the plan is updated on its own branch — it reaches main with the plan's other work" }
++
++  # Change loop (git members)
++  start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
++  commit-change:  { command: propose-change, why: "raise the committed change" }
++  propose-change: { command: check-change,  why: "review the raised PR" }
++  check-change:  { command: merge-change,   why: "merge on approval" }
++  merge-change:   { command: null,           why: "change landed — the plan shows what comes next" }
++
++# Meta / bootstrap plays — not part of the product pipeline; no Next required.
++meta_exempt:
++  - install-garura
++  - uninstall-garura
++  - create-play
++  - edit-play
++  - create-loop
++  - edit-loop
++  - edit-ontology
++```
+\ No newline at end of file
+diff --git a/.garura/project/issues/989/context/templates/standards/templates/delivery-report.md b/.garura/project/issues/989/context/templates/standards/templates/delivery-report.md
+new file mode 100644
+index 000000000..c557fdb31
+--- /dev/null
++++ b/.garura/project/issues/989/context/templates/standards/templates/delivery-report.md
+@@ -0,0 +1,72 @@
++# Delivery Report Template
++
++Canonical shape for the human-readable terminal report a play presents to the user at close. This is the user-facing output, not the machine-readable STM evidence file (see `templates/evidence-file.md` for that).
++
++Consumers: `ship`, `fix-it`, `implement`, every play that closes with a delivery step.
++
++## Shape
++
++```markdown
++## {Play Name} Delivered — {context}
++
++### Run Summary
++
++| Field | Value |
++|-------|-------|
++| Play | {play-name} |
++| Issue | #{issue} |
++| Status | {COMPLETE \| PARTIAL \| FAILED} |
++| Started | {ISO-8601 timestamp} |
++| Completed | {ISO-8601 timestamp} |
++
++### Pipeline Steps
++
++| Step | Description | Status | Key Output |
++|------|-------------|--------|------------|
++| {n} | {step description} | {PASS/FAIL/SKIP} | {primary artifact or action taken} |
++
++### Artifacts Produced
++
++| Artifact | Path | Notes |
++|----------|------|-------|
++| {artifact name} | {path} | {description or status} |
++
++### Next
++
++{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. If the mapped command is null, the play has no single successor: omit the line.}
++
++{Optional: any other real follow-ons beyond the mapped next command — open defects, uncommitted artifacts. Omit if none.}
++```
++
++## Field Rules
++
++| Field | Required | Rule |
++|-------|----------|------|
++| `play` | yes | Exact play slug (e.g. `ship`, `fix-it`, `implement`). |
++| `issue` | yes | Issue number. Required for all project-scoped plays. |
++| `status` | yes | `COMPLETE` when all steps passed; `PARTIAL` when some steps skipped by configuration; `FAILED` when a step halted. |
++| `started` / `completed` | yes | ISO-8601 timestamps. |
++| `pipeline_steps` table | yes | At least one row per major step executed. Status: `PASS`, `FAIL`, or `SKIP`. |
++| `artifacts` table | no | Include when the play produces named artifacts (evidence files, PRs, SHAs). |
++| `next_steps` | no | Optional. Use when there are explicit follow-on actions (e.g., "Run validate after implement"). |
++
++## Per-Play Notes
++
++### ship
++Include in Pipeline Steps: commit, PR creation, review-pr (if run), merge, distill.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, distill output.
++
++### fix-it
++Include in Pipeline Steps: RCA, design, approval gate, implement, quality check, PR, merge.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, issue comment dispatch status.
++Add to Run Summary: Root Cause (summary), Fix Strategy (summary).
++
++### implement
++Include in Pipeline Steps: context build, eval generation, test authoring, code authoring, quality audit.
++Include in Artifacts: quality report, judge report, status report.
++Add to Run Summary: Milestone, Scope Items count, Quality status, Judge pass rate.
++
++## Related
++
++- `templates/evidence-file.md` — machine-readable STM evidence file (distinct from this human-facing report)
++- `templates/checkpoint.md` — checkpoint artifact written at each approval gate during the run
+\ No newline at end of file
+diff --git a/.garura/project/issues/989/context/work-description.txt b/.garura/project/issues/989/context/work-description.txt
+new file mode 100644
+index 000000000..cf74a3376
+--- /dev/null
++++ b/.garura/project/issues/989/context/work-description.txt
+@@ -0,0 +1,3 @@
++Fix #989 and #991 together under plan 717.
++#989: start-change starts a plan on its own: it cuts the plan's branch from main, with no story branch.
++#991: /propose-change asks the plan's Status and Direction when a plan's branch is proposed for main, and the branch's plan file replaces main's.
+diff --git a/.garura/project/issues/989/specs/design.md b/.garura/project/issues/989/specs/design.md
+new file mode 100644
+index 000000000..22f9476ee
+--- /dev/null
++++ b/.garura/project/issues/989/specs/design.md
+@@ -0,0 +1,77 @@
++# Design — #989 and #991: start a plan's work, and land a plan's branch on main
++
++Approved by the product owner on 2026-10-31, after two rounds in one session. Plan 717,
++capability #721 (start and land work against a plan). One change: branch
++`plan/717/989-plan-branch-start-and-propose`, under `plan/717/base`.
++
++Grounded in: the #720 design (`.garura/project/issues/720/specs/design.md`, "Which copy of a plan
++counts"), ADR 060 (a plan's branch merges into main when the plan pauses), ADR 061 (a plan's
++branch is cut by the play that starts the plan's work, main first, through one shared script).
++No new ADR: 060 and 061 already decide the cut and the landing.
++
++## #989 — start-change starts a plan on its own, and stays open for any change
++
++start-change is not locked to a plan. Starting a plan is one more thing it can start, on top of
++what it does today.
++
++- **Whatever is typed works as today.** An issue number, or a short description of the change (a
++  bug fix, a chore, a story, a feature, anything). A description goes back to GitHub, finds the
++  matching issue (or files one), confirms it, and starts: branch, working folder, as today.
++- **Nothing typed does nothing.** With no number, no description and no `plan <id>`, it stops with
++  one line: "Tell me what to start: an issue number, a short description, or plan <id>." It never
++  reads the change from the branch name. (Today, on `plan/717/base` with nothing typed, the
++  pre-flight took 717 — the business intent — as the change; this design removes that lock.)
++  Picking up earlier work still works by typing that issue's number.
++- **Starting a plan: `/start-change plan <id>`** — only with the word `plan`. A bare number
++  always means an issue, as today.
++  - The plan is read from main (from git, never the checkout).
++  - The plan has no branch: main's plan file is set to In Progress with `branch: plan/<id>/base`,
++    committed and pushed on main; `plan/<id>/base` is cut from that commit and pushed. It stops:
++    no issue is looked up, no story branch is cut, nothing is committed on the plan's branch (it
++    equals main's tip). The run's notes go in a working folder that is not committed.
++  - The plan's branch exists: it switches to it and changes nothing.
++  - The plan is Done or Dropped, or no plan has that number: it stops with a plain message.
++- **A story in a plan with no branch** also cuts the plan's branch main first, through the same
++  shared script, then cuts the story's branch from it. (Today that path cuts the plan's branch
++  without touching main's plan file.)
++- **The stale-copy rule moves into the shared script.** start-change's rule (#953) — a local copy
++  of a plan branch that is gone on origin is deleted and cut fresh only when every commit on it is
++  on main; else it stops and names the commits — moves into the plan tool's branch script, so
++  /update-plan gets it too. Today the shared script would switch to such a copy.
++
++## #991 — /propose-change asks Status and Direction; the branch's plan file replaces main's
++
++- When `/propose-change` raises a plan's own branch (`plan/<id>/base`) for main, it first asks, in
++  one message, before any push: the plan's **Status** (Not Started, In Progress, Paused, Done,
++  Dropped) and its **Direction** (1 next, 2 next in line, 3 later, or none). An answer it does not
++  know is asked again. The gate switch never skips this question.
++- Status and Direction are plain text a person sets; nothing is worked out from them, and no status
++  changes what a play does. Whatever the Status, the branch field is set empty: merge-change
++  deletes the branch after the merge, and the next start cuts a fresh one from main.
++- In the commit it already makes before raising, it writes the answers into the branch's plan
++  file, merges the latest main into the plan's branch keeping the branch's plan file whole, and
++  names in the pull request's review section every change main made to that plan file since the
++  branch was cut. The branch's version replaces main's.
++- `/merge-change`, before it merges a plan's branch, checks that main's plan file has not changed
++  since the raise. If it has, it stops and says to run `/propose-change` again. A blended plan
++  file never lands. After the merge, main's plan file equals the branch's.
++- `/check-change` does not change.
++
++## Build
++
++Three plays change what they promise, each through its ICE and `/edit-play`:
++
++- start-change — Intent, C2, C9, C6 (no resume from the branch name), a new constraint for plan
++  mode and for "nothing typed", new failure conditions, S3 and S5 measures, new scenarios (start a
++  plan; start it again; a number no plan has; nothing typed; a description on a plan's branch).
++- propose-change — a new constraint (ask Status and Direction for `kind: plan`, never gated), a new
++  failure condition, S6 extended.
++- merge-change — a pre-merge check on a plan's file; a new failure condition and scenario.
++
++The plan tool (`core/tools/plan/`): the stale-copy rule in `plan_branch.py`, and one new script that
++readies a plan's file for landing (writes Status, Direction, empty branch; brings main in keeping
++the plan file; records the differences), each with tests.
++
++The work-management guide (`.garura/user-provided/managing-work.md`), section "A plan's branch:
++start, pause, start again", may need a line on `/start-change plan <id>`. That file is the product
++owner's: the line is named to him, not written.
+diff --git a/core/components/plays/create-play/references/setup_branch.py b/core/components/plays/create-play/references/setup_branch.py
+index 268708d7b..43bf8eb6b 100644
+--- a/core/components/plays/create-play/references/setup_branch.py
++++ b/core/components/plays/create-play/references/setup_branch.py
+@@ -8,21 +8,23 @@
+ judgment.
+ 
+     python3 setup_branch.py --issue N --branch-name feature/N-slug \
+-        [--base main] [--plan-branch plan/P/base] [--worktree] [--no-push] --out <branch.json>
++        [--base main] [--plan-branch plan/P/base --plan-tool <plan_branch.py> --plans-dir <plans>
++         --ignore <folder>] [--worktree] [--no-push] --out <branch.json>
+ 
+ With --plan-branch (an issue in a plan, from resolve_plan.py — #731): the plan branch is
+-cut from the latest main when it does not exist yet (the plan's work starts now); when it
++cut main first when it is not on origin yet (the plan's work starts now); when it
+ exists, the latest main is merged into it first. The issue's branch
+ (plan/P/<issue>-<slug>) is then cut from the plan branch. A merge conflict stops the run
+ (exit 1) with the plan branch left as it was.
+ 
+-A plan branch that is gone on origin but still here (the plan paused, merged into main and its
+-branch was deleted) is deleted here and cut fresh — but only when the lookup on origin worked
+-and every commit on the local copy is already on main (merge-change lands a plan with a merge
+-commit, so a landed plan's copy always is). A failed lookup (offline, a login error, a stalled
+-server) stops the run and says origin could not be reached; a local copy with a commit that is
+-not on main stops the run, keeps the copy and names the commits (#953). A push that fails, or a
+-delete that fails, stops the run. Network calls never prompt and give up after a time limit.
++A plan branch that is not on origin is cut by the plan tool's plan_branch.py (--plan-tool),
++the one way every play cuts a plan's branch (ADR 061, #989): main's plan file is set to In
++Progress with the branch named, committed and pushed on main, and the branch is cut from that
++commit. A copy that is gone on origin but still here is deleted and cut fresh only when every
++commit on it is on main; otherwise the plan tool stops, keeps the copy and names the commits
++(#953), and so does this script. A failed lookup on origin (offline, a login error, a stalled
++server) stops the run and says origin could not be reached. A push that fails stops the run.
++Network calls never prompt and give up after a time limit.
+ 
+ Idempotent: if the branch already exists (local or remote), it is a resume —
+ switch to it, do not re-cut. Writes branch.json:
+@@ -72,21 +74,24 @@ def _is_ancestor(a, b):
+     return subprocess.run(["git", "merge-base", "--is-ancestor", a, b], capture_output=True).returncode == 0
+ 
+ 
+-def _drop_stale(plan, base):
+-    """A plan branch gone on origin but still here: delete it when every commit on it is on
+-    main; otherwise stop, keep it and name the commits that are not. Returns the record."""
+-    _, tip, _ = _git("rev-parse", plan)
+-    if not _is_ancestor(plan, f"origin/{base}"):
+-        _, log, _ = _git("log", "--oneline", plan, "--not", f"origin/{base}")
+-        sys.stderr.write(f"setup_branch.py: {plan} is gone on origin, but the copy here has commits "
+-                         f"that are not on {base}; it was kept. Push or move them, then run again:\n  "
+-                         + "\n  ".join(log.splitlines()) + "\n")
+-        sys.exit(1)
+-    rc, _, err = _git("branch", "-D", plan)
+-    if rc != 0:
+-        sys.stderr.write(f"setup_branch.py: deleting the stale copy of {plan} failed: {err}\n")
++def _cut_plan(ns, plan):
++    """Cut the plan's branch through the plan tool, main first; return (created, stale)."""
++    out = os.path.join(os.path.dirname(os.path.abspath(ns.out)), "plan-branch.json")
++    cmd = [sys.executable, ns.plan_tool, "go", "--plan", plan.split("/")[1],
++           "--plans-dir", ns.plans_dir, "--out", out]
++    for folder in ns.ignore:
++        cmd += ["--ignore", folder]
++    proc = subprocess.run(cmd, capture_output=True, text=True, env=NO_PROMPT)
++    try:
++        with open(out, encoding="utf-8") as fh:
++            rec = json.load(fh)
++    except (OSError, ValueError):
++        rec = {"action": "stop", "error": (proc.stderr or proc.stdout).strip()}
++    if proc.returncode != 0 or rec.get("action") not in ("cut", "switch", "stay") or rec.get("error"):
++        files = "".join(f"\n  {f}" for f in rec.get("files") or [])
++        sys.stderr.write(f"setup_branch.py: the plan tool did not get onto {plan}: {rec.get('error')}{files}\n")
+         sys.exit(1)
+-    return {"deleted": True, "tip": tip, "on_main": True}
++    return rec["action"] == "cut", rec.get("stale")
+ 
+ 
+ def _push(branch):
+@@ -109,6 +114,9 @@ def main(argv=None):
+     ap.add_argument("--branch-name", required=True)
+     ap.add_argument("--base", default="main")
+     ap.add_argument("--plan-branch")
++    ap.add_argument("--plan-tool", default=os.path.join(".garura", "core", "tools", "plan", "plan_branch.py"))
++    ap.add_argument("--plans-dir", default=os.path.join(".garura", "project", "plans"))
++    ap.add_argument("--ignore", action="append", default=[])
+     ap.add_argument("--worktree", action="store_true")
+     ap.add_argument("--no-push", action="store_true")
+     ap.add_argument("--out", required=True)
+@@ -133,11 +141,11 @@ def main(argv=None):
+             sys.stderr.write(f"setup_branch.py: origin could not be reached to look for {plan}; "
+                              f"nothing was changed — run again when it can be reached\n")
+             sys.exit(1)
+-        if not on_origin and _branch_exists(plan):
+-            # Only a stale local copy is left: the plan paused, merged into main and its branch
+-            # was deleted on origin. A plan that starts again gets a fresh cut from main.
+-            stale = _drop_stale(plan, ns.base)
+-        if _branch_exists(plan):
++        if not on_origin:
++            # The plan's work starts now: main's plan file first, then the cut (ADR 061). A stale
++            # local copy is the plan tool's to judge (#953).
++            plan_created, stale = _cut_plan(ns, plan)
++        else:
+             _git("fetch", "origin", plan)
+             rc, _, err = _git("checkout", plan)
+             if rc != 0:
+@@ -152,12 +160,6 @@ def main(argv=None):
+                 sys.stderr.write(f"setup_branch.py: merging {ns.base} into {plan} conflicts — "
+                                  f"resolve it by hand: {err}\n")
+                 sys.exit(1)
+-        else:
+-            rc, _, err = _git("checkout", "-b", plan, f"origin/{ns.base}")
+-            if rc != 0:
+-                sys.stderr.write(f"setup_branch.py: cutting {plan} failed: {err}\n")
+-                sys.exit(1)
+-            plan_created = True
+         if not ns.no_push:
+             _push(plan)
+         _, base_sha, _ = _git("rev-parse", "HEAD")
+diff --git a/core/components/plays/merge-change/SKILL.md b/core/components/plays/merge-change/SKILL.md
+index eb1a0ec65..338a4ba82 100644
+--- a/core/components/plays/merge-change/SKILL.md
++++ b/core/components/plays/merge-change/SKILL.md
+@@ -1,7 +1,7 @@
+ ---
+ name: merge-change
+ position: end
+-description: 'Merge an approved change where its branch lands — its plan''s branch for an issue in a plan, main otherwise (a plan''s own branch lands on main while the plan is in progress) — switch to that branch and pull the latest, and delete the change''s branch (local and remote). The final step of the end sequence in the ProductOS command model. Use when a reviewed, approved PR is ready to land.'
++description: 'Merge an approved change where its branch lands — its plan''s branch for an issue in a plan, main otherwise (a plan''s own branch lands on main while the plan is in progress) — switch to that branch and pull the latest, and delete the change''s branch (local and remote). When a plan''s own branch lands, main''s plan file becomes the branch''s, whole: nothing is merged when main changed it after propose-change readied it. The final step of the end sequence in the ProductOS command model. Use when a reviewed, approved PR is ready to land.'
+ user-invocable: true
+ ---
+ 
+@@ -10,7 +10,10 @@ user-invocable: true
+ Merge an approved change where its branch lands — its plan's branch for an issue in a plan,
+ main otherwise; a plan's own branch lands on main while the plan is still in progress. Merge
+ the PR, switch to that branch and pull the latest, and delete the change's branch (local and
+-remote). An issue that lands on its plan's branch is closed there.
++remote). An issue that lands on its plan's branch is closed there. When a plan's own branch
++lands on main, main's plan file becomes the branch's, whole: the merge waits for a check that
++main's copy is still the one propose-change readied the branch against, and is proved after
++(#991).
+ 
+ **Pipeline position: end** (fourth step of the end sequence: commit-change →
+ propose-change → check-change → merge-change). The D2 pipeline-position rule injects this
+@@ -22,8 +25,8 @@ merge-pr play.**
+ 
+ This play was compiled from the merge-change ICE (`reference/ice.md`) by edit-play
+ (#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling; #484 scripted chain;
+-#673 plan targets). Intent defines constraints (C1–C9) and failure conditions (F1–F9); the
+-expectation defines success scenarios (S1–S6), a Done means (D1–D4, baked to `stop-condition.yaml`), and one
++#673 plan targets; #991 a plan's file lands whole). Intent defines constraints (C1–C10) and
++failure conditions (F1–F10); the expectation defines success scenarios (S1–S7), a Done means (D1–D4, baked to `stop-condition.yaml`), and one
+ recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with edit-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -54,6 +57,7 @@ it dispatches **zero agents** (domain or utility).
+ | PR has an approval verdict from check-change | C1 | Hard halt |
+ | PR is mergeable (no conflicts, required checks not failing) | C4 | Hard halt |
+ | Already-merged check | C5 | Graceful no-op |
++| A plan's own branch (`target.json.kind == plan`): the plan tool is installed (`.garura/core/tools/plan/plan_land.py`) | C10 | Hard halt |
+ 
+ Resolve the deterministic pre-flight facts with the bundled resolver — config tokens,
+ `branch`, `issue` (from the branch name), `evidence_record`:
+@@ -124,6 +128,20 @@ python3 scripts/resolve_target.py --branch "$(git branch --show-current)" \
+ 
+ `target.json` records `{ kind, plan_id, issue, base }`. A plan's own branch lands on main
+ like any approved change, with issues of the plan still open; open work never holds it.
++
++For a plan's own branch (`kind: plan`), check that main's plan file is still the one
++propose-change readied the branch against (C10, #991):
++
++```
++python3 .garura/core/tools/plan/plan_land.py check \
++    --record "{stm_base}{issue}/context/plan-landing.json" \
++    --out "{stm_base}{issue}/review/plan-land-check.json"
++```
++
++Exit 0 (`ok: true`) → continue. Exit 1 (main changed the plan file since), or exit 2 (no
++`plan-landing.json`: the branch was raised without the person's Status and Direction) → **hard
++halt** before Step 2: nothing is merged, and the person is told to run /propose-change again
++(REC10).
+ **SE-1 (F1/C1):** `merge-gate.json.approved == true` — an approval verdict exists before
+ any merge.
+ **SE-2 (F4/C4):** `merge-gate.json.mergeable == true` — the PR has no conflicts and no
+@@ -137,7 +155,8 @@ true (C5).*
+ - **Machine wall first (verified before presenting).** Confirm the three preconditions from
+   `merge-gate.json` (Step 1, written by `read_merge_state.py`): `approved: true`,
+   `mergeable: true`, and `checks_pass: true` (no failing required checks). These three are
+-  the guard against breaking main, for a plan's branch too (C9). If any is false, HALT
++  the guard against breaking main, for a plan's branch too (C9). For a plan's own branch,
++  `plan-land-check.json` reads `ok: true` as well (C10). If any is false, HALT
+   exactly as pre-flight does (REC7), naming the failed precondition — there is nothing to
+   approve, so the human is not asked.
+ - **Then the human beat.** With all three true, present the PR, its approval, and
+@@ -178,8 +197,21 @@ The tree is clean after the step and the branch the change landed on is level wi
+ `records_committed: false` output is a failed step, and a `records_pushed: false` output
+ leaves the push owed and visibly reported (soft-fail — offline or a host guard), never
+ silent.
++For a plan's own branch, prove after the merge that main's plan file is the branch's, whole
++(C10) — the record goes to the run's status folder, after the records commit:
++
++```
++python3 .garura/core/tools/plan/plan_land.py landed \
++    --check "{stm_base}{issue}/review/plan-land-check.json" \
++    --out "{stm_base}{issue}/status/plan-landed.json"
++```
++
++Exit 1 closes the run HALTED and names the difference for a person (REC10).
+ **SE-3 (F2/C2):** after the step, the current branch is `target.json.base` and is up to date
+ with its origin copy.
++**SE-10 (F10/C10):** for `kind: plan`, `plan-land-check.json` was written by `plan_land.py
++check` before Step 2 and reads `ok: true`, and `plan-landed.json` reads `ok: true` after the
++merge — main's plan file is the branch's; for any other kind, neither is needed.
+ **SE-9 (F9/C9):** `target.json` was written by `resolve_target.py` before the merge;
+ `merge-gate.json.on_target` is true; for an issue in a plan, the issue is in
+ `merge-gate.json.issues_closed` and `merge-gate.json.plan_marked.to` reads Done (the item's
+@@ -221,7 +253,9 @@ git/gh work; the play's agent count is zero.
+ - **SCE-6 (S6 — developer, plan paused in progress):** `target.json` reads `kind: plan` and
+   `base: main`; `merge-gate.json` reads `on_target: true`, `pr_merged: true` and
+   `branch_deleted: true`; the checkout is on updated main; the plan's open issues are still
+-  open.
++  open; `plan-land-check.json` and `plan-landed.json` read `ok: true`.
++- **SCE-7 (S7 — lead, main changed the plan file after the raise):** `plan-land-check.json`
++  reads `ok: false` with its error, the run halted before Step 2, and the PR is not merged.
+ 
+ ### Phase: Evidence & Close
+ 
+@@ -288,6 +322,7 @@ gated.
+ | S4 — already merged | developer | SCE-4 |
+ | S5 — issue in a plan | developer | SCE-5 |
+ | S6 — plan paused in progress | developer | SCE-6 |
++| S7 — main changed the plan file after the raise | lead | SCE-7 |
+ 
+ ## Recovery
+ 
+@@ -303,6 +338,8 @@ gated.
+ | F8 | a mechanical git/gh op ran through an agent instead of its bundled script | route it through the script (`read_merge_state.py` / `merge_pr.py`, via `platform_adapter.py`) and remove the agent dispatch | autonomous |
+ | F9 | the PR's base is not its target, an approved plan's branch was held off main for its open issues, a landed issue is still open, or its plan item is still open | on a wrong base, stop and retarget the PR (propose-change); on a plan held back for open work, drop the hold and land it when the machine wall holds; on a landed issue left open, close it; on a landed item left open in the plan file, set it Done with the plan tool | human |
+ 
++| F10 | `plan-land-check.json` reads `ok: false` or is missing for a plan's own branch, or `plan-landed.json` reads `ok: false` | before the merge, stop and have the person run /propose-change again (it asks the Status and Direction and readies the plan file again); after the merge, close HALTED and name the difference between main's plan file and the branch's | human |
++
+ ## Pause and Resume
+ 
+ Steps run top to bottom. On entry, resolve the PR from the branch, check the status marker
+@@ -313,14 +350,14 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:fa0f30167747872ebdc6f53252ec2387b2c536d637fbc81a1a8aecb6de8bf3a3 (of `reference/ice.md`) |
+-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on) |
++| fingerprint | sha256:bd36884964ffed7bcc1f4903e7be0043ecc4b866958f1cea268e1b81a3796cb5 (of `reference/ice.md`) |
++| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on; #991 a plan's file lands whole) |
+ | pipeline_position | end |
+ | workflow_structure | B (fast execution flow, single-pass; stop-condition gated close) |
+ | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
+ | domain_agents | 0 |
+ | utility_agents | 0 (#484 — mechanical git/gh moved to bundled scripts) |
+-| scripts | 7 (preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, read_merge_state.py, resolve_target.py, merge_pr.py) + test_merge_pr.py; tools: the plan tool's plan_status.py |
+-| step_evals | 9 (SE-1…SE-9) |
+-| scenario_evals | 6 (SCE-1…SCE-6) |
+-| recovery_entries | 9 (one per failure condition; 6 autonomous / 3 human) |
++| scripts | 7 (preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, read_merge_state.py, resolve_target.py, merge_pr.py) + test_merge_pr.py; tools: the plan tool's plan_status.py and plan_land.py |
++| step_evals | 10 (SE-1…SE-10) |
++| scenario_evals | 7 (SCE-1…SCE-7) |
++| recovery_entries | 10 (one per failure condition; 6 autonomous / 4 human) |
+diff --git a/core/components/plays/merge-change/reference/ice.md b/core/components/plays/merge-change/reference/ice.md
+index 2db09b503..88b0511e9 100644
+--- a/core/components/plays/merge-change/reference/ice.md
++++ b/core/components/plays/merge-change/reference/ice.md
+@@ -70,6 +70,14 @@ play.
+   work is no reason to hold it off main. The only reason to hold it back is that it would
+   break main, and the machine wall (C7) — approved by the review, mergeable, no failing
+   required checks — is what guards that. Its open issues stay open and in the plan.
++- C10 — When a plan's own branch lands on main, main's plan file becomes the branch's plan
++  file, whole (#991, the #720 design). Before the person is shown the merge, the plan tool's
++  `plan_land.py check` reads propose-change's record (`plan-landing.json`, in the plan's
++  short-term memory): main's plan file must be the one propose-change saw when it readied
++  the branch. When main changed it since, or the record is missing (the branch was raised
++  without the person's Status and Direction), nothing is merged and the run says to run
++  /propose-change again. After the merge, `plan_land.py landed` proves main's plan file is
++  the branch's; when it is not, the run closes HALTED and names it.
+ 
+ ### Failure conditions
+ 
+@@ -89,6 +97,9 @@ play.
+   not its target — or an approved plan's branch is held off main because the plan still
+   has open issues, or an issue that landed on its plan's branch is left open, or its item in
+   the plan file is left open.
++- F10 — A plan's own branch landed on main while main's plan file had changed since
++  propose-change readied it, or with no record of the person's Status and Direction, or main's
++  plan file after the merge is not the branch's.
+ 
+ ## Expectation
+ 
+@@ -119,7 +130,12 @@ play.
+   approves, then the plan's work lands on main, its branch is deleted, and its open issues
+   stay open. Measure: target.json reads `kind: plan` and `base: main`; merge-gate.json reads
+   `on_target: true`, `pr_merged: true` and `branch_deleted: true`; the checkout is on
+-  updated main; the plan's open issues are still open.
++  updated main; the plan's open issues are still open; plan-land-check.json reads `ok:
++  true` before the merge and plan-landed.json reads `ok: true` after it.
++- S7 — (lead, main changed the plan file after the raise) Given propose-change readied
++  `plan/P/base` and main's copy of P's plan file changed afterwards, when merge-change runs,
++  then it merges nothing and says to run /propose-change again. Measure:
++  plan-land-check.json reads `ok: false` with its error; the PR is not merged.
+ 
+ ### Done means
+ 
+@@ -163,3 +179,8 @@ play.
+   base, stop and retarget the PR (propose-change); on a plan held back for open work, drop
+   the hold and land it when the machine wall holds; on a landed issue left open, close it; on a landed item left open in the plan file, set it Done with the plan tool.
+   handoff: human.
++- REC10 (F10) — trigger: plan-land-check.json reads `ok: false` or is missing for a plan's own
++  branch, or plan-landed.json reads `ok: false`. direction: before the merge, stop and have
++  the person run /propose-change again (it asks the Status and Direction and readies the
++  plan file again); after the merge, close HALTED and name the difference between main's plan
++  file and the branch's for a person. handoff: human.
+diff --git a/core/components/plays/propose-change/SKILL.md b/core/components/plays/propose-change/SKILL.md
+index 3feae8398..e4f53cdd9 100644
+--- a/core/components/plays/propose-change/SKILL.md
++++ b/core/components/plays/propose-change/SKILL.md
+@@ -1,7 +1,7 @@
+ ---
+ name: propose-change
+ position: end
+-description: 'Raise the current change for review — run a scope-and-quality self-review from the project''s standards, push the branch, and open a pull request carrying that review and the issue reference. The second step of the end sequence in the ProductOS command model. Use when a committed change is ready to raise as a PR.'
++description: 'Raise the current change for review — run a scope-and-quality self-review from the project''s standards, push the branch, and open a pull request carrying that review and the issue reference. The second step of the end sequence in the ProductOS command model. For a plan''s own branch going to main, it first asks the person the plan''s Status and Direction and writes them into the plan file, and the branch''s plan file replaces main''s. Use when a committed change is ready to raise as a PR.'
+ user-invocable: true
+ ---
+ 
+@@ -10,7 +10,10 @@ user-invocable: true
+ Raise the current change for review: run a self-review on its scope and quality, push the
+ branch, and open a pull request that carries that review against where the branch lands —
+ its plan's branch for an issue in a plan, main for a plan's own branch or a one-off change —
+-so the change is ready for check-change.
++so the change is ready for check-change. A plan's own branch is never raised for main without
++the person's answers: the play asks the plan's Status and Direction, writes them into the plan
++file, and makes the branch's plan file the one that lands, naming every change main made to it
++(#991).
+ 
+ **Pipeline position: end** (second step of the end sequence: commit-change →
+ propose-change → check-change → merge-change). The D2 pipeline-position rule injects this
+@@ -20,9 +23,10 @@ ordering is enforced by each one's pre-flight, not by welding them together.
+ ## Compiled From
+ 
+ This play was compiled from the propose-change ICE (`reference/ice.md`) by edit-play
+-(#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling; #673 plan targets).
+-Intent defines constraints (C1–C9) and failure conditions (F1–F10); the expectation defines
+-success scenarios (S1–S6), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
++(#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling; #673 plan targets;
++#991 a plan's Status and Direction, and its plan file, when it lands).
++Intent defines constraints (C1–C10) and failure conditions (F1–F11); the expectation defines
++success scenarios (S1–S8), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
+ recovery entry per failure condition. This play is SINGLE-PASS: no loop, no iteration cap — the Done means is
+ proven once, at the gated close.
+ To modify this play, update `reference/ice.md` and recompile with edit-play.
+@@ -37,13 +41,15 @@ PR-open** is a fixed git/gh sequence, so it runs in the bundled `submit_pr.py`,
+ 
+ **Forbidden:** running the mechanical push/PR-open through an agent dispatch (the #484 bug);
+ ad-hoc `gh`/`git` in play prose; inlining the self-review rules (they are resolved from a
+-standards file — C6).
++standards file — C6); raising a plan's own branch without the person's Status and Direction,
++guessing either, or writing the plan file by hand instead of through `plan_land.py` (C10).
+ 
+ **Agent boundaries:**
+ 
+ | Agent | Domain | Skill it invokes | Phases |
+ |-------|--------|------------------|--------|
+ | `repo-orchestrator` | Self-review checklist (judgment) | `assess-pr` | Execution (Step 1) |
++| `template-manager` | Load the plan-view template (a plan's own branch only) | — | Execution (Step 0) |
+ 
+ `repo-orchestrator` is a **utility agent** (the self-review judgment), exempt from the
+ domain-agent budget. The push/PR-open is the bundled `submit_pr.py` — no agent (C9). This
+@@ -59,6 +65,8 @@ play uses **zero domain agents**.
+ | Platform CLI available (`gh`) | C2 | Hard halt |
+ | Resolve self-review rules file via `standards_order` (project override → base `standards/rules/self-review.md`) | C6 | Hard halt |
+ | Existing-PR check for the branch | C5 | Resume / update |
++| Where the branch lands, read from its name — `scripts/resolve_target.py` | C2 / C10 | — |
++| A plan's own branch (`target.json.kind == plan`): the plan tool is installed (`.garura/core/tools/plan/plan_land.py`) | C10 | Hard halt |
+ 
+ Resolve the deterministic pre-flight facts with the bundled resolver — config tokens,
+ `branch`, `issue` (from the branch name), `on_default_branch`, `evidence_record`:
+@@ -91,13 +99,25 @@ is the C6 resolution; the play does not pick the file in prose).
+ **Resume / update (C5, F5):** if an open PR already exists for the branch, this run updates
+ it (refreshes the self-review and body) instead of opening a second one.
+ 
++Read where the branch lands now, before any domain work, so a plan's own branch is known
++before the self-review (C2, C10):
++
++```
++python3 scripts/resolve_target.py --branch "$(git branch --show-current)" \
++    --out "<working>/target.json"
++```
++
++`target.json.base` is `plan/<plan-id>/base` for a branch `plan/<plan-id>/<issue>-<slug>`, and
++`main` for a plan branch or a one-off branch; `kind: plan` names a plan's own branch.
++
+ ## Task DAG
+ 
+ Create ALL tasks immediately after resolving the working base — before any domain work.
+ The play owns this DAG; agents must not edit its top-level tasks.
+ 
+ ```
+-[T1] Self-Review (scope + quality)   blockedBy: []
++[T0] Plan's Status and Direction     blockedBy: []      (a plan's own branch only)
++[T1] Self-Review (scope + quality)   blockedBy: [T0]
+ [T2] Confirm Raise                   blockedBy: [T1]
+ [T3] Push + Open/Update PR           blockedBy: [T2]
+ [T4] Scenario Validation             blockedBy: [T3]
+@@ -111,6 +131,44 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
+ 
+ ### Phase: Execution
+ 
++**Step 0 — Plan's Status and Direction** · Owner: play (+ `template-manager`, the plan tool) ·
++Depends on: pre-flight · *Only when `target.json.kind == plan`; skipped otherwise.*
++A plan's own branch is never raised for main without the person's answers (C10, #991). Load
++the plan-view template through `template-manager` (a play reads no memory, ADR 039):
++
++    { "task":    "load these templates into the run's working folder",
++      "inputs":  { "issue": "<plan id>", "templates": ["standards/templates/plan-view.md"] },
++      "outputs": { "out_dir":  "<working>/templates/",
++                   "manifest": "<working>/templates/manifest-plan-view.json" },
++      "task_id": "load-plan-view" }
++
++Then ask the person, in one message, and wait for the typed reply — **never skipped by the gate
++switch**, never answered for them:
++
++> Plan `<id>` is going to main. What is its Status: `<the template's plan_statuses, joined>`?
++> And its Direction: 1 (next), 2 (next in line), 3 (later) or none?
++> Example reply: "Paused, 1".
++
++Status and Direction are plain text the person sets; nothing is worked out from them. Pass the
++two answers, as given, to the plan tool:
++
++```
++python3 .garura/core/tools/plan/plan_land.py ready --plan <id> --status "<Status>" \
++    --direction "<Direction>" --template <working>/templates/standards/templates/plan-view.md \
++    --plans-dir "<plans_base>" --ignore "<stm_base>" --out <working>/plan-landing.json
++```
++
++Exit 2 with "ask again" (an answer the template does not list) → ask again; never guess (S8).
++Exit 3 (uncommitted work) or another exit 2 (a clash with main in another file, named; the
++merge is taken back) → **hard halt** for a person (REC11). Exit 0: the latest main is merged
++into the plan's branch with the branch's plan file kept whole, the plan file holds the Status,
++the Direction, an empty `branch:` and `updated:`, and `plan-landing.json` names every change
++main made to the plan file since the branch was cut (`main_changes`). The plan file stays
++changed for the run-artifacts commit in Step 3.
++**SE-11 (F11/C10):** for `kind: plan`, `plan-landing.json` exists, written by `plan_land.py
++ready` before any push, and its `status` and `direction` are the person's typed answers; the
++plan file on disk reads them with an empty `branch:`; origin/main is an ancestor of `HEAD`.
++
+ **Step 1 — Self-Review (scope + quality)** · Owner: `repo-orchestrator` · Depends on: pre-flight
+ The agent invokes `assess-pr` against the diff, driven by the rules file resolved at
+ pre-flight, and writes the checklist to disk. The contract moves only paths:
+@@ -165,23 +223,20 @@ the blocking findings the script printed, and do not push or open until they are
+ and the check passes (REC8). Record the executed command and its exit code for the
+ evidence file.
+ 
+-First read where the branch lands, from its name — never guess it (C2):
+-
+-```
+-python3 scripts/resolve_target.py --branch "$(git branch --show-current)" \
+-    --out "<working>/target.json"
+-```
+-
+-`target.json.base` is `plan/<plan-id>/base` for a branch `plan/<plan-id>/<issue>-<slug>`, and
+-`main` for a plan branch or a one-off branch.
++The PR's base is `target.json.base`, read at pre-flight from the branch name — never guessed
++(C2).
+ 
+ Then run the bundled `submit_pr.py` — it pushes the branch and opens (or updates, C5) a PR
+ against that base carrying the pre-rendered body, and writes `pr.json` (via `platform_adapter.py`).
+ No agent (C9). Assemble the body first (the self-review embedded + the issue reference),
+ and commit the run artifacts BEFORE the push so the tree stays clean and the PR carries the
+-record (C7): (1) render the PR body to `<working>/pr-body.md`; (2) `git add` the issue's
+-context dir and commit `chore(stm): record propose-change run artifacts (#<issue>)`
+-(self-review + resolved-rules); (3) run the script:
++record (C7): (1) render the PR body to `<working>/pr-body.md` — for `kind: plan` it carries a
++**Plan file** section: the Status and Direction the person gave, and, when
++`plan-landing.json.main_changed` is true, each change main made to the plan file since the
++branch was cut (`main_changes`, as a diff block), with the line "the branch's plan file
++replaces main's" (C10); (2) `git add` the issue's context dir — and, for `kind: plan`, the plan
++file — and commit `chore(stm): record propose-change run artifacts (#<issue>)`
++(self-review + resolved-rules, and the plan's Status and Direction); (3) run the script:
+ 
+ ```
+ python3 scripts/submit_pr.py --config .garura/core/config.yaml \
+@@ -224,7 +279,16 @@ invoked for the push/PR work.
+   reads `on_target: true`.
+ - **SCE-6 (S6 — developer, a plan's own branch):** for a branch `plan/<P>/base`,
+   `target.json` reads `kind: plan` and `base: main`, the PR's base on the host is main, the
+-  PR body references `#<P>`, and `pr.json` reads `on_target: true`.
++  PR body references `#<P>`, and `pr.json` reads `on_target: true`; `plan-landing.json`
++  holds the person's Status and Direction, and the plan file on the pushed branch reads them
++  with an empty `branch:`.
++- **SCE-7 (S7 — lead, main changed the plan file):** `plan-landing.json` reads
++  `main_changed: true`; the PR body's Plan file section holds each of its `main_changes`;
++  origin/main is an ancestor of the pushed branch, and the branch's plan file differs from
++  its pre-run version only in Status, Direction, branch and updated.
++- **SCE-8 (S8 — product owner, an answer it does not know):** a `plan_land.py ready` run that
++  exited 2 with "ask again" was followed by a new question, not a push; the final
++  `plan-landing.json` holds a known Status and Direction.
+ 
+ ### Phase: Evidence & Close
+ 
+@@ -292,6 +356,8 @@ gated.
+ | S4 — dirty tree | developer | SCE-4 |
+ | S5 — issue in a plan | developer | SCE-5 |
+ | S6 — a plan's own branch | developer | SCE-6 |
++| S7 — main changed the plan file | lead | SCE-7 |
++| S8 — an answer it does not know | product owner | SCE-8 |
+ 
+ ## Recovery
+ 
+@@ -307,6 +373,7 @@ gated.
+ | F8 | a push or PR-open happened (or would happen) while the self-review carried a blocking finding | halt to a human — fix the blocking findings, then re-run so `check_self_review.py` passes before any push or PR-open | human |
+ | F9 | the mechanical push or PR-open ran through an agent instead of `submit_pr.py` | route it through `submit_pr.py` (via `platform_adapter.py`) and remove the agent dispatch | autonomous |
+ | F10 | the PR's base differs from the target `resolve_target.py` gives | change the PR's base on the host to the target (or re-open it there) and re-record `pr.json` | autonomous |
++| F11 | a plan's own branch was (or is about to be) raised without the person's answers in its plan file, with a guessed answer, with main's plan-file changes blended in, or with a main change left unnamed | stop before the push, ask the person again, run `plan_land.py ready` with the answers, and re-render the PR body from its record; a clash in another file stops for a person | human |
+ 
+ ## Pause and Resume
+ 
+@@ -319,16 +386,17 @@ it rather than opening a new one (C5, F5).
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:6ade767e626b4604596a7ad070f7cec4432c300d29091e4e6d1e80bfb7dd221c (of `reference/ice.md`) |
+-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #673 plan targets) |
++| fingerprint | sha256:201b056a0aa93c7247b69069a950c1489db5c4763d091315feb4e19ca0938061 (of `reference/ice.md`) |
++| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #673 plan targets; #991 a plan's Status and Direction, and its plan file) |
+ | pipeline_position | end |
+ | workflow_structure | B (fast execution flow, single-pass — no loop, no cap; gated close) |
+ | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
+ | domain_agents | 0 |
+-| utility_agents | 1 (repo-orchestrator — self-review judgment, Step 1 only) |
++| utility_agents | 2 (repo-orchestrator — self-review judgment, Step 1; template-manager — the plan-view template, Step 0, a plan's own branch only) |
++| tools | the plan tool's `plan_land.py` (a plan's own branch: Status, Direction, the branch's plan file kept whole) |
+ | skills_reused | assess-pr |
+ | standards_consumed | standards/rules/self-review.md (overrideable per project); standards/rules/gate-config.md (Step 2 switch) |
+ | scripts | 8 (resolve_target.py — where the branch lands; resolve_standard.py — standards-file precedence; preflight.py — pre-flight facts; session_stamp.py — session identity stamp; check_stop_condition.py — Done-means gate; check_self_review.py — pre-push blocking-finding check; platform_adapter.py — code-host adapter; submit_pr.py — push + PR-open) |
+-| step_evals | 10 (SE-1…SE-10) |
+-| scenario_evals | 6 (SCE-1…SCE-6) |
+-| recovery_entries | 10 (one per failure condition; 8 autonomous / 2 human) |
++| step_evals | 11 (SE-1…SE-11) |
++| scenario_evals | 8 (SCE-1…SCE-8) |
++| recovery_entries | 11 (one per failure condition; 8 autonomous / 3 human) |
+diff --git a/core/components/plays/propose-change/reference/ice.md b/core/components/plays/propose-change/reference/ice.md
+index 0d987e76c..f898d7bef 100644
+--- a/core/components/plays/propose-change/reference/ice.md
++++ b/core/components/plays/propose-change/reference/ice.md
+@@ -45,6 +45,19 @@ their order is enforced by each one's pre-flight, not by welding them into one p
+   The `repo-orchestrator` → `open-pr` dispatch is removed. The self-review (Step 1) stays
+   agent-run — it is genuine judgment, not mechanical — so this play keeps one agent for that
+   and none for the push/PR.
++- C10 — A plan's own branch (`plan/<plan-id>/base`, target `kind: plan`) is never raised for
++  main without the person's answers (#991): before any push the play asks, in one message,
++  the plan's Status (the plan-view template's `plan_statuses`) and its Direction (the
++  template's `directions`, or none). The gate switch never skips this question; an answer
++  that is not a known Status or Direction is asked again, never guessed. Status and Direction
++  are plain text a person sets: nothing is worked out from them. The plan tool's
++  `plan_land.py ready` then writes them, an empty `branch:` (merge-change deletes the branch
++  after the merge) and `updated:` into the plan file; merges the latest main into the plan's
++  branch keeping the branch's plan file whole, so main's plan file becomes the branch's when
++  it lands; and names every change main made to that plan file since the branch was cut. The
++  plan file and its record (`plan-landing.json`) go into the run-artifacts commit before the
++  push, and the PR body names each change main made, with the branch's version replacing it.
++  A clash in any other file stops the run for a person.
+ 
+ ### Failure conditions
+ 
+@@ -61,6 +74,10 @@ their order is enforced by each one's pre-flight, not by welding them into one p
+   bundled submit_pr.py.
+ - F10 — The PR is opened against the wrong base: an issue in a plan against main, or a plan
+   or one-off branch against anything but main.
++- F11 — A plan's own branch was raised for main without the person's Status and Direction
++  written in its plan file in the commit before the push; an answer was guessed or worked
++  out; main's changes to the plan file were blended in rather than replaced by the branch's;
++  or a change main made to the plan file was not named in the PR.
+ 
+ ## Expectation
+ 
+@@ -91,7 +108,20 @@ their order is enforced by each one's pre-flight, not by welding them into one p
+   pausing, when propose-change runs, then the PR opens (or is updated) against main and
+   references the plan's issue P. Measure: target.json reads `kind: plan` and `base: main`;
+   the PR's base on the host is main; the PR body references `#P`; pr.json reads
+-  `on_target: true`.
++  `on_target: true`; plan-landing.json reads the person's Status and Direction, and the
++  plan file on the pushed branch reads them with an empty `branch:`.
++- S7 — (lead, main changed the plan file) Given main changed plan P's file after
++  `plan/P/base` was cut, when propose-change raises `plan/P/base`, then the PR names each
++  change main made and the branch's plan file is the one that will land. Measure:
++  plan-landing.json reads `main_changed: true` with `main_changes`; the PR body holds them
++  under its plan-file heading; origin/main is an ancestor of the pushed branch, and the
++  branch's plan file equals the branch's own version with only Status, Direction, branch and
++  updated changed.
++- S8 — (product owner, an answer it does not know) Given the person answers a Status or
++  Direction the template does not list, when propose-change asks, then it asks again and
++  nothing is pushed until a known answer is given. Measure: the first `plan_land.py ready`
++  exits 2 with "ask again"; no push happened before the known answer; plan-landing.json
++  holds the known answer.
+ 
+ ### Done means
+ 
+@@ -132,3 +162,8 @@ their order is enforced by each one's pre-flight, not by welding them into one p
+ - REC10 (F10) — trigger: the PR's base differs from the target resolve_target.py gives.
+   direction: change the PR's base on the host to the target (or re-open it there) and
+   re-record pr.json. handoff: autonomous.
++- REC11 (F11) — trigger: a plan's branch was raised (or is about to be) without the
++  person's answers in its plan file, with a guessed answer, with main's plan-file changes
++  blended in, or with a main change left unnamed. direction: stop before the push, ask the
++  person again, run `plan_land.py ready` with the answers, and re-render the PR body from
++  its record; a clash in another file stops for a person to resolve. handoff: human.
+diff --git a/core/components/plays/start-change/SKILL.md b/core/components/plays/start-change/SKILL.md
+index b3d3e0a05..e51e3cba9 100644
+--- a/core/components/plays/start-change/SKILL.md
++++ b/core/components/plays/start-change/SKILL.md
+@@ -1,17 +1,21 @@
+ ---
+ name: start-change
+ position: start
+-description: 'Open a unit of work cleanly — resolve or create the tracked issue, cut its branch (under its plan''s branch for an issue in a plan, read from main and the plan''s branch; else a feature branch off up-to-date main), set up a git worktree when config calls for it, and initialize the STM workspace. The start-of-pipeline play in the ProductOS command model. Use when beginning work on a change, starting an issue, or kicking off a feature.'
++description: 'Open a unit of work cleanly — the change the person names (an issue number, a short description, or plan <id>; nothing typed starts nothing) — resolve or create the tracked issue, cut its branch (under its plan''s branch for an issue in a plan, read from main and the plan''s branch; else a feature branch off up-to-date main), set up a git worktree when config calls for it, and initialize the STM workspace. The start-of-pipeline play in the ProductOS command model. Also starts a plan''s work on its own (plan <id>): main''s plan file first, then the plan''s branch, and no story branch. Use when beginning work on a change, starting an issue, kicking off a feature, or starting a plan.'
+ user-invocable: true
+ ---
+ 
+ # start-change
+ 
+-Open a unit of work cleanly: ensure a tracked issue, a branch for it — a sub-branch of its
++Open a unit of work cleanly — the one the person names, never the branch they are on: ensure
++a tracked issue, a branch for it — a sub-branch of its
+ plan's branch (`plan/<plan-id>/<issue>-<slug>` off `plan/<plan-id>/base`) when the issue
+ sits in a plan, else `feature/<issue>-<slug>` cut from an up-to-date main — a git worktree
+ when config calls for it, and an initialized STM workspace — so every play that runs after
+-start-change begins from a known, identified context.
++start-change begins from a known, identified context. It is never locked to a plan: any issue
++(a bug, a chore, a story, a feature), by its number or a short description, starts the same way.
++On top of that, `plan <id>` starts a plan's work on its own — main's plan file first, then the
++plan's branch — and stops, with no story branch (#989).
+ 
+ **Pipeline position: start.** start-change is the start-of-pipeline primitive. The D2
+ pipeline-position rule injects it into any other play declared `position: start`. As the
+@@ -21,9 +25,11 @@ primitive itself, start-change does not get a start composed into it.
+ 
+ This play was compiled from the start-change ICE (`reference/ice.md`) by edit-play
+ (#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate-off recompile; #484 scripted
+-chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete). Intent defines
+-constraints (C1–C9) and failure conditions (F1–F9); the expectation defines success scenarios (S1–S7), a Done means (D1–D4, baked to `stop-condition.yaml`), and
+-one recovery entry per failure condition.
++chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete; #989 the
++change is what is typed, and a plan starts on its own). Intent defines constraints (C1–C11) and
++failure conditions (F1–F11); the expectation defines success scenarios (S1–S12), a Done means
++(D1–D4 for a change, baked to `stop-condition.yaml`; D5–D8 for a plan's start, baked to
++`stop-condition-plan.yaml`), and one recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with edit-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+ 
+@@ -35,7 +41,9 @@ utility agent (the fresh-issue match from a description is genuine judgment); th
+ never reason out git/gh inline in play prose.
+ 
+ **Forbidden:** running the mechanical branch work (cut/worktree/push) through an agent
+-dispatch (the #484 bug); ad-hoc `gh`/`git` in play prose; reimplementing issue logic inline.
++dispatch (the #484 bug); ad-hoc `gh`/`git` in play prose; reimplementing issue logic inline;
++taking the change from the branch name, or going on when nothing was typed (C10); cutting a
++plan's branch any way but the plan tool's `plan_branch.py`, main first (C9/C11).
+ 
+ **Agent boundaries:**
+ 
+@@ -44,8 +52,9 @@ dispatch (the #484 bug); ad-hoc `gh`/`git` in play prose; reimplementing issue l
+ | `project-orchestrator` | Issues: resolve an existing issue, create a new one (fresh-match judgment) | `track-issue` | Execution |
+ 
+ `project-orchestrator` is a **utility agent** (issue plumbing + the fresh-issue match),
+-exempt from the domain-agent budget. The branch work is the bundled `setup_branch.py` — no
+-agent (C8). This play uses **zero domain agents**.
++exempt from the domain-agent budget. The branch work is the bundled `setup_branch.py`, and
++every cut of a plan's branch is the plan tool's `plan_branch.py` — no agent (C8). A plan's start
++(`plan <id>`) dispatches no agent at all. This play uses **zero domain agents**.
+ 
+ ## Pre-flight
+ 
+@@ -54,6 +63,8 @@ agent (C8). This play uses **zero domain agents**.
+ | Resolve working base + config (`.garura/core/config.yaml`) | — | Hard halt |
+ | Git repository present | C2 | Hard halt |
+ | Platform CLI available (`gh`) | C1 | Hard halt |
++| What the person typed: an issue number, a description, or `plan <id>` — via `scripts/resolve_args.py` | C10 / C11 | **Hard halt** on nothing typed, or a plan that cannot start — print its `error` line; nothing is started |
++| The plan tool is installed (`.garura/core/tools/plan/plan_branch.py`) | C9 / C11 | Hard halt |
+ | Read `start-change.worktree` flag (default `false`) | C3 | — |
+ | The plan files' folder is the resolver's `plans_base` (`plans.base-path`, default `.garura/project/plans/`); a plan is read from git at the latest main and the plan's own branch, never the checkout | C9 | — |
+ | Resume marker check for this issue's start-change | C6 | Resume |
+@@ -67,15 +78,34 @@ python3 scripts/preflight.py --play start-change \
+ ```
+ 
+ It returns the facts as JSON — `stm_base`, `worktree` (the `start-change.worktree` flag,
+-absent ⇒ false), `plans_base` (the plan files' folder), `branch`, `issue` (null when starting fresh), `on_default_branch`,
++absent ⇒ false), `plans_base` (the plan files' folder), `branch`, `issue`, `on_default_branch`,
+ `evidence_record`, `ltm_project_target`. The orchestrator holds these for every later path;
+ the table keeps the policy. The live checks (git repo present, `gh` available) stay as the
+-orchestrator's environment reads, not the resolver.
++orchestrator's environment reads, not the resolver. **The resolver's `issue` (read from the
++branch name) never names the change (C10):** the change is what the person typed.
+ 
+-**Resume check (C6, F5):** if an issue is already known (passed in, or a status marker /
+-existing `feature/<issue>-*` or `plan/<plan-id>/<issue>-*` branch is found), resume — switch to the existing branch,
+-reuse the existing STM, and do NOT create a second issue or branch. Skip completed steps,
+-reset any in-progress step to pending, continue from the first incomplete one.
++Then read what the person typed — the play's arguments, as they are:
++
++```
++python3 scripts/resolve_args.py --args="<the play's arguments>" --plans-dir "<plans_base>" \
++    --description-out "<stm_base>_start/work-description.txt" \
++    --out "<stm_base>_start/args.json"
++test -f .garura/core/tools/plan/plan_branch.py || { echo "the plan tool is not installed — halt"; exit 1; }
++```
++
++`args.json` reads `mode`: `issue` (a number; words after it are a `note`), `description`
++(words; written to `work-description.txt`), `plan` (`plan <id>`, read from main in git), or
++`none`. Exit 1 — nothing typed, or a plan no file on main names, or main marks Done or Dropped —
++is a **hard halt**: print its `error` line to the person and start nothing (REC10; S10, S11).
++Exit 2 is a hard halt with the error named. `mode: plan` takes the **Plan path** below; every
++other mode takes the **Change path** (Steps 1–5). `<stm_base>_start/` is a scratch folder: its
++files move into the issue's STM at Step 5, or into the plan's working folder on the Plan path.
++
++**Resume check (C6, F5):** when the typed issue already has a status marker or an existing
++`feature/<issue>-*` or `plan/<plan-id>/<issue>-*` branch, resume — switch to the existing
++branch, reuse the existing STM, and do NOT create a second issue or branch. Skip completed
++steps, reset any in-progress step to pending, continue from the first incomplete one. The
++branch the session is on never makes a resume (C10).
+ 
+ ## Task DAG
+ 
+@@ -83,6 +113,7 @@ Create ALL tasks immediately after resolving the working base — before any dom
+ The play owns this DAG; agents must not edit its top-level tasks.
+ 
+ ```
++Change path (mode issue | description):
+ [T1] Resolve Issue              blockedBy: []
+ [T2] Confirm New Issue          blockedBy: [T1]
+ [T3] Create / Finalize Issue    blockedBy: [T2]
+@@ -90,8 +121,16 @@ The play owns this DAG; agents must not edit its top-level tasks.
+ [T5] Initialize STM Workspace   blockedBy: [T4]
+ [T6] Scenario Validation        blockedBy: [T5]
+ [T7] Close                      blockedBy: [T6]
++
++Plan path (mode plan):
++[T1] Start the Plan's Branch    blockedBy: []
++[T2] Check the Plan's Start     blockedBy: [T1]
++[T3] Scenario Validation        blockedBy: [T2]
++[T4] Close                      blockedBy: [T3]
+ ```
+ 
++Create only the tasks of the path `args.json` names.
++
+ Mark each task in-progress before its step and completed right after its eval passes.
+ No runtime reordering. On resume, skip completed and reset in-progress to pending.
+ 
+@@ -107,10 +146,15 @@ result to disk. The contract moves only paths, never data:
+     {
+       "task":    "resolve an existing tracked issue for this change (do not create)",
+       "inputs":  { "description": "<working>/work-description.txt",
+-                   "issue_number": "<optional, if provided>" },
++                   "issue_number": "<args.json issue, when mode is issue>" },
+       "outputs": { "issue": "<working>/issue.json" }
+     }
+ 
++The issue comes only from `args.json` (C10): its `issue` for `mode: issue`, else the match the
++agent finds for the typed description (it confirms the issue — a bug, a feature, a chore, a
++story — or reports none). For `mode: issue`, `<working>/work-description.txt` holds the
++issue's title and the typed `note`, when there is one.
++
+ `issue.json` records `{ resolved: true|false, issue_number, title, created: false }`.
+ 
+ **Step 2 — Confirm New Issue** · Owner: play · Depends on: Step 1
+@@ -169,10 +213,12 @@ plan branch read. Exit 2 (the issue sits in two plans, a plan file cannot be rea
+ no `origin/main`) is a hard halt — REC9.
+ 
+ Then run the bundled branch script with those names. It pulls `main` to its latest origin
+-tip. For an issue in a plan it cuts `plan/<plan-id>/base` from main when the plan's work
+-starts now, or merges the latest main into it when it exists, and cuts the issue's branch
+-from it; a merge conflict exits 1 and halts for a person. A plan branch gone on origin but
+-still here is deleted and cut fresh only when every commit on it is on main, and branch.json
++tip. For an issue in a plan whose branch is not on origin yet, it has the plan tool cut
++`plan/<plan-id>/base` main first (C9, ADR 061): main's plan file is set to In Progress with the
++branch named, committed and pushed on main, and the branch is cut from that commit. When the
++plan's branch exists, it merges the latest main into it. It then cuts the issue's branch from
++it; a merge conflict exits 1 and halts for a person. A plan branch gone on origin but
++still here is deleted and cut fresh only when every commit on it is on main — the plan tool's rule — and branch.json
+ records it (`stale_plan_branch: {deleted, tip, on_main}`); otherwise, or when origin cannot be
+ reached, it exits 1, keeps the copy and names why (the commits that are not on main). A push or
+ a delete that fails exits 1; a call to origin gives up after a time limit. For an issue in no plan it cuts
+@@ -183,7 +229,9 @@ No agent (C8):
+ ```
+ python3 scripts/setup_branch.py --issue <issue_number> \
+     --branch-name "<plan.json issue_branch>" --base main \
+-    $( [ "<plan.json plan_branch>" != "null" ] && echo --plan-branch "<plan.json plan_branch>" ) \
++    $( [ "<plan.json plan_branch>" != "null" ] && echo --plan-branch "<plan.json plan_branch>" \
++         --plan-tool .garura/core/tools/plan/plan_branch.py --plans-dir "<plans_base>" \
++         --ignore "<stm_base>" ) \
+     $( [ "<start-change.worktree>" = "true" ] && echo --worktree ) \
+     --out "<working>/branch.json"
+ ```
+@@ -193,7 +241,10 @@ plan_branch|null, plan_branch_created }`.
+ **SE-2 (F2/C2):** the current branch is not `main` and equals `plan.json.issue_branch`. For an
+ issue in no plan, `branch.json.base_sha` equals the current `origin/main` tip. For an issue
+ in a plan, origin/main is an ancestor of `plan_branch`, and `base_sha` equals its tip.
+-**SE-10 (F9/C9):** `plan.json` exists and was written by `resolve_plan.py` before the branch
++**SE-10 (F9/C9):** when `branch.json.plan_branch_created` is true, `plan-branch.json` (the plan
++tool's record, beside `branch.json`) reads `action: cut` with a `main_commit`, and main's plan
++file at that commit reads `status: In Progress` and `branch: plan/<plan_id>/base` — the plan's
++branch was cut main first, through the plan tool. `plan.json` exists and was written by `resolve_plan.py` before the branch
+ was cut, and its `source.ref` is `origin/main` (read from git, not the checkout); when
+ `source.fetched` is false, the delivery report says the plan was read from the last fetched
+ copies; when `branch.json.stale_plan_branch` is set, its `tip` is an ancestor of `origin/main`
+@@ -222,7 +273,8 @@ Run the mechanical script (it creates the five permitted structure keys idempote
+ python3 scripts/init_stm.py --stm-base <stm.base-path> --issue <issue_number>
+ ```
+ 
+-Then commit the run artifacts on the fresh feature branch (C7) — play-owned mechanical
++Move the scratch files of `<stm_base>_start/` (`args.json`, and `work-description.txt` when a
++description was typed) into `{stm_base}{issue}/context/`. Then commit the run artifacts on the fresh feature branch (C7) — play-owned mechanical
+ work, run as a command: the workspace opens with a clean tree and its own record
+ (issue.json, branch.json, work-description) aboard:
+ 
+@@ -234,6 +286,49 @@ git commit -m "chore(stm): record start-change workspace context (#<issue>)"
+ **SE-4 (F4/C4):** `<stm.base-path>/<issue_number>/` exists and contains the five
+ structure dirs (`specs`, `evidence`, `checkpoint`, `context`, `review`) before close.
+ 
++**SE-11 (F10/C10):** `args.json` exists and was written by `resolve_args.py` before Step 1;
++its `mode` is `issue` or `description`, and `issue.json`'s `issue_number` is `args.json`'s
++`issue` (mode issue) or the agent's match for the typed description — never the number in the
++branch name. For `mode: none` the run halted at pre-flight with no issue, branch or STM made.
++
++### Plan path — `plan <id>` (C11)
++
++The working folder is `<working> = ${stm_base}_plans/start-change/<id>/`, made fresh; it is never
++committed. Move `<stm_base>_start/args.json` into it.
++
++**Step P1 — Start the Plan's Branch** · Owner: play (script) · Depends on: pre-flight
++Record the branches, then get onto the plan's branch with the plan tool — the one way to cut
++it, main first (ADR 061):
++
++```
++git branch -a --format='%(refname:short)' > <working>/branches-before.txt
++python3 .garura/core/tools/plan/plan_branch.py go --plan <id> --plans-dir "<plans_base>" \
++    --ignore "<stm_base>" --out <working>/plan-branch.json
++```
++
++Exit 0 reads `action: cut` (main's plan file set to In Progress with `branch: plan/<id>/base`,
++committed and pushed on main; the branch cut from that commit and pushed), `switch` or `stay`
++(the branch exists; nothing changes). Exit 3 (uncommitted work, the files named) or 2 (a Done or
++Dropped plan, a stale copy with commits not on main, a git step that failed) is a **hard halt**:
++print the record's `error` and `files`, and start nothing. No issue is looked up, no story
++branch is cut, no STM workspace is made, and nothing is committed on the plan's branch.
++
++**Step P2 — Check the Plan's Start** · Owner: play (script) · Depends on: Step P1
++
++```
++python3 scripts/check_plan_start.py --record <working>/plan-branch.json --plans-dir "<plans_base>" \
++    --branches-before <working>/branches-before.txt --out <working>/plan-start-check.json
++```
++
++**SE-12 (F11/C11):** `plan-start-check.json` reads `ok: true`: `on_plan_branch` (the session is
++on `plan/<id>/base`, and it is on origin), `main_agrees` (for a cut: the branch equals the main
++commit it was cut from, which is on origin/main, and main's plan file there reads In Progress
++on the branch; for a switch or stay: true) and `no_story_branch` (no `plan/<id>/…` branch but
++the base was made). A problem applies REC11.
++
++The Plan path then runs **SCE-8** and **SCE-9** (Step 6) and the Close (Step 7) with
++`stop-condition-plan.yaml` over `<working>`.
++
+ ### Phase: Scenario Validation
+ 
+ **Step 6 — Scenario Evals** · Owner: play · Depends on: Step 5
+@@ -256,6 +351,18 @@ structure dirs (`specs`, `evidence`, `checkpoint`, `context`, `review`) before c
+ - **SCE-7 (S7 — developer, an issue added on main while the checkout is older):** `plan.json`
+   reads `plan_id: <P>` with `source.ref: origin/main`, and `branch.json.branch_name` starts
+   with `plan/<P>/`.
++- **SCE-8 (S8 — product owner, start a plan on its own):** `plan-start-check.json` reads
++  `ok: true`, `action: cut`, `main_agrees: true` and `no_story_branch: true`; the
++  stop-condition verdict over `stop-condition-plan.yaml` reads held.
++- **SCE-9 (S9 — product owner, start a plan again):** `plan-start-check.json` reads `ok: true`
++  and `action: switch` or `stay`; `plan-branch.json` has no `main_commit`.
++- **SCE-10 (S10 — anyone, a wrong plan number):** `args.json` reads `mode: plan` and a
++  non-empty `error`, and the run halted at pre-flight: no `plan-branch.json` exists.
++- **SCE-11 (S11 — developer, nothing typed):** `args.json` reads `mode: none` and the run
++  halted at pre-flight: no `issue.json`, no `branch.json` and no STM workspace exist.
++- **SCE-12 (S12 — developer, any change on a plan's branch):** on `plan/<P>/base` with a
++  description typed, `args.json` reads `mode: description` and `issue.json`'s
++  `issue_number` is not `<P>`.
+ - **SE-5 (F5/C6):** a re-run for the same issue created neither a duplicate issue nor a
+   duplicate branch (counts unchanged vs. before the run).
+ 
+@@ -275,6 +382,9 @@ the run artifacts are committed on the feature branch.
+ # then Steps C0-C2.
+ #   evidence_base, slug (project-scoped play):
+ #     evidence_base="${stm_base}${issue}/evidence/start-change/"   ; slug="#${issue}"
++#   Plan path: evidence_base="${stm_base}_plans/evidence/start-change/" ; slug="plan ${id}";
++#     the stamp marker and the stop-condition run over <working>, with --manifest
++#     "<play-dir>/stop-condition-plan.yaml" and --base "<working>/" (D5–D8)
+ 
+ # Session identity stamp (#463) — close phase; start phase ran at Step 5
+ session_stamp=$(python3 scripts/session_stamp.py --phase close \
+@@ -327,6 +437,11 @@ The success scenarios and their evals (run in Step 6):
+ | S5 — first issue of a plan | developer | SCE-5 |
+ | S6 — plan already started | developer | SCE-6 |
+ | S7 — an issue added on main while the checkout is older | developer | SCE-7 |
++| S8 — start a plan on its own | product owner | SCE-8 |
++| S9 — start a plan again | product owner | SCE-9 |
++| S10 — a wrong plan number | anyone | SCE-10 |
++| S11 — nothing typed | developer | SCE-11 |
++| S12 — any change on a plan's branch | developer | SCE-12 |
+ 
+ ## Recovery
+ 
+@@ -340,29 +455,34 @@ The success scenarios and their evals (run in Step 6):
+ | F6 | the close would report COMPLETED without the Done means held | evaluate the stop condition and surface the unmet clauses; the run closes HALTED until state is fixed | autonomous |
+ | F7 | `validate_issue.py` exits non-zero on the proposed or created issue record | a human fixes the title (present, ≥15 chars, tagged) and/or completes the work description, then re-runs; the play never creates over a failed validation | human |
+ | F8 | the mechanical branch work ran through an agent instead of `setup_branch.py` | route the cut/worktree/push through `setup_branch.py` and remove the agent dispatch | autonomous |
+-| F9 | the plan was not read by `resolve_plan.py` from git, an issue in a plan got a branch outside `plan/<plan-id>/`, or a stale local plan branch was at risk | run `resolve_plan.py` and re-cut the branch with its names; an issue in two plans, or `setup_branch.py` stopping on a stale copy with commits found nowhere else or on an origin it could not reach, stops for a person (fix the plan files, push or move the commits, or run again when origin can be reached) | human |
++| F9 | the plan was not read by `resolve_plan.py` from git, an issue in a plan got a branch outside `plan/<plan-id>/`, a plan's branch was cut without main's plan file first, or a stale local plan branch was at risk | run `resolve_plan.py` and re-cut the branch with its names, the plan's branch through the plan tool; an issue in two plans, or `setup_branch.py` stopping on a stale copy with commits found nowhere else or on an origin it could not reach, stops for a person (fix the plan files, push or move the commits, or run again when origin can be reached) | human |
++
++| F10 | a run started a change the person did not name: nothing was typed and it went on, or the change came from the branch name | stop with the one line naming what to give; take the change only from `resolve_args.py` | autonomous |
++| F11 | `plan-start-check.json` names a problem: a story branch cut, an issue looked up, a commit on the plan's branch, main's plan file not In Progress on the branch, or a plan that should not start got a branch | delete a story branch that was cut and take a commit off the plan's branch; for a cut without main first, or a plan that should not have started, stop and name it for a person (the plan tool's `abort` undoes a cut that holds nothing else) | human |
+ 
+ ## Pause and Resume
+ 
+-Steps run top to bottom. On entry, resolve the issue (from input, status marker, or an
+-existing `feature/<issue>-*` or `plan/<plan-id>/<issue>-*` branch), check the status marker, skip completed steps,
++Steps run top to bottom. On entry, resolve the issue (from what was typed — `args.json` — then its status marker, or its
++existing `feature/<issue>-*` or `plan/<plan-id>/<issue>-*` branch; never from the branch the session is on), check the status marker, skip completed steps,
+ reset any in-progress step to pending, and continue. A fresh start with no marker runs
+ everything and creates the marker at Step 1. Resuming never duplicates the issue or
+-branch (C6, F5).
++branch (C6, F5). A plan's start (`plan <id>`) does not resume: run again, it finds the plan's
++branch and switches to it, changing nothing (S9).
+ 
+ ## Compilation Metadata
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:0fa5fd8f890321e7b822c13b64a1a91bcf063b69b87d598629a1eefb605abfb8 (of `reference/ice.md`) |
+-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete) |
++| fingerprint | sha256:37b2ab47bed2d8800913db9b87b37067b6965c0c2abd5a5515c49094119e3701 (of `reference/ice.md`) |
++| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete; #989 the change is what is typed, and a plan starts on its own) |
+ | pipeline_position | start |
+-| workflow_structure | B (fast execution flow) |
+-| stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
++| workflow_structure | B (fast execution flow), two paths: a change, or a plan's start |
++| stop_condition | stop-condition.yaml (D1–D4, a change) and stop-condition-plan.yaml (D5–D8, a plan's start), gate live at Step C0 |
+ | domain_agents | 0 |
+ | utility_agents | 1 (project-orchestrator — issue work + fresh-match judgment) |
+ | skills_reused | track-issue |
+-| scripts | 7 (init_stm.py, preflight.py, session_stamp.py, check_stop_condition.py, validate_issue.py, setup_branch.py, resolve_plan.py) |
+-| step_evals | 10 (SE-1…SE-10) |
+-| scenario_evals | 7 (SCE-1…SCE-7) |
+-| recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
++| scripts | 9 (init_stm.py, preflight.py, session_stamp.py, check_stop_condition.py, validate_issue.py, setup_branch.py, resolve_plan.py, resolve_args.py, check_plan_start.py) + test_start_change.py |
++| tools | the plan tool's `plan_branch.py` (every cut of a plan's branch, main first) |
++| step_evals | 12 (SE-1…SE-12) |
++| scenario_evals | 12 (SCE-1…SCE-12) |
++| recovery_entries | 11 (one per failure condition; 8 autonomous / 3 human) |
+diff --git a/core/components/plays/start-change/reference/ice.md b/core/components/plays/start-change/reference/ice.md
+index f4ef95c02..f5a3f2fd9 100644
+--- a/core/components/plays/start-change/reference/ice.md
++++ b/core/components/plays/start-change/reference/ice.md
+@@ -9,7 +9,10 @@ Open a unit of work cleanly: ensure a tracked issue, a branch for it — a sub-b
+ its plan's branch when the issue sits in a plan, else a feature branch cut from an
+ up-to-date main — a git worktree when config calls for it, and an initialized STM
+ workspace — so every play that runs after start-change begins from a known,
+-identified context.
++identified context. The change is whatever the person names — any issue (a bug, a
++chore, a story, a feature) by its number or a short description — and start-change is
++never locked to a plan. On top of that, it can start a plan's work on its own
++(`plan <id>`): it cuts the plan's branch, main first, and stops (#989).
+ 
+ Pipeline position: **start**. start-change is the start-of-pipeline primitive that
+ the D2 pipeline-position rule injects into any other play declared `position: start`.
+@@ -28,20 +31,38 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   `plan/<plan-id>/<issue>-<slug>`, cut from its plan's branch `plan/<plan-id>/base`; an
+   issue in no plan (a one-off fix) works on `feature/<issue>-<slug>`, cut from an
+   up-to-date main.
++- C10 — The change is what the person typed, never the branch the session is on (#989):
++  an issue number (as today; words after it are a note), a short description (it finds
++  the matching issue, or files one, and confirms it, as today), or `plan <id>`. Nothing
++  typed starts nothing: the run stops with one line, "Tell me what to start: an issue
++  number, a short description, or plan <id>." What was typed is read by the bundled
++  `resolve_args.py`; the branch name never names the change.
++- C11 — `plan <id>` starts a plan's work on its own (#989, ADR 061). The plan is read from
++  main in git (`resolve_args.py`); a number no plan has, or a plan main marks Done or
++  Dropped, gets a plain message and nothing is started. The plan tool's `plan_branch.py`
++  gets onto the plan's branch: with no branch, main's plan file is set to In Progress
++  with `branch: plan/<id>/base`, committed and pushed on main, and the branch is cut from
++  that commit and pushed; with a branch, it switches to it and changes nothing. No issue
++  is looked up, no story branch is cut, no STM workspace is made, and nothing is
++  committed on the plan's branch: it equals main's tip when cut. The run's records go in
++  a working folder that is not committed. `check_plan_start.py` proves it.
+ - C9 — Which plan an issue sits in is read from the plan files (`plans.base-path`,
+   default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. It
+   reads them from git, never from the checked-out branch (#779): from the latest
+   `origin/main`, and, for a plan whose own branch `plan/<plan-id>/base` is on origin, from
+   that branch too, since a plan session writes there first; an issue in either copy belongs
+   to the plan. When the fetch fails, the last fetched copies are read and the record says
+-  so. A plan's branch is created only when work on the plan starts — by the first
+-  start-change for an issue in it, cut from the latest main; when it already exists, the
+-  latest main is merged into it before the issue's branch is cut (#731, Kapil 2026-10-22).
+-  A merge conflict stops the run for a person to resolve. A plan branch gone on origin but
+-  still here is deleted and cut fresh only when origin was reached and every commit on the
+-  local copy is on main; otherwise the run stops, keeps the copy and names the commits that
+-  are not on main. A push or a delete that fails stops the run, and a call to origin gives up
+-  after a time limit instead of hanging (#953).
++  so. A plan's branch is created only when work on the plan starts — by `plan <id>` (C11), or by
++  the first start-change for an issue in it — and always through the plan tool's
++  `plan_branch.py`, main first: main's plan file is set to In Progress with the branch
++  named, committed and pushed on main, and the branch is cut from that commit (ADR 061,
++  #989). When it already exists, the latest main is merged into it before the issue's branch
++  is cut (#731, Kapil 2026-10-22). A merge conflict stops the run for a person to resolve. A
++  plan branch gone on origin but still here is deleted and cut fresh only when origin was
++  reached and every commit on the local copy is on main; otherwise the run stops, keeps the
++  copy and names the commits that are not on main — the plan tool holds this rule (#953). A
++  push or a delete that fails stops the run, and a call to origin gives up after a time limit
++  instead of hanging.
+ - C3 — A git worktree is set up only when config calls for it (config-driven, not
+   automatic).
+ - C4 — The STM workspace for the issue is initialized before the play reports done.
+@@ -55,7 +76,8 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   dispatch is removed; running the fixed branch sequence through an agent is the bug #484
+   fixes. (Issue work stays with `project-orchestrator` for the fresh-path judgment.)
+ - C6 — Running it again for the same issue resumes the existing context; it does not
+-  create a second issue or branch.
++  create a second issue or branch. The issue is the one typed (C10); its existing branch or
++  status marker is then found and resumed.
+ - C7 — The play ends by proving its Done means at close (gated, #464), and commits its
+   own run artifacts (issue.json, branch.json, work-description) on the fresh feature
+   branch at close — the workspace opens with a clean tree and its own record aboard.
+@@ -77,8 +99,15 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   instead of the bundled setup_branch.py.
+ - F9 — The issue's plan was guessed instead of read by resolve_plan.py, or read from the
+   checked-out branch's plan files; an issue in a plan got a branch outside its plan (not
+-  `plan/<plan-id>/…`); or a local plan branch was deleted while origin could not be
++  `plan/<plan-id>/…`); a plan's branch was cut without main's plan file set first, or not
++  through the plan tool; or a local plan branch was deleted while origin could not be
+   reached, or while it held commits found nowhere else.
++- F10 — A change was started that the person did not name: nothing was typed and a run
++  went on, or the change was taken from the branch name.
++- F11 — A plan's start went wrong: a story branch was cut, an issue was looked up or
++  made, something was committed on the plan's branch, main's plan file does not read In
++  Progress on the branch it was cut from, or a plan main does not have, or marks Done or
++  Dropped, got a branch.
+ 
+ ## Expectation
+ 
+@@ -96,17 +125,20 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   folder exists; the run artifacts are committed on the branch; the stop-condition
+   verdict reads held.
+ - S3 — (developer, resume) Given start-change already ran for an issue (branch and STM
+-  exist), when it runs again, then it switches to the existing branch and reuses STM.
+-  Measure: issue count and branch count unchanged; session ends on the existing branch.
++  exist), when it runs again with that issue's number, then it switches to the existing
++  branch and reuses STM. Measure: issue count and branch count unchanged; session ends on
++  the existing branch.
+ - S4 — (developer, worktree by config) Given config asks for a worktree, when it runs,
+   then a worktree for the branch is set up; given config does not, none is made.
+   Measure: `git worktree list` shows the worktree when the flag is on, and does not
+   when it is off.
+ - S5 — (developer, first issue of a plan) Given an issue that sits in plan P and no
+-  `plan/P/base` branch, when it runs, then `plan/P/base` is cut from the latest main and
+-  pushed, and the issue's branch `plan/P/<issue>-<slug>` is cut from it. Measure: both
+-  branches exist on origin; `plan/P/base` equals the origin/main tip; branch.json names
+-  `plan_branch: plan/P/base` and `plan_branch_created: true`.
++  `plan/P/base` branch, when it runs, then main's plan file is set to In Progress on
++  `plan/P/base` and pushed, `plan/P/base` is cut from that commit and pushed, and the
++  issue's branch `plan/P/<issue>-<slug>` is cut from it. Measure: both branches exist on
++  origin; `plan/P/base` equals the origin/main tip; main's plan file reads `status: In
++  Progress` and `branch: plan/P/base`; branch.json names `plan_branch: plan/P/base` and
++  `plan_branch_created: true`.
+ - S6 — (developer, plan already started) Given `plan/P/base` exists and main has moved
+   on, when it runs for another issue in P, then the latest main is merged into
+   `plan/P/base` first and the issue's branch is cut from it. Measure: origin/main is an
+@@ -118,6 +150,28 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   under P. Measure: plan.json reads `plan_id: P`, its `source.ref` is `origin/main`, and
+   branch.json's `branch_name` starts with `plan/P/`.
+ 
++- S8 — (product owner, start a plan on its own) Given plan P on main with no branch, when
++  `/start-change plan P` runs, then main's plan file is set to In Progress on `plan/P/base`
++  and pushed, `plan/P/base` is cut from that commit and pushed, and the run stops on it.
++  Measure: plan-start-check.json reads `ok: true`, `action: cut`, `main_agrees: true` and
++  `no_story_branch: true`; the stop-condition verdict reads held.
++- S9 — (product owner, start a plan again) Given `plan/P/base` exists, when
++  `/start-change plan P` runs, then it switches to the branch and changes nothing. Measure:
++  plan-start-check.json reads `ok: true` and `action: switch` (or `stay`); origin/main is
++  unchanged.
++- S10 — (anyone, a wrong plan number) Given no plan P on main, or P marked Done or Dropped,
++  when `/start-change plan P` runs, then it stops with a plain message and nothing is
++  started. Measure: args.json reads `mode: plan` and a non-empty `error`; no branch and no
++  main commit were made.
++- S11 — (developer, nothing typed) Given no number, no description and no `plan <id>`,
++  when it runs — on any branch, a plan's own branch included — then it stops with the one
++  line naming what to give, and nothing is started. Measure: args.json reads `mode: none`;
++  no issue, no branch and no STM workspace were made.
++- S12 — (developer, any change on a plan's branch) Given the session is on `plan/P/base`
++  and a short description of a chore is typed, when it runs, then it finds or files that
++  chore's issue and starts it — not the plan. Measure: args.json reads `mode:
++  description`; issue.json names the chore's issue, not P.
++
+ ### Done means
+ 
+ - D1 — says: "the issue is anchored"
+@@ -129,6 +183,18 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+ - D4 — says: "the STM workspace exists"
+   check: { type: artifact_exists, path: "specs" }
+ 
++D1–D4 hold for a change (baked to `stop-condition.yaml`, over the issue's STM). A plan's
++start (C11) has its own (baked to `stop-condition-plan.yaml`, over the run's working folder):
++
++- D5 — says: "the plan tool's record exists"
++  check: { type: artifact_exists, path: "plan-branch.json" }
++- D6 — says: "we are on the plan's branch, and it is on origin"
++  check: { type: field_equals, file: "plan-start-check.json", field: "on_plan_branch", equals: true }
++- D7 — says: "main's plan file and the branch agree"
++  check: { type: field_equals, file: "plan-start-check.json", field: "main_agrees", equals: true }
++- D8 — says: "no story branch was cut"
++  check: { type: field_equals, file: "plan-start-check.json", field: "no_story_branch", equals: true }
++
+ ### Recovery (one per failure condition)
+ 
+ - REC1 (F1) — trigger: no issue resolved or created. direction: create the issue from
+@@ -155,8 +221,16 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   direction: route the cut/worktree/push through setup_branch.py and remove the agent
+   dispatch. handoff: autonomous.
+ - REC9 (F9) — trigger: the plan was not read by resolve_plan.py from git, the branch is not
+-  under its plan, or a stale local plan branch was at risk. direction: run resolve_plan.py
+-  and re-cut the branch with the names it gives; when it reports the issue in more than one
++  under its plan, a plan's branch was cut without main first, or a stale local plan branch
++  was at risk. direction: run resolve_plan.py and re-cut the branch with the names it gives,
++  the plan's branch through the plan tool; when it reports the issue in more than one
+   plan, or setup_branch.py stops on a stale copy with commits found nowhere else or on an
+   origin it could not reach, stop for a person (fix the plan files, push or move the
+   commits, or run again when origin can be reached). handoff: human.
++- REC10 (F10) — trigger: a run started a change the person did not name. direction: stop
++  with the one line naming what to give; take the change only from resolve_args.py, never
++  from the branch name. handoff: autonomous.
++- REC11 (F11) — trigger: plan-start-check.json reads a problem. direction: a story branch
++  that was cut is deleted, a commit on the plan's branch is taken off it; for a branch cut
++  without main first, or a plan that should not have started, stop and name it for a person
++  (the plan tool's `abort` undoes a cut that holds nothing else). handoff: human.
+diff --git a/core/components/plays/start-change/scripts/check_plan_start.py b/core/components/plays/start-change/scripts/check_plan_start.py
+new file mode 100644
+index 000000000..bd6df8c8b
+--- /dev/null
++++ b/core/components/plays/start-change/scripts/check_plan_start.py
+@@ -0,0 +1,109 @@
++#!/usr/bin/env python3
++"""
++check_plan_start.py — prove a plan's start (#989): `/start-change plan <id>`.
++
++Reads the plan tool's record (`plan_branch.py go`) and git, and writes what holds:
++
++  on_plan_branch   the session is on plan/<id>/base, and the branch is on origin
++  main_agrees      when the branch was cut: it equals the main commit it was cut from, that
++                   commit is on origin/main, and main's plan file there reads `status: In
++                   Progress` and `branch: plan/<id>/base`; when it stayed or switched: true
++  no_story_branch  no branch plan/<id>/<anything but base> was made by this run
++  ok               all three
++
++    python3 check_plan_start.py --record <plan-branch.json> --plans-dir <plans> \
++        --branches-before <branches-before.txt> [--repo .] --out <plan-start-check.json>
++
++`--branches-before` lists the branches (`git branch -a --format=%(refname:short)`) before the
++run. Exit 0 ok, 1 not ok (the problems are named), 2 bad input.
++"""
++import argparse
++import json
++import os
++import subprocess
++import sys
++
++import yaml
++
++
++def _git(repo, *args):
++    p = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True,
++                       env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
++    return p.returncode, p.stdout.strip()
++
++
++def branches(repo):
++    _, out = _git(repo, "branch", "-a", "--format=%(refname:short)")
++    return set(out.split())
++
++
++def check(rec, plans_dir, before, repo):
++    plan = str(rec.get("plan"))
++    base = f"plan/{plan}/base"
++    problems = []
++    _, here = _git(repo, "branch", "--show-current")
++    _, remote = _git(repo, "ls-remote", "--heads", "origin", base)
++    on_plan_branch = here == base and bool(remote)
++    if not on_plan_branch:
++        problems.append(f"the session is on {here or 'no branch'}, or {base} is not on origin")
++
++    main_agrees = True
++    if rec.get("action") == "cut":
++        cut = rec.get("main_commit")
++        tip = remote.split()[0] if remote else None
++        if not cut or tip != cut:
++            main_agrees = False
++            problems.append(f"{base} on origin is {tip}, not the main commit it was cut from ({cut})")
++        elif _git(repo, "merge-base", "--is-ancestor", cut, "origin/main")[0] != 0:
++            main_agrees = False
++            problems.append(f"the main commit {cut[:7]} is not on origin/main")
++        else:
++            rel = os.path.relpath(os.path.join(plans_dir, f"{plan}.yaml"), repo).replace(os.sep, "/")
++            _, text = _git(repo, "show", f"{cut}:{rel}")
++            data = yaml.safe_load(text) or {}
++            if data.get("status") != "In Progress" or data.get("branch") != base:
++                main_agrees = False
++                problems.append(f"main's plan file reads status {data.get('status')!r} and branch "
++                                f"{data.get('branch')!r}, not In Progress on {base}")
++    elif rec.get("action") not in ("stay", "switch"):
++        main_agrees = False
++        problems.append(f"the plan tool's record reads action {rec.get('action')!r}: {rec.get('error')}")
++
++    def name(b):
++        return b[len("origin/"):] if b.startswith("origin/") else b
++    made = sorted(b for b in branches(repo) - before
++                  if name(b).startswith(f"plan/{plan}/") and name(b) != base)
++    no_story_branch = not made
++    if made:
++        problems.append(f"a story branch was made: {', '.join(made)}")
++    return {"plan": plan, "action": rec.get("action"), "on_plan_branch": on_plan_branch,
++            "main_agrees": main_agrees, "no_story_branch": no_story_branch,
++            "ok": on_plan_branch and main_agrees and no_story_branch, "problems": problems}
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="prove a plan's start")
++    ap.add_argument("--record", required=True)
++    ap.add_argument("--plans-dir", required=True)
++    ap.add_argument("--branches-before", required=True)
++    ap.add_argument("--repo", default=".")
++    ap.add_argument("--out", required=True)
++    ns = ap.parse_args(argv)
++    try:
++        with open(ns.record, encoding="utf-8") as fh:
++            rec = json.load(fh)
++        with open(ns.branches_before, encoding="utf-8") as fh:
++            before = set(fh.read().split())
++    except (OSError, ValueError) as e:
++        print(f"check_plan_start.py: {e}", file=sys.stderr)
++        return 2
++    out = check(rec, ns.plans_dir, before, ns.repo)
++    with open(ns.out, "w", encoding="utf-8") as fh:
++        json.dump(out, fh, indent=2)
++        fh.write("\n")
++    print(json.dumps(out, indent=2))
++    return 0 if out["ok"] else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/start-change/scripts/resolve_args.py b/core/components/plays/start-change/scripts/resolve_args.py
+new file mode 100644
+index 000000000..9499d3c87
+--- /dev/null
++++ b/core/components/plays/start-change/scripts/resolve_args.py
+@@ -0,0 +1,114 @@
++#!/usr/bin/env python3
++"""
++resolve_args.py — what does this start-change run start? (#989)
++
++The change is what the person typed, never the branch the session is on:
++
++  plan <id>              start a plan's work on its own (mode: plan)
++  <number> [words]       an issue — the number, as today; any words after it are a note
++  <words>                a short description of the change (mode: description); the play
++                         finds or files its issue from it, as today
++  nothing                nothing is started (mode: none) — the play stops with one line
++
++    python3 resolve_args.py --args="<the play's arguments>" --plans-dir <plans> \
++        [--repo .] [--ref origin/main] [--description-out <work-description.txt>] --out <args.json>
++
++For `plan <id>` the plan file is read from git at --ref (the latest main, after a fetch), never
++from the checkout: a plan no file names, or one main marks Done or Dropped, gets a plain message
++and no start. When the fetch fails, the last fetched copy is read and the record says so.
++
++Writes { mode, issue, plan, description, note, fetched, error }. Exit 0 when there is something
++to start; 1 when nothing was typed, or the plan cannot be started (the error is the line to
++show); 2 bad input (the plans folder cannot be read from git).
++"""
++import argparse
++import json
++import os
++import re
++import subprocess
++import sys
++
++import yaml
++
++TIME_LIMIT = 120  # seconds for the fetch; a stalled server reads as a failed fetch, never a hang
++CLOSED = ("Done", "Dropped")
++NOTHING = "Tell me what to start: an issue number, a short description, or plan <id>."
++
++
++def _git(repo, *args):
++    try:
++        p = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, timeout=TIME_LIMIT,
++                           env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
++    except subprocess.TimeoutExpired:
++        return 124, ""
++    return p.returncode, p.stdout
++
++
++def read(args_text):
++    text = (args_text or "").strip()
++    if not text:
++        return {"mode": "none", "error": NOTHING}
++    m = re.fullmatch(r"(?i)plan\s+#?(\d+)", text)
++    if m:
++        return {"mode": "plan", "plan": m.group(1)}
++    m = re.fullmatch(r"#?(\d+)(?:\s+(.*))?", text, re.S)
++    if m:
++        return {"mode": "issue", "issue": m.group(1), "note": (m.group(2) or "").strip() or None}
++    return {"mode": "description", "description": text}
++
++
++def plan_on_main(rec, plans_dir, repo, ref):
++    """A plan start needs a plan main names that is not closed; else the error is the line to show."""
++    plan = rec["plan"]
++    rc, _ = _git(repo, "fetch", "--quiet", "origin")
++    rec["fetched"] = rc == 0
++    rel = os.path.relpath(os.path.join(plans_dir, f"{plan}.yaml"), repo).replace(os.sep, "/")
++    rc, text = _git(repo, "show", f"{ref}:{rel}")
++    if rc != 0:
++        rec["error"] = (f"No plan {plan} on main. To start a plan, give a plan's number "
++                        f"(plan <id>); to start an issue, give its number.")
++        return rec
++    try:
++        status = (yaml.safe_load(text) or {}).get("status")
++    except yaml.YAMLError as e:
++        raise ValueError(f"the plan file {rel} on {ref} cannot be read: {str(e).splitlines()[0]}")
++    if status in CLOSED:
++        rec["error"] = f"Plan {plan} is {status} on main; a person sets its status before its work starts again."
++    return rec
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="what does this start-change run start?")
++    ap.add_argument("--args", default="")
++    ap.add_argument("--plans-dir", default=os.path.join(".garura", "project", "plans"))
++    ap.add_argument("--repo", default=".")
++    ap.add_argument("--ref", default="origin/main")
++    ap.add_argument("--description-out")
++    ap.add_argument("--out", required=True)
++    ns = ap.parse_args(argv)
++
++    rec = {"mode": None, "issue": None, "plan": None, "description": None, "note": None,
++           "fetched": None, "error": None}
++    rec.update(read(ns.args))
++    try:
++        if rec["mode"] == "plan":
++            plan_on_main(rec, ns.plans_dir, ns.repo, ns.ref)
++    except ValueError as e:
++        rec["error"] = str(e)
++        code = 2
++    else:
++        code = 1 if rec["error"] else 0
++    if rec["mode"] == "description" and ns.description_out:
++        os.makedirs(os.path.dirname(os.path.abspath(ns.description_out)), exist_ok=True)
++        with open(ns.description_out, "w", encoding="utf-8") as fh:
++            fh.write(rec["description"] + "\n")
++    os.makedirs(os.path.dirname(os.path.abspath(ns.out)), exist_ok=True)
++    with open(ns.out, "w", encoding="utf-8") as fh:
++        json.dump(rec, fh, indent=2)
++        fh.write("\n")
++    print(json.dumps(rec))
++    return code
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/start-change/scripts/setup_branch.py b/core/components/plays/start-change/scripts/setup_branch.py
+index 268708d7b..43bf8eb6b 100644
+--- a/core/components/plays/start-change/scripts/setup_branch.py
++++ b/core/components/plays/start-change/scripts/setup_branch.py
+@@ -8,21 +8,23 @@
+ judgment.
+ 
+     python3 setup_branch.py --issue N --branch-name feature/N-slug \
+-        [--base main] [--plan-branch plan/P/base] [--worktree] [--no-push] --out <branch.json>
++        [--base main] [--plan-branch plan/P/base --plan-tool <plan_branch.py> --plans-dir <plans>
++         --ignore <folder>] [--worktree] [--no-push] --out <branch.json>
+ 
+ With --plan-branch (an issue in a plan, from resolve_plan.py — #731): the plan branch is
+-cut from the latest main when it does not exist yet (the plan's work starts now); when it
++cut main first when it is not on origin yet (the plan's work starts now); when it
+ exists, the latest main is merged into it first. The issue's branch
+ (plan/P/<issue>-<slug>) is then cut from the plan branch. A merge conflict stops the run
+ (exit 1) with the plan branch left as it was.
+ 
+-A plan branch that is gone on origin but still here (the plan paused, merged into main and its
+-branch was deleted) is deleted here and cut fresh — but only when the lookup on origin worked
+-and every commit on the local copy is already on main (merge-change lands a plan with a merge
+-commit, so a landed plan's copy always is). A failed lookup (offline, a login error, a stalled
+-server) stops the run and says origin could not be reached; a local copy with a commit that is
+-not on main stops the run, keeps the copy and names the commits (#953). A push that fails, or a
+-delete that fails, stops the run. Network calls never prompt and give up after a time limit.
++A plan branch that is not on origin is cut by the plan tool's plan_branch.py (--plan-tool),
++the one way every play cuts a plan's branch (ADR 061, #989): main's plan file is set to In
++Progress with the branch named, committed and pushed on main, and the branch is cut from that
++commit. A copy that is gone on origin but still here is deleted and cut fresh only when every
++commit on it is on main; otherwise the plan tool stops, keeps the copy and names the commits
++(#953), and so does this script. A failed lookup on origin (offline, a login error, a stalled
++server) stops the run and says origin could not be reached. A push that fails stops the run.
++Network calls never prompt and give up after a time limit.
+ 
+ Idempotent: if the branch already exists (local or remote), it is a resume —
+ switch to it, do not re-cut. Writes branch.json:
+@@ -72,21 +74,24 @@ def _is_ancestor(a, b):
+     return subprocess.run(["git", "merge-base", "--is-ancestor", a, b], capture_output=True).returncode == 0
+ 
+ 
+-def _drop_stale(plan, base):
+-    """A plan branch gone on origin but still here: delete it when every commit on it is on
+-    main; otherwise stop, keep it and name the commits that are not. Returns the record."""
+-    _, tip, _ = _git("rev-parse", plan)
+-    if not _is_ancestor(plan, f"origin/{base}"):
+-        _, log, _ = _git("log", "--oneline", plan, "--not", f"origin/{base}")
+-        sys.stderr.write(f"setup_branch.py: {plan} is gone on origin, but the copy here has commits "
+-                         f"that are not on {base}; it was kept. Push or move them, then run again:\n  "
+-                         + "\n  ".join(log.splitlines()) + "\n")
+-        sys.exit(1)
+-    rc, _, err = _git("branch", "-D", plan)
+-    if rc != 0:
+-        sys.stderr.write(f"setup_branch.py: deleting the stale copy of {plan} failed: {err}\n")
++def _cut_plan(ns, plan):
++    """Cut the plan's branch through the plan tool, main first; return (created, stale)."""
++    out = os.path.join(os.path.dirname(os.path.abspath(ns.out)), "plan-branch.json")
++    cmd = [sys.executable, ns.plan_tool, "go", "--plan", plan.split("/")[1],
++           "--plans-dir", ns.plans_dir, "--out", out]
++    for folder in ns.ignore:
++        cmd += ["--ignore", folder]
++    proc = subprocess.run(cmd, capture_output=True, text=True, env=NO_PROMPT)
++    try:
++        with open(out, encoding="utf-8") as fh:
++            rec = json.load(fh)
++    except (OSError, ValueError):
++        rec = {"action": "stop", "error": (proc.stderr or proc.stdout).strip()}
++    if proc.returncode != 0 or rec.get("action") not in ("cut", "switch", "stay") or rec.get("error"):
++        files = "".join(f"\n  {f}" for f in rec.get("files") or [])
++        sys.stderr.write(f"setup_branch.py: the plan tool did not get onto {plan}: {rec.get('error')}{files}\n")
+         sys.exit(1)
+-    return {"deleted": True, "tip": tip, "on_main": True}
++    return rec["action"] == "cut", rec.get("stale")
+ 
+ 
+ def _push(branch):
+@@ -109,6 +114,9 @@ def main(argv=None):
+     ap.add_argument("--branch-name", required=True)
+     ap.add_argument("--base", default="main")
+     ap.add_argument("--plan-branch")
++    ap.add_argument("--plan-tool", default=os.path.join(".garura", "core", "tools", "plan", "plan_branch.py"))
++    ap.add_argument("--plans-dir", default=os.path.join(".garura", "project", "plans"))
++    ap.add_argument("--ignore", action="append", default=[])
+     ap.add_argument("--worktree", action="store_true")
+     ap.add_argument("--no-push", action="store_true")
+     ap.add_argument("--out", required=True)
+@@ -133,11 +141,11 @@ def main(argv=None):
+             sys.stderr.write(f"setup_branch.py: origin could not be reached to look for {plan}; "
+                              f"nothing was changed — run again when it can be reached\n")
+             sys.exit(1)
+-        if not on_origin and _branch_exists(plan):
+-            # Only a stale local copy is left: the plan paused, merged into main and its branch
+-            # was deleted on origin. A plan that starts again gets a fresh cut from main.
+-            stale = _drop_stale(plan, ns.base)
+-        if _branch_exists(plan):
++        if not on_origin:
++            # The plan's work starts now: main's plan file first, then the cut (ADR 061). A stale
++            # local copy is the plan tool's to judge (#953).
++            plan_created, stale = _cut_plan(ns, plan)
++        else:
+             _git("fetch", "origin", plan)
+             rc, _, err = _git("checkout", plan)
+             if rc != 0:
+@@ -152,12 +160,6 @@ def main(argv=None):
+                 sys.stderr.write(f"setup_branch.py: merging {ns.base} into {plan} conflicts — "
+                                  f"resolve it by hand: {err}\n")
+                 sys.exit(1)
+-        else:
+-            rc, _, err = _git("checkout", "-b", plan, f"origin/{ns.base}")
+-            if rc != 0:
+-                sys.stderr.write(f"setup_branch.py: cutting {plan} failed: {err}\n")
+-                sys.exit(1)
+-            plan_created = True
+         if not ns.no_push:
+             _push(plan)
+         _, base_sha, _ = _git("rev-parse", "HEAD")
+diff --git a/core/components/plays/start-change/scripts/test_start_change.py b/core/components/plays/start-change/scripts/test_start_change.py
+new file mode 100644
+index 000000000..c68d61d2e
+--- /dev/null
++++ b/core/components/plays/start-change/scripts/test_start_change.py
+@@ -0,0 +1,172 @@
++"""Tests for start-change's #989 scripts: what the person typed (resolve_args.py), the plan's
++branch cut main first for a story (setup_branch.py through the plan tool), and the proof of a
++plan's start (check_plan_start.py)."""
++
++import json
++import os
++import subprocess
++import sys
++import tempfile
++import unittest
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import check_plan_start  # noqa: E402
++import resolve_args  # noqa: E402
++
++PLAN_TOOL = os.path.join(HERE, "..", "..", "..", "..", "tools", "plan", "plan_branch.py")
++
++PLAN = """id: 50
++title: People pay without an account
++status: Not Started
++direction: 2
++branch:
++tree:
++- issue: 51
++  kind: story
++  title: Pay without an account
++  status: Not Started
++"""
++
++
++def sh(args, cwd):
++    return subprocess.run(args, cwd=cwd, check=True, capture_output=True, text=True).stdout.strip()
++
++
++class ReadTest(unittest.TestCase):
++    def test_nothing_typed_starts_nothing(self):
++        self.assertEqual(resolve_args.read("  ")["mode"], "none")
++        self.assertEqual(resolve_args.read("")["error"], resolve_args.NOTHING)
++
++    def test_plan_word_starts_a_plan(self):
++        self.assertEqual(resolve_args.read("plan 717"), {"mode": "plan", "plan": "717"})
++        self.assertEqual(resolve_args.read("Plan #722")["plan"], "722")
++
++    def test_a_bare_number_is_an_issue_as_today(self):
++        self.assertEqual(resolve_args.read("717"), {"mode": "issue", "issue": "717", "note": None})
++        self.assertEqual(resolve_args.read("#989 and 991 together")["note"], "and 991 together")
++
++    def test_words_are_a_description(self):
++        rec = resolve_args.read("fix the typo in the plan view legend")
++        self.assertEqual((rec["mode"], rec["description"]), ("description", "fix the typo in the plan view legend"))
++
++    def test_plan_words_that_are_not_a_plan_start_are_a_description(self):
++        self.assertEqual(resolve_args.read("plan the next release")["mode"], "description")
++
++
++class RepoTest(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        root = self.tmp.name
++        self.remote = os.path.join(root, "remote.git")
++        self.repo = os.path.join(root, "repo")
++        sh(["git", "init", "--quiet", "--bare", "-b", "main", self.remote], root)
++        sh(["git", "clone", "--quiet", self.remote, self.repo], root)
++        for k, v in (("user.name", "Test"), ("user.email", "test@example.com")):
++            sh(["git", "config", k, v], self.repo)
++        sh(["git", "checkout", "--quiet", "-b", "main"], self.repo)
++        os.makedirs(os.path.join(self.repo, "plans"))
++        with open(os.path.join(self.repo, "plans", "50.yaml"), "w", encoding="utf-8") as fh:
++            fh.write(PLAN)
++        sh(["git", "add", "."], self.repo)
++        sh(["git", "commit", "--quiet", "-m", "plan 50"], self.repo)
++        sh(["git", "push", "--quiet", "-u", "origin", "main"], self.repo)
++        self.work = os.path.join(root, "work")
++        os.makedirs(self.work)
++
++    def tearDown(self):
++        self.tmp.cleanup()
++
++    def run_in_repo(self, *args):
++        return subprocess.run([sys.executable, *args], cwd=self.repo, capture_output=True, text=True)
++
++    def resolve(self, typed):
++        out = os.path.join(self.work, "args.json")
++        p = self.run_in_repo(os.path.join(HERE, "resolve_args.py"), f"--args={typed}", "--plans-dir", "plans",
++                             "--out", out)
++        with open(out, encoding="utf-8") as fh:
++            return p.returncode, json.load(fh)
++
++    def test_a_plan_on_main_can_start(self):
++        code, rec = self.resolve("plan 50")
++        self.assertEqual((code, rec["mode"], rec["plan"], rec["error"], rec["fetched"]), (0, "plan", "50", None, True))
++
++    def test_a_number_no_plan_has_gets_a_plain_message(self):
++        code, rec = self.resolve("plan 77")
++        self.assertEqual(code, 1)
++        self.assertTrue(rec["error"].startswith("No plan 77 on main."))
++
++    def test_a_done_plan_does_not_start(self):
++        with open(os.path.join(self.repo, "plans", "50.yaml"), "w", encoding="utf-8") as fh:
++            fh.write(PLAN.replace("status: Not Started\ndirection", "status: Done\ndirection"))
++        sh(["git", "commit", "--quiet", "-am", "done"], self.repo)
++        sh(["git", "push", "--quiet", "origin", "main"], self.repo)
++        code, rec = self.resolve("plan 50")
++        self.assertEqual(code, 1)
++        self.assertIn("is Done on main", rec["error"])
++
++    def test_the_first_story_of_a_plan_cuts_its_branch_main_first(self):
++        out = os.path.join(self.work, "branch.json")
++        p = self.run_in_repo(os.path.join(HERE, "setup_branch.py"), "--issue", "51",
++                             "--branch-name", "plan/50/51-pay", "--plan-branch", "plan/50/base",
++                             "--plan-tool", os.path.abspath(PLAN_TOOL), "--plans-dir", "plans", "--out", out)
++        self.assertEqual(p.returncode, 0, p.stderr)
++        with open(out, encoding="utf-8") as fh:
++            rec = json.load(fh)
++        self.assertEqual((rec["plan_branch_created"], sh(["git", "branch", "--show-current"], self.repo)),
++                         (True, "plan/50/51-pay"))
++        main_file = sh(["git", "show", "origin/main:plans/50.yaml"], self.repo)
++        self.assertIn("status: In Progress\ndirection: 2\nbranch: plan/50/base\n", main_file)
++        self.assertEqual(sh(["git", "rev-parse", "origin/plan/50/base"], self.repo),
++                         sh(["git", "rev-parse", "origin/main"], self.repo))
++
++    def plan_start(self):
++        before = os.path.join(self.work, "before.txt")
++        with open(before, "w", encoding="utf-8") as fh:
++            fh.write(sh(["git", "branch", "-a", "--format=%(refname:short)"], self.repo))
++        rec_path = os.path.join(self.work, "plan-branch.json")
++        p = self.run_in_repo(os.path.abspath(PLAN_TOOL), "go", "--plan", "50", "--plans-dir", "plans",
++                             "--out", rec_path)
++        self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
++        with open(rec_path, encoding="utf-8") as fh:
++            rec = json.load(fh)
++        with open(before, encoding="utf-8") as fh:
++            branches = set(fh.read().split())
++        cwd = os.getcwd()
++        os.chdir(self.repo)
++        try:
++            return check_plan_start.check(rec, "plans", branches, ".")
++        finally:
++            os.chdir(cwd)
++
++    def test_a_plan_start_is_proved(self):
++        out = self.plan_start()
++        self.assertEqual((out["ok"], out["action"], out["main_agrees"], out["no_story_branch"]),
++                         (True, "cut", True, True), out["problems"])
++
++    def test_starting_a_plan_again_switches_and_changes_nothing(self):
++        self.plan_start()
++        sh(["git", "checkout", "--quiet", "main"], self.repo)
++        main_before = sh(["git", "rev-parse", "origin/main"], self.repo)
++        out = self.plan_start()
++        self.assertEqual((out["ok"], out["action"]), (True, "switch"), out["problems"])
++        self.assertEqual(sh(["git", "rev-parse", "origin/main"], self.repo), main_before)
++
++    def test_a_story_branch_made_in_a_plan_start_fails_the_proof(self):
++        before = set(sh(["git", "branch", "-a", "--format=%(refname:short)"], self.repo).split())
++        rec_path = os.path.join(self.work, "plan-branch.json")
++        self.run_in_repo(os.path.abspath(PLAN_TOOL), "go", "--plan", "50", "--plans-dir", "plans", "--out", rec_path)
++        sh(["git", "branch", "plan/50/51-pay"], self.repo)
++        with open(rec_path, encoding="utf-8") as fh:
++            rec = json.load(fh)
++        cwd = os.getcwd()
++        os.chdir(self.repo)
++        try:
++            out = check_plan_start.check(rec, "plans", before, ".")
++        finally:
++            os.chdir(cwd)
++        self.assertEqual((out["ok"], out["no_story_branch"]), (False, False))
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/core/components/plays/start-change/stop-condition-plan.yaml b/core/components/plays/start-change/stop-condition-plan.yaml
+new file mode 100644
+index 000000000..d8738c5f6
+--- /dev/null
++++ b/core/components/plays/start-change/stop-condition-plan.yaml
+@@ -0,0 +1,19 @@
++# start-change stop condition for a plan's start (`plan <id>`, C11) — baked from reference/ice.md
++# "### Done means" D5–D8 (#989). Evaluated by scripts/check_stop_condition.py at Step C0 of the
++# Standard Play Close. Paths are relative to the run's working folder
++# ({stm_base}_plans/start-change/<id>/), which is not committed.
++schema: { name: stop-condition }
++content:
++  done:
++    - id: D5
++      says: "the plan tool's record exists"
++      check: { type: artifact_exists, path: "plan-branch.json" }
++    - id: D6
++      says: "we are on the plan's branch, and it is on origin"
++      check: { type: field_equals, file: "plan-start-check.json", field: "on_plan_branch", equals: true }
++    - id: D7
++      says: "main's plan file and the branch agree"
++      check: { type: field_equals, file: "plan-start-check.json", field: "main_agrees", equals: true }
++    - id: D8
++      says: "no story branch was cut"
++      check: { type: field_equals, file: "plan-start-check.json", field: "no_story_branch", equals: true }
+diff --git a/core/components/plays/start-change/stop-condition.yaml b/core/components/plays/start-change/stop-condition.yaml
+index 1ad9b4ec2..c6f58e955 100644
+--- a/core/components/plays/start-change/stop-condition.yaml
++++ b/core/components/plays/start-change/stop-condition.yaml
+@@ -1,4 +1,4 @@
+-# start-change stop condition — baked from reference/ice.md "### Done means" (#464/#466).
++# start-change stop condition for a change — baked from reference/ice.md "### Done means" D1–D4 (#464/#466).
+ # Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
+ # Paths are relative to the run's STM root ({stm_base}{issue}/).
+ schema: { name: stop-condition }
+diff --git a/core/tools/plan/README.md b/core/tools/plan/README.md
+index e1cd0b74b..07be1158b 100644
+--- a/core/tools/plan/README.md
++++ b/core/tools/plan/README.md
+@@ -57,7 +57,10 @@ branch, switches to it, or — for a plan with no branch — sets main's plan fi
+ the branch named, commits that on main, and cuts the branch from it. `back` returns to the branch
+ the session started on. `abort` undoes a branch the session cut (deletes it, and reverts main's
+ plan file commit) when nothing else has landed on it, then goes back; a second `abort` finishes
+-one that stopped after the revert (a refused delete). Used by `/update-plan` (#730), and by `start-change` once #989 is built.
++one that stopped after the revert (a refused delete). A copy of the plan's branch that is gone on the remote is deleted and cut fresh only when every
++commit on it is on main; otherwise it stops and names the commits (#953). Used by `/update-plan`
++(#730), and by `start-change` (#989): `/start-change plan <id>`, and the first story of a plan with
++no branch.
+ 
+ ## Setting an item's status from its own issue
+ 
+@@ -70,6 +73,24 @@ item already at that status is left as it is. Used by `merge-change` when it clo
+ landed on its plan's branch.
+ 
+ An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
+-users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`.
+-
+-Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status` from this folder.
++users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`
++(#989), `/propose-change` and `/merge-change` (#991).
++
++## Landing a plan's branch on main
++
++    python3 plan_land.py ready --plan <id> --status S --direction D --template <plan-view.md> [--plans-dir D] [--ignore <folder>] --out <record.json>
++    python3 plan_land.py check --record <record.json> [--out <check.json>]
++    python3 plan_land.py landed --check <check.json> [--out <landed.json>]
++
++The plan's branch is the only place a plan changes; when it lands, main's plan file becomes the
++branch's, whole (#991). `ready` runs on `plan/<id>/base` before `/propose-change` raises it for
++main. It takes the person's Status and Direction, checked against the template's lists (an answer
++it does not know stops it, so the person is asked again), names every change main made to the
++plan file since the branch was cut, merges the latest main in keeping the branch's plan file, and
++writes the Status, the Direction, an empty `branch:` (the branch is deleted after the merge) and
++`updated:` into the file for the play's own commit. A clash in any other file stops it, with the
++merge taken back. `check` runs in `/merge-change` before the merge: when main's plan file changed
++after `ready`, it stops and says to run `/propose-change` again, so a blended plan file never lands.
++`landed` runs after the merge: main's plan file must now be the branch's, whole.
++
++Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status test_plan_land` from this folder.
+diff --git a/core/tools/plan/plan_branch.py b/core/tools/plan/plan_branch.py
+index e46f0a971..4a80f1419 100644
+--- a/core/tools/plan/plan_branch.py
++++ b/core/tools/plan/plan_branch.py
+@@ -16,6 +16,11 @@
+   - when anything is uncommitted (a changed, staged or new file outside the --ignore folders; a
+     staged file always counts): it stops, names the files and changes nothing (exit 3). The
+     person cleans up;
++  - a copy of the plan's branch that is here but gone on the remote (the plan paused, merged into
++    main and its branch was deleted) is deleted when every commit on it is on main, and the plan
++    is then cut fresh as below; when it holds a commit that is not on main, it stops, keeps the
++    copy and names the commits (exit 2, #953). A call to the remote never prompts and gives up
++    after a time limit;
+   - else, on the plan's branch already: it stays (and takes the remote's new commits, fast-forward
+     only);
+   - else, when the plan's branch exists (here or on the remote): it switches to it;
+@@ -38,8 +43,10 @@
+ switched, the plan's branch is left as it is. Uncommitted work outside the --ignore folders stops it (exit 3).
+ 
+ The record: {action: stay|switch|cut|stop|back|abort, plan, plan_branch, start_branch, back_to,
+-main_commit, files, error}. Exit 0 done; 2 bad input or a git step failed (the error is named);
+-3 stopped on uncommitted work. Users: /update-plan (#730), and start-change once #989 is built.
++main_commit, files, error, stale: null | {deleted, tip, on_main}}. Exit 0 done; 2 bad input, a
++git step failed, or a stale copy holds commits not on main (the error is named); 3 stopped on
++uncommitted work. Users: /update-plan (#730), and start-change (#989): `/start-change plan <id>`,
++and the cut of a plan's branch for the first story of a plan with no branch.
+ """
+ 
+ import argparse
+@@ -54,6 +61,8 @@
+ 
+ DEFAULT_PLANS = os.path.join(".garura", "project", "plans")
+ CLOSED = {"Done", "Dropped"}
++TIME_LIMIT = 120  # seconds for one git call
++NO_PROMPT = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+ 
+ 
+ class Stop(Exception):
+@@ -64,9 +73,14 @@ def __init__(self, message, code=2, files=None):
+ 
+ 
+ def git(args, repo, check=True):
+-    """Run git; retry while another git process holds the index lock."""
++    """Run git; retry while another git process holds the index lock. A call never prompts and
++    gives up after TIME_LIMIT seconds, so a stalled origin is a stop, never a hang (#953)."""
+     for attempt in range(8):
+-        done = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True)
++        try:
++            done = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True,
++                                  timeout=TIME_LIMIT, env=NO_PROMPT)
++        except subprocess.TimeoutExpired:
++            done = subprocess.CompletedProcess(args, 124, "", f"gave up after {TIME_LIMIT} seconds")
+         if done.returncode == 0 or "index.lock" not in done.stderr:
+             break
+         time.sleep(2)
+@@ -142,16 +156,18 @@ def go(args):
+     repo, plan = args.repo, str(args.plan)
+     plan_branch = f"plan/{plan}/base"
+     rec = {"action": None, "plan": plan, "plan_branch": plan_branch, "start_branch": None,
+-           "back_to": None, "main_commit": None, "files": [], "error": None}
++           "back_to": None, "main_commit": None, "files": [], "error": None, "stale": None}
+     start = current_branch(repo)
+     rec["start_branch"] = start
+     remote = has_remote(args.remote, repo)
+     if remote:
+-        git(["fetch", "--quiet", args.remote], repo)
++        git(["fetch", "--quiet", "--prune", args.remote], repo)
+     files = uncommitted(repo, args.ignore)
+     if files:
+         raise Stop(f"{start} has uncommitted work; commit or clean it, then run again", 3, files)
+-    if start == plan_branch:
++    if remote and has_ref(plan_branch, repo) and not has_ref(f"{args.remote}/{plan_branch}", repo):
++        rec["stale"] = drop_stale(plan_branch, start, args, repo)
++    if current_branch(repo) == plan_branch:
+         pull(plan_branch, args.remote, repo)
+         rec["action"] = "stay"
+         return rec
+@@ -214,6 +230,22 @@ def go(args):
+     return rec
+ 
+ 
++def drop_stale(plan_branch, start, args, repo):
++    """A plan branch gone on the remote but still here (the plan paused, merged into main and its
++    branch was deleted): delete it when every commit on it is on main, so the plan is cut fresh;
++    otherwise stop, keep it and name the commits that are not on main (#953)."""
++    tip = git(["rev-parse", plan_branch], repo).stdout.strip()
++    on_main = f"{args.remote}/{args.main}"
++    if git(["merge-base", "--is-ancestor", plan_branch, on_main], repo, check=False).returncode != 0:
++        extra = git(["log", "--oneline", plan_branch, "--not", on_main], repo).stdout.splitlines()
++        raise Stop(f"{plan_branch} is gone on {args.remote}, but the copy here has commits that are "
++                   f"not on {args.main}; it was kept. Push or move them, then run again", 2, extra)
++    if start == plan_branch:
++        git(["checkout", "--quiet", args.main], repo)
++    git(["branch", "--quiet", "-D", plan_branch], repo)
++    return {"deleted": True, "tip": tip, "on_main": True}
++
++
+ def back(repo, branch):
+     if branch and current_branch(repo) != branch:
+         git(["checkout", "--quiet", branch], repo)
+diff --git a/core/tools/plan/plan_land.py b/core/tools/plan/plan_land.py
+new file mode 100644
+index 000000000..3c5636e3b
+--- /dev/null
++++ b/core/tools/plan/plan_land.py
+@@ -0,0 +1,229 @@
++#!/usr/bin/env python3
++"""
++plan_land.py — get a plan's branch ready to land on main, and check it before the merge (#991).
++
++The plan's branch is the only place a plan changes. When it lands on main, main's plan file
++becomes the branch's plan file, whole (#720 design, "Which copy of a plan counts").
++
++    python3 plan_land.py ready --plan ID --status S --direction D --template <plan-view.md>
++                               [--plans-dir D] [--repo R] [--remote origin] [--main main]
++                               [--ignore PREFIX ...] [--date YYYY-MM-DD] --out <record.json>
++    python3 plan_land.py check --record <record.json> [--repo R] [--remote origin] [--main main]
++                               [--out <check.json>]
++    python3 plan_land.py landed --check <check.json> [--repo R] [--remote origin] [--main main]
++                               [--out <landed.json>]
++
++`ready`, run by /propose-change on `plan/<id>/base` before it raises the branch for main:
++  - the Status and Direction are the person's answers. A Status the template's `plan_statuses`
++    does not list, or a Direction that is not one of its `directions` or `none`, stops it (exit 2)
++    so the person is asked again; nothing is worked out;
++  - uncommitted work outside the --ignore folders stops it (exit 3);
++  - it names every change main made to the plan file since the branch was cut (the diff from
++    where they meet to main);
++  - it merges the latest main into the plan's branch, keeping the branch's plan file whole. A
++    clash in any other file stops it with the merge taken back (exit 2): a person resolves it;
++  - it writes the Status, the Direction and an empty `branch:` (merge-change deletes the branch
++    after the merge) and the date on `updated:` into the plan file, and leaves the file changed
++    for the play's own commit before the push. Every other line stays as it is.
++`check`, run by /merge-change before it merges: main's plan file must be the one `ready` saw.
++When main changed it since, it stops (exit 1) and says to run /propose-change again, so a blended
++plan file never lands. It also records the plan file on the plan's branch, for `landed`.
++`landed`, run by /merge-change after the merge: main's plan file must now equal the branch's
++plan file that `check` recorded — the branch's version, whole (exit 1 when it does not).
++
++The ready record: {plan, plan_file, status, direction, main_sha, main_plan_blob, merged,
++main_changes: [diff lines], main_changed: bool}. The check record: {plan, plan_file, ok, main_plan_blob_then,
++main_plan_blob_now, branch_plan_blob, error}. The landed record: {plan, ok, main_plan_blob,
++branch_plan_blob, error}. Exit 0 done; 1 check failed; 2 bad input or a git step failed; 3
++uncommitted work.
++"""
++
++import argparse
++import datetime
++import json
++import os
++import re
++import sys
++
++import plan as plan_tool
++from plan_branch import Stop, current_branch, git, has_ref, has_remote, uncommitted, write
++
++DEFAULT_PLANS = os.path.join(".garura", "project", "plans")
++
++
++def answers(template, status, direction):
++    """The person's answers, checked against the template's lists; never guessed."""
++    li = template["list"]
++    if status not in li["plan_statuses"]:
++        raise Stop(f"the Status {status!r} is not one of {', '.join(li['plan_statuses'])}; ask again")
++    d = str(direction).strip().lower()
++    if d in ("none", ""):
++        return status, None
++    keys = {str(k): k for k in li["directions"]}
++    if d not in keys:
++        raise Stop(f"the Direction {direction!r} is not one of {', '.join(keys)} or none; ask again")
++    return status, keys[d]
++
++
++def set_fields(text, status, direction, date):
++    """Set the top-level status, direction, branch and updated lines; keep every other line."""
++    lines = text.split("\n")
++    seen = set()
++    values = {"status": f"status: {status}",
++              "direction": "direction:" if direction is None else f"direction: {direction}",
++              "branch": "branch:",
++              "updated": f"updated: '{date}'"}
++    for i, line in enumerate(lines):
++        m = re.match(r"(status|direction|branch|updated):", line)
++        if m and m.group(1) not in seen:
++            seen.add(m.group(1))
++            lines[i] = values[m.group(1)]
++    if "status" not in seen:
++        raise Stop("the plan file has no top-level status line")
++    at = next(i for i, ln in enumerate(lines) if ln.startswith("status:"))
++    for key in ("branch", "direction"):
++        if key not in seen:
++            lines.insert(at + 1, values[key])
++    return "\n".join(lines)
++
++
++def ready(args):
++    repo, plan = args.repo, str(args.plan)
++    plan_branch = f"plan/{plan}/base"
++    path = os.path.join(args.plans_dir, f"{plan}.yaml")
++    status, direction = answers(plan_tool.load_template(args.template), args.status, args.direction)
++    if current_branch(repo) != plan_branch:
++        raise Stop(f"not on {plan_branch}; ready runs on the plan's own branch")
++    files = uncommitted(repo, args.ignore)
++    if files:
++        raise Stop(f"{plan_branch} has uncommitted work; commit or clean it, then run again", 3, files)
++    if has_remote(args.remote, repo):
++        git(["fetch", "--quiet", args.remote], repo)
++        main_ref = f"{args.remote}/{args.main}"
++    else:
++        main_ref = args.main
++    if not has_ref(main_ref, repo):
++        raise Stop(f"no {main_ref} to land on")
++    meet = git(["merge-base", "HEAD", main_ref], repo).stdout.strip()
++    changes = git(["diff", meet, main_ref, "--", path], repo).stdout.splitlines()
++    kept = git(["rev-parse", f"HEAD:{path}"], repo, check=False).stdout.strip()
++    if not kept:
++        raise Stop(f"no plan file {path} on {plan_branch}")
++    merged = False
++    if git(["merge-base", "--is-ancestor", main_ref, "HEAD"], repo, check=False).returncode != 0:
++        done = git(["merge", "--no-ff", "--no-commit", main_ref], repo, check=False)
++        clashes = git(["diff", "--name-only", "--diff-filter=U"], repo).stdout.split()
++        others = [f for f in clashes if f != path.replace(os.sep, "/")]
++        if others or (done.returncode != 0 and not clashes):
++            git(["merge", "--abort"], repo, check=False)
++            raise Stop(f"merging {args.main} into {plan_branch} clashes; resolve it by hand, then run "
++                       f"again", 2, others)
++        # The branch's plan file, whole: main's changes to it are named, never blended in.
++        git(["checkout", "HEAD", "--", path], repo)
++        git(["commit", "--quiet", "--no-edit", "-m",
++             f"Merge {args.main} into {plan_branch}, keeping the branch's plan file (#{plan})"], repo)
++        merged = True
++    full = os.path.join(repo, path)
++    with open(full, encoding="utf-8", newline="") as fh:
++        text = fh.read()
++    with open(full, "w", encoding="utf-8", newline="") as fh:
++        fh.write(set_fields(text, status, direction, args.date))
++    return {"plan": plan, "plan_file": path, "status": status, "direction": direction,
++            "main_sha": git(["rev-parse", main_ref], repo).stdout.strip(),
++            "main_plan_blob": git(["rev-parse", f"{main_ref}:{path}"], repo, check=False).stdout.strip() or None,
++            "merged": merged, "main_changed": bool(changes), "main_changes": changes}
++
++
++def check(args, rec):
++    repo, path = args.repo, rec["plan_file"]
++    if has_remote(args.remote, repo):
++        git(["fetch", "--quiet", args.remote], repo)
++        main_ref = f"{args.remote}/{args.main}"
++    else:
++        main_ref = args.main
++    now = git(["rev-parse", f"{main_ref}:{path}"], repo, check=False).stdout.strip() or None
++    branch_ref = f"{args.remote}/plan/{rec['plan']}/base" if has_remote(args.remote, repo) else f"plan/{rec['plan']}/base"
++    on_branch = git(["rev-parse", f"{branch_ref}:{path}"], repo, check=False).stdout.strip() or None
++    out = {"plan": rec["plan"], "plan_file": path, "ok": now == rec.get("main_plan_blob"),
++           "main_plan_blob_then": rec.get("main_plan_blob"), "main_plan_blob_now": now,
++           "branch_plan_blob": on_branch, "error": None}
++    if not out["ok"]:
++        out["error"] = (f"main's plan file {path} changed after the plan's branch was readied; run "
++                        f"/propose-change again so the branch's plan file lands whole")
++    return out
++
++
++def landed(args, chk):
++    repo, path = args.repo, chk["plan_file"]
++    if has_remote(args.remote, repo):
++        git(["fetch", "--quiet", args.remote], repo)
++        main_ref = f"{args.remote}/{args.main}"
++    else:
++        main_ref = args.main
++    now = git(["rev-parse", f"{main_ref}:{path}"], repo, check=False).stdout.strip() or None
++    out = {"plan": chk["plan"], "ok": bool(now) and now == chk.get("branch_plan_blob"),
++           "main_plan_blob": now, "branch_plan_blob": chk.get("branch_plan_blob"), "error": None}
++    if not out["ok"]:
++        out["error"] = f"main's plan file {path} is not the plan branch's plan file after the merge"
++    return out
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="get a plan's branch ready to land on main, and check it")
++    sub = ap.add_subparsers(dest="cmd", required=True)
++    r = sub.add_parser("ready")
++    r.add_argument("--plan", required=True)
++    r.add_argument("--status", required=True)
++    r.add_argument("--direction", required=True)
++    r.add_argument("--template", required=True)
++    r.add_argument("--plans-dir", default=DEFAULT_PLANS)
++    r.add_argument("--repo", default=".")
++    r.add_argument("--remote", default="origin")
++    r.add_argument("--main", default="main")
++    r.add_argument("--ignore", action="append", default=[])
++    r.add_argument("--date", default=datetime.date.today().isoformat())
++    r.add_argument("--out", required=True)
++    c = sub.add_parser("check")
++    c.add_argument("--record", required=True)
++    c.add_argument("--repo", default=".")
++    c.add_argument("--remote", default="origin")
++    c.add_argument("--main", default="main")
++    c.add_argument("--out")
++    d = sub.add_parser("landed")
++    d.add_argument("--check", required=True)
++    d.add_argument("--repo", default=".")
++    d.add_argument("--remote", default="origin")
++    d.add_argument("--main", default="main")
++    d.add_argument("--out")
++    args = ap.parse_args(argv)
++
++    if args.cmd == "ready":
++        try:
++            if not re.fullmatch(r"\d+", str(args.plan)):
++                raise Stop("the plan is a number")
++            rec = ready(args)
++        except (Stop, plan_tool.BadInput) as e:
++            rec = {"plan": str(args.plan), "error": str(e), "files": getattr(e, "files", [])}
++            write(args.out, rec)
++            print(json.dumps(rec, indent=2))
++            return getattr(e, "code", 2)
++        write(args.out, rec)
++        print(json.dumps(rec, indent=2))
++        return 0
++
++    source = args.record if args.cmd == "check" else args.check
++    try:
++        with open(source, encoding="utf-8") as fh:
++            rec = json.load(fh)
++        out = check(args, rec) if args.cmd == "check" else landed(args, rec)
++    except (OSError, ValueError, KeyError, Stop) as e:
++        print(f"plan_land.py: cannot read {source}: {e}", file=sys.stderr)
++        return 2
++    if args.out:
++        write(args.out, out)
++    print(json.dumps(out, indent=2))
++    return 0 if out["ok"] else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/tools/plan/test_plan_branch.py b/core/tools/plan/test_plan_branch.py
+index 159a3a8ae..2c50bd6f6 100644
+--- a/core/tools/plan/test_plan_branch.py
++++ b/core/tools/plan/test_plan_branch.py
+@@ -112,6 +112,48 @@ def test_switch_to_a_branch_only_on_the_remote(self):
+         self.assertEqual(self.branch(), "plan/50/base")
+         self.assertEqual(out(["git", "rev-parse", "main"], self.repo), main_before)  # no second main commit
+ 
++    def land_and_delete_on_remote(self):
++        """The plan paused: its branch merged into main with an empty branch field, and was
++        deleted on the remote; the copy here stays."""
++        sh(["git", "checkout", "--quiet", "plan/50/base"], self.repo)
++        with open(os.path.join(self.repo, "plans/50.yaml"), encoding="utf-8") as fh:
++            text = fh.read()
++        self.write("plans/50.yaml", text.replace("status: In Progress\nbranch: plan/50/base\n",
++                                                 "status: Paused\nbranch:\n"))
++        sh(["git", "commit", "--quiet", "-am", "pause"], self.repo)
++        sh(["git", "push", "--quiet", "origin", "plan/50/base"], self.repo)
++        sh(["git", "checkout", "--quiet", "main"], self.repo)
++        sh(["git", "merge", "--quiet", "--no-ff", "-m", "land", "plan/50/base"], self.repo)
++        sh(["git", "push", "--quiet", "origin", "main"], self.repo)
++        sh(["git", "push", "--quiet", "origin", "--delete", "plan/50/base"], self.repo)
++
++    def test_a_stale_copy_on_main_is_deleted_and_the_plan_cut_fresh(self):
++        self.go()
++        self.land_and_delete_on_remote()
++        old_tip = out(["git", "rev-parse", "plan/50/base"], self.repo)
++        code, rec = self.go()
++        self.assertEqual((code, rec["action"]), (0, "cut"))
++        self.assertEqual(rec["stale"], {"deleted": True, "tip": old_tip, "on_main": True})
++        self.assertEqual(out(["git", "rev-parse", "plan/50/base"], self.repo),
++                         out(["git", "rev-parse", "origin/main"], self.repo))
++        self.assertIn("status: In Progress\nbranch: plan/50/base\n",
++                      out(["git", "show", "origin/main:plans/50.yaml"], self.repo) + "\n")
++
++    def test_a_stale_copy_with_commits_not_on_main_is_kept(self):
++        self.go()
++        self.land_and_delete_on_remote()
++        sh(["git", "checkout", "--quiet", "plan/50/base"], self.repo)
++        self.write("notes.txt", "only here\n")
++        sh(["git", "add", "notes.txt"], self.repo)
++        sh(["git", "commit", "--quiet", "-m", "only here"], self.repo)
++        tip = out(["git", "rev-parse", "plan/50/base"], self.repo)
++        main_before = out(["git", "rev-parse", "origin/main"], self.repo)
++        code, rec = self.go()
++        self.assertEqual((code, rec["action"]), (2, "stop"))
++        self.assertTrue(any("only here" in line for line in rec["files"]))
++        self.assertEqual(out(["git", "rev-parse", "plan/50/base"], self.repo), tip)
++        self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_before)
++
+     def test_stop_on_uncommitted_work(self):
+         self.write("notes.txt", "draft\n")
+         head = out(["git", "rev-parse", "HEAD"], self.repo)
+diff --git a/core/tools/plan/test_plan_land.py b/core/tools/plan/test_plan_land.py
+new file mode 100644
+index 000000000..4135aa3fb
+--- /dev/null
++++ b/core/tools/plan/test_plan_land.py
+@@ -0,0 +1,197 @@
++"""Tests for plan_land.py (#991): the person's answers, the branch's plan file kept whole, main's
++changes named, a clash stops, and the check before the merge."""
++
++import io
++import json
++import os
++import subprocess
++import tempfile
++import unittest
++from contextlib import redirect_stdout
++
++import plan_land
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++TEMPLATE = os.path.join(HERE, "..", "..", "components", "memory", "standards", "templates", "plan-view.md")
++
++PLAN = """# Plan 50 — kept by hand
++id: 50
++title: People pay without an account
++status: In Progress  # set by a person
++direction: 2
++branch: plan/50/base  # cut from main
++needs_plans: []
++updated: '2026-10-01'
++tree:
++- issue: 51
++  kind: epic
++  title: Pay without an account
++  status: Not Started
++"""
++
++
++def sh(args, cwd):
++    subprocess.run(args, cwd=cwd, check=True, capture_output=True, text=True)
++
++
++def out(args, cwd):
++    return subprocess.run(args, cwd=cwd, check=True, capture_output=True, text=True).stdout.strip()
++
++
++class PlanLandTest(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        root = self.tmp.name
++        self.remote = os.path.join(root, "remote.git")
++        self.repo = os.path.join(root, "repo")
++        sh(["git", "init", "--quiet", "--bare", "-b", "main", self.remote], root)
++        sh(["git", "clone", "--quiet", self.remote, self.repo], root)
++        for k, v in (("user.name", "Test"), ("user.email", "test@example.com")):
++            sh(["git", "config", k, v], self.repo)
++        sh(["git", "checkout", "--quiet", "-b", "main"], self.repo)
++        os.makedirs(os.path.join(self.repo, "plans"))
++        self.write("plans/50.yaml", PLAN)
++        self.write("code.txt", "one\n")
++        sh(["git", "add", "."], self.repo)
++        sh(["git", "commit", "--quiet", "-m", "plan 50"], self.repo)
++        sh(["git", "push", "--quiet", "-u", "origin", "main"], self.repo)
++        sh(["git", "checkout", "--quiet", "-b", "plan/50/base"], self.repo)
++        self.write("plans/50.yaml", PLAN.replace("  status: Not Started", "  status: Done"))
++        sh(["git", "commit", "--quiet", "-am", "epic done on the branch"], self.repo)
++        sh(["git", "push", "--quiet", "-u", "origin", "plan/50/base"], self.repo)
++        self.rec = os.path.join(root, "rec.json")
++
++    def tearDown(self):
++        self.tmp.cleanup()
++
++    def write(self, rel, text):
++        with open(os.path.join(self.repo, rel), "w", encoding="utf-8") as fh:
++            fh.write(text)
++
++    def read(self, rel):
++        with open(os.path.join(self.repo, rel), encoding="utf-8") as fh:
++            return fh.read()
++
++    def on_main(self, rel, text, msg):
++        sh(["git", "checkout", "--quiet", "main"], self.repo)
++        self.write(rel, text)
++        sh(["git", "commit", "--quiet", "-am", msg], self.repo)
++        sh(["git", "push", "--quiet", "origin", "main"], self.repo)
++        sh(["git", "checkout", "--quiet", "plan/50/base"], self.repo)
++
++    def ready(self, status="Paused", direction="1"):
++        with redirect_stdout(io.StringIO()):
++            code = plan_land.main(["ready", "--plan", "50", "--status", status, "--direction", direction,
++                                   "--template", TEMPLATE, "--plans-dir", "plans", "--repo", self.repo,
++                                   "--date", "2026-10-31", "--out", self.rec])
++        with open(self.rec, encoding="utf-8") as fh:
++            return code, json.load(fh)
++
++    def check(self):
++        with redirect_stdout(io.StringIO()):
++            return plan_land.main(["check", "--record", self.rec, "--repo", self.repo])
++
++    def test_answers_are_written_and_the_branch_emptied(self):
++        code, rec = self.ready()
++        self.assertEqual((code, rec["status"], rec["direction"], rec["merged"], rec["main_changed"]),
++                         (0, "Paused", 1, False, False))
++        text = self.read("plans/50.yaml")
++        self.assertIn("status: Paused\ndirection: 1\nbranch:\n", text)
++        self.assertIn("updated: '2026-10-31'\n", text)
++        self.assertIn("  status: Done\n", text)  # the tree is the branch's
++
++    def test_direction_none_leaves_it_empty(self):
++        code, _ = self.ready(status="In Progress", direction="none")
++        self.assertEqual(code, 0)
++        self.assertIn("status: In Progress\ndirection:\nbranch:\n", self.read("plans/50.yaml"))
++
++    def test_an_unknown_status_is_asked_again_and_nothing_changes(self):
++        before = self.read("plans/50.yaml")
++        code, rec = self.ready(status="Finished")
++        self.assertEqual(code, 2)
++        self.assertIn("ask again", rec["error"])
++        self.assertEqual(self.read("plans/50.yaml"), before)
++
++    def test_an_unknown_direction_is_asked_again(self):
++        code, rec = self.ready(direction="4")
++        self.assertEqual(code, 2)
++        self.assertIn("ask again", rec["error"])
++
++    def test_main_s_change_to_the_plan_file_is_named_and_the_branch_s_kept(self):
++        self.on_main("plans/50.yaml", PLAN.replace("People pay without an account", "People pay as guests"),
++                     "retitle on main")
++        code, rec = self.ready()
++        self.assertEqual((code, rec["merged"], rec["main_changed"]), (0, True, True))
++        self.assertTrue(any("People pay as guests" in line for line in rec["main_changes"]))
++        text = self.read("plans/50.yaml")
++        self.assertIn("title: People pay without an account\n", text)
++        self.assertIn("  status: Done\n", text)
++        self.assertTrue(plan_land.has_ref("origin/main", self.repo))
++        sh(["git", "merge-base", "--is-ancestor", "origin/main", "HEAD"], self.repo)  # main is in
++
++    def test_main_s_other_work_comes_in(self):
++        self.on_main("code.txt", "one\ntwo\n", "more code on main")
++        code, rec = self.ready()
++        self.assertEqual((code, rec["merged"], rec["main_changed"]), (0, True, False))
++        self.assertEqual(self.read("code.txt"), "one\ntwo\n")
++
++    def test_a_clash_in_another_file_stops_with_the_merge_taken_back(self):
++        self.on_main("code.txt", "one on main\n", "main edits code")
++        self.write("code.txt", "one on the branch\n")
++        sh(["git", "commit", "--quiet", "-am", "branch edits code"], self.repo)
++        head = out(["git", "rev-parse", "HEAD"], self.repo)
++        code, rec = self.ready()
++        self.assertEqual(code, 2)
++        self.assertEqual(rec["files"], ["code.txt"])
++        self.assertEqual(out(["git", "rev-parse", "HEAD"], self.repo), head)
++        self.assertEqual(out(["git", "status", "--porcelain"], self.repo), "")
++
++    def test_off_the_plan_s_branch_it_stops(self):
++        sh(["git", "checkout", "--quiet", "main"], self.repo)
++        code, rec = self.ready()
++        self.assertEqual(code, 2)
++        self.assertIn("plan/50/base", rec["error"])
++
++    def test_uncommitted_work_stops_it(self):
++        self.write("notes.txt", "draft\n")
++        code, rec = self.ready()
++        self.assertEqual((code, rec["files"]), (3, ["notes.txt"]))
++
++    def test_check_passes_when_main_s_plan_file_is_unchanged(self):
++        self.ready()
++        self.assertEqual(self.check(), 0)
++
++    def test_after_the_merge_main_s_plan_file_is_the_branch_s(self):
++        self.on_main("plans/50.yaml", PLAN.replace("People pay without an account", "People pay as guests"),
++                     "retitle on main")
++        self.ready()
++        sh(["git", "commit", "--quiet", "-am", "raise"], self.repo)
++        sh(["git", "push", "--quiet", "origin", "plan/50/base"], self.repo)
++        chk = os.path.join(self.tmp.name, "check.json")
++        with redirect_stdout(io.StringIO()):
++            self.assertEqual(plan_land.main(["check", "--record", self.rec, "--repo", self.repo, "--out", chk]), 0)
++        sh(["git", "checkout", "--quiet", "main"], self.repo)
++        sh(["git", "merge", "--quiet", "--no-ff", "-m", "land", "plan/50/base"], self.repo)
++        sh(["git", "push", "--quiet", "origin", "main"], self.repo)
++        with redirect_stdout(io.StringIO()):
++            self.assertEqual(plan_land.main(["landed", "--check", chk, "--repo", self.repo]), 0)
++        self.assertIn("title: People pay without an account\n", out(["git", "show", "origin/main:plans/50.yaml"], self.repo))
++
++    def test_landed_fails_when_main_s_plan_file_is_not_the_branch_s(self):
++        self.ready()
++        sh(["git", "commit", "--quiet", "-am", "raise"], self.repo)
++        sh(["git", "push", "--quiet", "origin", "plan/50/base"], self.repo)
++        chk = os.path.join(self.tmp.name, "check.json")
++        with redirect_stdout(io.StringIO()):
++            plan_land.main(["check", "--record", self.rec, "--repo", self.repo, "--out", chk])
++            self.assertEqual(plan_land.main(["landed", "--check", chk, "--repo", self.repo]), 1)
++
++    def test_check_stops_when_main_changed_the_plan_file_after_ready(self):
++        self.ready()
++        sh(["git", "stash", "--quiet"], self.repo)
++        self.on_main("plans/50.yaml", PLAN.replace("direction: 2", "direction: 3"), "late change on main")
++        self.assertEqual(self.check(), 1)
++
++
++if __name__ == "__main__":
++    unittest.main()

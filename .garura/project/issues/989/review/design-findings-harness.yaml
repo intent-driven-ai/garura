@@ -1,0 +1,189 @@
+# design-findings-harness.yaml — /check-change step 3, Layer 2, category: harness (PR #1016, issue 989, also closes #991)
+# Grounded only in committed sources on the base ref plan/717/base (commit 86385d4158bd), the memory tool's
+# copies (context/memory/grounding-harness/), and external files. Nothing is grounded in specs/design.md or in
+# the new ICE text. Severities come from the P1-P4 buckets of the pr.md copy
+# (context/memory/standards/rules/pr.md): P2 = structural/major, P3 = minor, P4 = nit.
+pr: 1016
+category: harness
+base: plan/717/base
+grounding:
+  - id: G1
+    principle: "Mechanical work is a script, judgment is a model (harness principle 3); plays orchestrate, agents gather context, skills do the work (principle 2)"
+    source: "docs/standards/harness-standard.md @ plan/717/base, principles 2 and 3 (ADR 025, #484)"
+  - id: G2
+    principle: "Installed parts name only installed paths, never core/components or core/tools; memory is never read by a path (principle 11)"
+    source: "docs/standards/harness-standard.md @ plan/717/base, principle 11; CLAUDE.md @ plan/717/base 'Source of Truth'; ADR 055"
+  - id: G3
+    principle: "A play reads no memory; templates come from template-manager into short-term memory"
+    source: "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md @ plan/717/base, Decision 2 and 8; core/components/plays/_shared/play-close.md @ plan/717/base 'Step L'"
+  - id: G4
+    principle: "Every intent change traces to the play's ICE source; the compiled file records the ICE fingerprint (principle 4)"
+    source: "docs/standards/harness-standard.md @ plan/717/base, principle 4 (ADR 027); CLAUDE.md @ plan/717/base 'Play Pipeline Rules'"
+  - id: G5
+    principle: "A plan's branch is cut by the play that starts the plan's work, main's plan file first, through the one shared script (plan_branch.py)"
+    source: "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md @ plan/717/base, Decision 1-4"
+  - id: G6
+    principle: "A plan's branch lands on main like any approved change, with open issues; the only reason to hold it back is that it would break main, guarded by approved + mergeable + no failing required checks; the plan file says branch: null afterwards"
+    source: "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md @ plan/717/base, Decision 2 and 4 and 'ICE impact'; docs/standards/harness-standard.md @ plan/717/base, principle 8"
+  - id: G7
+    principle: "Plan rules: a person sets Status and Direction; the plan changes only on its own branch; the one non-typed status change is the branch cut; a bug found after a plan is Done sits under its story and the Done plan is NOT reopened"
+    source: "core/components/memory/standards/schemas/product-os/ontology.md @ plan/717/base, Plan kind (rules at lines 622-623 and 'Rules' bullets on the bug and on the two copies of the plan file; States line). The memory tool's own copy is version 4 and has no Plan kind (ADR 060 'Later, in #949'), so the base-ref source file was read from git."
+  - id: G8
+    principle: "How a person is asked: an opening of two or three sentences; one thing per question; each question shows Question, Answer, Why it matters, Example (several, different domains); read back with no context; plain words, personas only"
+    source: "core/components/skills/_shared/asking-a-person.md @ plan/717/base; docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md @ plan/717/base"
+  - id: G9
+    principle: "A checkpoint the play's intent mandates declares '(class: <class>, pinned)'; a pinned gate is never turned off by config; every checkpoint declares its class"
+    source: "standards/rules/gate-config.md (memory tool, phoenix, fingerprint sha256:3e6146ff..., copy in context/memory/grounding-harness/)"
+  - id: G10
+    principle: "Loops open the change with start-change as a sub-play; injected start-change opens any 'start'/'both' play"
+    source: "core/components/loops/_shared/loop-run.md @ plan/717/base, Step R2 (line 61); standards/rules/pipeline-position.md (memory tool, phoenix, copy in context/memory/grounding-harness/)"
+  - id: G11
+    principle: "'Choices, not gates' (a gate that stops a person has a key that records what is owed)"
+    source: "GROUNDING UNAVAILABLE. No committed file on plan/717/base states it (searched docs/, core/components/, .garura/user-provided/, CLAUDE.md). It lives only in the owner's private notes, so no finding rests on it. Observation only: every new hard stop in the three plays names what the person does next (start-change: the one-line message, the plan-status line, the files named; merge-change F10/REC10: run /propose-change again; propose-change REC11)."
+findings:
+  - id: H1
+    severity: P2
+    file: "core/components/plays/merge-change/reference/ice.md"
+    line: "73-80 (C10), 100-102 (F10); compiled in core/components/plays/merge-change/SKILL.md lines 130-144, 155-161"
+    what_is_wrong: >
+      merge-change now refuses to land a plan's branch (hard stop before the merge, and it is written into the
+      'machine wall') when main's copy of the plan file moved after propose-change readied the branch, or when
+      there is no plan-landing.json. That is a second reason to hold a plan's branch off main, beside 'it would
+      break main'. The same ICE still says, in C9 (line 70), that the only reason to hold it back is that it
+      would break main and that the machine wall (C7: approved, mergeable, no failing required checks) is what
+      guards that. ADR 060 and the harness standard say the same. No ADR on the base, and none in this PR,
+      records the new hold; a branch raised before this change (no plan-landing.json) is now stopped too.
+    principle: "G6 (ADR 060 Decision 4 and 'ICE impact'; harness-standard principle 8)"
+    source_ref: "docs/adr/060-... and docs/standards/harness-standard.md @ plan/717/base"
+    fix_direction: "Record the hold in an ADR that amends ADR 060 Decision 4 (and principle 8's wording), or fold the plan-file check into what 'breaking main' means in C9. Either way, make C9 and C10 say one thing."
+  - id: H2
+    severity: P2
+    file: "core/components/plays/start-change/reference/ice.md"
+    line: "C9 lines 31-52, S5 lines 95-102; compiled in core/components/plays/start-change/SKILL.md Step 4 lines 197-237; core/tools/plan/plan_branch.py lines 197-202 (the Done/Dropped stop)"
+    what_is_wrong: >
+      An issue that sits in a plan is now started through the plan tool, and the tool stops for a plan that main
+      marks Done or Dropped ('a person sets its status before work starts again'). resolve_plan.py does not look
+      at plan status. So a bug found after a plan is Done, which the ontology places under its story in that plan,
+      cannot be started by start-change unless someone first reopens the plan. The ontology says the Done plan is
+      not reopened for a bug. The ICE covers a Done/Dropped plan only for 'plan <id>' (C11, S10), not for an issue
+      in such a plan. Before this PR start-change cut the plan's branch without that stop. Not run here; found by
+      reading the two scripts and the ontology.
+    principle: "G7 (ontology Plan kind: 'A bug found after a plan is done sits under the Story that introduced it; no new plan is made, and the done plan is not reopened')"
+    source_ref: "core/components/memory/standards/schemas/product-os/ontology.md @ plan/717/base"
+    fix_direction: "Decide in the ICE what an issue in a Done or Dropped plan does (cut under a plan branch without reopening, or a one-off branch from main), add a scenario and a failure for it, and recompile."
+  - id: H3
+    severity: P2
+    file: "core/components/plays/propose-change/SKILL.md"
+    line: "134-150 (Step 0 question); core/components/plays/propose-change/reference/ice.md lines 48-60 (C10: 'asks, in one message')"
+    what_is_wrong: >
+      The one new question the person must answer does not follow the shared asking rule. It has no opening that
+      says what is decided and what happens with the answer. It asks two things in one question (Status, and
+      Direction, joined by 'And'), and the ICE requires 'one message'. It shows no Answer, no Why it matters,
+      and gives one example reply, not several from different domains. It names the plan by number only, with
+      no plain words about its business intent. The SKILL does not point to _shared/asking-a-person.md, the
+      rule lists no propose-change among the parts that read it, and the component linter's PARTS list does not
+      include propose-change, so no check catches this.
+    principle: "G8"
+    source_ref: "core/components/skills/_shared/asking-a-person.md @ plan/717/base ('The opening', 'Each question', 'Read it back')"
+    fix_direction: "Ask Status and Direction as two questions, each with the four parts; add a short opening; point to the shared rule; add propose-change to the rule's list and to the linter's PARTS."
+  - id: H4
+    severity: P3
+    file: "core/components/plays/start-change/SKILL.md"
+    line: "66, 87-102 (hard halt on nothing typed); core/components/plays/start-change/reference/ice.md C10 lines 27-33, F10, S11"
+    what_is_wrong: >
+      From now on 'nothing typed starts nothing', on any branch. Two committed callers start start-change without
+      stating what to type: the loop run (Step R2, 'Run start-change as a sub-play', no argument) and the
+      start/both injection of the pipeline-position rule ('resolve or create the issue' with no input named).
+      Neither file is touched by this PR. A loop or an injected play that relied on the branch or on an
+      already-written work description may now stop with 'Tell me what to start'. I could not prove it breaks
+      (the callers might pass the argument somewhere I did not read), so this is a gap to check, not a proven bug.
+    principle: "G10"
+    source_ref: "core/components/loops/_shared/loop-run.md line 61 @ plan/717/base; standards/rules/pipeline-position.md (memory tool copy)"
+    fix_direction: "State in loop-run R2 and in the pipeline-position rule what each caller hands start-change (the loop's issue number or description), or confirm it already does."
+  - id: H5
+    severity: P3
+    file: "core/components/plays/propose-change/SKILL.md"
+    line: "134-170 (Step 0 runs before Step 2 Confirm Raise); reference/ice.md REC11 lines 165-169"
+    what_is_wrong: >
+      plan_land.py ready merges the latest main into the plan's branch (a local merge commit) and rewrites the
+      plan file before the self-review and before Confirm Raise. If the self-review has a blocking finding, or the
+      person cancels at Confirm Raise, the branch keeps that merge and the plan file stays changed and
+      uncommitted. No failure condition or recovery names this state. propose-change's C3 requires the tree
+      clean and committed before a raise.
+    principle: "G4 and the base-ref propose-change ICE C3 ('the play does not raise with a dirty tree'); harness-standard principle 4 (one recovery per failure)"
+    source_ref: "core/components/plays/propose-change/reference/ice.md C3 @ plan/717/base; docs/standards/harness-standard.md principle 4"
+    fix_direction: "Ask after the self-review and the confirm, or add a failure and recovery that restore the branch and plan file on a cancel."
+  - id: H6
+    severity: P3
+    file: "core/components/plays/start-change/SKILL.md; core/components/plays/merge-change/SKILL.md"
+    line: "start-change 459-461 (blank line before F10/F11 rows); merge-change 339-341 (blank line before the F10 row)"
+    what_is_wrong: >
+      A blank line sits between the F9 row and the new rows, so F10 and F11 (start-change) and F10 (merge-change)
+      fall outside the Recovery table. They are not rendered as table rows. lint_play counts them, so it still
+      passes. propose-change's new F11 row is placed correctly. The compiled file is a generated artifact, so
+      the cause is in the compile step, not a hand edit.
+    principle: "G4 (the compiled play carries one recovery per failure; it is generated from the ICE)"
+    source_ref: "docs/standards/harness-standard.md @ plan/717/base, principle 4"
+    fix_direction: "Remove the blank line (and fix the compiler's emit so the table is closed after the last row)."
+  - id: H7
+    severity: P3
+    file: "core/components/plays/start-change/SKILL.md"
+    line: "294-330 (Plan path), 378-399 (close block uses ${issue} paths; plan values only in a comment at 383-387)"
+    what_is_wrong: >
+      The Plan path has no STM workspace and no issue, but the Standard Play Close block still shows the
+      issue-based session-stamp marker and stop-condition output path. The plan-path values (marker, output path,
+      where template-manager puts the close's templates) are only hinted at in a comment. The start marker of the
+      session stamp is recorded at Step 5, which the Plan path never runs. Step C2 also still tells the person
+      'the change is ready - run the build/implement play next' for a plan start (line 419).
+    principle: "G3 and the play-close shared block ('a run with no issue uses the play's own working base'; values are the play's own)"
+    source_ref: "core/components/plays/_shared/play-close.md @ plan/717/base, Step L"
+    fix_direction: "Give the Plan path its own explicit close values and Next-Steps wording."
+  - id: H8
+    severity: P3
+    file: "docs/adr/060-... and docs/adr/061-... (not changed by this PR); core/components/plays/propose-change/SKILL.md lines 134-170; core/tools/plan/plan_land.py lines 68-87"
+    line: "n/a (ADR text on the base)"
+    what_is_wrong: >
+      Three framework rules change with no ADR: (1) propose-change, not /update-plan, now writes the plan file's
+      Status, Direction, an empty branch: and updated: (ADR 060 recorded writing branch: null as owed to #730's
+      plan update; ADR 061 says nothing is writing it); (2) the branch's plan file lands whole and main's changes
+      to it are named and replaced (the ontology says only that the plan changes on its branch and main's copy
+      may be behind); (3) ADR 061's text 'until #989 is built, start-change cuts its own way, without the
+      main-first step' and 'C9 and S5 are unchanged until #989' is now out of date. The empty 'branch:' parses as
+      null, which matches ADR 060's 'branch: null', but plan_land also drops the trailing comments on the
+      status/branch lines it rewrites. The ADR path gets no taxonomy finding; this one is a design record gap.
+    principle: "G5 and G6 (ADR 060, 061 name who writes the branch field and when)"
+    source_ref: "docs/adr/060-... Decision 2 and 'Recorded on #730'; docs/adr/061-... 'ADR 060's promise on the plan file's branch field is half kept' @ plan/717/base"
+    fix_direction: "Record the decision (an ADR amending 060/061 or a new one), and note which play owns the branch field."
+  - id: H9
+    severity: P4
+    file: "core/components/plays/propose-change/reference/ice.md and core/components/plays/propose-change/SKILL.md"
+    line: "ice.md 48-60; SKILL.md 52, 134-143, 395"
+    what_is_wrong: >
+      The SKILL adds a template-manager dispatch (a second utility agent) and a task T0, but the ICE never names the
+      template load. Template-manager is the right way to get the template (ADR 039), so the SKILL is correct;
+      the ICE, which the guidance treats as the place the agent/skill flow is agreed, is silent. Also Step 0's
+      'never skipped by the gate switch' is a pinned question that does not declare '(class: ..., pinned)', so
+      the gate machinery cannot see it (and a loop would not ask it up front).
+    principle: "G4 (agent/skill flow is part of the ICE) and G9"
+    source_ref: "CLAUDE.md @ plan/717/base 'Play Pipeline Rules'; gate-config.md (memory tool copy)"
+    fix_direction: "Name the template load in C10 and mark Step 0 as a pinned checkpoint."
+  - id: H10
+    severity: P4
+    file: "core/components/plays/start-change/SKILL.md"
+    line: "303-307, 93"
+    what_is_wrong: >
+      The Plan path snapshots branches with an inline 'git branch -a' redirect in the play's prose, and checks the
+      tool with an inline 'test -f'. The SKILL's own Forbidden list bans ad-hoc git in play prose, and a fixed
+      sequence belongs in a script (check_plan_start.py could take the snapshot itself).
+    principle: "G1"
+    source_ref: "docs/standards/harness-standard.md @ plan/717/base, principle 3"
+    fix_direction: "Move the snapshot into a script step."
+passed_checks:
+  - "Fingerprints: the sha256 of reference/ice.md equals the fingerprint in each compiled SKILL.md (start-change 37b2ab47..., propose-change 201b056a..., merge-change bd368849...)."
+  - "ICE and SKILL agree 1:1 on constraints, failures, scenarios, Done means and recovery for all three plays, and the recovery handoffs match; lint_play.py gives PASS (0 gaps) on all three, lint-components (source layout) reports nothing on these plays."
+  - "Installed paths only: every added line in the three SKILL.md files, the scripts and the tool names .garura/core/tools/plan/... or scripts/...; no core/components or core/tools path and no docs/ pointer was added (principle 11)."
+  - "No memory read by a play: the plan-view template comes from template-manager (propose-change Step 0) and the close's templates from template-manager (ADR 039)."
+  - "Mechanical work is in scripts: resolve_args.py, check_plan_start.py, plan_land.py ready/check/landed, plan_branch.py; no agent does git work (#484)."
+  - "A plan's branch is cut main-first through the one shared script: start-change's story path (setup_branch.py -> plan_branch.py go) and plan path (plan_branch.py go) both use it; setup_branch.py in create-play/references is byte-identical to start-change's copy (ADR 061)."
+  - "Landing: a plan's branch lands on main with its open issues, the file ends with branch empty (null), and the Status and Direction are the person's typed answers, checked against the template's lists and never guessed (ADR 060, ontology Plan kind)."
+  - "Statuses/Directions offered come from the committed plan-view template (plan_statuses [Not Started, In Progress, Paused, Done, Dropped]; directions 1-3), read through the memory tool."
