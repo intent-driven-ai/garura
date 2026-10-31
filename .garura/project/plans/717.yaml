@@ -84,11 +84,11 @@ tree:
       - issue: 1001
         kind: bug
         title: /update-plan leaves its template copies and its session start marker behind after every session
-        status: Not Started
+        status: Done
       - issue: 1002
         kind: bug
         title: An /update-plan session cannot reach the product model, so a story added for a feature is not drafted from the feature's ICE
-        status: Not Started
+        status: Done
     - issue: 909
       kind: story
       title: '/shape-plan --edit: a person changes the plan file, an epic or a story that already exists'
