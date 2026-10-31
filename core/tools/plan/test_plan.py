@@ -146,6 +146,50 @@ class PlanToolTest(unittest.TestCase):
         self.assertIn("├─ ✓ #12  Send the reset link", out)
         self.assertIn("│  └─ ○ #13  The link expires too soon", out)
 
+    def finished_feature(self, child_status="Done"):
+        with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
+            fh.write(textwrap.dedent(f"""
+                id: 9
+                title: Invoices print on one page
+                status: In Progress
+                branch: null
+                tree:
+                - issue: 31
+                  kind: feature
+                  title: An invoice fits one page
+                  status: Not Started
+                  children:
+                  - issue: 32
+                    kind: story
+                    title: Shrink the table
+                    status: Done
+                    children:
+                    - issue: 34
+                      kind: bug
+                      title: Wide columns wrap
+                      status: Done
+                  - issue: 33
+                    kind: story
+                    title: Drop the footer
+                    status: {child_status}
+                """))
+        _, out, _ = run("show", *self.base, "--plan", "9")
+        return out
+
+    def test_show_prints_the_finished_children_of_an_open_parent(self):
+        out = self.finished_feature()
+        self.assertIn("└─ ○ #31  An invoice fits one page", out)
+        self.assertIn("   ├─ ✓ #32  Shrink the table", out)
+        self.assertIn("   └─ ✓ #33  Drop the footer", out)
+        self.assertNotIn("#34", out)
+        self.assertIn("1 Done (not shown)", out)
+
+    def test_show_still_hides_the_finished_children_of_a_parent_with_an_open_child(self):
+        out = self.finished_feature(child_status="Now")
+        self.assertIn("   └─ ▶ #33  Drop the footer", out)
+        self.assertNotIn("#32", out)
+        self.assertIn("2 Done (not shown)", out)
+
     def test_show_starts_with_the_legend_and_prints_the_plan_it_needs_after_it(self):
         _, out, _ = run("show", *self.base, "--plan", "10")
         lines = out.splitlines()
