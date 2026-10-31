@@ -52,6 +52,12 @@ def lookup(work, issue):
     return code, (json.load(open(out)) if code == 0 else None)
 
 
+def lookup_dir(work, plans_dir, repo):
+    out = os.path.join(work, "..", "plan.json")
+    code = rp.main(["--plans-dir", plans_dir, "--issue", "77", "--slug", "x", "--repo", repo, "--out", out])
+    return code, (json.load(open(out)) if code == 0 else None)
+
+
 def from_git():
     """#779: the plan is read from main and the plan's own branch on origin, never the checkout."""
     with tempfile.TemporaryDirectory() as tmp:
@@ -84,6 +90,14 @@ def from_git():
         code, r = lookup(work, 99)
         check("an issue in no plan, read from git, gets feature/<issue>-<slug>",
               code == 0 and r["plan_id"] is None and r["issue_branch"] == "feature/99-x")
+        code, r = lookup_dir(work, os.path.join(work, "plans"), work)
+        check("an absolute plans folder inside the repository is read the same way", code == 0 and r["plan_id"] == "40")
+        sub = os.path.join(work, "sub")
+        os.makedirs(sub)
+        code, r = lookup_dir(work, "../plans", sub)
+        check("a run from a sub-folder reads the same plans", code == 0 and r["plan_id"] == "40")
+        check("a plans folder outside the repository is an error, not 'no plan'",
+              rp.main(["--plans-dir", tmp, "--issue", "77", "--slug", "x", "--repo", work]) == 2)
         bare = os.path.join(tmp, "bare")
         subprocess.run(["git", "init", "-q", bare])
         check("no origin/main to read from is an error, not a guess",

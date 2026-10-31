@@ -18,7 +18,9 @@ The plan files are read from git, never from the checked-out branch (#779): the 
 origin, then reads each plan file at `--ref` (the latest main). When the plan's own branch
 (`plan/<plan-id>/base`) is on origin, its copy of the plan file is read too, because a plan
 session writes there first; an issue in either copy belongs to the plan. When the fetch fails,
-the last fetched copies are read and the record says so (`fetched: false`). `--local` reads the
+the last fetched copies are read and the record says so (`fetched: false`); the fetch never
+prompts and gives up after a time limit. `--plans-dir` may be absolute or relative to the folder
+the script runs in; a folder outside the repository is an error. `--local` reads the
 folder on disk instead (a plans folder outside git, and the tests).
 
 Prints { issue, plan_id, plan_branch, issue_branch, source }; plan_id and plan_branch are null
@@ -44,9 +46,30 @@ def issues_in(nodes):
             yield from issues_in(node.get("children"))
 
 
+TIME_LIMIT = 120  # seconds for the fetch; a stalled server reads as a failed fetch, never a hang
+
+
 def _git(repo, *args):
-    p = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True)
+    try:
+        p = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, timeout=TIME_LIMIT,
+                           env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
+    except subprocess.TimeoutExpired:
+        return 124, ""
     return p.returncode, p.stdout
+
+
+def repo_folder(repo, plans_dir):
+    """(the repository's root, the plans folder as a path from it), however the folder was given
+    (absolute, or relative to the folder the script runs in). A folder outside it is refused."""
+    rc, top = _git(repo, "rev-parse", "--show-toplevel")
+    if rc != 0:
+        raise ValueError(f"{repo} is not inside a git repository")
+    top = os.path.realpath(top.strip())
+    path = plans_dir if os.path.isabs(plans_dir) else os.path.join(os.path.abspath(repo), plans_dir)
+    rel = os.path.relpath(os.path.realpath(path), top).replace(os.sep, "/")
+    if rel == ".." or rel.startswith("../"):
+        raise ValueError(f"{plans_dir} is outside the repository")
+    return top, ("" if rel == "." else rel)
 
 
 def _read_plan(text, where):
@@ -71,7 +94,7 @@ def plans_at(repo, ref, plans_dir):
     """{file name: plan} for the plan files at a git ref; None when the ref does not exist."""
     if _git(repo, "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}")[0] != 0:
         return None
-    folder = os.path.normpath(plans_dir).replace(os.sep, "/").strip("/")
+    folder = plans_dir
     rc, listing = _git(repo, "ls-tree", "--name-only", f"{ref}:{folder}")
     out = {}
     for name in sorted(listing.split()) if rc == 0 else []:
@@ -111,6 +134,7 @@ def resolve(plans, issue, slug, branch_plans=None):
 
 def resolve_from_git(repo, plans_dir, issue, slug, ref="origin/main"):
     remote = ref.split("/", 1)[0] if "/" in ref else "origin"
+    repo, plans_dir = repo_folder(repo, plans_dir)   # git reads from the root: ls-tree in a sub-folder lists only it
     fetched = _git(repo, "fetch", "--quiet", remote)[0] == 0
     plans = plans_at(repo, ref, plans_dir)
     if plans is None:
