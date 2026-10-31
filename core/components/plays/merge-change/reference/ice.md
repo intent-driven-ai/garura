@@ -58,7 +58,10 @@ play.
   `plan/<plan-id>/base`; `plan/<plan-id>/base` and a one-off branch land on main. The PR's
   own base must equal that target (`on_target`), or nothing is merged. An issue that lands
   on its plan's branch is closed by the merge script, because the code host closes issues
-  only on main; its capability is closed once every issue under it is closed. A plan's
+  only on main; its capability is closed once every issue under it is closed. Its item in the
+  plan file is set Done in the same records commit on the plan's branch, by the installed plan
+  tool (`plan_status.py`): an item's status follows its own issue, and only that item changes
+  — nothing rolls up to its parent (#1007). A plan's
   branch lands on main like any approved change, with issues of the plan still open: open
   work is no reason to hold it off main. The only reason to hold it back is that it would
   break main, and the machine wall (C7) — approved by the review, mergeable, no failing
@@ -80,7 +83,8 @@ play.
   was run through an agent dispatch instead of its bundled script.
 - F9 — A change lands in the wrong place — an issue in a plan on main, or a PR whose base is
   not its target — or an approved plan's branch is held off main because the plan still
-  has open issues, or an issue that landed on its plan's branch is left open.
+  has open issues, or an issue that landed on its plan's branch is left open, or its item in
+  the plan file is left open.
 
 ## Expectation
 
@@ -103,8 +107,9 @@ play.
 - S5 — (developer, issue in a plan) Given an approved PR from `plan/P/<issue>-<slug>` into
   `plan/P/base`, when it runs, then the PR merges into `plan/P/base`, the checkout ends on
   updated `plan/P/base`, the issue's branch is deleted, and the issue is closed. Measure:
-  merge-gate.json reads `on_target: true` and lists the issue in `issues_closed`; the
-  current branch is `plan/P/base`.
+  merge-gate.json reads `on_target: true`, lists the issue in `issues_closed` and reads
+  `plan_marked.to: Done`; the plan file on `plan/P/base` reads the item Done and its parent
+  unchanged; the current branch is `plan/P/base`.
 - S6 — (developer, plan paused in progress) Given an approved, mergeable PR from
   `plan/P/base` into main while issues in P are still open, when it runs and the human
   approves, then the plan's work lands on main, its branch is deleted, and its open issues
@@ -152,5 +157,5 @@ play.
 - REC9 (F9) — trigger: the PR's base is not its target, an approved plan's branch was held
   off main for its open issues, or a landed issue is still open. direction: on a wrong
   base, stop and retarget the PR (propose-change); on a plan held back for open work, drop
-  the hold and land it when the machine wall holds; on a landed issue left open, close it.
+  the hold and land it when the machine wall holds; on a landed issue left open, close it; on a landed item left open in the plan file, set it Done with the plan tool.
   handoff: human.

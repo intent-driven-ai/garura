@@ -150,10 +150,12 @@ Run the bundled script — it refuses unless the PR's base equals `target.json.b
 (`on_target`), merges the PR (via `platform_adapter.py`), switches to that base (main, or the
 plan's branch) and pulls, deletes the change's branch locally and on remote, closes the
 issue when it landed on its plan's branch (and its capability once every issue under it is
-closed — C9), finalizes `merge-gate.json`'s
+closed — C9), sets that issue's item Done in the plan file with the installed plan tool
+(`.garura/core/tools/plan/plan_status.py`; only that item, no roll-up — C9, #1007) and records
+it as `plan_marked`, finalizes `merge-gate.json`'s
 two Done-means (`pr_merged: true`, `branch_deleted: true`) on both paths incl. the no-op
 (C6), **commits the run records on main itself** (#491) — `merge-gate.json` + the
-review dir, message `chore(stm): record merge-change run records (#<issue>)` (ADR 012,
+review dir (+ the plan file when its item was set Done), message `chore(stm): record merge-change run records (#<issue>)` (ADR 012,
 evidence self-commit) — and **pushes that records commit** (#493): the pinned Confirm
 Merge approval (C7) already put the human on the outward act, so the bookkeeping push
 rides on that authorization, no second ask. Its output carries `records_committed` and
@@ -177,7 +179,8 @@ silent.
 with its origin copy.
 **SE-9 (F9/C9):** `target.json` was written by `resolve_target.py` before the merge;
 `merge-gate.json.on_target` is true; for an issue in a plan, the issue is in
-`merge-gate.json.issues_closed`; a plan's branch with open issues was not held off main
+`merge-gate.json.issues_closed` and `merge-gate.json.plan_marked.to` reads Done (the item's
+parent unchanged); a plan's branch with open issues was not held off main
 for them — when the machine wall held and the human approved, it was merged.
 **SE-4 (F3/C3):** the feature branch no longer exists locally or on remote.
 **SE-5 (F5/C5):** when the PR was already merged at pre-flight, no second merge was
@@ -209,8 +212,9 @@ git/gh work; the play's agent count is zero.
   `branch_deleted: true`; the records commit exists on main; the stop-condition verdict
   reads held.
 - **SCE-5 (S5 — developer, issue in a plan):** the PR merged into `plan/<P>/base`;
-  `merge-gate.json` reads `on_target: true` and lists the issue in `issues_closed`; the
-  current branch is `plan/<P>/base`; the issue's branch is gone.
+  `merge-gate.json` reads `on_target: true`, lists the issue in `issues_closed` and reads
+  `plan_marked.to: Done`; the plan file reads the item Done; the current branch is
+  `plan/<P>/base`; the issue's branch is gone.
 - **SCE-6 (S6 — developer, plan paused in progress):** `target.json` reads `kind: plan` and
   `base: main`; `merge-gate.json` reads `on_target: true`, `pr_merged: true` and
   `branch_deleted: true`; the checkout is on updated main; the plan's open issues are still
@@ -294,7 +298,7 @@ gated.
 | F6 | the run is about to close COMPLETED with the Done means unmet | fix the state — delete the surviving branch / rewrite the gate record — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F7 | a merge would proceed without the pinned human approval, or a precondition (approved, mergeable, no-failing-required-checks) was not verified true before presenting | halt; on a failed precondition surface which one and do not present; if the human beat was skipped, present and wait | autonomous |
 | F8 | a mechanical git/gh op ran through an agent instead of its bundled script | route it through the script (`read_merge_state.py` / `merge_pr.py`, via `platform_adapter.py`) and remove the agent dispatch | autonomous |
-| F9 | the PR's base is not its target, an approved plan's branch was held off main for its open issues, or a landed issue is still open | on a wrong base, stop and retarget the PR (propose-change); on a plan held back for open work, drop the hold and land it when the machine wall holds; on a landed issue left open, close it | human |
+| F9 | the PR's base is not its target, an approved plan's branch was held off main for its open issues, a landed issue is still open, or its plan item is still open | on a wrong base, stop and retarget the PR (propose-change); on a plan held back for open work, drop the hold and land it when the machine wall holds; on a landed issue left open, close it; on a landed item left open in the plan file, set it Done with the plan tool | human |
 
 ## Pause and Resume
 
@@ -306,14 +310,14 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c018f453b31b5a4ec930cf36416b6be2d12cea7b22e786e373d8eb599a1f4e54 (of `reference/ice.md`) |
-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress) |
+| fingerprint | sha256:8da40c0324424d9d250e290eef640d4f025d984059076d789b59ad846120de74 (of `reference/ice.md`) |
+| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue) |
 | pipeline_position | end |
 | workflow_structure | B (fast execution flow, single-pass; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
 | domain_agents | 0 |
 | utility_agents | 0 (#484 — mechanical git/gh moved to bundled scripts) |
-| scripts | 7 (preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, read_merge_state.py, resolve_target.py, merge_pr.py) |
+| scripts | 7 (preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, read_merge_state.py, resolve_target.py, merge_pr.py) + test_merge_pr.py; tools: the plan tool's plan_status.py |
 | step_evals | 9 (SE-1…SE-9) |
 | scenario_evals | 6 (SCE-1…SCE-6) |
 | recovery_entries | 9 (one per failure condition; 6 autonomous / 3 human) |
