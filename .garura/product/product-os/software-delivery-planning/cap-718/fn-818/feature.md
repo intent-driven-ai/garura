@@ -1,7 +1,7 @@
 # Feature: /shape-plan writes the plan, the epic and the stories
 
 ## What it does
-/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Not built yet (#818).
+/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).
 
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
@@ -35,9 +35,10 @@
 - The eval. /shape-eval writes it (fn-798).
 - The build, and the design, test or validation of an epic (#819).
 - The checks that no build is given the evals folder and that flag a build session that read it (fn-898).
+- A change to a plan that exists, a later slice's epic and stories included. /update-plan makes it (fn-730).
 
 ## Sources
-- GitHub #818 (open): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it.
+- GitHub #818 (closed): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it.
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decisions 1.2, 2 and 4.
 - GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
 - ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
@@ -53,7 +54,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Limit: A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.
 - Fails if: a feature of the slice has no story.
 - Fails if: a story or the plan file holds a failure condition or a recovery condition.
-- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything.
+- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything, or stops without naming /update-plan.
 - Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.
-- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval and the build. Not built yet (#818).
+- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818).
 - Checked by: the product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.
