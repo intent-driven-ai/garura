@@ -65,7 +65,8 @@ judgment: the words.
 When `skill_input` reads `"mode": "story"`, it holds one feature (`id`, `one_line`, `clean_ice`)
 and no slice: an /update-plan session adds one story for a feature the person named. Write that
 one story only, by step 3 and step 4 above, from the one clean copy — no epic. The output is
-`{"stories": [{"feature", "title", "scope_of_work", "context_guidance"}]}`; the play's
+`{"stories": [{"feature", "title", "scope_of_work", "context_guidance"}]}`, written to the `out`
+path the play gives (`story-draft-<i>.json`) in place of `drafts.json`; the play's
 `feature_ice.py body` checks it the way `check_drafts.py` checks a slice's stories.
 
 ## Output

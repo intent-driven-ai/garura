@@ -70,6 +70,13 @@ play's script does) and it writes nothing but its draft.
  "questions": []}
 ```
 
+A lookup in the model ("which feature is #931?") adds no entry:
+
+```json
+{"instruction": "which feature is #931?", "entries": [], "questions": [],
+ "model_lookups": [{"story": 931}]}
+```
+
 A question, when the words fit two readings:
 
 ```json
