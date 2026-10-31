@@ -159,7 +159,9 @@ Its statuses and its direction are what a person says they are, never worked out
   GitHub while its item in the plan file is still open, when a session starts, then the list
   holds it as "closed on GitHub" with Done, its parent is not on the list, and on "approved"
   the plan file reads it Done. *Measure:* `draft-closed.json` names the item with `to: Done`
-  and no other item, and `changes.yaml` holds it under the instruction "closed on GitHub".
+  and no other item, `changes.yaml` holds it under the instruction "closed on GitHub", and after
+  "approved" `plan-write.json` and `agreement.json` read `ok: true` with the item Done in the
+  plan file.
 
 ### Recovery
 
@@ -171,7 +173,7 @@ Its statuses and its direction are what a person says they are, never worked out
 | F4 | the list's fingerprint differs from the one the approval recorded | write nothing more, show the list again and ask again | autonomous |
 | F5 | the agreement check names a difference | name each difference; re-run the landing for the ops the record does not have; a difference that remains goes to the person | human |
 | F6 | a breaking entry is in the list without its override mark, or an override is missing from the commit message | take the entry out of the list, show the break, and ask again | autonomous |
-| F7 | an entry changes a status or the direction that no instruction named | take the entry out and show the list again | autonomous |
+| F7 | an entry changes a status or the direction that no instruction named, and its item's own issue is not closed on GitHub | take the entry out and show the list again | autonomous |
 | F8 | a tracker or model write was made outside the sub-agents' skills | stop and name it for the person | human |
 | F9 | a screen line does not match the template | render it again from the template | autonomous |
 | F10 | a new feature's page, entry, thin marks or story is missing, the evals folder changed, or what is owed is not named | re-run the model or tracker step for that feature; put back the evals folder; name what is owed in the commit message | autonomous |

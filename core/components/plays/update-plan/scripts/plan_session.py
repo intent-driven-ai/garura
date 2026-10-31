@@ -34,6 +34,13 @@ TYPES = {"epic": "Epic", "feature": "Feature", "story": "Story", "spike": "Spike
          "chore": "Chore", "bug": "Bug"}
 CLOSED = {"Done": "completed", "Dropped": "not planned"}
 REASON_OF = {"completed": "COMPLETED", "not planned": "NOT_PLANNED"}
+# The tracker reasons each close reason covers: a duplicate is closed as not planned (#1007).
+COVERS = {"completed": ("COMPLETED", None), "not planned": ("NOT_PLANNED", "DUPLICATE")}
+
+
+def closed_as(now, reason):
+    """True when the tracker already holds the issue closed for `reason` ("completed" or "not planned")."""
+    return bool(now) and now.get("state") == "CLOSED" and now.get("state_reason") in COVERS[reason]
 
 
 class Refused(Exception):

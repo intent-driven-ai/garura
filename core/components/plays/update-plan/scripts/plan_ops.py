@@ -63,7 +63,7 @@ def build(changes, plan, snap):
             to = e["to"]
             if to in ps.CLOSED:
                 reason = ps.CLOSED[to]
-                if not now or now["state"] != "CLOSED" or now.get("state_reason") != ps.REASON_OF[reason]:
+                if not ps.closed_as(now, reason):
                     add("close", issue=e["issue"], reason=reason)
             elif now and now["state"] == "CLOSED":
                 add("reopen", issue=e["issue"])

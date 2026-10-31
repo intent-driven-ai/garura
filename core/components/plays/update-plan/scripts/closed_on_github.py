@@ -3,7 +3,7 @@
 closed_on_github.py — the items whose own issue is closed on GitHub but open in the plan file (#1007).
 
 An item's status follows its own issue: closed as completed means Done, closed as not planned
-means Dropped. Nothing is worked out from the items under it (no roll-ups). When a session
+(or as a duplicate) means Dropped. Nothing is worked out from the items under it (no roll-ups). When a session
 starts, this script reads the plan file and the session's snapshot of the issues, and writes one
 status entry for each such item, as a draft in the shape of draft-entries.json. The play checks
 the draft and takes it into the list like any other; nothing lands before the person's
@@ -22,8 +22,6 @@ import sys
 import plan_session as ps
 
 INSTRUCTION = "closed on GitHub"
-STATUS_OF = {v: k for k, v in ps.REASON_OF.items()}  # "COMPLETED" -> "completed", ...
-TO = {reason: status for status, reason in ps.CLOSED.items()}  # "completed" -> "Done", ...
 
 
 def entries(plan, snap):
@@ -35,7 +33,8 @@ def entries(plan, snap):
         now = issues.get(str(node.get("issue")))
         if not now or now.get("state") != "CLOSED":
             continue
-        to = TO[STATUS_OF.get(now.get("state_reason"), "completed")]
+        # Closed as not planned or as a duplicate is Dropped; any other close is Done.
+        to = "Dropped" if ps.closed_as(now, "not planned") else "Done"
         out.append({"op": "status", "issue": node["issue"], "to": to})
     return out
 

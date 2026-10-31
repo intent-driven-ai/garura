@@ -768,6 +768,12 @@ class ClosedOnGitHubTest(Session):
         self.assertEqual(d["entries"], [{"op": "status", "issue": 44, "to": "Done"},
                                         {"op": "status", "issue": 45, "to": "Dropped"}])
 
+    def test_a_duplicate_is_dropped_and_not_closed_again(self):
+        d = self.closed({"44": "DUPLICATE"})
+        self.assertEqual(d["entries"], [{"op": "status", "issue": 44, "to": "Dropped"}])
+        checked = self.check(d["entries"], "closed on GitHub")
+        self.assertEqual(checked["entries"][0]["where"]["github"], [])
+
     def test_no_roll_up_and_items_already_closed_are_left(self):
         d = self.closed({"42": "COMPLETED"})
         self.assertEqual([e["issue"] for e in d["entries"]], [42])

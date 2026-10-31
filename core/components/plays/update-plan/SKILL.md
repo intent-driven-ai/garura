@@ -36,7 +36,7 @@ over it on the plan's own branch, or writing on any branch but the plan's beyond
 step (C2/F2); any write to GitHub, the
 model or a plan file before `record_answer.py verify` exits 0, other than the plan-branch step
 (C5/F3); adding to the list an entry the person did not ask for, or a status or direction no
-instruction named (C8/F7); a tracker or model write outside the two sub-agents' skills (C9/F8);
+instruction named — other than an item whose own issue is closed on GitHub (C8/F7); a tracker or model write outside the two sub-agents' skills (C9/F8);
 wording a screen or a question yourself (C10/F9); writing in any plan's `evals/` folder
 (C11/F10); committing when the scoped-write guard put a model path back (C7/F13); running a
 change play, merging a branch, or touching code (C7).
@@ -458,8 +458,9 @@ python3 scripts/close_session.py --work <working> --out <working>/session.json
 - **SCE-7 (S7 — anyone, a plan found by description):** `plan.json` reads `by: description` and
   `confirmed: true` before any other record.
 - **SCE-8 (S8 — product owner, an issue closed on GitHub):** `draft-closed.json` names the item
-  with `to: Done` and no other item (its parent is not in it), and `changes.yaml` holds it under
-  the instruction "closed on GitHub".
+  with `to: Done` and no other item (its parent is not in it), `changes.yaml` holds it under
+  the instruction "closed on GitHub", and after "approved" `plan-write.json` and
+  `agreement.json` read `ok: true` with the item Done in the plan file.
 
 ### Phase: Evidence & Close
 
@@ -537,7 +538,7 @@ for a landed or aborted session, delete `<working>`.
 | F4 | the list's fingerprint differs from the one the approval recorded | write nothing more, show the list again and ask again | autonomous |
 | F5 | the agreement check names a difference | name each difference; re-run the landing for the ops the record does not have; a difference that remains goes to the person | human |
 | F6 | a breaking entry is in the list without its override mark, or an override is missing from the commit message | take the entry out of the list, show the break, and ask again | autonomous |
-| F7 | an entry changes a status or the direction that no instruction named | take the entry out and show the list again | autonomous |
+| F7 | an entry changes a status or the direction that no instruction named, and its item's own issue is not closed on GitHub | take the entry out and show the list again | autonomous |
 | F8 | a tracker or model write was made outside the sub-agents' skills | stop and name it for the person | human |
 | F9 | a screen line does not match the template | render it again from the template | autonomous |
 | F10 | a new feature's page, entry, thin marks or story is missing, the evals folder changed, or what is owed is not named | re-run the model or tracker step for that feature; put back the evals folder; name what is owed in the commit message | autonomous |
@@ -558,7 +559,7 @@ check: the person decides.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:cad7f6571ba81236fc73d589c5497a11d00c84590ce13d91c0df8801b011982f (of `reference/ice.md`) |
+| fingerprint | sha256:d30adb48f0a6daf290abf6627d6ca3480a62ce1f63c07c3abbf1a1539967fadd (of `reference/ice.md`) |
 | compiled_by | create-play (#730, with #931; feature #720); edit-play (PR #998 review, ADR 062; #1007 closed on GitHub) |
 | pipeline_position | none |
 | position_exception | model-writing session play — writes the model, GitHub and the plan file on the plan's own branch after one "approved" and commits them as one commit there (C7); the plan's branch reaches main later through the change plays, with the plan's other work (#720 design) |
