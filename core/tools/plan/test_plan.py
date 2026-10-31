@@ -184,6 +184,39 @@ class PlanToolTest(unittest.TestCase):
         self.assertNotIn("#34", out)
         self.assertIn("1 Done (not shown)", out)
 
+    def test_show_prints_finished_children_when_one_of_them_has_an_open_node_under_it(self):
+        with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
+            fh.write(textwrap.dedent("""
+                id: 9
+                title: Invoices print on one page
+                status: In Progress
+                branch: null
+                tree:
+                - issue: 31
+                  kind: feature
+                  title: An invoice fits one page
+                  status: Not Started
+                  children:
+                  - issue: 32
+                    kind: story
+                    title: Shrink the table
+                    status: Done
+                    children:
+                    - issue: 34
+                      kind: bug
+                      title: Wide columns wrap
+                      status: Not Started
+                  - issue: 33
+                    kind: story
+                    title: Drop the footer
+                    status: Done
+                """))
+        _, out, _ = run("show", *self.base, "--plan", "9")
+        self.assertIn("   ├─ ✓ #32  Shrink the table", out)
+        self.assertIn("   │  └─ ○ #34  Wide columns wrap", out)
+        self.assertIn("   └─ ✓ #33  Drop the footer", out)
+        self.assertNotIn("(not shown)", out)
+
     def test_show_still_hides_the_finished_children_of_a_parent_with_an_open_child(self):
         out = self.finished_feature(child_status="Now")
         self.assertIn("   └─ ▶ #33  Drop the footer", out)
