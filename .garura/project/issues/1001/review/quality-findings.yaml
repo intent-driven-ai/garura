@@ -1,0 +1,235 @@
+meta:
+  generated_at: '2026-10-31T11:30:00Z'
+  diff_path: .garura/project/issues/1001/review/pr.diff
+  taxonomy_path: .garura/project/issues/1001/context/memory/standards/rules/pr.md
+  changed_paths_count: 11
+  scope: Executable code and Tests categories of categories.yaml (11 paths)
+  scan_coverage: 1.0
+  standards_relevant: 16
+  catchall:
+    CODE-20: 11
+  scan: scan_taxonomy.py over the 11 code and test paths and the PR diff; exit 0, 0 rule-compile errors
+  counts:
+    P1: 0
+    P2: 4
+    P3: 11
+    P4: 5
+  defects_found: 1
+  tools_run:
+  - name: unit tests
+    command: python3 -m unittest discover -s core/components/plays/update-plan/scripts
+    result: 64 tests OK (review/l1-tests.txt); the model-dependent test ran, not skipped
+  - name: ruff
+    command: ruff check core/components/plays/update-plan/scripts core/components/plays/create-play/references/plan_common.py
+    result: All checks passed (review/l1-ruff.txt)
+  - name: eslint
+    command: eslint core/tools/lint-components/lib/rules/shared-scripts.js
+    result: not installed (no eslint on PATH, no config committed); node --check on the file passes (syntax only). Not a pass.
+  - name: 'parity: plan_common.py'
+    command: diff update-plan/scripts/plan_common.py against create-play/references/ and shape-plan/scripts/
+    result: identical to both
+  - name: 'parity: model_names.py'
+    command: diff update-plan/scripts/model_names.py against its 18 other copies under core/components/plays
+    result: identical to all 18
+  - name: 'parity: check_ice_workable.py'
+    command: diff update-plan/scripts/check_ice_workable.py against create-play/references/, discover-intent/scripts/, shape-plan/scripts/
+    result: identical to all 3
+  - name: shared-scripts rule
+    command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+    result: exit 1 from 36 errors and 1 warning that were there before; none is in a changed path and none is a shared-scripts mismatch (review/l1-lint-components.txt
+      held the earlier run)
+  - name: added-line grep
+    command: grep of the code paths for secrets, localhost, yaml.load, pickle, shell=True, eval, exec, home paths
+    result: no hit; print( calls are the scripts' JSON output to stdout, not debug; no TODO/FIXME added
+  scan_limits:
+  - Python under core/components is classified garura-prose by the taxonomy, so grep rules are ineligible there and no path rule fired for the 10 Python files. Only
+    shared-scripts.js is runtime-code; its 16 rows are path-level checklist items. The Python files were read by hand (rows tagged reviewer-reading).
+  - 'The test files sit beside the scripts, not in a tests/ folder, so no TEST-* row fired; they were checked by hand: no skip other than the one noted, no expectedFailure,
+    every test asserts.'
+findings:
+- id: Q01
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check on the changed rule file. It requires only node core modules; no cycle.
+  basis: ARCH-02
+  artifact_type: runtime-code
+- id: Q02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. No JavaScript linter config is committed for this file; node --check passes (syntax only). Not a lint pass.
+  basis: CODE-03
+  artifact_type: runtime-code
+- id: Q03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Format check. No formatter config is committed for the file; the 3-line change follows the file's existing style.
+  basis: CODE-04
+  artifact_type: runtime-code
+- id: Q04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. The change adds no import; no cycle.
+  basis: CODE-14
+  artifact_type: runtime-code
+- id: Q05
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The change adds 3 lines to a small rule file.
+  basis: ARCH-03
+  artifact_type: runtime-code
+- id: Q06
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Module-structure check. One rule, one purpose; the change only extends its list of shared script names.
+  basis: ARCH-08
+  artifact_type: runtime-code
+- id: Q07
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. The change adds two array entries; no branch added.
+  basis: CODE-09
+  artifact_type: runtime-code
+- id: Q08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Function-length check. No function is touched.
+  basis: CODE-10
+  artifact_type: runtime-code
+- id: Q09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Nesting-depth check. No code is nested more deeply by the change.
+  basis: CODE-11
+  artifact_type: runtime-code
+- id: Q10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. 3 lines added.
+  basis: CODE-12
+  artifact_type: runtime-code
+- id: Q11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Cognitive-complexity check. No logic added.
+  basis: CODE-15
+  artifact_type: runtime-code
+- id: Q12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. The two names added are the script file names, in the existing style.
+  basis: CODE-17
+  artifact_type: runtime-code
+- id: Q13
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. The constant keeps its name.
+  basis: CODE-18
+  artifact_type: runtime-code
+- id: Q14
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Matched by the path glob only (the file is .js). No front-end code is in this change.
+  basis: FE-08
+  artifact_type: runtime-code
+- id: Q15
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Style check. The added comment line follows the existing comment style.
+  basis: CODE-13
+  artifact_type: runtime-code
+- id: Q16
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. No identifier added.
+  basis: CODE-19
+  artifact_type: runtime-code
+- id: Q17
+  severity: P3
+  file: core/components/plays/update-plan/scripts/feature_ice.py
+  line: 181
+  kind: reviewer-reading
+  defect: true
+  summary: feature_ice.py mark --body <file> without --story-draft stops with an uncaught TypeError traceback (open(None)); main() catches only Refused, OSError and
+    ValueError, so the failure is not the clean 'refused:' message and exit 2 the script promises. Reproduced with a draft and a body file and no --story-draft. The
+    play always passes both, so no live path hits it today.
+  basis: CODE-25
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
+- id: Q18
+  severity: P4
+  file: core/components/plays/update-plan/scripts/session_files.py
+  line: 129
+  kind: reviewer-reading
+  defect: false
+  summary: adopt and clear take their folders as given and clear removes them with shutil.rmtree; unlike restore, they do not check the folder is inside the repository
+    or under the session base. The play passes fixed paths under the plans session folder, and the parent folder is only removed with rmdir when empty, so nothing
+    outside the session folder is removed today. A guard like restore's would keep it so. Hardening, not a defect.
+  basis: CODE-20
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
+- id: Q19
+  severity: P4
+  file: core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+  line: 746
+  kind: reviewer-reading
+  defect: false
+  summary: The new adopt and clear tests do not assert the exit code of the adopt and clear calls, and no test covers clear leaving a sibling file in the parent folder
+    untouched or adopt refusing a missing start folder (exit 2). The data-safety promise (nothing outside the session folder removed) has no test.
+  basis: CODE-20
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
+- id: Q20
+  severity: P4
+  file: core/components/plays/update-plan/scripts/test_feature_ice.py
+  line: 160
+  kind: reviewer-reading
+  defect: false
+  summary: test_a_ready_feature_gets_a_clean_copy_with_no_failure_lines is skipped (skipUnless) when the repository has no product model. It ran in this review (not
+    skipped); on a checkout without the model it would not run.
+  basis: CODE-20
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)

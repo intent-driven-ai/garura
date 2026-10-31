@@ -1,0 +1,161 @@
+# Work categories present in the diff of PR #1009 (issue 1001, base plan/717/base).
+# Derived from the diff content. Treatment is copied from the playbooks in short-term memory
+# (.garura/project/issues/1001/context/memory/knowledge/review/). Design-grounding on the
+# base ref only; nothing the branch adds is grounding. The approved design
+# (.garura/project/issues/1001/specs/design.md) is the scope of the review, never grounding.
+categories:
+  - name: Harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/update-plan/SKILL.md
+      - core/components/plays/update-plan/reference/ice.md
+      - core/components/agents/product-os-keeper.md
+      - core/components/skills/author-plan-changes/SKILL.md
+      - core/components/skills/author-work-items/SKILL.md
+    note: >
+      A play and its ICE source change together (/update-plan, bugs #1001 and #1002), with an agent
+      table row and two skills. The repository holds the plays' source, so the ICE-source rule
+      applies: each SKILL.md intent change traces to the reference/ice.md change. Ground against the
+      base-ref ADRs, philosophy, harness standard and standards, not against the new design.md.
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          scope: only a violation whose file is in changed_paths is a finding; count the rest as "there before"
+        - name: lint-play, update-plan
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/update-plan/SKILL.md --next-map .garura/project/issues/1001/context/templates/standards/rules/pipeline-next.md
+      runnable_checks:
+        - "A tool that is not installed is recorded 'not installed'; a crash is recorded 'did not run: <first error line>'. Neither is a pass."
+        - "ICE-source rule by hand: each SKILL.md intent change (constraints, failures, scenarios, evals) traces to its reference/ice.md change."
+      design_grounding: >
+        Layer 2 required. Principles from docs/philosophy/**, docs/adr/** (on plan/717/base), the standards
+        under memory/standards/rules/** (play-close, evidence-recording, user-facing-voice), the glossary
+        and the harness standard, read through the memory tool or git show of the base ref.
+
+  - name: Memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/templates/plan-update.md
+    note: >
+      The plan-update template gains the wording keys for the model lookup and the ICE-drafted note
+      (from_ice_note, no_ice_note, model_found, model_feature, model_not_found, model_many, model_join).
+      Check the keys are all used by the scripts and none is left unused; wording keeps the user-facing
+      voice. The test copies of templates under the issue's context/templates folder are run records.
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - name: memory integrity (known gap)
+          command: null
+          gap: "No installed tool checks memory integrity. The reviewer reads the changed file and cites each check."
+      runnable_checks:
+        - "By hand: the file keeps its shape; each new key is read by a script of the play; the new lines duplicate or contradict no other key; placeholders ({feature}, {pages}, {ref}, {matches}) match what the scripts pass."
+      design_grounding: >
+        Layer 2 required. Ground from the base-ref copy of the template (git show plan/717/base:<path>),
+        knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards
+        (user-facing-voice), never from this branch's added text or design.md.
+
+  - name: Executable code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/plays/update-plan/scripts/check_ice_workable.py
+      - core/components/plays/update-plan/scripts/feature_ice.py
+      - core/components/plays/update-plan/scripts/model_names.py
+      - core/components/plays/update-plan/scripts/plan_common.py
+      - core/components/plays/update-plan/scripts/render_screen.py
+      - core/components/plays/update-plan/scripts/session_files.py
+      - core/components/plays/update-plan/scripts/write_plan_changes.py
+      - core/components/plays/create-play/references/plan_common.py
+      - core/tools/lint-components/lib/rules/shared-scripts.js
+    note: >
+      session_files.py and write_plan_changes.py touch files in the session folder and the plan file
+      (the close removes the session folder: weigh data-safety and idempotency hard, nothing outside the
+      session folder may be removed). feature_ice.py reads the product model (read only). plan_common.py,
+      model_names.py and check_ice_workable.py are shared scripts that exist as copies in other plays;
+      shared-scripts.js is the rule that checks the copies match. create-play/references/plan_common.py
+      is the reference copy the compiler lays.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool, against industry best practice
+      linters:
+        - name: language linter (python)
+          command: ruff check core/components/plays/update-plan/scripts core/components/plays/create-play/references/plan_common.py
+          note: "Whatever the repo commits; record 'not installed' if ruff is absent."
+        - name: language linter (javascript)
+          command: eslint core/tools/lint-components/lib/rules/shared-scripts.js
+          note: "Record 'not installed' or 'no config committed' if it cannot run; that is not a pass."
+        - name: check-pr-quality
+          command: check-pr-quality against the diff with the standards/rules/pr.md taxonomy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)
+      runnable_checks:
+        - "Rubric by hand: error handling, function size, no stray debug output, no secrets, safe handling of destructive operations (the session-folder removal), deterministic where it claims to be."
+        - "Parity check: diff core/components/plays/update-plan/scripts/plan_common.py core/components/plays/create-play/references/plan_common.py, and against core/components/plays/shape-plan/scripts/plan_common.py; same for model_names.py and check_ice_workable.py against their other copies."
+        - "Shared-script rule: node .garura/core/tools/lint-components/index.js --layout source --target core/components (the shared-scripts rule must report no mismatch for the two names added)."
+      design_grounding: "No."
+
+  - name: Tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/plays/update-plan/scripts/test_feature_ice.py
+      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+    treatment:
+      layers: [layer-1-linters, run-the-suite]
+      reviewer: the tool
+      linters:
+        - name: test best practice + pr.md TEST-* rows
+          command: check-pr-quality against the diff with the standards/rules/pr.md taxonomy (TEST-* rows); no skipped or disabled tests, no test that asserts nothing
+      runnable_checks:
+        - name: feature ICE tests
+          command: python3 -m unittest discover -s core/components/plays/update-plan/scripts -p "test_feature_ice.py"
+        - name: update-plan script tests
+          command: python3 -m unittest discover -s core/components/plays/update-plan/scripts -p "test_update_plan_scripts.py"
+        - rule: "A red suite is a blocker. A suite that cannot be run is reported as 'not run', never as passed."
+      design_grounding: "No."
+
+  - name: Work records (short-term memory run artifacts)
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers run records. Create a follow-up to add one (a category for the issue folder's context and spec files)."
+    evidence:
+      - .garura/project/issues/1001/context/** (analysis, branch, check-self-review-exit, commits, issue, plan, porcelain, pr-body, pr, resolved-rules, self-review, target, work-description)
+      - .garura/project/issues/1001/specs/design.md
+    note: >
+      Evidence of how the work was done, written by plays. Not behaviour, not design under review.
+      specs/design.md states this change's own design: it is the scope of the review and is never
+      grounding for another category.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool
+      linters: []
+      runnable_checks:
+        - "By hand, cheap: the files parse (JSON/YAML valid), none holds a secret, a token or a personal reference (no absolute home path), and none points to a path that is absent."
+      design_grounding: "No."
+
+  - name: Plan file
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers plan files (.garura/project/plans/*.yaml). Create a follow-up to add one."
+    evidence:
+      - .garura/project/plans/717.yaml
+    note: >
+      Two lines: the items for bugs 1001 and 1002 move from Not Started to Done. The plan file and the
+      tracker must agree (ontology Plan rule on the base ref).
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool; the human reads the named change
+      linters:
+        - name: plan tool read of the file
+          command: python3 .garura/core/tools/plan/plan.py (read the file back; it must parse and keep its layout)
+          note: "Record 'did not run' if the command form differs; not a pass."
+      runnable_checks:
+        - "By hand: only those two items' status lines changed, no other line, no roll-up to a parent."
+      design_grounding: "No."
+
+notes:
+  - "Two categories have no playbook (Work records, Plan file); a follow-up task should record the missing playbooks."
+  - "The old Codex install is stopped (#863); installed layout checks are not used because the repository holds core/components."

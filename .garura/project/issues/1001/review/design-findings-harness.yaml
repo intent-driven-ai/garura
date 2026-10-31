@@ -1,0 +1,90 @@
+{
+  "category": "Harness",
+  "scope": "/update-plan leaves nothing behind (one session folder, #1001) and reaches the product model (feature lookup, clean ICE copies, a one-story mode of author-work-items, #1002). Reviewed against the approved design, specs/design.md, which is the scope and never the grounding.",
+  "grounding": [
+    {"principle": "Plays orchestrate: a play owns the order of its steps, hands agents a contract of file paths, and each skill writes its artifact to disk", "source": "plan/717/base:docs/standards/harness-standard.md, principle 2 (lines 33-40; ADR 001, 005, 016)"},
+    {"principle": "Mechanical work is a script that takes exact arguments; a model does only the judgment", "source": "plan/717/base:docs/standards/harness-standard.md, principle 3 (lines 42-48)"},
+    {"principle": "A compiled play is built from its ICE and records the ICE fingerprint, so the two never drift apart unseen", "source": "plan/717/base:docs/standards/harness-standard.md, principle 4 (lines 50-58; ADR 027)"},
+    {"principle": "A pointer in an installed file points to another installed file; a background pointer is deleted", "source": "plan/717/base:docs/standards/harness-standard.md, principle 11 (lines 115-137; ADR 055)"},
+    {"principle": "A play carries only its anchor pair, its own values and its own close steps; the shared close runs in order", "source": "plan/717/base:core/components/plays/_shared/play-close.md, the steps (from 'Run these in order'); CLAUDE.md 'Durability rule'"},
+    {"principle": "Evidence is recorded by the play, as the close; agents' and skills' working artifacts are what the evidence points at", "source": "standards/rules/evidence-recording.md lines 14-25, read through the memory tool (copy in context/memory/grounding-harness/)"},
+    {"principle": "author-plan-changes writes a draft of the shape its Output section gives (instruction, entries, questions)", "source": "plan/717/base:core/components/skills/author-plan-changes/SKILL.md, Output section (line 60)"},
+    {"principle": "Severity buckets P1-P4", "source": "short-term copy of standards/rules/pr.md (context/memory/standards/rules/pr.md)"}
+  ],
+  "checks_passed": [
+    "Fingerprint matches: sha256 of update-plan/reference/ice.md is 93a2357c..., as recorded in the compiled SKILL.md (Compilation Metadata)",
+    "Each SKILL.md intent change traces to an ICE change: C13, C14, F15, F16, S9, S10, S11 are in the ICE and compiled; SE-20 (F16/C14), SE-21 (F15/C13), SCE-9, SCE-10, SCE-11 and recovery rows F15 and F16 are added; counts in the header and the metadata table (C1-C14, F1-F16, S1-S11, 22 scripts, 21 step evals, 11 scenario evals, 16 recoveries, 10 autonomous / 6 human) match the files",
+    "lint-play on update-plan: PASS, 0 gaps; lint-components on source layout reports nothing for the changed harness paths",
+    "The installed-paths rule holds: the play, skills and agent name only scripts/, .garura/core/tools/ and the product model; no core/components or docs path is added to SKILL.md",
+    "Nothing is written before 'approved': the new lookup, copy and draft steps write only into the session folder (<working>); the plan file, tracker and model are written by the existing landing steps",
+    "Mechanical work is a script: feature lookup, clean copy, body check and the folder adopt/clear are scripts; the model drafts only the story words (author-work-items, story mode)",
+    "The story writer is reached through the model sub-agent and the skill gets only the clean copies (no ICE page), as the design says; the agent route row says so",
+    "The recompile is recorded: compiled_by names #1001 and #1002; the Standard Play Close anchor pair is intact"
+  ],
+  "findings": [
+    {
+      "id": "H1",
+      "severity": "P3",
+      "file": "core/components/plays/update-plan/SKILL.md",
+      "line": 527,
+      "summary": "SCE-9 (a scenario eval run at Step 14) reads the 'clear' record, but the clear runs in Step 16, two steps later, and session_files.py clear prints its result and writes no file (its own docstring: 'writes no file, since it would be left behind'). At Step 14 the record does not exist, and after Step 16 the folder it would be read from is gone. The guarantee 'nothing is left behind' is proved only by SE-21 at Step 16; the scenario eval for S9 cannot be evaluated where it stands.",
+      "basis": "Harness standard principle 5 (build the eval first, each guarantee has a check that proves it) and principle 2 (the play owns the order of its steps). The same ICE measure (S9, 'the clear record lists ...') has no moment at which it can be read. Fix: take the measure from the clear command's printed output at Step 16, or have the scenario eval check the folder is absent after the close."
+    },
+    {
+      "id": "H2",
+      "severity": "P3",
+      "file": "core/components/plays/update-plan/SKILL.md",
+      "line": 545,
+      "summary": "Step 16 (self-clean) sits above the Standard Play Close block, yet says it runs 'after C1 and C2 below'. A reader following the text order meets the clear before the stop-condition gate (C0) and the evidence and report steps (C1, C2), which read files in the folder it removes. It is also missing from the task list (T1-T15 only), so no task tracks it, and 'Depends on: Step 15' names a step that only says 'run the Standard Play Close', so the order inside the close is not stated where the steps are.",
+      "basis": "Harness standard principle 2 (the play owns the order of its steps); play-close.md on the base ref (the close's steps run in order, the play adds its own close lines). The task list is the play's record of order; a step with no task is outside it. Put the clear after the close block, or give it a task T16 and say plainly that it runs once C2 is done."
+    },
+    {
+      "id": "H3",
+      "severity": "P3",
+      "file": "core/components/plays/update-plan/SKILL.md",
+      "line": 50,
+      "summary": "The play's agent boundary table (line 50, the product-os-keeper row), the 'domain_agents' row (line 655) and the 'skills_reused' row (line 657) were not updated: product-os-keeper is still described as 'a new feature only' and lists find-work-placement, enrich-grounding, link-model-part. It now also drafts a story for a named feature through author-work-items (the story step at line 251; the agent's own table row names /update-plan). The compiled description of who does what no longer matches what the steps dispatch.",
+      "basis": "Harness standard principle 4 (the compiled part and its intent do not drift apart unseen) and principle 2 (a play's contract with its agents is explicit). Add author-work-items (story mode) to the product-os-keeper row and to skills_reused, and widen domain_agents."
+    },
+    {
+      "id": "H4",
+      "severity": "P3",
+      "file": "core/components/skills/author-plan-changes/SKILL.md",
+      "line": 46,
+      "summary": "The skill now tells the writer to put lookups in a 'model_lookups' list and the play reads the draft's 'model_lookups' (SKILL.md line 219), but the skill's Output section (line 64 onward) still shows only 'instruction', 'entries', 'questions'. Nothing says where the key sits (top level, next to 'entries') or what one item looks like beyond the two inline examples; a writer following the Output example can drop the key or put it inside an entry, and the play would answer no lookup (SE-20 would then fail late).",
+      "basis": "Harness standard principle 2 (skills write their artifact in the shape their contract gives); the base-ref Output section of author-plan-changes (plan/717/base:core/components/skills/author-plan-changes/SKILL.md line 60) is the committed shape, and the diff adds a key outside it. Add the key to the Output example."
+    },
+    {
+      "id": "H5",
+      "severity": "P4",
+      "file": "core/components/agents/product-os-keeper.md",
+      "line": 103,
+      "summary": "Three names for the story draft: the agent route says the skill's 'story-draft.json', the play's contract names '<working>/story-draft-<i>.json', and author-work-items' Output section still says the skill writes 'drafts.json'. The contract path wins in practice, but the three texts do not say so.",
+      "basis": "Harness standard principle 2 (the play hands the agent a contract of file paths; the skill writes where the contract says). Use one name, and say in the story-mode paragraph of author-work-items that it writes the path its contract gives."
+    },
+    {
+      "id": "H6",
+      "severity": "P4",
+      "file": "core/components/plays/update-plan/SKILL.md",
+      "line": 549,
+      "summary": "The clear command is given '--work <working>', but a session that found no plan (one of the four cases C13 and S9 name) has no <working>; only <start> exists. session_files.py takes --work as optional, so the script copes, but the step never says to leave it out. A reader may invent a folder name for the missing plan.",
+      "basis": "Harness standard principle 3 (a script step is called with exact arguments). Scope: the design says the close removes the folder when the session 'found no plan'. Say: for a session with no plan, pass only --start."
+    },
+    {
+      "id": "H7",
+      "severity": "P4",
+      "file": "core/components/plays/update-plan/reference/ice.md",
+      "line": 148,
+      "summary": "The ICE Context names the design as '.garura/project/issues/1001/specs/design.md', a file of this repository's work records that no install copies. It is a background pointer in a part that is installed.",
+      "basis": "Harness standard principle 11: a pointer in an installed file points to another installed file; a background pointer is deleted. Not new in kind: the base ice.md already points to '.garura/project/issues/720/specs/design.md' (line 120), so this follows the file's habit and is a nit; the standard is the rule."
+    }
+  ],
+  "outside_scope": [
+    "A story added from a named feature gets no line in the epic's feature-to-story map. The design records it as out of scope; no finding.",
+    "Fixed on the design's word and not graded: the one-session-folder move (adopt/clear), the 'Fails if' ban in story text, the feature-with-no-ICE fallback.",
+    "Executable code, tests, the plan-update template (Memory) and the shared-scripts rule are other categories; their findings are in their own files.",
+    "The Standard Play Close step L loads templates into the run's context/templates folder while update-plan loads them in Step 1 (now into the session folder); the close says it 'finds the templates Step 1 loaded' without naming where. Was so before this branch (P4, out of scope)."
+  ],
+  "memory_used": ["standards/rules/evidence-recording.md (phoenix tier, copy in context/memory/grounding-harness/)"],
+  "tool_gaps": ["No installed tool grades a compiled play's order of steps against its task list; H2 is read by hand."]
+}
