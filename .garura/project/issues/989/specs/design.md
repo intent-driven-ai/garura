@@ -1,4 +1,4 @@
-# Design — #989 and #991: start a plan's work, and land a plan's branch on main
+# Design — #989: start a plan's work on its own, and keep start-change open for any change
 
 Approved by the product owner on 2026-10-31, after two rounds in one session. Plan 717,
 capability #721 (start and land work against a plan). One change: branch
@@ -39,39 +39,23 @@ what it does today.
   on main; else it stops and names the commits — moves into the plan tool's branch script, so
   /update-plan gets it too. Today the shared script would switch to such a copy.
 
-## #991 — /propose-change asks Status and Direction; the branch's plan file replaces main's
+## #991 — dropped from this change (2026-10-31)
 
-- When `/propose-change` raises a plan's own branch (`plan/<id>/base`) for main, it first asks, in
-  one message, before any push: the plan's **Status** (Not Started, In Progress, Paused, Done,
-  Dropped) and its **Direction** (1 next, 2 next in line, 3 later, or none). An answer it does not
-  know is asked again. The gate switch never skips this question.
-- Status and Direction are plain text a person sets; nothing is worked out from them, and no status
-  changes what a play does. Whatever the Status, the branch field is set empty: merge-change
-  deletes the branch after the merge, and the next start cuts a fresh one from main.
-- In the commit it already makes before raising, it writes the answers into the branch's plan
-  file, merges the latest main into the plan's branch keeping the branch's plan file whole, and
-  names in the pull request's review section every change main made to that plan file since the
-  branch was cut. The branch's version replaces main's.
-- `/merge-change`, before it merges a plan's branch, checks that main's plan file has not changed
-  since the raise. If it has, it stops and says to run `/propose-change` again. A blended plan
-  file never lands. After the merge, main's plan file equals the branch's.
-- `/check-change` does not change.
+After the first review the product owner took #991 out: "Proposing a change is simple: the work is
+finished. The commit is done, so propose, review, merge … I don't want this complication."
+propose-change and merge-change stay as they were, and the landing script is not built. A plan's
+Status and Direction are set with /update-plan, as today; when a plan's branch merges, git carries
+its plan file like any other file.
+
+## Round 2 — fixes from the first review of PR #1016
+
+- An issue in a plan that main marks Done or Dropped (a bug found later) starts as an issue in no
+  plan: a feature branch off main, and the record says why. A closed plan's branch is never cut.
+- When main's plan file already reads In Progress on `plan/<id>/base`, the cut has nothing to
+  commit on main and cuts the branch from main's tip.
+- setup_branch.py's own test is brought up to date (a plan file and the plan tool in its scratch repo).
 
 ## Build
 
-Three plays change what they promise, each through its ICE and `/edit-play`:
-
-- start-change — Intent, C2, C9, C6 (no resume from the branch name), a new constraint for plan
-  mode and for "nothing typed", new failure conditions, S3 and S5 measures, new scenarios (start a
-  plan; start it again; a number no plan has; nothing typed; a description on a plan's branch).
-- propose-change — a new constraint (ask Status and Direction for `kind: plan`, never gated), a new
-  failure condition, S6 extended.
-- merge-change — a pre-merge check on a plan's file; a new failure condition and scenario.
-
-The plan tool (`core/tools/plan/`): the stale-copy rule in `plan_branch.py`, and one new script that
-readies a plan's file for landing (writes Status, Direction, empty branch; brings main in keeping
-the plan file; records the differences), each with tests.
-
-The work-management guide (`.garura/user-provided/managing-work.md`), section "A plan's branch:
-start, pause, start again", may need a line on `/start-change plan <id>`. That file is the product
-owner's: the line is named to him, not written.
+start-change changes what it promises, through its ICE and `/edit-play`. The plan tool's
+`plan_branch.py` gets the stale-copy rule and the cut with nothing to commit on main, with tests.
