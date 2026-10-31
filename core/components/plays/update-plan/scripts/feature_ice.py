@@ -6,10 +6,10 @@ feature_ice.py — reach the product model from an /update-plan session (#1002).
         [--plans-dir <plans>] --out <found.json> [--collect <model-found.json>]
     python3 feature_ice.py copy --root <model dir> --spine <spine> --intents-dir <intents> \
         --feature <id> --working <working> --out <feature-ice.json>
-    python3 feature_ice.py body --draft <story-draft.json> --record <feature-ice.json> --plan <id> \
+    python3 feature_ice.py body --draft <story-draft-<i>.json> --record <feature-ice.json> --plan <id> \
         --out <story-body.md>
     python3 feature_ice.py mark --draft <draft-entries.json> --at <i> (--found <found.json> |
-        --record <feature-ice.json> | --body <story-body.md> --story-draft <story-draft.json>)
+        --record <feature-ice.json> | --body <story-body.md> --story-draft <story-draft-<i>.json>)
 
 `find` looks a feature up in the model index: by its id, its slug or its page title (`--ref`),
 or as the feature whose story is issue n (`--story`): the feature that names that issue in the
@@ -221,6 +221,8 @@ def mark(draft_path, at, found=None, record=None, body_path=None, story_draft=No
     if record is not None and not record.get("ready"):
         e["no_ice"] = record.get("reason") or "the feature has no ready ICE"
     if body_path is not None:
+        if not story_draft:
+            raise pc.Refused("--body needs --story-draft (the story the body was written from)")
         with open(body_path, encoding="utf-8") as fh:
             e["body"] = fh.read()
         with open(story_draft, encoding="utf-8") as fh:

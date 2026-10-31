@@ -775,6 +775,18 @@ class SessionFilesTest(Session):
         quiet(session_files.main, ["clear", "--start", start, "--work", work])
         self.assertFalse(os.path.exists(root))
 
+    def test_clear_leaves_another_plan_s_session_alone(self):
+        root, start, work = self.session_tree()
+        other = os.path.join(root, "41")
+        os.makedirs(other)
+        with open(os.path.join(other, "changes.yaml"), "w") as fh:
+            fh.write("another plan's list")
+        self.assertEqual(quiet(session_files.main, ["adopt", "--start", start, "--work", work,
+                                                    "--out", os.path.join(self.d, "a.json")]), 0)
+        self.assertEqual(quiet(session_files.main, ["clear", "--start", start, "--work", work]), 0)
+        self.assertFalse(os.path.exists(work))
+        self.assertTrue(os.path.isfile(os.path.join(other, "changes.yaml")))
+
     def test_clear_after_no_plan_removes_the_start_folder(self):
         root, start, work = self.session_tree()
         quiet(session_files.main, ["clear", "--start", start, "--work", work])
@@ -807,7 +819,7 @@ class ModelReachTest(Session):
         self.take()
         screen = self.screen("taken")
         self.assertIn("drafted from fn-1's ICE and its capability's ICE", screen)
-        self.assertIn("fn-2 has no ready ICE (the feature has no ICE): the story uses your words", screen)
+        self.assertIn("fn-2: the feature has no ICE, so the story uses your words", screen)
 
     def test_the_model_screen_answers_a_lookup(self):
         ps.write_json(self.p("model-found.json"), {"found": [

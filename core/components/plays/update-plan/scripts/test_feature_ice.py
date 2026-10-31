@@ -141,6 +141,18 @@ class FeatureIceTest(unittest.TestCase):
         self.assertEqual((e["title"], e["body"], e["from_ice"]), (STORY["title"], "Represents: fn-1\n", True))
         self.assertNotIn("no_ice", e)
 
+    def test_mark_refuses_a_body_without_its_story(self):
+        draft, body = os.path.join(self.d, "draft.json"), os.path.join(self.d, "body.md")
+        with open(draft, "w") as fh:
+            json.dump({"entries": [{"op": "add", "kind": "story", "feature": "fn-1"}]}, fh)
+        with open(body, "w") as fh:
+            fh.write("Represents: fn-1\n")
+        code, _, err = run("mark", "--draft", draft, "--at", "0", "--body", body)
+        self.assertEqual(code, 2)
+        self.assertIn("--story-draft", err)
+        with open(draft) as fh:
+            self.assertNotIn("body", json.load(fh)["entries"][0])
+
     def test_find_collects_each_answer_for_the_model_screen(self):
         collect = os.path.join(self.d, "model-found.json")
         for how in (("--ref", "fn-1"), ("--story", "99")):
