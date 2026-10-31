@@ -109,7 +109,7 @@ def main():
             check("its capability closes once every issue under it is closed", "721" in g["issues_closed"])
             check("the issue branch is gone both sides", g["branch_deleted"])
 
-            # A first run merged, then stopped before closing the issue: the re-run closes it (H9).
+            # A first run merged, then stopped before closing the issue: the re-run closes it.
             json.dump({"approved": True, "mergeable": True, "pr_number": 9, "already_merged": True}, open(gate, "w"))
             host = Host("plan/717/base", {"731": "CLOSED", "673": "OPEN"})
             code = run(host, ["--branch", "plan/717/673-x", "--base", "plan/717/base", "--gate", gate,
