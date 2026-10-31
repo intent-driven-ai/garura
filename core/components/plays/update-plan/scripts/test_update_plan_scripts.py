@@ -13,6 +13,7 @@ import add_entries
 import check_agreement
 import check_entries
 import close_session
+import closed_on_github
 import commit_plan
 import find_plan
 import place_feature
@@ -746,6 +747,37 @@ class SessionFilesTest(Session):
         self.assertEqual(quiet(session_files.main, ["restore", "--folder", "../x", "--repo", self.d,
                                                     "--out", self.p("r.json")]), 2)
         self.assertFalse(os.path.exists(self.p("r.json")))
+
+
+class ClosedOnGitHubTest(Session):
+    """#1007: an item's status follows its own issue; nothing rolls up."""
+
+    def closed(self, issues):
+        snap = json.loads(json.dumps(SNAP))
+        for n, reason in issues.items():
+            snap["issues"][n]["state"], snap["issues"][n]["state_reason"] = "CLOSED", reason
+        ps.write_json(self.snap, snap)
+        code = quiet(closed_on_github.main, ["--plan-file", self.plan, "--snapshot", self.snap,
+                                             "--out", self.p("draft-closed.json")])
+        self.assertEqual(code, 0)
+        return ps.read_json(self.p("draft-closed.json"), "draft")
+
+    def test_each_item_closed_on_github_becomes_an_entry(self):
+        d = self.closed({"44": "COMPLETED", "45": "NOT_PLANNED"})
+        self.assertEqual(d["instruction"], "closed on GitHub")
+        self.assertEqual(d["entries"], [{"op": "status", "issue": 44, "to": "Done"},
+                                        {"op": "status", "issue": 45, "to": "Dropped"}])
+
+    def test_no_roll_up_and_items_already_closed_are_left(self):
+        d = self.closed({"42": "COMPLETED"})
+        self.assertEqual([e["issue"] for e in d["entries"]], [42])
+
+    def test_the_entries_go_through_the_usual_check(self):
+        self.closed({"44": "COMPLETED"})
+        ps.write_json(self.p("draft-entries.json"), ps.read_json(self.p("draft-closed.json"), "draft"))
+        checked = self.check(ps.read_json(self.p("draft-entries.json"), "d")["entries"], "closed on GitHub")
+        self.assertEqual(checked["entries"][0]["from"], "Not Started")
+        self.assertEqual(checked["entries"][0]["where"]["github"], [])
 
 
 if __name__ == "__main__":
