@@ -50,7 +50,10 @@ Its statuses and its direction are what a person says they are, never worked out
   commit, the shared scoped-write guard puts back any model path outside the session's parts,
   and then nothing is committed and the person is told.
 - C8 — A person sets every status and the plan's direction. Nothing is worked out from the work
-  under an item: no roll-ups.
+  under an item: no roll-ups. The one exception is an item's own issue: when it is closed on
+  GitHub (as completed, or as not planned) and the item is still open in the plan file, the
+  session puts it on the list at the start as "closed on GitHub" (Done, or Dropped), and it
+  lands only with the person's "approved" (#1007).
 - C9 — Tracker changes go through the issue sub-agent and its skills; model changes through the
   model sub-agent and its skills. No hand edits of either.
 - C10 — Every screen the person sees comes from the plan-update template. A question to the
@@ -80,7 +83,10 @@ Its statuses and its direction are what a person says they are, never worked out
   open or closed state and close reason, a title, a parent — or a dropped item stays open.
 - F6 — An entry that breaks a rule joins the list without being shown, or an override is not in
   the landing's commit message.
-- F7 — A status or the direction changes that the person did not ask for.
+- F7 — A status or the direction changes that the person did not ask for, other than an item
+  whose own issue is closed on GitHub.
+- F14 — At the start of a session, an item whose own issue is closed on GitHub is still open in
+  the plan file and is not on the list; or an item's status is set from the items under it.
 - F8 — A tracker or model write is made other than through the sub-agents' skills.
 - F9 — A screen is worded by the play instead of the template.
 - F10 — A new feature lands without its thin page, its model entry with both thin marks, or its
@@ -149,6 +155,13 @@ Its statuses and its direction are what a person says they are, never worked out
 - **S7 — anyone, a plan found by description.** Given a description, when the play matches one
   plan, then it shows the match and waits for a yes. *Measure:* `plan.json` reads `by:
   description` and `confirmed: true` before any other record.
+- **S8 — product owner, an issue closed on GitHub.** Given a story whose issue was closed on
+  GitHub while its item in the plan file is still open, when a session starts, then the list
+  holds it as "closed on GitHub" with Done, its parent is not on the list, and on "approved"
+  the plan file reads it Done. *Measure:* `draft-closed.json` names the item with `to: Done`
+  and no other item, `changes.yaml` holds it under the instruction "closed on GitHub", and after
+  "approved" `plan-write.json` and `agreement.json` read `ok: true` with the item Done in the
+  plan file.
 
 ### Recovery
 
@@ -160,13 +173,14 @@ Its statuses and its direction are what a person says they are, never worked out
 | F4 | the list's fingerprint differs from the one the approval recorded | write nothing more, show the list again and ask again | autonomous |
 | F5 | the agreement check names a difference | name each difference; re-run the landing for the ops the record does not have; a difference that remains goes to the person | human |
 | F6 | a breaking entry is in the list without its override mark, or an override is missing from the commit message | take the entry out of the list, show the break, and ask again | autonomous |
-| F7 | an entry changes a status or the direction that no instruction named | take the entry out and show the list again | autonomous |
+| F7 | an entry changes a status or the direction that no instruction named, and its item's own issue is not closed on GitHub | take the entry out and show the list again | autonomous |
 | F8 | a tracker or model write was made outside the sub-agents' skills | stop and name it for the person | human |
 | F9 | a screen line does not match the template | render it again from the template | autonomous |
 | F10 | a new feature's page, entry, thin marks or story is missing, the evals folder changed, or what is owed is not named | re-run the model or tracker step for that feature; put back the evals folder; name what is owed in the commit message | autonomous |
 | F11 | the close would report COMPLETED without the Done means held | surface the unmet clauses and close HALTED | autonomous |
 | F12 | the session ended on another branch | switch back to the starting branch; if that is stopped by uncommitted work, name it for the person | autonomous |
 | F13 | the guard report names a path outside the session's parts | the guard has put it back; commit nothing, name each path for the person, who decides | human |
+| F14 | an item closed on GitHub is open in the plan file and not on the list, or a status was set from the items under it | run `closed_on_github.py` again and take its entries into the list; take out any entry no item's own issue or instruction named | autonomous |
 
 ### Done means
 

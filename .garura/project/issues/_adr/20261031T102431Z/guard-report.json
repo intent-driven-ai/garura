@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261031T102431Z/adr-manifest.json",
+    ".garura/project/issues/_adr/20261031T102431Z/hashes-before.json",
+    ".garura/project/issues/_adr/20261031T102431Z/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261031T102431Z/run.json",
+    ".garura/project/issues/_adr/20261031T102431Z/target.txt",
+    "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+    "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+    "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

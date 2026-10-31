@@ -1,0 +1,19 @@
+category: memory
+findings:
+- id: ONT-1
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 623
+  summary: 'The rule says an item is Done or Dropped when its issue closes but not when: an issue closed by hand is caught
+    at the next session and lands on the person''s approval.'
+  basis: ADR 064 Decisions 3-4 and its risks; update-plan ICE C8, S8
+- id: ONT-2
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 623
+  summary: The last sentence group of the rule is hard to read; two bullets would be plainer. Wording only.
+  basis: plain-words rule; review/memory playbook
+outside_scope:
+- Older ontology lines name plays (/shape-slice, /update-plan, /discover-capabilities) in the Plan, Slice, ICE and Story kinds,
+  the Q-answers and the changelog — the ontology should hold structure and rules only.
+- Older changelog lines are not in date order.

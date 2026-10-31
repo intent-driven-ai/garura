@@ -1,0 +1,11 @@
+{
+ "in_loop": false,
+ "loop_run_id": null,
+ "branch": "plan/717/1007-status-follows-its-issue",
+ "issue": 1007,
+ "scope_baseline": {
+  "retaken_before_apply": true,
+  "why": "The #1007 build (the plan tool, merge-change, /update-plan) is uncommitted on this branch while the record is applied. The scope check is re-based just before Step 4, so it proves that applying the record wrote only the record, its pointer and the index.",
+  "first_baseline": "porcelain-before-preflight.txt"
+ }
+}

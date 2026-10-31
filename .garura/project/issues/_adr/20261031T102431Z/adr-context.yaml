@@ -1,0 +1,72 @@
+shape: markdown
+number: "064"
+slug: an-items-status-in-a-plan-follows-its-own-issue
+level: framework
+node_ref: ""
+decided_in: "#1007 (an item's status follows its own issue), on plan 717's branch"
+decided_by: ""   # left empty; filled when a person accepts
+supersedes: []
+amends:
+  - adr: "061"
+    file: docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+    part: >-
+      Decision §3, the sentence "Setting In Progress here is the one status change a person did
+      not type": an item's status now also changes, without a person typing it, when its own
+      issue closes (merge-change sets it Done). The cut itself and the rest of ADR 061 stand.
+not_affected:
+  - adr: "060"
+    why: when a plan's branch lands on main; says nothing about item statuses.
+  - adr: "062"
+    why: >-
+      /update-plan writes the model only after "approved"; the new "closed on GitHub" entries
+      also land only on "approved", so it holds as written.
+  - adr: "063"
+    why: which play changes a plan that exists (/update-plan); unchanged.
+  - adr: "049"
+    why: the shaping loop order; says nothing about item statuses.
+note_on_the_rule: >-
+  No earlier ADR holds the rule "a person sets every status". It lives in the ontology's Plan
+  kind (version 14, line 623, written in #720 with no ADR of its own) and in /update-plan's C8.
+  Only ADR 061 §3 repeats it, by calling its cut "the one status change a person did not type".
+affects:
+  - core/tools/plan/plan_status.py (new) with core/tools/plan/test_plan_status.py and core/tools/plan/README.md
+  - core/components/plays/merge-change/reference/ice.md (C-, F9, S5, REC9) and its compiled SKILL.md
+  - core/components/plays/merge-change/scripts/merge_pr.py with scripts/test_merge_pr.py
+  - core/components/plays/create-play/references/merge_pr.py (the stamped source of merge_pr.py)
+  - core/components/plays/update-plan/reference/ice.md (C8, F7, F14, S8, the F14 recovery) and its compiled SKILL.md
+  - core/components/plays/update-plan/scripts/closed_on_github.py (new) with scripts/test_update_plan_scripts.py
+  - "owed, through /edit-ontology in this same change: core/components/memory/standards/schemas/product-os/ontology.md, the Plan kind's rule line 623"
+  - "after acceptance: docs/adr/061-... (its forward pointer) and docs/adr/_index.md"
+ice_impact: >-
+  Two plays' ICE change, through /edit-play. merge-change: when it closes an issue that landed on
+  its plan's branch, it sets that item Done in the plan file in the same records commit (F9, S5,
+  REC9). /update-plan: C8 gains one exception, an item whose own issue is closed on GitHub is put
+  on the list at the session's start as "closed on GitHub" and lands only on "approved"; F7 is
+  narrowed and F14, S8 and a recovery are added. No product capability or feature ICE changes,
+  and the ICE kind does not change. Read from the ontology through the memory tool (Phoenix
+  memory, version 14, line 623).
+business_intent_check: none
+business_intent_check_why: >-
+  A framework rule on who changes an item's status in a plan file. The Business Intent kind does
+  not change, and no business intent page changes.
+related: ["ADR 061", "ADR 062", "ADR 063", "#1007", "#1005", "#720", "plan 717"]
+for_the_accepter:
+  - point: The ontology still says a person sets every status until /edit-ontology changes it
+    what_and_where: >-
+      The Plan kind's rule in core/components/memory/standards/schemas/product-os/ontology.md,
+      version 14, line 623.
+    detail: >-
+      Line 623 reads: "A person sets the plan's Status and its Direction, and the status of each
+      item in its tree ... A play changes a status or the direction only when a person asked for
+      it. The one exception is the branch step above". This decision adds a second exception: an
+      item's status follows its own issue.
+    why_it_matters: >-
+      Until the line changes, the ontology and the two plays disagree, and an agent that reads the
+      ontology would treat merge-change's Done as a broken rule.
+    this_decision_does: >-
+      Nothing to the line itself: it changes through /edit-ontology in this same change (#1007),
+      not by hand.
+    you_decide: nothing
+work_this_creates:
+  - "The ontology's Plan rule line (version 14, line 623) changes through /edit-ontology in this same change (#1007)."
+  - "After acceptance: the forward pointer on ADR 061, and the ADR index rebuilt."

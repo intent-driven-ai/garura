@@ -85,8 +85,7 @@ def check(args):
             continue
         status = node.get("status")
         if status in ps.CLOSED:
-            want = ps.REASON_OF[ps.CLOSED[status]]
-            if now["state"] != "CLOSED" or now.get("state_reason") != want:
+            if not ps.closed_as(now, ps.CLOSED[status]):
                 problems.append(f"#{n} is {status} in the plan file but {now['state'].lower()}"
                                 f" ({now.get('state_reason') or 'no reason'}) in the tracker")
         elif now["state"] != "OPEN":

@@ -129,8 +129,7 @@ def check(entry, plan, snap, items, plan_statuses, directions, listed, pending):
             e["already"] = True
         else:
             if e["to"] in ps.CLOSED:
-                want = ps.REASON_OF[ps.CLOSED[e["to"]]]
-                if not now or now["state"] != "CLOSED" or now.get("state_reason") != want:
+                if not ps.closed_as(now, ps.CLOSED[e["to"]]):
                     e["where"]["github"].append("close-completed" if e["to"] == "Done" else "close-not-planned")
                 open_under = [d for d in ps.descendants(node)
                               if open_status(pending.get(str(d.get("issue")), d.get("status")))]

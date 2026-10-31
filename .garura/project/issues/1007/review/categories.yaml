@@ -1,0 +1,191 @@
+# Work categories present in the diff of PR #1008 (issue 1007, base plan/717/base).
+# Derived from the diff content. Treatment is copied from the playbooks in short-term memory
+# (.garura/project/issues/1007/context/memory/knowledge/review/). Design-grounding on the
+# base ref only; nothing the branch adds is grounding.
+categories:
+  - name: Harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/merge-change/reference/ice.md
+      - core/components/plays/update-plan/SKILL.md
+      - core/components/plays/update-plan/reference/ice.md
+    note: >
+      Compiled play files and their ICE sources change together (constraints C9/F9/S5/REC9 in
+      merge-change; C8, F7, F14, S8, SE-19, SCE-8 in update-plan). The repository holds the plays'
+      source, so the ICE-source rule applies: check the SKILL.md change traces to the ICE change.
+      The design moves from "a play changes a status only when a person asked" to "an item's status
+      follows its own issue", so ground against the base-ref ontology, ADR 061, ADR 060 and the
+      harness standard, not against ADR 064 (added by this branch).
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          scope: only a violation whose file is in changed_paths is a finding; count the rest as "there before"
+        - name: lint-play, merge-change
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/merge-change/SKILL.md --next-map .garura/project/issues/1007/context/templates/standards/rules/pipeline-next.md
+        - name: lint-play, update-plan
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/update-plan/SKILL.md --next-map .garura/project/issues/1007/context/templates/standards/rules/pipeline-next.md
+      runnable_checks:
+        - "A tool that is not installed is recorded 'not installed'; a crash is recorded 'did not run: <first error line>'. Neither is a pass."
+        - "ICE-source rule by hand: each SKILL.md intent change (constraints, failures, scenarios, evals) traces to its reference/ice.md change."
+      design_grounding: >
+        Layer 2 required. Principles from docs/philosophy/**, docs/adr/** (on plan/717/base), the standards
+        under memory/standards/rules/** (play-close, evidence-recording, user-facing-voice), the glossary
+        and the harness standard, read through the memory tool or git show of the base ref.
+
+  - name: Memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    note: >
+      Ontology v14 to v15: the Plan kind's status rule line is rewritten and a changelog line added.
+      The test copy of the product-ontology template under the issue's context/memory folder is a
+      run record (see Work records), not memory under review.
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - name: memory integrity (known gap)
+          command: null
+          gap: "No installed tool checks memory integrity. The reviewer reads the changed file and cites each check."
+      runnable_checks:
+        - "By hand: frontmatter version/updated are consistent with the changelog line; cross-references and [[...]] links resolve; the file keeps its shape; the rewritten rule duplicates or contradicts no other line (for example the Plan rules and Q-questions that mention status)."
+      design_grounding: >
+        Layer 2 required. Ground from the base-ref copy of the ontology (git show plan/717/base:<path>),
+        knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards,
+        never from the v15 text or ADR 064 added in this branch.
+
+  - name: Executable code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/tools/plan/plan_status.py
+      - core/components/plays/merge-change/scripts/merge_pr.py
+      - core/components/plays/create-play/references/merge_pr.py
+      - core/components/plays/update-plan/scripts/closed_on_github.py
+    note: >
+      Scripts that touch git (merge_pr.py stages and commits the plan file with the records) and
+      rewrite a plan file (plan_status.py): weigh data-safety and idempotency paths hard. The two
+      merge_pr.py files are byte-identical.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool, against industry best practice
+      linters:
+        - name: language linter (python)
+          command: ruff check core/tools/plan/plan_status.py core/components/plays/merge-change/scripts/merge_pr.py core/components/plays/create-play/references/merge_pr.py core/components/plays/update-plan/scripts/closed_on_github.py
+          note: "Whatever the repo commits; record 'not installed' if ruff is absent."
+        - name: check-pr-quality
+          command: check-pr-quality against the diff with the standards/rules/pr.md taxonomy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)
+      runnable_checks:
+        - "Rubric by hand: error handling, function size, no stray debug output, no secrets, safe handling of destructive operations, deterministic where it claims to be."
+        - "Parity check: diff core/components/plays/merge-change/scripts/merge_pr.py core/components/plays/create-play/references/merge_pr.py"
+      design_grounding: "No."
+
+  - name: Tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/tools/plan/test_plan_status.py
+      - core/components/plays/merge-change/scripts/test_merge_pr.py
+      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+    treatment:
+      layers: [layer-1-linters, run-the-suite]
+      reviewer: the tool
+      linters:
+        - name: test best practice + pr.md TEST-* rows
+          command: check-pr-quality against the diff with the standards/rules/pr.md taxonomy (TEST-* rows); no skipped or disabled tests, no test that asserts nothing
+      runnable_checks:
+        - name: plan tool tests
+          command: python3 -m unittest discover -s core/tools/plan -p "test_plan_status.py"
+        - name: merge-change tests
+          command: python3 -m unittest discover -s core/components/plays/merge-change/scripts -p "test_merge_pr.py"
+        - name: update-plan tests
+          command: python3 -m unittest discover -s core/components/plays/update-plan/scripts -p "test_update_plan_scripts.py"
+        - rule: "A red suite is a blocker. A suite that cannot be run is reported as 'not run', never as passed."
+      design_grounding: "No."
+
+  - name: Decision records
+    design_bearing: false
+    playbook: review/adrs
+    evidence:
+      - docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md
+      - docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+      - docs/adr/_index.md
+    note: >
+      ADR 064 is new (accepted) and amends ADR 061 Decision section 3 (status line of ADR 061 changed).
+      The ADR run folder under .garura/project/issues/_adr/ is a run record, not a decision record.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: human, line by line (the human judges whether the decision is right)
+      linters:
+        - name: ADR structural check (known gap, manual checklist)
+          command: null
+          gap: "No ADR linter in-repo. Surface a checklist for the human."
+      runnable_checks:
+        - "By hand: required sections present (Status, Context, Decision, Consequences); status is an allowed value; markdown well-formed; ADR is numbered 064 in sequence and linked from docs/adr/_index.md; the ADR 061 amendment link resolves."
+      design_grounding: "No. The decision is the design; the human owns the judgement."
+
+  - name: Documentation
+    design_bearing: false
+    playbook: review/docs
+    evidence:
+      - core/tools/plan/README.md
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool
+      linters:
+        - name: prose checks (known gap)
+          command: null
+          gap: "No committed prose linter. The tool checks spelling, grammar, dead links, heading order, leftover TODOs, terminology and completeness directly, citing each."
+      runnable_checks:
+        - "By hand: the README describes plan_status.py as the code does (command, arguments, output); links resolve."
+      design_grounding: "No."
+
+  - name: Work records (short-term memory run artifacts)
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers run records. Create a follow-up to add one (a category for the issue folder's context, spec and ADR-run files)."
+    evidence:
+      - .garura/project/issues/1007/context/** (analysis, branch, commits, edit-ontology drafts and checks, issue, plan, pr, porcelain, resolved-rules, self-review, target, work-description, memory manifest and the product-ontology template copy)
+      - .garura/project/issues/1007/specs/design.md
+      - .garura/project/issues/_adr/20261031T102431Z/** (record-decision run files, including adr-draft.md and the adr.md template copy)
+    note: >
+      Evidence of how the work was done, written by plays. Not behaviour, not design under review.
+      specs/design.md states this change's own design, so it is never grounding for another category.
+      The adr-draft.md is the working copy of ADR 064, which is reviewed under Decision records.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool
+      linters: []
+      runnable_checks:
+        - "By hand, cheap: the files parse (JSON/YAML valid), none holds a secret, a token or a personal reference, and none points to a path that is absent."
+      design_grounding: "No."
+
+  - name: Plan file
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers plan files (.garura/project/plans/*.yaml). Create a follow-up to add one."
+    evidence:
+      - .garura/project/plans/717.yaml
+    note: >
+      One line: the item for story 1007 moves from Not Started to Done. The plan file and the tracker
+      must agree (ontology Plan rule on the base ref).
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool; the human reads the named change
+      linters:
+        - name: plan tool read of the file
+          command: python3 .garura/core/tools/plan/plan.py (read the file back; it must parse and keep its layout)
+          note: "Record 'did not run' if the command form differs; not a pass."
+      runnable_checks:
+        - "By hand: only that item's status line changed, no other line, no roll-up to a parent (epic 956 stays as it was)."
+      design_grounding: "No."
+
+notes:
+  - "Installed plan tool folder .garura/core/tools/plan has no plan_status.py yet; merge_pr.py calls .garura/core/tools/plan/plan_status.py. Check the install gap in the Executable code and Harness review."
+  - "Two categories have no playbook (Work records, Plan file); a follow-up task should record the missing playbooks."

@@ -47,6 +47,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import platform_adapter as pa  # noqa: E402
 
+# The installed plan tool that sets one item's status from its own issue (#1007).
+PLAN_TOOL = ".garura/core/tools/plan/plan_status.py"
+
 
 def _git(*args, check=False):
     proc = subprocess.run(["git", *args], capture_output=True, text=True)
@@ -63,13 +66,15 @@ def _branch_gone(branch):
     return local_gone and remote_gone
 
 
-def _commit_records(gate_path, records_dir, issue):
-    """Stage the gate file + the records dir and commit (#491). No push. Returns
-    True when the records are committed (including 'nothing to commit' — already
-    clean counts as committed), False when the commit failed."""
+def _commit_records(gate_path, records_dir, issue, plan_file=None):
+    """Stage the gate file + the records dir (+ the plan file whose item was marked Done)
+    and commit (#491). No push. Returns True when the records are committed (including
+    'nothing to commit' — already clean counts as committed), False when the commit failed."""
     _git("add", gate_path)
     if records_dir and os.path.isdir(records_dir):
         _git("add", records_dir)
+    if plan_file and os.path.isfile(plan_file):
+        _git("add", plan_file)
     rc, out, err = _git("diff", "--cached", "--quiet")
     if rc == 0:
         return True  # nothing staged — records already committed, tree clean
@@ -110,6 +115,20 @@ def _close_landed(ns):
     return closed
 
 
+def _mark_done(ns):
+    """Set the landed issue's item Done in its plan file (#1007): an item's status follows
+    its own issue. Only that item changes; nothing rolls up. Returns the tool's record, or
+    None when the issue sits in no plan."""
+    if not (ns.close_issue and ns.plans_dir and ns.plan_id):
+        return None
+    res = subprocess.run([sys.executable, ns.plan_tool, "--plans-dir", ns.plans_dir,
+                          "--plan", str(ns.plan_id), "--issue", str(ns.close_issue),
+                          "--status", "Done"], capture_output=True, text=True)
+    if res.returncode != 0:
+        return {"error": res.stderr.strip() or f"exit {res.returncode}"}
+    return json.loads(res.stdout)
+
+
 def _close_finished_capability(ns, issue):
     """Close the capability over `issue` when every issue under it is closed (#673)."""
     import resolve_target as rt
@@ -141,7 +160,10 @@ def main(argv=None):
     ap.add_argument("--close-issue", default=None)
     ap.add_argument("--plans-dir", default=None)
     ap.add_argument("--plan-id", default=None)
+    ap.add_argument("--plan-tool", default=PLAN_TOOL)
     ns = ap.parse_args(argv)
+    plan_file = (os.path.join(ns.plans_dir, f"{ns.plan_id}.yaml")
+                 if ns.plans_dir and ns.plan_id else None)
 
     with open(ns.gate, encoding="utf-8") as fh:
         gate = json.load(fh)
@@ -160,7 +182,9 @@ def main(argv=None):
                 gate.pop("error", None)
         with open(ns.gate, "w", encoding="utf-8") as fh:
             json.dump(gate, fh, indent=2)
-        committed = (_commit_records(ns.gate, ns.records_dir, ns.issue)
+        marked = gate.get("plan_marked") or {}
+        committed = (_commit_records(ns.gate, ns.records_dir, ns.issue,
+                                     plan_file if marked.get("changed") else None)
                      if want_records else None)
         pushed = None
         if committed is True:
@@ -184,6 +208,7 @@ def main(argv=None):
         if base == ns.base:
             # A first run may have merged and stopped before closing the issue: close it now.
             gate["issues_closed"] = _close_landed(ns)
+            gate["plan_marked"] = _mark_done(ns)
         committed = finalize(True, _branch_gone(ns.branch),
                              {"status": "already_merged", "on_target": base == ns.base})
         sys.exit(0 if committed in (True, None) else 1)
@@ -218,6 +243,7 @@ def main(argv=None):
 
     # An issue in a plan lands on its plan branch, where the host does not close it.
     gate["issues_closed"] = _close_landed(ns)
+    gate["plan_marked"] = _mark_done(ns)
     # Verify we landed on updated base.
     _, cur, _ = _git("branch", "--show-current")
     on_base = cur == ns.base

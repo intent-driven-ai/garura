@@ -1,0 +1,484 @@
+pr: 1008
+issue: 1007
+round: 1
+counts_open:
+  P1: 0
+  P2: 8
+  P3: 21
+  P4: 9
+findings:
+- id: H1
+  severity: P3
+  file: core/components/plays/update-plan/scripts/closed_on_github.py
+  line: 38
+  summary: A close reason other than COMPLETED or NOT_PLANNED (a duplicate, or no reason) falls back to 'completed', so the
+    item is proposed as Done. check_entries then adds a 'close-completed' write for the issue, so approving the list would
+    re-close a duplicate as completed on GitHub. The item should be proposed as Dropped, or left off the list and named for
+    the person.
+  basis: The plan file header on plan/717/base defines Dropped as 'closed as not planned or as a duplicate'. ICE C8 of update-plan
+    says an item whose issue is closed 'as completed, or as not planned' goes on the list, so the ICE names two reasons and
+    the code guesses a third.
+  category: harness
+  outcome: fixed
+- id: H2
+  severity: P3
+  file: core/components/plays/merge-change/scripts/merge_pr.py
+  line: 77
+  summary: The plan file is staged into the records commit whenever the plan arguments are given, not only when the item was
+    marked Done. On the wrong_target and merge_failed paths (and on a re-run that marked nothing) any uncommitted edit already
+    in the plan file is committed and pushed with the run records. ICE C9 says only that item changes.
+  basis: 'ICE C9 (merge-change): ''only that item changes''. ADR 062 / the Plan kind of the ontology on the base ref: the
+    plan file changes only through the plan''s own landings, each with its message. Stage the plan file only when gate.plan_marked.changed
+    is true.'
+  category: harness
+  outcome: fixed
+- id: H3
+  severity: P3
+  file: core/components/plays/merge-change/reference/ice.md
+  line: 157
+  summary: REC9's trigger was not extended, but the compiled F9 row in SKILL.md (line 301) now reads '... or its plan item
+    is still open'. The compiled recovery row no longer matches the ICE it is compiled from (ICE F9 says 'its item in the
+    plan file is left open'; REC9's trigger omits it). lint_play passes because it checks one recovery per failure, not the
+    wording.
+  basis: 'Harness standard principle 4: the compiled part is built from its ICE and the two must not drift apart. Update REC9''s
+    trigger in the ICE and recompile.'
+  category: harness
+  outcome: fixed
+- id: H4
+  severity: P3
+  file: core/components/plays/update-plan/reference/ice.md
+  line: 158
+  summary: S8 says that on 'approved' the plan file reads the item Done, but its measure (and SCE-8 in SKILL.md, line 460)
+    checks only draft-closed.json and changes.yaml. No eval proves the landing (the plan file reads Done, the parent unchanged,
+    the entry carried the instruction 'closed on GitHub' into the commit). SE-19 and SCE-8 stop at the list.
+  basis: 'Harness standard principle 5: each guarantee has a check that proves it; a scenario clause without a measure is
+    unproven. The existing S1-S3 measures read the plan file after the landing.'
+  category: harness
+  outcome: fixed
+- id: H5
+  severity: P4
+  file: core/components/plays/merge-change/scripts/merge_pr.py
+  line: 128
+  summary: 'When the plan tool fails or is not installed, plan_marked becomes {''error'': ...}, the script exits 0 and the
+    stop condition (D1-D4) still reads held, so the run closes COMPLETED with the item still open. Only SE-9 at the evidence
+    step would show it. The SKILL does not say that plan_marked.error is to be reported, unlike records_pushed (''visibly
+    reported, never silent''). This is the state of every project until the owed reinstall.'
+  basis: merge-change ICE C6 sets the precedent ('never silent') for bookkeeping after the merge; harness standard principle
+    6 (nothing is blocked) is why the merge itself should not fail, so the fix is a visible report line in Step 3, not a hard
+    stop.
+  category: harness
+  outcome: fixed
+- id: H6
+  severity: P4
+  file: core/components/plays/merge-change/reference/ice.md
+  line: 28
+  summary: C6 still lists the records commit as 'merge-gate.json, the review dir', while C9 and Step 3 now say the plan file
+    rides in the same commit. The ICE names the commit's content in two places that differ.
+  basis: Harness standard principle 4 (one intent, no drift); ADR 012 evidence self-commit named in C6.
+  category: harness
+  outcome: fixed
+- id: H7
+  severity: P4
+  file: core/components/plays/update-plan/SKILL.md
+  line: 34
+  summary: The Forbidden list and the F7 recovery row (line 540) still say a status 'no instruction named' is forbidden, with
+    no word for the 'closed on GitHub' entries, while ICE F7 now carries the exception. The two readings agree only because
+    SE-5 treats 'closed on GitHub' as an instruction.
+  basis: Harness standard principle 4; ICE F7 of update-plan (changed in this branch) against the recovery table row, which
+    the ICE leaves unchanged.
+  category: harness
+  outcome: fixed
+- id: ONT-1
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 623
+  summary: 'The rule says an item is Done or Dropped when its issue closes but not when: an issue closed by hand is caught
+    at the next session and lands on the person''s approval.'
+  basis: ADR 064 Decisions 3-4 and its risks; update-plan ICE C8, S8
+  category: memory
+- id: ONT-2
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 623
+  summary: The last sentence group of the rule is hard to read; two bullets would be plainer. Wording only.
+  basis: plain-words rule; review/memory playbook
+  category: memory
+- id: Q01
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. plan_status.py imports only the standard library; no cycle introduced.
+  basis: ARCH-02
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q02
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. ruff reported clean on this file (run before this scan).
+  basis: CODE-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q03
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Format check. ruff reported clean on this file (run before this scan).
+  basis: CODE-04
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q04
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. No new import between project modules in this file; no cycle.
+  basis: CODE-14
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q05
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. plan_status.py imports only the standard library; no cycle introduced.
+  basis: ARCH-02
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q06
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. ruff reported clean on this file (run before this scan).
+  basis: CODE-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q07
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Format check. ruff reported clean on this file (run before this scan).
+  basis: CODE-04
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q08
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. No new import between project modules in this file; no cycle.
+  basis: CODE-14
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q09
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README presence. core/tools/plan/README.md exists and was updated.
+  basis: DOC-01
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README content check. The README must describe plan_status.py the way the code behaves; read by hand, no mismatch
+    found in the changed section.
+  basis: DOC-09
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README content check. Usage and arguments are listed for the new command.
+  basis: DOC-10
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q12
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Setup/usage doc check. No new setup step; the command line is shown.
+  basis: DOC-11
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q13
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines; well inside any size limit.
+  basis: ARCH-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q14
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Module-structure check. One small module with a single purpose (set one item's status).
+  basis: ARCH-08
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q15
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. Each function is short with few branches (find_status has the deepest nesting, three levels).
+  basis: CODE-09
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q16
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Function-length check. No function is longer than about 30 lines.
+  basis: CODE-10
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q17
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Nesting-depth check. Deepest nesting is three levels (find_status); within the usual limit.
+  basis: CODE-11
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q18
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines.
+  basis: CODE-12
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q19
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Cognitive-complexity check. No function is hard to follow; no score reported by the scan.
+  basis: CODE-15
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q20
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. Names are descriptive (find_status, set_status, BadInput); one short helper name 'indent' is clear.
+  basis: CODE-17
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q21
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 93
+  kind: matched-changed-line
+  defect: false
+  summary: 'Exception-handler check. ''except BadInput'' is the one handler in the new code: it catches a specific error type
+    (not a bare except), prints the reason to stderr and returns exit code 2. No defect.'
+  basis: CODE-25
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q22
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines; well inside any size limit. (Applies equally to the paired test file.)
+  basis: ARCH-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q23
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Module-structure check. One small module with a single purpose (set one item's status). (Applies equally to the
+    paired test file.)
+  basis: ARCH-08
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q24
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. Each function is short with few branches (find_status has the deepest nesting, three levels).
+    (Applies equally to the paired test file.)
+  basis: CODE-09
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q25
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Function-length check. No function is longer than about 30 lines. (Applies equally to the paired test file.)
+  basis: CODE-10
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q26
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Nesting-depth check. Deepest nesting is three levels (find_status); within the usual limit. (Applies equally to
+    the paired test file.)
+  basis: CODE-11
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q27
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines. (Applies equally to the paired test file.)
+  basis: CODE-12
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q28
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Cognitive-complexity check. No function is hard to follow; no score reported by the scan.
+  basis: CODE-15
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q29
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. Names are descriptive (find_status, set_status, BadInput); one short helper name 'indent' is clear.
+    (Applies equally to the paired test file.)
+  basis: CODE-17
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q30
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README quick-start nit. Not needed for a small tool README.
+  basis: DOC-14
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q31
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Troubleshooting nit. Exit codes (0, 2) are documented in the script header; no separate section.
+  basis: DOC-15
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q32
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Architecture-in-README nit. Not needed for this change.
+  basis: DOC-16
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q33
+  severity: P4
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Header/comment check. The module has a docstring; nothing to add.
+  basis: CODE-13
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q34
+  severity: P4
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check (nit). Short loop names (i, j, ln, m) are local and conventional.
+  basis: CODE-19
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q35
+  severity: P4
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Header/comment check. The module has a docstring; nothing to add.
+  basis: CODE-13
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q36
+  severity: P4
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check (nit). Short loop names (i, j, ln, m) are local and conventional.
+  basis: CODE-19
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+outside_scope_recorded:
+- The GitHub capability roll-up in merge-change (a capability is closed once every issue under it is closed) is recorded out
+  of scope by the product owner.
+- The installed tool folder .garura/core/tools/plan has no plan_status.py until a reinstall; owed on the product owner's word,
+  not counted as a finding.
+- ADR 064, ontology v15 and the design were read as the approved decision and not graded.
+- plan_status.py rewrites the whole status line, so a trailing comment on that line is dropped; the docstring says comments
+  are left as they are.
+- test_merge_pr.py covers _mark_done only; _commit_records staging of the plan file and the main() paths have no test.
+- The plan file for 717 shows story 1007 as Done in this PR, set ahead of the merge that the new rule says sets it.
+- Older ontology lines name plays (/shape-slice, /update-plan, /discover-capabilities) in the Plan, Slice, ICE and Story kinds,
+  the Q-answers and the changelog — the ontology should hold structure and rules only.
+- Older changelog lines are not in date order.

@@ -1,0 +1,22 @@
+{
+  "draft": ".garura/project/issues/_adr/20261031T102431Z/adr-draft.md",
+  "number": "064",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {"exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes"},
+  "overlaps_judged": [
+    {"adr": "061", "verdict": "amended", "part": "Decision §3, the sentence 'Setting In Progress here is the one status change a person did not type'"},
+    {"adr": "062", "verdict": "not affected", "why": "the new 'closed on GitHub' entries also land only on 'approved'"},
+    {"adr": "063", "verdict": "not affected", "why": "which play changes a plan that exists; unchanged"},
+    {"adr": "060", "verdict": "not affected", "why": "when a plan's branch lands; its line 'merge_pr.py never writes the plan file' is a finding of its day, not a rule"},
+    {"adr": "052", "verdict": "not affected", "why": "the hidden file and thin ICE"},
+    {"adr": "048", "verdict": "not affected", "why": "the two layers"},
+    {"adr": "049", "verdict": "not affected", "why": "the shaping loop order"},
+    {"adr": "053", "verdict": "not affected", "why": "dropped plays"},
+    {"adr": "059", "verdict": "not affected", "why": "the discovery loop's knowledge step"},
+    {"adr": "039", "verdict": "not affected", "why": "memory writes"}
+  ],
+  "note": "No earlier ADR holds 'a person sets every status'; it lives in the ontology's Plan kind (version 14, line 623, from #720) and /update-plan's C8.",
+  "supersedes": 0,
+  "amends": 1,
+  "business_intent_check": "none"
+}

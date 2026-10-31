@@ -1,0 +1,2 @@
+{"play": "start-change", "resumed": true, "issue": 1007, "branch": "plan/717/1007-status-follows-its-issue",
+ "note": "#1007's change is open (start-change ran on 2026-10-31); this decision is part of it, so the run resumes it: same issue, same branch, nothing new made. The end sequence runs once for the whole change."}

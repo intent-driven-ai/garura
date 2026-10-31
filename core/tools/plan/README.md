@@ -59,7 +59,17 @@ the session started on. `abort` undoes a branch the session cut (deletes it, and
 plan file commit) when nothing else has landed on it, then goes back; a second `abort` finishes
 one that stopped after the revert (a refused delete). Used by `/update-plan` (#730), and by `start-change` once #989 is built.
 
+## Setting an item's status from its own issue
+
+    python3 plan_status.py --plans-dir D --plan <id> --issue <n> --status Done|Dropped [--date D] [--out <record.json>]
+
+An item's status follows its own issue: closed as completed is Done, closed as not planned is
+Dropped (#1007). It changes that item's `status:` line and the file's `updated:` line, and keeps
+every other line, comment and order. Nothing rolls up: the item's parent is never changed. An
+item already at that status is left as it is. Used by `merge-change` when it closes an issue that
+landed on its plan's branch.
+
 An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
 users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`.
 
-Tests: `python3 -m unittest test_plan test_plan_branch` from this folder.
+Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status` from this folder.
