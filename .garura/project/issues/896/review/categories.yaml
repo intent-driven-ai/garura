@@ -1,6 +1,8 @@
-# Work categories present in the diff of PR 1003 (issue 896, base plan/717/base).
+# Work categories present in the diff of PR 1003 (issue 896, round 2, base plan/717/base).
 # Derived from the diff content; treatments copied from the review shelf in short-term memory
-# (context/memory/knowledge/review/, manifest context/memory/manifest.json).
+# (context/memory/knowledge/review/, manifest context/memory/manifest.json). The shelf copies from
+# round 1 are current: the memory tool still reports version 118899951cd9 for every playbook and
+# pr.md, the same as the manifest, so nothing was re-copied.
 categories:
   - name: harness
     playbook: review/harness
@@ -8,38 +10,60 @@ categories:
     evidence:
       - core/components/plays/shape-plan/SKILL.md          # compiled play (pre-flight check, constraint, failure, scenario, recovery)
       - core/components/plays/shape-plan/reference/ice.md  # the play's ICE source (intent change)
+      - core/components/plays/shape-slice/SKILL.md         # compiled play: its hand-off now names update-plan
     treatment:
       layers: [layer-1-linters, layer-2-design-grounding]
       linters:
         - name: lint-components
           command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
           note: source layout because the PR changes core/components/; only a violation in a changed path is a finding, count the rest as "there before"
-        - name: lint-play
+        - name: lint-play (shape-plan)
           command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-plan/SKILL.md --next-map .garura/project/issues/896/context/templates/standards/rules/pipeline-next.md
+        - name: lint-play (shape-slice)
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-slice/SKILL.md --next-map .garura/project/issues/896/context/templates/standards/rules/pipeline-next.md
       runnable_checks:
         - "Tool not installed -> record 'not installed'; tool crash -> record 'did not run: <first error line>'; neither is a pass."
-        - "ICE-source rule applies (repository holds the plays' source): the intent change in SKILL.md must trace to reference/ice.md, not to a hand edit of the compiled file."
-        - "Layer 2: reconstruct principles from committed sources (docs/philosophy, docs/adr, standards rules such as user-facing-voice / play-close / evidence-recording, glossary), never from this branch's prose; then check conformance (play orchestrates / skills produce / scripts do mechanical work; JSON contracts over files; ICE-source discipline)."
+        - "ICE-source rule applies (the repository holds the plays' source): the intent change in shape-plan/SKILL.md must trace to shape-plan/reference/ice.md, not to a hand edit of the compiled file. The shape-slice/SKILL.md change is a one-line hand-off wording; judge whether it is intent or non-intent by reading the diff."
+        - "Layer 2: reconstruct principles from committed sources (docs/philosophy, docs/adr, standards rules such as user-facing-voice / play-close / evidence-recording, glossary), never from this branch's prose (ADR 063 is added by this branch and is not grounding); then check conformance (play orchestrates / skills produce / scripts do mechanical work; JSON contracts over files; ICE-source discipline)."
 
   - name: memory
     playbook: review/memory
     design_bearing: true
     evidence:
+      - core/components/memory/standards/rules/pipeline-next.md  # standards rule: the Next-line map (the shaping-loop line and the shape-slice entry)
       - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md  # product-model page: the feature's ICE that agents read
     note: >
-      A product-model page is knowledge the agents read, not a core/components/memory/** file.
-      The playbook's path signals do not name it; content decides (it holds the feature's ICE).
-      Treated as memory so it gets design-grounding. The playbook does not cover product-model
-      pages explicitly, so this is a judgement call the play may revisit.
+      pipeline-next.md is a standards rule under core/components/memory/, which the memory playbook
+      names. The feature page is a product-model page: knowledge the agents read, though outside
+      core/components/memory/**. The playbook's path signals do not name it; content decides (it holds
+      the feature's ICE). It is treated as memory so it gets design-grounding. The playbook does not
+      cover product-model pages explicitly, so this is a judgement call the play may revisit.
     treatment:
       layers: [layer-1-linters, layer-2-design-grounding]
       linters:
         - name: memory-integrity
           command: null
-          note: "Known gap: no installed tool checks memory integrity yet. The reviewer does the checks by reading the changed file and cites each."
+          note: "Known gap: no installed tool checks memory integrity yet. The reviewer does the checks by reading the changed files and cites each."
       runnable_checks:
-        - "By hand, citing each: structure follows the page template; cross-references and issue/ADR pointers resolve to real files; frontmatter/id consistent with the path; no duplicate or contradicting line."
-        - "Layer 2: ground what the page is for and its shape from committed sources (the knowledge base design/index/template, the ontology and the base-ref version of this page via git show), never from the branch's new text; check that the edited ICE lines conform."
+        - "By hand, citing each: structure follows the file's template; cross-references and issue/ADR pointers resolve to real files (ADR 063, /update-plan); frontmatter/id consistent with the path; no duplicate or contradicting line (the prose map and the next: block in pipeline-next.md must agree)."
+        - "Layer 2: ground what the file is for and its shape from committed sources (the knowledge base design/index/template, the ontology, the base-ref version of each file via git show plan/717/base:<path>), never from the branch's new text; check that the edited lines conform."
+
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false
+    evidence:
+      - docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md  # new ADR
+      - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md                          # Status line amended by ADR 063
+      - docs/adr/_index.md                                                                           # index row for ADR 063
+    treatment:
+      layers: [layer-1-linters]
+      linters:
+        - name: adr-structure
+          command: null
+          note: "Known gap: no ADR linter exists in-repo yet. The reviewer does the structural checklist by hand and cites each check."
+      runnable_checks:
+        - "By hand, citing each: required sections present (status, context, decision, consequences); Status is an allowed value; markdown is well-formed; ADR 063 is numbered in sequence and has its row in docs/adr/_index.md; the row's title, status and date match the ADR; the amendment line added to ADR 049 points at a real file and names real sections."
+        - "No design-grounding: the decision is the design; a human judges whether the decision is right. Surface the named changes for the human."
 
   - name: executable-code
     playbook: review/code
@@ -75,18 +99,22 @@ categories:
   - name: work-records
     playbook: null
     playbook_missing: >
-      Playbook missing. No review playbook covers run records: an issue's short-term-memory
-      run artifacts, its approved design note, the plan-tracking file, and the install record.
-      They are not config maps (they point at nothing the system loads), not documentation for
-      a reader, and not harness or knowledge. A playbook for this kind of work should be written.
+      Playbook missing. No review playbook covers run records: an issue's short-term-memory run
+      artifacts (analysis, commits, PR and review files, memory and template copies, the ADR run
+      folder), its approved design note, the plan-tracking file, and the install record. They are
+      not config maps (they point at nothing the system loads), not documentation for a reader, and
+      not harness or knowledge. A playbook for this kind of work should be written.
     design_bearing: false
     evidence:
+      - .garura/install-manifest.json
+      - .garura/project/plans/717.yaml
+      - .garura/project/issues/896/specs/design.md
       - .garura/project/issues/896/context/analysis.yaml
       - .garura/project/issues/896/context/branch.json
       - .garura/project/issues/896/context/check-self-review-exit.txt
       - .garura/project/issues/896/context/commits.yaml
-      - .garura/project/issues/896/context/fn-818-lines/change-report.json
-      - .garura/project/issues/896/context/fn-818-lines/lines-request.json
+      - .garura/project/issues/896/context/fn-818-lines/ (change-report.json, lines-request.json)
+      - .garura/project/issues/896/context/fn-818-lines-r2/ (change-report.json, lines-request.json)
       - .garura/project/issues/896/context/issue.json
       - .garura/project/issues/896/context/plan.json
       - .garura/project/issues/896/context/porcelain.txt
@@ -96,9 +124,10 @@ categories:
       - .garura/project/issues/896/context/self-review.md
       - .garura/project/issues/896/context/target.json
       - .garura/project/issues/896/context/work-description.txt
-      - .garura/project/issues/896/specs/design.md
-      - .garura/project/plans/717.yaml
-      - .garura/install-manifest.json
+      - .garura/project/issues/896/context/memory/ (shelf, pr.md and product-ontology copies, manifest.json, grounding-harness/, grounding-memory/)
+      - .garura/project/issues/896/context/templates/ (manifest-check-change.json, standards/rules/pipeline-next.md)
+      - .garura/project/issues/896/review/ (context.yaml, categories.yaml, decision*.{yaml,md}, design-findings-*.yaml, findings.yaml, l1-*.txt, posted.json, pr.diff, quality-findings.yaml, recommended_verdict.yaml)
+      - .garura/project/issues/_adr/20261031T051608Z/ (the record-decision run for ADR 063: adr-*.json/yaml/md, brief.md, decision.yaml, guard-report.json, hashes-*.json, porcelain-*.txt, run.json, start-change.json, target.txt, context/)
     treatment:
       layers: []
       linters: []

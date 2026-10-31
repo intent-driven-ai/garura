@@ -1,0 +1,113 @@
+# Layer 2 design-grounding for the 'harness' category (issue 896, PR 1003, base plan/717/base).
+# Grounded only in committed sources: git show plan/717/base:<path> and the memory tool (--issue 896).
+# Not grounded in anything this diff adds or rewrites. specs/design.md is the approved design, not a standard.
+# Not raised, by the product owner's decision: interrupted runs (a half-made plan file stops the play; they delete it and re-run).
+category: harness
+files_checked:
+  - core/components/plays/shape-plan/SKILL.md
+  - core/components/plays/shape-plan/reference/ice.md
+principles:
+  - id: P-ICE
+    text: "A part is built from its ICE; a change to what a part guarantees is made in the ICE and the part is compiled again; the compiled part records the ICE fingerprint."
+    source: "docs/standards/harness-standard.md, principle 4 (on plan/717/base)"
+  - id: P-SCRIPT
+    text: "Mechanical work is a script the step calls; a model is used only where judgment is needed."
+    source: "docs/standards/harness-standard.md, principle 3 (on plan/717/base)"
+  - id: P-DECISION
+    text: "A decision that changes an accepted ADR is recorded as an amendment (Amends / Supersedes), with the affected files and ICE impact named."
+    source: "docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md (Amends ADR 026 and ADR 058) and docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md header (Amended-in-part by ADR 052 and ADR 057) (on plan/717/base)"
+  - id: P-SHAPING-LOOP
+    text: "ADR 049: the shaping loop is /shape-slice, then /shape-plan 'right after it, with no stop between them'; 'When a new slice is shaped for an intent that has a plan, the plan play adds the slice and its epic to that plan.'"
+    source: "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 1.2 and 2 (on plan/717/base)"
+  - id: P-UPDATE-PLAN-SCOPE
+    text: "/update-plan places a new FEATURE in a slice the plan holds (C11); when the plan holds no slice the slice is recorded as owed. No committed text says it makes the epic and stories of a newly shaped slice."
+    source: "core/components/plays/update-plan/reference/ice.md C11 and docs/adr/062-... title and Context (on plan/717/base)"
+  - id: P-CLOSE
+    text: "Every play ends with the Standard Play Close: the close loads templates through template-manager into short-term memory, writes the evidence file unless evidence.record is false, and always renders the delivery report with the Next line from the Next-line map; a stop closes HALTED, not silently."
+    source: "core/components/plays/_shared/play-close.md Steps L, C0, C1, C2 and standards/rules/evidence-recording.md (play-close on plan/717/base; evidence-recording through the memory tool, copy under context/memory/grounding-harness/)"
+  - id: P-NEXT
+    text: "The Next-line map routes each play to its successor: shape-slice -> shape-plan -> shape-eval."
+    source: "standards/rules/pipeline-next.md (memory tool copy under context/memory/grounding-harness/; same text on plan/717/base)"
+conformance_held:
+  - "ICE-source discipline holds: the intent change in SKILL.md traces to reference/ice.md (no hand edit of the compiled file); the recorded fingerprint sha256:1bd5350c... equals the hash of the new ice.md; compiled_by names edit-play (#896). Basis: harness-standard principle 4."
+  - "Mechanical work is a script: the plan-exists check is check_plan_absent.py with tests, not model inference. Basis: harness-standard principle 3."
+  - "Removed constraints, failures, scenarios and recoveries (C4, C12, F6, S2-S5, REC6, SE-5, SE-11, SE-16, SCE-2..SCE-5) are removed from the ICE and the compiled play together; lint-play will confirm eval coverage."
+findings:
+  - id: HF-1
+    severity: P2
+    file: core/components/plays/shape-plan/reference/ice.md
+    line: 16
+    summary: >
+      The change removes what ADR 049 decided (a new slice shaped for an intent that already has a plan is added
+      to that plan, with its epic, by the plan play; the plan play runs right after /shape-slice) and records
+      no ADR amendment. The diff changes no file under docs/adr. The stop message now sends the person to
+      /update-plan to "add an epic", but the committed /update-plan ICE only places a new feature in a slice the
+      plan already holds (C11), and ADR 062 names no play that makes the epic and the stories of a second slice.
+      Nothing committed on the base ref shows a play that does this job after the change, so a second slice for
+      an intent with a plan has no path to its epic, and /shape-eval ("run /shape-plan first" when no epic stands
+      for a slice) has nothing to read.
+    basis:
+      principle: P-DECISION + P-SHAPING-LOOP + P-UPDATE-PLAN-SCOPE
+      source: "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md Decision 1.2 and 2; docs/adr/062-... (pattern of recording an amendment); core/components/plays/update-plan/reference/ice.md C11 (all on plan/717/base)"
+    owner_note: "The approved design (specs/design.md) states the decision; it is not an ADR and is not used as grounding. Needs either an ADR amending ADR 049 Decision 2 that says which play handles a second slice, or the confirmed fact that /update-plan makes that epic."
+  - id: HF-2
+    severity: P3
+    file: core/components/plays/shape-plan/SKILL.md
+    line: 85
+    summary: >
+      The plan-exists stop says "close HALTED" and also "nothing was opened or written" and "no file left
+      behind" (C14, F13, S9, SE-20, SCE-9). The Standard Play Close the play runs on any halt loads templates
+      into short-term memory, writes the stop-condition record and the session-stamp marker, and writes the
+      evidence file (unless evidence.record is false). The play does not say which close steps run on this stop,
+      so "no file left behind" cannot hold if the close runs, and a stop that skips the close breaks the
+      close rule. The delivery report's Next line for shape-plan also reads "make the eval", which is the wrong
+      pointer for this stop.
+    basis:
+      principle: P-CLOSE
+      source: "core/components/plays/_shared/play-close.md Steps L, C0, C1, C2 (plan/717/base); standards/rules/evidence-recording.md (memory tool)"
+  - id: HF-3
+    severity: P3
+    file: core/components/plays/shape-plan/SKILL.md
+    line: 335
+    summary: >
+      Text left behind from the removed behaviour now says the opposite of C14. Step 6 says the plan file
+      marks the issues "and the next run finds them and makes no copy"; under C14 the next run on that intent
+      stops at pre-flight. Step 2 still describes the `add-sections` action (line 219, SE-4 line 232) and the
+      `move_out` list (SE-19 line 229, Step 5 brief line 302), and Step 6 still names `moved_out` (SE-12), though
+      C4 and C12 are gone from the ICE. The compiled play now promises more than its ICE guarantees. This is
+      about wording that contradicts the ICE, not about handling interrupted runs.
+    basis:
+      principle: P-ICE
+      source: "docs/standards/harness-standard.md principle 4 (plan/717/base): the compiled part must say what its ICE says"
+  - id: HF-4
+    severity: P3
+    file: core/components/plays/shape-plan/SKILL.md
+    line: 25
+    summary: >
+      Neighbour pointers are not updated. /shape-slice's close still ends "run /shape-plan <intent-issue> to
+      make the plan, the epic and the stories for this slice", and the Next-line map still routes
+      shape-slice -> shape-plan with the same reason. For the second slice of an intent that has a plan, that
+      Next line now sends the person to a play that stops. The map and /shape-slice are not in this change.
+    basis:
+      principle: P-NEXT + P-SHAPING-LOOP
+      source: "standards/rules/pipeline-next.md shape-slice entry; core/components/plays/shape-slice/SKILL.md Next Steps (plan/717/base); ADR 049 Decision 1.2"
+  - id: HF-5
+    severity: P4
+    file: core/components/plays/shape-plan/SKILL.md
+    line: 562
+    summary: >
+      Compilation metadata is wrong: it says "6 autonomous / 6 human" recovery entries. The ICE gives 7 autonomous
+      (REC1, 3, 4, 7, 8, 10, 11) and 5 human (REC2, 5, 9, 12, 13).
+    basis:
+      principle: P-ICE
+      source: "docs/standards/harness-standard.md principle 4 (plan/717/base): the compiled part's metadata records its ICE"
+  - id: HF-6
+    severity: P4
+    file: core/components/plays/shape-plan/SKILL.md
+    line: 494
+    summary: >
+      Step C2 artifacts line reads "each epic and story made, used,\nor used" (the words "given sections or
+      moved out" were cut and left a repeated "used"). Also the recovery table lists F13 before F12.
+    basis:
+      principle: P-ICE
+      source: "docs/standards/harness-standard.md principle 4 (plan/717/base); compiled text must be clean output of its ICE"

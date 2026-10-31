@@ -1,73 +1,38 @@
 category: memory
-artifact: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+round: 2
+artifacts:
+  - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  - core/components/memory/standards/rules/pipeline-next.md
 grounding:
   base_ref: plan/717/base
   extra_memory: .garura/project/issues/896/context/memory/grounding-memory/manifest.json
+  reused: round-1 copies (principles G1-G5 unchanged, see run-1/design-findings-memory.yaml)
   principles:
-    - id: G1
-      principle: "A model-writing change edits only per-node page files, and the page keeps the template shape (What it does, Inputs / Outputs, Rules & behavior, Acceptance criteria, Out of scope, Sources, ICE section)."
-      source: "phoenix memory standards/rules/direct-model-write.md (rule 3); base-ref version of the page (git show plan/717/base:.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md)"
-    - id: G2
-      principle: "The plan play makes a plan once; a business intent has one plan; a slice shaped later is added to that plan. (The committed ontology v14 says the plan play adds it.)"
-      source: "phoenix memory standards/schemas/product-os/ontology.md, Plan (Rules, line 615; Relationships, Epic row), Q30"
-    - id: G3
-      principle: "A person manages a plan that exists with /update-plan, which changes plan file, tracker and model together."
-      source: "phoenix memory standards/schemas/product-os/ontology.md, Plan (Rules, 'Its plan file and the tracker always agree'); play exists on base: core/components/plays/update-plan/SKILL.md (git ls-tree plan/717/base)"
-    - id: G4
-      principle: "A feature page carries the thin mark while the ICE is thin; the page keeps ICE as drift only (ICE has its own page)."
-      source: "phoenix memory standards/schemas/product-os/ontology.md, Feature rules and ICE rules (thin mark, line 522; pre-v6 ICE section is drift, line 524)"
-    - id: G5
-      principle: "Plain words, personas, no real person's name on model pages."
-      source: "phoenix memory standards/rules/user-facing-voice.md; the page's base-ref text (Sources, ICE Context)"
+    - {id: G1, principle: "Page keeps the template shape; only per-node page files change", source: "phoenix memory standards/rules/direct-model-write.md; base-ref version of the page"}
+    - {id: G3, principle: "/update-plan changes a plan that exists", source: "phoenix memory standards/schemas/product-os/ontology.md, Plan rules; core/components/plays/update-plan/SKILL.md on plan/717/base"}
+    - {id: G5, principle: "Plain words, personas, no real names", source: "phoenix memory standards/rules/user-facing-voice.md"}
+    - {id: G6, principle: "The Next-line map: the prose map and the next: block agree, and every command named is a real play", source: "base-ref version of pipeline-next.md (git show plan/717/base:core/components/memory/standards/rules/pipeline-next.md); update-plan exists on the base ref"}
+round_1_resolution:
+  MEM-1: "known, recorded outside this change; not raised again"
+  MEM-2: "resolved. Page line 57 (Fails if) now carries both halves of F13: goes on past pre-flight, or stops without naming /update-plan."
+  MEM-3: "resolved. Out of scope line 38 lists a change to a plan that exists (/update-plan, fn-730); Context line 59 names /update-plan as out."
+  MEM-4: "resolved. Lines 4 and 59 now read 'Built (#818)'; Sources line 41 says #818 closed."
 checks_by_hand:
-  - check: "Structure kept: same 7 sections in the same order, same line count (59 before, 59 after), only six lines changed in place (change-report.json agrees)."
-    result: pass
-    basis: G1
-  - check: "Page agrees with the play's ICE (core/components/plays/shape-plan/reference/ice.md on the branch): Goal agrees with Intent paragraph and C14; the Rules line agrees with C14; the acceptance line agrees with S9; the Fails-if line agrees with F13 (opened change / read the model / wrote anything); /update-plan named as the pointer in both."
-    result: pass_with_notes
-    basis: "compared with the branch ICE; rules grounded in G1-G3 (not from the branch text)"
-  - check: "Cross-references resolve: /update-plan exists on the base ref; fn-898, fn-818 pointers and the ADR paths in Sources are unchanged."
-    result: pass
-    basis: G3
-  - check: "No real names; no new jargon beyond 'pre-flight', which the page's own base text already treats as a play term. Sentences stay short."
-    result: pass
-    basis: G5
-  - check: "Thin mark: the page still opens its Sources tail with the Thin line, and the spine entry still says thin: true. The removed 'Thin:' rules line was one open question that the change settles; the other Thin line (fields of the plan file and story) stays."
-    result: pass
-    basis: G4
+  - {check: "Page structure kept: same sections in the same order", result: pass, basis: G1}
+  - {check: "Page agrees with the play's ICE: Goal (lines 49-50) with Intent and C14; Rules line 20 with C14; acceptance line 28 with S9; Fails-if line 57 with F13; Out of scope and Context with the ICE Context", result: pass, basis: "G1, G3; compared with shape-plan/reference/ice.md"}
+  - {check: "pipeline-next.md: the next: block parses; shape-slice entry command is still shape-plan (unchanged); shape-plan -> shape-eval unchanged; only the 'why' text and one prose sentence changed", result: pass, basis: G6}
+  - {check: "pipeline-next.md: the prose map (line 22) and the shape-slice entry (line 58) agree; /update-plan exists on the base ref and has its own entry (line 77); lint-play on shape-slice reads PASS for next-command", result: pass, basis: G6, G3}
+  - {check: "Plain words, no real names", result: pass, basis: G5}
 findings:
-  - id: MEM-1
-    severity: P3
-    file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
-    line: 24
-    summary: "The page now says a slice that changes after the plan exists is handled by /update-plan and that /shape-plan never runs on an existing plan. The committed ontology still says the opposite: the plan play adds a new slice and its epic to the intent's existing plan (Plan rules, Q30), and 'uses the one that exists' for the epic. Page and ontology now disagree, and this change does not touch the ontology."
-    basis:
-      principle: "A model page must agree with the ontology it is a kind of (G2, G3). The ontology sits on the base ref and is the committed word."
-      source: "phoenix memory standards/schemas/product-os/ontology.md, Plan rules (line 615) and Q30 (line 116)"
-    suggestion: "Name the gap (a follow-up for edit-ontology to say that /update-plan, not a second /shape-plan run, adds a later slice to a plan that exists). The page line itself is consistent with /update-plan existing on the base ref."
-  - id: MEM-2
+  - id: MEM-5
     severity: P4
     file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
-    line: 56
-    summary: "The page's 'Fails if' line leaves out the second half of the play's F13: the run also fails when it stops without naming /update-plan. The page's Goal and acceptance line do name it, so the check is covered, but the Fails-if line is shorter than the ICE it must agree with."
+    line: 20
+    summary: "The Rules line (20) and the acceptance line (28) say the play stops 'before it opens a change or writes anything'. The play's C14 and S9 also say 'before any read of the model'. The Fails-if line (57) and nothing else carries the read. A short gap, not a contradiction."
     basis:
-      principle: "The page's ICE section must keep the play's failure conditions whole (agreement with the play's ICE; G1 structure kept)."
-      source: "compared with core/components/plays/shape-plan/reference/ice.md F13 on the branch; rule from phoenix memory standards/rules/direct-model-write.md"
-  - id: MEM-3
-    severity: P4
-    file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
-    line: 33
-    summary: "Out of scope does not list changing a plan that exists, now owned by /update-plan, although the change moved that behavior out of this play. The Context line (58) also does not name /update-plan as an 'out' item, while the play's ICE Context does."
-    basis:
-      principle: "A feature page lists the neighbouring plays that own what it leaves out (as it does for /shape-slice and /shape-eval)."
-      source: "base-ref version of the same page, Out of scope section (git show plan/717/base:...fn-818/feature.md); G3"
-  - id: MEM-4
-    severity: P4
-    file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
-    line: 4
-    summary: "Left as it was before: 'Not built yet (#818)' on lines 4 and 58, although the play and its pre-flight check now exist. Not caused by this change; noted so the page is not left stale."
-    basis:
-      principle: "A page states what exists (Plan/feature honesty; the page's own Sources keep #818 open)."
-      source: "base-ref version of the page (the same text); core/components/plays/shape-plan/SKILL.md exists on plan/717/base"
+      principle: "The page's rules and acceptance must keep the play's pre-flight guarantee whole (page agrees with the play's ICE)."
+      source: "shape-plan/reference/ice.md C14 and S9 on the branch, rule from G1 (phoenix memory direct-model-write.md)"
+outside_scope:
+  - "pipeline-next.md line 22 reads 'a later slice joins the plan through /update-plan', which the ontology (Plan rules, Q30) still says the plan play does; this is the MEM-1 ontology gap, recorded elsewhere."
 unavailable_grounding:
-  - "No committed page template for a product-model feature page was found through the memory tool (find on feature/page/template globs returned nothing). Structure was checked against the base-ref version of the same page and the ontology Feature kind."
+  - "No committed page template for a product-model feature page; structure checked against the base-ref version of the page."
