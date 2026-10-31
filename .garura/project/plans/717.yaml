@@ -144,7 +144,7 @@ tree:
     - issue: 989
       kind: story
       title: 'start-change starts a plan on its own: it cuts the plan''s branch from main, with no story branch'
-      status: Not Started  # filed 2026-10-29, after plan 717 was started by hand with plain git
+      status: Done
     - issue: 991
       kind: story
       title: /propose-change asks the plan's Status and Direction when a plan's branch is proposed for main, and the branch's plan file replaces main's
