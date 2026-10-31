@@ -1,0 +1,5 @@
+ M .garura/product/product-os/capabilities/cap-721/capability.md
+ M .garura/project/plans/717.yaml
+?? .garura/project/issues/1011/context/lines-request-cap-721.json
+?? .garura/project/issues/1011/context/model-cap-721.json
+?? .garura/project/issues/1011/context/porcelain.txt

@@ -1,0 +1,9 @@
+{
+  "branch_name": "plan/717/1011-cap-721-landing-rule",
+  "base_sha": "c0e3bcffa461c1a3834234edf678066ba39f7a32",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/717/base",
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}

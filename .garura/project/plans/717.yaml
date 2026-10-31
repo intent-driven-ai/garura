@@ -140,7 +140,7 @@ tree:
       - issue: 1011
         kind: chore
         title: 'Bring the landing rule on the page of the #721 capability in line with ADR 060'
-        status: Not Started
+        status: Done
     - issue: 989
       kind: story
       title: 'start-change starts a plan on its own: it cuts the plan''s branch from main, with no story branch'

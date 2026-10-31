@@ -1,0 +1,1 @@
+#1011: bring the landing rule on the page of the #721 capability (start and land work against a plan) in line with ADR 060, the same way as the #673 page: the direction line, Goal, Fails if and Checked by, through the model sub-agent.
