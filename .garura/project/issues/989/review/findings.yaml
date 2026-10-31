@@ -1,123 +1,89 @@
 pr: 1016
 issue: 989
-round: 1
+round: 2
 counts:
-  P1: 1
-  P2: 4
-  P3: 7
-  P4: 2
+  P1: 0
+  P2: 1
+  P3: 6
+  P4: 3
 findings:
-- id: R-01
-  severity: P1
-  file: core/components/plays/create-play/references/test_setup_branch.py
-  line: 52
-  summary: 'The runnable suite for setup_branch.py is red: 4 checks fail and the run crashes (TypeError at line 67). The test''s
-    scratch repo has no plan file on main and no installed plan tool, so the new main-first cut through plan_branch.py stops;
-    its push-refused check also expects the old message. The test is a script (`python3 test_setup_branch.py`), so `python3
-    -m unittest` and both review agents missed it.'
-  basis: 'pr.md: a red runnable suite is P1 (categories.yaml tests treatment: "a red suite is a blocker"). Run by the play
-    at Layer 1: `cd core/components/plays/create-play/references && python3 test_setup_branch.py`.'
-  category: tests
-- id: R-02
+- id: N1
   severity: P2
-  file: core/tools/plan/plan_branch.py
-  line: 200
-  summary: 'Cutting a plan''s branch when main''s plan file already reads `status: In Progress` and `branch: plan/<id>/base`
-    (a branch landed or deleted by the older flow — plan 717''s file on main reads exactly this today) writes no change, so
-    the main commit fails with nothing to commit and the cut stops. The same path breaks start-change''s story path and /update-plan.'
-  basis: ADR 061 §3 (main first, then the cut) must work for every plan with no branch; pr.md P2 (a correctness defect on
-    a supported path). Found by R-01's stale-copy check.
-  category: executable-code
-- id: H1
-  severity: P2
-  file: core/components/plays/merge-change/reference/ice.md
-  line: 73-80 (C10), 100-102 (F10); compiled in core/components/plays/merge-change/SKILL.md lines 130-144, 155-161
+  file: core/components/plays/start-change/stop-condition-plan.yaml (whole file); SKILL.md lines 32, 494; reference/ice.md
+    lines 195-205
+  line: null
   summary: null
-  basis: G6 (ADR 060 Decision 4 and 'ICE impact'; harness-standard principle 8)
+  basis: 'G3 and G7: what is baked to a play is emitted by the compiler from the ICE, so a rebuild reproduces it; the Standard
+    Play Close checks the play''s one manifest'
   category: harness
-- id: H2
-  severity: P2
-  file: core/components/plays/start-change/reference/ice.md
-  line: C9 lines 31-52, S5 lines 95-102; compiled in core/components/plays/start-change/SKILL.md Step 4 lines 197-237; core/tools/plan/plan_branch.py
-    lines 197-202 (the Done/Dropped stop)
-  summary: null
-  basis: 'G7 (ontology Plan kind: ''A bug found after a plan is done sits under the Story that introduced it; no new plan
-    is made, and the done plan is not reopened'')'
-  category: harness
-- id: H3
-  severity: P2
-  file: core/components/plays/propose-change/SKILL.md
-  line: '134-150 (Step 0 question); core/components/plays/propose-change/reference/ice.md lines 48-60 (C10: ''asks, in one
-    message'')'
-  summary: null
-  basis: G8
-  category: harness
-- id: H4
+- id: N2
   severity: P3
-  file: core/components/plays/start-change/SKILL.md
-  line: 66, 87-102 (hard halt on nothing typed); core/components/plays/start-change/reference/ice.md C10 lines 27-33, F10,
-    S11
+  file: core/components/plays/start-change/reference/ice.md lines 56-58 (C9), 103-107 (F9), 232-238 (REC9); SKILL.md line
+    244 (SE-10) and line 473 (F9 row)
+  line: null
   summary: null
-  basis: G10
+  basis: G3 (the compiled play carries one recovery per failure condition; the ICE is what was agreed)
   category: harness
-- id: H5
+- id: N3
   severity: P3
-  file: core/components/plays/propose-change/SKILL.md
-  line: 134-170 (Step 0 runs before Step 2 Confirm Raise); reference/ice.md REC11 lines 165-169
+  file: 'core/components/plays/start-change/reference/ice.md lines 34-40 (C10), 169-172 (S11); SKILL.md lines 66, 87-102.
+    Callers not in the diff: core/components/loops/_shared/loop-run.md line 61, core/components/loops/complete-discovery/SKILL.md
+    lines 124-125'
+  line: null
   summary: null
-  basis: G4 and the base-ref propose-change ICE C3 ('the play does not raise with a dirty tree'); harness-standard principle
-    4 (one recovery per failure)
+  basis: G8 (callers of start-change are written by their own files; a guarantee that changes for callers is stated there),
+    and harness principle 1 (people run loops)
   category: harness
-- id: H6
+- id: N4
   severity: P3
-  file: core/components/plays/start-change/SKILL.md; core/components/plays/merge-change/SKILL.md
-  line: start-change 459-461 (blank line before F10/F11 rows); merge-change 339-341 (blank line before the F10 row)
+  file: core/components/plays/start-change/SKILL.md lines 87-91
+  line: null
   summary: null
-  basis: G4 (the compiled play carries one recovery per failure; it is generated from the ICE)
-  category: harness
-- id: H7
-  severity: P3
-  file: core/components/plays/start-change/SKILL.md
-  line: 294-330 (Plan path), 378-399 (close block uses ${issue} paths; plan values only in a comment at 383-387)
-  summary: null
-  basis: G3 and the play-close shared block ('a run with no issue uses the play's own working base'; values are the play's
-    own)
-  category: harness
-- id: H8
-  severity: P3
-  file: docs/adr/060-... and docs/adr/061-... (not changed by this PR); core/components/plays/propose-change/SKILL.md lines
-    134-170; core/tools/plan/plan_land.py lines 68-87
-  line: n/a (ADR text on the base)
-  summary: null
-  basis: G5 and G6 (ADR 060, 061 name who writes the branch field and when)
-  category: harness
-- id: H10
-  severity: P4
-  file: core/components/plays/start-change/SKILL.md
-  line: 303-307, 93
-  summary: null
-  basis: G1
-  category: harness
-- id: H9
-  severity: P4
-  file: core/components/plays/propose-change/reference/ice.md and core/components/plays/propose-change/SKILL.md
-  line: ice.md 48-60; SKILL.md 52, 134-143, 395
-  summary: null
-  basis: G4 (agent/skill flow is part of the ICE) and G9
+  basis: G1 (a mechanical step gives the same answer every time; a script step must not depend on how the text is quoted)
   category: harness
 - id: Q-01
   severity: P3
   file: core/tools/plan/plan_branch.py
-  line: 155
+  line: 157
   summary: null
-  basis: 'CODE-09 (P3, complexity-score). go(): cyclomatic complexity 16 (ruff C901 limit 10). It was 15 at plan/717/base;
-    this PR adds the stale-copy branch (line 168). Borderline, grew by one.'
+  basis: 'CODE-09 (P3, complexity-score). go(): cyclomatic complexity 17 (ruff C901 limit 10). 15 at plan/717/base, so this
+    PR adds 2 (the stale-copy and main-already-In-Progress branches). Borderline, and it keeps growing.'
   category: executable-code
 - id: Q-02
   severity: P3
   file: core/tools/plan/plan_branch.py
-  line: 155
+  line: 157
   summary: null
-  basis: 'CODE-10 (P3, line-count). go() is 76 lines (PLR0915: 64 statements > 50), the longest function in the PR''s code.
-    The new drop_stale() was split out, which keeps the growth small.'
+  basis: CODE-10 (P3, line-count). go() is 82 lines (157-238), 67 statements (PLR0915 limit 50); 62 statements at base. The
+    longest function in the PR's code.
   category: executable-code
+- id: Q-03
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 262
+  summary: null
+  basis: 'CODE-09 (P3, complexity-score). abort(): complexity 18; 17 at base. This PR adds one (the main_written is False
+    branch, line 288).'
+  category: executable-code
+- id: N5
+  severity: P4
+  file: core/components/plays/start-change/SKILL.md lines 153-156; scripts/resolve_args.py lines 101-104
+  line: null
+  summary: null
+  basis: G1 and G3 (every file a step names has a writer; the SKILL says what the ICE agreed)
+  category: harness
+- id: N6
+  severity: P4
+  file: core/components/plays/start-change/SKILL.md lines 421-424 (Step C1) and 386-387 (SE-7)
+  line: null
+  summary: null
+  basis: G9 (a run with no issue uses the play's own base and its own values)
+  category: harness
+- id: N7
+  severity: P4
+  file: core/components/plays/start-change/SKILL.md lines 205-213; scripts/resolve_plan.py line 26 and create-play/references/resolve_plan.py
+    line 26 (docstring); reference/ice.md lines 34-40 and 50-68
+  line: null
+  summary: null
+  basis: G3 and G5
+  category: harness
