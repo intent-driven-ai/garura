@@ -36,7 +36,8 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   the matching issue, or files one, and confirms it, as today), or `plan <id>`. Nothing
   typed starts nothing: the run stops with one line, "Tell me what to start: an issue
   number, a short description, or plan <id>." What was typed is read by the bundled
-  `resolve_args.py`; the branch name never names the change.
+  `resolve_args.py`; the branch name never names the change. A loop or a play that opens its
+  change through start-change passes the issue number (or a description), as it does today.
 - C11 — `plan <id>` starts a plan's work on its own (#989, ADR 061). The plan is read from
   main in git (`resolve_args.py`); a number no plan has, or a plan main marks Done or
   Dropped, gets a plain message and nothing is started. The plan tool's `plan_branch.py`
@@ -52,7 +53,9 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   `origin/main`, and, for a plan whose own branch `plan/<plan-id>/base` is on origin, from
   that branch too, since a plan session writes there first; an issue in either copy belongs
   to the plan. When the fetch fails, the last fetched copies are read and the record says
-  so. A plan's branch is created only when work on the plan starts — by `plan <id>` (C11), or by
+  so. An issue in a plan that main marks Done or Dropped (a bug found after the plan closed)
+  is started as an issue in no plan — `feature/<issue>-<slug>` off main, with the closed plan
+  named in the record — and a closed plan's branch is never cut (#989). A plan's branch is created only when work on the plan starts — by `plan <id>` (C11), or by
   the first start-change for an issue in it — and always through the plan tool's
   `plan_branch.py`, main first: main's plan file is set to In Progress with the branch
   named, committed and pushed on main, and the branch is cut from that commit (ADR 061,
@@ -171,6 +174,12 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   and a short description of a chore is typed, when it runs, then it finds or files that
   chore's issue and starts it — not the plan. Measure: args.json reads `mode:
   description`; issue.json names the chore's issue, not P.
+
+- S13 — (developer, a bug in a finished plan) Given an issue in plan P's tree, and P marked
+  Done or Dropped on main, when it runs for that issue, then the issue gets
+  `feature/<issue>-<slug>` off main and P's branch is not cut. Measure: plan.json reads
+  `plan_id: null` and `closed_plan: P`; branch.json's `branch_name` starts with `feature/`; no
+  `plan/P/base` was made.
 
 ### Done means
 

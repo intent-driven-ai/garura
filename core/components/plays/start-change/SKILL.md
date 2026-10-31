@@ -27,7 +27,7 @@ This play was compiled from the start-change ICE (`reference/ice.md`) by edit-pl
 (#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate-off recompile; #484 scripted
 chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete; #989 the
 change is what is typed, and a plan starts on its own). Intent defines constraints (C1–C11) and
-failure conditions (F1–F11); the expectation defines success scenarios (S1–S12), a Done means
+failure conditions (F1–F11); the expectation defines success scenarios (S1–S13), a Done means
 (D1–D4 for a change, baked to `stop-condition.yaml`; D5–D8 for a plan's start, baked to
 `stop-condition-plan.yaml`), and one recovery entry per failure condition.
 To modify this play, update `reference/ice.md` and recompile with edit-play.
@@ -241,7 +241,9 @@ plan_branch|null, plan_branch_created }`.
 **SE-2 (F2/C2):** the current branch is not `main` and equals `plan.json.issue_branch`. For an
 issue in no plan, `branch.json.base_sha` equals the current `origin/main` tip. For an issue
 in a plan, origin/main is an ancestor of `plan_branch`, and `base_sha` equals its tip.
-**SE-10 (F9/C9):** when `branch.json.plan_branch_created` is true, `plan-branch.json` (the plan
+**SE-10 (F9/C9):** when `plan.json.closed_plan` is set (the issue sits in a plan main marks Done or
+Dropped), `plan_id` is null, `branch.json.branch_name` starts with `feature/`, and no
+`plan/<closed_plan>/base` was made; when `branch.json.plan_branch_created` is true, `plan-branch.json` (the plan
 tool's record, beside `branch.json`) reads `action: cut` with a `main_commit`, and main's plan
 file at that commit reads `status: In Progress` and `branch: plan/<plan_id>/base` — the plan's
 branch was cut main first, through the plan tool. `plan.json` exists and was written by `resolve_plan.py` before the branch
@@ -294,14 +296,21 @@ branch name. For `mode: none` the run halted at pre-flight with no issue, branch
 ### Plan path — `plan <id>` (C11)
 
 The working folder is `<working> = ${stm_base}_plans/start-change/<id>/`, made fresh; it is never
-committed. Move `<stm_base>_start/args.json` into it.
+committed. Move `<stm_base>_start/args.json` into it, and record the session identity stamp's
+start marker there (#463 — soft-fail, never a halt):
+
+```
+python3 scripts/session_stamp.py --phase start \
+    --marker "<working>/session-stamp-start-change.json" \
+    --cwd "$(pwd)" --branch "$(git branch --show-current)"
+```
 
 **Step P1 — Start the Plan's Branch** · Owner: play (script) · Depends on: pre-flight
 Record the branches, then get onto the plan's branch with the plan tool — the one way to cut
 it, main first (ADR 061):
 
 ```
-git branch -a --format='%(refname:short)' > <working>/branches-before.txt
+python3 scripts/check_plan_start.py --save-branches <working>/branches-before.txt
 python3 .garura/core/tools/plan/plan_branch.py go --plan <id> --plans-dir "<plans_base>" \
     --ignore "<stm_base>" --out <working>/plan-branch.json
 ```
@@ -363,6 +372,8 @@ The Plan path then runs **SCE-8** and **SCE-9** (Step 6) and the Close (Step 7) 
 - **SCE-12 (S12 — developer, any change on a plan's branch):** on `plan/<P>/base` with a
   description typed, `args.json` reads `mode: description` and `issue.json`'s
   `issue_number` is not `<P>`.
+- **SCE-13 (S13 — developer, a bug in a finished plan):** `plan.json` reads `plan_id: null` and
+  `closed_plan: <P>`; `branch.json.branch_name` starts with `feature/`; no `plan/<P>/base` was made.
 - **SE-5 (F5/C6):** a re-run for the same issue created neither a duplicate issue nor a
   duplicate branch (counts unchanged vs. before the run).
 
@@ -382,9 +393,10 @@ the run artifacts are committed on the feature branch.
 # then Steps C0-C2.
 #   evidence_base, slug (project-scoped play):
 #     evidence_base="${stm_base}${issue}/evidence/start-change/"   ; slug="#${issue}"
-#   Plan path: evidence_base="${stm_base}_plans/evidence/start-change/" ; slug="plan ${id}";
-#     the stamp marker and the stop-condition run over <working>, with --manifest
-#     "<play-dir>/stop-condition-plan.yaml" and --base "<working>/" (D5–D8)
+#   Plan path — every ${stm_base}${issue}/ path below reads <working>/ instead:
+#     evidence_base="${stm_base}_plans/evidence/start-change/" ; slug="plan ${id}";
+#     the stamp marker is <working>/session-stamp-start-change.json, and the stop condition runs
+#     with --manifest "<play-dir>/stop-condition-plan.yaml" --base "<working>/" (D5–D8)
 
 # Session identity stamp (#463) — close phase; start phase ran at Step 5
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
@@ -417,7 +429,9 @@ write to `$evidence_dest`. Do NOT hand-author the body.
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report to the user: `## start-change Delivered — #${issue}`, the Run Summary table, the
 Pipeline Steps table built from the task DAG, the Artifacts Produced table, Next Steps
-(the change is ready — run the build/implement play next), and a pointer to
+(the change is ready — run the build/implement play next; on the Plan path, title it `## start-change
+Delivered — plan ${id}`, and its Next Steps say the plan's branch is ready and a story is started
+with `/start-change <story>`), and a pointer to
 `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -442,6 +456,7 @@ The success scenarios and their evals (run in Step 6):
 | S10 — a wrong plan number | anyone | SCE-10 |
 | S11 — nothing typed | developer | SCE-11 |
 | S12 — any change on a plan's branch | developer | SCE-12 |
+| S13 — a bug in a finished plan | developer | SCE-13 |
 
 ## Recovery
 
@@ -456,7 +471,6 @@ The success scenarios and their evals (run in Step 6):
 | F7 | `validate_issue.py` exits non-zero on the proposed or created issue record | a human fixes the title (present, ≥15 chars, tagged) and/or completes the work description, then re-runs; the play never creates over a failed validation | human |
 | F8 | the mechanical branch work ran through an agent instead of `setup_branch.py` | route the cut/worktree/push through `setup_branch.py` and remove the agent dispatch | autonomous |
 | F9 | the plan was not read by `resolve_plan.py` from git, an issue in a plan got a branch outside `plan/<plan-id>/`, a plan's branch was cut without main's plan file first, or a stale local plan branch was at risk | run `resolve_plan.py` and re-cut the branch with its names, the plan's branch through the plan tool; an issue in two plans, or `setup_branch.py` stopping on a stale copy with commits found nowhere else or on an origin it could not reach, stops for a person (fix the plan files, push or move the commits, or run again when origin can be reached) | human |
-
 | F10 | a run started a change the person did not name: nothing was typed and it went on, or the change came from the branch name | stop with the one line naming what to give; take the change only from `resolve_args.py` | autonomous |
 | F11 | `plan-start-check.json` names a problem: a story branch cut, an issue looked up, a commit on the plan's branch, main's plan file not In Progress on the branch, or a plan that should not start got a branch | delete a story branch that was cut and take a commit off the plan's branch; for a cut without main first, or a plan that should not have started, stop and name it for a person (the plan tool's `abort` undoes a cut that holds nothing else) | human |
 
@@ -473,7 +487,7 @@ branch and switches to it, changing nothing (S9).
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:37b2ab47bed2d8800913db9b87b37067b6965c0c2abd5a5515c49094119e3701 (of `reference/ice.md`) |
+| fingerprint | sha256:4e7a227766b93330ab01e1c10e3d5be4c5a8bd0dbcda2e345267395b9d4692cb (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete; #989 the change is what is typed, and a plan starts on its own) |
 | pipeline_position | start |
 | workflow_structure | B (fast execution flow), two paths: a change, or a plan's start |
@@ -484,5 +498,5 @@ branch and switches to it, changing nothing (S9).
 | scripts | 9 (init_stm.py, preflight.py, session_stamp.py, check_stop_condition.py, validate_issue.py, setup_branch.py, resolve_plan.py, resolve_args.py, check_plan_start.py) + test_start_change.py |
 | tools | the plan tool's `plan_branch.py` (every cut of a plan's branch, main first) |
 | step_evals | 12 (SE-1…SE-12) |
-| scenario_evals | 12 (SCE-1…SCE-12) |
+| scenario_evals | 13 (SCE-1…SCE-13) |
 | recovery_entries | 11 (one per failure condition; 8 autonomous / 3 human) |

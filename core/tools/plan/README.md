@@ -57,10 +57,12 @@ branch, switches to it, or — for a plan with no branch — sets main's plan fi
 the branch named, commits that on main, and cuts the branch from it. `back` returns to the branch
 the session started on. `abort` undoes a branch the session cut (deletes it, and reverts main's
 plan file commit) when nothing else has landed on it, then goes back; a second `abort` finishes
-one that stopped after the revert (a refused delete). A copy of the plan's branch that is gone on the remote is deleted and cut fresh only when every
-commit on it is on main; otherwise it stops and names the commits (#953). Used by `/update-plan`
-(#730), and by `start-change` (#989): `/start-change plan <id>`, and the first story of a plan with
-no branch.
+one that stopped after the revert (a refused delete). A copy of the plan's branch that is gone
+on the remote is deleted and cut fresh only when every commit on it is on main; otherwise it stops
+and names the commits (#953). When main's plan file already reads In Progress on the branch, there
+is nothing to commit on main and the branch is cut from main's tip. Used by `/update-plan` (#730),
+and by `start-change` (#989): `/start-change plan <id>`, and the first story of a plan with no
+branch.
 
 ## Setting an item's status from its own issue
 
@@ -74,23 +76,6 @@ landed on its plan's branch.
 
 An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
 users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`
-(#989), `/propose-change` and `/merge-change` (#991).
+(#989).
 
-## Landing a plan's branch on main
-
-    python3 plan_land.py ready --plan <id> --status S --direction D --template <plan-view.md> [--plans-dir D] [--ignore <folder>] --out <record.json>
-    python3 plan_land.py check --record <record.json> [--out <check.json>]
-    python3 plan_land.py landed --check <check.json> [--out <landed.json>]
-
-The plan's branch is the only place a plan changes; when it lands, main's plan file becomes the
-branch's, whole (#991). `ready` runs on `plan/<id>/base` before `/propose-change` raises it for
-main. It takes the person's Status and Direction, checked against the template's lists (an answer
-it does not know stops it, so the person is asked again), names every change main made to the
-plan file since the branch was cut, merges the latest main in keeping the branch's plan file, and
-writes the Status, the Direction, an empty `branch:` (the branch is deleted after the merge) and
-`updated:` into the file for the play's own commit. A clash in any other file stops it, with the
-merge taken back. `check` runs in `/merge-change` before the merge: when main's plan file changed
-after `ready`, it stops and says to run `/propose-change` again, so a blended plan file never lands.
-`landed` runs after the merge: main's plan file must now be the branch's, whole.
-
-Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status test_plan_land` from this folder.
+Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status` from this folder.

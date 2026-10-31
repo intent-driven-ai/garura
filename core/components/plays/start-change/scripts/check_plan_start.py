@@ -11,11 +11,12 @@ Reads the plan tool's record (`plan_branch.py go`) and git, and writes what hold
   no_story_branch  no branch plan/<id>/<anything but base> was made by this run
   ok               all three
 
+    python3 check_plan_start.py --save-branches <branches-before.txt> [--repo .]
     python3 check_plan_start.py --record <plan-branch.json> --plans-dir <plans> \
         --branches-before <branches-before.txt> [--repo .] --out <plan-start-check.json>
 
-`--branches-before` lists the branches (`git branch -a --format=%(refname:short)`) before the
-run. Exit 0 ok, 1 not ok (the problems are named), 2 bad input.
+`--save-branches` writes the branches here and on origin before the run; the check compares
+against that list. Exit 0 ok, 1 not ok (the problems are named), 2 bad input.
 """
 import argparse
 import json
@@ -83,12 +84,19 @@ def check(rec, plans_dir, before, repo):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="prove a plan's start")
-    ap.add_argument("--record", required=True)
-    ap.add_argument("--plans-dir", required=True)
-    ap.add_argument("--branches-before", required=True)
+    ap.add_argument("--save-branches")
+    ap.add_argument("--record")
+    ap.add_argument("--plans-dir")
+    ap.add_argument("--branches-before")
     ap.add_argument("--repo", default=".")
-    ap.add_argument("--out", required=True)
+    ap.add_argument("--out")
     ns = ap.parse_args(argv)
+    if ns.save_branches:
+        with open(ns.save_branches, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(sorted(branches(ns.repo))) + "\n")
+        return 0
+    if not (ns.record and ns.plans_dir and ns.branches_before and ns.out):
+        ap.error("--record, --plans-dir, --branches-before and --out are needed for the check")
     try:
         with open(ns.record, encoding="utf-8") as fh:
             rec = json.load(fh)

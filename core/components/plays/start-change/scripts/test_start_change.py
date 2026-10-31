@@ -122,8 +122,7 @@ class RepoTest(unittest.TestCase):
 
     def plan_start(self):
         before = os.path.join(self.work, "before.txt")
-        with open(before, "w", encoding="utf-8") as fh:
-            fh.write(sh(["git", "branch", "-a", "--format=%(refname:short)"], self.repo))
+        self.assertEqual(self.run_in_repo(os.path.join(HERE, "check_plan_start.py"), "--save-branches", before).returncode, 0)
         rec_path = os.path.join(self.work, "plan-branch.json")
         p = self.run_in_repo(os.path.abspath(PLAN_TOOL), "go", "--plan", "50", "--plans-dir", "plans",
                              "--out", rec_path)

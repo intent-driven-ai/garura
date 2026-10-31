@@ -154,6 +154,32 @@ class PlanBranchTest(unittest.TestCase):
         self.assertEqual(out(["git", "rev-parse", "plan/50/base"], self.repo), tip)
         self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_before)
 
+    def gone_without_its_file_changed(self):
+        """The branch was deleted on the remote and here, and main's plan file still reads In
+        Progress on it (the older flow)."""
+        self.go()
+        sh(["git", "checkout", "--quiet", "main"], self.repo)
+        sh(["git", "pull", "--quiet", "--ff-only", "origin", "main"], self.repo)
+        sh(["git", "branch", "--quiet", "-D", "plan/50/base"], self.repo)
+        sh(["git", "push", "--quiet", "origin", "--delete", "plan/50/base"], self.repo)
+
+    def test_a_cut_with_nothing_to_commit_on_main_cuts_from_main_s_tip(self):
+        self.gone_without_its_file_changed()
+        main_before = out(["git", "rev-parse", "origin/main"], self.repo)
+        code, rec = self.go()
+        self.assertEqual((code, rec["action"], rec["main_written"], rec["main_commit"]), (0, "cut", False, main_before))
+        self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_before)
+        self.assertEqual(out(["git", "rev-parse", "origin/plan/50/base"], self.repo), main_before)
+
+    def test_abort_of_a_cut_with_nothing_on_main_only_deletes_the_branch(self):
+        self.gone_without_its_file_changed()
+        main_before = out(["git", "rev-parse", "origin/main"], self.repo)
+        self.go()
+        self.assertEqual(self.abort(), 0)
+        self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_before)
+        self.assertFalse(plan_branch.has_ref("plan/50/base", self.repo))
+        self.assertFalse(plan_branch.has_ref("origin/plan/50/base", self.repo))
+
     def test_stop_on_uncommitted_work(self):
         self.write("notes.txt", "draft\n")
         head = out(["git", "rev-parse", "HEAD"], self.repo)
