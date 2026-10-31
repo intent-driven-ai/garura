@@ -1,0 +1,21 @@
+ M core/components/plays/create-play/references/setup_branch.py
+ M core/components/plays/merge-change/SKILL.md
+ M core/components/plays/merge-change/reference/ice.md
+ M core/components/plays/propose-change/SKILL.md
+ M core/components/plays/propose-change/reference/ice.md
+ M core/components/plays/start-change/SKILL.md
+ M core/components/plays/start-change/reference/ice.md
+ M core/components/plays/start-change/scripts/setup_branch.py
+ M core/components/plays/start-change/stop-condition.yaml
+ M core/tools/plan/README.md
+ M core/tools/plan/plan_branch.py
+ M core/tools/plan/test_plan_branch.py
+?? .garura/project/issues/989/context/porcelain.txt
+?? .garura/project/issues/989/context/templates/
+?? .garura/project/issues/989/specs/
+?? core/components/plays/start-change/scripts/check_plan_start.py
+?? core/components/plays/start-change/scripts/resolve_args.py
+?? core/components/plays/start-change/scripts/test_start_change.py
+?? core/components/plays/start-change/stop-condition-plan.yaml
+?? core/tools/plan/plan_land.py
+?? core/tools/plan/test_plan_land.py
