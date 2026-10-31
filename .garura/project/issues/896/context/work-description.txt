@@ -1,0 +1,2 @@
+#896 — /shape-plan stops when the business intent already has a plan, and does not run again.
+Approved design (2026-10-30): a pre-flight check stops /shape-plan when the intent's plan file exists, writes nothing, and points to /update-plan; /shape-plan's ICE drops the "bring a plan up to date" promises; fn-818's ICE in the product model follows before propose-change.

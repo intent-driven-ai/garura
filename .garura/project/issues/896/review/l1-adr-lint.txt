@@ -1,0 +1,5 @@
+{
+  "adr": "docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+  "valid": true,
+  "problems": []
+}

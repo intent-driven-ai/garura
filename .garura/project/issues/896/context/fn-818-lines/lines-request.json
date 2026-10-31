@@ -1,0 +1,18 @@
+{"by": "product-os-keeper (fn-818-lines, #896)",
+ "source": "Approved design .garura/project/issues/896/specs/design.md (approved by the product owner, 2026-10-30), How step 4",
+ "pages": [
+  {"page": "software-delivery-planning/cap-718/fn-818/feature.md",
+   "changes": [
+    {"old": "- A second run finds the plan, the epic and the stories that exist, and makes no copies.",
+     "new": "- When the intent already has a plan file, the play stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists (#896)."},
+    {"old": "- Thin: what the play does when the slice changes after a plan exists is not set yet.",
+     "new": "- A slice that changes after the plan exists is handled by /update-plan, not by a second run of /shape-plan (#896)."},
+    {"old": "- Given a plan that exists, when the play runs again, then it makes no second epic and no second story for one feature.",
+     "new": "- Given a plan that exists, when the product owner runs /shape-plan, then the play stops before it opens a change or writes anything, and names /update-plan."},
+    {"old": "- Goal: A second run finds the plan, the epic and the stories that exist, and makes no copies.",
+     "new": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story."},
+    {"old": "- Fails if: a second run makes a second epic for the slice or a second story for one feature.",
+     "new": "- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything."},
+    {"old": "- GitHub #818 (open): the plan play.",
+     "new": "- GitHub #818 (open): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it."}
+   ]}]}

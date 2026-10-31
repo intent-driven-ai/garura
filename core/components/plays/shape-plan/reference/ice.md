@@ -6,26 +6,22 @@ edit-play; never hand-edit the compiled SKILL.md.
 ## Intent
 
 A person names a business intent that `/shape-slice` has served with a slice. /shape-plan makes
-the intent's one plan, or brings it up to date: the plan file, one epic for each slice the plan
-holds, and one story for each feature of that slice. Each story is written from its feature's
-ICE and that feature's capability's ICE, and holds no failure condition and no recovery
-condition. A second run makes no copies.
+the intent's one plan, once: the plan file, one epic for each slice the plan holds, and one
+story for each feature of that slice. Each story is written from its feature's ICE and that
+feature's capability's ICE, and holds no failure condition and no recovery condition. When the
+intent already has a plan, /shape-plan does not run: /update-plan changes a plan that exists.
 
 ### Constraints
 
-- C1 — One plan for each business intent. The plan's ID is the intent's issue number. A new
-  slice shaped for the same intent joins the same plan; no second plan is made.
+- C1 — One plan for each business intent. The plan's ID is the intent's issue number; no second
+  plan is made.
 - C2 — The plan holds every slice that serves the intent, read from the spine's link "slice
   serves business intent". The play never picks, ranks or tests a slice: the person chose it at
   `/shape-slice`.
-- C3 — The play finds before it makes. An epic that already stands for a slice, or a story that
-  already stands for a feature, is used and never made again: one epic for each slice, and one
-  story for each feature in each epic. A work item stands for a slice or a feature when the plan
-  file marks it so (`represents: <slice id>` on the epic, `represents: <feature id>` on the
-  story); the play never matches a work item by its title.
-- C4 — When a feature leaves the slice after its story exists, the story moves out of the plan
-  (out of the plan file's tree and the epic's map) and stays in the tracker; it is never deleted.
-  A feature that comes into the slice gets one story.
+- C3 — Within its one run, the play never makes an epic or a story twice: one epic for each
+  slice, and one story for each feature in each epic. A work item stands for a slice or a
+  feature when the plan file marks it so (`represents: <slice id>` on the epic,
+  `represents: <feature id>` on the story); the play never matches a work item by its title.
 - C5 — Each story holds its scope of work (the goals, the limits and the expectations) and its
   Context guidance (the four Context lines: what to read, what never to read, the persona, what
   is in and what is out), in its own words, written from every line of its feature's ICE and its
@@ -47,15 +43,18 @@ condition. A second run makes no copies.
   propose-change, check-change and merge-change, on the plan's branch when the intent has one.
 - C11 — Plain words (ASD-STE100) and personas in the brief, the epic, the stories and the plan
   file; no real person's name.
-- C12 — On a story it finds, the play adds the "Scope of work" and the "Context guidance"
-  sections when they are missing, and keeps every line a person wrote; it never rewrites or
-  deletes a person's text.
 - C13 — An epic and a story are marked in the tracker by the issue type field, with no label:
   an epic is an issue of type Epic, and a story is an issue of type Story. An epic stands for its
   slice: its sub-issues are the stories of its slice, and the work under a story hangs from that
   story. Anything else under an epic is misplaced work: the play names each item with its title
   and writes nothing until a person files it in its own place (its own story, bug or chore, which
   `/shape-slice` and `/shape-plan` place when they run) (#879).
+
+- C14 — When the intent already has a plan file (`<plans>/<id>.yaml`, in the checked-out tree or
+  on main), the play stops at pre-flight, before start-change and before any read of the model
+  or any write, and says the plan exists and that /update-plan changes it. This is a
+  pre-flight check: the play that changes an existing plan is
+  /update-plan.
 
 ### Failure conditions
 
@@ -67,9 +66,8 @@ condition. A second run makes no copies.
 - F4 — The plan file's tree and the epic's feature-to-story map disagree.
 - F5 — A tracker write happened before the product owner's yes, a write the person did not see
   in the brief happened, or a stop left a tracker write or a plan-file change behind.
-- F6 — A story for a feature that left the slice was deleted, or stays in the plan.
 - F7 — The run wrote outside the plan file, the epic and the stories (the evals folder, the
-  product model, or any other file), or a found story lost a line a person wrote.
+  product model, or any other file).
 - F8 — A story was built from an ICE that is not ready, or a skipped part is not named in the
   brief.
 - F9 — The change landed outside the change plays, or on the wrong branch.
@@ -78,6 +76,8 @@ condition. A second run makes no copies.
   issue type is not Story.
 - F12 — An epic holds a sub-issue that is not a story of its slice, and the run wrote to the
   tracker, or did not name that item with its title.
+- F13 — The intent already had a plan file, and the run went on past pre-flight: it opened a
+  change, read the model, or wrote anything; or it stopped without naming /update-plan.
 
 ## Context
 
@@ -89,9 +89,9 @@ condition. A second run makes no copies.
   business intent; how the ICE reaches the story and the hidden file), ADR 052 (/shape-slice
   writes the hidden file), ADR 047 (the ICE and its ready check).
 - The plan files: `.garura/project/plans/<id>.yaml` (id, title, status, branch, tree of work
-  items, each with its issue, kind, title, status, `represents` and children). Plans are kept by
-  hand until update-plan (#730) exists; the play writes only its slice, epic and story nodes and
-  keeps every other node as it is.
+  items, each with its issue, kind, title, status, `represents` and children). /shape-plan makes
+  a plan file once; `/update-plan` (#720, #730) changes a plan that exists — a new epic, story,
+  feature, bug or status — in one session the product owner approves.
 - The rules: `managing-work.md` ("Type lives in the type field", "No labels, for now"; an Epic
   is filed as type Epic),
   `standards/rules/expectation-generation.md`, `_shared/asking-a-person.md`.
@@ -114,22 +114,6 @@ condition. A second run makes no copies.
   and three stories exist, one for each feature, and the epic's map names the three stories.
   Measure: the plan check reads ok, the epic is in the tracker with type Epic and the three
   stories with type Story, none with a label, and no story holds a "Fails if" line of its two ICE.
-- S2 — (product owner, second run) Given a plan made by an earlier run and no change to the slice,
-  when the product owner runs /shape-plan again and types yes, then no new issue is made.
-  Measure: the run's record lists no created issue, and the plan file is byte for byte as it was.
-- S3 — (product owner, items made by hand) Given a plan file that marks a hand-made epic and its
-  stories with `represents`, when the product owner runs /shape-plan and types yes, then the play
-  uses them. Measure: no new issue is made; each marked story gains only the missing sections;
-  every line a person wrote is still on it.
-- S4 — (product owner, the slice changed) Given a plan whose slice lost one feature and gained
-  another, when the product owner runs /shape-plan and types yes, then the story of the feature
-  that left is out of the plan file's tree and the epic's map and is still open in the tracker,
-  and the feature that came in has one new story and one new map line. Measure: the plan check
-  reads ok and the moved-out issue's state is open.
-- S5 — (product owner, a second slice) Given an intent whose plan holds one slice and a second
-  slice shaped for it, when the product owner runs /shape-plan and types yes, then the same plan
-  file gains the second slice and its epic. Measure: there is one plan file for the intent, with
-  two slice nodes, each with its own epic.
 - S6 — (product owner, stop) Given any plan, when the product owner types stop at the checkpoint,
   then nothing reaches the tracker. Measure: the run's record lists no tracker write, and the plan
   file and the tree are as they were at the run's start.
@@ -142,6 +126,12 @@ condition. A second run makes no copies.
   /shape-plan, then the run names each item with its title as not this slice's work and stops
   before any tracker write. Measure: `work-items.json` lists each item in `misplaced` with its
   title, there is no `tracker-record.json`, and the plan file is as it was.
+
+- S9 — (product owner, a plan that exists) Given an intent that already has a plan file, when the
+  product owner runs /shape-plan, then the play stops at pre-flight and points to /update-plan.
+  Measure: the check's record reads `exists: true` and its message names `/update-plan <id>`;
+  no change issue, no branch, no short-term folder and no tracker write was made, no file is left
+  behind, and the plan file is as it was.
 
 ### Done means
 
@@ -171,10 +161,7 @@ condition. A second run makes no copies.
   agree. Handoff: autonomous.
 - REC5 (F5) — undo each tracker write the record lists and put back the plan file as it was;
   show the brief again. Handoff: human.
-- REC6 (F6) — open the deleted story again, or take it out of the plan's tree and the epic's map,
-  so it stays in the tracker and out of the plan. Handoff: human.
-- REC7 (F7) — undo the write outside the allowed set, or put back the person's line on the found
-  story. Handoff: autonomous.
+- REC7 (F7) — undo the write outside the allowed set. Handoff: autonomous.
 - REC8 (F8) — take back the story built from the part that is not ready, skip the part, and name
   it in the brief. Handoff: autonomous.
 - REC9 (F9) — land the change through the change plays, on the branch the target script gives.
@@ -185,3 +172,6 @@ condition. A second run makes no copies.
 - REC12 (F12) — stop before any tracker write and name each misplaced item with its title; a
   person files it in its own place and takes it off the epic, then runs the play again.
   Handoff: human.
+- REC13 (F13) — stop the run, undo whatever it opened or wrote after pre-flight (the change
+  issue's branch and short-term folder, any tracker write), and show the product owner that the
+  plan exists and that `/update-plan <id>` changes it. Handoff: human.

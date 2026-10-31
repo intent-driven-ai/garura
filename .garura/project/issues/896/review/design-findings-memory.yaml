@@ -1,0 +1,38 @@
+category: memory
+round: 2
+artifacts:
+  - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  - core/components/memory/standards/rules/pipeline-next.md
+grounding:
+  base_ref: plan/717/base
+  extra_memory: .garura/project/issues/896/context/memory/grounding-memory/manifest.json
+  reused: round-1 copies (principles G1-G5 unchanged, see run-1/design-findings-memory.yaml)
+  principles:
+    - {id: G1, principle: "Page keeps the template shape; only per-node page files change", source: "phoenix memory standards/rules/direct-model-write.md; base-ref version of the page"}
+    - {id: G3, principle: "/update-plan changes a plan that exists", source: "phoenix memory standards/schemas/product-os/ontology.md, Plan rules; core/components/plays/update-plan/SKILL.md on plan/717/base"}
+    - {id: G5, principle: "Plain words, personas, no real names", source: "phoenix memory standards/rules/user-facing-voice.md"}
+    - {id: G6, principle: "The Next-line map: the prose map and the next: block agree, and every command named is a real play", source: "base-ref version of pipeline-next.md (git show plan/717/base:core/components/memory/standards/rules/pipeline-next.md); update-plan exists on the base ref"}
+round_1_resolution:
+  MEM-1: "known, recorded outside this change; not raised again"
+  MEM-2: "resolved. Page line 57 (Fails if) now carries both halves of F13: goes on past pre-flight, or stops without naming /update-plan."
+  MEM-3: "resolved. Out of scope line 38 lists a change to a plan that exists (/update-plan, fn-730); Context line 59 names /update-plan as out."
+  MEM-4: "resolved. Lines 4 and 59 now read 'Built (#818)'; Sources line 41 says #818 closed."
+checks_by_hand:
+  - {check: "Page structure kept: same sections in the same order", result: pass, basis: G1}
+  - {check: "Page agrees with the play's ICE: Goal (lines 49-50) with Intent and C14; Rules line 20 with C14; acceptance line 28 with S9; Fails-if line 57 with F13; Out of scope and Context with the ICE Context", result: pass, basis: "G1, G3; compared with shape-plan/reference/ice.md"}
+  - {check: "pipeline-next.md: the next: block parses; shape-slice entry command is still shape-plan (unchanged); shape-plan -> shape-eval unchanged; only the 'why' text and one prose sentence changed", result: pass, basis: G6}
+  - {check: "pipeline-next.md: the prose map (line 22) and the shape-slice entry (line 58) agree; /update-plan exists on the base ref and has its own entry (line 77); lint-play on shape-slice reads PASS for next-command", result: pass, basis: G6, G3}
+  - {check: "Plain words, no real names", result: pass, basis: G5}
+findings:
+  - id: MEM-5
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+    line: 20
+    summary: "The Rules line (20) and the acceptance line (28) say the play stops 'before it opens a change or writes anything'. The play's C14 and S9 also say 'before any read of the model'. The Fails-if line (57) and nothing else carries the read. A short gap, not a contradiction."
+    basis:
+      principle: "The page's rules and acceptance must keep the play's pre-flight guarantee whole (page agrees with the play's ICE)."
+      source: "shape-plan/reference/ice.md C14 and S9 on the branch, rule from G1 (phoenix memory direct-model-write.md)"
+outside_scope:
+  - "pipeline-next.md line 22 reads 'a later slice joins the plan through /update-plan', which the ontology (Plan rules, Q30) still says the plan play does; this is the MEM-1 ontology gap, recorded elsewhere."
+unavailable_grounding:
+  - "No committed page template for a product-model feature page; structure checked against the base-ref version of the page."

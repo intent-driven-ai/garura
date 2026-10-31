@@ -1,0 +1,135 @@
+# Context for the ADR re-draft, gathered by adr-keeper (record-decision, re-draft step).
+# The product owner's change at the accept checkpoint (2026-10-31, the last section of the brief)
+# rules this re-draft: keep it short and simple; drop the #1002 point, the /update-plan gaps on
+# marking an epic for its slice and the feature-to-story map, the ADR 052 §7 point, and the long
+# list of other files owed. Add no new gap and no owed work beyond what that section keeps.
+shape: markdown
+number: "063"
+level: framework
+node_ref: null
+status: proposed
+date: 2026-10-31
+decided_by_note: >-
+  Left empty in the draft: filled with the person's name when a person accepts it. The product
+  owner decided it on 2026-10-30 (the #896 design, "approve") and 2026-10-31 ("yes go ahead", to
+  amend ADR 049; and the change at the accept checkpoint, "keep it simple").
+decided_in: "#896 (/shape-plan stops when the business intent already has a plan), PR #1003 on plan 717's branch; the review of PR #1003, finding HF-1"
+title_hint: "/shape-plan makes a business intent's one plan once; a plan that exists is changed only by /update-plan"
+
+next_number_check:
+  command: "adr.py number --dir docs/adr"
+  result: {next: "063", taken: 62}
+
+decision_parts:
+  - >-
+    /shape-plan makes the business intent's one plan, once. When the intent already has a plan
+    file (in the checkout or on main), it stops at pre-flight, before it opens a change or writes
+    anything, and points to /update-plan.
+  - >-
+    A plan that exists is changed only by /update-plan. In its session the person may add a bug,
+    a story or a feature to the plan. On "approved" the change reaches GitHub, and a new feature
+    is linked to the product model with a thin ICE, through the skills that exist (ADR 062). A
+    plan play does not change existing parts of the product model.
+  - >-
+    When an /update-plan change adds a feature to a slice, that slice's eval is out of date.
+    Updating the eval is a person's later step (perhaps a later "update eval" play), outside this
+    decision. A new bug or a new story does not change the slice, unless the story changes the
+    feature itself.
+
+overlap_candidates:
+  command: "adr.py overlaps --adr <brief> --dir docs/adr --top 5"
+  candidates: ["062", "049", "052"]
+  judged:
+    - adr: "049"
+      verdict: amended in part
+      part: >-
+        Decision §1.2, the words "(or uses the one that exists)"; and Decision §2, the sentence
+        "When a new slice is shaped for an intent that has a plan, the plan play adds the slice
+        and its epic to that plan." The rest of §1.2 (as amended by ADR 052) and the rest of §2
+        stand: one plan for each business intent, its ID the intent's issue number, it holds
+        every slice that serves the intent.
+    - adr: "062"
+      verdict: not affected
+      why: >-
+        It decides when /update-plan writes the product model (only after "approved") and that a
+        new feature may join a slice in progress, with a thin ICE (its C11). This decision relies
+        on it as it is.
+    - adr: "052"
+      verdict: not affected
+      why: >-
+        Named by the overlap check only because the earlier draft cited it. The product owner
+        dropped the ADR 052 §7 point from this record.
+
+supersedes: []
+amends:
+  - adr: "049"
+    part: >-
+      Decision §1.2, the words "(or uses the one that exists)"; and Decision §2, the sentence
+      "When a new slice is shaped for an intent that has a plan, the plan play adds the slice and
+      its epic to that plan." The rest of §1.2 and §2 stand.
+
+affects:
+  changed_in_this_change:
+    - path: core/components/plays/shape-plan/reference/ice.md
+      what: /shape-plan's ICE — it makes the plan once and stops at pre-flight when a plan exists.
+    - path: core/components/plays/shape-plan/SKILL.md
+      what: The compiled play — the pre-flight stop and its recovery.
+    - path: core/components/plays/shape-plan/scripts/check_plan_absent.py
+      what: New — finds a plan file in the checkout or on main; with its test, test_check_plan_absent.py.
+    - path: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      what: The /shape-plan feature's ICE on its model page, the same change.
+    - path: core/components/plays/shape-slice/SKILL.md
+      what: Next Steps — when the intent already has a plan, run /update-plan.
+    - path: core/components/memory/standards/rules/pipeline-next.md
+      what: The shaping loop line and the /shape-slice next step name /update-plan for an intent with a plan.
+  owed:
+    - path: core/components/memory/standards/schemas/product-os/ontology.md
+      what: The Plan kind and Q30 still say a later slice is added to the plan by the plan play; changed through /edit-ontology, in this same change.
+
+ice_impact: >-
+  /shape-plan's own ICE changes (through /edit-play): it makes the plan once, and a new
+  constraint stops it at pre-flight when the plan exists, with its failure condition, scenario
+  and recovery; the parts that updated a plan that exists are removed. The /shape-plan feature's
+  ICE (fn-818) changes the same way. /update-plan's ICE does not change: it already lets a person
+  add a bug, a story or a feature (with a thin ICE) on "approved". The ICE kind does not change.
+
+business_intent_check: none
+business_intent_check_why: >-
+  A framework rule on which play changes a plan that exists. The Business Intent kind does not
+  change (an intent still has one plan, its ID the intent's issue number), and no page under
+  .garura/product/product-os/intents/ changes.
+
+related: ["ADR 049", "ADR 062", "#896", "PR #1003", "#720"]
+
+context_facts:
+  - "#896: a /shape-plan run on an intent that already had a plan went into update logic (find the epics and stories that exist, add sections, move features out)."
+  - "/update-plan (#720, ADR 062) is the working session that changes a plan that exists."
+  - "Two plays that both change an existing plan drift apart."
+  - "The review of PR #1003 (finding HF-1) found ADR 049 still promises the old path."
+
+alternatives:
+  - option: "Keep ADR 049 as it is: /shape-plan also updates an existing plan with a new slice"
+    why_not: "Two plays would change a plan that exists, #896 found the update path unreliable, and the product owner chose one play for it."
+  - option: "/shape-plan stops only when every slice is already planned, and plans a new slice otherwise"
+    why_not: "It keeps the update path in /shape-plan (finding epics that exist, adding to the plan file), which is the part #896 removes."
+
+for_the_accepter: []
+
+work_this_creates:
+  - "/edit-ontology, in this same change: the Plan kind and Q30 say a plan that exists is changed only by /update-plan."
+  - "After acceptance: the forward pointer on ADR 049, and the ADR index rebuilt."
+
+references:
+  - .garura/project/issues/_adr/20261031T051608Z/brief.md — the decision brief
+  - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md — §1.2 and §2
+  - docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md
+
+memory_used:
+  - tier: phoenix
+    path: standards/schemas/product-os/ontology.md
+    copy: .garura/project/issues/_adr/20261031T051608Z/context/memory/standards/schemas/product-os/ontology.md
+    note: Read for the ICE impact and the Plan kind and Q30 owed.
+
+template_path: .garura/project/issues/_adr/20261031T051608Z/context/templates/standards/templates/adr.md
+draft_path: .garura/project/issues/_adr/20261031T051608Z/adr-draft.md
+voice: Short and simple. Plain words; no real person's name ("the product owner"); no absolute paths; no line numbers or commit ids.
