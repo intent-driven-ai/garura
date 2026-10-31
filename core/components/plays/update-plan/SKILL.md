@@ -47,7 +47,7 @@ change play, merging a branch, or touching code (C7).
 |-------|--------|-------------------|--------|
 | `template-manager` | Load the plan-update, plan-view and close templates | — | Prepare, Close |
 | `project-orchestrator` | Read the plan's issues; turn an instruction into list entries; make the approved tracker writes | `track-plan-changes`, `author-plan-changes` | Prepare, Session, Landing |
-| `product-os-keeper` | Suggest a capability for a new feature when no rule settles it (the placement itself is `place_feature.py`); on approval write its page with its thin ICE from the person's words, its model entry with both thin marks and its place in the slice, then name its story on the entry | `find-work-placement`, `enrich-grounding`, `link-model-part` | Session, Landing |
+| `product-os-keeper` | Suggest a capability for a new feature when no rule settles it (the placement itself is `place_feature.py`); on approval write its page with its thin ICE from the person's words, its model entry with both thin marks and its place in the slice, then name its story on the entry; draft the story for a feature the person's words name, from its clean ICE copy (story mode) | `find-work-placement`, `enrich-grounding`, `link-model-part`, `author-work-items` | Session, Landing |
 
 `template-manager` and `project-orchestrator` are **utility agents**. `product-os-keeper` is the
 one **domain agent**, dispatched only for a new feature.
@@ -99,13 +99,16 @@ Create ALL tasks immediately after pre-flight — before any domain work.
 [T12] One commit on the plan's branch       blockedBy: [T11]
 [T13] Back to the starting branch           blockedBy: [T12]
 [T14] Scenario Validation                   blockedBy: [T13]
-[T15] Close                                 blockedBy: [T14]
+[T15] Close: the stop condition           blockedBy: [T14]
+[T16] Self-clean                            blockedBy: [T15]
+[T17] Close: evidence and report           blockedBy: [T16]
 ```
 
 Mark each task in-progress before its step and completed right after its eval passes. T5 and T6
 repeat until the person answers approved or "abort" ("rejected" goes back to T5). An aborted
 session skips T7–T12 (marked skipped) and goes to T13; a session stopped on uncommitted work
-(Step 3) goes to T14.
+(Step 3) goes to T14. Every session ends T15, T16, T17 in that order: the stop condition reads the
+session's folder, the self-clean removes it, and the evidence and the report are written outside it.
 
 ## Workflow
 
@@ -524,9 +527,10 @@ python3 scripts/close_session.py --work <working> --out <working>/session.json
   with `to: Done` and no other item (its parent is not in it), `changes.yaml` holds it under
   the instruction "closed on GitHub", and after "approved" `plan-write.json` and
   `agreement.json` read `ok: true` with the item Done in the plan file.
-- **SCE-9 (S9 — product owner, nothing left behind):** the `clear` record lists the session's
-  folder and its start folder as removed and `left` names no file of this session (or `kept`
-  names a landing that stopped part way).
+- **SCE-9 (S9 — product owner, nothing left behind):** evaluated at Step 16, on the record
+  `clear` prints (`$cleared`), since the folder is gone after it: it lists the session's folder
+  and its start folder as removed and `left` names no file of this session (or `kept` names a
+  landing that stopped part way). Its result goes into the evidence and the report (C1, C2).
 - **SCE-10 (S10 — product owner, a story for a feature in the model):** the entry reads
   `feature: X` and `from_ice: true`, `feature_ice.py body` exited 0 on its draft, and after
   "approved" the plan file's new item reads `represents: X`.
@@ -540,16 +544,21 @@ Run the Standard Play Close. `/update-plan` has no issue of its own: its run's s
 `<working>`, and the close finds the templates Step 1 loaded.
 **SE-16 (F11/C12):** the stop condition (D1 the person answered; D2 the session closed as it
 should; D3 it ended on the starting branch) reads **held** before the run closes COMPLETED; it is
-evaluated before the self-clean below.
+evaluated before the self-clean below. The close runs in this order: the session stamp and the stop
+condition read the session's folder; then Step 16 removes it; then C1 and C2 write the evidence and the
+report, both outside it.
 
-**Step 16 — Self-clean (C13)** · Owner: play (script) · Depends on: Step 15 (run as the close's last action, after C1 and C2 below). The last action: remove the session's folder and its start folder,
-so nothing of the session is left. Pass `--keep` only for a landing that stopped part way
-(`answer.json` reads `approved` and `commit.json` does not read `ok: true`): its records let the
-next session carry on.
+**Step 16 — Self-clean (C13)** · Owner: play (script) · Depends on: Step 15's stop condition · Runs before
+C1 and C2. Remove the session's folder and its start folder, so nothing of the session is left.
+Pass `--keep` only for a landing that stopped part way (`answer.json` reads `approved` and
+`commit.json` does not read `ok: true`): its records let the next session carry on. A session
+that found no plan has no `<working>`: pass `--start` only.
 
 ```bash
-python3 scripts/session_files.py clear --start <start> --work <working> [--keep]
+cleared=$(python3 scripts/session_files.py clear --start <start> [--work <working>] [--keep])
 ```
+
+`clear` writes no file (it would be left behind); `$cleared` holds its record for SCE-9, C1 and C2.
 
 **SE-21 (F15/C13):** the `clear` record lists `<start>` and (unless `--keep`) `<working>` as removed,
 and its `left` names no file of this session; with `--keep`, `kept` names `<working>` and
@@ -571,7 +580,7 @@ python3 scripts/check_stop_condition.py \
     --base "<session>/" \
     --out "<session>/stop-condition-update-plan.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
-# Self-clean (C13), the last thing the session does — after C1 and C2 below.
+# Then Step 16 (self-clean, C13) removes the session's folder; then Steps C1-C2.
 ```
 
 **Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`. Anything else
@@ -583,7 +592,7 @@ the unmet clauses named. An unevaluable verdict is never a pass.
 `evidence skipped (record=false)` in the report. Otherwise fill the `evidence-file.md` slots (play
 `update-plan`, run_id `update-plan-${ts}`, status per C0; artifacts: plan.json, branch.json,
 changes.yaml, answer.json, github-record.json, model-record.json, plan-write.json, agreement.json,
-commit.json, session.json, the stop-condition verdict; step and scenario eval results SE-1…SE-21 /
+commit.json, session.json, the stop-condition verdict, the clear record ($cleared); step and scenario eval results SE-1…SE-21 /
 SCE-1…SCE-11; checkpoint decisions: the person's answers; the session identity stamp fields from
 $session_stamp) and write to `$evidence_dest`. Do NOT hand-author the body.
 
@@ -652,9 +661,9 @@ check: the person decides.
 | position_exception | model-writing session play — writes the model, GitHub and the plan file on the plan's own branch after one "approved" and commits them as one commit there (C7); the plan's branch reaches main later through the change plays, with the plan's other work (#720 design) |
 | workflow_structure | A (full checkpoint: one approval gates every write) with a repeating session step |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 — evaluated before the self-clean |
-| domain_agents | 1 (product-os-keeper — a new feature only: a capability suggestion, and the landing) |
+| domain_agents | 1 (product-os-keeper — a new feature: a capability suggestion, and the landing; a story for a feature in the model: its draft, author-work-items story mode) |
 | utility_agents | 2 (template-manager, project-orchestrator) |
-| skills_reused | author-plan-changes, track-plan-changes, find-work-placement, enrich-grounding, link-model-part |
+| skills_reused | author-plan-changes, track-plan-changes, find-work-placement, enrich-grounding, link-model-part, author-work-items |
 | tools | the plan tool's plan-branch script (`.garura/core/tools/plan/plan_branch.py`) |
 | scripts | 22 (feature_ice.py, plan_common.py, check_ice_workable.py, model_names.py, closed_on_github.py, preflight.py, session_stamp.py, check_stop_condition.py, plan_session.py, find_plan.py, check_entries.py, add_entries.py, record_answer.py, render_screen.py, plan_ops.py, write_plan_changes.py, check_agreement.py, commit_plan.py, close_session.py, place_feature.py, session_files.py, scoped_write_guard.py — stamped from create-play) |
 | step_evals | 21 (SE-1…SE-21) |
