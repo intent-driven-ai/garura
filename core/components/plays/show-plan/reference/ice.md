@@ -24,7 +24,9 @@ left and what is moving; finished work is a count, not a wall of lines.
   nodes under it (no roll-ups).
 - C4 — Not Started, In Progress, Now and Blocked are shown. Done and Dropped are hidden and
   counted on the last line of the plan. A hidden node with a shown node under it is still
-  printed, so the shown node keeps its place.
+  printed, so the shown node keeps its place. A shown node whose children are all Done or
+  Dropped prints those children too, one level down, so a person sees what was finished under
+  it and can decide on it; they are not counted as hidden.
 - C5 — Each plan the plan needs is printed after it, on the same screen.
 - C6 — Every mark and every line comes from the plan-view template. The play never makes up a
   layout of its own.
@@ -35,8 +37,9 @@ left and what is moving; finished work is a count, not a wall of lines.
 
 ### Failure conditions
 
-- F1 — A Done or Dropped node is shown when no shown node sits under it, or the count of
-  hidden nodes is wrong or missing.
+- F1 — A Done or Dropped node is shown when no shown node sits under it and its parent has
+  an open child or is itself hidden; the children of a shown node that are all Done or Dropped
+  are not printed, or are counted as hidden; or the count of hidden nodes is wrong or missing.
 - F2 — A line has no title or no issue number.
 - F3 — A plan the plan needs is left out.
 - F4 — The play writes a plan file, an issue or a branch.
@@ -83,12 +86,17 @@ left and what is moving; finished work is a count, not a wall of lines.
   runs, then two prints are the same, the plan files are unchanged and every line follows the
   template. *Measure:* the check record reads `same_twice: true`, `unchanged: true` and
   `lines_ok: true`.
+- **S6 — product owner, a feature whose stories are all finished.** Given an open feature
+  whose stories are all Done or Dropped, when `/show-plan` runs, then the feature is printed
+  with each of those stories under it, as mark, number and title, and they are not in the
+  hidden count. *Measure:* the check record reads `lines_ok: true` and `hidden_ok: true` for a
+  plan with such a feature.
 
 ### Recovery
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the check finds a hidden node shown, or a wrong or missing count line | re-run the plan tool and check again; if it still fails, report the node and close HALTED | autonomous |
+| F1 | the check finds a hidden node shown, the finished children of an open parent left out or counted, or a wrong or missing count line | re-run the plan tool and check again; if it still fails, report the node and close HALTED | autonomous |
 | F2 | the check finds a line with no title or no number | re-run the plan tool and check again; if the plan file has a node with no title, name it for a person | human |
 | F3 | a needed plan is missing from the view | re-run the plan tool and check again; if the needed plan's file is missing, the tree says so with the template's no-plan line | autonomous |
 | F4 | a plan file's hash changed during the run, or a write to the tracker or a branch was made | stop, report what changed, and leave it for a person; read only is never repaired by a retry | human |
