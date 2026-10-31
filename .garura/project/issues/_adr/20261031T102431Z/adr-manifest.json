@@ -1,0 +1,28 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261031T102431Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "061",
+      "file": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+      "kind": "amended",
+      "part": "Decision \u00a73, the sentence \"Setting In Progress here is the one status change a person did not type\": an item's status now also changes, without a person typing it, when its own issue closes (merge-change sets it Done). The cut itself and the rest of ADR 061 stand."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

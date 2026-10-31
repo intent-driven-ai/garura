@@ -1,0 +1,1 @@
+docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md

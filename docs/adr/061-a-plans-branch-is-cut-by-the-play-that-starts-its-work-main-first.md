@@ -1,6 +1,6 @@
 # ADR 061 — A Plan's Branch Is Cut by the Play That Starts the Plan's Work, Main First, Through One Shared Script
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 064](064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md): Decision §3, the sentence "Setting In Progress here is the one status change a person did not type": an item's status now also changes, without a person typing it, when its own issue closes (merge-change sets it Done). The cut itself and the rest of ADR 061 stand.
 **Date:** 2026-10-30
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #720 (manage a plan with /update-plan), plan 717, on `plan/717/720-update-plan`, PR #998 — the review's findings HF-1 and MEM-1 asked for this record

@@ -69,3 +69,4 @@ may have no Status line.
 | [061](061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md) | A Plan's Branch Is Cut by the Play That Starts the Plan's Work, Main First, Through One Shared Script | Accepted | 2026-10-30 |
 | [062](062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md) | /update-plan Writes the Product Model Only After "Approved", and May Add a Feature to a Slice in Progress | Accepted | 2026-10-30 |
 | [063](063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md) | /shape-plan Makes a Business Intent's One Plan Once; a Plan That Exists Is Changed Only by /update-plan | Accepted | 2026-10-31 |
+| [064](064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md) | An Item's Status in a Plan Follows Its Own Issue, With No Roll-Ups | Accepted | 2026-10-31 |
