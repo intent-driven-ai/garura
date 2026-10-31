@@ -1,0 +1,15 @@
+{
+  "approved": true,
+  "mergeable": true,
+  "already_merged": false,
+  "checks_pass": true,
+  "pr_number": "1017",
+  "pr_merged": true,
+  "branch_deleted": false,
+  "on_target": true,
+  "issues_closed": [],
+  "plan_marked": null,
+  "status": "merged",
+  "on_base": false,
+  "merge_sha": null
+}
