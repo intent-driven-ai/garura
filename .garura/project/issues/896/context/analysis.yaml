@@ -1,27 +1,78 @@
 ---
 needs_judgment: false
+branch: plan/717/896-shape-plan-stops-on-existing-plan
+issue: 896
 
 change_groups:
-  - id: install-manifest-reinstall
+  - id: fix-shape-plan-wording
     issue: 896
-    commit_type: chore
-    scope: install
-    subject: "record the harness reinstall with the /shape-plan plan-exists check"
+    commit_type: fix
+    scope: shape-plan
+    subject: "fix the shape-plan wording found in the first PR review round"
+    confidence: high
     files:
-      - .garura/install-manifest.json
-  - id: stm-run-records
+      - core/components/plays/shape-plan/SKILL.md
+    notes: "Pre-flight stop ends the run without a close; tracker-failure path names /update-plan; run-start item actions; recovery table order and counts."
+  - id: fix-shape-slice-next-update-plan
+    issue: 896
+    commit_type: fix
+    scope: shape-slice
+    subject: "name update-plan as the next step for an intent that has a plan"
+    confidence: high
+    files:
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/memory/standards/rules/pipeline-next.md
+    notes: "shape-slice Next Steps and the pipeline Next-line map and shaping-loop text."
+  - id: fix-product-os-fn-818
+    issue: 896
+    commit_type: fix
+    scope: product-os
+    subject: "bring the shape-plan feature page in line with the built play"
+    confidence: high
+    files:
+      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      - .garura/project/issues/896/context/fn-818-lines-r2/change-report.json
+      - .garura/project/issues/896/context/fn-818-lines-r2/lines-request.json
+    notes: "fn-818 feature page lines plus the request and report of the lines change."
+  - id: chore-stm-review-records
     issue: 896
     commit_type: chore
     scope: stm
-    subject: "record the run artifacts"
+    subject: "record the review run files and memory and template copies"
+    confidence: high
     files:
       - .garura/project/issues/896/context/analysis.yaml
       - .garura/project/issues/896/context/porcelain.txt
+      - .garura/project/issues/896/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/896/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/896/context/memory/grounding-harness/standards/rules/pipeline-next.md
+      - .garura/project/issues/896/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/896/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/rules/direct-model-write.md
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ice.yaml
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ontology.md
+      - .garura/project/issues/896/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/896/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/896/context/memory/knowledge/review/code.md
+      - .garura/project/issues/896/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/896/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/896/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/896/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/896/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/896/context/memory/manifest.json
+      - .garura/project/issues/896/context/memory/standards/rules/pr.md
+      - .garura/project/issues/896/context/memory/standards/templates/product-ontology.md
+      - .garura/project/issues/896/context/templates/manifest-check-change.json
+      - .garura/project/issues/896/context/templates/standards/rules/pipeline-next.md
+    notes: "Run records, memory and template copies for the review round, plus the scan and porcelain files."
 
-exclusions: []
+exclusions:
+  []
 
 risks:
   sensitive_files: []
-  breaking_changes: []
-  ambiguous_types: []
-  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every changed file is in exactly one group"}
+  SE-5: {status: PASS, evidence: "scanner match on the copied pr.md rule file is a pattern carrier in a standards file, not a secret; non-blocking"}

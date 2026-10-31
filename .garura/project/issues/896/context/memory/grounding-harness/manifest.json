@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/evidence-recording.md",
+      "version": "118899951cd9",
+      "fingerprint": "sha256:c9e06c897e8fbcd0d04465e8f92a0a7c77f9eab1290684433d926811a5b883a9",
+      "copy": ".garura/project/issues/896/context/memory/grounding-harness/standards/rules/evidence-recording.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pipeline-next.md",
+      "version": "118899951cd9",
+      "fingerprint": "sha256:652fea75971336ad71880231196c588282815619365a410e76d1281537b9c31c",
+      "copy": ".garura/project/issues/896/context/memory/grounding-harness/standards/rules/pipeline-next.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "118899951cd9",
+      "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
+      "copy": ".garura/project/issues/896/context/memory/grounding-harness/standards/rules/user-facing-voice.md"
+    }
+  ]
+}

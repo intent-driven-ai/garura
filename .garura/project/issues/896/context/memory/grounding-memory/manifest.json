@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "118899951cd9",
+      "fingerprint": "sha256:1efb8a9437a604c79dac72aa7985ee03d58a21374067443dc8b422df1f1fcb87",
+      "copy": ".garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ice.yaml",
+      "version": "118899951cd9",
+      "fingerprint": "sha256:91fe7cd541257c9d57c2ba32dafd41a85e9a3a404d95b3b511ea0ef24f211446",
+      "copy": ".garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ice.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "118899951cd9",
+      "fingerprint": "sha256:678a6db2bc4dc094cd855ed28f87dbb91f2ebdcbc121103d9e66e24c55527225",
+      "copy": ".garura/project/issues/896/context/memory/grounding-memory/standards/rules/direct-model-write.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "118899951cd9",
+      "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
+      "copy": ".garura/project/issues/896/context/memory/grounding-memory/standards/rules/user-facing-voice.md"
+    }
+  ]
+}
