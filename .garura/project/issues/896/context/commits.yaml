@@ -1,14 +1,49 @@
 commits:
-  - sha: e558413e
-    message: "chore(install): record the harness reinstall with the /shape-plan plan-exists check (#896)"
+  - sha: faf0afc0
+    message: "fix(shape-plan): fix the shape-plan wording found in the first PR review round (#896)"
     files:
-      - .garura/install-manifest.json
+      - core/components/plays/shape-plan/SKILL.md
     branch: plan/717/896-shape-plan-stops-on-existing-plan
-  - sha: 19a36469
-    message: "chore(stm): record the run artifacts (#896)"
+  - sha: 64b70298
+    message: "fix(shape-slice): name update-plan as the next step for an intent that has a plan (#896)"
+    files:
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/memory/standards/rules/pipeline-next.md
+    branch: plan/717/896-shape-plan-stops-on-existing-plan
+  - sha: 52399526
+    message: "fix(product-os): bring the shape-plan feature page in line with the built play (#896)"
+    files:
+      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      - .garura/project/issues/896/context/fn-818-lines-r2/change-report.json
+      - .garura/project/issues/896/context/fn-818-lines-r2/lines-request.json
+    branch: plan/717/896-shape-plan-stops-on-existing-plan
+  - sha: 06e45d7e
+    message: "chore(stm): record the review run files and memory and template copies (#896)"
     files:
       - .garura/project/issues/896/context/analysis.yaml
       - .garura/project/issues/896/context/porcelain.txt
+      - .garura/project/issues/896/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/896/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/896/context/memory/grounding-harness/standards/rules/pipeline-next.md
+      - .garura/project/issues/896/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/896/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/rules/direct-model-write.md
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ice.yaml
+      - .garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ontology.md
+      - .garura/project/issues/896/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/896/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/896/context/memory/knowledge/review/code.md
+      - .garura/project/issues/896/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/896/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/896/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/896/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/896/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/896/context/memory/manifest.json
+      - .garura/project/issues/896/context/memory/standards/rules/pr.md
+      - .garura/project/issues/896/context/memory/standards/templates/product-ontology.md
+      - .garura/project/issues/896/context/templates/manifest-check-change.json
+      - .garura/project/issues/896/context/templates/standards/rules/pipeline-next.md
     branch: plan/717/896-shape-plan-stops-on-existing-plan
 excluded_files:
   []
