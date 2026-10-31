@@ -1,77 +1,51 @@
+---
+# assess-changes output (round 1) — grouped by concern
 needs_judgment: false
+
 change_groups:
-  - id: scrub-home-paths-and-name
+  - id: stm-remove-personal-and-client-references
     issue: 717
     commit_type: chore
     scope: stm
-    subject: "remove home-folder paths and the person's name from the run records"
+    subject: "take personal and client references out of the run records of #989, #993 and #1011"
     files:
-      - .garura/project/issues/717/context/resolved-rules.json
-      - .garura/project/issues/717/review/pr-950/layer1.yaml
-      - .garura/project/issues/717/review/pr-950/pr.diff
-      - .garura/project/issues/717/review/pr-950/round1/pr.diff
-      - .garura/project/issues/719/context/model-update/intent-report.json
-      - .garura/project/issues/719/context/model-update/intent-request.json
-      - .garura/project/issues/719/context/model-update/issue-628.md
-      - .garura/project/issues/719/context/model-update/issue-729.md
-      - .garura/project/issues/719/context/pr-body.md
-      - .garura/project/issues/719/context/resolved-rules.json
-      - .garura/project/issues/719/context/self-review.md
-      - .garura/project/issues/719/context/templates/manifest-close-start-change.json
-      - .garura/project/issues/719/review/lint-components.json
-      - .garura/project/issues/719/review/pr.diff
-      - .garura/project/issues/719/review/run-1/lint-components.json
-      - .garura/project/issues/719/review/run-1/pr.diff
-  - id: record-final-check-run-and-home-path-defect
-    issue: 717
-    commit_type: chore
-    scope: stm
-    subject: "record the final check-change run and the home-path defect"
-    files:
-      - .garura/project/issues/717/context/analysis.yaml
-      - .garura/project/issues/717/context/memory/grounding-harness/manifest.json
-      - .garura/project/issues/717/context/memory/grounding-memory/manifest.json
-      - .garura/project/issues/717/context/porcelain.txt
-      - .garura/project/issues/717/review/run-1/categories.yaml
-      - .garura/project/issues/717/review/run-1/context.yaml
-      - .garura/project/issues/717/review/run-1/design-findings-harness.yaml
-      - .garura/project/issues/717/review/run-1/design-findings-memory.yaml
-      - .garura/project/issues/717/review/run-1/lint-play.txt
-      - .garura/project/issues/717/review/run-1/pr.diff
-      - .garura/project/issues/717/review/run-1/quality-findings.yaml
-      - .garura/project/issues/717/context/home-path-defect.md
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/run-status.md
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/self-review.md
-      - .garura/project/issues/717/context/memory/grounding-memory/standards/templates/adr.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/manifest.json
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/rules/direct-model-write.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/rules/user-facing-voice.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/schemas/product-os/_index.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/schemas/product-os/grounding/_content-standard.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/schemas/product-os/grounding/capability.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/schemas/product-os/grounding/feature.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/schemas/product-os/ontology.md
-      - .garura/project/issues/717/context/memory/grounding-product-model/standards/schemas/product-os/spine.yaml
-      - .garura/project/issues/717/review/categories.yaml
-      - .garura/project/issues/717/review/context.yaml
-      - .garura/project/issues/717/review/design-findings-harness.yaml
-      - .garura/project/issues/717/review/design-findings-memory.yaml
-      - .garura/project/issues/717/review/design-findings-product-model.yaml
-      - .garura/project/issues/717/review/lint-components.json
-      - .garura/project/issues/717/review/lint-play.txt
-      - .garura/project/issues/717/review/pr.diff
-      - .garura/project/issues/717/review/quality-findings.yaml
-exclusions: []
+      - .garura/project/issues/1011/context/templates/manifest-check-change.json
+      - .garura/project/issues/989/context/resolved-rules.json
+      - .garura/project/issues/989/context/self-review.md
+      - .garura/project/issues/989/review/pr.diff
+      - .garura/project/issues/993/review/lint-components.json
+      - .garura/project/issues/993/review/pr.diff
+      - .garura/project/issues/993/review/quality-findings.yaml
+      - .garura/project/issues/993/review/run-1/lint-components.json
+      - .garura/project/issues/993/review/run-2/lint-components.json
+      - .garura/project/issues/993/review/run-2/pr.diff
+
+exclusions:
+  - path: ".garura/project/issues/717/context/analysis.yaml"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+  - path: ".garura/project/issues/717/context/porcelain.txt"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+  - path: ".garura/project/issues/717/context/self-review.md"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+
 risks:
   sensitive_files: []
   warnings:
-    - path: ".garura/project/issues/717/review/pr-950/pr.diff"
-      match: 'password\s*=' 
-      note: "content in a prose/standards artifact - warning, not a block"
+    - path: ".garura/project/issues/989/review/pr.diff"
+      match: 'password\s*='
+      reason: "pattern carrier: a copied diff, not a credential"
       blocking: false
-    - path: ".garura/project/issues/719/review/pr.diff"
-      match: 'password\s*=' 
-      note: "content in a prose/standards artifact - warning, not a block"
+    - path: ".garura/project/issues/993/review/run-2/pr.diff"
+      match: 'password\s*='
+      reason: "pattern carrier: a copied diff, not a credential"
       blocking: false
-notes:
-  - "Renames are listed by their new path only, as the caller asked; the old-path deletions are already staged in the index (R / RM)."
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one issue (717), one group; every scanned path is in the group or in exclusions"}
+  SE-5: {status: PASS, evidence: "two pattern-carrier warnings (copied diffs), non-blocking"}
