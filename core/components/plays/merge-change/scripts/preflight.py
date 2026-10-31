@@ -148,7 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
         "evidence_record": bool(evidence_record),
         "platform": _get(cfg, "platform"),
         "worktree": bool(_get(cfg, play, "worktree", default=False)),
-        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+        "plans_base": _get(cfg, "plans", "base-path") or ".garura/project/plans/",
         "branch": branch,
         "issue": issue,
         "on_default_branch": on_default,
