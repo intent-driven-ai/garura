@@ -8,7 +8,7 @@ Standard patterns for branch names and their implications.
 |---------|---------|---------|
 | `plan/<plan-id>/base` | A plan's own branch: the plan's work collects here, and it lands on main whenever the plan pauses | `plan/717/base` |
 | `plan/<plan-id>/<issue>-<slug>` | An issue in a plan: cut from its plan's branch, lands back on it | `plan/717/779-plan-lookup` |
-| `feature/*` | New feature, or an issue in no plan (`feature/<issue>-<slug>`, cut from main) | `feature/user-auth` |
+| `feature/*` | New feature, or an issue in no plan (`feature/<issue>-<slug>`, cut from main) | `feature/42-user-auth` |
 | `fix/*` | Bug fixes | `fix/login-redirect` |
 | `hotfix/*` | Urgent production fixes | `hotfix/security-patch` |
 | `release/*` | Release preparation | `release/v2.1.0` |
