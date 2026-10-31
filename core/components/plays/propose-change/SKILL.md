@@ -1,7 +1,7 @@
 ---
 name: propose-change
 position: end
-description: 'Raise the current change for review — run a scope-and-quality self-review from the project''s standards, push the branch, and open a pull request carrying that review and the issue reference. The second step of the end sequence in the ProductOS command model. For a plan''s own branch going to main, it first asks the person the plan''s Status and Direction and writes them into the plan file, and the branch''s plan file replaces main''s. Use when a committed change is ready to raise as a PR.'
+description: 'Raise the current change for review — run a scope-and-quality self-review from the project''s standards, push the branch, and open a pull request carrying that review and the issue reference. The second step of the end sequence in the ProductOS command model. Use when a committed change is ready to raise as a PR.'
 user-invocable: true
 ---
 
@@ -10,10 +10,7 @@ user-invocable: true
 Raise the current change for review: run a self-review on its scope and quality, push the
 branch, and open a pull request that carries that review against where the branch lands —
 its plan's branch for an issue in a plan, main for a plan's own branch or a one-off change —
-so the change is ready for check-change. A plan's own branch is never raised for main without
-the person's answers: the play asks the plan's Status and Direction, writes them into the plan
-file, and makes the branch's plan file the one that lands, naming every change main made to it
-(#991).
+so the change is ready for check-change.
 
 **Pipeline position: end** (second step of the end sequence: commit-change →
 propose-change → check-change → merge-change). The D2 pipeline-position rule injects this
@@ -23,10 +20,9 @@ ordering is enforced by each one's pre-flight, not by welding them together.
 ## Compiled From
 
 This play was compiled from the propose-change ICE (`reference/ice.md`) by edit-play
-(#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling; #673 plan targets;
-#991 a plan's Status and Direction, and its plan file, when it lands).
-Intent defines constraints (C1–C10) and failure conditions (F1–F11); the expectation defines
-success scenarios (S1–S8), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
+(#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling; #673 plan targets).
+Intent defines constraints (C1–C9) and failure conditions (F1–F10); the expectation defines
+success scenarios (S1–S6), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. This play is SINGLE-PASS: no loop, no iteration cap — the Done means is
 proven once, at the gated close.
 To modify this play, update `reference/ice.md` and recompile with edit-play.
@@ -41,15 +37,13 @@ PR-open** is a fixed git/gh sequence, so it runs in the bundled `submit_pr.py`, 
 
 **Forbidden:** running the mechanical push/PR-open through an agent dispatch (the #484 bug);
 ad-hoc `gh`/`git` in play prose; inlining the self-review rules (they are resolved from a
-standards file — C6); raising a plan's own branch without the person's Status and Direction,
-guessing either, or writing the plan file by hand instead of through `plan_land.py` (C10).
+standards file — C6).
 
 **Agent boundaries:**
 
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
 | `repo-orchestrator` | Self-review checklist (judgment) | `assess-pr` | Execution (Step 1) |
-| `template-manager` | Load the plan-view template (a plan's own branch only) | — | Execution (Step 0) |
 
 `repo-orchestrator` is a **utility agent** (the self-review judgment), exempt from the
 domain-agent budget. The push/PR-open is the bundled `submit_pr.py` — no agent (C9). This
@@ -65,8 +59,6 @@ play uses **zero domain agents**.
 | Platform CLI available (`gh`) | C2 | Hard halt |
 | Resolve self-review rules file via `standards_order` (project override → base `standards/rules/self-review.md`) | C6 | Hard halt |
 | Existing-PR check for the branch | C5 | Resume / update |
-| Where the branch lands, read from its name — `scripts/resolve_target.py` | C2 / C10 | — |
-| A plan's own branch (`target.json.kind == plan`): the plan tool is installed (`.garura/core/tools/plan/plan_land.py`) | C10 | Hard halt |
 
 Resolve the deterministic pre-flight facts with the bundled resolver — config tokens,
 `branch`, `issue` (from the branch name), `on_default_branch`, `evidence_record`:
@@ -99,25 +91,13 @@ is the C6 resolution; the play does not pick the file in prose).
 **Resume / update (C5, F5):** if an open PR already exists for the branch, this run updates
 it (refreshes the self-review and body) instead of opening a second one.
 
-Read where the branch lands now, before any domain work, so a plan's own branch is known
-before the self-review (C2, C10):
-
-```
-python3 scripts/resolve_target.py --branch "$(git branch --show-current)" \
-    --out "<working>/target.json"
-```
-
-`target.json.base` is `plan/<plan-id>/base` for a branch `plan/<plan-id>/<issue>-<slug>`, and
-`main` for a plan branch or a one-off branch; `kind: plan` names a plan's own branch.
-
 ## Task DAG
 
 Create ALL tasks immediately after resolving the working base — before any domain work.
 The play owns this DAG; agents must not edit its top-level tasks.
 
 ```
-[T0] Plan's Status and Direction     blockedBy: []      (a plan's own branch only)
-[T1] Self-Review (scope + quality)   blockedBy: [T0]
+[T1] Self-Review (scope + quality)   blockedBy: []
 [T2] Confirm Raise                   blockedBy: [T1]
 [T3] Push + Open/Update PR           blockedBy: [T2]
 [T4] Scenario Validation             blockedBy: [T3]
@@ -130,44 +110,6 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
 ## Workflow
 
 ### Phase: Execution
-
-**Step 0 — Plan's Status and Direction** · Owner: play (+ `template-manager`, the plan tool) ·
-Depends on: pre-flight · *Only when `target.json.kind == plan`; skipped otherwise.*
-A plan's own branch is never raised for main without the person's answers (C10, #991). Load
-the plan-view template through `template-manager` (a play reads no memory, ADR 039):
-
-    { "task":    "load these templates into the run's working folder",
-      "inputs":  { "issue": "<plan id>", "templates": ["standards/templates/plan-view.md"] },
-      "outputs": { "out_dir":  "<working>/templates/",
-                   "manifest": "<working>/templates/manifest-plan-view.json" },
-      "task_id": "load-plan-view" }
-
-Then ask the person, in one message, and wait for the typed reply — **never skipped by the gate
-switch**, never answered for them:
-
-> Plan `<id>` is going to main. What is its Status: `<the template's plan_statuses, joined>`?
-> And its Direction: 1 (next), 2 (next in line), 3 (later) or none?
-> Example reply: "Paused, 1".
-
-Status and Direction are plain text the person sets; nothing is worked out from them. Pass the
-two answers, as given, to the plan tool:
-
-```
-python3 .garura/core/tools/plan/plan_land.py ready --plan <id> --status "<Status>" \
-    --direction "<Direction>" --template <working>/templates/standards/templates/plan-view.md \
-    --plans-dir "<plans_base>" --ignore "<stm_base>" --out <working>/plan-landing.json
-```
-
-Exit 2 with "ask again" (an answer the template does not list) → ask again; never guess (S8).
-Exit 3 (uncommitted work) or another exit 2 (a clash with main in another file, named; the
-merge is taken back) → **hard halt** for a person (REC11). Exit 0: the latest main is merged
-into the plan's branch with the branch's plan file kept whole, the plan file holds the Status,
-the Direction, an empty `branch:` and `updated:`, and `plan-landing.json` names every change
-main made to the plan file since the branch was cut (`main_changes`). The plan file stays
-changed for the run-artifacts commit in Step 3.
-**SE-11 (F11/C10):** for `kind: plan`, `plan-landing.json` exists, written by `plan_land.py
-ready` before any push, and its `status` and `direction` are the person's typed answers; the
-plan file on disk reads them with an empty `branch:`; origin/main is an ancestor of `HEAD`.
 
 **Step 1 — Self-Review (scope + quality)** · Owner: `repo-orchestrator` · Depends on: pre-flight
 The agent invokes `assess-pr` against the diff, driven by the rules file resolved at
@@ -223,20 +165,23 @@ the blocking findings the script printed, and do not push or open until they are
 and the check passes (REC8). Record the executed command and its exit code for the
 evidence file.
 
-The PR's base is `target.json.base`, read at pre-flight from the branch name — never guessed
-(C2).
+First read where the branch lands, from its name — never guess it (C2):
+
+```
+python3 scripts/resolve_target.py --branch "$(git branch --show-current)" \
+    --out "<working>/target.json"
+```
+
+`target.json.base` is `plan/<plan-id>/base` for a branch `plan/<plan-id>/<issue>-<slug>`, and
+`main` for a plan branch or a one-off branch.
 
 Then run the bundled `submit_pr.py` — it pushes the branch and opens (or updates, C5) a PR
 against that base carrying the pre-rendered body, and writes `pr.json` (via `platform_adapter.py`).
 No agent (C9). Assemble the body first (the self-review embedded + the issue reference),
 and commit the run artifacts BEFORE the push so the tree stays clean and the PR carries the
-record (C7): (1) render the PR body to `<working>/pr-body.md` — for `kind: plan` it carries a
-**Plan file** section: the Status and Direction the person gave, and, when
-`plan-landing.json.main_changed` is true, each change main made to the plan file since the
-branch was cut (`main_changes`, as a diff block), with the line "the branch's plan file
-replaces main's" (C10); (2) `git add` the issue's context dir — and, for `kind: plan`, the plan
-file — and commit `chore(stm): record propose-change run artifacts (#<issue>)`
-(self-review + resolved-rules, and the plan's Status and Direction); (3) run the script:
+record (C7): (1) render the PR body to `<working>/pr-body.md`; (2) `git add` the issue's
+context dir and commit `chore(stm): record propose-change run artifacts (#<issue>)`
+(self-review + resolved-rules); (3) run the script:
 
 ```
 python3 scripts/submit_pr.py --config .garura/core/config.yaml \
@@ -279,16 +224,7 @@ invoked for the push/PR work.
   reads `on_target: true`.
 - **SCE-6 (S6 — developer, a plan's own branch):** for a branch `plan/<P>/base`,
   `target.json` reads `kind: plan` and `base: main`, the PR's base on the host is main, the
-  PR body references `#<P>`, and `pr.json` reads `on_target: true`; `plan-landing.json`
-  holds the person's Status and Direction, and the plan file on the pushed branch reads them
-  with an empty `branch:`.
-- **SCE-7 (S7 — lead, main changed the plan file):** `plan-landing.json` reads
-  `main_changed: true`; the PR body's Plan file section holds each of its `main_changes`;
-  origin/main is an ancestor of the pushed branch, and the branch's plan file differs from
-  its pre-run version only in Status, Direction, branch and updated.
-- **SCE-8 (S8 — product owner, an answer it does not know):** a `plan_land.py ready` run that
-  exited 2 with "ask again" was followed by a new question, not a push; the final
-  `plan-landing.json` holds a known Status and Direction.
+  PR body references `#<P>`, and `pr.json` reads `on_target: true`.
 
 ### Phase: Evidence & Close
 
@@ -356,8 +292,6 @@ gated.
 | S4 — dirty tree | developer | SCE-4 |
 | S5 — issue in a plan | developer | SCE-5 |
 | S6 — a plan's own branch | developer | SCE-6 |
-| S7 — main changed the plan file | lead | SCE-7 |
-| S8 — an answer it does not know | product owner | SCE-8 |
 
 ## Recovery
 
@@ -373,7 +307,6 @@ gated.
 | F8 | a push or PR-open happened (or would happen) while the self-review carried a blocking finding | halt to a human — fix the blocking findings, then re-run so `check_self_review.py` passes before any push or PR-open | human |
 | F9 | the mechanical push or PR-open ran through an agent instead of `submit_pr.py` | route it through `submit_pr.py` (via `platform_adapter.py`) and remove the agent dispatch | autonomous |
 | F10 | the PR's base differs from the target `resolve_target.py` gives | change the PR's base on the host to the target (or re-open it there) and re-record `pr.json` | autonomous |
-| F11 | a plan's own branch was (or is about to be) raised without the person's answers in its plan file, with a guessed answer, with main's plan-file changes blended in, or with a main change left unnamed | stop before the push, ask the person again, run `plan_land.py ready` with the answers, and re-render the PR body from its record; a clash in another file stops for a person | human |
 
 ## Pause and Resume
 
@@ -386,17 +319,16 @@ it rather than opening a new one (C5, F5).
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:201b056a0aa93c7247b69069a950c1489db5c4763d091315feb4e19ca0938061 (of `reference/ice.md`) |
-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #673 plan targets; #991 a plan's Status and Direction, and its plan file) |
+| fingerprint | sha256:6ade767e626b4604596a7ad070f7cec4432c300d29091e4e6d1e80bfb7dd221c (of `reference/ice.md`) |
+| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #673 plan targets) |
 | pipeline_position | end |
 | workflow_structure | B (fast execution flow, single-pass — no loop, no cap; gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
 | domain_agents | 0 |
-| utility_agents | 2 (repo-orchestrator — self-review judgment, Step 1; template-manager — the plan-view template, Step 0, a plan's own branch only) |
-| tools | the plan tool's `plan_land.py` (a plan's own branch: Status, Direction, the branch's plan file kept whole) |
+| utility_agents | 1 (repo-orchestrator — self-review judgment, Step 1 only) |
 | skills_reused | assess-pr |
 | standards_consumed | standards/rules/self-review.md (overrideable per project); standards/rules/gate-config.md (Step 2 switch) |
 | scripts | 8 (resolve_target.py — where the branch lands; resolve_standard.py — standards-file precedence; preflight.py — pre-flight facts; session_stamp.py — session identity stamp; check_stop_condition.py — Done-means gate; check_self_review.py — pre-push blocking-finding check; platform_adapter.py — code-host adapter; submit_pr.py — push + PR-open) |
-| step_evals | 11 (SE-1…SE-11) |
-| scenario_evals | 8 (SCE-1…SCE-8) |
-| recovery_entries | 11 (one per failure condition; 8 autonomous / 3 human) |
+| step_evals | 10 (SE-1…SE-10) |
+| scenario_evals | 6 (SCE-1…SCE-6) |
+| recovery_entries | 10 (one per failure condition; 8 autonomous / 2 human) |
