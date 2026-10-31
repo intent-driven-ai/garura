@@ -1,7 +1,7 @@
 # Self-review — #989, round 2
 
 Branch: plan/717/989-plan-branch-start-and-propose, against plan/717/base (PR #1016).
-Rules: /Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md (base file, no project override; recorded in resolved-rules.json).
+Rules: ~/.phoenix/core/memory/standards/rules/self-review.md (base file, no project override; recorded in resolved-rules.json).
 Scope source: .garura/project/issues/989/specs/design.md (approved 2026-10-31; #991 dropped by the product owner, round 2 fixes recorded).
 Last review: .garura/project/issues/989/review/findings.yaml (round 1).
 Informational only. The approve/reject gate is check-change's.

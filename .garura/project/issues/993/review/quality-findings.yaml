@@ -64,8 +64,8 @@ new_since_round_2_checks:
     result: PASS
     evidence: >
       Searched every added line of both the review's pr.diff (23k lines, including the copies of
-      older diffs it contains) and a fresh `git diff plan/717/base...HEAD` for the owner's user name, -Users-,
-      /Users/, claude-503/, /private/tmp, /home/, C:\Users, the owner's first, middle and last names, @nagarro, @gmail.
+      older diffs it contains) and a fresh `git diff plan/717/base...HEAD` for the owner's user name, <dashed-home-path>,
+      /Users/, <scratch-dir>/, /private/tmp, /home/, C:\Users, the owner's first, middle and last names, @<employer>, @gmail.
       No line holds a user name, e-mail, home path or scratch path. The only hits are words that
       quote a pattern: round 2's check line "grep ... for /Users/, /home/, C:\\Users" (a pattern
       list), the BE-08 taxonomy regex with `/users/[^/]+/...`, and this round's categories.yaml
