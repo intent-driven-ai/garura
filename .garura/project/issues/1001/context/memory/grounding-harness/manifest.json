@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/evidence-recording.md",
+      "version": "25cf4ba3fdc5",
+      "fingerprint": "sha256:c9e06c897e8fbcd0d04465e8f92a0a7c77f9eab1290684433d926811a5b883a9",
+      "copy": ".garura/project/issues/1001/context/memory/grounding-harness/standards/rules/evidence-recording.md"
+    }
+  ]
+}

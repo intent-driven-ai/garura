@@ -1,19 +1,11 @@
- M .garura/project/plans/717.yaml
- M core/components/agents/product-os-keeper.md
+ M .garura/project/issues/1001/context/porcelain.txt
+ M .garura/project/issues/1001/review/findings.yaml
  M core/components/memory/standards/templates/plan-update.md
  M core/components/plays/update-plan/SKILL.md
- M core/components/plays/update-plan/reference/ice.md
- M core/components/plays/update-plan/scripts/render_screen.py
- M core/components/plays/update-plan/scripts/session_files.py
+ M core/components/plays/update-plan/scripts/feature_ice.py
+ M core/components/plays/update-plan/scripts/test_feature_ice.py
  M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
- M core/components/plays/update-plan/scripts/write_plan_changes.py
  M core/components/skills/author-plan-changes/SKILL.md
  M core/components/skills/author-work-items/SKILL.md
- M core/tools/lint-components/lib/rules/shared-scripts.js
-?? .garura/project/issues/1001/context/commit-change/
-?? core/components/plays/create-play/references/plan_common.py
-?? core/components/plays/update-plan/scripts/check_ice_workable.py
-?? core/components/plays/update-plan/scripts/feature_ice.py
-?? core/components/plays/update-plan/scripts/model_names.py
-?? core/components/plays/update-plan/scripts/plan_common.py
-?? core/components/plays/update-plan/scripts/test_feature_ice.py
+?? .garura/project/issues/1001/context/memory/
+?? .garura/project/issues/1001/context/templates/

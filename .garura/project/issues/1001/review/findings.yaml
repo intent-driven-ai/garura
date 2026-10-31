@@ -21,6 +21,7 @@ findings:
     can be read. Fix: take the measure from the clear command''s printed output at Step 16, or have the scenario eval check
     the folder is absent after the close.'
   category: harness
+  outcome: fixed
 - id: H2
   severity: P3
   file: core/components/plays/update-plan/SKILL.md
@@ -34,6 +35,7 @@ findings:
     run in order, the play adds its own close lines). The task list is the play's record of order; a step with no task is
     outside it. Put the clear after the close block, or give it a task T16 and say plainly that it runs once C2 is done.
   category: harness
+  outcome: fixed
 - id: H3
   severity: P3
   file: core/components/plays/update-plan/SKILL.md
@@ -47,6 +49,7 @@ findings:
     contract with its agents is explicit). Add author-work-items (story mode) to the product-os-keeper row and to skills_reused,
     and widen domain_agents.
   category: harness
+  outcome: fixed
 - id: H4
   severity: P3
   file: core/components/skills/author-plan-changes/SKILL.md
@@ -60,6 +63,7 @@ findings:
     section of author-plan-changes (plan/717/base:core/components/skills/author-plan-changes/SKILL.md line 60) is the committed
     shape, and the diff adds a key outside it. Add the key to the Output example.
   category: harness
+  outcome: fixed
 - id: H5
   severity: P4
   file: core/components/agents/product-os-keeper.md
@@ -70,6 +74,7 @@ findings:
   basis: Harness standard principle 2 (the play hands the agent a contract of file paths; the skill writes where the contract
     says). Use one name, and say in the story-mode paragraph of author-work-items that it writes the path its contract gives.
   category: harness
+  outcome: fixed
 - id: H6
   severity: P4
   file: core/components/plays/update-plan/SKILL.md
@@ -80,6 +85,7 @@ findings:
   basis: 'Harness standard principle 3 (a script step is called with exact arguments). Scope: the design says the close removes
     the folder when the session ''found no plan''. Say: for a session with no plan, pass only --start.'
   category: harness
+  outcome: fixed
 - id: H7
   severity: P4
   file: core/components/plays/update-plan/reference/ice.md
@@ -90,6 +96,7 @@ findings:
     is deleted. Not new in kind: the base ice.md already points to ''.garura/project/issues/720/specs/design.md'' (line 120),
     so this follows the file''s habit and is a nit; the standard is the rule.'
   category: harness
+  outcome: skipped
 - id: MEM-1
   severity: P3
   file: core/components/memory/standards/templates/plan-update.md
@@ -100,6 +107,7 @@ findings:
   basis: Base-ref template, "The screens" section (lists every screen the play prints); pr.md severity bucket P3 (missing
     docs); review/memory playbook rubric (fit the shelf's shape)
   category: memory
+  outcome: fixed
 - id: MEM-2
   severity: P4
   file: core/components/memory/standards/templates/plan-update.md
@@ -109,6 +117,7 @@ findings:
     be "{feature} has no ready ICE: {reason}".'
   basis: approval-prompt.md line 49 (short sentences, one idea each); review/memory playbook
   category: memory
+  outcome: fixed
 - id: Q01
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -119,6 +128,7 @@ findings:
   basis: ARCH-02
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q02
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -130,6 +140,7 @@ findings:
   basis: CODE-03
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q03
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -140,6 +151,7 @@ findings:
   basis: CODE-04
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q04
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -150,6 +162,7 @@ findings:
   basis: CODE-14
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q05
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -160,6 +173,7 @@ findings:
   basis: ARCH-03
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q06
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -170,6 +184,7 @@ findings:
   basis: ARCH-08
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q07
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -180,6 +195,7 @@ findings:
   basis: CODE-09
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q08
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -190,6 +206,7 @@ findings:
   basis: CODE-10
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q09
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -200,6 +217,7 @@ findings:
   basis: CODE-11
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q10
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -210,6 +228,7 @@ findings:
   basis: CODE-12
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q11
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -220,6 +239,7 @@ findings:
   basis: CODE-15
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q12
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -230,6 +250,7 @@ findings:
   basis: CODE-17
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q13
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -240,6 +261,7 @@ findings:
   basis: CODE-18
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q14
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -250,6 +272,7 @@ findings:
   basis: FE-08
   artifact_type: runtime-code
   category: quality
+  outcome: no_change_needed
 - id: Q15
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -260,6 +283,7 @@ findings:
   basis: CODE-13
   artifact_type: runtime-code
   category: quality
+  outcome: skipped
 - id: Q16
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -270,6 +294,7 @@ findings:
   basis: CODE-19
   artifact_type: runtime-code
   category: quality
+  outcome: skipped
 - id: Q17
   severity: P3
   file: core/components/plays/update-plan/scripts/feature_ice.py
@@ -283,6 +308,7 @@ findings:
   basis: CODE-25
   artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
   category: quality
+  outcome: fixed
 - id: Q18
   severity: P4
   file: core/components/plays/update-plan/scripts/session_files.py
@@ -296,6 +322,7 @@ findings:
   basis: CODE-20
   artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
   category: quality
+  outcome: skipped
 - id: Q19
   severity: P4
   file: core/components/plays/update-plan/scripts/test_update_plan_scripts.py
@@ -308,6 +335,7 @@ findings:
   basis: CODE-20
   artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
   category: quality
+  outcome: fixed
 - id: Q20
   severity: P4
   file: core/components/plays/update-plan/scripts/test_feature_ice.py
@@ -319,3 +347,4 @@ findings:
   basis: CODE-20
   artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
   category: quality
+  outcome: skipped
