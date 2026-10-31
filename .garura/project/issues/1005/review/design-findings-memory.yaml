@@ -1,0 +1,31 @@
+category: Memory
+scope: only the one rule line added to core/components/memory/standards/templates/plan-view.md (lines 36-38)
+grounding:
+  - principle: The template's yaml plan-view block is the single place the plan tool reads its settings; a rule line in the prose must not change it.
+    source: "plan/717/base:core/components/memory/standards/templates/plan-view.md (Settings section)"
+  - principle: The tree rules say what each status shows or hides, and the last line counts the nodes not printed.
+    source: "plan/717/base:core/components/memory/standards/templates/plan-view.md (The tree section)"
+  - principle: Plain words, no real names on model and template pages.
+    source: "memory tool, standards/rules (plain-English rules), read for issue 1005"
+checks:
+  - {name: agrees with plan tool for the main case, result: pass, note: "plan.py finished_children prints the children of a shown node when none of them is visible, one level, and hidden_counts skips them (printed())"}
+  - {name: one level down, result: pass, note: "keep_all stops the recursion, so grandchildren are not printed"}
+  - {name: not counted as hidden, result: pass, note: "hidden_counts and check_tree.py use the printed set"}
+  - {name: yaml plan-view block unchanged, result: pass, note: "the diff adds three lines to the Tree section only"}
+  - {name: line length and plain words, result: pass, note: "added lines stay under 100 characters; no real names"}
+findings:
+  - id: M1
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    line: 36
+    summary: "The line says the rule fires when the children are all Done or Dropped. The tool fires it only when no child is shown and none has a shown node under it. A Done child with an open node under it makes the tool skip the rule, so the other finished children stay hidden, which the line does not say."
+    basis: "core/tools/plan/plan.py finished_children() and check_tree.py printed() (this diff) against the line; the template's own earlier rule, from plan/717/base, that a hidden node with a shown node under it is printed."
+  - id: M2
+    severity: P4
+    file: core/components/memory/standards/templates/plan-view.md
+    line: 34
+    summary: "The bullet just above still says the tree hides Done and Dropped, with no pointer to the new exception. A reader of that bullet alone gets the old rule."
+    basis: "plan/717/base:core/components/memory/standards/templates/plan-view.md, The tree section, hiding bullet."
+outside_scope:
+  - "The template's example tree and its last-line example do not show the new rule in action."
+  - "Copying the changed template to Phoenix memory is owed after the merge (stated in the PR notes)."

@@ -1,39 +1,59 @@
-# assess-changes output (issue 1005)
+---
 needs_judgment: false
 
 change_groups:
-  - id: plan-tool-finished-children
+  - id: plan-tool-children-own-status
     issue: 1005
-    commit_type: feat
+    commit_type: fix
     scope: plan-tool
-    subject: print the finished children of an open parent in the plan tree
+    subject: "check the children's own status in the finished-children rule"
     files:
       - core/tools/plan/plan.py
       - core/tools/plan/test_plan.py
-  - id: show-plan-finished-children
-    issue: 1005
-    commit_type: feat
-    scope: show-plan
-    subject: show the finished children of an open parent in show-plan
-    files:
-      - core/components/plays/show-plan/SKILL.md
-      - core/components/plays/show-plan/reference/ice.md
       - core/components/plays/show-plan/scripts/check_tree.py
-      - core/components/plays/show-plan/scripts/test_check_tree.py
-      - core/components/memory/standards/templates/plan-view.md
-  - id: stm-run-files
+  - id: stm-review-run-files
     issue: 1005
     commit_type: chore
     scope: stm
-    subject: record show-plan finished-children run files
+    subject: "record check-change review run files and memory copies"
     files:
       - .garura/project/issues/1005/context/analysis.yaml
       - .garura/project/issues/1005/context/porcelain.txt
+      - .garura/project/issues/1005/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/1005/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/1005/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/1005/context/memory/knowledge/review/code.md
+      - .garura/project/issues/1005/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/1005/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/1005/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/1005/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/1005/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/1005/context/memory/manifest.json
+      - .garura/project/issues/1005/context/memory/standards/rules/pr.md
+      - .garura/project/issues/1005/context/templates/manifest-check-change.json
+      - .garura/project/issues/1005/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1005/review/categories.yaml
+      - .garura/project/issues/1005/review/context.yaml
+      - .garura/project/issues/1005/review/design-findings-harness.yaml
+      - .garura/project/issues/1005/review/design-findings-memory.yaml
+      - .garura/project/issues/1005/review/findings-open.yaml
+      - .garura/project/issues/1005/review/findings.yaml
+      - .garura/project/issues/1005/review/l1-lint-components.txt
+      - .garura/project/issues/1005/review/l1-lint-play.txt
+      - .garura/project/issues/1005/review/l1-ruff.txt
+      - .garura/project/issues/1005/review/l1-tests.txt
+      - .garura/project/issues/1005/review/pr.diff
+      - .garura/project/issues/1005/review/quality-findings.yaml
+      - .garura/project/issues/1005/review/recommended_verdict.yaml
 
 exclusions: []
 
 risks:
   sensitive_files: []
+  warnings:
+    - path: ".garura/project/issues/1005/context/memory/standards/rules/pr.md"
+      note: "password pattern matches are review-rule grep text in a standards artifact, not a credential; non-blocking"
+      blocking: false
   breaking_changes: []
   ambiguous_types: []
   hotfix_branch: false
