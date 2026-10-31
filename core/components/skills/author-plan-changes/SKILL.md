@@ -34,7 +34,7 @@ play's script does) and it writes nothing but its draft.
    | op | When the person… | Fields |
    |----|------------------|--------|
    | `status` | says an item is done, dropped, started, being worked on now, blocked, or not started | `issue`, `to` (Not Started, In Progress, Now, Blocked, Done, Dropped) |
-   | `add` | puts an issue into the plan, or asks for a new one | `issue` (null for a new one), `kind` (epic, feature, story, spike, chore, bug), `parent`; for a new one also `title` and `body` |
+   | `add` | puts an issue into the plan, or asks for a new one | `issue` (null for a new one), `kind` (epic, feature, story, spike, chore, bug), `parent`; for a new one also `title` and `body`; for a new story the person ties to a feature of the product model ("add the story for feature X"), also `feature_ref`: the feature as the person named it (its id, its short name or its page title), and `body` in their words — the play finds the feature and drafts the story from its ICE when it has one |
    | `move` | puts an item under another parent | `issue`, `to` (the new parent) |
    | `retitle` | renames an item | `issue`, `to` (the new title) |
    | `text` | changes what an item's text says | `issue`, `body` (the whole new text: every line of the old text kept except the lines the person changed), `summary` (one line: what changed) |
@@ -42,6 +42,10 @@ play's script does) and it writes nothing but its draft.
    | `new-feature` | names a feature the plan did not know about | `issue` (null, or the story that exists for it), `title`, `parent` (where the person wants its story), `description` (the person's words about what a person can do), and `capability` only when the person names it (the play's script places the rest) |
    | `plan-status` | sets the plan's own status | `to` (Not Started, In Progress, Paused, Done, Dropped) |
    | `plan-direction` | sets the plan's direction | `to` (1, 2, 3, or null for none) |
+
+   When the person asks where an item sits in the product model ("find this story in the model",
+   "which feature is #931"), write no entry: add `{"story": <n>}` (or `{"ref": "<their words>"}`
+   for a feature) to `model_lookups`; the play answers from the model.
 
    Give only the new value; the play's script reads the old one from the plan file and the
    tracker. "Finish #730 and its chores" is one `status` entry for each item. A change the person

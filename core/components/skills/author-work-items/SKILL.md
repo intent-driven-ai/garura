@@ -1,6 +1,6 @@
 ---
 name: author-work-items
-description: Write, for each slice of a business intent's plan, the epic's title (what a person can see the product do, not how it is built) and one story for each ready feature — its title, its scope of work (goals, limits, expectations) and its Context guidance (what to read, what never to read, the persona, what is in and what is out) — in its own words, from skill-input.json and the clean copies of the feature's ICE and its capability's ICE that the play's gather_plan.py wrote — the only files it reads; neither names an ICE page. It never opens an ICE page, never writes a failure or recovery condition, and writes plain words with personas. Fix mode rewrites only the parts the play's check_drafts.py names; change mode drafts again with the product owner's change. Writes drafts.json only; the play's scripts check it, show it in the brief and write the tracker after the product owner's yes. Generative artifact production for /shape-plan. Use when /shape-plan needs the epic and stories of a plan drafted, fixed or drafted again.
+description: Write, for each slice of a business intent's plan, the epic's title (what a person can see the product do, not how it is built) and one story for each ready feature — its title, its scope of work (goals, limits, expectations) and its Context guidance (what to read, what never to read, the persona, what is in and what is out) — in its own words, from skill-input.json and the clean copies of the feature's ICE and its capability's ICE that the play's gather_plan.py wrote — the only files it reads; neither names an ICE page. It never opens an ICE page, never writes a failure or recovery condition, and writes plain words with personas. Fix mode rewrites only the parts the play's check_drafts.py names; change mode drafts again with the product owner's change. Writes drafts.json only; the play's scripts check it, show it in the brief and write the tracker after the product owner's yes. Generative artifact production for /shape-plan, and, in story mode, for /update-plan (one story for a feature named in a session, #1002). Use when /shape-plan needs the epic and stories of a plan drafted, fixed or drafted again, or /update-plan needs one story drafted from a feature's ICE.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write
@@ -59,6 +59,14 @@ judgment: the words.
 5. **Fix mode.** Rewrite only the slice or story each problem names, and keep every other
    draft as it is.
 6. **Change mode.** Draft again what the product owner's change names, and keep the rest.
+
+## Story mode (/update-plan, #1002)
+
+When `skill_input` reads `"mode": "story"`, it holds one feature (`id`, `one_line`, `clean_ice`)
+and no slice: an /update-plan session adds one story for a feature the person named. Write that
+one story only, by step 3 and step 4 above, from the one clean copy — no epic. The output is
+`{"stories": [{"feature", "title", "scope_of_work", "context_guidance"}]}`; the play's
+`feature_ice.py body` checks it the way `check_drafts.py` checks a slice's stories.
 
 ## Output
 

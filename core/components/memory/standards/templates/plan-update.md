@@ -115,6 +115,13 @@ confirm: |-
   This needs your yes first: {why}.
   Type yes to add it to the list, or tell me what to change.
 thin_warning: "  Its ICE will be thin: written from your words only. A thin ICE can cause problems later; /discover-capabilities can deepen it."
+from_ice_note: "drafted from {feature}'s ICE and its capability's ICE"
+no_ice_note: "{feature} has no ready ICE ({reason}): the story uses your words"
+model_found: "#{story} is the story of {feature}: {one_line}\n  Its ICE: {pages}"
+model_feature: "{feature}: {one_line}\n  Its ICE: {pages}"
+model_not_found: "No feature in the model matches {ref}."
+model_many: "More than one feature matches {ref}: {matches}. Name one."
+model_join: "; "
 slice_in_progress: "  Its slice {slice} is in progress: {epics} is out of date, because work already started from the old text."
 epic_line: "epic {epic} ({status})"
 epic_join: ", "
