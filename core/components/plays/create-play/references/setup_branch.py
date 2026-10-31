@@ -18,14 +18,16 @@ exists, the latest main is merged into it first. The issue's branch
 
 A plan branch that is gone on origin but still here (the plan paused, merged into main and its
 branch was deleted) is deleted here and cut fresh — but only when the lookup on origin worked
-and every commit on the local copy is already on main, or was on origin's plan branch before it
-went (git's last-known copy of it). A failed lookup (offline, a login error) stops the run and
-says origin could not be reached; a local copy with commits found nowhere else stops the run
-and names them (#953). A push that fails stops the run.
+and every commit on the local copy is already on main (merge-change lands a plan with a merge
+commit, so a landed plan's copy always is). A failed lookup (offline, a login error, a stalled
+server) stops the run and says origin could not be reached; a local copy with a commit that is
+not on main stops the run, keeps the copy and names the commits (#953). A push that fails, or a
+delete that fails, stops the run. Network calls never prompt and give up after a time limit.
 
 Idempotent: if the branch already exists (local or remote), it is a resume —
 switch to it, do not re-cut. Writes branch.json:
-  { branch_name, base_sha, on_default_branch, worktree_path, plan_branch, plan_branch_created }
+  { branch_name, base_sha, on_default_branch, worktree_path, plan_branch, plan_branch_created,
+    stale_plan_branch: null | { deleted: true, tip: <sha>, on_main: true } }
 
 Exit 0 on success, 1 on a git failure.
 """
@@ -37,8 +39,16 @@ import subprocess
 import sys
 
 
+TIME_LIMIT = 120  # seconds for a call to origin; a stalled server is a failure, never a hang
+NO_PROMPT = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+
+
 def _git(*args):
-    proc = subprocess.run(["git", *args], capture_output=True, text=True)
+    try:
+        proc = subprocess.run(["git", *args], capture_output=True, text=True,
+                              timeout=TIME_LIMIT, env=NO_PROMPT)
+    except subprocess.TimeoutExpired:
+        return 124, "", f"git {args[0]} gave up after {TIME_LIMIT} seconds"
     return proc.returncode, proc.stdout.strip(), proc.stderr.strip()
 
 
@@ -62,15 +72,21 @@ def _is_ancestor(a, b):
     return subprocess.run(["git", "merge-base", "--is-ancestor", a, b], capture_output=True).returncode == 0
 
 
-def _safe_to_delete(plan, base):
-    """Every commit on the local plan branch is on main, or was pushed to origin's plan branch."""
-    if _is_ancestor(plan, f"origin/{base}"):
-        return True, []
-    known = f"refs/remotes/origin/{plan}"
-    if _git("rev-parse", "--verify", "--quiet", known)[0] == 0 and _is_ancestor(plan, known):
-        return True, []
-    _, log, _ = _git("log", "--oneline", plan, "--not", f"origin/{base}", "--remotes=origin")
-    return False, log.splitlines()
+def _drop_stale(plan, base):
+    """A plan branch gone on origin but still here: delete it when every commit on it is on
+    main; otherwise stop, keep it and name the commits that are not. Returns the record."""
+    _, tip, _ = _git("rev-parse", plan)
+    if not _is_ancestor(plan, f"origin/{base}"):
+        _, log, _ = _git("log", "--oneline", plan, "--not", f"origin/{base}")
+        sys.stderr.write(f"setup_branch.py: {plan} is gone on origin, but the copy here has commits "
+                         f"that are not on {base}; it was kept. Push or move them, then run again:\n  "
+                         + "\n  ".join(log.splitlines()) + "\n")
+        sys.exit(1)
+    rc, _, err = _git("branch", "-D", plan)
+    if rc != 0:
+        sys.stderr.write(f"setup_branch.py: deleting the stale copy of {plan} failed: {err}\n")
+        sys.exit(1)
+    return {"deleted": True, "tip": tip, "on_main": True}
 
 
 def _push(branch):
@@ -108,6 +124,7 @@ def main(argv=None):
     _, base_sha, _ = _git("rev-parse", f"origin/{ns.base}")
 
     plan_created = False
+    stale = None
     if ns.plan_branch and not _branch_exists(branch):
         # The issue sits in a plan: bring the plan branch up to the latest main, or cut it.
         plan = ns.plan_branch
@@ -118,15 +135,8 @@ def main(argv=None):
             sys.exit(1)
         if not on_origin and _branch_exists(plan):
             # Only a stale local copy is left: the plan paused, merged into main and its branch
-            # was deleted on origin. A plan that starts again gets a fresh cut from main — when
-            # no commit on the local copy would be lost.
-            safe, lost = _safe_to_delete(plan, ns.base)
-            if not safe:
-                sys.stderr.write(f"setup_branch.py: {plan} is gone on origin, but the copy here has "
-                                 f"commits found nowhere else; it was kept. Push or move them, then "
-                                 f"run again:\n  " + "\n  ".join(lost) + "\n")
-                sys.exit(1)
-            _git("branch", "-D", plan)
+            # was deleted on origin. A plan that starts again gets a fresh cut from main.
+            stale = _drop_stale(plan, ns.base)
         if _branch_exists(plan):
             _git("fetch", "origin", plan)
             rc, _, err = _git("checkout", plan)
@@ -183,7 +193,8 @@ def main(argv=None):
 
     record = {"branch_name": branch, "base_sha": base_sha,
               "on_default_branch": False, "worktree_path": worktree_path,
-              "plan_branch": ns.plan_branch, "plan_branch_created": plan_created}
+              "plan_branch": ns.plan_branch, "plan_branch_created": plan_created,
+              "stale_plan_branch": stale}
     with open(ns.out, "w", encoding="utf-8") as fh:
         json.dump(record, fh, indent=2)
     print(json.dumps(record, indent=2))
