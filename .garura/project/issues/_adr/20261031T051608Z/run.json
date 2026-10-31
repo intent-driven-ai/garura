@@ -1,0 +1,11 @@
+{
+ "in_loop": false,
+ "loop_run_id": null,
+ "branch": "plan/717/896-shape-plan-stops-on-existing-plan",
+ "issue": 896,
+ "scope_baseline": {
+  "retaken_before_apply": true,
+  "why": "Other work of #896's same change went on in this branch while the draft was written (the round 1 fixes: the shape-plan and shape-slice wording, the Next-line map, the fn-818 page). The scope check is re-based just before Step 4, so it proves that applying the record wrote only the record, its pointer and the index.",
+  "first_baseline": "porcelain-before-preflight.txt"
+ }
+}

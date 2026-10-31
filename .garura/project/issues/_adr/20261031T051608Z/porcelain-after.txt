@@ -1,0 +1,48 @@
+ M .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-slice/SKILL.md
+ M docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+ M docs/adr/_index.md
+?? .garura/project/issues/896/context/fn-818-lines-r2/change-report.json
+?? .garura/project/issues/896/context/fn-818-lines-r2/lines-request.json
+?? .garura/project/issues/896/context/memory/grounding-harness/manifest.json
+?? .garura/project/issues/896/context/memory/grounding-harness/standards/rules/evidence-recording.md
+?? .garura/project/issues/896/context/memory/grounding-harness/standards/rules/pipeline-next.md
+?? .garura/project/issues/896/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+?? .garura/project/issues/896/context/memory/grounding-memory/manifest.json
+?? .garura/project/issues/896/context/memory/grounding-memory/standards/rules/direct-model-write.md
+?? .garura/project/issues/896/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+?? .garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ice.yaml
+?? .garura/project/issues/896/context/memory/grounding-memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/896/context/memory/knowledge/review/_index.md
+?? .garura/project/issues/896/context/memory/knowledge/review/adrs.md
+?? .garura/project/issues/896/context/memory/knowledge/review/code.md
+?? .garura/project/issues/896/context/memory/knowledge/review/config-maps.md
+?? .garura/project/issues/896/context/memory/knowledge/review/docs.md
+?? .garura/project/issues/896/context/memory/knowledge/review/harness.md
+?? .garura/project/issues/896/context/memory/knowledge/review/memory.md
+?? .garura/project/issues/896/context/memory/knowledge/review/tests.md
+?? .garura/project/issues/896/context/memory/manifest.json
+?? .garura/project/issues/896/context/memory/standards/rules/pr.md
+?? .garura/project/issues/896/context/templates/manifest-check-change.json
+?? .garura/project/issues/896/context/templates/standards/rules/pipeline-next.md
+?? .garura/project/issues/_adr/20261031T051608Z/adr-check.json
+?? .garura/project/issues/_adr/20261031T051608Z/adr-context.yaml
+?? .garura/project/issues/_adr/20261031T051608Z/adr-draft.md
+?? .garura/project/issues/_adr/20261031T051608Z/adr-manifest.json
+?? .garura/project/issues/_adr/20261031T051608Z/brief.md
+?? .garura/project/issues/_adr/20261031T051608Z/context/memory/manifest.json
+?? .garura/project/issues/_adr/20261031T051608Z/context/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/_adr/20261031T051608Z/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261031T051608Z/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261031T051608Z/decision.yaml
+?? .garura/project/issues/_adr/20261031T051608Z/hashes-before-preflight.json
+?? .garura/project/issues/_adr/20261031T051608Z/hashes-before.json
+?? .garura/project/issues/_adr/20261031T051608Z/porcelain-after.txt
+?? .garura/project/issues/_adr/20261031T051608Z/porcelain-before-preflight.txt
+?? .garura/project/issues/_adr/20261031T051608Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261031T051608Z/run.json
+?? .garura/project/issues/_adr/20261031T051608Z/start-change.json
+?? .garura/project/issues/_adr/20261031T051608Z/target.txt
+?? docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md
