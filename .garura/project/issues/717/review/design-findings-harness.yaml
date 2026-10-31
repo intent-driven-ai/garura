@@ -1,96 +1,119 @@
-# Layer 2 design-grounding, category: harness. PR #988 (plan/717/base -> main), issue 717.
-# Grounded only in sources committed on the base ref (main) or read through the memory tool.
-# Nothing is grounded in text this diff adds or rewrites.
-pr: 988
+# Layer 2 design-grounding, category: harness. PR #1017 (plan/717/base -> main), issue 717. Landing review.
+# Grounded only in sources committed on the base ref (main), Phoenix memory read through the memory tool
+# (copies in .garura/project/issues/717/context/memory/grounding-harness/, manifest.json there, version c14f515d910f),
+# and nothing the diff adds. ADRs 061 to 064 are branch-added and are not used as grounding.
+pr: 1017
 base: main
 category: harness
-changed_artifacts:
-  - core/components/plays/list-plans/SKILL.md
-  - core/components/plays/list-plans/reference/ice.md
 severity_note: >
-  The PR severity taxonomy (standards/rules/pr.md, short-term copy) holds no row for harness
-  prose, and classes core/components/** as garura-prose, so no grep rule can fire on it. The
-  severity below follows the taxonomy's bucket definitions: P3 minor (docs, naming), P4 nit
-  (style only).
+  The PR severity taxonomy copy (.garura/project/issues/717/context/memory/standards/rules/pr.md) has no row for harness
+  prose and classes core/components/** as garura-prose, so no grep rule fires. Severity follows its bucket
+  definitions: P2 structural violation, P3 minor, P4 nit.
 
 grounding:
   principles:
     - id: G1
-      principle: "A play is compiled from its ICE. A change to what a part guarantees is made in the ICE, and the part is compiled again. The compiled part records a fingerprint of its ICE so the two never drift apart unseen."
-      source: "docs/standards/harness-standard.md, principle 4 (git show main:docs/standards/harness-standard.md); ADR 027"
+      principle: "A play is compiled from its ICE and records a fingerprint of it, so the two never drift apart unseen. What is baked to a play is emitted by the compiler, so a rebuild reproduces it."
+      source: "docs/standards/harness-standard.md principle 4 (git show origin/main:...); core/components/plays/create-play/SKILL.md line 345-346 on origin/main ('Add the stop condition': write ONE <play-name>/stop-condition.yaml whose content.done is the clause list, unchanged)"
     - id: G2
-      principle: "An intent change (the intent statement, constraints, failure conditions, scenarios, the flow, evals) goes through the play's ICE source and /edit-play. A compiled SKILL.md is never hand-edited for an intent change."
-      source: "CLAUDE.md, section Play Pipeline Rules, on the base ref"
+      principle: "Mechanical work is a script that gives the same answer every time. A script step must not depend on how typed text is quoted."
+      source: "docs/standards/harness-standard.md principle 3 (origin/main)"
     - id: G3
-      principle: "Plays orchestrate, agents gather context, skills do the work, and mechanical work is a script. A play hands out contracts of paths and reads no memory itself; templates come through template-manager."
-      source: "docs/standards/harness-standard.md, principles 2 and 3; docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 2 and section 8"
+      principle: "An epic is long-lived: it stays open when its stories are done and knows no capability. Closed means delivered for a story, not for an epic."
+      source: "core/components/memory/standards/schemas/product-os/ontology.md lines 613 and 643 on origin/main; core/grounding/glossary.md row 'Epic (ProductOS)' on origin/main"
     - id: G4
-      principle: "The Standard Play Close lives once, in the shared play-close file. A play carries only its anchor pair, its own values and its own close steps."
-      source: "core/components/plays/_shared/play-close.md and CLAUDE.md (Durability rule), both on the base ref; core/components/memory/standards/rules/evidence-recording.md (memory tool copy in the grounding folder)"
+      principle: "People run loops; a loop opens its change by running start-change, so a change to what start-change needs from its caller is stated where the caller is written."
+      source: "docs/standards/harness-standard.md principle 1 (origin/main); core/components/memory/standards/rules/pipeline-position.md (Phoenix memory copy, grounding-harness/)"
     - id: G5
-      principle: "A play that serves the guarantee must stay read only where its ICE says so (C2), and the check must be deterministic."
-      source: "core/components/plays/list-plans/reference/ice.md on the base ref (git show main:...), constraints C1, C2, C4, C10 and failure F8, which the PR leaves unchanged"
-  gap: >
-    No principle was found only in branch-added text. The review shelf playbook (review/harness)
-    names user-facing-voice as a standard a play is subject to; it governs the orchestrator's
-    replies to a person, not the text a tool prints, so it was read (memory tool copy) and found
-    not to bear on this change.
+      principle: "Installed parts name only installed files; the Standard Play Close is carried by an anchor pair; every user-invocable play is in the Next map; one verb one meaning."
+      source: "docs/standards/harness-standard.md principles 10 and 11 (origin/main); core/components/plays/_shared/play-close.md on origin/main; naming.md and pipeline-next.md (Phoenix memory copies)"
+  gap: "None. Every principle above was found on origin/main or in Phoenix memory."
 
-conformance_checked:
-  - check: "Intent change traces to the ICE source (G1, G2)"
+checks_run_on_the_landed_tree:
+  # Run against git archive of origin/plan/717/base, read only, outputs in the session scratchpad.
+  - check: "Fingerprint = sha256 of reference/ice.md, for all 31 plays"
     result: conforms
-    detail: >
-      The guarantee changed is scenario S6 (where the direction icon sits). reference/ice.md S6
-      and SKILL.md SE-7 and the description changed together, and the new fingerprint in
-      SKILL.md (sha256 004240ca...2dd4) equals the sha256 of the ice.md in this PR (shasum
-      checked). The fingerprint on main (7ede4179...f555) is the hash of the base ice.md, so the
-      move is exactly the ICE edit. SCE-6 needs no text change (it still reads as_set: true).
-  - check: "Wiring play -> script intact (G3, G5)"
+    detail: "merge-change, shape-plan, shape-slice, show-plan, start-change and update-plan all match (shasum -a 256). The only mismatch is list-focus-issues, which this PR does not change in ICE or SKILL; it mismatches the same way on origin/main (listed under there_before)."
+  - check: "ICE and SKILL carry the same C/F/S ids (six changed plays)"
     result: conforms
-    detail: >
-      The play still prints through the plan tool and checks through scripts/check_list.py. No
-      agent, skill or memory read was added. check_list.py was run read only on this repo's plan
-      files (output to a scratch folder): as_set, template_used, same_twice, unchanged all true,
-      ok true. The play's read-only guarantee (C2) is unchanged.
-  - check: "Standard Play Close anchors untouched (G4)"
+    detail: "Same C, F and S sets in reference/ice.md and SKILL.md for each; the SKILL's extra C0 is the standard pre-flight row. 'Done means' clause ids agree with stop-condition.yaml for five plays; start-change is finding L2."
+  - check: "Standard Play Close anchors and lint-play"
     result: conforms
-    detail: "The Evidence & Close section of SKILL.md is not in the diff."
-  - check: "lint-play (list-plans)"
+    detail: "lint_play.py PASS (0 gaps) for merge-change, shape-plan, shape-slice, show-plan, start-change, update-plan (.garura/project/issues/717/review/l1-lint-play-*.txt), including 'standard play close', 'fingerprint' and 'next-command (pipeline-next)'."
+  - check: "Shared-script copies against create-play/references"
     result: conforms
-    detail: "Layer 1 record lint-play.txt reads VERDICT PASS (0 gaps)."
+    detail: "Every script in core/components/plays/create-play/references/ (not only the six names lint-components lists) was compared byte for byte with every copy under plays/*/scripts/ and skills/*/scripts/: no difference. Other same-named scripts (check_plan.py, compute_verdict.py, record_approval.py, render_brief.py, resolve_args.py) are different scripts by design, not copies."
+  - check: "Installed parts naming source paths (installed-paths/source-path)"
+    result: conforms
+    detail: "lint-components (source layout) reports 36 errors, none in a changed path (l1-lint-components.txt). A grep of the added lines of plays, skills, agents and standards for core/components, core/tools and Garura docs/ pointers finds only .garura/core/tools/plan/... (an installed place) and ADR numbers (not paths). core/tools/plan/README.md names only .garura/core/tools/plan/."
+  - check: "Next line in pipeline-next"
+    result: conforms
+    detail: "update-plan is listed (command null); shape-slice and shape-plan successors name /update-plan; lint-play's next-command check passes for all six."
+  - check: "play -> agent -> skill -> script wiring"
+    result: conforms
+    detail: "Every scripts/<file> a SKILL names exists in its own scripts/ folder; update-plan's table lists its 22 scripts and the folder holds 22 non-test scripts; author-plan-changes and track-plan-changes exist and are in the harness install scope (core/components/plays/install-garura/scripts/install.py) with update-plan; the tools install lays plan_branch.py and plan_status.py with the whole plan tool. platform-adapter: 25 verbs in SKILL.md, a section for each in both github and gitlab verbs.md, and the new verbs in every platform_adapter.py copy."
+  - check: "Declared exception for /update-plan writing the model after approval"
+    result: conforms
+    detail: "Phoenix memory's direct-model-write.md (version c14f515d910f) carries the declared exception, and update-plan carries position_exception, which D2b accepts."
 
 findings:
-  - id: H1
+  - id: L1
+    severity: P2
+    file: core/components/plays/start-change/stop-condition-plan.yaml (whole file); core/components/plays/start-change/SKILL.md:32,339,399,494; core/components/plays/start-change/reference/ice.md:195-205
+    what: >
+      Still lands unfixed (recorded as N1, P2, in .garura/project/issues/989/review/design-findings-harness.yaml, approved with it open).
+      The ICE's Done means holds D1 to D8, but the play bakes them into two hand-made manifests: D1 to D4 in stop-condition.yaml and
+      D5 to D8 in stop-condition-plan.yaml. The compiler writes one stop-condition.yaml whose content.done is the whole clause list.
+      The next /edit-play of start-change therefore writes all eight into stop-condition.yaml; every ordinary change start must then
+      prove plan-branch.json and plan-start-check.json, which a change never makes, and closes HALTED. lint-play passes today
+      ('Done means baked' checks only stop-condition.yaml), so nothing warns.
+    principle: "G1: what is baked to a play is emitted by the compiler from its ICE, so a rebuild reproduces it."
+    source: "core/components/plays/create-play/SKILL.md:345-346 on origin/main; docs/standards/harness-standard.md principle 4 (origin/main); CLAUDE.md 'Durability rule' on origin/main"
+    fix: "Tag each Done clause with its path in the ICE and teach create-play and check_stop_condition.py to read the tag, or teach create-play to write and lint a second manifest; then recompile start-change. Until then record the gap where the rebuild will meet it."
+
+  - id: L2
+    severity: P2
+    file: core/components/plays/merge-change/scripts/merge_pr.py:114,132-133 (master copy core/components/plays/create-play/references/merge_pr.py:114,132); core/components/plays/merge-change/reference/ice.md:63
+    what: >
+      Still lands unfixed (recorded as HC1, P2, in .garura/project/issues/1000/review/design-findings-harness.yaml; story 1007 recorded
+      it as out of scope by the product owner, .garura/project/issues/1007/review/design-findings-harness.yaml line 80).
+      merge-change still closes 'the capability' once every issue under it is closed (C9). A plan has no capability: the top node
+      of a plan's tree is the Epic (plan 717's tree top is epic 956), so the script closes the plan's Epic when its items are closed,
+      and leaves the plan item for that Epic not marked Done. An Epic stays open when its work is done and new stories can join it.
+      The plan lands with both the landed rule (an item follows its own issue, nothing rolls up) and this roll-up in the same play.
+    principle: "G3: an Epic stays open when its stories are done and knows no capability."
+    source: "ontology.md lines 613 and 643 on origin/main; glossary row 'Epic (ProductOS)' on origin/main"
+    fix: "Owner decision to keep or drop the roll-up; if dropped, change C9, S5, the F9/SE-9 wording and merge_pr.py (and its create-play master) together through /edit-play."
+
+  - id: L3
     severity: P3
-    file: core/components/plays/list-plans/reference/ice.md
+    file: core/components/plays/start-change/reference/ice.md:39-40 (C10); core/components/loops/_shared/loop-run.md:61; core/components/loops/complete-discovery/SKILL.md:125
     what: >
-      The Intent paragraph (line 9) still says each card shows "the plan's direction, its
-      number and business intent", in that order. This PR moves the direction to its own line
-      under the heading (S6 now says so, and the SKILL.md description says "number and business
-      intent, its direction ... on the line under"). The ICE intent statement was not brought in
-      line with its own scenario, so the source the play is compiled from now states the old
-      order while S6 states the new one.
-    basis:
-      principle: "G1: the ICE is what the team agreed and the compiled part must not drift from it. The compiled description (SKILL.md) and the ICE intent statement now say different things about the card."
-      source: "docs/standards/harness-standard.md principle 4 (base ref); base ice.md line 9 (git show main:core/components/plays/list-plans/reference/ice.md) shows the intent text this PR left unchanged"
-    suggested_fix: "Reword the Intent paragraph so the order reads number and business intent, then the direction on the line under, and recompile through /edit-play (the fingerprint then changes again)."
-  - id: H2
-    severity: P4
-    file: core/components/plays/list-plans/reference/ice.md
+      Still lands unfixed (recorded as N3, P3, in .garura/project/issues/989/review/design-findings-harness.yaml).
+      start-change now hard-halts when nothing is typed, and C10 says a loop 'passes the issue number (or a description), as it does today'.
+      The loop files (not in the diff) say only 'Run start-change as a sub-play ... one issue, one branch' and 'Run R2 of the shared run';
+      no committed text says what is handed over. The Discovery loop is the loop people run, so the first step of it is the one that would stop
+      if the hand-over is empty. Not proven to break; the claim in C10 has no backing text.
+    principle: "G4: people run loops; a guarantee that changes for a caller is stated in the caller's own file."
+    source: "docs/standards/harness-standard.md principle 1 (origin/main); loop-run.md on origin/main"
+    fix: "State in loop-run R2 what is handed to start-change, or drop 'as it does today' from C10."
+
+  - id: L4
+    severity: P3
+    file: core/components/plays/start-change/SKILL.md:90
     what: >
-      The Context line that lists the stories the play was compiled from (line 64: #729, #806,
-      #983) does not name #986, while SKILL.md Compiled From and the compiled_by row now cite
-      #986. The two provenance lists disagree.
-    basis:
-      principle: "G1: the compiled part and its ICE agree on where the play came from (the #983 change added its story to both)."
-      source: "docs/standards/harness-standard.md principle 4 (base ref); base ice.md Context lines, which name #983 in the same list"
-  - id: H3
-    severity: P4
-    file: core/components/plays/list-plans/reference/ice.md
-    what: >
-      Scenario S6 now breaks after "the check record" and leaves a short line
-      ("*Measure:* the check record" then "reads `as_set: true`."). The author's own self-review
-      called it cosmetic. Style only.
-    basis:
-      principle: "Plain wrapping of ICE prose (style only, no committed rule is violated)"
-      source: "P4 bucket of the PR severity taxonomy (standards/rules/pr.md, short-term copy): style-only nits are surfaced in evidence only"
+      Still lands unfixed (recorded as N4, P3, in .garura/project/issues/989/review/design-findings-harness.yaml).
+      The person's typed words go inside double quotes on a shell line: resolve_args.py --args="<the play's arguments>".
+      A description with a backtick, a double quote or $(...) is changed by the shell before the script reads it, so the change
+      read is not the change typed.
+    principle: "G2: a script step gives the same answer every time and must not depend on how text is quoted."
+    source: "docs/standards/harness-standard.md principle 3 (origin/main)"
+    fix: "Write the typed words to a file (as work-description.txt) or pass them on stdin."
+
+there_before:
+  - "lint-components (source layout): 36 errors, none in a changed path. 22 are in the source-only meta plays (create-play, edit-play, create-loop, edit-loop, install-garura, uninstall-garura: no Role, Pre-flight, Compiled From, or Play Close anchors; they are the named exception in harness-standard principle 11) and 14 are in 5 skills (check-quality, find-matching-issues, merge-pr, open-pr, propose-kb-node) missing frontmatter or sections; 1 warning (list-focus-issues spelling)."
+  - "core/components/plays/list-focus-issues: SKILL.md fingerprint f937d9e7... is not the sha256 of reference/ice.md (5e6ffc60...). Same on origin/main; this PR changes only its stamped preflight.py. A P4 to fix with the next /edit-play of that play."
+
+earlier_findings_checked:
+  fixed_on_the_landed_tree: "779 HS1 (a refused push now has a test, test_setup_branch.py:139), 1000 HC2 and 1007 H3 (merge-change SE-9 and the F9 row now agree with ICE F9 and REC9), 1007 H1 (a duplicate close is now Dropped), 1007 H2 (the plan file joins the records commit only when its item changed), 1001 H1 to H3 (update-plan SCE-9, Step 16 and the agent table agree), 720 HF-1 to HF-8, HF-10, HF-12, HF-14, HF-15."
+  not_re_checked: "P4 findings recorded in the story reviews (720 HF-9, HF-11, HF-13, HF-16, HF-17; 989 N5 to N7; 993 H-3, H-4; 1000 HC3 to HC6) and 989 N2 (P3, a closed-plan case with no failure condition): left to the story records."

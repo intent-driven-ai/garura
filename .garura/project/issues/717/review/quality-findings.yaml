@@ -1,145 +1,1277 @@
-# Layer 1 standards linter for PR #988 (plan/717/base -> main), issue 717.
-# Categories covered: executable-code, tests, issue-work-records (categories.yaml).
-# Scanner: check-pr-quality scan_taxonomy.py against pr.diff, changed paths from context.yaml,
-# taxonomy = the short-term copy of standards/rules/pr.md.
-meta:
-  pr: 988
-  base: main
-  head_checked: plan/717/base (working tree; the 7 code/doc files and the 52 records match HEAD, no uncommitted change in changed_paths)
-  diff_path: .garura/project/issues/717/review/pr.diff
-  taxonomy_path: .garura/project/issues/717/context/memory/standards/rules/pr.md
-  changed_paths_count: 59
-  scanner_exit: 0
-  scanner_errors: 0
-  scanner_raw_counts: {P1: 1, P2: 8, P3: 16, P4: 4}
-  scanner_catchall_CODE-20: 6
-  scanner_note: >-
-    The scanner classes core/components/plays/list-plans/scripts/check_list.py as garura-prose
-    (the core/components/** glob), so no grep or path rule ran on it. It is a python script the
-    runtime executes, so it was read by hand (findings Q1 and Q3). The scanner raised nothing on
-    the 52 run records (stm-evidence gets no finding by the taxonomy's scoping rule).
-
-runnable_checks:
-  - name: plan tool suite
-    command: python3 -m unittest discover -s core/tools/plan -p "test_plan.py"
-    result: "ran: 17 tests, OK, 0 failures, 0 errors, 0 skipped (the one skipTest at test_plan.py:236 is older than this diff and did not fire)"
-  - name: language linter (ruff)
-    command: ruff check --no-cache (defaults) on plan.py, check_list.py, test_plan.py, base (main) against head
-    result: >-
-      ran with ruff defaults, because the repo commits no python linter config (so this is not a
-      repo gate). Base: 3 findings (E731 lambda, check_list.py, check_list.py, test_plan.py).
-      Head: the same 3, only moved by the line shift. None new. With a 100-column limit: base 21
-      long lines, head 22; the one new long line is plan.py:197 (Q2).
-  - name: check_list.py end to end
-    command: plan.py list over .garura/project/plans, run twice, then check_list.py hash and check (output to scratch, nothing in the repo written)
-    result: "ran: check.json ok true (all_listed, in_order, template_used, as_set, same_twice, unchanged all true). The two views are byte-identical. The plan files are unchanged (git status clean for them)."
-  - name: data-safety by hand (plan.py, check_list.py)
-    result: >-
-      PASS. listing() only builds a list of lines. check_list.py opens plan files, template and
-      views for reading and writes only the file given by --out. No plan file is written. The
-      as_set slice view[i+1:i+4] cannot go out of range (a python slice is clipped), and a card at
-      the end of the output still compares correctly (the last card ends with its Progress row,
-      checked on the real plans).
-  - name: stray debug, secrets, home paths in the 3 code files
-    result: "PASS. No print debugging, breakpoint, TODO, FIXME, name or home path in the added code lines (check_list.py prints its result record by design, as before)."
-  - name: ICE fingerprint (harness check that bears on the script)
-    result: "sha256 of reference/ice.md is 004240ca...dc2dd4, equal to the fingerprint row in list-plans/SKILL.md."
-  - name: issue-work-records, no home-folder path
-    result: >-
-      PASS. Added lines of the 52 records hold no user home prefix, /home/ prefix or drive-letter path. The only
-      home-style hits are ~/.phoenix/... (11 lines, allowed form) and one review note that names
-      a home prefix as the thing it searched for. No git author name or email appears.
-  - name: issue-work-records, valid JSON and YAML
-    result: "PASS. Every .json and .yaml of the 52 parses (read from HEAD with json and yaml.safe_load): 0 failures."
-  - name: issue-work-records, no secrets
-    result: >-
-      PASS. 25 hits of key/secret/password/token words, all prose or rule text (review wording,
-      taxonomy rows, the test title 'A person resets a lost password'). No ghp_, sk-, AKIA, xox
-      or private-key header, and no long random string other than sha256 hashes.
-  - name: issue-work-records, only this plan's own issues
-    result: "PASS. All 52 paths are under .garura/project/issues/717/ (5) or .garura/project/issues/986/ (47). No other issue's folder."
-
+pr: 1017
+scope: core/ only (159 changed paths); run records under .garura/project/ excluded
+generated_at: '2026-10-31T17:41:16Z'
+scanner:
+  skill: check-pr-quality
+  script: scan_taxonomy.py
+  diff: git diff main...HEAD -- core/
+  taxonomy: .garura/project/issues/717/context/memory/standards/rules/pr.md
+  changed_paths: 159
+  errors: 0
+  counts:
+    P1: 1
+    P2: 44
+    P3: 112
+    P4: 39
+  catchall_CODE-20: 159
+  note: Mechanical output. Of the 159 paths only 10 are runtime-code by the taxonomy table (core/tools/**); everything under core/components/** is garura-prose, where grep rules do not fire. Path-only rows
+    (ARCH-02, CODE-03, CODE-04, CODE-14, CODE-09..12, 15, 17, 18, 25, FE-08, CODE-13, 19, 22) mean 'run that check on this file'; the ruff run below is that check for the .py files.
+suites:
+  all_green: true
+  script_style_create_play_references: 17 files, all 'N passed, 0 failed', exit 0 (test_chain_checks and test_gate_learning print ALL PASS)
+  script_style_play_and_skill_folders: 'shape-plan 11 files, shape-slice 8, shape-eval 1, discover-domains 5: all ''0 failed'', exit 0'
+  unittest_style_run_as_script: merge-change test_merge_pr 3 OK; start-change test_start_change 12 OK; show-plan test_check_tree 2 + test_resolve_args 5 OK; install-garura test_install 75 OK (129 s) + test_migrate_model
+    10 OK; update-plan test_feature_ice 10 + test_update_plan_scripts 56 OK; enrich-grounding 19 OK; link-model-part 22 OK; track-plan-changes 13 OK
+  plan_tool: 'python3 -m unittest discover -s core/tools/plan -p ''test_*.py'': Ran 46 tests, OK'
+  lint_components: 'node --test core/tools/lint-components/test/*.test.js: 7 files, pass 7, fail 0. The directory form ''node --test core/tools/lint-components/test/'' does not start on Node 24 (MODULE_NOT_FOUND,
+    ''tests 1, fail 1''); that is the command form, not a red suite.'
+  no_own_test: as listed in categories.yaml (preflight.py copies, check_stop_condition.py, session_stamp.py, plan_common.py)
+ruff:
+  version: 0.15.20
+  files: 116
+  hits_on_branch: 13
+  hits_on_main_same_files: 14
+  result: 'all 13 are also on main (E702 in test_merge_plan.py and test_setup_branch.py, F401 in test_link_part.py:8, E731 in test_plan.py): there before. No new hit.'
 findings:
-  - id: Q1
-    severity: P2
-    file: core/components/plays/list-plans/scripts/check_list.py
-    what: >-
-      The changed check logic (the new card() helper and the as_set comparison of the direction
-      line, blank line and Status row, and the narrowed heading match) has no test. No test file
-      in this diff or in core/ imports check_list.py. The play's own run exercises it, and it
-      passed on the real plans, but no test would catch a wrong card being accepted or a right
-      card being refused.
-    basis: TEST-01 (new code without a test, P2 in pr.md); scanner did not fire it (garura-prose classification), confirmed by hand
-    disposition: confirmed
-  - id: Q2
-    severity: P4
-    file: core/tools/plan/plan.py
-    what: >-
-      Line 197, inside the listing() docstring, is 152 characters. The edit joined two sentences
-      without re-wrapping, so the docstring wraps at about 100 columns on its first line and then
-      runs far past it. Every other line in the three python files is under 140.
-    basis: pr.md bucket P4 (style only); nearest scanner row CODE-04 (format), which is a path-only rule and fires on every .py file
-    disposition: confirmed
-  - id: Q3
-    severity: P4
-    file: core/components/plays/list-plans/scripts/check_list.py
-    what: "The new inner function card(h, direction, status) never uses its first argument h; the caller passes a heading it does not need."
-    basis: pr.md bucket P4 (style only); nearest scanner row CODE-17 (identifier), a path-only rule
-    disposition: confirmed
-
-dismissed_scanner_hits:
-  - id: D1
-    severity: P1
-    standard_id: DATA-18
-    file: core/tools/plan/test_plan.py
-    line: 120
-    what: grep hit on the word 'password'
-    disposition: >-
-      dismissed: false positive. The word is inside a test fixture title string, 'A person resets
-      a lost password' (also in the fixture at line 28). No password, credential or personal data.
-    basis: DATA-18 grep match read against the file
-  - id: D2
-    severity: P2
-    standard_id: ARCH-02, CODE-03, CODE-04, CODE-14
-    files: [core/tools/plan/plan.py, core/tools/plan/test_plan.py]
-    line: 1
-    what: path-only rules that fire on every .py file (8 hits)
-    disposition: >-
-      dismissed: the rule needs a tool's output as evidence (cycle trace, lint message, format
-      diff) and fires on the extension alone. By hand: the diff changes no import line, so no
-      import cycle is added; ruff (defaults) shows no new finding (see runnable_checks); no
-      formatter is configured. The one format point found is Q2.
-    basis: pr.md Match Rule is path-only; evidence field not producible without a tool
-  - id: D3
-    severity: P3
-    standard_id: ARCH-03, ARCH-08, CODE-09, CODE-10, CODE-11, CODE-12, CODE-15, CODE-17
-    files: [core/tools/plan/plan.py, core/tools/plan/test_plan.py]
-    line: 1
-    what: path-only rules on file length, function size, complexity, nesting, naming (16 hits)
-    disposition: >-
-      dismissed: they fire on the extension alone and need a measured score. By hand: the diff
-      changes about 12 lines of listing() (one function, no new loop or branch except one
-      if) and 6 tests of a few lines each; no file or function grows past what it was in a way
-      that matters. Not a defect in this diff.
-    basis: pr.md Match Rule is path-only; evidence needs a measurement the diff does not change materially
-  - id: D4
-    severity: P4
-    standard_id: CODE-13, CODE-19
-    files: [core/tools/plan/plan.py, core/tools/plan/test_plan.py]
-    line: 1
-    what: path-only rules on .py files (4 hits)
-    disposition: "dismissed: extension-only match; no identifier or style problem beyond Q2 and Q3 was found."
-    basis: pr.md Match Rule is path-only
-  - id: D5
-    severity: P4
-    standard_id: CODE-20
-    what: catch-all '**/*' covered 6 files (counted, never a finding)
-    disposition: "dismissed: the taxonomy rolls this into a count by design."
-    basis: pr.md CODE-20
-
-counts:
-  P1: 0
-  P2: 1
-  P3: 0
-  P4: 2
-  dismissed_scanner_hits: 29
+- id: Q-1
+  severity: P1
+  file: core/tools/plan/test_plan_branch.py:43
+  standard_id: DATA-18
+  basis: grep 'email' matched; the line is git config user.email = test@example.com in a throw-away test repo. Mechanical hit; no personal data stored or logged. Reviewer to confirm it is a false positive
+    and dispose.
+  assessment: false positive (fixture)
+- id: Q-2
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py:43
+  standard_id: DATA-17
+  basis: same match as Q-1
+  assessment: false positive (fixture)
+- id: Q-3
+  severity: P2
+  file: core/tools/plan/plan_branch.py:67
+  standard_id: SEC-23
+  basis: os.environ copied with GIT_TERMINAL_PROMPT=0 for git calls
+  assessment: no secret read or logged; likely benign
+- id: Q-4
+  severity: P2
+  file: core/tools/plan/plan_branch.py:167
+  standard_id: BE-12
+  basis: git fetch call; TIME_LIMIT 120 s applies to every git call (line 65)
+  assessment: timeout present; likely benign
+- id: Q-5
+  severity: P2
+  file: core/tools/plan/plan_branch.py:276
+  standard_id: BE-12
+  basis: same as Q-4
+  assessment: timeout present; likely benign
+- id: Q-6
+  severity: P3
+  file: core/tools/plan/plan_branch.py:78
+  standard_id: BE-13, CODE-27
+  basis: the word 'retry' in added lines
+  assessment: inspect only if the retry has no bound
+- id: Q-7
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js:10
+  standard_id: OPS-09, OPS-10
+  basis: console.log in the test (also line 27); plan_branch.py:320 'log.'
+  assessment: test output only
+- id: Q-8
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js:1
+  standard_id: TEST-02, TEST-03, TEST-06
+  basis: path rules on the one changed .test.js
+- id: Q-9
+  severity: P3
+  file: core/tools/plan/README.md:1
+  standard_id: DOC-01, DOC-09, DOC-10, DOC-11
+  basis: path rules on the changed tool README
+- id: Q-10
+  severity: P2
+  file: core/tools/{plan/{plan,plan_branch,plan_status,test_plan,test_plan_branch,test_plan_status}.py,lint-components/{index.js,lib/rules/shared-scripts.js,lib/rules/structural.js,test/dmw-declared-exception.test.js}}:1
+  standard_id: ARCH-02, CODE-03, CODE-04, CODE-14
+  basis: 'path rules: run lint/format/cycle check on these 10 files. ruff found nothing new on the .py files; no JS linter is installed (repo has none), so the JS files are ''not checked'', not ''passed''.'
+  assessment: no real finding
+- id: Q-11
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py:130
+  standard_id: DATA-07
+  basis: is_deleted term
+  assessment: benign
+scanner_findings_raw:
+- standard_id: DATA-18
+  severity: P1
+  file: core/tools/plan/test_plan_branch.py
+  line: 43
+  evidence: email
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 67
+  evidence: os.environ
+  artifact_type: runtime-code
+- standard_id: BE-12
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 167
+  evidence: fetch
+  artifact_type: runtime-code
+- standard_id: BE-12
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 276
+  evidence: fetch
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: DATA-17
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 43
+  evidence: email
+  artifact_type: runtime-code
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 10
+  evidence: console.log
+  artifact_type: tests
+- standard_id: OPS-10
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 10
+  evidence: console.log(`
+  artifact_type: tests
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 27
+  evidence: console.log
+  artifact_type: tests
+- standard_id: OPS-10
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 27
+  evidence: console.log(`
+  artifact_type: tests
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: BE-13
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 78
+  evidence: retry
+  artifact_type: runtime-code
+- standard_id: CODE-27
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 78
+  evidence: retry
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 84
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 198
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 202
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 221
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 320
+  evidence: log.
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 360
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 374
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 380
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 392
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 93
+  evidence: 'except '
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: DATA-07
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 130
+  evidence: is_deleted
+  artifact_type: runtime-code
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 95
+  evidence: const here =
+  artifact_type: runtime-code
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 96
+  evidence: const relative =
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 4
+  evidence: const assert =
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 5
+  evidence: const fs =
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 6
+  evidence: const os =
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 7
+  evidence: const path =
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 9
+  evidence: let passed =
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 12
+  evidence: const dir =
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 15
+  evidence: const file =
+  artifact_type: tests
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 19
+  evidence: const plain =
+  artifact_type: tests
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 78
+  evidence: lock
+  artifact_type: runtime-code
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 86
+  evidence: lock
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan_status.py
+  line: 1
+  evidence: core/tools/plan/plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  evidence: core/tools/plan/test_plan_branch.py
+  artifact_type: runtime-code
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  evidence: core/tools/plan/test_plan_status.py
+  artifact_type: runtime-code

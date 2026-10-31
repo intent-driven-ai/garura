@@ -1,0 +1,78 @@
+# Layer 2 design-grounding, category: plan-records (.garura/project/plans/717.yaml).
+# PR #988 (plan/717/base -> main), issue 717. Base ref: main. No review playbook covers this category.
+# Every source below was read on main (git show main:<path>) or through the memory tool; none is prose
+# this diff adds. The diff changes two lines of one plan file (the branch comment, and the status of
+# story 986), so a clean or near-clean result is expected.
+category: plan-records
+playbook: null
+grounding_status: available
+grounding_note: >
+  Committed sources on main define the plan file's shape (ontology v13, kind Plan), its branch rule
+  (ADR 060, managing-work.md), the node statuses (plan-view.md, work-plan.md rule 19, write_plan_file.py)
+  and the plan-level status values the tool accepts (plan.py reads list.plan_statuses from plan-view.md).
+  work-plan.md is written for the specs/plan.md file, not for the plan yaml, so only its rule 19 (node
+  statuses) and rule 10 (say what kind of done) are used. Copies are listed in
+  context/memory/grounding-plan-records/manifest.json.
+
+principles:
+  - id: PR-1
+    principle: "Each tree node shows the status its plan file gives it; no status is worked out from the nodes under it. A node has one of six statuses: Not Started, In Progress, Now, Blocked, Done, Dropped."
+    source: "main:core/components/memory/standards/templates/plan-view.md (The statuses; The tree); main:core/components/memory/standards/rules/work-plan.md rule 19; main:core/components/plays/shape-plan/scripts/write_plan_file.py (header comment line 226)"
+  - id: PR-2
+    principle: "The plan file and the tracker always agree: the Tree shows each work item with its tracker issue and its state."
+    source: "main:core/components/memory/standards/schemas/product-os/ontology.md, kind Plan, Rules ('Its plan file and the tracker always agree')"
+  - id: PR-3
+    principle: "A plan that is paused has no branch: the plan file says `branch: null`, and has no detour target. The field is kept by hand until the plan update (#730) exists, so it can drift from the branches."
+    source: "main:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (Decision 2; Consequences, Negative / Risks; section 'Recorded on #730'); main:.garura/user-provided/managing-work.md, 'A plan's branch: start, pause, start again' (lines 160-177)"
+  - id: PR-4
+    principle: "A finished item says what kind of done it is (decided, built, shipped) and what is still not done."
+    source: "main:core/components/memory/standards/rules/work-plan.md rule 10 (written for specs/plan.md; applied here only to the comment beside a Done node)"
+
+checks_run:
+  - check: the plan file parses as YAML
+    result: pass
+    how: "python3 yaml.safe_load on .garura/project/plans/717.yaml; keys id, title, status, direction, started, branch, epic, identified_by, needs_plans, updated, tree"
+  - check: every status in the file is a value the plan-view template accepts (PR-1)
+    result: pass
+    how: "walked the tree: node statuses are Not Started, Done, Dropped only; plan status Paused is in list.plan_statuses of main's plan-view.md. python3 core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md --plans-dir .garura/project/plans, exit 0, all plans printed (read-only; output saved at context/memory/grounding-plan-records/plan-list-output.txt)"
+  - check: story 986 Done agrees with the tracker and the merge record (PR-2)
+    result: pass
+    how: "gh pr view 987: state MERGED, mergedAt 2026-10-29T17:17:59Z, base plan/717/base, head plan/717/986-card-heading; git log shows f991cd33 'Merge pull request #987 from intent-driven-ai/plan/717/986-card-heading'. The node comment ('landed on plan/717/base with PR #987, 2026-10-29') says the same."
+  - check: no status is worked out from the nodes under it (PR-1)
+    result: pass
+    how: "epic 956 stays Not Started while stories under it are Done; the diff touches only the status of node 986"
+  - check: the edit is the only change to the file, and it changes no key, no link and no other node
+    result: pass
+    how: "git diff main...HEAD -- .garura/project/plans: 1 file, 2 insertions, 2 deletions (line 8 comment, story 986 status line)"
+  - check: paused plan carries branch null (PR-3)
+    result: pass
+    how: "line 8 reads `branch: null`; unchanged value"
+
+findings:
+  - id: PLAN-1
+    severity: P4
+    file: ".garura/project/plans/717.yaml (line 8, comment on `branch`)"
+    what: >
+      The comment says plan/717/base "merged into main on 2026-10-29 after #719, #983 and #986 landed". This
+      diff adds #986 to that sentence, but the branch has not merged: PR #988, the PR under review, is the
+      merge, and the branch still exists. The sentence is true only after PR #988 lands. The sentence was
+      already on main before this PR (main's file names #719 and #983 with the same wording), and the value
+      `branch: null` is what ADR 060 says a pausing plan reads, so the value is right; only the dated claim
+      in the comment runs ahead of the merge.
+    basis: "PR-3: ADR 060 records this exact drift as a known risk of keeping the field by hand until #730 ('Plan 717's `null` is true only once PR #950 merges'). No rule forbids writing the value ahead of the merge, so this is a nit, not a violation."
+    suggestion: "None needed before merge. After PR #988 lands the comment is true as written."
+
+there_before:
+  - >
+    main's ontology (version 13, kind Plan, Properties table) gives a plan's Status as active, done or
+    dropped, while the plan files on main (717.yaml among them) and main's plan-view.md use Paused,
+    Not Started, In Progress, Done and Dropped. This diff does not touch the status line, the ontology or
+    the status list, so it is not a finding on this PR. It is recorded so the gap stays visible
+    (basis: main:core/components/memory/standards/schemas/product-os/ontology.md, kind Plan, Status row,
+    against main:core/components/memory/standards/templates/plan-view.md, list.plan_statuses).
+
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1
