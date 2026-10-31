@@ -66,7 +66,7 @@ tree:
     - issue: 1005
       kind: story
       title: /show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done
-      status: Not Started
+      status: Done
   - issue: 720
     kind: feature
     title: 'Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval'
@@ -149,6 +149,10 @@ tree:
       kind: issue
       title: The plan file names the plan a detour returns to; start-change cuts from it and merge-change lands back on it
       status: Dropped
+    - issue: 1007
+      kind: story
+      title: 'An item''s status in the plan file follows its own GitHub issue: merge-change sets it Done, and /update-plan lists items closed on GitHub'
+      status: Not Started
   - issue: 965
     kind: feature
     title: A plan's work lands on main with evidence that all of it was reviewed
