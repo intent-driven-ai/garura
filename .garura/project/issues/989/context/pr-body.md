@@ -32,7 +32,7 @@ Blocking findings: none
 
 ## Round 1 findings that belong to #989
 
-- [FIXED] R-01 (P1) setup_branch.py's own test. test_setup_branch.py now builds a plan file on main and uses the source plan tool; run as a script: 14 passed, 0 failed (it asserts main's plan file reads In Progress on the branch).
+- [FIXED] R-01 (the first review's one blocker) setup_branch.py's own test. test_setup_branch.py now builds a plan file on main and uses the source plan tool; run as a script: 14 passed, 0 failed (it asserts main's plan file reads In Progress on the branch).
 - [FIXED] R-02 (P2) a cut with nothing to commit on main. plan_branch.py go writes nothing when main's file already reads In Progress on the branch (`main_written: false`), cuts from main's tip, and abort only deletes the branch. Two new tests in test_plan_branch.py cover the cut and the abort; both pass.
 - [FIXED] H2 (P2) an issue in a Done or Dropped plan. resolve_plan.py returns `plan_id: null`, `feature/<issue>-<slug>` and `closed_plan: <id>`. The ICE has the rule in C9 and a new scenario S13; SKILL.md has SCE-13 and an addition to SE-10. test_resolve_plan.py covers Done and Dropped (27 passed, 0 failed).
 - [FIXED] H4 (P3) loops pass the issue. A sentence in C10 of the ICE says a loop or play that opens its change through start-change passes the issue number or a description.
