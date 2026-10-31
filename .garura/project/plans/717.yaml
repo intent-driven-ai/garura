@@ -2,7 +2,7 @@
 # Kept by hand until manage-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 717
 title: People plan work toward a business intent, and pick it up across days and people
-status: In Progress  # set by the product owner, 2026-10-29: plan work started again; the story is picked next
+status: Done
 direction: 1
 started: '2026-10-22'
 branch: plan/717/base  # cut from main on 2026-10-29 when the plan's work started again; each story's branch is cut from it when its work starts
@@ -15,7 +15,7 @@ tree:
 - issue: 956
   kind: epic
   title: A person builds, views and manages the plan of a business intent
-  status: Not Started
+  status: Done
   children:
   - issue: 718
     kind: feature
