@@ -5,6 +5,8 @@
     python3 session_files.py restore --folder <stm_base><id>/ --repo . --out <restore.json>
     python3 session_files.py guard --model-ops <model-ops.json> --model-record <model-record.json> \
         [--model-record <model-record-story.json>] --product-base <product_base> --out <guard-report.json>
+    python3 session_files.py adopt --start <start folder> --work <working> --out <adopt.json>
+    python3 session_files.py clear --start <start folder> --work <working> [--keep]
 
 `numbers` writes every issue number of the plan file, the plan's own number first, then the tree
 in order, each once: {"plan": "<id>", "issues": [<id>, ...], "csv": "<id>,..."}. Step 4 hands `csv`
@@ -24,10 +26,23 @@ other changed model path is put back (`--restore`). `model-ops.json` must be the
 misshapen file is refused (exit 2) and nothing is put back, so a missing record never reads as
 "nothing may change". The guard writes the report; exit 0 when nothing was
 out of scope, 1 when it put something back (the landing stops for the person), 2 bad input.
+
+`adopt` and `clear` keep the session's own files in one folder (#1001). Everything the session
+makes before the plan is known (the template copies, the start marker, plan.json) is in the start
+folder; `adopt` moves it into the plan's session folder (`<working>`) once the plan is known,
+replacing the session's own files of an earlier session there and keeping that session's list
+(changes.yaml and its old copies), then removes the start folder. `clear` runs at the close: it
+removes the start folder and `<working>`, and then the parent folder when nothing else is in it.
+`--keep` keeps `<working>` (a landing that stopped part way: its records let the next session carry
+on). `adopt` writes {"moved": [...], "left": [...]} to --out; `clear` prints {"removed": [...],
+"kept": [...], "left": [...]} and writes no file, since it would be left behind (`left` names what
+is still under the parent folder). Exit 0; 2 bad input.
 """
 
 import argparse
+import json
 import os
+import shutil
 import subprocess
 import sys
 
@@ -111,6 +126,41 @@ def guard(model_ops, model_records, product_base, out):
     return ps.read_json(out, "guard-report.json")
 
 
+def adopt(start, work):
+    if not os.path.isdir(start):
+        raise ps.Refused(f"no start folder {start}")
+    os.makedirs(work, exist_ok=True)
+    moved = []
+    for name in sorted(os.listdir(start)):
+        src, dst = os.path.join(start, name), os.path.join(work, name)
+        if os.path.isdir(dst):
+            shutil.rmtree(dst)
+        elif os.path.exists(dst):
+            os.remove(dst)
+        shutil.move(src, dst)
+        moved.append(name)
+    os.rmdir(start)
+    return {"moved": moved, "left": sorted(os.listdir(work))}
+
+
+def clear(start, work, keep):
+    removed, kept = [], []
+    for folder in (start, work):
+        if not folder or not os.path.isdir(folder):
+            continue
+        if keep and folder == work:
+            kept.append(folder)
+            continue
+        shutil.rmtree(folder)
+        removed.append(folder)
+    parent = os.path.dirname(os.path.normpath(work or start))
+    left = sorted(os.listdir(parent)) if os.path.isdir(parent) else []
+    if os.path.isdir(parent) and not left:
+        os.rmdir(parent)
+        removed.append(parent)
+    return {"removed": removed, "kept": kept, "left": left}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="the fixed file steps of an /update-plan session")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -126,8 +176,22 @@ def main(argv=None):
     g.add_argument("--model-record", action="append", default=[])
     g.add_argument("--product-base", required=True)
     g.add_argument("--out", required=True)
+    a = sub.add_parser("adopt")
+    a.add_argument("--start", required=True)
+    a.add_argument("--work", required=True)
+    a.add_argument("--out", required=True)
+    c = sub.add_parser("clear")
+    c.add_argument("--start", required=True)
+    c.add_argument("--work", default=None)
+    c.add_argument("--keep", action="store_true")
     args = ap.parse_args(argv)
     try:
+        if args.cmd == "adopt":
+            ps.write_json(args.out, adopt(args.start, args.work))
+            return 0
+        if args.cmd == "clear":
+            print(json.dumps(clear(args.start, args.work, args.keep), indent=2))
+            return 0
         if args.cmd == "guard":
             report = guard(args.model_ops, args.model_record, args.product_base, args.out)
             return 1 if report.get("violations") else 0
