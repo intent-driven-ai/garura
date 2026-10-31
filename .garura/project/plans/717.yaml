@@ -148,7 +148,7 @@ tree:
     - issue: 991
       kind: story
       title: /propose-change asks the plan's Status and Direction when a plan's branch is proposed for main, and the branch's plan file replaces main's
-      status: Not Started  # filed 2026-10-30 from the approved #720 design
+      status: Dropped
     - issue: 791
       kind: issue
       title: The plan file names the plan a detour returns to; start-change cuts from it and merge-change lands back on it
