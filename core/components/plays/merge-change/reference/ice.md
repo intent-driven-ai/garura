@@ -29,7 +29,8 @@ play.
   carries the machine fields the proof reads: pr_merged (true on a fresh merge AND on the
   already-merged no-op path) and branch_deleted (true when the feature branch is gone
   locally and on origin; on the no-op path, true when it was already gone). At close, the
-  play commits its run records (merge-gate.json, the review dir if present) on main per
+  play commits its run records (merge-gate.json, the review dir if present, and the plan
+  file when its item was set Done) on main per
   the evidence self-commit rule (ADR 012) — and then PUSHES that records commit itself
   (#493): the pinned Confirm Merge approval (C7) already put the human on the outward
   irreversible act, and the records commit is bookkeeping about that approved merge, so no
@@ -61,7 +62,9 @@ play.
   only on main; its capability is closed once every issue under it is closed. Its item in the
   plan file is set Done in the same records commit on the plan's branch, by the installed plan
   tool (`plan_status.py`): an item's status follows its own issue, and only that item changes
-  — nothing rolls up to its parent (#1007). A plan's
+  — nothing rolls up to its parent (#1007). The plan file joins the records commit only when
+  the item changed; when the plan tool fails, the item stays open and the delivery report
+  names it — never silent. A plan's
   branch lands on main like any approved change, with issues of the plan still open: open
   work is no reason to hold it off main. The only reason to hold it back is that it would
   break main, and the machine wall (C7) — approved by the review, mergeable, no failing
@@ -155,7 +158,7 @@ play.
   `merge_pr.py`, via `platform_adapter.py`) and remove the agent dispatch. handoff:
   autonomous.
 - REC9 (F9) — trigger: the PR's base is not its target, an approved plan's branch was held
-  off main for its open issues, or a landed issue is still open. direction: on a wrong
+  off main for its open issues, a landed issue is still open, or its plan item is still open. direction: on a wrong
   base, stop and retarget the PR (propose-change); on a plan held back for open work, drop
   the hold and land it when the machine wall holds; on a landed issue left open, close it; on a landed item left open in the plan file, set it Done with the plan tool.
   handoff: human.

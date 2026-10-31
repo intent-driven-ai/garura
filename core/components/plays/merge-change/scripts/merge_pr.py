@@ -182,7 +182,9 @@ def main(argv=None):
                 gate.pop("error", None)
         with open(ns.gate, "w", encoding="utf-8") as fh:
             json.dump(gate, fh, indent=2)
-        committed = (_commit_records(ns.gate, ns.records_dir, ns.issue, plan_file)
+        marked = gate.get("plan_marked") or {}
+        committed = (_commit_records(ns.gate, ns.records_dir, ns.issue,
+                                     plan_file if marked.get("changed") else None)
                      if want_records else None)
         pushed = None
         if committed is True:

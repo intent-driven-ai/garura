@@ -152,7 +152,9 @@ plan's branch) and pulls, deletes the change's branch locally and on remote, clo
 issue when it landed on its plan's branch (and its capability once every issue under it is
 closed — C9), sets that issue's item Done in the plan file with the installed plan tool
 (`.garura/core/tools/plan/plan_status.py`; only that item, no roll-up — C9, #1007) and records
-it as `plan_marked`, finalizes `merge-gate.json`'s
+it as `plan_marked` (the plan file joins the records commit only when `plan_marked.changed` is
+true; a `plan_marked.error` leaves the item open and the delivery report names it — never
+silent), finalizes `merge-gate.json`'s
 two Done-means (`pr_merged: true`, `branch_deleted: true`) on both paths incl. the no-op
 (C6), **commits the run records on main itself** (#491) — `merge-gate.json` + the
 review dir (+ the plan file when its item was set Done), message `chore(stm): record merge-change run records (#<issue>)` (ADR 012,
@@ -310,7 +312,7 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:8da40c0324424d9d250e290eef640d4f025d984059076d789b59ad846120de74 (of `reference/ice.md`) |
+| fingerprint | sha256:465bfb6b0801f20b981a15c00755d2038e0b59e1991b544819f43849668dac55 (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue) |
 | pipeline_position | end |
 | workflow_structure | B (fast execution flow, single-pass; stop-condition gated close) |
