@@ -1,0 +1,32 @@
+category: memory
+grounding:
+- principle: A template is the one place screen wording lives; its screen list says what a person is shown ("A change to how a screen reads is made here, never in the play").
+  source: plan/717/base:core/components/memory/standards/templates/plan-update.md (lines 1-30, "The screens")
+- principle: Prose shown to a person is plain English in the style of ASD-STE100 (short sentences, one idea each, common words).
+  source: plan/717/base:core/components/memory/standards/templates/approval-prompt.md line 49; memory standards/rules/user-facing-voice.md (copied to context/memory/grounding-memory)
+- principle: Memory is read by every agent; a change fits the shelf's purpose, follows its shape, resolves its references, duplicates or contradicts nothing (review/memory playbook).
+  source: memory knowledge/review/memory.md (issue copy); knowledge/_DESIGN.md (grounding-memory copy)
+- principle: Every key the play prints exists in the template, and every template key is read by a script.
+  source: plan/717/base:core/components/memory/standards/templates/plan-update.md ("nothing on a screen is worded at run time")
+checks_run:
+- All 7 new keys (from_ice_note, no_ice_note, model_found, model_feature, model_not_found, model_many, model_join) are read by render_screen.py (lines 89, 92, 339-346). model_found and model_feature are read through a computed key (render_screen.py line 340), so a plain text search shows them as unused; they are used.
+- Every key render_screen.py reads exists in the template settings block (checked by loading the block and the script's keys; no key missing).
+- Placeholders match what the script passes. from_ice_note gets feature. no_ice_note gets feature and reason. model_found gets story, feature, one_line, pages. model_feature gets feature, one_line, pages (an extra story argument is ignored). model_not_found gets ref. model_many gets ref and matches. model_join is a separator.
+- No new key duplicates or contradicts an older key. The file keeps its shape (front text, then the settings block, new keys beside the thin_warning line).
+- The wording uses short sentences and common words. "ICE" is the term the base template already uses (thin_warning, line 117).
+findings:
+- id: MEM-1
+  severity: P3
+  file: core/components/memory/standards/templates/plan-update.md
+  line: 11
+  summary: "The list of screens near the top does not name the new model screen (the answer to a lookup in the model), and does not say that a story line can carry a \"drafted from ICE\" or \"no ready ICE\" note. The template states that it lists what the play shows; a reader cannot find the screen from it."
+  basis: "Base-ref template, \"The screens\" section (lists every screen the play prints); pr.md severity bucket P3 (missing docs); review/memory playbook rubric (fit the shelf's shape)"
+- id: MEM-2
+  severity: P4
+  file: core/components/memory/standards/templates/plan-update.md
+  line: 119
+  summary: "no_ice_note repeats itself when the reason is the fallback text (\"fn has no ready ICE (the feature has no ready ICE): ...\"), and the reasons from feature_ice.py are long clauses inside brackets. Wording only; a shorter form would be \"{feature} has no ready ICE: {reason}\"."
+  basis: "approval-prompt.md line 49 (short sentences, one idea each); review/memory playbook"
+outside_scope:
+- The model screen shows ICE page paths ("Its ICE: ...") to the person. The approved design asks for "the feature and its ICE page", so this is by design.
+- A story added this way gets no line in the epic's feature-to-story map (recorded out of scope in the approved design).

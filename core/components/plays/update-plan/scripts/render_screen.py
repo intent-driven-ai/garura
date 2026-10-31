@@ -85,6 +85,12 @@ class Screens:
                                       title=title, what=self.what(e), where=self.where(e)).rstrip()]
         if e.get("override"):
             lines.append(self.t["under_line"].format(kind="override", text=e["override"]))
+        if e.get("from_ice"):
+            lines.append(self.t["under_line"].format(kind="model", text=self.t["from_ice_note"].format(
+                feature=e.get("feature", ""))))
+        if e.get("no_ice"):
+            lines.append(self.t["under_line"].format(kind="model", text=self.t["no_ice_note"].format(
+                feature=e.get("feature", ""), reason=e["no_ice"])))
         if e["op"] == "new-feature":
             for owed in ps.owed_of({"entries": [e]}):
                 lines.append(self.t["under_line"].format(kind="owed", text=owed))
@@ -324,8 +330,25 @@ class Screens:
                                        check=check, owed=owed_text, back=back)
 
 
+    def model(self, _):
+        """The answer to a lookup in the product model (#1002): model-found.json, one record per ask."""
+        out = []
+        for r in self.rec("model-found.json").get("found") or []:
+            ref = r.get("ref") or (f"#{r['story']}" if r.get("story") else "")
+            if r.get("found"):
+                pages = self.t["model_join"].join(r.get("ice_pages") or [])
+                key = "model_found" if r.get("story") else "model_feature"
+                out.append(self.t[key].format(story=r.get("story") or "", feature=r["feature"],
+                                              one_line=r.get("one_line") or "", pages=pages))
+            elif r.get("matches"):
+                out.append(self.t["model_many"].format(ref=ref, matches=self.t["model_join"].join(r["matches"])))
+            else:
+                out.append(self.t["model_not_found"].format(ref=ref))
+        return "\n".join(out)
+
+
 SCREENS = {"found", "not_found", "stopped", "on_branch", "taken", "break", "confirm", "list", "empty",
-           "rejected", "aborted", "resume", "landed", "question"}
+           "rejected", "aborted", "resume", "landed", "question", "model"}
 
 
 def main(argv=None):

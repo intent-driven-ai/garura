@@ -1,0 +1,11 @@
+ M .garura/project/issues/1001/context/porcelain.txt
+ M .garura/project/issues/1001/review/findings.yaml
+ M core/components/memory/standards/templates/plan-update.md
+ M core/components/plays/update-plan/SKILL.md
+ M core/components/plays/update-plan/scripts/feature_ice.py
+ M core/components/plays/update-plan/scripts/test_feature_ice.py
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+ M core/components/skills/author-plan-changes/SKILL.md
+ M core/components/skills/author-work-items/SKILL.md
+?? .garura/project/issues/1001/context/memory/
+?? .garura/project/issues/1001/context/templates/

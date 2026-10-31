@@ -69,6 +69,19 @@ Its statuses and its direction are what a person says they are, never worked out
   names and the slice is recorded as owed. The play never writes the evals folder; the
   hidden-file entry and the eval scenarios are named as owed.
 - C12 — The play ends by proving its Done means at close, never by its step list running out.
+- C13 — Everything the session makes (its template copies, its start marker, its records) lives
+  in one session folder. The close removes it when the session landed, was aborted, stopped on
+  uncommitted work, or found no plan; nothing of the session is left in the repository. A
+  landing that stopped part way keeps its folder, so the next session can carry on (#1001).
+- C14 — When the person's words name a feature of the product model (by its id, its short name or
+  its page title), the session finds it there. A new story added for it is drafted from the
+  feature's ICE and its capability's ICE — its scope of work and its Context guidance, never a
+  "Fails if" line — by the same story writer /shape-plan uses, checked the same way, and its item
+  records the feature it represents. A name that fits no feature, or more than one, becomes a
+  question; nothing is guessed. A feature with no ready ICE gets a story in the person's words,
+  and the list says so. "Find this story (or feature) in the model" is answered from the model,
+  with no list entry. Nothing reaches the plan file, the tracker or the model before "approved"
+  (C5) (#1002).
 
 ### Failure conditions
 
@@ -87,6 +100,11 @@ Its statuses and its direction are what a person says they are, never worked out
   whose own issue is closed on GitHub.
 - F14 — At the start of a session, an item whose own issue is closed on GitHub is still open in
   the plan file and is not on the list; or an item's status is set from the items under it.
+- F15 — After the close, a file of the session is left under the sessions' folder, other than the
+  folder of a landing that stopped part way.
+- F16 — A story added for a feature whose ICE is ready is not drafted from its ICE, or its text
+  holds a "Fails if" line, or a feature is guessed for words that fit none or more than one, or a
+  lookup in the model makes a list entry.
 - F8 — A tracker or model write is made other than through the sub-agents' skills.
 - F9 — A screen is worded by the play instead of the template.
 - F10 — A new feature lands without its thin page, its model entry with both thin marks, or its
@@ -120,7 +138,14 @@ Its statuses and its direction are what a person says they are, never worked out
   in progress, amending ADR 058. The fix design of the PR #998 review:
   `.garura/project/issues/720/specs/fix-design-round-3.md`.
 - The shared rule for asking a person (`_shared/asking-a-person.md`); the play's own fixed file
-  steps (`session_files.py`: the plan's issue numbers, the abort restore, the guard).
+  steps (`session_files.py`: the plan's issue numbers, the abort restore, the guard, and the
+  session folder's adopt and clear, #1001).
+- The product model (#1002): `feature_ice.py` finds a feature (by id, short name, page title, or
+  as the feature a story represents), makes the clean copy of its two ICE, checks the drafted
+  story and writes its body in /shape-plan's layout; it uses /shape-plan's ICE helpers
+  (`plan_common.py`, `check_ice_workable.py`), stamped beside it and kept identical by the
+  shared-scripts rule. The story is drafted by `author-work-items` in story mode, through the
+  model sub-agent. The design: `.garura/project/issues/1001/specs/design.md`.
 
 ## Expectation
 
@@ -162,6 +187,21 @@ Its statuses and its direction are what a person says they are, never worked out
   and no other item, `changes.yaml` holds it under the instruction "closed on GitHub", and after
   "approved" `plan-write.json` and `agreement.json` read `ok: true` with the item Done in the
   plan file.
+- **S9 — product owner, nothing left behind.** Given any session — landed, aborted, stopped on
+  uncommitted work, or with no plan found — when it closes, then git shows nothing new under the
+  sessions' folder. *Measure:* the `clear` record lists the session's folder and its start
+  folder as removed and `left` is empty (or names only other sessions' folders); a landing that
+  stopped part way keeps its folder (`kept`).
+- **S10 — product owner, a story for a feature in the model.** Given a feature with a ready ICE,
+  when the person says "add the story for feature X under #N", then the list holds one new story
+  under #N whose text is drafted from the feature's ICE and its capability's ICE, with no
+  "Fails if" line, and on "approved" its item records `represents: X`. *Measure:* the entry reads
+  `feature: X` and `from_ice: true`, `feature_ice.py body` exited 0, and the plan file's new item
+  reads `represents: X`.
+- **S11 — product owner, find a story in the model.** Given a story whose feature is in the
+  model, when the person says "find #N in the model", then the session names the feature and its
+  ICE pages and adds nothing to the list. *Measure:* `model-found.json` holds the feature and its
+  pages, the `model` screen is saved, and `changes.yaml` is unchanged.
 
 ### Recovery
 
@@ -181,6 +221,8 @@ Its statuses and its direction are what a person says they are, never worked out
 | F12 | the session ended on another branch | switch back to the starting branch; if that is stopped by uncommitted work, name it for the person | autonomous |
 | F13 | the guard report names a path outside the session's parts | the guard has put it back; commit nothing, name each path for the person, who decides | human |
 | F14 | an item closed on GitHub is open in the plan file and not on the list, or a status was set from the items under it | run `closed_on_github.py` again and take its entries into the list; take out any entry no item's own issue or instruction named | autonomous |
+| F15 | a session's file is left after the close | run `session_files.py clear` for the session's folder and its start folder; keep only a landing that stopped part way | autonomous |
+| F16 | a story for a feature with a ready ICE is not drafted from it, holds a "Fails if" line, a feature is guessed, or a lookup made an entry | run `feature_ice.py` find, copy and body again and send its problems to the story writer; turn a guessed feature into a question; take a lookup's entry out of the list | autonomous |
 
 ### Done means
 

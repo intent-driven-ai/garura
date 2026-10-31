@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "25cf4ba3fdc5",
+      "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
+      "copy": ".garura/project/issues/1001/context/memory/grounding-memory/standards/rules/user-facing-voice.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_DESIGN.md",
+      "version": "25cf4ba3fdc5",
+      "fingerprint": "sha256:7ec9aaa84087511bd72d4fecce54fcb4d43eb7de549296878fe7d435f160bf68",
+      "copy": ".garura/project/issues/1001/context/memory/grounding-memory/knowledge/_DESIGN.md"
+    }
+  ]
+}

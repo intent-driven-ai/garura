@@ -214,7 +214,7 @@ def data_apply(plan, changes, numbers):
                 continue
             node = {"issue": issue, "kind": e.get("kind") or "story", "title": e.get("title"),
                     "status": "Not Started"}
-            if op == "new-feature":
+            if op == "new-feature" or e.get("feature"):
                 node["represents"] = e["feature"]
             children_of(parent).append(node)
         elif op == "move":
@@ -253,7 +253,7 @@ def apply_lines(lines, changes, numbers):
                 if str(parent_issue_of(lines, issue)) != str(parent):
                     move_block(lines, issue, parent)
                 continue
-            rep = e["feature"] if op == "new-feature" else None
+            rep = e["feature"] if op == "new-feature" or e.get("feature") else None
             insert_under(lines, parent, lambda d, i=issue, k=(e.get("kind") or "story"), t=e.get("title"), r=rep:
                          render(d, i, k, t, represents=r))
         elif op == "move":

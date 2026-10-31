@@ -1,0 +1,6 @@
+{
+  "resolved": true,
+  "issue_number": 1001,
+  "title": "/update-plan leaves its template copies and its session start marker behind after every session",
+  "created": false
+}

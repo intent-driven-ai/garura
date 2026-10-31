@@ -1,0 +1,38 @@
+commits:
+  - sha: cb948b67
+    message: "fix(plan-skills): name the model screen and the story file in the plan skills and template (#1002)"
+    files:
+      - core/components/skills/author-plan-changes/SKILL.md
+      - core/components/skills/author-work-items/SKILL.md
+      - core/components/memory/standards/templates/plan-update.md
+    branch: plan/717/1001-update-plan-session-folder-and-model
+  - sha: aa0e743f
+    message: "chore(stm): record the review run artifacts (#1001)"
+    files:
+      - .garura/project/issues/1001/context/analysis.yaml
+      - .garura/project/issues/1001/context/porcelain.txt
+      - .garura/project/issues/1001/review/findings.yaml
+      - .garura/project/issues/1001/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/1001/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/1001/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/1001/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/1001/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/code.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/1001/context/memory/manifest.json
+      - .garura/project/issues/1001/context/memory/standards/rules/pr.md
+      - .garura/project/issues/1001/context/templates/manifest-check-change.json
+      - .garura/project/issues/1001/context/templates/standards/rules/pipeline-next.md
+    branch: plan/717/1001-update-plan-session-folder-and-model
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

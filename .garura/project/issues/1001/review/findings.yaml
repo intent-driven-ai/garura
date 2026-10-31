@@ -1,0 +1,350 @@
+pr: 1009
+issue: 1001
+round: 1
+counts:
+  P1: 0
+  P2: 4
+  P3: 16
+  P4: 9
+findings:
+- id: H1
+  severity: P3
+  file: core/components/plays/update-plan/SKILL.md
+  line: 527
+  summary: 'SCE-9 (a scenario eval run at Step 14) reads the ''clear'' record, but the clear runs in Step 16, two steps later,
+    and session_files.py clear prints its result and writes no file (its own docstring: ''writes no file, since it would be
+    left behind''). At Step 14 the record does not exist, and after Step 16 the folder it would be read from is gone. The
+    guarantee ''nothing is left behind'' is proved only by SE-21 at Step 16; the scenario eval for S9 cannot be evaluated
+    where it stands.'
+  basis: 'Harness standard principle 5 (build the eval first, each guarantee has a check that proves it) and principle 2 (the
+    play owns the order of its steps). The same ICE measure (S9, ''the clear record lists ...'') has no moment at which it
+    can be read. Fix: take the measure from the clear command''s printed output at Step 16, or have the scenario eval check
+    the folder is absent after the close.'
+  category: harness
+  outcome: fixed
+- id: H2
+  severity: P3
+  file: core/components/plays/update-plan/SKILL.md
+  line: 545
+  summary: 'Step 16 (self-clean) sits above the Standard Play Close block, yet says it runs ''after C1 and C2 below''. A reader
+    following the text order meets the clear before the stop-condition gate (C0) and the evidence and report steps (C1, C2),
+    which read files in the folder it removes. It is also missing from the task list (T1-T15 only), so no task tracks it,
+    and ''Depends on: Step 15'' names a step that only says ''run the Standard Play Close'', so the order inside the close
+    is not stated where the steps are.'
+  basis: Harness standard principle 2 (the play owns the order of its steps); play-close.md on the base ref (the close's steps
+    run in order, the play adds its own close lines). The task list is the play's record of order; a step with no task is
+    outside it. Put the clear after the close block, or give it a task T16 and say plainly that it runs once C2 is done.
+  category: harness
+  outcome: fixed
+- id: H3
+  severity: P3
+  file: core/components/plays/update-plan/SKILL.md
+  line: 50
+  summary: 'The play''s agent boundary table (line 50, the product-os-keeper row), the ''domain_agents'' row (line 655) and
+    the ''skills_reused'' row (line 657) were not updated: product-os-keeper is still described as ''a new feature only''
+    and lists find-work-placement, enrich-grounding, link-model-part. It now also drafts a story for a named feature through
+    author-work-items (the story step at line 251; the agent''s own table row names /update-plan). The compiled description
+    of who does what no longer matches what the steps dispatch.'
+  basis: Harness standard principle 4 (the compiled part and its intent do not drift apart unseen) and principle 2 (a play's
+    contract with its agents is explicit). Add author-work-items (story mode) to the product-os-keeper row and to skills_reused,
+    and widen domain_agents.
+  category: harness
+  outcome: fixed
+- id: H4
+  severity: P3
+  file: core/components/skills/author-plan-changes/SKILL.md
+  line: 46
+  summary: The skill now tells the writer to put lookups in a 'model_lookups' list and the play reads the draft's 'model_lookups'
+    (SKILL.md line 219), but the skill's Output section (line 64 onward) still shows only 'instruction', 'entries', 'questions'.
+    Nothing says where the key sits (top level, next to 'entries') or what one item looks like beyond the two inline examples;
+    a writer following the Output example can drop the key or put it inside an entry, and the play would answer no lookup
+    (SE-20 would then fail late).
+  basis: Harness standard principle 2 (skills write their artifact in the shape their contract gives); the base-ref Output
+    section of author-plan-changes (plan/717/base:core/components/skills/author-plan-changes/SKILL.md line 60) is the committed
+    shape, and the diff adds a key outside it. Add the key to the Output example.
+  category: harness
+  outcome: fixed
+- id: H5
+  severity: P4
+  file: core/components/agents/product-os-keeper.md
+  line: 103
+  summary: 'Three names for the story draft: the agent route says the skill''s ''story-draft.json'', the play''s contract
+    names ''<working>/story-draft-<i>.json'', and author-work-items'' Output section still says the skill writes ''drafts.json''.
+    The contract path wins in practice, but the three texts do not say so.'
+  basis: Harness standard principle 2 (the play hands the agent a contract of file paths; the skill writes where the contract
+    says). Use one name, and say in the story-mode paragraph of author-work-items that it writes the path its contract gives.
+  category: harness
+  outcome: fixed
+- id: H6
+  severity: P4
+  file: core/components/plays/update-plan/SKILL.md
+  line: 549
+  summary: The clear command is given '--work <working>', but a session that found no plan (one of the four cases C13 and
+    S9 name) has no <working>; only <start> exists. session_files.py takes --work as optional, so the script copes, but the
+    step never says to leave it out. A reader may invent a folder name for the missing plan.
+  basis: 'Harness standard principle 3 (a script step is called with exact arguments). Scope: the design says the close removes
+    the folder when the session ''found no plan''. Say: for a session with no plan, pass only --start.'
+  category: harness
+  outcome: fixed
+- id: H7
+  severity: P4
+  file: core/components/plays/update-plan/reference/ice.md
+  line: 148
+  summary: The ICE Context names the design as '.garura/project/issues/1001/specs/design.md', a file of this repository's
+    work records that no install copies. It is a background pointer in a part that is installed.
+  basis: 'Harness standard principle 11: a pointer in an installed file points to another installed file; a background pointer
+    is deleted. Not new in kind: the base ice.md already points to ''.garura/project/issues/720/specs/design.md'' (line 120),
+    so this follows the file''s habit and is a nit; the standard is the rule.'
+  category: harness
+  outcome: skipped
+- id: MEM-1
+  severity: P3
+  file: core/components/memory/standards/templates/plan-update.md
+  line: 11
+  summary: The list of screens near the top does not name the new model screen (the answer to a lookup in the model), and
+    does not say that a story line can carry a "drafted from ICE" or "no ready ICE" note. The template states that it lists
+    what the play shows; a reader cannot find the screen from it.
+  basis: Base-ref template, "The screens" section (lists every screen the play prints); pr.md severity bucket P3 (missing
+    docs); review/memory playbook rubric (fit the shelf's shape)
+  category: memory
+  outcome: fixed
+- id: MEM-2
+  severity: P4
+  file: core/components/memory/standards/templates/plan-update.md
+  line: 119
+  summary: 'no_ice_note repeats itself when the reason is the fallback text ("fn has no ready ICE (the feature has no ready
+    ICE): ..."), and the reasons from feature_ice.py are long clauses inside brackets. Wording only; a shorter form would
+    be "{feature} has no ready ICE: {reason}".'
+  basis: approval-prompt.md line 49 (short sentences, one idea each); review/memory playbook
+  category: memory
+  outcome: fixed
+- id: Q01
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check on the changed rule file. It requires only node core modules; no cycle.
+  basis: ARCH-02
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. No JavaScript linter config is committed for this file; node --check passes (syntax only). Not a lint
+    pass.
+  basis: CODE-03
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Format check. No formatter config is committed for the file; the 3-line change follows the file's existing style.
+  basis: CODE-04
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. The change adds no import; no cycle.
+  basis: CODE-14
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q05
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The change adds 3 lines to a small rule file.
+  basis: ARCH-03
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q06
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Module-structure check. One rule, one purpose; the change only extends its list of shared script names.
+  basis: ARCH-08
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q07
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. The change adds two array entries; no branch added.
+  basis: CODE-09
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Function-length check. No function is touched.
+  basis: CODE-10
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Nesting-depth check. No code is nested more deeply by the change.
+  basis: CODE-11
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. 3 lines added.
+  basis: CODE-12
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Cognitive-complexity check. No logic added.
+  basis: CODE-15
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. The two names added are the script file names, in the existing style.
+  basis: CODE-17
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q13
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. The constant keeps its name.
+  basis: CODE-18
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q14
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Matched by the path glob only (the file is .js). No front-end code is in this change.
+  basis: FE-08
+  artifact_type: runtime-code
+  category: quality
+  outcome: no_change_needed
+- id: Q15
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Style check. The added comment line follows the existing comment style.
+  basis: CODE-13
+  artifact_type: runtime-code
+  category: quality
+  outcome: skipped
+- id: Q16
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. No identifier added.
+  basis: CODE-19
+  artifact_type: runtime-code
+  category: quality
+  outcome: skipped
+- id: Q17
+  severity: P3
+  file: core/components/plays/update-plan/scripts/feature_ice.py
+  line: 181
+  kind: reviewer-reading
+  defect: true
+  summary: feature_ice.py mark --body <file> without --story-draft stops with an uncaught TypeError traceback (open(None));
+    main() catches only Refused, OSError and ValueError, so the failure is not the clean 'refused:' message and exit 2 the
+    script promises. Reproduced with a draft and a body file and no --story-draft. The play always passes both, so no live
+    path hits it today.
+  basis: CODE-25
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
+  category: quality
+  outcome: fixed
+- id: Q18
+  severity: P4
+  file: core/components/plays/update-plan/scripts/session_files.py
+  line: 129
+  kind: reviewer-reading
+  defect: false
+  summary: adopt and clear take their folders as given and clear removes them with shutil.rmtree; unlike restore, they do
+    not check the folder is inside the repository or under the session base. The play passes fixed paths under the plans session
+    folder, and the parent folder is only removed with rmdir when empty, so nothing outside the session folder is removed
+    today. A guard like restore's would keep it so. Hardening, not a defect.
+  basis: CODE-20
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
+  category: quality
+  outcome: skipped
+- id: Q19
+  severity: P4
+  file: core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+  line: 746
+  kind: reviewer-reading
+  defect: false
+  summary: The new adopt and clear tests do not assert the exit code of the adopt and clear calls, and no test covers clear
+    leaving a sibling file in the parent folder untouched or adopt refusing a missing start folder (exit 2). The data-safety
+    promise (nothing outside the session folder removed) has no test.
+  basis: CODE-20
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
+  category: quality
+  outcome: fixed
+- id: Q20
+  severity: P4
+  file: core/components/plays/update-plan/scripts/test_feature_ice.py
+  line: 160
+  kind: reviewer-reading
+  defect: false
+  summary: test_a_ready_feature_gets_a_clean_copy_with_no_failure_lines is skipped (skipUnless) when the repository has no
+    product model. It ran in this review (not skipped); on a checkout without the model it would not run.
+  basis: CODE-20
+  artifact_type: garura-prose (python under core/components, read by hand; the scan classifies it as prose)
+  category: quality
+  outcome: skipped

@@ -743,10 +743,103 @@ class SessionFilesTest(Session):
             fh.write("features: [x]\n")
         self.assertEqual(self.run_guard(repo, []), 0)
 
+    def session_tree(self):
+        root = os.path.join(self.d, "_plans", "update-plan")
+        start, work = os.path.join(root, "_start"), os.path.join(root, "40")
+        os.makedirs(os.path.join(start, "templates"))
+        for name in ("templates/plan-update.md", "session-stamp-update-plan.json", "plan.json"):
+            with open(os.path.join(start, name), "w") as fh:
+                fh.write("new")
+        return root, start, work
+
+    def test_adopt_moves_the_start_folder_into_the_session_and_keeps_an_earlier_list(self):
+        root, start, work = self.session_tree()
+        os.makedirs(os.path.join(work, "templates"))
+        for name, text in (("changes.yaml", "earlier list"), ("templates/plan-update.md", "old"),
+                           ("plan.json", "old")):
+            with open(os.path.join(work, name), "w") as fh:
+                fh.write(text)
+        code = quiet(session_files.main, ["adopt", "--start", start, "--work", work, "--out", self.p("adopt.json")])
+        self.assertEqual(code, 0)
+        self.assertFalse(os.path.exists(start))
+        with open(os.path.join(work, "changes.yaml")) as fh:
+            self.assertEqual(fh.read(), "earlier list")
+        with open(os.path.join(work, "templates", "plan-update.md")) as fh:
+            self.assertEqual(fh.read(), "new")
+        self.assertEqual(sorted(ps.read_json(self.p("adopt.json"), "a")["moved"]),
+                         ["plan.json", "session-stamp-update-plan.json", "templates"])
+
+    def test_clear_leaves_nothing_behind_after_a_session(self):
+        root, start, work = self.session_tree()
+        quiet(session_files.main, ["adopt", "--start", start, "--work", work, "--out", os.path.join(self.d, "a.json")])
+        quiet(session_files.main, ["clear", "--start", start, "--work", work])
+        self.assertFalse(os.path.exists(root))
+
+    def test_clear_leaves_another_plan_s_session_alone(self):
+        root, start, work = self.session_tree()
+        other = os.path.join(root, "41")
+        os.makedirs(other)
+        with open(os.path.join(other, "changes.yaml"), "w") as fh:
+            fh.write("another plan's list")
+        self.assertEqual(quiet(session_files.main, ["adopt", "--start", start, "--work", work,
+                                                    "--out", os.path.join(self.d, "a.json")]), 0)
+        self.assertEqual(quiet(session_files.main, ["clear", "--start", start, "--work", work]), 0)
+        self.assertFalse(os.path.exists(work))
+        self.assertTrue(os.path.isfile(os.path.join(other, "changes.yaml")))
+
+    def test_clear_after_no_plan_removes_the_start_folder(self):
+        root, start, work = self.session_tree()
+        quiet(session_files.main, ["clear", "--start", start, "--work", work])
+        self.assertFalse(os.path.exists(root))
+
+    def test_clear_keeps_a_landing_that_stopped_part_way(self):
+        root, start, work = self.session_tree()
+        quiet(session_files.main, ["adopt", "--start", start, "--work", work, "--out", os.path.join(self.d, "a.json")])
+        quiet(session_files.main, ["clear", "--start", start, "--work", work, "--keep"])
+        self.assertTrue(os.path.isfile(os.path.join(work, "plan.json")))
+        self.assertFalse(os.path.exists(start))
+
     def test_restore_refuses_a_folder_outside_the_repository(self):
         self.assertEqual(quiet(session_files.main, ["restore", "--folder", "../x", "--repo", self.d,
                                                     "--out", self.p("r.json")]), 2)
         self.assertFalse(os.path.exists(self.p("r.json")))
+
+
+class ModelReachTest(Session):
+    """#1002: a story drafted from a feature's ICE, and the answer to a lookup."""
+
+    def test_the_list_says_where_a_story_s_text_comes_from(self):
+        quiet(add_entries.main, ["start", "--changes", self.changes, "--plan", "40", "--title", "t",
+                                 "--plan-branch", "plan/40/base", "--at", "2026-10-30T10:00:00Z"])
+        checked = self.check([{"op": "add", "kind": "story", "issue": None, "title": "Pick a slot fast",
+                               "parent": 41, "feature": "fn-1", "from_ice": True, "body": "Represents: fn-1"},
+                              {"op": "add", "kind": "story", "issue": None, "title": "Send a text",
+                               "parent": 41, "feature": "fn-2", "no_ice": "the feature has no ICE"}])
+        self.assertEqual(checked["questions"], [])
+        self.take()
+        screen = self.screen("taken")
+        self.assertIn("drafted from fn-1's ICE and its capability's ICE", screen)
+        self.assertIn("fn-2: the feature has no ICE, so the story uses your words", screen)
+
+    def test_the_model_screen_answers_a_lookup(self):
+        ps.write_json(self.p("model-found.json"), {"found": [
+            {"found": True, "story": 42, "feature": "fn-1", "one_line": "A patient picks a slot.",
+             "ice_pages": ["a/fn-1/feature.md", "a/capability.md"]},
+            {"found": False, "ref": "slot", "matches": ["fn-1", "fn-9"]}]})
+        screen = self.screen("model")
+        self.assertIn("#42 is the story of fn-1: A patient picks a slot.", screen)
+        self.assertIn("Its ICE: a/fn-1/feature.md; a/capability.md", screen)
+        self.assertIn("More than one feature matches slot: fn-1; fn-9. Name one.", screen)
+
+    def test_an_added_story_for_a_feature_records_what_it_represents(self):
+        changes = {"plan": "40", "entries": [{"n": 1, "op": "add", "kind": "story", "issue": None,
+                                              "title": "Pick a slot fast", "parent": 41, "feature": "fn-1"}]}
+        with open(self.plan) as fh:
+            lines = fh.read().splitlines()
+        write_plan_changes.apply_lines(lines, changes, {1: 77})
+        text = "\n".join(lines)
+        self.assertIn("- issue: 77", text)
+        self.assertIn("represents: fn-1", text)
 
 
 class ClosedOnGitHubTest(Session):

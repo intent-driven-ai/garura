@@ -26,7 +26,12 @@ marks) from `template-manager`.
   slice's epic as out of date (ADR 058, ADR 062).
 - **question** — what no rule settles, asked in four parts: the question, the answer we have
   (or that there is none yet), why it matters, and examples from different domains.
-- **list** — the whole list and the one question: approved or rejected.
+- **list** — the whole list and the one question: approved or rejected. A story added for a
+  feature in the model carries one note under its line: drafted from the feature's ICE, or the
+  feature has no ready ICE and the story uses the person's words.
+- **model** — the answer to a lookup in the model ("which feature is #931?"): the feature, its
+  one line and its ICE pages, or that no feature matches, or that more than one does. It adds
+  nothing to the list.
 - **rejected** — nothing lands; the session goes on, and the play asks what to change.
 - **aborted** — the person said "abort": nothing was written, the list is dropped, a branch the
   session cut is undone, and the session is back where it started.
@@ -115,6 +120,13 @@ confirm: |-
   This needs your yes first: {why}.
   Type yes to add it to the list, or tell me what to change.
 thin_warning: "  Its ICE will be thin: written from your words only. A thin ICE can cause problems later; /discover-capabilities can deepen it."
+from_ice_note: "drafted from {feature}'s ICE and its capability's ICE"
+no_ice_note: "{feature}: {reason}, so the story uses your words"
+model_found: "#{story} is the story of {feature}: {one_line}\n  Its ICE: {pages}"
+model_feature: "{feature}: {one_line}\n  Its ICE: {pages}"
+model_not_found: "No feature in the model matches {ref}."
+model_many: "More than one feature matches {ref}: {matches}. Name one."
+model_join: "; "
 slice_in_progress: "  Its slice {slice} is in progress: {epics} is out of date, because work already started from the old text."
 epic_line: "epic {epic} ({status})"
 epic_join: ", "
