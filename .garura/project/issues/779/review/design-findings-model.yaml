@@ -1,0 +1,76 @@
+# Layer 2 design-grounding, category "Product model page" (PR 1010, issue 779)
+# Artifact: .garura/product/product-os/features/fn-673/feature.md
+# Grounded only in committed sources on the base ref (plan/717/base) and in memory read through the memory tool.
+# Not grounding: the new page text and the approved design.md (the scope of the review).
+category: "Product model page"
+base: plan/717/base
+severity_source: ".garura/project/issues/779/context/memory/standards/rules/pr.md (bucket definitions; no row covers a model page, and the artifact type productos-model is prose, so grep rules are ineligible: the bucket text decides)"
+grounding_sources:
+  - id: G1
+    principle: "A plan's branch merges into main when the plan pauses, even with issues of the plan still open; those issues stay open and stay in the plan."
+    source: "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, Decision section 2 (git show plan/717/base)"
+  - id: G2
+    principle: "Only breaking main holds a plan's branch back; plan order (needs_plans) no longer holds a plan off main."
+    source: "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, Decision section 4 (git show plan/717/base)"
+  - id: G3
+    principle: "When work on the plan starts again, a new branch is cut from main. ADR 061 amends only who cuts it (the play that starts the work), not that it is cut from main."
+    source: "ADR 060 Decision section 3 and its Status line (amended in part by ADR 061), git show plan/717/base"
+  - id: G4
+    principle: "Where a change lands: an issue in a plan lands on its plan's branch; a plan's branch lands on main like any approved change, with open issues; a one-off fix lands on main. Held off main for open issues is failure F9; the guard is the machine wall (approved, mergeable, no failing required checks)."
+    source: "core/components/plays/merge-change/reference/ice.md, C9, C7, F9, S6 (git show plan/717/base)"
+  - id: G5
+    principle: "The plan story for this feature carries the title 'merge-change lands an issue on its plan branch, and a plan on main whenever it pauses'."
+    source: ".garura/project/plans/717.yaml, item 673 title (git show plan/717/base)"
+  - id: G6
+    principle: "A Feature has a name and one line (kept in the spine entry), one parent capability whose intents it takes, and one ICE on the ICE's own page, never a section of the feature page. Business pages are written in plain words."
+    source: "standards/schemas/product-os/ontology.md, kind Feature (properties, Lives at, rules) and the plain-words rule for model pages; read through the memory tool (phoenix tier, --issue 779), copy in the memory folder grounding-model with its manifest"
+conformance_checks_passed:
+  - "Title: now agrees with the plan 717 story title on the base ref (G5) word for word, and with ADR 060 section 2 (G1)."
+  - "What it does (line 4): states issue-to-plan-branch, plan-branch-to-main on pause once the review approves, issues stay open and in the plan, plan order does not hold a plan off main, new branch cut from main on restart. Agrees with G1, G2, G3, G4 (C9, S6). No contradiction with ADR 061."
+  - "Goal: 'main gets a plan's work whenever the plan pauses and its review approves it' agrees with G1, G4 (merge-change intent and C9)."
+  - "Limit: unchanged; agrees with G4 (one-off fix lands on main)."
+  - "Fails if: now covers the two ways merge-change F9 fails (held off main for open issues or a needed plan; an issue in a plan landing on main instead of its plan's branch). Agrees with G2, G4. It no longer states the old rule."
+  - "Checked by: a plan with one open issue lands on main once its review approves it and the issue stays open. Matches merge-change S6 (G4)."
+  - "The four ICE lines agree with each other and with the title and line 4; no sentence is left that states the old rule inside the page."
+  - "Shape kept: title, What it does, Agent intent (ICE) with Goal, Limit, Fails if, Checked by. Same as the base page."
+  - "No name of a real person; plain words."
+  - "Scope: five lines changed (title, line 4, Goal, Fails if, Checked by). The design named three; the other two stated the same old rule, so changing them is required by ADR 060, not a drift."
+findings:
+  - id: DM-1
+    severity: P3
+    file: ".garura/product/product-os/_spine.yaml"
+    line: 284
+    in_diff: false
+    summary: "The spine entry for fn-673 still carries the old one-line name ('... and a plan on main only when it is done'), so the page title and its spine one-line now disagree."
+    principle: "A Feature's 'Name and one line' is one property kept in the spine entry beside its page; the two must say the same thing (G6). The rule they state must agree with ADR 060 section 2 and the plan 717 title (G1, G5)."
+    basis: "Ontology kind Feature, Properties and Lives at (G6); ADR 060 Decision section 2 (G1); plan 717 item 673 title on the base ref (G5). Spine lines 284-285 on plan/717/base."
+    bucket_reason: "P3 minor: a naming and consistency fault in the model; nothing breaks and no agent decision changes, but a reader of the spine sees the old rule."
+    follow_up: "Outside the approved design and outside the diff. Record as an issue; fix through product-os-keeper."
+  - id: DM-2
+    severity: P3
+    file: ".garura/product/product-os/capabilities/cap-721/capability.md"
+    line: 4
+    in_diff: false
+    summary: "The parent capability page of fn-673 still says a plan reaches main 'only when the plan is done' (Directional intent line 4, Goal line 7) and its Fails if and Checked by lines hold the old refusal rule. The feature page now follows ADR 060 and the capability page does not."
+    principle: "A feature takes its place and business intents from its one parent capability and must not contradict it (G6); the landing rule is ADR 060's (G1, G2)."
+    basis: "Ontology kind Feature, relationships and rules (G6); ADR 060 Decision sections 2 and 4 (G1, G2). Capability page lines 4, 7, 9, 10 on plan/717/base."
+    bucket_reason: "P3 minor: stale model text outside the changed page; same effect as DM-1 one level up."
+    follow_up: "Outside the approved design and outside the diff. Record as an issue; fix through product-os-keeper."
+  - id: DM-3
+    severity: P4
+    file: ".garura/product/product-os/features/fn-673/feature.md"
+    line: 6
+    in_diff: true
+    summary: "The page holds its ICE as a section ('Agent intent (ICE)'), while the ontology says a feature's ICE lives on the ICE's own page, never a section of the feature page. The change edits lines inside that section."
+    principle: "A Feature has exactly one ICE, on its own page, never a section of the feature page (G6)."
+    basis: "Ontology kind Feature, Rules (G6). The section is on the base page too, and other feature pages carry it the same way, so this is not caused by the change."
+    bucket_reason: "P4 nit: there before the change, a model-wide shape matter, nothing here makes it worse."
+    follow_up: "None for this change; the Alignment drive owns it."
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 1
+notes:
+  - "No playbook covers product model pages (categories.yaml: playbook null). A follow-up to add one is already owed by the assessment."
+  - "Ontology copy read from the phoenix tier (version d56d7ca497f3); the Garura memory tier holds the model's own pages only."

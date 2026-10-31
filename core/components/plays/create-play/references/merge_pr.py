@@ -2,9 +2,9 @@
 """
 merge_pr.py — merge-change Step 3 as a script (#484).
 
-Merges the PR, switches to main and pulls, deletes the feature branch (local +
+Merges the PR, switches to the branch it landed on and pulls, deletes the change's branch (local +
 remote), finalizes merge-gate.json's two Done-means booleans — and then COMMITS
-the run records on main itself (#491): the play's C6 always required that
+the run records on the branch the change landed on (main, or the plan's branch; #491): the play's C6 always required that
 commit, but as prose it got skipped and left merge-gate.json littering the tree.
 The script that writes the record commits it, on BOTH paths (fresh merge and the
 already-merged no-op) — and then PUSHES the records commit (#493): the pinned

@@ -156,7 +156,8 @@ it as `plan_marked` (the plan file joins the records commit only when `plan_mark
 true; a `plan_marked.error` leaves the item open and the delivery report names it — never
 silent), finalizes `merge-gate.json`'s
 two Done-means (`pr_merged: true`, `branch_deleted: true`) on both paths incl. the no-op
-(C6), **commits the run records on main itself** (#491) — `merge-gate.json` + the
+(C6), **commits the run records on the branch the change landed on** (main, or the plan's
+branch; #491) — `merge-gate.json` + the
 review dir (+ the plan file when its item was set Done), message `chore(stm): record merge-change run records (#<issue>)` (ADR 012,
 evidence self-commit) — and **pushes that records commit** (#493): the pinned Confirm
 Merge approval (C7) already put the human on the outward act, so the bookkeeping push
@@ -173,7 +174,7 @@ python3 scripts/merge_pr.py --config .garura/core/config.yaml \
         --plans-dir "<plans.base-path>" --plan-id "<target.json plan_id>" )
 ```
 
-The tree is clean after the step and main is level with origin; a
+The tree is clean after the step and the branch the change landed on is level with origin; a
 `records_committed: false` output is a failed step, and a `records_pushed: false` output
 leaves the push owed and visibly reported (soft-fail — offline or a host guard), never
 silent.
@@ -188,7 +189,7 @@ for them — when the machine wall held and the human approved, it was merged.
 **SE-5 (F5/C5):** when the PR was already merged at pre-flight, no second merge was
 attempted and the run ended as a clean no-op.
 **SE-6 (F6/C6):** `merge-gate.json` reads `pr_merged: true` + `branch_deleted: true`; the
-records commit exists on main; the stop-condition verdict reads held before any
+records commit exists on the branch the change landed on (`target.json.base`); the stop-condition verdict reads held before any
 COMPLETED close.
 **SE-7 (F7/C7):** the merge proceeded only on the pinned human approval, AND the Step 2
 record shows all three machine preconditions true — `approved: true`, `mergeable: true`,
@@ -211,8 +212,8 @@ git/gh work; the play's agent count is zero.
   halted at pre-flight and the PR is not merged.
 - **SCE-4 (S4 — developer, already merged):** a re-run on a merged PR was a clean no-op,
   no second merge attempted; `merge-gate.json` reads `pr_merged: true` and
-  `branch_deleted: true`; the records commit exists on main; the stop-condition verdict
-  reads held.
+  `branch_deleted: true`; the records commit exists on the branch the change landed on
+  (`target.json.base`); the stop-condition verdict reads held.
 - **SCE-5 (S5 — developer, issue in a plan):** the PR merged into `plan/<P>/base`;
   `merge-gate.json` reads `on_target: true`, lists the issue in `issues_closed` and reads
   `plan_marked.to: Done`; the plan file reads the item Done; the current branch is
@@ -312,8 +313,8 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:465bfb6b0801f20b981a15c00755d2038e0b59e1991b544819f43849668dac55 (of `reference/ice.md`) |
-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue) |
+| fingerprint | sha256:fa0f30167747872ebdc6f53252ec2387b2c536d637fbc81a1a8aecb6de8bf3a3 (of `reference/ice.md`) |
+| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on) |
 | pipeline_position | end |
 | workflow_structure | B (fast execution flow, single-pass; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |

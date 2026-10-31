@@ -281,12 +281,14 @@ features:
   intents:
   - bi-717
   status: proposed
-  one_line: merge-change lands an issue on its plan branch, and a plan on main only
-    when it is done
+  one_line: merge-change lands an issue on its plan branch, and a plan on main whenever
+    it pauses
   doc: features/fn-673/feature.md
   depends_on: []
   identified_by: ''
   issue: 673
+  metadata:
+    updated_by: 'product-os-keeper (#779, review finding DM-1 of PR #1010)'
 - id: fn-727
   slug: fn-727
   capability: cap-718

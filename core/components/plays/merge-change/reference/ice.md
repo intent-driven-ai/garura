@@ -30,7 +30,8 @@ play.
   already-merged no-op path) and branch_deleted (true when the feature branch is gone
   locally and on origin; on the no-op path, true when it was already gone). At close, the
   play commits its run records (merge-gate.json, the review dir if present, and the plan
-  file when its item was set Done) on main per
+  file when its item was set Done) on the branch the change landed on (main, or the plan's
+  branch) per
   the evidence self-commit rule (ADR 012) — and then PUSHES that records commit itself
   (#493): the pinned Confirm Merge approval (C7) already put the human on the outward
   irreversible act, and the records commit is bookkeeping about that approved merge, so no
@@ -106,7 +107,7 @@ play.
 - S4 — (developer, already merged) Given the PR is already merged, when it runs again,
   then it is a no-op and ends cleanly. Measure: no second merge is attempted; the run ends
   successfully; merge-gate.json reads pr_merged true and branch_deleted true; the records
-  commit exists on main; the stop-condition verdict reads held.
+  commit exists on the branch the change landed on; the stop-condition verdict reads held.
 - S5 — (developer, issue in a plan) Given an approved PR from `plan/P/<issue>-<slug>` into
   `plan/P/base`, when it runs, then the PR merges into `plan/P/base`, the checkout ends on
   updated `plan/P/base`, the issue's branch is deleted, and the issue is closed. Measure:

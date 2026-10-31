@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_setup_branch.py — setup_branch.py against a real scratch repo and remote (#731).
+"""test_setup_branch.py — setup_branch.py against a real scratch repo and remote (#731, #953).
 
     python3 test_setup_branch.py
 """
@@ -74,20 +74,68 @@ def main():
         check("a re-run resumes the issue branch, with no new branch", rc == 0 and git(work, "branch", "--show-current") == "plan/717/731-x")
         git(work, "checkout", "-q", "main"); commit(work, "c"); git(work, "push", "-q", "origin", "main")
         rc, r = run(work, out, "--issue", "731", "--branch-name", "plan/717/731-x", "--plan-branch", "plan/717/base")
-        check("a resume records the plan branch tip as its base, not main's (H4)",
+        check("a resume records the plan branch tip as its base, not main's",
               rc == 0 and r["base_sha"] == git(work, "rev-parse", "origin/plan/717/base")
               and r["base_sha"] != git(work, "rev-parse", "origin/main"))
 
-        # The plan paused: its branch merged into main and was deleted on origin; a stale copy stays here.
+        # The plan paused: merge-change merged its branch into main and deleted it on origin;
+        # a stale copy stays here, every commit of it on main.
         git(work, "checkout", "-q", "main")
+        git(work, "merge", "-q", "--no-ff", "--no-edit", "plan/717/base")
+        git(work, "push", "-q", "origin", "main")
         git(work, "push", "-q", "origin", "--delete", "plan/717/base")
         stale = git(work, "rev-parse", "plan/717/base")
         commit(work, "d"); git(work, "push", "-q", "origin", "main")
         rc, r = run(work, out, "--issue", "740", "--branch-name", "plan/717/740-w", "--plan-branch", "plan/717/base")
-        check("a plan that starts again gets a fresh cut from main, not the stale local copy (H10)",
-              rc == 0 and r["plan_branch_created"]
+        check("a plan that starts again gets a fresh cut from main, not the stale local copy",
+              rc == 0 and r["plan_branch_created"] and r["stale_plan_branch"] == {"deleted": True, "tip": stale, "on_main": True}
               and git(work, "rev-parse", "origin/plan/717/base") == git(work, "rev-parse", "origin/main")
               and git(work, "rev-parse", "origin/plan/717/base") != stale)
+
+        # A stale copy with a commit found nowhere else is kept, and the run stops.
+        git(work, "checkout", "-q", "plan/717/base")
+        commit(work, "unpushed")
+        lost = git(work, "rev-parse", "plan/717/base")
+        git(work, "checkout", "-q", "main")
+        git(work, "push", "-q", "origin", "--delete", "plan/717/base")
+        p = subprocess.run([sys.executable, SCRIPT, "--issue", "741", "--branch-name", "plan/717/741-v",
+                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+        check("a stale copy with unpushed work is kept and the run stops, naming the commit",
+              p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == lost and "unpushed" in p.stderr)
+
+        # Pushed, then deleted on origin from another clone without a merge: the commit is on no
+        # branch anywhere but here, so the copy is kept.
+        git(work, "push", "-q", "origin", "plan/717/base")
+        other = os.path.join(tmp, "other")
+        subprocess.run(["git", "clone", "-q", origin, other], capture_output=True)
+        git(other, "push", "-q", "origin", "--delete", "plan/717/base")
+        p = subprocess.run([sys.executable, SCRIPT, "--issue", "742", "--branch-name", "plan/717/742-u",
+                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+        check("a copy pushed once but never merged is kept, even after its branch went on origin",
+              p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == lost)
+
+        # A push that origin refuses stops the run.
+        git(work, "checkout", "-q", "main")
+        git(work, "branch", "-q", "-D", "plan/717/base")
+        hook = os.path.join(origin, "hooks", "pre-receive")
+        with open(hook, "w") as fh:
+            fh.write("#!/bin/sh\nwhile read old new ref; do case $ref in refs/heads/plan/*) exit 1;; esac; done\n")
+        os.chmod(hook, 0o755)
+        p = subprocess.run([sys.executable, SCRIPT, "--issue", "744", "--branch-name", "plan/717/744-s",
+                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+        check("a push that origin refuses stops the run and names the branch",
+              p.returncode == 1 and "pushing plan/717/base" in p.stderr)
+        os.remove(hook)
+
+        # origin cannot be reached: nothing is deleted, and the run says why.
+        git(work, "checkout", "-q", "main")
+        git(work, "remote", "set-url", "origin", os.path.join(tmp, "gone.git"))
+        before = git(work, "rev-parse", "plan/717/base")
+        p = subprocess.run([sys.executable, SCRIPT, "--issue", "743", "--branch-name", "plan/717/743-t",
+                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+        check("a failed lookup on origin stops the run and deletes nothing",
+              p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == before
+              and "could not be reached" in p.stderr)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 

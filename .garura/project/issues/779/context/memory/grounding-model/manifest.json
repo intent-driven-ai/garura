@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "d56d7ca497f3",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/779/context/memory/grounding-model/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/features/fn-673/feature.md",
+      "version": null,
+      "fingerprint": "sha256:92c08eac4009fe53ea375dcda4c2005ed0110d0d4082639c00f38d91cd25b91b",
+      "copy": ".garura/project/issues/779/context/memory/grounding-model/product/product-os/features/fn-673/feature.md"
+    }
+  ]
+}

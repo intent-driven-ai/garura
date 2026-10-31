@@ -1,0 +1,1586 @@
+diff --git a/.garura/product/product-os/features/fn-673/feature.md b/.garura/product/product-os/features/fn-673/feature.md
+index 20d537d3e..8440ff4b7 100644
+--- a/.garura/product/product-os/features/fn-673/feature.md
++++ b/.garura/product/product-os/features/fn-673/feature.md
+@@ -1,10 +1,10 @@
+-# Feature: merge-change lands an issue on its plan branch, and a plan on main only when it is done
++# Feature: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses
+ 
+ ## What it does
+-An issue in a plan merges into its plan's branch. A plan's branch merges into main only when every issue in the plan is closed, and only after every plan it needs has landed or been merged into it.
++An issue in a plan merges into its plan's branch. When the plan pauses, its branch merges into main once its review approves it, even with issues of the plan still open; those issues stay open and stay in the plan. Plan order does not hold a plan off main. When work on the plan starts again, a new branch is cut from main.
+ 
+ ## Agent intent (ICE)
+-- Goal: main gets a plan's work only when the plan is done.
++- Goal: main gets a plan's work whenever the plan pauses and its review approves it.
+ - Limit: a one-off fix outside any plan still lands on main as today.
+-- Fails if: a plan branch merges into main with an open issue, or before a plan it needs.
+-- Checked by: a test plan with one open issue is refused on main; with all closed it lands.
++- Fails if: a plan's branch is held off main for its open issues or for a plan it needs, or an issue in a plan lands on main instead of its plan's branch.
++- Checked by: a test plan with one open issue lands on main once its review approves it, and that issue stays open.
+diff --git a/.garura/project/issues/779/context/analysis.yaml b/.garura/project/issues/779/context/analysis.yaml
+new file mode 100644
+index 000000000..c48699633
+--- /dev/null
++++ b/.garura/project/issues/779/context/analysis.yaml
+@@ -0,0 +1,119 @@
++---
++# assess-changes output (grouped by concern, judgment done)
++# issue: 779 (one change covering bugs 779 and 953)
++needs_judgment: false
++branch: plan/717/779-plan-lookup-and-safe-delete
++issue: 779
++
++change_groups:
++  - id: fix-plan-lookup-from-git
++    issue: 779
++    commit_type: fix
++    scope: start-change
++    subject: "read plan files from git (latest origin/main and the plan's own branch), never the checkout"
++    confidence: high
++    files:
++      - core/components/plays/create-play/references/resolve_plan.py
++      - core/components/plays/start-change/scripts/resolve_plan.py
++      - core/components/plays/create-play/references/test_resolve_plan.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "start-change/scripts/resolve_plan.py is the stamped copy of the create-play reference"
++
++  - id: fix-safe-stale-branch-delete
++    issue: 953
++    commit_type: fix
++    scope: start-change
++    subject: "make the stale plan branch delete safe and check every push"
++    confidence: high
++    files:
++      - core/components/plays/create-play/references/setup_branch.py
++      - core/components/plays/start-change/scripts/setup_branch.py
++      - core/components/plays/create-play/references/test_setup_branch.py
++      - core/components/plays/create-play/references/test_merge_plan.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "start-change/scripts/setup_branch.py is the stamped copy; test_merge_plan.py only drops a review label from a comment"
++
++  - id: fix-start-change-ice-and-skill
++    issue: 779
++    commit_type: fix
++    scope: start-change
++    subject: "update the ICE and compiled play for the git-based plan lookup (C9, F9, S7, description)"
++    confidence: high
++    files:
++      - core/components/plays/start-change/reference/ice.md
++      - core/components/plays/start-change/SKILL.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "intent change; ICE and compiled SKILL.md travel together"
++
++  - id: fix-merge-change-run-records-wording
++    issue: 953
++    commit_type: fix
++    scope: merge-change
++    subject: "say run records land on main in the ICE and compiled play"
++    confidence: high
++    files:
++      - core/components/plays/merge-change/reference/ice.md
++      - core/components/plays/merge-change/SKILL.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "ICE and compiled SKILL.md travel together"
++
++  - id: docs-model-fn-673-landing-rule
++    issue: 953
++    commit_type: docs
++    scope: model
++    subject: "replace the old landing rule on the fn-673 feature page"
++    confidence: high
++    files:
++      - .garura/product/product-os/features/fn-673/feature.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "product model page"
++
++  - id: chore-plan-717-done
++    issue: 779
++    commit_type: chore
++    scope: plan
++    subject: "mark 779 and 953 Done in plan 717"
++    confidence: high
++    files:
++      - .garura/project/plans/717.yaml
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "plan file"
++
++  - id: chore-stm-779-run-records
++    issue: 779
++    commit_type: chore
++    scope: stm
++    subject: "record the start-change and commit-change run records"
++    confidence: high
++    files:
++      - .garura/project/issues/779/context/analysis.yaml
++      - .garura/project/issues/779/context/lines-request.json
++      - .garura/project/issues/779/context/model-fn-673.json
++      - .garura/project/issues/779/context/porcelain.txt
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "operational run records, not part of the feature itself"
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "17 scanned files, each in exactly one of 7 groups"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/779/context/branch.json b/.garura/project/issues/779/context/branch.json
+new file mode 100644
+index 000000000..d4d83d2de
+--- /dev/null
++++ b/.garura/project/issues/779/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/717/779-plan-lookup-and-safe-delete",
++  "base_sha": "c88d86b6c7d90d4ec1ab16013a8b7a9e8319dd00",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/779/context/check-self-review-exit.txt b/.garura/project/issues/779/context/check-self-review-exit.txt
+new file mode 100644
+index 000000000..573541ac9
+--- /dev/null
++++ b/.garura/project/issues/779/context/check-self-review-exit.txt
+@@ -0,0 +1 @@
++0
+diff --git a/.garura/project/issues/779/context/commits.yaml b/.garura/project/issues/779/context/commits.yaml
+new file mode 100644
+index 000000000..c958f5a31
+--- /dev/null
++++ b/.garura/project/issues/779/context/commits.yaml
+@@ -0,0 +1,52 @@
++commits:
++  - sha: 1fccb646
++    message: "fix(start-change): read plan files from git (latest origin/main and the plan's own branch), never the checkout (#779)"
++    files:
++      - core/components/plays/create-play/references/resolve_plan.py
++      - core/components/plays/start-change/scripts/resolve_plan.py
++      - core/components/plays/create-play/references/test_resolve_plan.py
++    branch: plan/717/779-plan-lookup-and-safe-delete
++  - sha: ae1c55ae
++    message: "fix(start-change): make the stale plan branch delete safe and check every push (#953)"
++    files:
++      - core/components/plays/create-play/references/setup_branch.py
++      - core/components/plays/start-change/scripts/setup_branch.py
++      - core/components/plays/create-play/references/test_setup_branch.py
++      - core/components/plays/create-play/references/test_merge_plan.py
++    branch: plan/717/779-plan-lookup-and-safe-delete
++  - sha: 4e1fe0fb
++    message: "fix(start-change): update the ICE and compiled play for the git-based plan lookup (C9, F9, S7, description) (#779)"
++    files:
++      - core/components/plays/start-change/reference/ice.md
++      - core/components/plays/start-change/SKILL.md
++    branch: plan/717/779-plan-lookup-and-safe-delete
++  - sha: cd780a32
++    message: "fix(merge-change): say run records land on main in the ICE and compiled play (#953)"
++    files:
++      - core/components/plays/merge-change/reference/ice.md
++      - core/components/plays/merge-change/SKILL.md
++    branch: plan/717/779-plan-lookup-and-safe-delete
++  - sha: 693ad26a
++    message: "docs(model): replace the old landing rule on the fn-673 feature page (#953)"
++    files:
++      - .garura/product/product-os/features/fn-673/feature.md
++    branch: plan/717/779-plan-lookup-and-safe-delete
++  - sha: b78db464
++    message: "chore(plan): mark 779 and 953 Done in plan 717 (#779)"
++    files:
++      - .garura/project/plans/717.yaml
++    branch: plan/717/779-plan-lookup-and-safe-delete
++  - sha: d444d66a
++    message: "chore(stm): record the start-change and commit-change run records (#779)"
++    files:
++      - .garura/project/issues/779/context/analysis.yaml
++      - .garura/project/issues/779/context/lines-request.json
++      - .garura/project/issues/779/context/model-fn-673.json
++      - .garura/project/issues/779/context/porcelain.txt
++    branch: plan/717/779-plan-lookup-and-safe-delete
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/779/context/issue.json b/.garura/project/issues/779/context/issue.json
+new file mode 100644
+index 000000000..fd76dbfc5
+--- /dev/null
++++ b/.garura/project/issues/779/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 779,
++  "title": "[BUG] start-change reads plan files from the checked-out branch, so a new issue looks like it is in no plan",
++  "created": false
++}
+diff --git a/.garura/project/issues/779/context/lines-request.json b/.garura/project/issues/779/context/lines-request.json
+new file mode 100644
+index 000000000..1399dbeaa
+--- /dev/null
++++ b/.garura/project/issues/779/context/lines-request.json
+@@ -0,0 +1,31 @@
++{
++  "by": "product-os-keeper (issue 779, finding MEM-1 of #953)",
++  "source": "ADR 060 (docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md), Decision sections 2-4, approved by the product owner",
++  "pages": [
++    {
++      "page": "features/fn-673/feature.md",
++      "changes": [
++        {
++          "old": "# Feature: merge-change lands an issue on its plan branch, and a plan on main only when it is done",
++          "new": "# Feature: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses"
++        },
++        {
++          "old": "An issue in a plan merges into its plan's branch. A plan's branch merges into main only when every issue in the plan is closed, and only after every plan it needs has landed or been merged into it.",
++          "new": "An issue in a plan merges into its plan's branch. When the plan pauses, its branch merges into main once its review approves it, even with issues of the plan still open; those issues stay open and stay in the plan. Plan order does not hold a plan off main. When work on the plan starts again, a new branch is cut from main."
++        },
++        {
++          "old": "- Goal: main gets a plan's work only when the plan is done.",
++          "new": "- Goal: main gets a plan's work whenever the plan pauses and its review approves it."
++        },
++        {
++          "old": "- Fails if: a plan branch merges into main with an open issue, or before a plan it needs.",
++          "new": "- Fails if: a plan's branch is held off main for its open issues or for a plan it needs, or an issue in a plan lands on main instead of its plan's branch."
++        },
++        {
++          "old": "- Checked by: a test plan with one open issue is refused on main; with all closed it lands.",
++          "new": "- Checked by: a test plan with one open issue lands on main once its review approves it, and that issue stays open."
++        }
++      ]
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/779/context/model-fn-673.json b/.garura/project/issues/779/context/model-fn-673.json
+new file mode 100644
+index 000000000..95ce0090f
+--- /dev/null
++++ b/.garura/project/issues/779/context/model-fn-673.json
+@@ -0,0 +1,38 @@
++{
++  "by": "product-os-keeper (issue 779, finding MEM-1 of #953)",
++  "source": "ADR 060 (docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md), Decision sections 2-4, approved by the product owner",
++  "pages": [
++    {
++      "page": "features/fn-673/feature.md",
++      "changes": [
++        {
++          "old": "# Feature: merge-change lands an issue on its plan branch, and a plan on main only when it is done",
++          "new": "# Feature: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses"
++        },
++        {
++          "old": "An issue in a plan merges into its plan's branch. A plan's branch merges into main only when every issue in the plan is closed, and only after every plan it needs has landed or been merged into it.",
++          "new": "An issue in a plan merges into its plan's branch. When the plan pauses, its branch merges into main once its review approves it, even with issues of the plan still open; those issues stay open and stay in the plan. Plan order does not hold a plan off main. When work on the plan starts again, a new branch is cut from main."
++        },
++        {
++          "old": "- Goal: main gets a plan's work only when the plan is done.",
++          "new": "- Goal: main gets a plan's work whenever the plan pauses and its review approves it."
++        },
++        {
++          "old": "- Fails if: a plan branch merges into main with an open issue, or before a plan it needs.",
++          "new": "- Fails if: a plan's branch is held off main for its open issues or for a plan it needs, or an issue in a plan lands on main instead of its plan's branch."
++        },
++        {
++          "old": "- Checked by: a test plan with one open issue is refused on main; with all closed it lands.",
++          "new": "- Checked by: a test plan with one open issue lands on main once its review approves it, and that issue stays open."
++        }
++      ],
++      "lines_before": 10,
++      "lines_after": 10,
++      "lines_added": 0,
++      "lines_kept": 5
++    }
++  ],
++  "changed": [
++    "features/fn-673/feature.md"
++  ]
++}
+diff --git a/.garura/project/issues/779/context/plan.json b/.garura/project/issues/779/context/plan.json
+new file mode 100644
+index 000000000..45356734f
+--- /dev/null
++++ b/.garura/project/issues/779/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "779",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/779-plan-lookup-and-safe-delete"
++}
+diff --git a/.garura/project/issues/779/context/porcelain.txt b/.garura/project/issues/779/context/porcelain.txt
+new file mode 100644
+index 000000000..b9d09364c
+--- /dev/null
++++ b/.garura/project/issues/779/context/porcelain.txt
+@@ -0,0 +1,16 @@
++ M .garura/product/product-os/features/fn-673/feature.md
++ M .garura/project/plans/717.yaml
++ M core/components/plays/create-play/references/resolve_plan.py
++ M core/components/plays/create-play/references/setup_branch.py
++ M core/components/plays/create-play/references/test_merge_plan.py
++ M core/components/plays/create-play/references/test_resolve_plan.py
++ M core/components/plays/create-play/references/test_setup_branch.py
++ M core/components/plays/merge-change/SKILL.md
++ M core/components/plays/merge-change/reference/ice.md
++ M core/components/plays/start-change/SKILL.md
++ M core/components/plays/start-change/reference/ice.md
++ M core/components/plays/start-change/scripts/resolve_plan.py
++ M core/components/plays/start-change/scripts/setup_branch.py
++?? .garura/project/issues/779/context/lines-request.json
++?? .garura/project/issues/779/context/model-fn-673.json
++?? .garura/project/issues/779/context/porcelain.txt
+diff --git a/.garura/project/issues/779/context/pr-body.md b/.garura/project/issues/779/context/pr-body.md
+new file mode 100644
+index 000000000..1c8b2a73c
+--- /dev/null
++++ b/.garura/project/issues/779/context/pr-body.md
+@@ -0,0 +1,79 @@
++## What this changes
++
++Closes #779, closes #953.
++
++Two items under #731 (start-change cuts a plan's branch, and each issue's branch from it), fixed together under plan 717.
++
++- **#779 (start-change reads plan files from the checked-out branch).** The plan lookup now reads the plan files from git, never from the checkout. It fetches, reads each plan file at the latest main, and, when the plan's own branch is on GitHub, reads that branch's copy too: a plan session (/update-plan) writes there first, so an issue in either copy belongs to the plan. If the fetch fails, it reads the last fetched copies and the record says so. start-change's rule C9 and failure F9 changed and a new scenario S7 was added, through edit-play.
++- **#953 (the findings left by round 2 of the PR #950 review).**
++  1. A plan branch that is gone on GitHub but still here is deleted only when GitHub was reached and every commit on it is on main, or was on GitHub's plan branch. Otherwise start-change stops, keeps the copy and names the commits that would be lost. A failed push now stops the run.
++  2. start-change's one-line description now says an issue in a plan gets a branch under its plan's branch.
++  3. merge-change's rules and play now say the run records are committed on the branch the change landed on (main, or the plan's branch), not always "on main".
++  4. Four test names no longer carry review labels.
++  5. The #673 product-model page (merge-change lands an issue on its plan branch) now states ADR 060's rule: a plan's branch lands on main whenever the plan pauses and its review approves it. The design named the title, the description line and the Goal; the "Fails if" and "Checked by" lines stated the same old rule, so they changed too.
++
++Note: commit cd780a32's message reads "say run records land on main". It means the opposite: the change makes the records land on the branch the change landed on. The files say it correctly; history is not rewritten.
++
++Out of scope: #951 (the five small findings of round 1 of the same review) stays its own chore.
++
++## Self-review
++
++# Self-review: #779 and #953 (one change, plan 717)
++
++Branch: plan/717/779-plan-lookup-and-safe-delete. Compared with plan/717/base (the PR base).
++Rules: the standard self-review rules (path in resolved-rules.json). This is a checklist for
++the reader of the PR. It is not the approve or reject step.
++
++Findings that stop the raise: none.
++
++## Scope checks
++
++- Matches the issue: pass. The change does what the approved design says, in both parts.
++  - #779: the plan lookup reads plan files from git (latest origin/main, plus the plan's own
++    branch when that is on origin). It never reads the checkout. A failed fetch reads the last
++    fetched copies and records fetched:false. The start-change ICE got C9, F9 and the new S7,
++    and the compiled play was rebuilt from it (its fingerprint matches the ICE file).
++  - #953: a stale local plan branch is deleted only when origin was reached and every commit
++    is on main or was on origin's plan branch; otherwise the run stops and names the commits.
++    Pushes are checked. The "on main" wording for run records is fixed in the merge-change
++    ICE and compiled play. The review labels are out of the test names. The fn-673 page now
++    states ADR 060's rule.
++- No scope creep: pass. Nothing for #951 is in the diff. The plan 717 file changes only the
++  two Done marks for #779 and #953.
++- The fn-673 model page went one step past the design. The design named the title, line 4 and
++  the Goal. The Fails if and Checked by lines changed too, because they stated the same old
++  rule (a plan lands on main only when done). Noted, kept, and not a stop: leaving them would
++  have left the page contradicting itself.
++- Reasonable size: pass. About 460 lines of real change in 13 files (two scripts, each kept as
++  one copy in create-play/references and one in start-change/scripts, byte for byte the same;
++  three test files; two plays' ICE and compiled text; one model page; one plan file). The
++  rest is the run records in the issue's folder.
++- No stray artifacts: pass. The run records under the issue's context folder are the normal
++  chore(stm) commits of this pipeline. The only untracked file is resolved-rules.json, which is
++  this review's own input and is not part of the change.
++
++## Quality checks
++
++- Tests present: pass. All three test files were run from the create-play/references folder.
++  - test_resolve_plan.py: 18 passed, 0 failed (includes an old checkout whose main copy holds
++    the issue, an issue only on the plan branch's copy, no network, and no origin/main).
++  - test_setup_branch.py: 12 passed, 0 failed (includes the unpushed-work stop, the
++    pushed-before-deleted fresh cut, and the failed origin lookup that deletes nothing).
++  - test_merge_plan.py: 10 passed, 0 failed.
++- Commits are clean: pass with one note. Every commit is conventional and names #779 or #953.
++  Note: commit cd780a32 reads "say run records land on main". It means the run records land
++  on the branch the change landed on (main, or the plan's branch). The files say it right. The
++  history is not rewritten; this note is the record.
++- No secrets: pass. The diff holds plan text, scripts, tests and run records. No keys, tokens
++  or passwords. No absolute home paths in the changed plays, scripts or the design file.
++- Docs in step: pass. The start-change description, the ICE and the compiled play agree, the
++  merge-change ICE and compiled play agree, and the plan file and model page match the work.
++- Nothing obviously broken: pass. The component linter reports 36 errors and 1 warning for the
++  whole components folder. None is in start-change, merge-change or the changed scripts; they
++  are in files this change does not touch (for example create-play/SKILL.md). Not caused here.
++
++## Pre-merge reminders (from the design, not for this review to do)
++
++- Reinstall from this branch before the merge. Promote memory only if a memory file changed
++  (none did).
++- Out of scope and untouched: #951.
+diff --git a/.garura/project/issues/779/context/pr.json b/.garura/project/issues/779/context/pr.json
+new file mode 100644
+index 000000000..b48534458
+--- /dev/null
++++ b/.garura/project/issues/779/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 1010,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1010",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/779/context/resolved-rules.json b/.garura/project/issues/779/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/779/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/779/context/self-review.md b/.garura/project/issues/779/context/self-review.md
+new file mode 100644
+index 000000000..899b0cb51
+--- /dev/null
++++ b/.garura/project/issues/779/context/self-review.md
+@@ -0,0 +1,59 @@
++# Self-review: #779 and #953 (one change, plan 717)
++
++Branch: plan/717/779-plan-lookup-and-safe-delete. Compared with plan/717/base (the PR base).
++Rules: the standard self-review rules (path in resolved-rules.json). This is a checklist for
++the reader of the PR. It is not the approve or reject step.
++
++Findings that stop the raise: none.
++
++## Scope checks
++
++- Matches the issue: pass. The change does what the approved design says, in both parts.
++  - #779: the plan lookup reads plan files from git (latest origin/main, plus the plan's own
++    branch when that is on origin). It never reads the checkout. A failed fetch reads the last
++    fetched copies and records fetched:false. The start-change ICE got C9, F9 and the new S7,
++    and the compiled play was rebuilt from it (its fingerprint matches the ICE file).
++  - #953: a stale local plan branch is deleted only when origin was reached and every commit
++    is on main or was on origin's plan branch; otherwise the run stops and names the commits.
++    Pushes are checked. The "on main" wording for run records is fixed in the merge-change
++    ICE and compiled play. The review labels are out of the test names. The fn-673 page now
++    states ADR 060's rule.
++- No scope creep: pass. Nothing for #951 is in the diff. The plan 717 file changes only the
++  two Done marks for #779 and #953.
++- The fn-673 model page went one step past the design. The design named the title, line 4 and
++  the Goal. The Fails if and Checked by lines changed too, because they stated the same old
++  rule (a plan lands on main only when done). Noted, kept, and not a stop: leaving them would
++  have left the page contradicting itself.
++- Reasonable size: pass. About 460 lines of real change in 13 files (two scripts, each kept as
++  one copy in create-play/references and one in start-change/scripts, byte for byte the same;
++  three test files; two plays' ICE and compiled text; one model page; one plan file). The
++  rest is the run records in the issue's folder.
++- No stray artifacts: pass. The run records under the issue's context folder are the normal
++  chore(stm) commits of this pipeline. The only untracked file is resolved-rules.json, which is
++  this review's own input and is not part of the change.
++
++## Quality checks
++
++- Tests present: pass. All three test files were run from the create-play/references folder.
++  - test_resolve_plan.py: 18 passed, 0 failed (includes an old checkout whose main copy holds
++    the issue, an issue only on the plan branch's copy, no network, and no origin/main).
++  - test_setup_branch.py: 12 passed, 0 failed (includes the unpushed-work stop, the
++    pushed-before-deleted fresh cut, and the failed origin lookup that deletes nothing).
++  - test_merge_plan.py: 10 passed, 0 failed.
++- Commits are clean: pass with one note. Every commit is conventional and names #779 or #953.
++  Note: commit cd780a32 reads "say run records land on main". It means the run records land
++  on the branch the change landed on (main, or the plan's branch). The files say it right. The
++  history is not rewritten; this note is the record.
++- No secrets: pass. The diff holds plan text, scripts, tests and run records. No keys, tokens
++  or passwords. No absolute home paths in the changed plays, scripts or the design file.
++- Docs in step: pass. The start-change description, the ICE and the compiled play agree, the
++  merge-change ICE and compiled play agree, and the plan file and model page match the work.
++- Nothing obviously broken: pass. The component linter reports 36 errors and 1 warning for the
++  whole components folder. None is in start-change, merge-change or the changed scripts; they
++  are in files this change does not touch (for example create-play/SKILL.md). Not caused here.
++
++## Pre-merge reminders (from the design, not for this review to do)
++
++- Reinstall from this branch before the merge. Promote memory only if a memory file changed
++  (none did).
++- Out of scope and untouched: #951.
+diff --git a/.garura/project/issues/779/context/target.json b/.garura/project/issues/779/context/target.json
+new file mode 100644
+index 000000000..fa9ccda61
+--- /dev/null
++++ b/.garura/project/issues/779/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/779-plan-lookup-and-safe-delete",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "779",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/779/context/work-description.txt b/.garura/project/issues/779/context/work-description.txt
+new file mode 100644
+index 000000000..7e30474e7
+--- /dev/null
++++ b/.garura/project/issues/779/context/work-description.txt
+@@ -0,0 +1,3 @@
++Fix #779 and #953 together under plan 717.
++#779: start-change reads plan files from the checked-out branch, so a new issue looks like it is in no plan. Read each plan file from the latest main, and from the plan's own branch when it exists on GitHub; an issue in either copy belongs to the plan.
++#953: the findings left by round 2 of the PR #950 review: the unsafe delete of a stale plan branch (stop on a failed lookup, delete only when every commit is on main or was pushed, check pushes), start-change's description, merge-change's 'on main' wording, review labels in test names, and the old landing rule on the fn-673 model page.
+diff --git a/.garura/project/issues/779/specs/design.md b/.garura/project/issues/779/specs/design.md
+new file mode 100644
+index 000000000..f82433a71
+--- /dev/null
++++ b/.garura/project/issues/779/specs/design.md
+@@ -0,0 +1,49 @@
++# Design: #779 + #953 (approved by the product owner, 2026-10-31)
++
++One change under plan 717, on `plan/717/779-plan-lookup-and-safe-delete`. The merge closes both.
++
++## #779 — where start-change reads the plan from
++
++Today the lookup reads the plan files of the checked-out branch, so an older copy says "no plan".
++Reading only main is not enough: an issue added through /update-plan is written on the plan's
++own branch first (for example #1001 and #1002 were on plan/717/base's 717.yaml, not main's).
++
++- Fetch, then read each plan file from the latest `origin/main`.
++- When that plan names a branch that exists on GitHub, read the plan file on that branch too.
++- An issue found in either copy belongs to the plan.
++- When GitHub cannot be reached, use the last fetched copies and say so in the record. Never fall
++  back to the checked-out files.
++- Tests: an old checkout with the issue in main's copy finds the plan; an issue only in the plan
++  branch's copy finds the plan; no network uses the last fetched copies and says so.
++- start-change ICE C9 changes (where the plan is read from), through /edit-play, with one new
++  scenario: an issue added on main while the checkout is on an older branch.
++
++## #953 item 1 — the unsafe delete of a stale plan branch
++
++- A failed GitHub lookup stops the run and says GitHub could not be reached (it no longer reads
++  as "gone").
++- The local plan branch is deleted only when every commit on it is already on main, or was on
++  the plan's branch on GitHub before it was deleted (git's last-known copy of it). Otherwise the
++  run stops and names the commits that would be lost.
++- Pushes are checked; a failed push stops the run.
++- Tests for each case. The same /edit-play pass adds one line to C9.
++
++## #953 items 2–5
++
++2. start-change's one-line description gets the plan wording its intent already uses.
++3. merge-change says its run records are committed "on main"; for an issue in a plan they are on
++   the plan's branch. The words are in its ICE (C6 and three evals): /edit-play merge-change, no
++   behaviour change.
++4. Four test names carry review labels (H1, H4, H9, H10); renamed to say what each checks.
++5. The fn-673 model page states the old landing rule in its title, line 4 and Goal; all three
++   change to ADR 060's rule (a plan's branch lands on main whenever its review approves it),
++   through product-os-keeper and enrich-grounding (named lines).
++
++## Out of scope
++
++#951 (the five small findings of round 1 of the same review) stays its own chore.
++
++## Landing
++
++commit, propose, check; reinstall from the branch before the merge (promote only if a memory
++file changed); merge on the product owner's word; #779 and #953 Done in plan 717 inside the change.
+diff --git a/.garura/project/plans/717.yaml b/.garura/project/plans/717.yaml
+index 8d029c8dc..8c683169e 100644
+--- a/.garura/project/plans/717.yaml
++++ b/.garura/project/plans/717.yaml
+@@ -123,11 +123,11 @@ tree:
+       - issue: 779
+         kind: bug
+         title: '[BUG] start-change reads plan files from the checked-out branch, so a new issue looks like it is in no plan'
+-        status: Not Started
++        status: Done
+       - issue: 953
+         kind: chore
+         title: 'The findings left by round 2 of the PR #950 review: an unsafe delete of a stale plan branch, and four wording fixes'
+-        status: Not Started
++        status: Done
+     - issue: 673
+       kind: story
+       title: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses
+diff --git a/core/components/plays/create-play/references/resolve_plan.py b/core/components/plays/create-play/references/resolve_plan.py
+index e2e56f880..4a6a9c5d9 100644
+--- a/core/components/plays/create-play/references/resolve_plan.py
++++ b/core/components/plays/create-play/references/resolve_plan.py
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env python3
+ """
+-resolve_plan.py — which plan does this issue belong to, and what are its branches? (#731)
++resolve_plan.py — which plan does this issue belong to, and what are its branches? (#731, #779)
+ 
+ A plan's file is `<plans-dir>/<plan-id>.yaml` (ontology v5, Plan): its ID is its business
+ intent's issue number, and its `tree` lists every capability and functionality under it,
+@@ -12,16 +12,25 @@
+                 feature/<issue>-<slug>             (an issue in no plan — a one-off fix)
+ 
+     python3 resolve_plan.py --plans-dir .garura/project/plans/ --issue N --slug <slug> \
+-        [--out <path.json>]
++        [--repo .] [--ref origin/main] [--local] [--out <path.json>]
+ 
+-Prints { issue, plan_id, plan_branch, issue_branch }; plan_id and plan_branch are null for
+-an issue in no plan. Exit 0 found or not found, 2 when a plan file cannot be read, or when
+-the issue sits in more than one plan. Read only: no git, no network, no LLM.
++The plan files are read from git, never from the checked-out branch (#779): the script fetches
++origin, then reads each plan file at `--ref` (the latest main). When the plan's own branch
++(`plan/<plan-id>/base`) is on origin, its copy of the plan file is read too, because a plan
++session writes there first; an issue in either copy belongs to the plan. When the fetch fails,
++the last fetched copies are read and the record says so (`fetched: false`). `--local` reads the
++folder on disk instead (a plans folder outside git, and the tests).
++
++Prints { issue, plan_id, plan_branch, issue_branch, source }; plan_id and plan_branch are null
++for an issue in no plan. `source` names the ref read, whether the fetch worked, and each plan
++branch read. Exit 0 found or not found, 2 when a plan file cannot be read, when `--ref` does
++not exist, or when the issue sits in more than one plan. No network beyond the fetch, no LLM.
+ """
+ import argparse
+ import glob
+ import json
+ import os
++import subprocess
+ import sys
+ 
+ import yaml
+@@ -35,18 +44,60 @@ def issues_in(nodes):
+             yield from issues_in(node.get("children"))
+ 
+ 
+-def resolve(plans_dir, issue, slug):
++def _git(repo, *args):
++    p = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True)
++    return p.returncode, p.stdout
++
++
++def _read_plan(text, where):
++    plan = yaml.safe_load(text) or {}
++    if not isinstance(plan, dict):
++        raise ValueError(f"{where} is not a mapping")
++    return plan
++
++
++def plans_on_disk(plans_dir):
++    """{file name: plan} for the plan files in a folder on disk."""
++    out = {}
++    for path in sorted(glob.glob(os.path.join(plans_dir, "*.yaml"))):
++        name = os.path.basename(path)
++        if name != "index.yaml":
++            with open(path, encoding="utf-8") as fh:
++                out[name] = _read_plan(fh.read(), path)
++    return out
++
++
++def plans_at(repo, ref, plans_dir):
++    """{file name: plan} for the plan files at a git ref; None when the ref does not exist."""
++    if _git(repo, "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}")[0] != 0:
++        return None
++    folder = os.path.normpath(plans_dir).replace(os.sep, "/").strip("/")
++    rc, listing = _git(repo, "ls-tree", "--name-only", f"{ref}:{folder}")
++    out = {}
++    for name in sorted(listing.split()) if rc == 0 else []:
++        if name.endswith(".yaml") and name != "index.yaml":
++            rc, text = _git(repo, "show", f"{ref}:{folder}/{name}")
++            if rc != 0:
++                raise ValueError(f"cannot read {folder}/{name} at {ref}")
++            out[name] = _read_plan(text, f"{ref}:{folder}/{name}")
++    return out
++
++
++def holds(plan, name, issue):
++    pid = str(plan.get("id", os.path.splitext(name)[0]))
++    return pid, issue == pid or issue in set(issues_in(plan.get("tree")))
++
++
++def resolve(plans, issue, slug, branch_plans=None):
++    """plans: {file name: plan} as main has them; branch_plans: {file name: plan} from each
++    plan's own branch, read where it exists. An issue in either copy belongs to the plan."""
+     issue = str(issue)
+     found = []
+-    for path in sorted(glob.glob(os.path.join(plans_dir, "*.yaml"))):
+-        if os.path.basename(path) == "index.yaml":
+-            continue
+-        with open(path, encoding="utf-8") as fh:
+-            plan = yaml.safe_load(fh) or {}
+-        if not isinstance(plan, dict):
+-            raise ValueError(f"{path} is not a mapping")
+-        pid = str(plan.get("id", os.path.splitext(os.path.basename(path))[0]))
+-        if issue == pid or issue in set(issues_in(plan.get("tree"))):
++    for name, plan in plans.items():
++        pid, here = holds(plan, name, issue)
++        if not here and name in (branch_plans or {}):
++            here = holds(branch_plans[name], name, issue)[1]
++        if here:
+             found.append(pid)
+     if len(found) > 1:
+         raise ValueError(f"issue {issue} sits in more than one plan: {', '.join(found)}")
+@@ -58,15 +109,40 @@ def resolve(plans_dir, issue, slug):
+             "issue_branch": f"feature/{issue}-{slug}"}
+ 
+ 
++def resolve_from_git(repo, plans_dir, issue, slug, ref="origin/main"):
++    remote = ref.split("/", 1)[0] if "/" in ref else "origin"
++    fetched = _git(repo, "fetch", "--quiet", remote)[0] == 0
++    plans = plans_at(repo, ref, plans_dir)
++    if plans is None:
++        raise ValueError(f"{ref} does not exist here; fetch it, then run again")
++    branch_plans, read = {}, []
++    for name, plan in plans.items():
++        pid = str(plan.get("id", os.path.splitext(name)[0]))
++        copy = plans_at(repo, f"{remote}/plan/{pid}/base", plans_dir)
++        if copy is not None and name in copy:
++            branch_plans[name] = copy[name]
++            read.append(f"plan/{pid}/base")
++    record = resolve(plans, issue, slug, branch_plans)
++    record["source"] = {"ref": ref, "fetched": fetched, "plan_branches_read": read}
++    return record
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser()
+     ap.add_argument("--plans-dir", required=True)
+     ap.add_argument("--issue", required=True)
+     ap.add_argument("--slug", required=True)
++    ap.add_argument("--repo", default=".")
++    ap.add_argument("--ref", default="origin/main")
++    ap.add_argument("--local", action="store_true", help="read the folder on disk, not git")
+     ap.add_argument("--out")
+     ns = ap.parse_args(argv)
+     try:
+-        record = resolve(ns.plans_dir, ns.issue, ns.slug)
++        if ns.local:
++            record = resolve(plans_on_disk(ns.plans_dir), ns.issue, ns.slug)
++            record["source"] = {"ref": None, "fetched": None, "plan_branches_read": []}
++        else:
++            record = resolve_from_git(ns.repo, ns.plans_dir, ns.issue, ns.slug, ns.ref)
+     except (OSError, ValueError, yaml.YAMLError) as exc:
+         print(json.dumps({"error": str(exc)}))
+         return 2
+diff --git a/core/components/plays/create-play/references/setup_branch.py b/core/components/plays/create-play/references/setup_branch.py
+index 9234e910a..19b6536ec 100644
+--- a/core/components/plays/create-play/references/setup_branch.py
++++ b/core/components/plays/create-play/references/setup_branch.py
+@@ -16,6 +16,13 @@
+ (plan/P/<issue>-<slug>) is then cut from the plan branch. A merge conflict stops the run
+ (exit 1) with the plan branch left as it was.
+ 
++A plan branch that is gone on origin but still here (the plan paused, merged into main and its
++branch was deleted) is deleted here and cut fresh — but only when the lookup on origin worked
++and every commit on the local copy is already on main, or was on origin's plan branch before it
++went (git's last-known copy of it). A failed lookup (offline, a login error) stops the run and
++says origin could not be reached; a local copy with commits found nowhere else stops the run
++and names them (#953). A push that fails stops the run.
++
+ Idempotent: if the branch already exists (local or remote), it is a resume —
+ switch to it, do not re-cut. Writes branch.json:
+   { branch_name, base_sha, on_default_branch, worktree_path, plan_branch, plan_branch_created }
+@@ -44,10 +51,35 @@ def _branch_exists(branch):
+ 
+ 
+ def _on_origin(branch):
+-    _, out_r, _ = _git("ls-remote", "--heads", "origin", branch)
++    """True or False; None when origin cannot be asked (offline, a login error)."""
++    rc, out_r, _ = _git("ls-remote", "--heads", "origin", branch)
++    if rc != 0:
++        return None
+     return bool(out_r.strip())
+ 
+ 
++def _is_ancestor(a, b):
++    return subprocess.run(["git", "merge-base", "--is-ancestor", a, b], capture_output=True).returncode == 0
++
++
++def _safe_to_delete(plan, base):
++    """Every commit on the local plan branch is on main, or was pushed to origin's plan branch."""
++    if _is_ancestor(plan, f"origin/{base}"):
++        return True, []
++    known = f"refs/remotes/origin/{plan}"
++    if _git("rev-parse", "--verify", "--quiet", known)[0] == 0 and _is_ancestor(plan, known):
++        return True, []
++    _, log, _ = _git("log", "--oneline", plan, "--not", f"origin/{base}", "--remotes=origin")
++    return False, log.splitlines()
++
++
++def _push(branch):
++    rc, _, err = _git("push", "-u", "origin", branch)
++    if rc != 0:
++        sys.stderr.write(f"setup_branch.py: pushing {branch} to origin failed: {err}\n")
++        sys.exit(1)
++
++
+ def _tip(branch):
+     rc, sha, _ = _git("rev-parse", f"origin/{branch}")
+     if rc != 0 or not sha.strip():
+@@ -79,9 +111,21 @@ def main(argv=None):
+     if ns.plan_branch and not _branch_exists(branch):
+         # The issue sits in a plan: bring the plan branch up to the latest main, or cut it.
+         plan = ns.plan_branch
+-        if not _on_origin(plan) and _branch_exists(plan):
++        on_origin = _on_origin(plan)
++        if on_origin is None:
++            sys.stderr.write(f"setup_branch.py: origin could not be reached to look for {plan}; "
++                             f"nothing was changed — run again when it can be reached\n")
++            sys.exit(1)
++        if not on_origin and _branch_exists(plan):
+             # Only a stale local copy is left: the plan paused, merged into main and its branch
+-            # was deleted on origin. A plan that starts again gets a fresh cut from main.
++            # was deleted on origin. A plan that starts again gets a fresh cut from main — when
++            # no commit on the local copy would be lost.
++            safe, lost = _safe_to_delete(plan, ns.base)
++            if not safe:
++                sys.stderr.write(f"setup_branch.py: {plan} is gone on origin, but the copy here has "
++                                 f"commits found nowhere else; it was kept. Push or move them, then "
++                                 f"run again:\n  " + "\n  ".join(lost) + "\n")
++                sys.exit(1)
+             _git("branch", "-D", plan)
+         if _branch_exists(plan):
+             _git("fetch", "origin", plan)
+@@ -105,7 +149,7 @@ def main(argv=None):
+                 sys.exit(1)
+             plan_created = True
+         if not ns.no_push:
+-            _git("push", "-u", "origin", plan)
++            _push(plan)
+         _, base_sha, _ = _git("rev-parse", "HEAD")
+     elif ns.plan_branch:
+         # Resume of an issue in a plan: its branch was cut from the plan branch, so the
+@@ -135,7 +179,7 @@ def main(argv=None):
+             sys.exit(1)
+ 
+     if not ns.no_push:
+-        _git("push", "-u", "origin", branch)
++        _push(branch)
+ 
+     record = {"branch_name": branch, "base_sha": base_sha,
+               "on_default_branch": False, "worktree_path": worktree_path,
+diff --git a/core/components/plays/create-play/references/test_merge_plan.py b/core/components/plays/create-play/references/test_merge_plan.py
+index a331cc6fd..7693b5ba1 100644
+--- a/core/components/plays/create-play/references/test_merge_plan.py
++++ b/core/components/plays/create-play/references/test_merge_plan.py
+@@ -109,7 +109,7 @@ def main():
+             check("its capability closes once every issue under it is closed", "721" in g["issues_closed"])
+             check("the issue branch is gone both sides", g["branch_deleted"])
+ 
+-            # A first run merged, then stopped before closing the issue: the re-run closes it (H9).
++            # A first run merged, then stopped before closing the issue: the re-run closes it.
+             json.dump({"approved": True, "mergeable": True, "pr_number": 9, "already_merged": True}, open(gate, "w"))
+             host = Host("plan/717/base", {"731": "CLOSED", "673": "OPEN"})
+             code = run(host, ["--branch", "plan/717/673-x", "--base", "plan/717/base", "--gate", gate,
+diff --git a/core/components/plays/create-play/references/test_resolve_plan.py b/core/components/plays/create-play/references/test_resolve_plan.py
+index 42f5a9480..583527b10 100644
+--- a/core/components/plays/create-play/references/test_resolve_plan.py
++++ b/core/components/plays/create-play/references/test_resolve_plan.py
+@@ -1,9 +1,11 @@
+ #!/usr/bin/env python3
+-"""test_resolve_plan.py — fixture tests for resolve_plan.py and the branch-name issue reader (#731).
++"""test_resolve_plan.py — fixture tests for resolve_plan.py and the branch-name issue reader (#731, #779).
+ 
+     python3 test_resolve_plan.py
+ """
++import json
+ import os
++import subprocess
+ import sys
+ import tempfile
+ 
+@@ -33,34 +35,90 @@ def write(d, name, plan):
+         yaml.safe_dump(plan, fh)
+ 
+ 
++def git(cwd, *args):
++    return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True).stdout.strip()
++
++
++def put_plan(cwd, plan, message):
++    os.makedirs(os.path.join(cwd, "plans"), exist_ok=True)
++    write(os.path.join(cwd, "plans"), "40.yaml", plan)
++    git(cwd, "add", "plans/40.yaml")
++    git(cwd, "commit", "-q", "-m", message)
++
++
++def lookup(work, issue):
++    out = os.path.join(work, "..", "plan.json")
++    code = rp.main(["--plans-dir", "plans/", "--issue", str(issue), "--slug", "x", "--repo", work, "--out", out])
++    return code, (json.load(open(out)) if code == 0 else None)
++
++
++def from_git():
++    """#779: the plan is read from main and the plan's own branch on origin, never the checkout."""
++    with tempfile.TemporaryDirectory() as tmp:
++        origin, work = os.path.join(tmp, "origin.git"), os.path.join(tmp, "work")
++        subprocess.run(["git", "init", "-q", "--bare", "-b", "main", origin])
++        subprocess.run(["git", "clone", "-q", origin, work], capture_output=True)
++        git(work, "config", "user.email", "t@t")
++        git(work, "config", "user.name", "t")
++        git(work, "checkout", "-q", "-b", "main")
++        put_plan(work, {"id": 40, "tree": [{"issue": 41}]}, "plan 40")
++        git(work, "push", "-q", "-u", "origin", "main")
++        git(work, "checkout", "-q", "-b", "older-work")                  # the checkout keeps the old file
++        git(work, "checkout", "-q", "main")
++        put_plan(work, {"id": 40, "tree": [{"issue": 41}, {"issue": 77}]}, "add #77 on main")
++        git(work, "push", "-q", "origin", "main")
++        git(work, "checkout", "-q", "-b", "plan/40/base")
++        put_plan(work, {"id": 40, "tree": [{"issue": 41}, {"issue": 77}, {"issue": 88}]}, "a plan session adds #88")
++        git(work, "push", "-q", "-u", "origin", "plan/40/base")
++        git(work, "checkout", "-q", "older-work")
++        code, r = lookup(work, 77)
++        check("an issue added on main is found from a checkout with an older plan file",
++              code == 0 and r["plan_id"] == "40" and r["issue_branch"] == "plan/40/77-x" and r["source"]["fetched"])
++        code, r = lookup(work, 88)
++        check("an issue only on the plan's own branch is found too",
++              code == 0 and r["plan_id"] == "40" and r["source"]["plan_branches_read"] == ["plan/40/base"])
++        git(work, "remote", "set-url", "origin", os.path.join(tmp, "gone.git"))
++        code, r = lookup(work, 77)
++        check("with no network the last fetched copies are read, and the record says so",
++              code == 0 and r["plan_id"] == "40" and r["source"]["fetched"] is False)
++        code, r = lookup(work, 99)
++        check("an issue in no plan, read from git, gets feature/<issue>-<slug>",
++              code == 0 and r["plan_id"] is None and r["issue_branch"] == "feature/99-x")
++        bare = os.path.join(tmp, "bare")
++        subprocess.run(["git", "init", "-q", bare])
++        check("no origin/main to read from is an error, not a guess",
++              rp.main(["--plans-dir", "plans/", "--issue", "77", "--slug", "x", "--repo", bare]) == 2)
++
++
+ def main():
+     with tempfile.TemporaryDirectory() as d:
+         write(d, "717.yaml", {"id": 717, "tree": [
+             {"issue": 721, "children": [{"issue": 731}, {"issue": 673}]},
+             {"issue": 718, "children": [{"issue": 727}]}]})
+         write(d, "722.yaml", {"id": 722, "tree": [{"issue": 723, "children": [{"issue": 724}]}]})
+-        r = rp.resolve(d, 731, "plan-branches")
++        r = rp.resolve(rp.plans_on_disk(d), 731, "plan-branches")
+         check("an issue in a plan gets a sub-branch of its plan",
+               r["plan_branch"] == "plan/717/base" and r["issue_branch"] == "plan/717/731-plan-branches")
+-        check("a capability in a plan is found too", rp.resolve(d, 721, "x")["plan_id"] == "717")
+-        check("the business intent itself belongs to its own plan", rp.resolve(d, 722, "x")["plan_id"] == "722")
+-        r = rp.resolve(d, 999, "one-off")
++        check("a capability in a plan is found too", rp.resolve(rp.plans_on_disk(d), 721, "x")["plan_id"] == "717")
++        check("the business intent itself belongs to its own plan", rp.resolve(rp.plans_on_disk(d), 722, "x")["plan_id"] == "722")
++        r = rp.resolve(rp.plans_on_disk(d), 999, "one-off")
+         check("an issue in no plan gets feature/<issue>-<slug> from main",
+               r["plan_id"] is None and r["issue_branch"] == "feature/999-one-off")
+         write(d, "800.yaml", {"id": 800, "tree": [{"issue": 731}]})
+-        check("an issue in two plans is an error, not a guess", rp.main(["--plans-dir", d, "--issue", "731", "--slug", "x"]) == 2)
++        check("an issue in two plans is an error, not a guess", rp.main(["--plans-dir", d, "--issue", "731", "--slug", "x", "--local"]) == 2)
+         os.remove(os.path.join(d, "800.yaml"))
+-        check("the command exits 0 for a found issue", rp.main(["--plans-dir", d, "--issue", "724", "--slug", "x"]) == 0)
++        check("the command exits 0 for a found issue", rp.main(["--plans-dir", d, "--issue", "724", "--slug", "x", "--local"]) == 0)
+     with tempfile.TemporaryDirectory() as d:
+-        check("an empty plans folder means no plan", rp.resolve(d, 5, "x")["plan_id"] is None)
++        check("an empty plans folder means no plan", rp.resolve(rp.plans_on_disk(d), 5, "x")["plan_id"] is None)
+     cfg = {}
+     for branch, want in (("feature/731-plan-branches", "731"), ("plan/717/731-plan-branches", "731"),
+                          ("plan/717/base", "717"), ("fix/42-typo", "42"), ("main", None)):
+         got = preflight.resolve(cfg, "start-change", branch, "")["issue"]
+         check(f"pre-flight reads issue {want} from {branch}", got == want)
+     import resolve_target as rt
+-    check("pre-flight and the landing script agree on a plan's own branch (H1)",
++    check("pre-flight and the landing script read the same issue from a plan's own branch",
+           preflight.resolve(cfg, "commit-change", "plan/717/base", "")["issue"] == rt.classify("plan/717/base")["issue"])
++    from_git()
+     print(f"\n{PASSED} passed, {FAILED} failed")
+     sys.exit(1 if FAILED else 0)
+ 
+diff --git a/core/components/plays/create-play/references/test_setup_branch.py b/core/components/plays/create-play/references/test_setup_branch.py
+index 88dc512ed..9087d7e8c 100644
+--- a/core/components/plays/create-play/references/test_setup_branch.py
++++ b/core/components/plays/create-play/references/test_setup_branch.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""test_setup_branch.py — setup_branch.py against a real scratch repo and remote (#731).
++"""test_setup_branch.py — setup_branch.py against a real scratch repo and remote (#731, #953).
+ 
+     python3 test_setup_branch.py
+ """
+@@ -74,20 +74,54 @@ def main():
+         check("a re-run resumes the issue branch, with no new branch", rc == 0 and git(work, "branch", "--show-current") == "plan/717/731-x")
+         git(work, "checkout", "-q", "main"); commit(work, "c"); git(work, "push", "-q", "origin", "main")
+         rc, r = run(work, out, "--issue", "731", "--branch-name", "plan/717/731-x", "--plan-branch", "plan/717/base")
+-        check("a resume records the plan branch tip as its base, not main's (H4)",
++        check("a resume records the plan branch tip as its base, not main's",
+               rc == 0 and r["base_sha"] == git(work, "rev-parse", "origin/plan/717/base")
+               and r["base_sha"] != git(work, "rev-parse", "origin/main"))
+ 
+-        # The plan paused: its branch merged into main and was deleted on origin; a stale copy stays here.
++        # The plan paused: merge-change merged its branch into main and deleted it on origin;
++        # a stale copy stays here, every commit of it on main.
+         git(work, "checkout", "-q", "main")
++        git(work, "merge", "-q", "--no-ff", "--no-edit", "plan/717/base")
++        git(work, "push", "-q", "origin", "main")
+         git(work, "push", "-q", "origin", "--delete", "plan/717/base")
+         stale = git(work, "rev-parse", "plan/717/base")
+         commit(work, "d"); git(work, "push", "-q", "origin", "main")
+         rc, r = run(work, out, "--issue", "740", "--branch-name", "plan/717/740-w", "--plan-branch", "plan/717/base")
+-        check("a plan that starts again gets a fresh cut from main, not the stale local copy (H10)",
++        check("a plan that starts again gets a fresh cut from main, not the stale local copy",
+               rc == 0 and r["plan_branch_created"]
+               and git(work, "rev-parse", "origin/plan/717/base") == git(work, "rev-parse", "origin/main")
+               and git(work, "rev-parse", "origin/plan/717/base") != stale)
++
++        # A stale copy with a commit found nowhere else is kept, and the run stops.
++        git(work, "checkout", "-q", "plan/717/base")
++        commit(work, "unpushed")
++        lost = git(work, "rev-parse", "plan/717/base")
++        git(work, "checkout", "-q", "main")
++        git(work, "push", "-q", "origin", "--delete", "plan/717/base")
++        p = subprocess.run([sys.executable, SCRIPT, "--issue", "741", "--branch-name", "plan/717/741-v",
++                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
++        check("a stale copy with unpushed work is kept and the run stops, naming the commit",
++              p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == lost and "unpushed" in p.stderr)
++
++        # A stale copy whose last commit was pushed before the branch went on origin: safe.
++        git(work, "push", "-q", "origin", "plan/717/base")
++        other = os.path.join(tmp, "other")
++        subprocess.run(["git", "clone", "-q", origin, other], capture_output=True)
++        git(other, "push", "-q", "origin", "--delete", "plan/717/base")   # deleted from another clone
++        rc, r = run(work, out, "--issue", "742", "--branch-name", "plan/717/742-u", "--plan-branch", "plan/717/base")
++        check("a stale copy that was pushed before its branch went on origin is cut fresh",
++              rc == 0 and r["plan_branch_created"]
++              and git(work, "rev-parse", "origin/plan/717/base") == git(work, "rev-parse", "origin/main"))
++
++        # origin cannot be reached: nothing is deleted, and the run says why.
++        git(work, "checkout", "-q", "main")
++        git(work, "remote", "set-url", "origin", os.path.join(tmp, "gone.git"))
++        before = git(work, "rev-parse", "plan/717/base")
++        p = subprocess.run([sys.executable, SCRIPT, "--issue", "743", "--branch-name", "plan/717/743-t",
++                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
++        check("a failed lookup on origin stops the run and deletes nothing",
++              p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == before
++              and "could not be reached" in p.stderr)
+     print(f"\n{PASSED} passed, {FAILED} failed")
+     sys.exit(1 if FAILED else 0)
+ 
+diff --git a/core/components/plays/merge-change/SKILL.md b/core/components/plays/merge-change/SKILL.md
+index a7e85de34..eb1a0ec65 100644
+--- a/core/components/plays/merge-change/SKILL.md
++++ b/core/components/plays/merge-change/SKILL.md
+@@ -156,7 +156,8 @@ it as `plan_marked` (the plan file joins the records commit only when `plan_mark
+ true; a `plan_marked.error` leaves the item open and the delivery report names it — never
+ silent), finalizes `merge-gate.json`'s
+ two Done-means (`pr_merged: true`, `branch_deleted: true`) on both paths incl. the no-op
+-(C6), **commits the run records on main itself** (#491) — `merge-gate.json` + the
++(C6), **commits the run records on the branch the change landed on** (main, or the plan's
++branch; #491) — `merge-gate.json` + the
+ review dir (+ the plan file when its item was set Done), message `chore(stm): record merge-change run records (#<issue>)` (ADR 012,
+ evidence self-commit) — and **pushes that records commit** (#493): the pinned Confirm
+ Merge approval (C7) already put the human on the outward act, so the bookkeeping push
+@@ -173,7 +174,7 @@ python3 scripts/merge_pr.py --config .garura/core/config.yaml \
+         --plans-dir "<plans.base-path>" --plan-id "<target.json plan_id>" )
+ ```
+ 
+-The tree is clean after the step and main is level with origin; a
++The tree is clean after the step and the branch the change landed on is level with origin; a
+ `records_committed: false` output is a failed step, and a `records_pushed: false` output
+ leaves the push owed and visibly reported (soft-fail — offline or a host guard), never
+ silent.
+@@ -188,7 +189,7 @@ for them — when the machine wall held and the human approved, it was merged.
+ **SE-5 (F5/C5):** when the PR was already merged at pre-flight, no second merge was
+ attempted and the run ended as a clean no-op.
+ **SE-6 (F6/C6):** `merge-gate.json` reads `pr_merged: true` + `branch_deleted: true`; the
+-records commit exists on main; the stop-condition verdict reads held before any
++records commit exists on the branch the change landed on (`target.json.base`); the stop-condition verdict reads held before any
+ COMPLETED close.
+ **SE-7 (F7/C7):** the merge proceeded only on the pinned human approval, AND the Step 2
+ record shows all three machine preconditions true — `approved: true`, `mergeable: true`,
+@@ -211,8 +212,8 @@ git/gh work; the play's agent count is zero.
+   halted at pre-flight and the PR is not merged.
+ - **SCE-4 (S4 — developer, already merged):** a re-run on a merged PR was a clean no-op,
+   no second merge attempted; `merge-gate.json` reads `pr_merged: true` and
+-  `branch_deleted: true`; the records commit exists on main; the stop-condition verdict
+-  reads held.
++  `branch_deleted: true`; the records commit exists on the branch the change landed on
++  (`target.json.base`); the stop-condition verdict reads held.
+ - **SCE-5 (S5 — developer, issue in a plan):** the PR merged into `plan/<P>/base`;
+   `merge-gate.json` reads `on_target: true`, lists the issue in `issues_closed` and reads
+   `plan_marked.to: Done`; the plan file reads the item Done; the current branch is
+@@ -312,8 +313,8 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:465bfb6b0801f20b981a15c00755d2038e0b59e1991b544819f43849668dac55 (of `reference/ice.md`) |
+-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue) |
++| fingerprint | sha256:fa0f30167747872ebdc6f53252ec2387b2c536d637fbc81a1a8aecb6de8bf3a3 (of `reference/ice.md`) |
++| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on) |
+ | pipeline_position | end |
+ | workflow_structure | B (fast execution flow, single-pass; stop-condition gated close) |
+ | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
+diff --git a/core/components/plays/merge-change/reference/ice.md b/core/components/plays/merge-change/reference/ice.md
+index 6e118ad93..2db09b503 100644
+--- a/core/components/plays/merge-change/reference/ice.md
++++ b/core/components/plays/merge-change/reference/ice.md
+@@ -30,7 +30,8 @@ play.
+   already-merged no-op path) and branch_deleted (true when the feature branch is gone
+   locally and on origin; on the no-op path, true when it was already gone). At close, the
+   play commits its run records (merge-gate.json, the review dir if present, and the plan
+-  file when its item was set Done) on main per
++  file when its item was set Done) on the branch the change landed on (main, or the plan's
++  branch) per
+   the evidence self-commit rule (ADR 012) — and then PUSHES that records commit itself
+   (#493): the pinned Confirm Merge approval (C7) already put the human on the outward
+   irreversible act, and the records commit is bookkeeping about that approved merge, so no
+@@ -106,7 +107,7 @@ play.
+ - S4 — (developer, already merged) Given the PR is already merged, when it runs again,
+   then it is a no-op and ends cleanly. Measure: no second merge is attempted; the run ends
+   successfully; merge-gate.json reads pr_merged true and branch_deleted true; the records
+-  commit exists on main; the stop-condition verdict reads held.
++  commit exists on the branch the change landed on; the stop-condition verdict reads held.
+ - S5 — (developer, issue in a plan) Given an approved PR from `plan/P/<issue>-<slug>` into
+   `plan/P/base`, when it runs, then the PR merges into `plan/P/base`, the checkout ends on
+   updated `plan/P/base`, the issue's branch is deleted, and the issue is closed. Measure:
+diff --git a/core/components/plays/start-change/SKILL.md b/core/components/plays/start-change/SKILL.md
+index f86e91bf2..922548a5d 100644
+--- a/core/components/plays/start-change/SKILL.md
++++ b/core/components/plays/start-change/SKILL.md
+@@ -1,7 +1,7 @@
+ ---
+ name: start-change
+ position: start
+-description: 'Open a unit of work cleanly — resolve or create the tracked issue, cut a feature branch off up-to-date main, set up a git worktree when config calls for it, and initialize the STM workspace. The start-of-pipeline play in the ProductOS command model. Use when beginning work on a change, starting an issue, or kicking off a feature.'
++description: 'Open a unit of work cleanly — resolve or create the tracked issue, cut its branch (under its plan''s branch for an issue in a plan, read from main and the plan''s branch; else a feature branch off up-to-date main), set up a git worktree when config calls for it, and initialize the STM workspace. The start-of-pipeline play in the ProductOS command model. Use when beginning work on a change, starting an issue, or kicking off a feature.'
+ user-invocable: true
+ ---
+ 
+@@ -21,8 +21,8 @@ primitive itself, start-change does not get a start composed into it.
+ 
+ This play was compiled from the start-change ICE (`reference/ice.md`) by edit-play
+ (#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate-off recompile; #484 scripted
+-chain; #731 plan branches). Intent defines constraints (C1–C9) and failure conditions (F1–F9);
+-the expectation defines success scenarios (S1–S6), a Done means (D1–D4, baked to `stop-condition.yaml`), and
++chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete). Intent defines
++constraints (C1–C9) and failure conditions (F1–F9); the expectation defines success scenarios (S1–S7), a Done means (D1–D4, baked to `stop-condition.yaml`), and
+ one recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with edit-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -55,7 +55,7 @@ agent (C8). This play uses **zero domain agents**.
+ | Git repository present | C2 | Hard halt |
+ | Platform CLI available (`gh`) | C1 | Hard halt |
+ | Read `start-change.worktree` flag (default `false`) | C3 | — |
+-| Read `plans.base-path` (default `.garura/project/plans/`); a missing folder means no plan | C9 | — |
++| Read `plans.base-path` (default `.garura/project/plans/`); a plan is read from git at the latest main and the plan's own branch, never the checkout | C9 | — |
+ | Resume marker check for this issue's start-change | C6 | Resume |
+ 
+ Resolve the deterministic pre-flight facts with the bundled resolver — not by inference. The
+@@ -158,15 +158,23 @@ python3 scripts/resolve_plan.py --plans-dir "<plans.base-path>" \
+     --issue <issue_number> --slug <slug> --out "<working>/plan.json"
+ ```
+ 
+-It returns `{ plan_id, plan_branch, issue_branch }` — `plan/<plan-id>/base` and
++It fetches origin and reads the plan files from git, never from the checked-out branch: at the
++latest `origin/main`, and, for a plan whose own branch `plan/<plan-id>/base` is on origin, on
++that branch too (a plan session writes there first); an issue in either copy belongs to the plan.
++It returns `{ plan_id, plan_branch, issue_branch, source }` — `plan/<plan-id>/base` and
+ `plan/<plan-id>/<issue>-<slug>` for an issue in a plan, or `plan_branch: null` and
+-`feature/<issue>-<slug>` for an issue in no plan. Exit 2 (the issue sits in two plans, or a
+-plan file cannot be read) is a hard halt — REC9.
++`feature/<issue>-<slug>` for an issue in no plan; `source` names the ref read, whether the fetch
++worked (`fetched: false` means the last fetched copies were read — say so in the report) and each
++plan branch read. Exit 2 (the issue sits in two plans, a plan file cannot be read, or there is
++no `origin/main`) is a hard halt — REC9.
+ 
+ Then run the bundled branch script with those names. It pulls `main` to its latest origin
+ tip. For an issue in a plan it cuts `plan/<plan-id>/base` from main when the plan's work
+ starts now, or merges the latest main into it when it exists, and cuts the issue's branch
+-from it; a merge conflict exits 1 and halts for a person. For an issue in no plan it cuts
++from it; a merge conflict exits 1 and halts for a person. A plan branch gone on origin but
++still here is deleted and cut fresh only when every commit on it is on main or was on origin's
++plan branch; otherwise, or when origin cannot be reached, it exits 1, keeps the copy and names
++why (the commits that would be lost). A push that fails exits 1. For an issue in no plan it cuts
+ `feature/<issue>-<slug>` from main. It switches to the branch if it already exists, sets up
+ a git worktree **iff** `start-change.worktree` is true, pushes, and writes `branch.json`.
+ No agent (C8):
+@@ -185,7 +193,8 @@ plan_branch|null, plan_branch_created }`.
+ issue in no plan, `branch.json.base_sha` equals the current `origin/main` tip. For an issue
+ in a plan, origin/main is an ancestor of `plan_branch`, and `base_sha` equals its tip.
+ **SE-10 (F9/C9):** `plan.json` exists and was written by `resolve_plan.py` before the branch
+-was cut; when `plan.json.plan_id` is set, `branch.json.branch_name` starts with
++was cut, and its `source.ref` is `origin/main` (read from git, not the checkout); a stale local
++plan branch was deleted only when `setup_branch.py` exited 0; when `plan.json.plan_id` is set, `branch.json.branch_name` starts with
+ `plan/<plan_id>/` and `branch.json.plan_branch` is `plan/<plan_id>/base`.
+ **SE-3 (F3/C3):** `git worktree list` shows a worktree for the branch **iff**
+ `start-change.worktree` is true (present when on, absent when off).
+@@ -241,6 +250,9 @@ structure dirs (`specs`, `evidence`, `checkpoint`, `context`, `review`) before c
+ - **SCE-6 (S6 — developer, plan already started):** origin/main is an ancestor of
+   `plan/<P>/base`; `branch.json.base_sha` equals the `plan/<P>/base` tip;
+   `plan_branch_created: false`.
++- **SCE-7 (S7 — developer, an issue added on main while the checkout is older):** `plan.json`
++  reads `plan_id: <P>` with `source.ref: origin/main`, and `branch.json.branch_name` starts
++  with `plan/<P>/`.
+ - **SE-5 (F5/C6):** a re-run for the same issue created neither a duplicate issue nor a
+   duplicate branch (counts unchanged vs. before the run).
+ 
+@@ -311,6 +323,7 @@ The success scenarios and their evals (run in Step 6):
+ | S4 — worktree by config | developer | SCE-4 |
+ | S5 — first issue of a plan | developer | SCE-5 |
+ | S6 — plan already started | developer | SCE-6 |
++| S7 — an issue added on main while the checkout is older | developer | SCE-7 |
+ 
+ ## Recovery
+ 
+@@ -324,7 +337,7 @@ The success scenarios and their evals (run in Step 6):
+ | F6 | the close would report COMPLETED without the Done means held | evaluate the stop condition and surface the unmet clauses; the run closes HALTED until state is fixed | autonomous |
+ | F7 | `validate_issue.py` exits non-zero on the proposed or created issue record | a human fixes the title (present, ≥15 chars, tagged) and/or completes the work description, then re-runs; the play never creates over a failed validation | human |
+ | F8 | the mechanical branch work ran through an agent instead of `setup_branch.py` | route the cut/worktree/push through `setup_branch.py` and remove the agent dispatch | autonomous |
+-| F9 | the plan was not read by `resolve_plan.py`, or an issue in a plan got a branch outside `plan/<plan-id>/` | run `resolve_plan.py` and re-cut the branch with its names; an issue in two plans stops for a person to fix the plan files | autonomous |
++| F9 | the plan was not read by `resolve_plan.py` from git, an issue in a plan got a branch outside `plan/<plan-id>/`, or a stale local plan branch was at risk | run `resolve_plan.py` and re-cut the branch with its names; an issue in two plans, or `setup_branch.py` stopping on a stale copy with commits found nowhere else or on an origin it could not reach, stops for a person (fix the plan files, push or move the commits, or run again when origin can be reached) | autonomous |
+ 
+ ## Pause and Resume
+ 
+@@ -338,8 +351,8 @@ branch (C6, F5).
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:98bd008dbabb2e3a31b74404228751b65cb8f440ec179a2ebd48497ddd780b8f (of `reference/ice.md`) |
+-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #731 plan branches) |
++| fingerprint | sha256:9fb6bc4dcb48944f44b9c4b55bf994078e631c6244c66e53fad70761d45e681c (of `reference/ice.md`) |
++| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete) |
+ | pipeline_position | start |
+ | workflow_structure | B (fast execution flow) |
+ | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
+@@ -348,5 +361,5 @@ branch (C6, F5).
+ | skills_reused | track-issue |
+ | scripts | 7 (init_stm.py, preflight.py, session_stamp.py, check_stop_condition.py, validate_issue.py, setup_branch.py, resolve_plan.py) |
+ | step_evals | 10 (SE-1…SE-10) |
+-| scenario_evals | 6 (SCE-1…SCE-6) |
++| scenario_evals | 7 (SCE-1…SCE-7) |
+ | recovery_entries | 9 (one per failure condition; 8 autonomous / 1 human) |
+diff --git a/core/components/plays/start-change/reference/ice.md b/core/components/plays/start-change/reference/ice.md
+index a02d1bc00..4f8b8ba5c 100644
+--- a/core/components/plays/start-change/reference/ice.md
++++ b/core/components/plays/start-change/reference/ice.md
+@@ -29,11 +29,18 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   issue in no plan (a one-off fix) works on `feature/<issue>-<slug>`, cut from an
+   up-to-date main.
+ - C9 — Which plan an issue sits in is read from the plan files (`plans.base-path`,
+-  default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. A
+-  plan's branch is created only when work on the plan starts — by the first start-change
+-  for an issue in it, cut from the latest main; when it already exists, the latest main is
+-  merged into it before the issue's branch is cut (#731, Kapil 2026-10-22). A merge
+-  conflict stops the run for a person to resolve.
++  default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. It
++  reads them from git, never from the checked-out branch (#779): from the latest
++  `origin/main`, and, for a plan whose own branch `plan/<plan-id>/base` is on origin, from
++  that branch too, since a plan session writes there first; an issue in either copy belongs
++  to the plan. When the fetch fails, the last fetched copies are read and the record says
++  so. A plan's branch is created only when work on the plan starts — by the first
++  start-change for an issue in it, cut from the latest main; when it already exists, the
++  latest main is merged into it before the issue's branch is cut (#731, Kapil 2026-10-22).
++  A merge conflict stops the run for a person to resolve. A plan branch gone on origin but
++  still here is deleted and cut fresh only when origin was reached and every commit on the
++  local copy is on main or was on origin's plan branch; otherwise the run stops, keeps the
++  copy and names the commits that would be lost. A push that fails stops the run (#953).
+ - C3 — A git worktree is set up only when config calls for it (config-driven, not
+   automatic).
+ - C4 — The STM workspace for the issue is initialized before the play reports done.
+@@ -67,8 +74,10 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   title, or an empty work description).
+ - F8 — The mechanical branch work (cut/worktree/push) was run through an agent dispatch
+   instead of the bundled setup_branch.py.
+-- F9 — The issue's plan was guessed instead of read by resolve_plan.py, or an issue in a
+-  plan got a branch outside its plan (not `plan/<plan-id>/…`).
++- F9 — The issue's plan was guessed instead of read by resolve_plan.py, or read from the
++  checked-out branch's plan files; an issue in a plan got a branch outside its plan (not
++  `plan/<plan-id>/…`); or a local plan branch was deleted while origin could not be
++  reached, or while it held commits found nowhere else.
+ 
+ ## Expectation
+ 
+@@ -102,6 +111,11 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+   `plan/P/base` first and the issue's branch is cut from it. Measure: origin/main is an
+   ancestor of `plan/P/base`; branch.json's `base_sha` equals the `plan/P/base` tip;
+   `plan_branch_created: false`.
++- S7 — (developer, an issue added on main while the checkout is older) Given an issue
++  added to plan P's file on main, and a checkout on a branch whose copy of the plan file
++  does not list it yet, when it runs, then the issue is found in P and gets its branch
++  under P. Measure: plan.json reads `plan_id: P`, its `source.ref` is `origin/main`, and
++  branch.json's `branch_name` starts with `plan/P/`.
+ 
+ ### Done means
+ 
+@@ -139,7 +153,9 @@ the D2 pipeline-position rule injects into any other play declared `position: st
+ - REC8 (F8) — trigger: the branch work was run through an agent instead of the script.
+   direction: route the cut/worktree/push through setup_branch.py and remove the agent
+   dispatch. handoff: autonomous.
+-- REC9 (F9) — trigger: the plan was not read by resolve_plan.py, or the branch is not under
+-  its plan. direction: run resolve_plan.py and re-cut the branch with the names it gives;
+-  when it reports the issue in more than one plan, stop for a person to fix the plan
+-  files. handoff: autonomous.
++- REC9 (F9) — trigger: the plan was not read by resolve_plan.py from git, the branch is not
++  under its plan, or a stale local plan branch was at risk. direction: run resolve_plan.py
++  and re-cut the branch with the names it gives; when it reports the issue in more than one
++  plan, or setup_branch.py stops on a stale copy with commits found nowhere else or on an
++  origin it could not reach, stop for a person (fix the plan files, push or move the
++  commits, or run again when origin can be reached). handoff: autonomous.
+diff --git a/core/components/plays/start-change/scripts/resolve_plan.py b/core/components/plays/start-change/scripts/resolve_plan.py
+index e2e56f880..4a6a9c5d9 100644
+--- a/core/components/plays/start-change/scripts/resolve_plan.py
++++ b/core/components/plays/start-change/scripts/resolve_plan.py
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env python3
+ """
+-resolve_plan.py — which plan does this issue belong to, and what are its branches? (#731)
++resolve_plan.py — which plan does this issue belong to, and what are its branches? (#731, #779)
+ 
+ A plan's file is `<plans-dir>/<plan-id>.yaml` (ontology v5, Plan): its ID is its business
+ intent's issue number, and its `tree` lists every capability and functionality under it,
+@@ -12,16 +12,25 @@
+                 feature/<issue>-<slug>             (an issue in no plan — a one-off fix)
+ 
+     python3 resolve_plan.py --plans-dir .garura/project/plans/ --issue N --slug <slug> \
+-        [--out <path.json>]
++        [--repo .] [--ref origin/main] [--local] [--out <path.json>]
+ 
+-Prints { issue, plan_id, plan_branch, issue_branch }; plan_id and plan_branch are null for
+-an issue in no plan. Exit 0 found or not found, 2 when a plan file cannot be read, or when
+-the issue sits in more than one plan. Read only: no git, no network, no LLM.
++The plan files are read from git, never from the checked-out branch (#779): the script fetches
++origin, then reads each plan file at `--ref` (the latest main). When the plan's own branch
++(`plan/<plan-id>/base`) is on origin, its copy of the plan file is read too, because a plan
++session writes there first; an issue in either copy belongs to the plan. When the fetch fails,
++the last fetched copies are read and the record says so (`fetched: false`). `--local` reads the
++folder on disk instead (a plans folder outside git, and the tests).
++
++Prints { issue, plan_id, plan_branch, issue_branch, source }; plan_id and plan_branch are null
++for an issue in no plan. `source` names the ref read, whether the fetch worked, and each plan
++branch read. Exit 0 found or not found, 2 when a plan file cannot be read, when `--ref` does
++not exist, or when the issue sits in more than one plan. No network beyond the fetch, no LLM.
+ """
+ import argparse
+ import glob
+ import json
+ import os
++import subprocess
+ import sys
+ 
+ import yaml
+@@ -35,18 +44,60 @@ def issues_in(nodes):
+             yield from issues_in(node.get("children"))
+ 
+ 
+-def resolve(plans_dir, issue, slug):
++def _git(repo, *args):
++    p = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True)
++    return p.returncode, p.stdout
++
++
++def _read_plan(text, where):
++    plan = yaml.safe_load(text) or {}
++    if not isinstance(plan, dict):
++        raise ValueError(f"{where} is not a mapping")
++    return plan
++
++
++def plans_on_disk(plans_dir):
++    """{file name: plan} for the plan files in a folder on disk."""
++    out = {}
++    for path in sorted(glob.glob(os.path.join(plans_dir, "*.yaml"))):
++        name = os.path.basename(path)
++        if name != "index.yaml":
++            with open(path, encoding="utf-8") as fh:
++                out[name] = _read_plan(fh.read(), path)
++    return out
++
++
++def plans_at(repo, ref, plans_dir):
++    """{file name: plan} for the plan files at a git ref; None when the ref does not exist."""
++    if _git(repo, "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}")[0] != 0:
++        return None
++    folder = os.path.normpath(plans_dir).replace(os.sep, "/").strip("/")
++    rc, listing = _git(repo, "ls-tree", "--name-only", f"{ref}:{folder}")
++    out = {}
++    for name in sorted(listing.split()) if rc == 0 else []:
++        if name.endswith(".yaml") and name != "index.yaml":
++            rc, text = _git(repo, "show", f"{ref}:{folder}/{name}")
++            if rc != 0:
++                raise ValueError(f"cannot read {folder}/{name} at {ref}")
++            out[name] = _read_plan(text, f"{ref}:{folder}/{name}")
++    return out
++
++
++def holds(plan, name, issue):
++    pid = str(plan.get("id", os.path.splitext(name)[0]))
++    return pid, issue == pid or issue in set(issues_in(plan.get("tree")))
++
++
++def resolve(plans, issue, slug, branch_plans=None):
++    """plans: {file name: plan} as main has them; branch_plans: {file name: plan} from each
++    plan's own branch, read where it exists. An issue in either copy belongs to the plan."""
+     issue = str(issue)
+     found = []
+-    for path in sorted(glob.glob(os.path.join(plans_dir, "*.yaml"))):
+-        if os.path.basename(path) == "index.yaml":
+-            continue
+-        with open(path, encoding="utf-8") as fh:
+-            plan = yaml.safe_load(fh) or {}
+-        if not isinstance(plan, dict):
+-            raise ValueError(f"{path} is not a mapping")
+-        pid = str(plan.get("id", os.path.splitext(os.path.basename(path))[0]))
+-        if issue == pid or issue in set(issues_in(plan.get("tree"))):
++    for name, plan in plans.items():
++        pid, here = holds(plan, name, issue)
++        if not here and name in (branch_plans or {}):
++            here = holds(branch_plans[name], name, issue)[1]
++        if here:
+             found.append(pid)
+     if len(found) > 1:
+         raise ValueError(f"issue {issue} sits in more than one plan: {', '.join(found)}")
+@@ -58,15 +109,40 @@ def resolve(plans_dir, issue, slug):
+             "issue_branch": f"feature/{issue}-{slug}"}
+ 
+ 
++def resolve_from_git(repo, plans_dir, issue, slug, ref="origin/main"):
++    remote = ref.split("/", 1)[0] if "/" in ref else "origin"
++    fetched = _git(repo, "fetch", "--quiet", remote)[0] == 0
++    plans = plans_at(repo, ref, plans_dir)
++    if plans is None:
++        raise ValueError(f"{ref} does not exist here; fetch it, then run again")
++    branch_plans, read = {}, []
++    for name, plan in plans.items():
++        pid = str(plan.get("id", os.path.splitext(name)[0]))
++        copy = plans_at(repo, f"{remote}/plan/{pid}/base", plans_dir)
++        if copy is not None and name in copy:
++            branch_plans[name] = copy[name]
++            read.append(f"plan/{pid}/base")
++    record = resolve(plans, issue, slug, branch_plans)
++    record["source"] = {"ref": ref, "fetched": fetched, "plan_branches_read": read}
++    return record
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser()
+     ap.add_argument("--plans-dir", required=True)
+     ap.add_argument("--issue", required=True)
+     ap.add_argument("--slug", required=True)
++    ap.add_argument("--repo", default=".")
++    ap.add_argument("--ref", default="origin/main")
++    ap.add_argument("--local", action="store_true", help="read the folder on disk, not git")
+     ap.add_argument("--out")
+     ns = ap.parse_args(argv)
+     try:
+-        record = resolve(ns.plans_dir, ns.issue, ns.slug)
++        if ns.local:
++            record = resolve(plans_on_disk(ns.plans_dir), ns.issue, ns.slug)
++            record["source"] = {"ref": None, "fetched": None, "plan_branches_read": []}
++        else:
++            record = resolve_from_git(ns.repo, ns.plans_dir, ns.issue, ns.slug, ns.ref)
+     except (OSError, ValueError, yaml.YAMLError) as exc:
+         print(json.dumps({"error": str(exc)}))
+         return 2
+diff --git a/core/components/plays/start-change/scripts/setup_branch.py b/core/components/plays/start-change/scripts/setup_branch.py
+index 9234e910a..19b6536ec 100644
+--- a/core/components/plays/start-change/scripts/setup_branch.py
++++ b/core/components/plays/start-change/scripts/setup_branch.py
+@@ -16,6 +16,13 @@
+ (plan/P/<issue>-<slug>) is then cut from the plan branch. A merge conflict stops the run
+ (exit 1) with the plan branch left as it was.
+ 
++A plan branch that is gone on origin but still here (the plan paused, merged into main and its
++branch was deleted) is deleted here and cut fresh — but only when the lookup on origin worked
++and every commit on the local copy is already on main, or was on origin's plan branch before it
++went (git's last-known copy of it). A failed lookup (offline, a login error) stops the run and
++says origin could not be reached; a local copy with commits found nowhere else stops the run
++and names them (#953). A push that fails stops the run.
++
+ Idempotent: if the branch already exists (local or remote), it is a resume —
+ switch to it, do not re-cut. Writes branch.json:
+   { branch_name, base_sha, on_default_branch, worktree_path, plan_branch, plan_branch_created }
+@@ -44,10 +51,35 @@ def _branch_exists(branch):
+ 
+ 
+ def _on_origin(branch):
+-    _, out_r, _ = _git("ls-remote", "--heads", "origin", branch)
++    """True or False; None when origin cannot be asked (offline, a login error)."""
++    rc, out_r, _ = _git("ls-remote", "--heads", "origin", branch)
++    if rc != 0:
++        return None
+     return bool(out_r.strip())
+ 
+ 
++def _is_ancestor(a, b):
++    return subprocess.run(["git", "merge-base", "--is-ancestor", a, b], capture_output=True).returncode == 0
++
++
++def _safe_to_delete(plan, base):
++    """Every commit on the local plan branch is on main, or was pushed to origin's plan branch."""
++    if _is_ancestor(plan, f"origin/{base}"):
++        return True, []
++    known = f"refs/remotes/origin/{plan}"
++    if _git("rev-parse", "--verify", "--quiet", known)[0] == 0 and _is_ancestor(plan, known):
++        return True, []
++    _, log, _ = _git("log", "--oneline", plan, "--not", f"origin/{base}", "--remotes=origin")
++    return False, log.splitlines()
++
++
++def _push(branch):
++    rc, _, err = _git("push", "-u", "origin", branch)
++    if rc != 0:
++        sys.stderr.write(f"setup_branch.py: pushing {branch} to origin failed: {err}\n")
++        sys.exit(1)
++
++
+ def _tip(branch):
+     rc, sha, _ = _git("rev-parse", f"origin/{branch}")
+     if rc != 0 or not sha.strip():
+@@ -79,9 +111,21 @@ def main(argv=None):
+     if ns.plan_branch and not _branch_exists(branch):
+         # The issue sits in a plan: bring the plan branch up to the latest main, or cut it.
+         plan = ns.plan_branch
+-        if not _on_origin(plan) and _branch_exists(plan):
++        on_origin = _on_origin(plan)
++        if on_origin is None:
++            sys.stderr.write(f"setup_branch.py: origin could not be reached to look for {plan}; "
++                             f"nothing was changed — run again when it can be reached\n")
++            sys.exit(1)
++        if not on_origin and _branch_exists(plan):
+             # Only a stale local copy is left: the plan paused, merged into main and its branch
+-            # was deleted on origin. A plan that starts again gets a fresh cut from main.
++            # was deleted on origin. A plan that starts again gets a fresh cut from main — when
++            # no commit on the local copy would be lost.
++            safe, lost = _safe_to_delete(plan, ns.base)
++            if not safe:
++                sys.stderr.write(f"setup_branch.py: {plan} is gone on origin, but the copy here has "
++                                 f"commits found nowhere else; it was kept. Push or move them, then "
++                                 f"run again:\n  " + "\n  ".join(lost) + "\n")
++                sys.exit(1)
+             _git("branch", "-D", plan)
+         if _branch_exists(plan):
+             _git("fetch", "origin", plan)
+@@ -105,7 +149,7 @@ def main(argv=None):
+                 sys.exit(1)
+             plan_created = True
+         if not ns.no_push:
+-            _git("push", "-u", "origin", plan)
++            _push(plan)
+         _, base_sha, _ = _git("rev-parse", "HEAD")
+     elif ns.plan_branch:
+         # Resume of an issue in a plan: its branch was cut from the plan branch, so the
+@@ -135,7 +179,7 @@ def main(argv=None):
+             sys.exit(1)
+ 
+     if not ns.no_push:
+-        _git("push", "-u", "origin", branch)
++        _push(branch)
+ 
+     record = {"branch_name": branch, "base_sha": base_sha,
+               "on_default_branch": False, "worktree_path": worktree_path,
