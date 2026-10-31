@@ -27,6 +27,8 @@ findings:
     states must be one the model allows). pr.md bucket P2: structural violation. Fix: a decision by the product owner, then
     change C9, S5, SE-9 and merge_pr.py together through /edit-play.'
   category: Harness
+  outcome: skipped
+  note: 'merge-change capability-close check taken out on the product owner decision; conflict filed as #1014'
 - id: HC2
   severity: P3
   file: core/components/plays/merge-change/SKILL.md
@@ -46,6 +48,8 @@ findings:
     for the Done/Dropped equivalence. Fix: word SE-9 and SCE-5 the same as the ICE measure, name the node (the plan''s top-level
     item), say ''every item under it at any level'', and add ''unless it was already closed or has no issue''.'
   category: Harness
+  outcome: skipped
+  note: 'merge-change capability-close check taken out on the product owner decision; conflict filed as #1014'
 - id: HC3
   severity: P4
   file: core/components/plays/merge-change/reference/ice.md
@@ -57,6 +61,8 @@ findings:
     principle 5 (each guarantee has a check that proves it) and principle 4. Suggested with HC1: if the capability close stays,
     add it to F9 and add a test.'
   category: Harness
+  outcome: skipped
+  note: 'merge-change capability-close check taken out on the product owner decision; conflict filed as #1014'
 - id: HC4
   severity: P4
   file: core/components/plays/propose-change/scripts/submit_pr.py
@@ -71,6 +77,7 @@ findings:
     Harness standard principle 3 (a script gives the same answer every time and does not pass blind). Not a regression: before
     this change both cases passed blind.'
   category: Harness
+  outcome: fixed
 - id: HC5
   severity: P4
   file: core/components/plays/propose-change/reference/ice.md
@@ -82,6 +89,7 @@ findings:
   basis: 'Design limits item 2 to the script and a test: P4 out of scope. Harness standard principle 4 (every failure has
     a recovery in the ICE).'
   category: Harness
+  outcome: fixed
 - id: HC6
   severity: P4
   file: core/components/plays/create-play/references/preflight.py
@@ -93,6 +101,7 @@ findings:
   basis: 'Gap outside the approved design (it names the key and the default, not a blank value): P4 out of scope. Harness
     standard principle 3 (exact, same answer every time).'
   category: Harness
+  outcome: fixed
 - id: F-1
   severity: P3
   file: core/components/skills/cut-branch/reference/branching.md
@@ -111,6 +120,7 @@ findings:
   suggestion: 'Either update that copy to match git.md, or file an issue to retire the copy and point the skill at git.md
     (stay on scope: record, do not widen this change).'
   category: Memory
+  outcome: fixed
 - id: F-2
   severity: P4
   file: core/components/memory/standards/rules/git.md
@@ -122,6 +132,7 @@ findings:
   basis: 'Severity P4 by the taxonomy bucket ''P4 Nit ... style-only'' (standards/rules/pr.md): an example that does not show
     the shape the row names.'
   category: Memory
+  outcome: fixed
 - id: F-3
   severity: P4
   file: core/components/memory/standards/rules/_index.md
@@ -132,6 +143,7 @@ findings:
   committed_source: standards/rules/_index.md on plan/717/base (git.md row)
   basis: 'Severity P4 by the taxonomy bucket ''P4 Nit'' (standards/rules/pr.md): a description that is short, not wrong.'
   category: Memory
+  outcome: fixed
 - id: F-4
   severity: P4
   file: core/components/memory/standards/rules/pipeline-position.md
@@ -144,6 +156,7 @@ findings:
   basis: 'Severity P4 by the taxonomy bucket ''P4 Nit ... style-only'' (standards/rules/pr.md): readability only, the meaning
     is right.'
   category: Memory
+  outcome: fixed
 - id: Q01
   severity: P3
   file: core/components/plays/propose-change/scripts/submit_pr.py
@@ -161,6 +174,7 @@ findings:
   basis: CODE-25
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q02
   severity: P3
   file: core/components/plays/create-play/references/test_submit_pr.py
@@ -174,6 +188,7 @@ findings:
   basis: TEST-03
   artifact_type: tests
   category: quality
+  outcome: fixed
 - id: Q03
   severity: P4
   file: core/components/plays/propose-change/scripts/submit_pr.py
@@ -188,6 +203,7 @@ findings:
   basis: CODE-13
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q04
   severity: P4
   file: core/components/plays/show-plan/scripts/resolve_args.py
@@ -204,6 +220,7 @@ findings:
   basis: CODE-13
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q05
   severity: P4
   file: core/components/plays/create-play/references/preflight.py
@@ -218,6 +235,7 @@ findings:
   basis: CODE-13
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q06
   severity: P4
   file: core/components/plays/create-play/references/test_submit_pr.py
@@ -231,6 +249,7 @@ findings:
   basis: TEST-05
   artifact_type: tests
   category: quality
+  outcome: skipped
 - id: Q07
   severity: P2
   file: core/components/plays/show-plan/scripts/resolve_args.py
@@ -242,6 +261,7 @@ findings:
   basis: ARCH-02
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q08
   severity: P2
   file: core/components/plays/show-plan/scripts/resolve_args.py
@@ -253,6 +273,7 @@ findings:
   basis: CODE-03
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q09
   severity: P3
   file: core/components/plays/show-plan/scripts/resolve_args.py
@@ -264,6 +285,7 @@ findings:
   basis: CODE-09
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q10
   severity: P3
   file: core/components/plays/show-plan/scripts/resolve_args.py
@@ -276,6 +298,7 @@ findings:
   basis: ARCH-08
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q11
   severity: P3
   file: core/components/plays/show-plan/scripts/test_resolve_args.py
@@ -288,3 +311,4 @@ findings:
   basis: TEST-03
   artifact_type: tests
   category: quality
+  outcome: no_change_needed

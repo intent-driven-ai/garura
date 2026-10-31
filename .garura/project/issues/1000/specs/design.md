@@ -35,3 +35,16 @@ start-change only). #989 and #991 stay their own work.
 
 commit, propose, check; reinstall and promote before the merge; merge on the product owner's word;
 #1000 and #951 Done in plan 717 inside the change.
+
+## Changed after the PR #1013 review (round 1)
+
+- #951 item 3 not done, by the product owner's decision ("stay on scope and file the issue"):
+  the check of the capability close was taken back out of merge-change, because the close it
+  checks is a roll-up of the plan's Epic that the ontology and #1007 / ADR 064 rule out. The
+  conflict is filed as #1014 for the product owner.
+- propose-change: on_target is also unknown when the PR's number is known but the host's lookup
+  failed (from_host), with tests; the script says what an unknown value means.
+- pre-flight: an empty plans base-path also falls back to the default (all copies restamped).
+- /show-plan: only ASCII digits read as a plan number from a branch name.
+- The cut-branch skill's copy of the branch table matches git.md; git.md's feature example, the
+  rules index line and pipeline-position's start line are plainer.
