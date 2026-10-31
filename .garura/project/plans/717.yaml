@@ -137,6 +137,10 @@ tree:
         kind: chore
         title: 'The five small findings of the PR #950 review: plan folder from pre-flight, one always-true target check, capability-close check, plan order, two rule pages'
         status: Not Started
+      - issue: 1011
+        kind: chore
+        title: 'Bring the landing rule on the page of the #721 capability in line with ADR 060'
+        status: Not Started
     - issue: 989
       kind: story
       title: 'start-change starts a plan on its own: it cuts the plan''s branch from main, with no story branch'
