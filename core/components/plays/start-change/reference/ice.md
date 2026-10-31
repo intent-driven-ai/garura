@@ -29,11 +29,18 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   issue in no plan (a one-off fix) works on `feature/<issue>-<slug>`, cut from an
   up-to-date main.
 - C9 — Which plan an issue sits in is read from the plan files (`plans.base-path`,
-  default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. A
-  plan's branch is created only when work on the plan starts — by the first start-change
-  for an issue in it, cut from the latest main; when it already exists, the latest main is
-  merged into it before the issue's branch is cut (#731, Kapil 2026-10-22). A merge
-  conflict stops the run for a person to resolve.
+  default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. It
+  reads them from git, never from the checked-out branch (#779): from the latest
+  `origin/main`, and, for a plan whose own branch `plan/<plan-id>/base` is on origin, from
+  that branch too, since a plan session writes there first; an issue in either copy belongs
+  to the plan. When the fetch fails, the last fetched copies are read and the record says
+  so. A plan's branch is created only when work on the plan starts — by the first
+  start-change for an issue in it, cut from the latest main; when it already exists, the
+  latest main is merged into it before the issue's branch is cut (#731, Kapil 2026-10-22).
+  A merge conflict stops the run for a person to resolve. A plan branch gone on origin but
+  still here is deleted and cut fresh only when origin was reached and every commit on the
+  local copy is on main or was on origin's plan branch; otherwise the run stops, keeps the
+  copy and names the commits that would be lost. A push that fails stops the run (#953).
 - C3 — A git worktree is set up only when config calls for it (config-driven, not
   automatic).
 - C4 — The STM workspace for the issue is initialized before the play reports done.
@@ -67,8 +74,10 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   title, or an empty work description).
 - F8 — The mechanical branch work (cut/worktree/push) was run through an agent dispatch
   instead of the bundled setup_branch.py.
-- F9 — The issue's plan was guessed instead of read by resolve_plan.py, or an issue in a
-  plan got a branch outside its plan (not `plan/<plan-id>/…`).
+- F9 — The issue's plan was guessed instead of read by resolve_plan.py, or read from the
+  checked-out branch's plan files; an issue in a plan got a branch outside its plan (not
+  `plan/<plan-id>/…`); or a local plan branch was deleted while origin could not be
+  reached, or while it held commits found nowhere else.
 
 ## Expectation
 
@@ -102,6 +111,11 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   `plan/P/base` first and the issue's branch is cut from it. Measure: origin/main is an
   ancestor of `plan/P/base`; branch.json's `base_sha` equals the `plan/P/base` tip;
   `plan_branch_created: false`.
+- S7 — (developer, an issue added on main while the checkout is older) Given an issue
+  added to plan P's file on main, and a checkout on a branch whose copy of the plan file
+  does not list it yet, when it runs, then the issue is found in P and gets its branch
+  under P. Measure: plan.json reads `plan_id: P`, its `source.ref` is `origin/main`, and
+  branch.json's `branch_name` starts with `plan/P/`.
 
 ### Done means
 
@@ -139,7 +153,9 @@ the D2 pipeline-position rule injects into any other play declared `position: st
 - REC8 (F8) — trigger: the branch work was run through an agent instead of the script.
   direction: route the cut/worktree/push through setup_branch.py and remove the agent
   dispatch. handoff: autonomous.
-- REC9 (F9) — trigger: the plan was not read by resolve_plan.py, or the branch is not under
-  its plan. direction: run resolve_plan.py and re-cut the branch with the names it gives;
-  when it reports the issue in more than one plan, stop for a person to fix the plan
-  files. handoff: autonomous.
+- REC9 (F9) — trigger: the plan was not read by resolve_plan.py from git, the branch is not
+  under its plan, or a stale local plan branch was at risk. direction: run resolve_plan.py
+  and re-cut the branch with the names it gives; when it reports the issue in more than one
+  plan, or setup_branch.py stops on a stale copy with commits found nowhere else or on an
+  origin it could not reach, stop for a person (fix the plan files, push or move the
+  commits, or run again when origin can be reached). handoff: autonomous.
