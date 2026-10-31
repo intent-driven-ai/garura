@@ -183,7 +183,8 @@ with its origin copy.
 **SE-9 (F9/C9):** `target.json` was written by `resolve_target.py` before the merge;
 `merge-gate.json.on_target` is true; for an issue in a plan, the issue is in
 `merge-gate.json.issues_closed` and `merge-gate.json.plan_marked.to` reads Done (the item's
-parent unchanged); a plan's branch with open issues was not held off main
+parent unchanged); when every child of the issue's capability in the plan file is now Done or
+Dropped, the capability is in `issues_closed` too (C9); a plan's branch with open issues was not held off main
 for them — when the machine wall held and the human approved, it was merged.
 **SE-4 (F3/C3):** the feature branch no longer exists locally or on remote.
 **SE-5 (F5/C5):** when the PR was already merged at pre-flight, no second merge was
@@ -216,7 +217,8 @@ git/gh work; the play's agent count is zero.
   (`target.json.base`); the stop-condition verdict reads held.
 - **SCE-5 (S5 — developer, issue in a plan):** the PR merged into `plan/<P>/base`;
   `merge-gate.json` reads `on_target: true`, lists the issue in `issues_closed` and reads
-  `plan_marked.to: Done`; the plan file reads the item Done; the current branch is
+  `plan_marked.to: Done`; when every issue under the issue's capability is now closed, the
+  capability is in `issues_closed` too; the plan file reads the item Done; the current branch is
   `plan/<P>/base`; the issue's branch is gone.
 - **SCE-6 (S6 — developer, plan paused in progress):** `target.json` reads `kind: plan` and
   `base: main`; `merge-gate.json` reads `on_target: true`, `pr_merged: true` and
@@ -313,8 +315,8 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:fa0f30167747872ebdc6f53252ec2387b2c536d637fbc81a1a8aecb6de8bf3a3 (of `reference/ice.md`) |
-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on) |
+| fingerprint | sha256:3a8d0e579345d8b1988cf6f1c3da096ad7d63df2204b333d6a5a675a9f91be1a (of `reference/ice.md`) |
+| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on; #951 the capability close is checked) |
 | pipeline_position | end |
 | workflow_structure | B (fast execution flow, single-pass; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |

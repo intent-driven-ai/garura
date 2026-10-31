@@ -112,8 +112,9 @@ play.
   `plan/P/base`, when it runs, then the PR merges into `plan/P/base`, the checkout ends on
   updated `plan/P/base`, the issue's branch is deleted, and the issue is closed. Measure:
   merge-gate.json reads `on_target: true`, lists the issue in `issues_closed` and reads
-  `plan_marked.to: Done`; the plan file on `plan/P/base` reads the item Done and its parent
-  unchanged; the current branch is `plan/P/base`.
+  `plan_marked.to: Done`; when every issue under the issue's capability is now closed, the
+  capability is in `issues_closed` too (C9, #951); the plan file on `plan/P/base` reads the item
+  Done and its parent unchanged; the current branch is `plan/P/base`.
 - S6 — (developer, plan paused in progress) Given an approved, mergeable PR from
   `plan/P/base` into main while issues in P are still open, when it runs and the human
   approves, then the plan's work lands on main, its branch is deleted, and its open issues
