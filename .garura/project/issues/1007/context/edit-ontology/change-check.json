@@ -1,0 +1,18 @@
+{
+  "changed_kinds": [
+    "Plan"
+  ],
+  "allowed_kinds": [
+    "Plan"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "14",
+  "version_after": "15",
+  "updated": "2026-10-31",
+  "date": "2026-10-31",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}
