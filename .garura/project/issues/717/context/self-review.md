@@ -1,7 +1,7 @@
 # Self-review: plan 717 branch lands on main (issue 717)
 
 Rules file: the base `self-review.md` (resolved, no project override; recorded in `.garura/project/issues/717/context/resolved-rules.json`).
-Diff: `origin/main...HEAD`, branch `plan/717/base` into `main`. This review informs the reviewer; it is not the approve/reject gate. A finding is marked REVIEW (the reviewer looks); BLOCKING marks only what must be settled before the raise.
+Diff: `origin/main...HEAD`, branch `plan/717/base` into `main`. This review informs the reviewer; it is not the approve/reject gate. A finding is marked REVIEW (the reviewer looks); the last section lists what, if anything, must be settled before the raise.
 This file replaces the earlier one written for the previous landing of this branch (#986). The PR body must say "Refs #717", never "Closes": business intent #717 stays open.
 
 ## Change summary
@@ -29,13 +29,16 @@ This file replaces the earlier one written for the previous landing of this bran
 - PASS: Tests present. Behavior changes carry tests: `core/tools/plan` (3 test files), `update-plan` (2), `start-change`, `merge-change`, `show-plan` (2), and more under `shape-plan`, `shape-slice` and `install-garura`. Run now: `core/tools/plan` 46 tests OK; `update-plan` 10 and 56 OK; `start-change` 12 OK; `merge-change` 3 OK; `show-plan` 2 and 5 OK.
 - PASS: Nothing obviously broken by this branch. `lint-components` from the repo root reports 36 errors and 1 warning, all in 11 files this branch does not change (`create-loop`, `create-play`, `edit-loop`, `edit-play`, `install-garura`, `uninstall-garura`, `check-quality`, `find-matching-issues`, `merge-pr`, `open-pr`, `propose-kb-node`). None is new from this plan. (I could not run the linter on main in a clean copy, so "not new" rests on the branch touching none of those files.)
 - PASS: Commits are clean. Every non-merge commit uses a conventional prefix and cites an issue number. No commit message says "Closes", "Fixes" or "Resolves" #717. No `Co-Authored-By` or "generated with" line in any commit message.
-- PASS: No secrets. A scan of every changed file that exists for GitHub tokens, `sk-` keys, AWS keys, Slack tokens and private-key headers finds none. No `.env`, `.pem`, `.key` or `.p12` file is in the diff.
+- PASS: No secrets. A scan of every changed file that exists for GitHub tokens, `sk-` keys, AWS keys, Slack tokens and private-key headers finds none. No environment file, certificate or key file is in the diff.
 - PASS: Nothing from a client or private notes. The employer's name appears once, in `.garura/project/issues/993/review/quality-findings.yaml`, inside the list of patterns that check searched for and did not find. No client name, vault path or personal-notes content in the diff.
 - REVIEW: Docs in step. ADRs 060 to 064, the model pages, the plan README (`core/tools/plan/README.md`) and `managing-work.md` moved with the work. The pull-request reviews carry their own findings for each story (`.garura/project/issues/<n>/review/findings.yaml`); open items were left on those pull requests, not fixed here.
-- REVIEW (settle before the push): a person's home-folder path is in 4 committed run-record files, on a public repository. Main has none. The files: `.garura/project/issues/1011/context/templates/manifest-check-change.json`, `.garura/project/issues/989/context/resolved-rules.json`, `.garura/project/issues/989/context/self-review.md`, and `.garura/project/issues/989/review/pr.diff` (a copy of a diff that holds the path). This is the known defect in `.garura/project/issues/717/context/home-path-defect.md`: plays write absolute paths into run records and nothing stops the push. Also, the working-tree change to `.garura/project/issues/717/context/resolved-rules.json` (not yet committed) turns `~/.phoenix/...` into the absolute home path; committing it adds a fifth file. The fix is to put the `~` form back in these files before the commit and the push. The rules file does not make this a block, so it is marked REVIEW, but it cannot be undone once pushed.
+- FIXED: A person's home-folder path was in 4 committed run-record files, on a public repository. The commit "chore(stm): take personal and client references out of the run records of #989, #993 and #1011 (#717)" took it out, and the uncommitted `resolved-rules.json` now reads the `~` form. Checked on HEAD with `git grep -i -I -l` for each of five strings (the owner's user name, the dashed home-folder prefix, the scratch-folder prefix, the employer's name, the personal-vault name): 0 files for each. A diff of `~/cto/` paths shows no file on the branch that main lacks (the same 4 files hold such paths on both).
 
 ## What must be settled first
 
-Nothing blocks the raise by the rules file. One item should be settled before the push, because a push to a public repository cannot be taken back: remove the home-folder path from the 4 committed files and from the uncommitted `resolved-rules.json` (use the `~` form).
+Blocking findings: none.
 
-The PR body must read "Refs #717". It must not close business intent #717.
+Notes:
+
+- The older commits on this branch still carry those strings in their history, so the landing on main should not carry those commits (a decision for the product owner at merge time).
+- The PR body must read "Refs #717". It must not close business intent #717.
