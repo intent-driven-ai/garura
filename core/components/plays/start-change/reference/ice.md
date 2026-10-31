@@ -39,8 +39,9 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   latest main is merged into it before the issue's branch is cut (#731, Kapil 2026-10-22).
   A merge conflict stops the run for a person to resolve. A plan branch gone on origin but
   still here is deleted and cut fresh only when origin was reached and every commit on the
-  local copy is on main or was on origin's plan branch; otherwise the run stops, keeps the
-  copy and names the commits that would be lost. A push that fails stops the run (#953).
+  local copy is on main; otherwise the run stops, keeps the copy and names the commits that
+  are not on main. A push or a delete that fails stops the run, and a call to origin gives up
+  after a time limit instead of hanging (#953).
 - C3 — A git worktree is set up only when config calls for it (config-driven, not
   automatic).
 - C4 — The STM workspace for the issue is initialized before the play reports done.
@@ -158,4 +159,4 @@ the D2 pipeline-position rule injects into any other play declared `position: st
   and re-cut the branch with the names it gives; when it reports the issue in more than one
   plan, or setup_branch.py stops on a stale copy with commits found nowhere else or on an
   origin it could not reach, stop for a person (fix the plan files, push or move the
-  commits, or run again when origin can be reached). handoff: autonomous.
+  commits, or run again when origin can be reached). handoff: human.

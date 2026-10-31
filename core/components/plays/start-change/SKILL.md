@@ -172,9 +172,10 @@ Then run the bundled branch script with those names. It pulls `main` to its late
 tip. For an issue in a plan it cuts `plan/<plan-id>/base` from main when the plan's work
 starts now, or merges the latest main into it when it exists, and cuts the issue's branch
 from it; a merge conflict exits 1 and halts for a person. A plan branch gone on origin but
-still here is deleted and cut fresh only when every commit on it is on main or was on origin's
-plan branch; otherwise, or when origin cannot be reached, it exits 1, keeps the copy and names
-why (the commits that would be lost). A push that fails exits 1. For an issue in no plan it cuts
+still here is deleted and cut fresh only when every commit on it is on main, and branch.json
+records it (`stale_plan_branch: {deleted, tip, on_main}`); otherwise, or when origin cannot be
+reached, it exits 1, keeps the copy and names why (the commits that are not on main). A push or
+a delete that fails exits 1; a call to origin gives up after a time limit. For an issue in no plan it cuts
 `feature/<issue>-<slug>` from main. It switches to the branch if it already exists, sets up
 a git worktree **iff** `start-change.worktree` is true, pushes, and writes `branch.json`.
 No agent (C8):
@@ -193,8 +194,10 @@ plan_branch|null, plan_branch_created }`.
 issue in no plan, `branch.json.base_sha` equals the current `origin/main` tip. For an issue
 in a plan, origin/main is an ancestor of `plan_branch`, and `base_sha` equals its tip.
 **SE-10 (F9/C9):** `plan.json` exists and was written by `resolve_plan.py` before the branch
-was cut, and its `source.ref` is `origin/main` (read from git, not the checkout); a stale local
-plan branch was deleted only when `setup_branch.py` exited 0; when `plan.json.plan_id` is set, `branch.json.branch_name` starts with
+was cut, and its `source.ref` is `origin/main` (read from git, not the checkout); when
+`source.fetched` is false, the delivery report says the plan was read from the last fetched
+copies; when `branch.json.stale_plan_branch` is set, its `tip` is an ancestor of `origin/main`
+(no commit was lost); when `plan.json.plan_id` is set, `branch.json.branch_name` starts with
 `plan/<plan_id>/` and `branch.json.plan_branch` is `plan/<plan_id>/base`.
 **SE-3 (F3/C3):** `git worktree list` shows a worktree for the branch **iff**
 `start-change.worktree` is true (present when on, absent when off).
@@ -337,7 +340,7 @@ The success scenarios and their evals (run in Step 6):
 | F6 | the close would report COMPLETED without the Done means held | evaluate the stop condition and surface the unmet clauses; the run closes HALTED until state is fixed | autonomous |
 | F7 | `validate_issue.py` exits non-zero on the proposed or created issue record | a human fixes the title (present, ≥15 chars, tagged) and/or completes the work description, then re-runs; the play never creates over a failed validation | human |
 | F8 | the mechanical branch work ran through an agent instead of `setup_branch.py` | route the cut/worktree/push through `setup_branch.py` and remove the agent dispatch | autonomous |
-| F9 | the plan was not read by `resolve_plan.py` from git, an issue in a plan got a branch outside `plan/<plan-id>/`, or a stale local plan branch was at risk | run `resolve_plan.py` and re-cut the branch with its names; an issue in two plans, or `setup_branch.py` stopping on a stale copy with commits found nowhere else or on an origin it could not reach, stops for a person (fix the plan files, push or move the commits, or run again when origin can be reached) | autonomous |
+| F9 | the plan was not read by `resolve_plan.py` from git, an issue in a plan got a branch outside `plan/<plan-id>/`, or a stale local plan branch was at risk | run `resolve_plan.py` and re-cut the branch with its names; an issue in two plans, or `setup_branch.py` stopping on a stale copy with commits found nowhere else or on an origin it could not reach, stops for a person (fix the plan files, push or move the commits, or run again when origin can be reached) | human |
 
 ## Pause and Resume
 
@@ -351,7 +354,7 @@ branch (C6, F5).
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:9fb6bc4dcb48944f44b9c4b55bf994078e631c6244c66e53fad70761d45e681c (of `reference/ice.md`) |
+| fingerprint | sha256:0fa5fd8f890321e7b822c13b64a1a91bcf063b69b87d598629a1eefb605abfb8 (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #731 plan branches; #779 plan read from git; #953 safe stale-branch delete) |
 | pipeline_position | start |
 | workflow_structure | B (fast execution flow) |
@@ -362,4 +365,4 @@ branch (C6, F5).
 | scripts | 7 (init_stm.py, preflight.py, session_stamp.py, check_stop_condition.py, validate_issue.py, setup_branch.py, resolve_plan.py) |
 | step_evals | 10 (SE-1…SE-10) |
 | scenario_evals | 7 (SCE-1…SCE-7) |
-| recovery_entries | 9 (one per failure condition; 8 autonomous / 1 human) |
+| recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
