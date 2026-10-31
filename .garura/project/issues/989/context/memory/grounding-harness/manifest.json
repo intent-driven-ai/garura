@@ -20,6 +20,13 @@
       "version": "c14f515d910f",
       "fingerprint": "sha256:3e6146ffc55060ae284a1bf02735442e0569c42c3fad9a26467c907f0b86170f",
       "copy": ".garura/project/issues/989/context/memory/grounding-harness/standards/rules/gate-config.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/loop-contract.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:5731bd3f35be8aa0aa6bc315ce59a41f39a63bfd9cd973b7ad90a40ac565530a",
+      "copy": ".garura/project/issues/989/context/memory/grounding-harness/standards/rules/loop-contract.md"
     }
   ]
 }
