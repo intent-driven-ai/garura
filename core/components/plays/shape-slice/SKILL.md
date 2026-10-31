@@ -1081,7 +1081,8 @@ deepened, the thin ICE, the hidden file, the intent page when this run wrote it,
 of questions with no proposed answer, the PR), and the **Next** line from the Next-line map
 (`$next_map`, from `template-manager`), per `play-close.md`; omit it when the map's command
 is null. Next Steps: run `/shape-plan <intent-issue>` to make the plan, the epic and the stories
-for this slice. End with a
+for this slice; when the intent already has a plan, run `/update-plan <intent-issue>` to add this
+slice's epic and stories to it. End with a
 pointer to `$evidence_dest`. Always emitted; never gated.
 
 ```bash
