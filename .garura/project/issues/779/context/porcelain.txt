@@ -1,16 +1,18 @@
- M .garura/product/product-os/features/fn-673/feature.md
- M .garura/project/plans/717.yaml
+ M .garura/product/product-os/_spine.yaml
+ M .garura/project/issues/779/context/porcelain.txt
+ M .garura/project/issues/779/review/findings.yaml
+ M .garura/project/issues/779/specs/design.md
+ M core/components/plays/create-play/references/merge_pr.py
  M core/components/plays/create-play/references/resolve_plan.py
  M core/components/plays/create-play/references/setup_branch.py
- M core/components/plays/create-play/references/test_merge_plan.py
  M core/components/plays/create-play/references/test_resolve_plan.py
  M core/components/plays/create-play/references/test_setup_branch.py
- M core/components/plays/merge-change/SKILL.md
- M core/components/plays/merge-change/reference/ice.md
+ M core/components/plays/merge-change/scripts/merge_pr.py
  M core/components/plays/start-change/SKILL.md
  M core/components/plays/start-change/reference/ice.md
  M core/components/plays/start-change/scripts/resolve_plan.py
  M core/components/plays/start-change/scripts/setup_branch.py
-?? .garura/project/issues/779/context/lines-request.json
-?? .garura/project/issues/779/context/model-fn-673.json
-?? .garura/project/issues/779/context/porcelain.txt
+?? .garura/project/issues/779/context/link-request-fn-673.json
+?? .garura/project/issues/779/context/memory/
+?? .garura/project/issues/779/context/model-fn-673-spine.json
+?? .garura/project/issues/779/context/templates/

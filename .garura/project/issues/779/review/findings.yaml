@@ -21,6 +21,7 @@ findings:
     Fix: add a case that points push at a refused remote (a pre-receive hook that exits 1, or a read-only bare origin) and
     assert exit 1 and the message.'
   category: harness
+  outcome: fixed
 - id: HS2
   severity: P3
   file: core/components/plays/start-change/SKILL.md
@@ -37,6 +38,7 @@ findings:
     is an ancestor of origin/main or of origin''s last-known plan branch, and that the report names source.fetched when it
     is false.'
   category: harness
+  outcome: fixed
 - id: HS3
   severity: P3
   file: core/components/plays/start-change/reference/ice.md
@@ -50,6 +52,7 @@ findings:
     the run stops and names the commits that would be lost''. The one-person-stop in REC9 existed before; this change adds
     two. Fix: split REC9 into an autonomous re-cut and a human stop, or mark the handoff human, and recount the metadata.'
   category: harness
+  outcome: fixed
 - id: HS4
   severity: P4
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -63,6 +66,7 @@ findings:
     3: a script that is exact about its arguments. Suggested later: exit 2 when ls-tree fails on a ref that exists and the
     folder is expected.'
   category: harness
+  outcome: fixed
 - id: HS5
   severity: P4
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -76,6 +80,7 @@ findings:
     P4 out of scope. Harness standard principle 6 (nothing is blocked) argues for continuing, so no change is asked now. Recorded
     so a later round can decide whether fetched false plus plan null should stop for a person.'
   category: harness
+  outcome: skipped
 - id: HS6
   severity: P4
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -87,6 +92,7 @@ findings:
   basis: 'Gap outside the approved design (it covers the safety check and the pushes, not the delete''s own result): P4 out
     of scope. Harness standard principle 3 (exact script, same answer every time).'
   category: harness
+  outcome: fixed
 - id: HS7
   severity: P4
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -97,6 +103,7 @@ findings:
   basis: 'Gap outside the approved design: P4 out of scope. Harness standard principle 3 (a script gives the same answer every
     time).'
   category: harness
+  outcome: fixed
 - id: HS8
   severity: P4
   file: core/components/plays/merge-change/scripts/merge_pr.py
@@ -109,6 +116,7 @@ findings:
     agree). The same sentence in merge-change SCE-1 and ICE S1 (''records commit exists on main'') is right, because S1 is
     a one-off fix that lands on main.'
   category: harness
+  outcome: fixed
 - id: DM-1
   severity: P3
   file: .garura/product/product-os/_spine.yaml
@@ -124,6 +132,7 @@ findings:
     a reader of the spine sees the old rule.'
   follow_up: Outside the approved design and outside the diff. Record as an issue; fix through product-os-keeper.
   category: model
+  outcome: fixed
 - id: DM-2
   severity: P3
   file: .garura/product/product-os/capabilities/cap-721/capability.md
@@ -139,6 +148,7 @@ findings:
   bucket_reason: 'P3 minor: stale model text outside the changed page; same effect as DM-1 one level up.'
   follow_up: Outside the approved design and outside the diff. Record as an issue; fix through product-os-keeper.
   category: model
+  outcome: skipped
 - id: DM-3
   severity: P4
   file: .garura/product/product-os/features/fn-673/feature.md
@@ -152,6 +162,7 @@ findings:
   bucket_reason: 'P4 nit: there before the change, a model-wide shape matter, nothing here makes it worse.'
   follow_up: None for this change; the Alignment drive owns it.
   category: model
+  outcome: skipped
 - id: Q01
   severity: P2
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -162,6 +173,7 @@ findings:
   basis: ARCH-02
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q02
   severity: P2
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -173,6 +185,7 @@ findings:
   basis: CODE-03
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q03
   severity: P2
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -183,6 +196,7 @@ findings:
   basis: CODE-04
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q04
   severity: P2
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -193,6 +207,7 @@ findings:
   basis: CODE-14
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q05
   severity: P3
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -204,6 +219,7 @@ findings:
   basis: ARCH-03
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q06
   severity: P3
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -215,6 +231,7 @@ findings:
   basis: ARCH-08
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q07
   severity: P3
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -226,6 +243,7 @@ findings:
   basis: CODE-09
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q08
   severity: P3
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -237,6 +255,7 @@ findings:
   basis: CODE-10
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q09
   severity: P3
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -247,6 +266,7 @@ findings:
   basis: CODE-11
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q10
   severity: P3
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -257,6 +277,7 @@ findings:
   basis: CODE-12
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q11
   severity: P3
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -268,6 +289,7 @@ findings:
   basis: CODE-15
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q12
   severity: P3
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -278,6 +300,7 @@ findings:
   basis: CODE-17
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q13
   severity: P3
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -290,6 +313,7 @@ findings:
   basis: CODE-25
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q14
   severity: P4
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -300,6 +324,7 @@ findings:
   basis: CODE-13
   artifact_type: garura-prose
   category: quality
+  outcome: skipped
 - id: Q15
   severity: P4
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -310,6 +335,7 @@ findings:
   basis: CODE-19
   artifact_type: garura-prose
   category: quality
+  outcome: skipped
 - id: Q16
   severity: P3
   file: core/components/plays/create-play/references/setup_branch.py
@@ -321,6 +347,7 @@ findings:
   basis: ARCH-08
   artifact_type: garura-prose
   category: quality
+  outcome: no_change_needed
 - id: Q17
   severity: P3
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -334,6 +361,7 @@ findings:
   basis: CODE-25
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q18
   severity: P3
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -348,6 +376,7 @@ findings:
   basis: CODE-25
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q19
   severity: P2
   file: core/components/plays/start-change/scripts/resolve_plan.py
@@ -361,6 +390,7 @@ findings:
   basis: BE-12
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q20
   severity: P4
   file: core/components/plays/start-change/scripts/setup_branch.py
@@ -373,6 +403,7 @@ findings:
   basis: CODE-25
   artifact_type: garura-prose
   category: quality
+  outcome: fixed
 - id: Q21
   severity: P3
   file: core/components/plays/create-play/references/test_setup_branch.py
@@ -386,3 +417,4 @@ findings:
   basis: TEST-03
   artifact_type: garura-prose
   category: quality
+  outcome: fixed

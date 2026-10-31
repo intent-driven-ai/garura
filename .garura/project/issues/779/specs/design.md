@@ -47,3 +47,17 @@ own branch first (for example #1001 and #1002 were on plan/717/base's 717.yaml, 
 
 commit, propose, check; reinstall from the branch before the merge (promote only if a memory
 file changed); merge on the product owner's word; #779 and #953 Done in plan 717 inside the change.
+
+## Changed after the PR #1010 review (round 1)
+
+- #953 item 1 narrowed: a stale plan branch is deleted only when every commit on it is on main.
+  The second leg ("or was on origin's plan branch before it was deleted") lost commits when a
+  pushed plan branch was deleted on origin without a merge (finding Q18). This is the rule #953
+  itself asked for.
+- Calls to origin never prompt and give up after a time limit; a failed delete stops the run;
+  branch.json records the stale delete; the plans folder may be given absolute or from a
+  sub-folder (Q17, Q19, Q20, HS2, HS4, HS6, HS7). REC9's handoff is a person's (HS3).
+- The fn-673 page's Fails if and Checked by lines changed too (they stated the same old rule),
+  and its model index one-line follows the new title (DM-1).
+- Recorded for the product owner, not changed here: the #721 capability page still states the
+  old landing rule (DM-2).
