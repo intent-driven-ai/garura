@@ -1,77 +1,68 @@
 ---
-# assess-changes output (round 1 grouping judgment) for the /commit-change loop
-# branch: plan/717/989-plan-branch-start-and-propose
+# assess-changes output (round 2, grouping judgment done)
+# issue: 989
 needs_judgment: false
-branch: plan/717/989-plan-branch-start-and-propose
-issue: 989
 
 change_groups:
-  - id: feat-start-change-plan-start
-    issue: 989
-    commit_type: feat
-    scope: start-change
-    subject: "start the change the person typed, start a plan on its own, and cut a plan's branch main first"
-    confidence: high
-    files:
-      - core/components/plays/start-change/SKILL.md
-      - core/components/plays/start-change/reference/ice.md
-      - core/components/plays/start-change/stop-condition.yaml
-      - core/components/plays/start-change/stop-condition-plan.yaml
-      - core/components/plays/start-change/scripts/resolve_args.py
-      - core/components/plays/start-change/scripts/check_plan_start.py
-      - core/components/plays/start-change/scripts/setup_branch.py
-      - core/components/plays/start-change/scripts/test_start_change.py
-      - core/components/plays/create-play/references/setup_branch.py
-      - core/tools/plan/plan_branch.py
-      - core/tools/plan/test_plan_branch.py
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "#989. Includes the master copy of setup_branch.py (create-play/references) so both copies stay equal, and the plan tool's stale-copy rule (#953) with its tests, which setup_branch.py now calls."
-
-  - id: feat-plan-land-propose-merge
+  - id: drop-plan-land
     issue: 991
-    commit_type: feat
+    commit_type: revert
     scope: plan-land
-    subject: "ask Status and Direction when a plan's branch is raised, and check the plan file before and after the merge"
-    confidence: high
+    subject: "take the plan-land work out of this change"
     files:
-      - core/tools/plan/plan_land.py
-      - core/tools/plan/test_plan_land.py
       - core/components/plays/propose-change/SKILL.md
       - core/components/plays/propose-change/reference/ice.md
       - core/components/plays/merge-change/SKILL.md
       - core/components/plays/merge-change/reference/ice.md
-      - core/tools/plan/README.md
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "#991. The plan tool README covers both issues (stale-copy rule for #989, plan_land.py for #991); it sits here because this commit comes second, so the README never describes a script that is not yet committed, and its largest new section is plan_land.py."
+      - core/tools/plan/plan_land.py
+      - core/tools/plan/test_plan_land.py
 
-  - id: docs-design-989
+  - id: start-change-round-2-fixes
+    issue: 989
+    commit_type: fix
+    scope: start-change
+    subject: "cut a plan branch with nothing to commit on main, and start an issue in a Done or Dropped plan off main"
+    files:
+      - core/tools/plan/plan_branch.py
+      - core/tools/plan/test_plan_branch.py
+      - core/tools/plan/README.md
+      - core/components/plays/create-play/references/resolve_plan.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+      - core/components/plays/create-play/references/test_setup_branch.py
+      - core/components/plays/start-change/scripts/resolve_plan.py
+      - core/components/plays/start-change/scripts/check_plan_start.py
+      - core/components/plays/start-change/scripts/test_start_change.py
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/start-change/reference/ice.md
+
+  - id: design-round-2
     issue: 989
     commit_type: docs
     scope: design
-    subject: "record the approved design for starting a plan's work and landing a plan's branch"
-    confidence: high
+    subject: "record the dropped plan-land work and the round 2 fixes in the design"
     files:
       - .garura/project/issues/989/specs/design.md
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "Design file for #989 and #991, approved by the product owner on 2026-10-31."
 
 exclusions:
   - path: ".garura/project/issues/989/context/porcelain.txt"
     reason: "run state, committed by the executor's final group"
     blocking: false
-  - path: ".garura/project/issues/989/context/templates/"
+  - path: ".garura/project/issues/989/context/analysis.yaml"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+  - path: ".garura/project/issues/989/context/templates/manifest-check-change.json"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+  - path: ".garura/project/issues/989/context/memory/"
     reason: "run state, committed by the executor's final group"
     blocking: false
 
 risks:
-  sensitive_files: []
+  sensitive_files:
+    - path: ".garura/project/issues/989/context/memory/standards/rules/pr.md"
+      match: 'password\s*=' # copied severity taxonomy; lists secret patterns on purpose, so non-blocking
+      blocking: false
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "grouped by issue: 989 (start-change, plan tool branch script, design) and 991 (plan_land, propose-change, merge-change, README); every porcelain path placed once or excluded as run state"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched in the changed files"}
+  SE-1: {status: PASS, evidence: "3 groups by concern; every changed file from the porcelain is in exactly one group or in exclusions"}
+  SE-5: {status: PASS, evidence: "the one content match is in a copied standards/prose artifact, listed non-blocking"}
