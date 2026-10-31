@@ -55,7 +55,7 @@ agent (C8). This play uses **zero domain agents**.
 | Git repository present | C2 | Hard halt |
 | Platform CLI available (`gh`) | C1 | Hard halt |
 | Read `start-change.worktree` flag (default `false`) | C3 | — |
-| Read `plans.base-path` (default `.garura/project/plans/`); a plan is read from git at the latest main and the plan's own branch, never the checkout | C9 | — |
+| The plan files' folder is the resolver's `plans_base` (`plans.base-path`, default `.garura/project/plans/`); a plan is read from git at the latest main and the plan's own branch, never the checkout | C9 | — |
 | Resume marker check for this issue's start-change | C6 | Resume |
 
 Resolve the deterministic pre-flight facts with the bundled resolver — not by inference. The
@@ -67,7 +67,7 @@ python3 scripts/preflight.py --play start-change \
 ```
 
 It returns the facts as JSON — `stm_base`, `worktree` (the `start-change.worktree` flag,
-absent ⇒ false), `branch`, `issue` (null when starting fresh), `on_default_branch`,
+absent ⇒ false), `plans_base` (the plan files' folder), `branch`, `issue` (null when starting fresh), `on_default_branch`,
 `evidence_record`, `ltm_project_target`. The orchestrator holds these for every later path;
 the table keeps the policy. The live checks (git repo present, `gh` available) stay as the
 orchestrator's environment reads, not the resolver.
@@ -154,7 +154,7 @@ to a human (REC7); no issue exists over a failed validation.
 First read which plan the issue sits in, from the plan files — never guess it (C9):
 
 ```
-python3 scripts/resolve_plan.py --plans-dir "<plans.base-path>" \
+python3 scripts/resolve_plan.py --plans-dir "<pre-flight plans_base>" \
     --issue <issue_number> --slug <slug> --out "<working>/plan.json"
 ```
 
