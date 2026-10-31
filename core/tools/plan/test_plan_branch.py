@@ -112,6 +112,74 @@ class PlanBranchTest(unittest.TestCase):
         self.assertEqual(self.branch(), "plan/50/base")
         self.assertEqual(out(["git", "rev-parse", "main"], self.repo), main_before)  # no second main commit
 
+    def land_and_delete_on_remote(self):
+        """The plan paused: its branch merged into main with an empty branch field, and was
+        deleted on the remote; the copy here stays."""
+        sh(["git", "checkout", "--quiet", "plan/50/base"], self.repo)
+        with open(os.path.join(self.repo, "plans/50.yaml"), encoding="utf-8") as fh:
+            text = fh.read()
+        self.write("plans/50.yaml", text.replace("status: In Progress\nbranch: plan/50/base\n",
+                                                 "status: Paused\nbranch:\n"))
+        sh(["git", "commit", "--quiet", "-am", "pause"], self.repo)
+        sh(["git", "push", "--quiet", "origin", "plan/50/base"], self.repo)
+        sh(["git", "checkout", "--quiet", "main"], self.repo)
+        sh(["git", "merge", "--quiet", "--no-ff", "-m", "land", "plan/50/base"], self.repo)
+        sh(["git", "push", "--quiet", "origin", "main"], self.repo)
+        sh(["git", "push", "--quiet", "origin", "--delete", "plan/50/base"], self.repo)
+
+    def test_a_stale_copy_on_main_is_deleted_and_the_plan_cut_fresh(self):
+        self.go()
+        self.land_and_delete_on_remote()
+        old_tip = out(["git", "rev-parse", "plan/50/base"], self.repo)
+        code, rec = self.go()
+        self.assertEqual((code, rec["action"]), (0, "cut"))
+        self.assertEqual(rec["stale"], {"deleted": True, "tip": old_tip, "on_main": True})
+        self.assertEqual(out(["git", "rev-parse", "plan/50/base"], self.repo),
+                         out(["git", "rev-parse", "origin/main"], self.repo))
+        self.assertIn("status: In Progress\nbranch: plan/50/base\n",
+                      out(["git", "show", "origin/main:plans/50.yaml"], self.repo) + "\n")
+
+    def test_a_stale_copy_with_commits_not_on_main_is_kept(self):
+        self.go()
+        self.land_and_delete_on_remote()
+        sh(["git", "checkout", "--quiet", "plan/50/base"], self.repo)
+        self.write("notes.txt", "only here\n")
+        sh(["git", "add", "notes.txt"], self.repo)
+        sh(["git", "commit", "--quiet", "-m", "only here"], self.repo)
+        tip = out(["git", "rev-parse", "plan/50/base"], self.repo)
+        main_before = out(["git", "rev-parse", "origin/main"], self.repo)
+        code, rec = self.go()
+        self.assertEqual((code, rec["action"]), (2, "stop"))
+        self.assertTrue(any("only here" in line for line in rec["files"]))
+        self.assertEqual(out(["git", "rev-parse", "plan/50/base"], self.repo), tip)
+        self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_before)
+
+    def gone_without_its_file_changed(self):
+        """The branch was deleted on the remote and here, and main's plan file still reads In
+        Progress on it (the older flow)."""
+        self.go()
+        sh(["git", "checkout", "--quiet", "main"], self.repo)
+        sh(["git", "pull", "--quiet", "--ff-only", "origin", "main"], self.repo)
+        sh(["git", "branch", "--quiet", "-D", "plan/50/base"], self.repo)
+        sh(["git", "push", "--quiet", "origin", "--delete", "plan/50/base"], self.repo)
+
+    def test_a_cut_with_nothing_to_commit_on_main_cuts_from_main_s_tip(self):
+        self.gone_without_its_file_changed()
+        main_before = out(["git", "rev-parse", "origin/main"], self.repo)
+        code, rec = self.go()
+        self.assertEqual((code, rec["action"], rec["main_written"], rec["main_commit"]), (0, "cut", False, main_before))
+        self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_before)
+        self.assertEqual(out(["git", "rev-parse", "origin/plan/50/base"], self.repo), main_before)
+
+    def test_abort_of_a_cut_with_nothing_on_main_only_deletes_the_branch(self):
+        self.gone_without_its_file_changed()
+        main_before = out(["git", "rev-parse", "origin/main"], self.repo)
+        self.go()
+        self.assertEqual(self.abort(), 0)
+        self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_before)
+        self.assertFalse(plan_branch.has_ref("plan/50/base", self.repo))
+        self.assertFalse(plan_branch.has_ref("origin/plan/50/base", self.repo))
+
     def test_stop_on_uncommitted_work(self):
         self.write("notes.txt", "draft\n")
         head = out(["git", "rev-parse", "HEAD"], self.repo)

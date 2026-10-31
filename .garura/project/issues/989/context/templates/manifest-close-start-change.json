@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/989/context/templates/manifest-close-start-change.json"
+  },
+  "templates": [
+    {
+      "name": "standards/templates/delivery-report.md",
+      "copy": ".garura/project/issues/989/context/templates/standards/templates/delivery-report.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/templates/delivery-report.md",
+        "version": "c14f515d910f",
+        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
+      }
+    },
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/989/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "c14f515d910f",
+        "fingerprint": "sha256:b76c52d6e15aaa17e5ea20d161ccb76b0f3b784bfde3b721cb5285cd5e4a3c65"
+      }
+    }
+  ],
+  "missing": [],
+  "task_id": "load-close-templates",
+  "error": null
+}

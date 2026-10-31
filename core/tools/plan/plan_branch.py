@@ -16,6 +16,11 @@ moves a session onto the plan's branch, and back again at the end:
   - when anything is uncommitted (a changed, staged or new file outside the --ignore folders; a
     staged file always counts): it stops, names the files and changes nothing (exit 3). The
     person cleans up;
+  - a copy of the plan's branch that is here but gone on the remote (the plan paused, merged into
+    main and its branch was deleted) is deleted when every commit on it is on main, and the plan
+    is then cut fresh as below; when it holds a commit that is not on main, it stops, keeps the
+    copy and names the commits (exit 2, #953). A call to the remote never prompts and gives up
+    after a time limit;
   - else, on the plan's branch already: it stays (and takes the remote's new commits, fast-forward
     only);
   - else, when the plan's branch exists (here or on the remote): it switches to it;
@@ -38,8 +43,12 @@ and it finds main's revert of the cut, skips the revert and only deletes. When `
 switched, the plan's branch is left as it is. Uncommitted work outside the --ignore folders stops it (exit 3).
 
 The record: {action: stay|switch|cut|stop|back|abort, plan, plan_branch, start_branch, back_to,
-main_commit, files, error}. Exit 0 done; 2 bad input or a git step failed (the error is named);
-3 stopped on uncommitted work. Users: /update-plan (#730), and start-change once #989 is built.
+main_commit, main_written, files, error, stale: null | {deleted, tip, on_main}}. When main's plan file
+already reads In Progress on the branch, `go` writes nothing on main (`main_written: false`) and
+cuts the branch from main's tip; `abort` then only deletes the branch. Exit 0 done; 2 bad input, a
+git step failed, or a stale copy holds commits not on main (the error is named); 3 stopped on
+uncommitted work. Users: /update-plan (#730), and start-change (#989): `/start-change plan <id>`,
+and the cut of a plan's branch for the first story of a plan with no branch.
 """
 
 import argparse
@@ -54,6 +63,8 @@ import yaml
 
 DEFAULT_PLANS = os.path.join(".garura", "project", "plans")
 CLOSED = {"Done", "Dropped"}
+TIME_LIMIT = 120  # seconds for one git call
+NO_PROMPT = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
 
 
 class Stop(Exception):
@@ -64,9 +75,14 @@ class Stop(Exception):
 
 
 def git(args, repo, check=True):
-    """Run git; retry while another git process holds the index lock."""
+    """Run git; retry while another git process holds the index lock. A call never prompts and
+    gives up after TIME_LIMIT seconds, so a stalled origin is a stop, never a hang (#953)."""
     for attempt in range(8):
-        done = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True)
+        try:
+            done = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True,
+                                  timeout=TIME_LIMIT, env=NO_PROMPT)
+        except subprocess.TimeoutExpired:
+            done = subprocess.CompletedProcess(args, 124, "", f"gave up after {TIME_LIMIT} seconds")
         if done.returncode == 0 or "index.lock" not in done.stderr:
             break
         time.sleep(2)
@@ -142,16 +158,19 @@ def go(args):
     repo, plan = args.repo, str(args.plan)
     plan_branch = f"plan/{plan}/base"
     rec = {"action": None, "plan": plan, "plan_branch": plan_branch, "start_branch": None,
-           "back_to": None, "main_commit": None, "files": [], "error": None}
+           "back_to": None, "main_commit": None, "main_written": None, "files": [], "error": None,
+           "stale": None}
     start = current_branch(repo)
     rec["start_branch"] = start
     remote = has_remote(args.remote, repo)
     if remote:
-        git(["fetch", "--quiet", args.remote], repo)
+        git(["fetch", "--quiet", "--prune", args.remote], repo)
     files = uncommitted(repo, args.ignore)
     if files:
         raise Stop(f"{start} has uncommitted work; commit or clean it, then run again", 3, files)
-    if start == plan_branch:
+    if remote and has_ref(plan_branch, repo) and not has_ref(f"{args.remote}/{plan_branch}", repo):
+        rec["stale"] = drop_stale(plan_branch, start, args, repo)
+    if current_branch(repo) == plan_branch:
         pull(plan_branch, args.remote, repo)
         rec["action"] = "stay"
         return rec
@@ -184,15 +203,20 @@ def go(args):
             raise Stop(f"the plan file {path} on {args.main} cannot be read: {str(e).splitlines()[0]}")
         if status in CLOSED:
             raise Stop(f"plan {plan} is {status} on {args.main}; a person sets its status before work starts again")
-        with open(full, "w", encoding="utf-8", newline="") as fh:
-            fh.write(set_fields(text, plan_branch))
-        git(["add", "--", path], repo)
-        # Only the plan file goes into this commit, whatever else is staged.
-        git(["commit", "--quiet", "-m",
-             f"chore(plan): plan {plan} — In Progress on {plan_branch} (#{plan})", "--", path], repo)
-        committed = True
+        new = set_fields(text, plan_branch)
+        rec["main_written"] = new != text
+        if rec["main_written"]:
+            with open(full, "w", encoding="utf-8", newline="") as fh:
+                fh.write(new)
+            git(["add", "--", path], repo)
+            # Only the plan file goes into this commit, whatever else is staged.
+            git(["commit", "--quiet", "-m",
+                 f"chore(plan): plan {plan} — In Progress on {plan_branch} (#{plan})", "--", path], repo)
+            committed = True
+        # Main already reads In Progress on the branch (a branch gone without its file changed):
+        # nothing to commit, and the branch is cut from main's tip.
         rec["main_commit"] = git(["rev-parse", "HEAD"], repo).stdout.strip()
-        if remote:
+        if remote and committed:
             git(["push", "--quiet", args.remote, args.main], repo)
     except Stop:
         if committed:
@@ -212,6 +236,22 @@ def go(args):
             # record keeps the cut, so `abort` can undo it, and names what is missing.
             rec["error"] = f"{plan_branch} is cut here but not pushed: {(pushed.stderr or '').strip()}"
     return rec
+
+
+def drop_stale(plan_branch, start, args, repo):
+    """A plan branch gone on the remote but still here (the plan paused, merged into main and its
+    branch was deleted): delete it when every commit on it is on main, so the plan is cut fresh;
+    otherwise stop, keep it and name the commits that are not on main (#953)."""
+    tip = git(["rev-parse", plan_branch], repo).stdout.strip()
+    on_main = f"{args.remote}/{args.main}"
+    if git(["merge-base", "--is-ancestor", plan_branch, on_main], repo, check=False).returncode != 0:
+        extra = git(["log", "--oneline", plan_branch, "--not", on_main], repo).stdout.splitlines()
+        raise Stop(f"{plan_branch} is gone on {args.remote}, but the copy here has commits that are "
+                   f"not on {args.main}; it was kept. Push or move them, then run again", 2, extra)
+    if start == plan_branch:
+        git(["checkout", "--quiet", args.main], repo)
+    git(["branch", "--quiet", "-D", plan_branch], repo)
+    return {"deleted": True, "tip": tip, "on_main": True}
 
 
 def back(repo, branch):
@@ -245,7 +285,9 @@ def abort(args, rec):
         if git(["merge-base", "--is-ancestor", cut, "HEAD"], repo, check=False).returncode != 0:
             raise Stop(f"{args.main} does not hold the cut {cut[:7]}; nothing is undone")
         done = reverted_already(cut, repo)
-        if done:  # an earlier abort reverted the cut and stopped before the delete
+        if rec.get("main_written") is False:
+            pass  # the cut wrote nothing on main: there is nothing to revert, only the branch
+        elif done:  # an earlier abort reverted the cut and stopped before the delete
             out["reverted"] = done
         else:
             if git(["revert", "--no-edit", cut], repo, check=False).returncode != 0:

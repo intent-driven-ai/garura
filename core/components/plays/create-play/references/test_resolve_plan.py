@@ -122,6 +122,12 @@ def main():
         check("an issue in two plans is an error, not a guess", rp.main(["--plans-dir", d, "--issue", "731", "--slug", "x", "--local"]) == 2)
         os.remove(os.path.join(d, "800.yaml"))
         check("the command exits 0 for a found issue", rp.main(["--plans-dir", d, "--issue", "724", "--slug", "x", "--local"]) == 0)
+        for closed in ("Done", "Dropped"):
+            write(d, "722.yaml", {"id": 722, "status": closed, "tree": [{"issue": 723, "children": [{"issue": 724}]}]})
+            r = rp.resolve(rp.plans_on_disk(d), 724, "late-bug")
+            check(f"an issue in a {closed} plan starts off main, naming the closed plan",
+                  r["plan_id"] is None and r["issue_branch"] == "feature/724-late-bug" and r["closed_plan"] == "722")
+        check("an issue in an open plan names no closed plan", rp.resolve(rp.plans_on_disk(d), 731, "x")["closed_plan"] is None)
     with tempfile.TemporaryDirectory() as d:
         check("an empty plans folder means no plan", rp.resolve(rp.plans_on_disk(d), 5, "x")["plan_id"] is None)
     cfg = {}

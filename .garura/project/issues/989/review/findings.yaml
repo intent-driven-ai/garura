@@ -1,0 +1,89 @@
+pr: 1016
+issue: 989
+round: 2
+counts:
+  P1: 0
+  P2: 1
+  P3: 6
+  P4: 3
+findings:
+- id: N1
+  severity: P2
+  file: core/components/plays/start-change/stop-condition-plan.yaml (whole file); SKILL.md lines 32, 494; reference/ice.md
+    lines 195-205
+  line: null
+  summary: null
+  basis: 'G3 and G7: what is baked to a play is emitted by the compiler from the ICE, so a rebuild reproduces it; the Standard
+    Play Close checks the play''s one manifest'
+  category: harness
+- id: N2
+  severity: P3
+  file: core/components/plays/start-change/reference/ice.md lines 56-58 (C9), 103-107 (F9), 232-238 (REC9); SKILL.md line
+    244 (SE-10) and line 473 (F9 row)
+  line: null
+  summary: null
+  basis: G3 (the compiled play carries one recovery per failure condition; the ICE is what was agreed)
+  category: harness
+- id: N3
+  severity: P3
+  file: 'core/components/plays/start-change/reference/ice.md lines 34-40 (C10), 169-172 (S11); SKILL.md lines 66, 87-102.
+    Callers not in the diff: core/components/loops/_shared/loop-run.md line 61, core/components/loops/complete-discovery/SKILL.md
+    lines 124-125'
+  line: null
+  summary: null
+  basis: G8 (callers of start-change are written by their own files; a guarantee that changes for callers is stated there),
+    and harness principle 1 (people run loops)
+  category: harness
+- id: N4
+  severity: P3
+  file: core/components/plays/start-change/SKILL.md lines 87-91
+  line: null
+  summary: null
+  basis: G1 (a mechanical step gives the same answer every time; a script step must not depend on how the text is quoted)
+  category: harness
+- id: Q-01
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 157
+  summary: null
+  basis: 'CODE-09 (P3, complexity-score). go(): cyclomatic complexity 17 (ruff C901 limit 10). 15 at plan/717/base, so this
+    PR adds 2 (the stale-copy and main-already-In-Progress branches). Borderline, and it keeps growing.'
+  category: executable-code
+- id: Q-02
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 157
+  summary: null
+  basis: CODE-10 (P3, line-count). go() is 82 lines (157-238), 67 statements (PLR0915 limit 50); 62 statements at base. The
+    longest function in the PR's code.
+  category: executable-code
+- id: Q-03
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 262
+  summary: null
+  basis: 'CODE-09 (P3, complexity-score). abort(): complexity 18; 17 at base. This PR adds one (the main_written is False
+    branch, line 288).'
+  category: executable-code
+- id: N5
+  severity: P4
+  file: core/components/plays/start-change/SKILL.md lines 153-156; scripts/resolve_args.py lines 101-104
+  line: null
+  summary: null
+  basis: G1 and G3 (every file a step names has a writer; the SKILL says what the ICE agreed)
+  category: harness
+- id: N6
+  severity: P4
+  file: core/components/plays/start-change/SKILL.md lines 421-424 (Step C1) and 386-387 (SE-7)
+  line: null
+  summary: null
+  basis: G9 (a run with no issue uses the play's own base and its own values)
+  category: harness
+- id: N7
+  severity: P4
+  file: core/components/plays/start-change/SKILL.md lines 205-213; scripts/resolve_plan.py line 26 and create-play/references/resolve_plan.py
+    line 26 (docstring); reference/ice.md lines 34-40 and 50-68
+  line: null
+  summary: null
+  basis: G3 and G5
+  category: harness

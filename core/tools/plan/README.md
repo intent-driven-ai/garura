@@ -57,7 +57,12 @@ branch, switches to it, or — for a plan with no branch — sets main's plan fi
 the branch named, commits that on main, and cuts the branch from it. `back` returns to the branch
 the session started on. `abort` undoes a branch the session cut (deletes it, and reverts main's
 plan file commit) when nothing else has landed on it, then goes back; a second `abort` finishes
-one that stopped after the revert (a refused delete). Used by `/update-plan` (#730), and by `start-change` once #989 is built.
+one that stopped after the revert (a refused delete). A copy of the plan's branch that is gone
+on the remote is deleted and cut fresh only when every commit on it is on main; otherwise it stops
+and names the commits (#953). When main's plan file already reads In Progress on the branch, there
+is nothing to commit on main and the branch is cut from main's tip. Used by `/update-plan` (#730),
+and by `start-change` (#989): `/start-change plan <id>`, and the first story of a plan with no
+branch.
 
 ## Setting an item's status from its own issue
 
@@ -70,6 +75,7 @@ item already at that status is left as it is. Used by `merge-change` when it clo
 landed on its plan's branch.
 
 An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
-users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`.
+users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`
+(#989).
 
 Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status` from this folder.

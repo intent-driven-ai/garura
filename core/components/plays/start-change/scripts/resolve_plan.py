@@ -24,8 +24,10 @@ the script runs in; a folder outside the repository is an error. `--local` reads
 folder on disk instead (a plans folder outside git, and the tests).
 
 Prints { issue, plan_id, plan_branch, issue_branch, source }; plan_id and plan_branch are null
-for an issue in no plan. `source` names the ref read, whether the fetch worked, and each plan
-branch read. Exit 0 found or not found, 2 when a plan file cannot be read, when `--ref` does
+for an issue in no plan. An issue in a plan that main marks Done or Dropped (a bug found after
+the plan closed) is an issue in no plan: it gets `feature/<issue>-<slug>` off main, and the record
+names the plan in `closed_plan` (#989) — a closed plan's branch is never cut. `source` names the
+ref read, whether the fetch worked, and each plan branch read. Exit 0 found or not found, 2 when a plan file cannot be read, when `--ref` does
 not exist, or when the issue sits in more than one plan. No network beyond the fetch, no LLM.
 """
 import argparse
@@ -111,6 +113,9 @@ def holds(plan, name, issue):
     return pid, issue == pid or issue in set(issues_in(plan.get("tree")))
 
 
+CLOSED = ("Done", "Dropped")
+
+
 def resolve(plans, issue, slug, branch_plans=None):
     """plans: {file name: plan} as main has them; branch_plans: {file name: plan} from each
     plan's own branch, read where it exists. An issue in either copy belongs to the plan."""
@@ -125,11 +130,12 @@ def resolve(plans, issue, slug, branch_plans=None):
     if len(found) > 1:
         raise ValueError(f"issue {issue} sits in more than one plan: {', '.join(found)}")
     pid = found[0] if found else None
-    if pid:
+    status = next((p.get("status") for n, p in plans.items() if holds(p, n, issue)[0] == pid), None)
+    if pid and status not in CLOSED:
         return {"issue": issue, "plan_id": pid, "plan_branch": f"plan/{pid}/base",
-                "issue_branch": f"plan/{pid}/{issue}-{slug}"}
+                "issue_branch": f"plan/{pid}/{issue}-{slug}", "closed_plan": None}
     return {"issue": issue, "plan_id": None, "plan_branch": None,
-            "issue_branch": f"feature/{issue}-{slug}"}
+            "issue_branch": f"feature/{issue}-{slug}", "closed_plan": pid}
 
 
 def resolve_from_git(repo, plans_dir, issue, slug, ref="origin/main"):

@@ -11,6 +11,10 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.path.join(HERE, "setup_branch.py")
+# The plan tool cuts a plan's branch, main first (#989, ADR 061); the dev test uses its source copy.
+PLAN_TOOL = os.path.join(HERE, "..", "..", "..", "..", "tools", "plan", "plan_branch.py")
+PLAN_ARGS = ["--plan-tool", PLAN_TOOL, "--plans-dir", "plans"]
+PLAN_717 = "id: 717\ntitle: Plans\nstatus: Not Started\ndirection: 1\nbranch:\ntree: []\n"
 PASSED = 0
 FAILED = 0
 
@@ -37,7 +41,7 @@ def commit(cwd, name):
 
 
 def run(cwd, out, *args):
-    p = subprocess.run([sys.executable, SCRIPT, *args, "--out", out], cwd=cwd, capture_output=True, text=True)
+    p = subprocess.run([sys.executable, SCRIPT, *args, *PLAN_ARGS, "--out", out], cwd=cwd, capture_output=True, text=True)
     return p.returncode, (json.load(open(out)) if p.returncode == 0 else None)
 
 
@@ -48,13 +52,22 @@ def main():
         subprocess.run(["git", "clone", "-q", origin, work], capture_output=True)
         git(work, "config", "user.email", "t@t"); git(work, "config", "user.name", "t")
         git(work, "checkout", "-q", "-b", "main")
-        commit(work, "a"); git(work, "push", "-q", "-u", "origin", "main")
+        commit(work, "a")
+        os.makedirs(os.path.join(work, "plans"))
+        with open(os.path.join(work, "plans", "717.yaml"), "w") as fh:
+            fh.write(PLAN_717)
+        git(work, "add", "plans/717.yaml")
+        git(work, "commit", "-q", "-m", "plan 717")
+        git(work, "push", "-q", "-u", "origin", "main")
         out = os.path.join(tmp, "b.json")
 
         rc, r = run(work, out, "--issue", "731", "--branch-name", "plan/717/731-x", "--plan-branch", "plan/717/base")
         main_tip = git(work, "rev-parse", "origin/main")
         check("first issue in a plan: the plan branch is cut from latest main",
               rc == 0 and r["plan_branch_created"] and git(work, "rev-parse", "origin/plan/717/base") == main_tip)
+        check("main first: main's plan file reads In Progress on the plan branch the branch was cut from",
+              "status: In Progress" in git(work, "show", "origin/main:plans/717.yaml")
+              and "branch: plan/717/base" in git(work, "show", "origin/main:plans/717.yaml"))
         check("the issue branch is a sub-branch, cut from the plan branch",
               git(work, "branch", "--show-current") == "plan/717/731-x" and r["base_sha"] == main_tip)
 
@@ -99,7 +112,7 @@ def main():
         git(work, "checkout", "-q", "main")
         git(work, "push", "-q", "origin", "--delete", "plan/717/base")
         p = subprocess.run([sys.executable, SCRIPT, "--issue", "741", "--branch-name", "plan/717/741-v",
-                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+                            "--plan-branch", "plan/717/base", *PLAN_ARGS, "--out", out], cwd=work, capture_output=True, text=True)
         check("a stale copy with unpushed work is kept and the run stops, naming the commit",
               p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == lost and "unpushed" in p.stderr)
 
@@ -110,7 +123,7 @@ def main():
         subprocess.run(["git", "clone", "-q", origin, other], capture_output=True)
         git(other, "push", "-q", "origin", "--delete", "plan/717/base")
         p = subprocess.run([sys.executable, SCRIPT, "--issue", "742", "--branch-name", "plan/717/742-u",
-                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+                            "--plan-branch", "plan/717/base", *PLAN_ARGS, "--out", out], cwd=work, capture_output=True, text=True)
         check("a copy pushed once but never merged is kept, even after its branch went on origin",
               p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == lost)
 
@@ -122,9 +135,9 @@ def main():
             fh.write("#!/bin/sh\nwhile read old new ref; do case $ref in refs/heads/plan/*) exit 1;; esac; done\n")
         os.chmod(hook, 0o755)
         p = subprocess.run([sys.executable, SCRIPT, "--issue", "744", "--branch-name", "plan/717/744-s",
-                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+                            "--plan-branch", "plan/717/base", *PLAN_ARGS, "--out", out], cwd=work, capture_output=True, text=True)
         check("a push that origin refuses stops the run and names the branch",
-              p.returncode == 1 and "pushing plan/717/base" in p.stderr)
+              p.returncode == 1 and "plan/717/base is cut here but not pushed" in p.stderr)
         os.remove(hook)
 
         # origin cannot be reached: nothing is deleted, and the run says why.
@@ -132,7 +145,7 @@ def main():
         git(work, "remote", "set-url", "origin", os.path.join(tmp, "gone.git"))
         before = git(work, "rev-parse", "plan/717/base")
         p = subprocess.run([sys.executable, SCRIPT, "--issue", "743", "--branch-name", "plan/717/743-t",
-                            "--plan-branch", "plan/717/base", "--out", out], cwd=work, capture_output=True, text=True)
+                            "--plan-branch", "plan/717/base", *PLAN_ARGS, "--out", out], cwd=work, capture_output=True, text=True)
         check("a failed lookup on origin stops the run and deletes nothing",
               p.returncode == 1 and git(work, "rev-parse", "plan/717/base") == before
               and "could not be reached" in p.stderr)
