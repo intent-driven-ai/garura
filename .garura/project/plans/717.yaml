@@ -10,7 +10,7 @@ epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-30'
+updated: '2026-10-31'
 tree:
 - issue: 956
   kind: epic
@@ -20,7 +20,7 @@ tree:
   - issue: 718
     kind: feature
     title: 'Build a plan: a tree with an issue for every node, from a business intent'
-    status: Not Started
+    status: Done
     children:
     - issue: 727
       kind: story
@@ -62,6 +62,10 @@ tree:
     - issue: 1000
       kind: story
       title: Show the plan of the current branch when /show-plan is given no number
+      status: Not Started
+    - issue: 1005
+      kind: story
+      title: /show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done
       status: Not Started
   - issue: 720
     kind: feature
