@@ -1,0 +1,39 @@
+# assess-changes output (issue 1005)
+needs_judgment: false
+
+change_groups:
+  - id: plan-tool-finished-children
+    issue: 1005
+    commit_type: feat
+    scope: plan-tool
+    subject: print the finished children of an open parent in the plan tree
+    files:
+      - core/tools/plan/plan.py
+      - core/tools/plan/test_plan.py
+  - id: show-plan-finished-children
+    issue: 1005
+    commit_type: feat
+    scope: show-plan
+    subject: show the finished children of an open parent in show-plan
+    files:
+      - core/components/plays/show-plan/SKILL.md
+      - core/components/plays/show-plan/reference/ice.md
+      - core/components/plays/show-plan/scripts/check_tree.py
+      - core/components/plays/show-plan/scripts/test_check_tree.py
+      - core/components/memory/standards/templates/plan-view.md
+  - id: stm-run-files
+    issue: 1005
+    commit_type: chore
+    scope: stm
+    subject: record show-plan finished-children run files
+    files:
+      - .garura/project/issues/1005/context/analysis.yaml
+      - .garura/project/issues/1005/context/porcelain.txt
+
+exclusions: []
+
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
