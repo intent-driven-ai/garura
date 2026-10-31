@@ -8,21 +8,23 @@ the repo-orchestrator → cut-branch dispatch. Pure git — a fixed sequence, ze
 judgment.
 
     python3 setup_branch.py --issue N --branch-name feature/N-slug \
-        [--base main] [--plan-branch plan/P/base] [--worktree] [--no-push] --out <branch.json>
+        [--base main] [--plan-branch plan/P/base --plan-tool <plan_branch.py> --plans-dir <plans>
+         --ignore <folder>] [--worktree] [--no-push] --out <branch.json>
 
 With --plan-branch (an issue in a plan, from resolve_plan.py — #731): the plan branch is
-cut from the latest main when it does not exist yet (the plan's work starts now); when it
+cut main first when it is not on origin yet (the plan's work starts now); when it
 exists, the latest main is merged into it first. The issue's branch
 (plan/P/<issue>-<slug>) is then cut from the plan branch. A merge conflict stops the run
 (exit 1) with the plan branch left as it was.
 
-A plan branch that is gone on origin but still here (the plan paused, merged into main and its
-branch was deleted) is deleted here and cut fresh — but only when the lookup on origin worked
-and every commit on the local copy is already on main (merge-change lands a plan with a merge
-commit, so a landed plan's copy always is). A failed lookup (offline, a login error, a stalled
-server) stops the run and says origin could not be reached; a local copy with a commit that is
-not on main stops the run, keeps the copy and names the commits (#953). A push that fails, or a
-delete that fails, stops the run. Network calls never prompt and give up after a time limit.
+A plan branch that is not on origin is cut by the plan tool's plan_branch.py (--plan-tool),
+the one way every play cuts a plan's branch (ADR 061, #989): main's plan file is set to In
+Progress with the branch named, committed and pushed on main, and the branch is cut from that
+commit. A copy that is gone on origin but still here is deleted and cut fresh only when every
+commit on it is on main; otherwise the plan tool stops, keeps the copy and names the commits
+(#953), and so does this script. A failed lookup on origin (offline, a login error, a stalled
+server) stops the run and says origin could not be reached. A push that fails stops the run.
+Network calls never prompt and give up after a time limit.
 
 Idempotent: if the branch already exists (local or remote), it is a resume —
 switch to it, do not re-cut. Writes branch.json:
@@ -72,21 +74,24 @@ def _is_ancestor(a, b):
     return subprocess.run(["git", "merge-base", "--is-ancestor", a, b], capture_output=True).returncode == 0
 
 
-def _drop_stale(plan, base):
-    """A plan branch gone on origin but still here: delete it when every commit on it is on
-    main; otherwise stop, keep it and name the commits that are not. Returns the record."""
-    _, tip, _ = _git("rev-parse", plan)
-    if not _is_ancestor(plan, f"origin/{base}"):
-        _, log, _ = _git("log", "--oneline", plan, "--not", f"origin/{base}")
-        sys.stderr.write(f"setup_branch.py: {plan} is gone on origin, but the copy here has commits "
-                         f"that are not on {base}; it was kept. Push or move them, then run again:\n  "
-                         + "\n  ".join(log.splitlines()) + "\n")
+def _cut_plan(ns, plan):
+    """Cut the plan's branch through the plan tool, main first; return (created, stale)."""
+    out = os.path.join(os.path.dirname(os.path.abspath(ns.out)), "plan-branch.json")
+    cmd = [sys.executable, ns.plan_tool, "go", "--plan", plan.split("/")[1],
+           "--plans-dir", ns.plans_dir, "--out", out]
+    for folder in ns.ignore:
+        cmd += ["--ignore", folder]
+    proc = subprocess.run(cmd, capture_output=True, text=True, env=NO_PROMPT)
+    try:
+        with open(out, encoding="utf-8") as fh:
+            rec = json.load(fh)
+    except (OSError, ValueError):
+        rec = {"action": "stop", "error": (proc.stderr or proc.stdout).strip()}
+    if proc.returncode != 0 or rec.get("action") not in ("cut", "switch", "stay") or rec.get("error"):
+        files = "".join(f"\n  {f}" for f in rec.get("files") or [])
+        sys.stderr.write(f"setup_branch.py: the plan tool did not get onto {plan}: {rec.get('error')}{files}\n")
         sys.exit(1)
-    rc, _, err = _git("branch", "-D", plan)
-    if rc != 0:
-        sys.stderr.write(f"setup_branch.py: deleting the stale copy of {plan} failed: {err}\n")
-        sys.exit(1)
-    return {"deleted": True, "tip": tip, "on_main": True}
+    return rec["action"] == "cut", rec.get("stale")
 
 
 def _push(branch):
@@ -109,6 +114,9 @@ def main(argv=None):
     ap.add_argument("--branch-name", required=True)
     ap.add_argument("--base", default="main")
     ap.add_argument("--plan-branch")
+    ap.add_argument("--plan-tool", default=os.path.join(".garura", "core", "tools", "plan", "plan_branch.py"))
+    ap.add_argument("--plans-dir", default=os.path.join(".garura", "project", "plans"))
+    ap.add_argument("--ignore", action="append", default=[])
     ap.add_argument("--worktree", action="store_true")
     ap.add_argument("--no-push", action="store_true")
     ap.add_argument("--out", required=True)
@@ -133,11 +141,11 @@ def main(argv=None):
             sys.stderr.write(f"setup_branch.py: origin could not be reached to look for {plan}; "
                              f"nothing was changed — run again when it can be reached\n")
             sys.exit(1)
-        if not on_origin and _branch_exists(plan):
-            # Only a stale local copy is left: the plan paused, merged into main and its branch
-            # was deleted on origin. A plan that starts again gets a fresh cut from main.
-            stale = _drop_stale(plan, ns.base)
-        if _branch_exists(plan):
+        if not on_origin:
+            # The plan's work starts now: main's plan file first, then the cut (ADR 061). A stale
+            # local copy is the plan tool's to judge (#953).
+            plan_created, stale = _cut_plan(ns, plan)
+        else:
             _git("fetch", "origin", plan)
             rc, _, err = _git("checkout", plan)
             if rc != 0:
@@ -152,12 +160,6 @@ def main(argv=None):
                 sys.stderr.write(f"setup_branch.py: merging {ns.base} into {plan} conflicts — "
                                  f"resolve it by hand: {err}\n")
                 sys.exit(1)
-        else:
-            rc, _, err = _git("checkout", "-b", plan, f"origin/{ns.base}")
-            if rc != 0:
-                sys.stderr.write(f"setup_branch.py: cutting {plan} failed: {err}\n")
-                sys.exit(1)
-            plan_created = True
         if not ns.no_push:
             _push(plan)
         _, base_sha, _ = _git("rev-parse", "HEAD")

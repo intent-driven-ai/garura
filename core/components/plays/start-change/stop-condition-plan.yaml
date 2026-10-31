@@ -1,0 +1,19 @@
+# start-change stop condition for a plan's start (`plan <id>`, C11) — baked from reference/ice.md
+# "### Done means" D5–D8 (#989). Evaluated by scripts/check_stop_condition.py at Step C0 of the
+# Standard Play Close. Paths are relative to the run's working folder
+# ({stm_base}_plans/start-change/<id>/), which is not committed.
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D5
+      says: "the plan tool's record exists"
+      check: { type: artifact_exists, path: "plan-branch.json" }
+    - id: D6
+      says: "we are on the plan's branch, and it is on origin"
+      check: { type: field_equals, file: "plan-start-check.json", field: "on_plan_branch", equals: true }
+    - id: D7
+      says: "main's plan file and the branch agree"
+      check: { type: field_equals, file: "plan-start-check.json", field: "main_agrees", equals: true }
+    - id: D8
+      says: "no story branch was cut"
+      check: { type: field_equals, file: "plan-start-check.json", field: "no_story_branch", equals: true }
