@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/product-ontology.md",
+      "version": "bebccefc0d4c",
+      "fingerprint": "sha256:1111bcf7fe95b056dffebcd30e5691082d9035bd9ffc76277a9283cac70277cf",
+      "copy": ".garura/project/issues/1007/context/memory/standards/templates/product-ontology.md"
+    }
+  ]
+}
