@@ -5,12 +5,12 @@ title: People plan work toward a business intent, and pick it up across days and
 status: Done
 direction: 1
 started: '2026-10-22'
-branch: plan/717/base  # cut from main on 2026-10-29 when the plan's work started again; each story's branch is cut from it when its work starts
+branch: null  # plan/717/base merged into main with PR #1017 and was deleted, 2026-10-31
 epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-31'
+updated: '2026-11-01'
 tree:
 - issue: 956
   kind: epic
