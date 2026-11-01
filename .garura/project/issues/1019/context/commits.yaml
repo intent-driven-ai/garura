@@ -1,0 +1,30 @@
+commits:
+  - sha: 9cb373c7
+    message: "feat(remove-plan): add the skill that deletes approved plans (#1019)"
+    files:
+      - core/components/skills/remove-plan/SKILL.md
+      - core/components/skills/remove-plan/scripts/remove_plans.py
+      - core/components/skills/remove-plan/scripts/test_remove_plans.py
+    branch: feature/1019-three-reorganisation-skills
+  - sha: 0fe080c7
+    message: "feat(wiring): wire three skills into agents, install and docs (#1019)"
+    files:
+      - core/components/agents/product-os-keeper.md
+      - core/components/agents/project-orchestrator.md
+      - core/components/memory/standards/rules/naming.md
+      - core/components/memory/standards/rules/naming.yaml
+      - core/components/plays/install-garura/scripts/install.py
+      - core/components/plays/install-garura/scripts/test_install.py
+      - docs/components/skills.md
+    branch: feature/1019-three-reorganisation-skills
+  - sha: f9a64cab
+    message: "test(eval): record the passing eval run after the build (#1019)"
+    files:
+      - .garura/project/issues/1019/evidence/eval/eval-after.json
+    branch: feature/1019-three-reorganisation-skills
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

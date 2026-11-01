@@ -1,0 +1,12 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/agents/project-orchestrator.md
+ M core/components/memory/standards/rules/naming.md
+ M core/components/memory/standards/rules/naming.yaml
+ M core/components/plays/install-garura/scripts/install.py
+ M core/components/plays/install-garura/scripts/test_install.py
+ M docs/components/skills.md
+?? .garura/project/issues/1019/context/porcelain.txt
+?? .garura/project/issues/1019/evidence/eval/eval-after.json
+?? core/components/skills/author-intent-page/
+?? core/components/skills/remove-model-part/
+?? core/components/skills/remove-plan/

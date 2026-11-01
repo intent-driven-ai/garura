@@ -1,0 +1,82 @@
+needs_judgment: false
+branch: feature/1019-three-reorganisation-skills
+issue: 1019
+change_groups:
+- id: feat-remove-plan
+  issue: 1019
+  concern: the remove-plan skill, its script and its test
+  commit_type: feat
+  scope: remove-plan
+  subject: add the skill that deletes approved plans
+  confidence: high
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: New skill. Its test sits with it.
+  files:
+  - core/components/skills/remove-plan/SKILL.md
+  - core/components/skills/remove-plan/scripts/remove_plans.py
+  - core/components/skills/remove-plan/scripts/test_remove_plans.py
+- id: feat-wiring
+  issue: 1019
+  concern: wiring of the three skills into the agents, the naming verb, the install
+    list with its test, and the skills doc
+  commit_type: feat
+  scope: wiring
+  subject: wire three skills into agents, install and docs
+  confidence: high
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: Must come after the three skill commits. The new install test asserts that
+    each skill has a SKILL.md under core/components/skills, so it fails if this group
+    lands first. The naming verb remove is in this group too, so the lint of the earlier
+    skill commits does not yet know the verb; the full branch does.
+  files:
+  - core/components/agents/product-os-keeper.md
+  - core/components/agents/project-orchestrator.md
+  - core/components/memory/standards/rules/naming.md
+  - core/components/memory/standards/rules/naming.yaml
+  - core/components/plays/install-garura/scripts/install.py
+  - core/components/plays/install-garura/scripts/test_install.py
+  - docs/components/skills.md
+- id: test-eval-after
+  issue: 1019
+  concern: the record of the acceptance check run after the build (87 passed, 0 failed)
+  commit_type: test
+  scope: eval
+  subject: record the passing eval run after the build
+  confidence: high
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: Pairs with eval-before.json, committed earlier in ebcffb14. It sits under
+    evidence/eval, outside context/, the only folder the executor commits as run state,
+    so left out it would stay uncommitted and trip F3. Drop this group only if the
+    caller will commit the file another way.
+  files:
+  - .garura/project/issues/1019/evidence/eval/eval-after.json
+exclusions: []
+run_state:
+- path: .garura/project/issues/1019/context/analysis.yaml
+  reason: this file; committed by the executor's run-state commit
+- path: .garura/project/issues/1019/context/porcelain.txt
+  reason: the scan input; committed by the executor's run-state commit
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: '5 groups, each one concern: three groups hold one new skill each (its
+      SKILL.md, scripts and test, 6 + 4 + 3 files); one holds only the wiring of those
+      skills (7 files); one holds a single eval result file. All 21 committable files
+      sit in exactly one group; the 2 run records under context/ are left to the run-state
+      commit; no file is in two groups; no type or scope is mixed in a group.'
+  SE-5:
+    status: PASS
+    evidence: no sensitive filename (.env, .pem, .key, credentials, secrets, id_rsa,
+      keystore) among the changed files, and no secret-like content pattern in any
+      of them; branch is feature/1019-..., not a hotfix branch
