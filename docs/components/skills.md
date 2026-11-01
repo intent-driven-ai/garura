@@ -35,8 +35,8 @@ Roughly 100 skills are authored in `core/components/skills/`, each with `user-in
 
 | Family | Skills |
 |--------|--------|
-| **Repository / project operations** | `assess-changes`, `assess-pr`, `commit-files`, `cut-branch`, `open-pr`, `merge-pr`, `platform-adapter`, `track-issue`, `find-matching-issues`, `author-plan-file` |
-| **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-acceptance-scenarios`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
+| **Repository / project operations** | `assess-changes`, `assess-pr`, `commit-files`, `cut-branch`, `open-pr`, `merge-pr`, `platform-adapter`, `track-issue`, `find-matching-issues`, `author-plan-file`, `remove-plan` |
+| **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-intent-page`, `remove-model-part`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-acceptance-scenarios`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
 | **Specification / design drafting** | `author-technical-approach`, `author-lld`, `author-implementation-plan`, `draft-epic-expectation`, `author-verification-scenarios`, `author-build-plan`, `author-play-ice` |
 | **Defect resolution** | `author-rca`, `author-fix-design`, `author-regression-test` |
 | **Architecture & quality derivation** | `derive-quality-profile-from-epics`, `enrich-quality-profile` |
@@ -139,7 +139,7 @@ Forking a skill would:
 
 Skills are named `<verb>-<object>`, with the verb from the skill verbs — each with one meaning:
 `author`, `infer`, `derive`, `scan`, `check`, `judge`, `assess`, `find`, `link`, `enrich`, `propose`,
-`research`, `rank`, `recommend`, `collect`, `walk`, `deploy`, `track`, and the git verbs `commit`,
+`research`, `rank`, `recommend`, `collect`, `walk`, `deploy`, `track`, `remove`, and the git verbs `commit`,
 `open`, `merge`, `cut`. Examples: `author-slice`, `scan-test-surface`, `check-quality`, `find-model-gaps`.
 No name is, or starts with, a Claude Code or Codex built-in command.
 

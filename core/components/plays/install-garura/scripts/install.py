@@ -283,6 +283,9 @@ SCOPES = {
             "link-model-part",
             # the skills update-plan's sub-agents call (#730)
             "author-plan-changes", "track-plan-changes",
+            # product-os-keeper and project-orchestrator carry out an approved reorganisation of
+            # business intents (#1019)
+            "remove-model-part", "author-intent-page", "remove-plan",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
