@@ -304,8 +304,12 @@ before = snapshot(os.path.join(base, "product-os"))
 r = write_page(base, dict(DRAFT, title="Other"))
 check("page: never overwrites without rewrite", r.returncode == 2 and before == snapshot(os.path.join(base, "product-os")),
       r.returncode)
-with open(page, "a", encoding="utf-8") as fh:
-    fh.write("\n**Touches:**\n- [Keeper](../a/cap-1/capability.md) (capability) — adds\n\n**What was done:** shipped it\n")
+with open(page, encoding="utf-8") as fh:
+    old_page = fh.read()
+with open(page, "w", encoding="utf-8") as fh:
+    fh.write(old_page.replace(
+        "**What was done:** (nothing yet)",
+        "**Touches:**\n- [Keeper](../a/cap-1/capability.md) (capability) — adds\n\n**What was done:** shipped it"))
 r = write_page(base, dict(DRAFT, title="New words", outcome="New outcome."), "--rewrite", "--stage", "confirmed",
                "--confirmed-by", "the product owner")
 text = open(page, encoding="utf-8").read()
