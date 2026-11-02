@@ -1,0 +1,266 @@
+pr: 1020
+issue: 1019
+round: 2
+layer1:
+  lint-components (installed, source layout): 37 problems, 0 in changed files (there before)
+  lint_play: 'not run: no play SKILL.md changed'
+  check-pr-quality: 'round 1: 0 findings; its path rules read the scripts under core/components as prose, so it
+    did not look inside them (#890)'
+  tests: remove-model-part 63 OK, author-intent-page 50 OK, remove-plan 31 OK, install 76 OK in round 1, install
+    code unchanged since
+  acceptance check: 87 passed, 0 failed
+findings:
+- id: F1
+  category: harness
+  severity: P4
+  file: core/components/agents/product-os-keeper.md
+  lines: core/components/memory/standards/rules/direct-model-write.md 7-9 (Authority header) and 53-60 (the new
+    'Outside a play' paragraph); product-os-keeper.md 174-187
+  summary: 'Round 1: the two spine writers outside a play were in the keeper''s rule only. Now direct-model-write.md
+    names them, so the record gap in the standard is closed. What is left: the standard is still the ''mechanical
+    expression'' of ADR 026, 043 and 044 (its Authority header, lines 7-9, names those three), and the new paragraph
+    has no ADR behind it. Adding a writer of shared files was an ADR amendment of ADR 026''s containment split the
+    last time (ADR 044, line 7 and line 60). ADR 062 covers only link-model-part''s add_features for /update-plan.
+    No ADR covers remove-model-part''s deletes or link-model-part''s other modes.'
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/rules/direct-model-write.md
+    ref: phoenix c14f515d910f
+    lines: '50-52: ''Outside a loop, the play''s keyed script is still the only writer of shared files''; 245-248
+      (L-DMW-5) names link-model-gaps'' script as the one exception'
+    kind: memory tool copy
+  - path: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+    ref: main
+    lines: '7 and 60: adding a writer of shared files was recorded as an amendment of ADR 026''s containment split'
+    kind: base ref
+- id: F3
+  category: harness
+  severity: P3
+  file: core/components/skills/author-intent-page/SKILL.md
+  lines: SKILL.md 33 and 54; scripts/write_page.py 181-182
+  summary: 'The skill writes a **Serves:** line (for example #539) between Rules and Identified by. The Business
+    Intent kind has no Serves property or relation. Slices and capabilities serve an intent; an intent does not
+    serve another. Grounding for what the line means is unavailable from committed sources, and no reader (find-model-gaps,
+    the model linter, the review tool) is known to read it.'
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md
+    ref: phoenix c14f515d910f
+    lines: '181-196 (the eleven properties: Title, Outcome, Why, Asked by, Proof it is met, Must not, Rules, Stage,
+      Confirmed by and when, Touches, What was done); relationships 199-210 name no Serves line from an intent'
+    kind: memory tool copy
+  - path: git grep '**Serves:**' main
+    ref: main
+    lines: no intent page and no template on main has a Serves line; the only 'serves' on a page is the plan template's
+      own field (standards/templates/work-plan.md:19)
+    kind: base ref check
+- id: F4
+  category: harness
+  severity: P4
+  file: core/components/skills/author-intent-page/scripts/write_page.py
+  lines: 59-62, 130-153 (the Touches block is rendered and validated by the script itself)
+  summary: 'author-intent-page keeps its own copy of the Touches line grammar (kind and mark lists, the ''- [title](link)
+    (kind) — mark'' line) instead of stamping intent_touches.py as link-model-gaps and discover-domains do. The
+    output is the same grammar today. The two differ in behaviour: the shared module rewrites a title''s square
+    brackets to round ones; the new script refuses the title. A later change to the grammar must now be made in
+    a second place.'
+  basis:
+  - path: core/components/plays/create-play/references/intent_touches.py
+    ref: main
+    lines: 'docstring: ''this module writes the intent-page side, so every play writes it the same way. It is never
+      written by an LLM'''
+    kind: base ref
+  - path: core/components/skills/link-model-gaps/scripts/intent_touches.py
+    ref: main
+    lines: the sibling skill that writes the same list stamps a copy of that module
+    kind: base ref
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md
+    ref: phoenix c14f515d910f
+    lines: '194: the Touches list is ''written by a script whenever a play links a part to it'''
+    kind: memory tool copy
+- id: F5
+  category: harness
+  severity: P4
+  file: core/components/skills/remove-model-part/scripts/safe_write.py
+  lines: whole file; same in core/components/skills/author-intent-page/scripts/safe_write.py and core/components/skills/remove-model-part/scripts/spine_text.py
+  summary: 'The branch adds two more copies of safe_write.py (now five in the repo) and a third copy of spine_text.py,
+    each marked ''stamped beside this script''. Only model_names.py among the helpers these skills use is linted
+    for drift. The copies are byte-identical today (md5 checked: safe_write.py ab8272bc in all five, spine_text.py
+    14424d9e in all three), so nothing is wrong yet; a future edit to one copy would not be caught.'
+  basis:
+  - path: CLAUDE.md
+    ref: main
+    lines: '128-136: ''Any new shared scaffolding follows the same pattern: one common file the plays point to,
+      emitted by the compiler and linted'''
+    kind: base ref
+  - path: core/tools/lint-components/lib/rules/shared-scripts.js
+    ref: main
+    lines: '10-13: SHARED_SCRIPTS lists lint_grounding.py, model_names.py and a few more; safe_write.py and spine_text.py
+      are not in it'
+    kind: base ref
+- id: F6
+  category: harness
+  severity: P4
+  file: core/components/agents/product-os-keeper.md
+  lines: 107 (the removal row, which says to run remove-model-part after enrich-grounding)
+  summary: 'A repoint changes only the spine side of a link: cap-2 moves from bi-1 to bi-3 in the spine. remove-model-part
+    writes no page words, and the old intent''s page (with its Touches list) is deleted. The keeper row tells the
+    keeper to fix the words that name the old part, but not to add the part to the new intent''s Touches list (author-intent-page
+    with touches, or enrich-grounding named lines). The other side of the link is left to whoever composes the steps.'
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md
+    ref: phoenix c14f515d910f
+    lines: 218; and 25 (drift goes to the Alignment loop, a rule never stops a write)
+    kind: memory tool copy
+  - path: core/components/skills/link-model-gaps/SKILL.md
+    ref: main
+    lines: 63-64 ('Both sides of every link')
+    kind: base ref
+- id: F7
+  category: harness
+  severity: P4
+  file: core/components/skills/remove-model-part/scripts/remove_part.py
+  lines: 253-261 (remove_slice); SKILL.md 'Nothing under the plans folder is touched, even for a slice'
+  summary: 'Removing a slice deletes its spine entry and record without looking at the plans: a plan or epic that
+    still holds the slice is not checked, and the report does not name it. remove-plan has the opposite check for
+    its own folder (it refuses a plan another plan needs). If the plans of a removed slice stay, they point at a
+    slice that no longer exists.'
+  basis:
+  - path: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    ref: main
+    lines: '38: a plan holds every slice that serves its intent; a slice that serves two intents has one epic used
+      by both plans'
+    kind: base ref
+  - path: docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
+    ref: main
+    lines: 'section 3 (lines 32-34): work that started from the old text is named as out of date'
+    kind: base ref
+- id: F8
+  category: harness
+  severity: P3
+  file: core/components/memory/standards/rules/direct-model-write.md
+  lines: 53-60, the sentence 'Each changes only the parts its request names' and the description of link-model-part's
+    script
+  summary: 'The new paragraph says each of the two scripts ''changes only the parts its request names''. That is
+    not true of a capability merge. remove_part.py rewrites every other part that pointed at the merged capability:
+    any capability or feature''s identified_by (lines 237-238) and every depends_on list in the spine (lines 239-242),
+    and it moves the features and grows the survivor, none of which the request names except as the two ends (`id`,
+    `into`). The reach is by design and sensible (it stops a dangling reference), but the standard states a narrower
+    containment than the code keeps. Smaller: the paragraph describes link-model-part as writing ''the spine entry
+    of a part found during work, and the thin mark''; it also updates an existing part''s one-line, intents or issue
+    and adds features to a slice (#931, ADR 062), which the next reader of the standard cannot learn from it.'
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/rules/direct-model-write.md
+    ref: phoenix c14f515d910f
+    lines: '30-40 (rule 3: the keyed script ''refuses to touch any node outside'' its key)'
+    kind: memory tool copy
+  - path: docs/adr/026-direct-to-model-writes.md
+    ref: main
+    lines: 'Decision, ''Containment split'': node-level containment is kept by the keyed script'
+    kind: base ref
+- id: MEM-1
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/naming.yaml (and naming.md, lines 52-54)
+  lines: null
+  summary: A new skill verb changes the naming standard but no decision record covers it
+  basis: 'The harness standard (main) says a change to the naming standard is a decision recorded as an ADR with
+    the rule files changing alongside it. ADR 046 section 5 lists the skill verbs, 22 of them, each with one meaning;
+    naming.yaml now holds 23. The only earlier change to a verb list (the play verbs, #920) was recorded as an amendment
+    of ADR 046 by ADR 059. This diff touches no docs/adr/** file, and no ADR on main mentions `remove`, remove-plan,
+    remove-model-part or this reorganisation (git grep on main found none). So ADR 046 section 5 and the standard
+    now disagree, and no later record explains why.
+
+    '
+- id: MEM-2
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/naming.yaml
+  lines: null
+  summary: The global copy of the standard has no `remove` verb, so installed-layout lint fails for the two new
+    skills until it does
+  basis: 'An installed project lints its parts with the naming.yaml it fetches through the memory tool (harness-standard,
+    second bullet of "How the standard is kept"; naming.js standardFile). The copy the tool serves (Phoenix, version
+    c14f515d910f) equals main and has no `remove`. Run read-only with that copy as --naming, lint-components reports
+    naming-skill for core/components/skills/remove-model-part/SKILL.md and core/components/skills/remove-plan/SKILL.md.
+    With the branch''s own naming.yaml it reports nothing. The install change in this PR lays both skills into the
+    harness scope, so the two skills land in projects before the verb that names them exists in the tier those projects
+    read.
+
+    '
+- id: MEM-3
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/naming.yaml (line 56)
+  lines: null
+  summary: The verb's meaning is not one meaning that holds for both skills that use it
+  basis: 'Rule 3 (main): one verb, one meaning, listed in naming.yaml. The entry reads "Take a part out of the model
+    or a plan out of the plans folder, and repoint what named it." The last clause describes remove-model-part (its
+    request has a repoint list). remove-plan does not repoint anything: its SKILL.md and scripts hold no "repoint",
+    and it only deletes plans and reports what each held. A meaning that is only half true of its own first user
+    teaches the next author that a `remove-` skill must repoint. The siblings are one sentence and one action (author:
+    "Write a document from inputs."); track is the nearest two-action sibling, but both its actions are true of
+    every track-skill.
+
+    '
+- id: MEM-4
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/rules/naming.yaml (line 56); core/components/memory/standards/rules/naming.md
+    (line 54)
+  lines: null
+  summary: The two verb lists disagree in order, and the new naming.md line is the longest in the file
+  basis: 'On main the three copies of the skill-verb list (naming.md, naming.yaml, ADR 046 section 5) share one
+    order: the plain verbs, then the git verbs commit, open, merge, cut. naming.md now puts `remove` before the
+    git verbs; naming.yaml puts it after `cut`, so the yaml''s git group is no longer last. The sets agree, so the
+    linter is unaffected. Separately, naming.md line 54 is 107 characters; the longest line on main is 102.
+
+    '
+- id: MEM-5
+  category: memory
+  severity: P2
+  file: core/components/memory/standards/rules/direct-model-write.md (the new "Outside a play" paragraph, rule 3)
+  lines: null
+  summary: Two more writers of the spine, one that deletes, are added to the contract with no decision behind them
+  basis: 'The contract (main) says a keyed script owns every shared file, and every departure names its decision:
+    ADR 044 for the loop writer, ADR 031, #632 and ADR 062 for the three by-hand exceptions. ADR 044 shows how a
+    new shared-file writer is added: an ADR that amends ADR 026''s containment split, then the edits to rule 3,
+    to lint L-DMW-5 and to the product-os-keeper rule; it also states its exception "does not widen" the rule. The
+    new paragraph adds `remove_part.py`, which deletes intent pages, merged capability pages, slice entries and
+    slice record files, and names `link_part.py`, with no ADR, issue or date, and this diff touches no docs/adr
+    file (no ADR on main mentions either skill). The "Not a finding" note of L-DMW-5 (which lists apply_links.py,
+    ADR 044) is not extended. Mitigating, and why this is not P1: both scripts are all-or-nothing, refuse paths
+    outside the model folder, list what they changed, and remove_part.py refuses a request that names no approving
+    person; the link-model-part half is already allowed by the committed agent text citing #979, so the contract
+    is catching up there; the work is visible in the git diff.
+
+    '
+- id: MEM-6
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/direct-model-write.md (the new "Outside a play" paragraph)
+  lines: null
+  summary: The paragraph says "outside a play" but one writer runs inside a play, and it does not say who commits,
+    or how the guard sees the writes
+  basis: '(a) The committed play update-plan calls `link-model-part` and already carries its own declared exception
+    (ADR 062), so the heading "Outside a play" is not true for that writer; remove-model-part''s request even has
+    a `by` field for "the play or run that asks". (b) The loop exception says who commits its delta and why review
+    sees it; the new paragraph says only "lists every file it changed". Rule 7 (clean tree in, committed delta out)
+    and rule 4 (the scoped guard reverts any path outside the play''s declared scope) are not mentioned, so a play
+    that has the keeper remove a page would, read literally, have the guard put it back unless the play''s scope
+    allows removal (--remove-only). The contract is the one place that must say how a new writer meets those two
+    rules.
+
+    '
+- id: MEM-7
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/rules/direct-model-write.md (the new paragraph, third sentence)
+  lines: null
+  summary: The text says the script removes a capability's page as a separate act; the script only does it as part
+    of a merge
+  basis: 'The text reads "merges a capability into another, and removes an intent''s page, a capability''s page
+    or a slice and its record". remove_part.py refuses to remove a capability outright ("a capability is never simply
+    removed", `into` is required); the page goes only as part of the merge. The text also leaves out the script''s
+    main safeguard, that a part is refused while anything in the model still names it. A reader of the contract
+    would believe the writer is wider than it is.
+
+    '
