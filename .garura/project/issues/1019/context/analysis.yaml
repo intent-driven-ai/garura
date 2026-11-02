@@ -2,39 +2,67 @@ needs_judgment: false
 branch: feature/1019-three-reorganisation-skills
 issue: 1019
 change_groups:
-- id: feat-author-intent-page-touches
+- id: fix-remove-model-part
   issue: 1019
-  commit_type: feat
-  scope: author-intent-page
-  subject: write the Touches list of an intent
+  commit_type: fix
+  scope: remove-model-part
+  subject: a capability merge leaves no record on the survivor
   confidence: high
   files:
-  - core/components/skills/author-intent-page/scripts/write_page.py
-  - core/components/skills/author-intent-page/scripts/test_write_page.py
-  - core/components/skills/author-intent-page/SKILL.md
+  - core/components/skills/remove-model-part/SKILL.md
+  - core/components/skills/remove-model-part/scripts/remove_part.py
+  - core/components/skills/remove-model-part/scripts/test_remove_part.py
   - core/components/agents/product-os-keeper.md
-  notes: 'One concern: the script writes an intent''s Touches list from the draft
-    (and keeps the old block when the draft gives none); SKILL.md and the product-os-keeper
-    row say the same, including the corrected sentence about what a rewrite keeps.'
-- id: test-eval-rerun
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: the skill, its script, its test and the agent that calls it change together
+- id: docs-direct-model-write
+  issue: 1019
+  commit_type: docs
+  scope: direct-model-write
+  subject: name the two writers of the spine outside a play
+  confidence: high
+  files:
+  - core/components/memory/standards/rules/direct-model-write.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: rule text only
+- id: test-eval
   issue: 1019
   commit_type: test
   scope: eval
-  subject: record the acceptance check rerun, 87 passed
+  subject: record the acceptance check after the merge change
   confidence: high
   files:
   - .garura/project/issues/1019/evidence/eval/eval-after.json
-  notes: eval-after.json reads passed 87, failed 0.
-exclusions: []
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: eval evidence record
+exclusions:
+- path: .garura/project/issues/1019/review/
+  reason: committed by /check-change's post step
+  blocking: false
 risks:
   sensitive_files: []
+warnings:
+- path: .garura/project/issues/1019/context/memory/standards/rules/pr.md
+  match: password\s*=
+  note: taxonomy copy; a pattern carrier
+  blocking: false
+- path: .garura/project/issues/1019/review/pr.diff
+  match: secret\s*=
+  note: saved diff; a pattern carrier
+  blocking: false
 eval_gates:
   SE-1:
     status: PASS
-    evidence: 4 source files in one group, eval-after.json in a second; context/ run
-      state left out for the executor's final chore(stm) commit; every non-context
-      path of the scan is in exactly one group
+    evidence: 3 groups, all issue 1019; each of the 7 changed files outside run state
+      is in exactly one group; review/ in exclusions; context/ left to the executor
+      as run state
   SE-5:
     status: PASS
-    evidence: no sensitive filename or content pattern matched in the diff of the
-      five grouped files
+    evidence: the two scanner matches are content in a taxonomy copy and a saved diff,
+      non-blocking warnings

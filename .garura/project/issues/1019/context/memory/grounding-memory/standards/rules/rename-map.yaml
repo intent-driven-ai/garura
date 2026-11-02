@@ -1,0 +1,82 @@
+# rename-map.yaml — old component name -> new name (harness standard, #734, ADR 046).
+# Read by the old-name check (core/tools/naming/check_old_names.py) and by install-garura.
+# A name mapped to `null` was removed with no successor: the check still reports it.
+plays:
+  intent: discover-intent
+  vision: discover-domains
+  understand: discover-capabilities
+  grill: shape-slice
+  ux: shape-ux-lens
+  arch: shape-architecture-lens
+  quality: shape-quality-lens
+  measure: shape-measure-lens
+  run: shape-run-lens
+  agentic: shape-agentic-lens
+  marketing: shape-marketing-lens
+  implement: build-epic
+  validate: validate-epic
+  launch: release-epic
+  deploy: release-increment
+  learn: learn-outcomes
+  review-change: check-change
+  refactor: refactor-code
+  # Removed with no successor (ADR 059, #920): the knowledge step is a step of the loop, not a play.
+  # `null` keeps the old name caught by the old-name check; the install has no new name to lay.
+  build-knowledge: null
+  review-knowledge: null
+  adr: record-decision
+  play-creator: create-play
+  play-editor: edit-play
+  loop-creator: create-loop
+  loop-editor: edit-loop
+  focus: list-focus-issues
+  # #807: "feature" now means one thing a person can do (the old Functionality),
+  # so the delivery plays take the epic and slice names.
+  shape-features: shape-slice
+  build-feature: build-epic
+  validate-feature: validate-epic
+  release-feature: release-epic
+loops:
+  discovery: complete-discovery
+skills:
+  analyze-changes: assess-changes
+  analyze-pr: assess-pr
+  answer-from-source: find-answers-in-sources
+  author-adr: author-decision
+  author-hitl-scenarios: author-acceptance-scenarios
+  author-intent-yaml: author-play-ice
+  author-vision-seed: author-domains
+  build-product-ontology: author-product-ontology
+  close-model-gaps: link-model-gaps
+  compute-blast-radius: derive-blast-radius
+  create-commit: commit-files
+  deploy-to-cloud-env: deploy-cloud-environment
+  detect-test-harness: scan-test-harness
+  draft-fix-design: author-fix-design
+  draft-implementation-plan: author-implementation-plan
+  draft-knowledge-page: author-knowledge-page
+  draft-lld: author-lld
+  draft-rca: author-rca
+  draft-technical-approach: author-technical-approach
+  draft-verification-scenarios: author-verification-scenarios
+  generate-encrypted-evals: author-encrypted-evals
+  kb-search: find-architecture-learnings
+  manage-issue: track-issue
+  manage-plan: author-plan-file
+  map-test-surface: scan-test-surface
+  plan-validation-checks: author-validation-checks
+  quality-check: check-quality
+  quality-check-scoped: check-pr-quality
+  refine-quality-profile: enrich-quality-profile
+  resolve-issues: find-matching-issues
+  run-generated-tests-isolated: check-generated-tests
+  run-quality-gates: check-quality-gates
+  search-kb: find-work-placement
+  setup-branch: cut-branch
+  specify-baseline-tests: author-baseline-tests
+  stand-up-launch-env: deploy-local-environment
+  submit-pr: open-pr
+  write-knowledge-brief: author-knowledge-brief
+agents:
+  env-operator: environment-operator
+  loop-checker: result-checker

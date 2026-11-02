@@ -1,19 +1,25 @@
 commits:
-  - sha: 444727dc
-    message: "feat(author-intent-page): write the Touches list of an intent (#1019)"
+  - sha: b5df1583
+    message: "fix(remove-model-part): a capability merge leaves no record on the survivor (#1019)"
     files:
-      - core/components/skills/author-intent-page/scripts/write_page.py
-      - core/components/skills/author-intent-page/scripts/test_write_page.py
-      - core/components/skills/author-intent-page/SKILL.md
+      - core/components/skills/remove-model-part/SKILL.md
+      - core/components/skills/remove-model-part/scripts/remove_part.py
+      - core/components/skills/remove-model-part/scripts/test_remove_part.py
       - core/components/agents/product-os-keeper.md
     branch: feature/1019-three-reorganisation-skills
-  - sha: a2a616bc
-    message: "test(eval): record the acceptance check rerun, 87 passed (#1019)"
+  - sha: c1648337
+    message: "docs(direct-model-write): name the two writers of the spine outside a play (#1019)"
+    files:
+      - core/components/memory/standards/rules/direct-model-write.md
+    branch: feature/1019-three-reorganisation-skills
+  - sha: af78219b
+    message: "test(eval): record the acceptance check after the merge change (#1019)"
     files:
       - .garura/project/issues/1019/evidence/eval/eval-after.json
     branch: feature/1019-three-reorganisation-skills
 excluded_files:
-  []
+  - path: ".garura/project/issues/1019/review/"
+    reason: "committed by /check-change's post step"
 leftover_count: 0
 tree_clean: true
 pushed: false
