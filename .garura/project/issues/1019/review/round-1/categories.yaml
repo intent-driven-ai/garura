@@ -1,0 +1,291 @@
+# categories.yaml — work categories present in PR #1020 (issue #1019), derived from the diff.
+# Written by change-reviewer (assessment). Each treatment is copied from the playbook in short-term
+# memory (.garura/project/issues/1019/context/memory/knowledge/review/), never from prior knowledge.
+# A category with no changed file is absent. Paths are relative to the repo root.
+pr: 1020
+issue: 1019
+base: main
+memory_copied:
+  review_shelf: .garura/project/issues/1019/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/1019/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/1019/context/memory/manifest.json
+  tier: phoenix   # no short-term or Garura copy answered; the memory tool answered from Phoenix memory
+  note: >
+    Copied through the memory tool (find, then read piped to copy_memory.py): the eight files of
+    knowledge/review/ (_index plus seven playbooks) and standards/rules/pr.md.
+
+design_bearing: [harness, memory]   # the Layer 2 fan-out: one grounding dispatch for each
+
+categories:
+
+  - category: harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/skills/author-intent-page/SKILL.md
+      - core/components/skills/remove-model-part/SKILL.md
+      - core/components/skills/remove-plan/SKILL.md
+      - core/components/agents/product-os-keeper.md
+      - core/components/agents/project-orchestrator.md
+    why: >
+      Three new skill definitions (SKILL.md) and two agent definitions that add the new skills to
+      their tables, routing rows, memory needs and "never" rules. These files are the system's
+      behaviour: the play to agent to skill to script wiring. The skills' own scripts are listed
+      under "code" and also belong to this wiring, so Layer 2 should read them as the skill's
+      script contract.
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: lint-components
+          applies: true
+          why_this_layout: the PR changes paths under core/components, so the repository holds Garura's source
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          finding_rule: >
+            Only a violation whose file is in context.yaml changed_paths is a finding. Count the other
+            violations and record the count as "there before". Not installed: record "not installed".
+            A crash: record "did not run: <first error line>". Neither is a pass.
+        - name: lint_play
+          applies: false
+          why: >
+            no play SKILL.md is in changed_paths. The install-garura play changes only its scripts
+            (install.py, test_install.py), not its SKILL.md, so there is no changed play to lint.
+          command_if_a_play_changed: >
+            python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/<play>/SKILL.md
+            --next-map .garura/project/issues/1019/context/templates/standards/rules/pipeline-next.md
+          for_each: the changed play, on its core/components/plays/<play>/SKILL.md
+      runnable_checks: []
+      objective_checks_by_hand:
+        - >
+          ICE-source rule (applies, because the repository holds the plays' source): confirm no compiled
+          play SKILL.md is in changed_paths, so no intent change was hand-edited into a compiled file.
+          (From changed_paths: none is.)
+      design_grounding: >
+        yes (Layer 2). Reconstruct the harness principles from committed sources only: docs/philosophy/**,
+        docs/adr/**, the standards under memory/standards/rules/** (for example user-facing-voice,
+        play-close, evidence-recording), and the glossary. Never from the prose this branch adds.
+        Check each changed skill and agent for agent-first delegation, JSON contracts over files,
+        play orchestrates / skills produce / scripts do mechanical work, ICE-source discipline.
+      rubric: >
+        Does the change keep the play to agent to skill to script wiring intact; where the repository
+        holds the plays' source, does an intent change trace to its ICE source; does it hold the
+        standards it is subject to.
+
+  - category: memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/rules/naming.md
+      - core/components/memory/standards/rules/naming.yaml
+    why: >
+      The naming standard (prose half and the machine half that lint-components reads) gains a new
+      skill verb, `remove`. A standards rule shapes what every agent and the linter believe.
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: memory integrity check
+          applies: true
+          status: GAP — no installed tool checks memory integrity yet (playbook). The reviewer does the
+            checks by reading the changed files and cites each check.
+          command: null
+      runnable_checks: []
+      objective_checks_by_hand:
+        - >
+          Structure and cross-reference integrity of the two changed files (playbook: path /
+          cross-reference / structure integrity): the verb list in naming.md and the skill verbs in
+          naming.yaml agree, `remove` is in both, the naming.yaml entry follows the shape of its sibling
+          verb entries, and any file or ADR the changed text names resolves.
+        - >
+          Shelf checks of the playbook (template shape, frontmatter id against path, listed in the
+          shelf _index) apply where the file is a knowledge shelf. These two files are standards rules,
+          not shelf files, so the reviewer checks them against standards/rules/_index.md and states
+          which of the playbook's shelf checks do not apply.
+      design_grounding: >
+        yes (Layer 2). Reconstruct what the knowledge base is for and how a standards rule is meant to be
+        shaped from committed sources: knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md
+        and the relevant standards (here the naming standard on the base ref, ADR 046, the harness
+        standard), never from the branch's new text. Then check: is the new verb conditional and earned,
+        does it duplicate or overlap an existing verb, does the standard stay mechanical.
+      rubric: >
+        Does the change fit the shelf's purpose, follow the template, resolve its cross-references, and
+        avoid duplicating or contradicting existing knowledge.
+
+  - category: code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/skills/author-intent-page/scripts/write_page.py
+      - core/components/skills/author-intent-page/scripts/safe_write.py
+      - core/components/skills/remove-model-part/scripts/remove_part.py
+      - core/components/skills/remove-model-part/scripts/model_names.py
+      - core/components/skills/remove-model-part/scripts/spine_text.py
+      - core/components/skills/remove-model-part/scripts/safe_write.py
+      - core/components/skills/remove-plan/scripts/remove_plans.py
+      - core/components/plays/install-garura/scripts/install.py
+    why: >
+      Python the runtime executes: the scripts of three new skills and a 3-line change to the install
+      play's script (adds three skill names to the `harness` scope allow-list). The allow-list names
+      skills, not paths, so install.py was judged code, not a config map.
+    treatment:
+      reviewer: the tool, against industry best practice
+      layers: [1]
+      linters:
+        - name: check-pr-quality
+          applies: true
+          how: >
+            The play dispatches quality-auditor to run the check-pr-quality skill against the diff, with
+            the pr.md copy (severity_taxonomy). Rows: SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*.
+            Findings go to quality-findings.yaml. The playbook gives no shell command.
+          command: null
+        - name: python language linter
+          applies: true
+          status: >
+            GAP — the playbook says the language linter is whatever the target repo commits; this repo
+            commits no python lint config (no ruff.toml, pyproject.toml, setup.cfg, pre-commit file or
+            lint step in .github/workflows/release.yml). Record "not configured in repo". ruff is on this
+            machine and a .ruff_cache is in the tree, so `ruff check <paths>` with its defaults is the
+            nearest check; it is a suggestion, not a committed linter.
+          command: null
+          suggested_not_committed: ruff check <the eight paths above>
+      runnable_checks: []   # the executable code is exercised by the suites listed under "tests"
+      design_grounding: >
+        no — the standard is industry best practice plus the pr.md taxonomy. But review the data-safety
+        and idempotency paths hard (playbook).
+      data_safety_hot_spots:
+        - file: core/components/skills/remove-model-part/scripts/remove_part.py
+          what: deletes model pages and folders, rewrites the spine, restores them on a failed write (apply and its undo, about lines 395-435)
+        - file: core/components/skills/remove-plan/scripts/remove_plans.py
+          what: moves plan files and folders to a temporary folder, chmod on the way, shutil.rmtree of that folder, moves back on failure (about lines 115-215)
+        - file: core/components/skills/author-intent-page/scripts/write_page.py
+          what: writes or rewrites an intent page, removes a new page again when the report cannot be written (about lines 245-262)
+        - file: core/components/skills/author-intent-page/scripts/safe_write.py
+          what: the atomic write helper; byte-identical to remove-model-part/scripts/safe_write.py (the repo already has two more copies, in enrich-grounding and link-model-part)
+        - file: core/components/plays/install-garura/scripts/install.py
+          what: allow-list change only (3 lines); no file operation changed
+      rubric: >
+        Error handling, function size, no stray debug output, no secrets, safe handling of
+        destructive or irreversible operations, deterministic where it claims to be.
+
+  - category: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/skills/author-intent-page/scripts/test_write_page.py
+      - core/components/skills/remove-model-part/scripts/test_remove_part.py
+      - core/components/skills/remove-plan/scripts/test_remove_plans.py
+      - core/components/plays/install-garura/scripts/test_install.py
+      - .garura/project/issues/1019/evidence/eval/eval_1019.py
+    why: >
+      Four unittest suites (three new, one gains a test) and eval_1019.py, a black-box acceptance
+      check that runs each new skill's script on a throwaway model and exits 1 when a check fails.
+      By content the eval script is an automated test, although it sits in issue evidence.
+    treatment:
+      reviewer: the tool
+      layers: [1, "run the suite"]
+      linters:
+        - name: coding-best-practice linter on the test code
+          applies: true
+          how: clear assertions; no skipped or disabled test; no test that asserts nothing
+          command: null   # playbook names no tool; the tool reads the test code
+        - name: check-pr-quality
+          applies: true
+          how: the pr.md TEST-* rows, run by quality-auditor against the diff
+          command: null
+      runnable_checks:
+        - name: author-intent-page suite
+          command: python3 -m unittest discover -s core/components/skills/author-intent-page/scripts -p "test_write_page.py"
+        - name: remove-model-part suite
+          command: python3 -m unittest discover -s core/components/skills/remove-model-part/scripts -p "test_remove_part.py"
+        - name: remove-plan suite
+          command: python3 -m unittest discover -s core/components/skills/remove-plan/scripts -p "test_remove_plans.py"
+        - name: install-garura suite
+          command: python3 -m unittest discover -s core/components/plays/install-garura/scripts -p "test_install.py"
+          focused_test: test_the_harness_scope_carries_the_reorganisation_skills (the one this PR adds)
+        - name: acceptance check for #1019
+          command: python3 .garura/project/issues/1019/evidence/eval/eval_1019.py
+          note: run from the repo root (its own docstring); prints one JSON result, exit 1 on any failed check; uses a throwaway model
+      command_source: >
+        The playbook says to run the suite but names no command. These are derived from the files: each
+        suite is a unittest.TestCase module with an `if __name__ == "__main__"` guard that puts its own
+        folder on sys.path; PyYAML 6.0.3 is importable here. Run from the repo root.
+      red_suite: a red suite is a blocker finding (playbook). A suite not run is recorded as "not run", never as passed.
+      design_grounding: no
+      recorded_results_are_not_proof: >
+        eval-before.json and eval-after.json (see run-records) record an earlier run, 87 passed. The
+        review re-runs the checks; it does not rely on the recorded numbers.
+
+  - category: documentation
+    design_bearing: false
+    playbook: review/docs
+    evidence:
+      - docs/components/skills.md
+    why: >
+      Human-facing component documentation: two skill-family rows gain the new skill names and the
+      skill-verb sentence gains `remove`. It is not a decision record, a harness file or a memory file.
+    treatment:
+      reviewer: the tool (the human opts out unless they choose to read it)
+      layers: [1]
+      linters:
+        - name: prose checks
+          applies: true
+          status: >
+            GAP — no committed prose linter in the repo (playbook). The tool performs the checks
+            directly and cites each as the basis.
+          checks: [spelling, grammar, dead or broken links, heading hierarchy, leftover TODOs, terminology consistency, completeness]
+          command: null
+      runnable_checks: []
+      objective_checks_by_hand:
+        - every skill named in the two changed family rows (remove-plan, author-intent-page, remove-model-part) exists as core/components/skills/<name>/SKILL.md
+        - the verb list in the changed sentence matches the verb list in core/components/memory/standards/rules/naming.yaml (terminology consistency)
+      design_grounding: no
+      note: >
+        The play's Step 3 also sends docs-prose through check-pr-quality as a standards-driven category;
+        the docs playbook itself says the tool performs the prose checks directly.
+
+  - category: run-records
+    name: "Run records (short-term memory and evidence of the change plays)"
+    design_bearing: false
+    playbook: null
+    playbook_missing: >
+      No playbook on the review shelf covers this kind of work. It is machine-written run state of
+      /start-change, /commit-change, /propose-change and the issue's acceptance runs (issue context,
+      copies of templates, the PR body, the self-review, recorded eval results). It is not human-facing
+      documentation, harness, memory, code, or a test. Not force-fitted into a seeded category. A
+      playbook for it is missing; a follow-up task to write one is owed (see the handback note).
+    evidence:
+      - .garura/project/issues/1019/context/analysis.yaml
+      - .garura/project/issues/1019/context/branch.json
+      - .garura/project/issues/1019/context/check-self-review-exit.txt
+      - .garura/project/issues/1019/context/commits.yaml
+      - .garura/project/issues/1019/context/issue.json
+      - .garura/project/issues/1019/context/plan.json
+      - .garura/project/issues/1019/context/porcelain.txt
+      - .garura/project/issues/1019/context/pr-body.md
+      - .garura/project/issues/1019/context/pr.json
+      - .garura/project/issues/1019/context/resolved-rules.json
+      - .garura/project/issues/1019/context/self-review.md
+      - .garura/project/issues/1019/context/target.json
+      - .garura/project/issues/1019/context/templates/manifest-close-start-change.json
+      - .garura/project/issues/1019/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1019/context/templates/standards/templates/delivery-report.md
+      - .garura/project/issues/1019/context/work-description.txt
+      - .garura/project/issues/1019/evidence/eval/eval-after.json
+      - .garura/project/issues/1019/evidence/eval/eval-before.json
+    copies_not_edits: >
+      context/templates/standards/** are copies that template-manager laid in the issue's short-term
+      memory from Phoenix memory (the manifest names tier phoenix, version c14f515d910f). The pipeline-next
+      copy differs from main:core/components/memory/standards/rules/pipeline-next.md only by a missing
+      final newline. They are not edits to memory standards, so they do not put the PR in the memory category.
+    treatment:
+      reviewer: none defined (no playbook)
+      layers: []
+      linters: []
+      runnable_checks: []
+      note: >
+        pr.md (the copy) classes `.garura/project/**` as artifact type stm-evidence, a prose type, so
+        check-pr-quality's code-only grep rules cannot fire on these files, and its pure path rules fire only
+        on docs-targeting globs. That is the only mechanical treatment that reaches them. No design to ground.
+
+# Absent: decision records (no docs/adr/**, no ADR-shaped file) and config maps (no CLAUDE.md, AGENTS.md or
+# config.yaml change).
