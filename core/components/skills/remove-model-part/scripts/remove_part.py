@@ -34,16 +34,17 @@ Every check then runs, and only then is the first file changed.
     Features whose capability is the id move to `into`. Other capabilities or features
     identified by the id are now identified by `into`, or by nothing when that would be itself.
     Every depends_on list that holds the id holds `into` instead, no duplicates, never itself.
-    The survivor gains the intents it lacks, in order, and the decisions; its metadata.merged_from
-    gains {id, issue, one_line}, so the issue number stays on record. Non-empty nfr_needs or
-    compliance_needs are listed in the report under needs_to_review, and never copied.
+    The survivor gains the intents it lacks, in order, and the decisions. Non-empty nfr_needs or
+    compliance_needs are listed in the report under needs_to_review, and never copied. The spine
+    keeps no record of the merge: the report's `merged` list is the run's record, and the merged
+    capability's issue number is gone from the model, while the tracker keeps the issue.
     Its page goes, and its folder when that is then empty. Refused when the folder holds any
     other file, or when the spine has an `ices` list with an entry for it.
 - remove a slice: its entry goes from `slices`, and its record file (`record`, else
   slices/<id>.yaml) when it is there. Nothing under the plans folder is touched.
 - mentions: every id being removed must no longer appear as a whole word in any .md or .yaml file
-  under the model, other than the files being deleted and _spine.yaml. In the changed spine data
-  it may appear only inside metadata.merged_from. Comments in the spine do not count.
+  under the model, other than the files being deleted and _spine.yaml. Anywhere in the changed
+  spine's data it refuses, naming the part. Comments in the spine do not count.
 
 Refused too: no approved_by, an unknown kind, the same id removed twice, an id not in the spine,
 an id or a page path that leaves the model folder. All or nothing: one bad item refuses the whole
@@ -243,10 +244,6 @@ def merge_capability(root, spine, item, removing, change):
     survivor["intents"] = no_repeats((survivor.get("intents") or []) + (entry.get("intents") or []))
     if entry.get("decisions"):
         survivor["decisions"] = no_repeats((survivor.get("decisions") or []) + entry["decisions"])
-    if not isinstance(survivor.get("metadata"), dict):
-        survivor["metadata"] = {}
-    survivor["metadata"].setdefault("merged_from", []).append(
-        {"id": pid, "issue": entry.get("issue"), "one_line": entry.get("one_line")})
     needs = {k: entry[k] for k in ("nfr_needs", "compliance_needs") if entry.get(k)}
     if needs:
         change["needs_to_review"].append(dict({"id": pid}, **needs))
@@ -279,12 +276,10 @@ def remove_intent(root, spine, item, change):
 
 
 def places(value, path, word):
-    """Each place under `value` that holds the word, skipping metadata.merged_from."""
+    """Each place under `value` that holds the word."""
     if isinstance(value, dict):
         for key, inner in value.items():
             here = f"{path}.{key}" if path else str(key)
-            if key == "merged_from" and path.split(".")[-1] == "metadata":
-                continue
             if word.search(str(key)):
                 yield here
             yield from places(inner, here, word)

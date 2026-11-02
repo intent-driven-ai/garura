@@ -1,6 +1,6 @@
 ---
 name: remove-model-part
-description: Take parts out of the product model once a person has approved it. It repoints what named an old business intent to a new one, or drops it, part by part; removes a business intent's page once nothing names it; merges a capability into another (its features, links, intents and decisions move, its issue number stays on record on the survivor, and its needs are listed for review, never copied); and removes a slice and its record. Its script does all of it mechanically and all or nothing, on a copy, with every check run before the first write — no name of the person who approved, a part still named by the spine, a page that still names a part being removed (each path and line is named), a capability folder with any other file, or a path that leaves the model refuses the whole request and writes nothing; when a write fails, every file is put back. The spine keeps its comments and layout. It never writes a page's words; the page skill fixes those first, and a survivor's page is the page skill's work. Used through product-os-keeper by any play or run carrying out a removal a person approved.
+description: Take parts out of the product model once a person has approved it. It repoints what named an old business intent to a new one, or drops it, part by part; removes a business intent's page once nothing names it; merges a capability into another (its features, links, intents and decisions move, and its needs are listed for review, never copied); and removes a slice and its record. Its script does all of it mechanically and all or nothing, on a copy, with every check run before the first write — no name of the person who approved, a part still named by the spine, a page that still names a part being removed (each path and line is named), a capability folder with any other file, or a path that leaves the model refuses the whole request and writes nothing; when a write fails, every file is put back. The spine keeps its comments and layout. It never writes a page's words; the page skill fixes those first, and a survivor's page is the page skill's work. Used through product-os-keeper by any play or run carrying out a removal a person approved.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Bash
@@ -54,8 +54,12 @@ different new ones. A capability is never simply removed: it merges `into` anoth
 
 What a merge does: the capability's features move to the survivor. Whatever was identified by it,
 or depended on it, now names the survivor, never twice and never the survivor itself. The survivor
-gains the intents it lacks, in order, and the decisions, and its `metadata.merged_from` gains
-`{id, issue, one_line}`. The capability's page goes, and its folder when that is then empty.
+gains the intents it lacks, in order, and the decisions. The capability's page goes, and its folder
+when that is then empty.
+
+A merge is a one-time change, so the spine keeps no record of it. The report's `merged` list is the
+run's record. The merged capability's issue number is gone from the model; the tracker keeps the
+issue.
 
 ## Output
 
@@ -75,7 +79,7 @@ script exits 2.
   write, and when a write or a delete fails every file is put back as it was.
 - **Only inside the product model.** An id or a page path that leaves `<product_base>product-os/`
   refuses the request. Nothing under the plans folder is touched, even for a slice.
-- **The removed id stays in one place only.** In the changed spine it may appear only inside
-  `metadata.merged_from`. Comments in the spine do not count.
+- **The removed id stays nowhere.** Anywhere in the changed spine's data it refuses the request,
+  naming the part. Comments in the spine do not count.
 - **A capability with more than its page does not go.** A folder that holds any other file, or an
   entry in the spine's `ices` list, refuses the merge and is named.

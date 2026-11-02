@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 import stat
 import subprocess
 import sys
@@ -358,10 +359,17 @@ class MergeCapability(RemovePartCase):
         self.assertEqual(survivor["intents"], ["bi-2", "bi-1"])
         self.assertEqual(survivor["decisions"], ["dec-2"])
 
-    def test_its_issue_stays_on_record(self):
+    def test_the_spine_keeps_no_record_of_the_merge(self):
         self.done(request(remove=[self.merge]))
-        self.assertEqual(self.part("capabilities", "cap-3")["metadata"]["merged_from"],
-                         [{"id": "cap-2", "issue": 22, "one_line": "Read mail"}])
+        text = self.read("_spine.yaml")
+        self.assertNotIn("merged_from", text)
+        self.assertNotIn("issue: 22", text)
+        self.assertNotIn("Read mail", text)
+        self.assertIsNone(re.search(r"(?<![\w-])cap-2(?![\w-])", text))
+
+    def test_the_report_is_the_record_of_the_run(self):
+        rep = self.done(request(remove=[self.merge]))
+        self.assertEqual(rep["merged"], [{"id": "cap-2", "into": "cap-3"}])
 
     def test_its_needs_are_listed_and_never_copied(self):
         rep = self.done(request(remove=[self.merge]))
@@ -381,18 +389,19 @@ class MergeCapability(RemovePartCase):
         self.assertEqual(rep["deleted"], ["product-os/capabilities/cap-2/capability.md",
                                           "product-os/capabilities/cap-2"])
 
-    def test_the_merged_id_may_stay_only_in_merged_from(self):
-        text = self.read("_spine.yaml")
+    def test_the_merged_id_is_nowhere_in_the_changed_spine(self):
         self.done(request(remove=[self.merge]))
-        spine = self.spine()
-        self.assertEqual(len(remove_part.left_in_spine(spine, "cap-2")), 0)
-        self.assertIn("cap-2", text)
-        self.assertIn("id: cap-2", self.read("_spine.yaml"))  # the one merged_from line
+        self.assertEqual(remove_part.left_in_spine(self.spine(), "cap-2"), [])
 
-    def test_a_second_merge_of_the_same_survivor_adds_to_its_record(self):
-        self.done(request(remove=[self.merge, {"kind": "capability", "id": "cap-4", "into": "cap-3"}]))
-        self.assertEqual([m["id"] for m in self.part("capabilities", "cap-3")["metadata"]["merged_from"]],
-                         ["cap-2", "cap-4"])
+    def test_a_removed_id_inside_metadata_refuses_naming_the_part(self):
+        for field in ("merged_from:\n    - id: cap-2\n", "note: once cap-2\n"):
+            self.write("_spine.yaml", SPINE.replace("    created_by: /test\n", f"    created_by: /test\n    {field}"))
+            self.assert_refused(request(remove=[self.merge]), "cap-2", "capability cap-1", "metadata")
+
+    def test_two_merges_into_one_survivor_leave_no_record_either(self):
+        rep = self.done(request(remove=[self.merge, {"kind": "capability", "id": "cap-4", "into": "cap-3"}]))
+        self.assertEqual(rep["merged"], [{"id": "cap-2", "into": "cap-3"}, {"id": "cap-4", "into": "cap-3"}])
+        self.assertNotIn("merged_from", self.read("_spine.yaml"))
 
     def test_refusals(self):
         refusals = [
@@ -461,9 +470,13 @@ class MergeCapability(RemovePartCase):
         self.write("_spine.yaml", SPINE.replace("doc: capabilities/cap-2/capability.md", "doc: capability.md"))
         self.assert_refused(request(remove=[self.merge]), "other files", "_spine.yaml")
 
-    def test_a_survivor_with_no_metadata_gets_some(self):
+    def test_a_survivor_with_no_metadata_gets_none(self):
         self.done(request(remove=[{"kind": "capability", "id": "cap-1", "into": "cap-3"}]))
-        self.assertEqual(self.part("capabilities", "cap-3")["metadata"]["merged_from"][0]["issue"], None)
+        self.assertNotIn("metadata", self.part("capabilities", "cap-3"))
+
+    def test_a_survivors_metadata_stays_as_it_was(self):
+        self.done(request(remove=[{"kind": "capability", "id": "cap-4", "into": "cap-1"}]))
+        self.assertEqual(self.part("capabilities", "cap-1")["metadata"], {"created_by": "/test"})
 
 
 class RemoveSlice(RemovePartCase):
