@@ -1,0 +1,14 @@
+{
+  "id": "bi-7",
+  "issue": 7,
+  "title": "Install and distribute",
+  "outcome": "A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.",
+  "why": "A team can only use Garura once it's in their project, and only keeps using it if upgrades are safe.",
+  "asked_by": "the product owner",
+  "proof": [
+    "A first install takes one step.",
+    "An upgrade loses nothing the team changed.",
+    "Each tool gets what it supports."
+  ],
+  "must_not": "Change what a project's people changed without asking them."
+}

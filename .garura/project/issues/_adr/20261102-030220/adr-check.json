@@ -1,0 +1,63 @@
+{
+  "draft": ".garura/project/issues/_adr/20261102-030220/adr-draft.md",
+  "status": "Proposed",
+  "lint": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261102-030220/adr-draft.md",
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261102-030220/adr-draft.md",
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "guard_agrees_with_declared": true,
+  "guard_reads": "the Affects line and intent titles only",
+  "overlaps": {
+    "candidates": 35,
+    "judged_in_context": [
+      "005",
+      "007",
+      "010",
+      "017",
+      "026",
+      "028",
+      "029",
+      "030",
+      "031",
+      "032",
+      "033",
+      "035",
+      "039",
+      "040",
+      "043",
+      "044",
+      "045",
+      "046",
+      "047",
+      "048",
+      "049",
+      "050",
+      "052",
+      "053",
+      "054",
+      "055",
+      "056",
+      "057",
+      "058",
+      "059",
+      "060",
+      "061",
+      "062",
+      "063",
+      "064"
+    ],
+    "not_judged": []
+  },
+  "affects_paths_checked": 15,
+  "affects_paths_missing": [],
+  "outcome": "clean: lint passes and the guard agrees with the declared check; still proposed, nothing applied"
+}

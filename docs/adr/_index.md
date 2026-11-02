@@ -70,3 +70,4 @@ may have no Status line.
 | [062](062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md) | /update-plan Writes the Product Model Only After "Approved", and May Add a Feature to a Slice in Progress | Accepted | 2026-10-30 |
 | [063](063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md) | /shape-plan Makes a Business Intent's One Plan Once; a Plan That Exists Is Changed Only by /update-plan | Accepted | 2026-10-31 |
 | [064](064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md) | An Item's Status in a Plan Follows Its Own Issue, With No Roll-Ups | Accepted | 2026-10-31 |
+| [065](065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md) | The Model's Index Is Changed Through Two Skills, a Person May Approve Deleting a Plan, the Model Never Names a Plan, and Only Tools Know the Tracker | Accepted | 2026-11-02 |

@@ -1,0 +1,13 @@
+{
+  "id": "bi-8",
+  "issue": 8,
+  "title": "Developer tooling",
+  "outcome": "People judge what agents made at the level of the outcome, reviewing ADRs, memories, domains, capabilities and ICE in tools that ship with Garura. Argus comes first.",
+  "why": "Agents now make more in one run than a pull request can show.",
+  "asked_by": "the product owner",
+  "proof": [
+    "A person reviews a whole run in the tool.",
+    "Their answers become part of the work."
+  ],
+  "must_not": "Make people read raw files to know what was made."
+}

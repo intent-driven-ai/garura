@@ -1,0 +1,312 @@
+shape: markdown
+number: '065'
+target: docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md
+level: framework
+decided_in: '#1021, with the skills landed in #1019'
+supersedes: []
+amends:
+- id: '026'
+  file: 026-direct-to-model-writes.md
+  part: 'Decision, "Containment split", the sentence "Every shared file ... is written solely by the play''s deterministic
+    keyed script", for the spine only: the spine is changed through link-model-part and remove-model-part, and plays
+    move onto them over time. The profile and decisions/ stay with the play''s script, and the rest of the split
+    stands'
+- id: '044'
+  file: 044-the-shared-drive-run-owns-the-steps-between-plays.md
+  part: §2, the sentence "Outside a drive, nothing changes. A play's keyed persist script is still the only writer
+    of shared model files". The rest of §2, the gap-closing script inside a loop, stands for now
+- id: '063'
+  file: 063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md
+  part: '§2, "A plan that exists is changed only by /update-plan": a whole plan, with its folder, may also be deleted
+    on a person''s named approval, through remove-plan; and its words "the change reaches GitHub" now read "the
+    tracker". §1 and §3 stand'
+- id: '005'
+  file: 005-skills-as-capabilities.md
+  part: '"Skill Execution Preferences": `gh` in the first row of its table, and its example "Preferred: Use gh CLI
+    directly". A skill reaches a tracker only through the tool. The order of preference stands for everything else'
+- id: '064'
+  file: 064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md
+  part: '§1 and §4, the word only: "its own GitHub issue" and "closed on GitHub" now read as its own issue in the
+    tracker. The rule stands'
+read_and_left_alone:
+- id: 028
+  depth: read
+  why: The brief says the five loops do not change
+- id: '046'
+  depth: read
+  why: The brief leaves the verb undecided. §5's platform-adapter exception would only change if the adapter becomes
+    a tool, later
+- id: '045'
+  depth: read
+  why: The five loops keep their names
+- id: 029
+  depth: read
+  why: §3's parent and child link stays real, so its rule holds
+- id: '030'
+  depth: part
+  why: An agent gathers the issue and its links; it does not say how, so the tool fits
+- id: '031'
+  depth: read
+  why: Only a person confirms or drops an intent; this record does neither
+- id: '033'
+  depth: read
+  why: Approval rules are not touched
+- id: '043'
+  depth: read
+  why: The gap skills inside a loop stand
+- id: '047'
+  depth: part
+  why: The ICE kind and the ready check stand
+- id: 048
+  depth: part
+  why: The Plan is a file and the thread between two layers, which fits rule 3
+- id: 049
+  depth: read
+  why: One plan for each intent stands; §3's home plan is worked out, never stored, which fits rule 3
+- id: '052'
+  depth: read
+  why: The hidden file and thin ICE rules stand
+- id: '056'
+  depth: read
+  why: Stands; its §2 is named in the point on deleting a plan
+- id: '057'
+  depth: part
+  why: §5 binds a later run of /shape-eval, and remove-plan is not one; named in the same point
+- id: 058
+  depth: read
+  why: §1 binds a shaping run and §2 an edit; neither is touched
+- id: '060'
+  depth: read
+  why: A plan's branch rules stand
+- id: '061'
+  depth: read
+  why: Who cuts a plan's branch stands
+- id: '062'
+  depth: read
+  why: /update-plan's use of link-model-part already fits rule 1
+- id: '010'
+  depth: part
+  why: Its risk note names gh issue view for a skill that no longer exists, so nothing is left to change
+- id: '032'
+  depth: part
+  why: Its review step and tools are not touched
+- id: '007'
+  depth: outline
+  why: Already superseded; shares only a path
+- id: '017'
+  depth: outline
+  why: Shares only a path
+- id: '035'
+  depth: outline
+  why: Memory tiers are not touched
+- id: 039
+  depth: outline
+  why: Memory writes are not touched
+- id: '040'
+  depth: outline
+  why: Its rule that the config's source is core/config.yaml fits rule 4
+- id: '050'
+  depth: outline
+  why: Shares only a path
+- id: '053'
+  depth: outline
+  why: Shares only a path and an agent's file
+- id: '054'
+  depth: outline
+  why: Shares only an agent's file
+- id: '055'
+  depth: outline
+  why: Installed parts reading installed files fits a tool laid by the install
+- id: 059
+  depth: outline
+  why: Shares only the naming files
+affects: '`core/components/memory/standards/rules/direct-model-write.md` (rule 3, and the new rule that the model
+  never names a plan) · `core/components/agents/product-os-keeper.md` (its rule on who writes the spine) · `core/config.yaml`
+  (its `trackers` settings, the code host''s own setting and the wrong `github.owner`) · `core/tools/` (the Agent-work
+  tool, recorded as a feature) · the parts that reach the tracker today and move onto the tool over time: `core/components/skills/platform-adapter/`,
+  `core/components/plays/create-play/references/platform_adapter.py` and the copies stamped from it, `core/components/plays/merge-change/scripts/read_merge_state.py`
+  and `core/components/plays/create-play/references/read_merge_state.py`, `core/components/skills/open-pr/`, `core/components/skills/merge-pr/`,
+  `core/components/skills/track-issue/`, `core/components/skills/track-plan-changes/`, `core/components/agents/project-orchestrator.md`,
+  `core/components/agents/code-builder.md` and `core/components/agents/repo-orchestrator.md`'
+ice_impact: 'This record changes no play''s goal or limit by itself. (1) The product-os-keeper agent''s rule on
+  who writes the spine is widened to the two skills. (2) Each model-writing play''s ICE changes through /edit-play
+  when that play moves onto the two skills. (3) As each moves onto the tool, the agents repo-orchestrator, project-orchestrator
+  and code-builder stop naming a tracker, and play ICE lines that name GitHub, such as /update-plan''s "closed on
+  GitHub", say the tracker. (4) "Checked by" and Context lines on model ICE that name one particular plan are reworded
+  in the change for #1021. The ontology (read at version 15) and the ICE kind do not change.'
+business_intent_check:
+  value: kind
+  summary: 'rule 4 says where the Business Intent kind is kept: in the tracker the settings name, which may be its
+    own and not the work''s. The kind''s properties, links and rules in the ontology do not change. No person''s
+    business intent changes: this record adds, changes and drops none'
+  why_not_none: '`none` would say the kind is untouched, but rule 4 is a rule about where every business intent
+    lives. ADR 048 marked a smaller tracker change to this kind, its label, as `kind`.'
+  why_not_instance: The Decision applies to no intent page and no intent's issue, and it leaves which intents exist
+    to the product owner. One place could have reached a person's words if rule 3 were read widely, a Proof line
+    on bi-756. It was shown to the person as a point, because the guard does not read that far, and it falls away
+    because those pages are deleted or rewritten in the product owner's own change.
+  sources:
+  - tier: phoenix
+    path: standards/schemas/product-os/ontology.md
+    version: c14f515d910f
+    fingerprint: sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53
+    lines: 11, 178, 192, 215, 223
+    says: A business intent is an issue labelled `product` in the tracker; only a person confirms or drops one
+related: 'ADR 005, ADR 026, ADR 029, ADR 044, ADR 048, ADR 049, ADR 056, ADR 057, ADR 062, ADR 063, ADR 064, #1019,
+  PR #1020, #1021'
+for_the_accepter:
+- point: Rule 1's first words, "changes only what its request names", were narrower than what remove-model-part
+    does
+  what_and_where: '`core/components/skills/remove-model-part/scripts/remove_part.py` lines 233 to 242; finding F8
+    of the review of PR #1020'
+  detail: A capability merge moves the merged capability's features to the survivor, and rewrites `identified_by`
+    and `depends_on` on every other part that named it. The request names only the two ends. The same skill also
+    repoints a part from one business intent to another, which is a change, not a take-out; link-model-part cannot
+    do that, because it can only add an intent (`add_intents`).
+  why_it_matters: 'A reader would trust the sentence and a reviewer would find it false. The review of PR #1020
+    already raised it.'
+  this_decision_does: It widens the sentence, so it says what the script does.
+  you_decide: 'Decided: the sentence is widened, as rule 1 under Decision now says.'
+- point: A third skill writes the index today, and it can remove a part with no approver's name
+  what_and_where: '`core/components/skills/link-model-gaps/scripts/apply_links.py`; ADR 044 §2; `core/components/memory/standards/rules/direct-model-write.md`
+    rule 3'
+  detail: Inside a loop, this script writes the spine and the Touches lists, moves pages, and merges duplicates,
+    which removes a node. Its key is an agreed gaps.json, not a person's name. The brief says two skills is the
+    fewest that fits and rejects many skills that each write the index their own way, but it says only that plays
+    move over, and this is a skill.
+  why_it_matters: Read strictly, rule 1 breaks on every round of a loop. Read loosely, a third writer stays, and
+    it takes parts out without the name rule 1 asks for.
+  this_decision_does: It leaves ADR 044's exception inside a loop standing for now.
+  you_decide: 'Decided: it stays for now inside a loop and folds into the two skills over time.'
+- point: The two skills cannot yet do everything the play scripts write
+  what_and_where: '`core/components/plays/shape-slice/scripts/persist_slice.py` and `edit_slice.py`; `core/components/plays/discover-capabilities/scripts/persist_understand.py`;
+    `core/components/plays/discover-domains/scripts/persist_seed.py`; `core/components/plays/learn-outcomes/scripts/persist_learn.py`;
+    the epic status scripts in `core/components/plays/build-epic/`, `validate-epic/` and `release-epic/`'
+  detail: link-model-part writes domain, capability and feature entries. For a slice it only adds features, because
+    only /shape-slice shapes a slice. Neither skill writes the profile block in the spine or an epic's status. "Over
+    time" has no date and no list. Until a play moves, its own script keeps writing.
+  why_it_matters: While plays move there are two ways to write the index, and a reviewer cannot tell a play not
+    yet moved from a play that broke the rule.
+  this_decision_does: It amends ADR 026 for the spine only. The profile and decisions/ stay with the play's script.
+  you_decide: 'Decided: a new slice, the profile and an epic''s status stay with their plays until the skills grow.'
+- point: Rule 3 means one particular plan, and ten places break it today
+  what_and_where: 'Under `.garura/product/product-os/`: `_spine.yaml` line 619; the pages cap-718 line 24, cap-719
+    line 10, fn-795 line 53, fn-798 line 48, fn-818 line 60, fn-628 line 14, fn-881 line 77, fn-931 line 33, fn-597
+    line 47'
+  detail: '"Names a plan" means naming one particular plan. A feature whose job is plans may still describe plans
+    and their folder (`.garura/project/plans/<plan-id>/evals/<slug>/`). These ten break it, for example "the tree
+    for plan #717 matches its plan file" and "runs /shape-eval 788". The spine line and fn-931''s line came from
+    an /update-plan session, so the next session can write the same. Nothing checks for it. remove-model-part looks
+    only for a part''s own id.'
+  why_it_matters: The rule is broken on the day it is accepted, and a stricter reading would forbid whole features
+    about plans.
+  this_decision_does: It states the rule. It changes no page.
+  you_decide: 'Decided: it means one particular plan. The ten places are fixed in the change for #1021.'
+- point: Rule 3 could reach a person's own words on one intent page
+  what_and_where: '`.garura/product/product-os/intents/`: the **Plan:** lines at bi-717 line 13, bi-722 line 15,
+    bi-734 line 15 and bi-756 line 20; and bi-756 line 14, in its Proof it is met'
+  detail: 'The four **Plan:** lines name a plan file. They are not one of the kind''s properties (ontology, lines
+    181 to 196), and author-intent-page drops such a line on a rewrite. bi-756 line 14 is different: it is a confirmed
+    Proof line, "Garura''s own model (plans #717, #722 and #734) is moved to the new shape".'
+  why_it_matters: An ADR never changes a person's business intent, and applied to that Proof line rule 3 would.
+    The guard does not catch this, because it reads only the Affects line and intent titles, so it is shown here.
+  this_decision_does: It changes none of these pages.
+  you_decide: 'Decided: this falls away, because those intent pages are deleted or rewritten in that change.'
+- point: Rule 4 has no tool yet
+  what_and_where: '`core/tools/`; `core/config.yaml` lines 7 to 23; the parts listed under Affects'
+  detail: '`core/tools/` holds no tracker tool. The `platform-adapter` skill, eight copies of `platform_adapter.py`,
+    two copies of `read_merge_state.py`, the skills open-pr, merge-pr and track-issue, and the agents project-orchestrator,
+    code-builder and repo-orchestrator all name `gh` or `glab`. Beyond them, 47 files under plays, skills and agents
+    use the word GitHub. No script reads the new `trackers` settings yet, and they are uncommitted in the working
+    tree. The adapter reads the older `platform:` line. The older `github.owner` says `kapilvirenahuja`, while `trackers.work.owner`
+    and the repo address say `intent-driven-ai`. If the adapter stops being a skill, ADR 046''s naming exception
+    for `platform-adapter` is a later change, not part of this record.'
+  why_it_matters: Until a part moves, it still names the tracker, and a reviewer reads that as not moved yet, not
+    as broken. Two settings for one tracker can disagree, and on the owner they already do.
+  this_decision_does: It states the rule, with parts moving onto the tool over time. It builds no tool and moves
+    no part.
+  you_decide: 'Decided: parts move over time. The tool is the Agent-work tool, starting from the platform-adapter
+    skill, recorded as a feature.'
+- point: Rule 4 speaks of trackers, and pull requests live on a code host
+  what_and_where: '`core/components/skills/platform-adapter/SKILL.md` (its 25 verbs); `core/config.yaml`'
+  detail: The adapter's verbs mix pull requests (view-pr, comment-pr) with issues. A team on Jira or Linear still
+    has its pull requests on GitHub or GitLab. The `trackers` settings name where intents and agent work live, and
+    nothing names the code host except the older `platform:` line.
+  why_it_matters: The tool's shape depends on this. Without an answer, one setting would end up meaning two things.
+  this_decision_does: It adds, under rule 4, that the code host is its own setting and the tool reads both.
+  you_decide: 'Decided: the code host stays its own setting, and the tool reads both. The wrong `github.owner` is
+    fixed as part of that feature.'
+- point: A real parent and child link between an epic and its intent would cross trackers
+  what_and_where: '`.garura/user-provided/managing-work.md` lines 50 and 94; `CLAUDE.md` line 146; ADR 029 §3'
+  detail: 'managing-work.md says every Epic serves its intents "as a real parent/child link in the tracker", and
+    an unplanned epic is "that intent''s sub-issue". With intents in their own tracker, that link crosses trackers.
+    Between two platforms, such as Jira and GitHub, the keeper knows of no such link; between two GitHub repos it
+    has not checked. The ontology does not need one: an Epic reaches its intents through its slice (the Epic kind''s
+    relationships).'
+  why_it_matters: A person or play following that text tries to make a link that may fail, so it has to be proven
+    across trackers before a team relies on it.
+  this_decision_does: It keeps the text of managing-work.md, and it leaves ADR 029 §3.
+  you_decide: 'Decided: the real link stays, as the product owner asked, including across trackers.'
+- point: A bare issue number will soon mean two issues
+  what_and_where: '`.garura/project/issues/<issue>/`; the memory tool''s `--issue`; `(#N)` in commit messages'
+  detail: 'The tracker `intent-driven-ai/garura-intents` exists and holds no issues today, so its numbers start
+    low. The work tracker''s numbers pass 1000, so low numbers such as #65 will exist in both. `(#65)` in a commit
+    links to the work tracker. Short-term memory is one folder for each bare number, and the folders 65 and 91 already
+    exist for work issues. /shape-slice and /shape-plan already keep theirs under their change issue, not the intent;
+    older folders under intent numbers (606, 680, 717, 734, 788) hold past records.'
+  why_it_matters: A person following a link lands on the wrong issue. A run that used an intent's number as its
+    issue would reach a different issue's short-term memory, with no error.
+  this_decision_does: It records here how a number is written.
+  you_decide: 'Decided: BI-7 means an intent and #7 means work, in text. Short-term memory folders belong to work
+    issues only.'
+- point: Deleting a plan also deletes its evals, and rebuilding it makes a second set of stories
+  what_and_where: Rule 2; `core/components/skills/remove-plan/`; ADR 057 §5; ADR 056 §2; /shape-plan
+  detail: 'A plan''s folder holds its slices'' evals. ADR 057 §5 says a later run of /shape-eval never deletes a
+    scenario, so that "a later run cannot weaken an eval"; remove-plan is not that play, so the words hold, but
+    a rebuilt eval is a new yardstick with nothing comparing it to the old one. /shape-plan makes one story for
+    each feature and does not reuse an open one; #1021 lists that fix as outside its change. ADR 056 §2 says a play
+    finds an epic or a story by its plan file, so once the file is gone no play can find the ones that exist.'
+  why_it_matters: Two stories for one feature, for whoever picks up the work, and a weaker eval could go unseen.
+  this_decision_does: It allows the deletion and leaves ADR 056 and ADR 057 as they are.
+  you_decide: 'Decided: accepted. /shape-plan is fixed before the first rebuild.'
+- point: Agents read Phoenix memory, which still holds the old rule and has no verb `remove`
+  what_and_where: 'Phoenix memory''s copies of `direct-model-write.md` and `naming.yaml`; `core/components/memory/standards/rules/naming.yaml`
+    line 56; findings F1, MEM-1 and MEM-2 of the review of PR #1020'
+  detail: 'A search of Phoenix memory today finds no "Outside a play" paragraph, though the source has it. So an
+    agent reading through the memory tool still reads that only a play''s script writes the index. The verb is the
+    same: it is in the source''s naming.yaml, absent from Phoenix memory and from ADR 046 §5, and the brief says
+    it is not decided here. So remove-model-part and remove-plan fail the naming lint in a project that reads Phoenix''s
+    copy. The harness standard says a change to the naming standard is recorded as an ADR; at the brief''s word,
+    this one does not.'
+  why_it_matters: An agent can act on the old rule, and a new project sees two naming errors on parts it did not
+    write.
+  this_decision_does: It changes the rule in the source. It touches neither Phoenix memory nor the verb.
+  you_decide: 'Decided: it stays as it is for now, because the verbs change next.'
+- point: 'The text of #1021 no longer matches this record'
+  what_and_where: '#1021, its sections "Also in this change" and "Not in this change"'
+  detail: It says this record "also covers what this replaces in ADR 028", which it no longer does. It does not
+    mention rule 3, rule 4, the `trackers` settings, a tracker tool, or intents living in their own tracker.
+  why_it_matters: '#1021 is the work order, and its Done line is read back against it.'
+  this_decision_does: Nothing. The keeper does not write to the tracker.
+  you_decide: 'Decided: it is updated in that change.'
+work_this_creates:
+- After acceptance, the forward pointers on ADR 005, ADR 026, ADR 044, ADR 063 and ADR 064
+- 'direct-model-write.md: rule 3''s new wording and the rule that the model never names a plan; findings F8, MEM-6
+  and MEM-7; its Authority header (lines 7 to 9), which should name this ADR (finding F1)'
+- 'product-os-keeper.md: its rule on who writes the spine cites this ADR'
+- 'In the change for #1021: reword the ten places that name a plan, and update the text of #1021'
+- Move each model-writing play onto the two skills, through /edit-play, as the skills grow to cover a new slice,
+  the profile and an epic's status
+- Fold link-model-gaps into the two skills, over time
+- 'Record the Agent-work tool as a feature, starting from the platform-adapter skill: it reads the tracker settings
+  and the code host''s own setting, the wrong `github.owner` is fixed with it, and plays, skills and agents move
+  onto it over time'
+- Prove the real parent and child link across trackers before a team relies on it
+- Fix /shape-plan so it reuses open stories, before the first rebuild
+- Promote the rule to Phoenix memory after the verbs change
+references:
+- .garura/project/issues/_adr/20261102-030220/brief.md
+- .garura/project/issues/1019/review/findings.yaml, findings MEM-1, MEM-2, MEM-5, MEM-6, MEM-7, F1 and F8
+- core/components/memory/standards/rules/direct-model-write.md
+- core/config.yaml
+- ADR 005, ADR 026, ADR 044, ADR 056, ADR 057, ADR 063, ADR 064

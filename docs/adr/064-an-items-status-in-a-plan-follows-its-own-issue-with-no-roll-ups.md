@@ -1,6 +1,6 @@
 # ADR 064 — An Item's Status in a Plan Follows Its Own Issue, With No Roll-Ups
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 065](065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md): §1 and §4, the word only: "its own GitHub issue" and "closed on GitHub" now read as its own issue in the tracker. The rule stands
 **Date:** 2026-10-31
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #1007 (an item's status follows its own issue), on plan 717's branch

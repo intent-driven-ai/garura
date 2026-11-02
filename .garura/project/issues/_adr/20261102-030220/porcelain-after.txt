@@ -1,0 +1,44 @@
+ M docs/adr/005-skills-as-capabilities.md
+ M docs/adr/026-direct-to-model-writes.md
+ M docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+ M docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md
+ M docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md
+ M docs/adr/_index.md
+?? .garura/project/issues/1021/context/intents/bi-1.json
+?? .garura/project/issues/1021/context/intents/bi-10.json
+?? .garura/project/issues/1021/context/intents/bi-11.json
+?? .garura/project/issues/1021/context/intents/bi-2.json
+?? .garura/project/issues/1021/context/intents/bi-3.json
+?? .garura/project/issues/1021/context/intents/bi-4.json
+?? .garura/project/issues/1021/context/intents/bi-5.json
+?? .garura/project/issues/1021/context/intents/bi-6.json
+?? .garura/project/issues/1021/context/intents/bi-7.json
+?? .garura/project/issues/1021/context/intents/bi-8.json
+?? .garura/project/issues/1021/context/intents/bi-9.json
+?? .garura/project/issues/1021/context/intents/confirmation.json
+?? .garura/project/issues/1021/context/intents/issue-1.md
+?? .garura/project/issues/1021/context/intents/issue-10.md
+?? .garura/project/issues/1021/context/intents/issue-11.md
+?? .garura/project/issues/1021/context/intents/issue-2.md
+?? .garura/project/issues/1021/context/intents/issue-3.md
+?? .garura/project/issues/1021/context/intents/issue-4.md
+?? .garura/project/issues/1021/context/intents/issue-5.md
+?? .garura/project/issues/1021/context/intents/issue-6.md
+?? .garura/project/issues/1021/context/intents/issue-7.md
+?? .garura/project/issues/1021/context/intents/issue-8.md
+?? .garura/project/issues/1021/context/intents/issue-9.md
+?? .garura/project/issues/_adr/20261102-030220/adr-check.json
+?? .garura/project/issues/_adr/20261102-030220/adr-context.yaml
+?? .garura/project/issues/_adr/20261102-030220/adr-draft.md
+?? .garura/project/issues/_adr/20261102-030220/adr-manifest.json
+?? .garura/project/issues/_adr/20261102-030220/brief.md
+?? .garura/project/issues/_adr/20261102-030220/context/memory/manifest.json
+?? .garura/project/issues/_adr/20261102-030220/context/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/_adr/20261102-030220/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261102-030220/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261102-030220/decision.yaml
+?? .garura/project/issues/_adr/20261102-030220/guard-report.json
+?? .garura/project/issues/_adr/20261102-030220/hashes-before.json
+?? .garura/project/issues/_adr/20261102-030220/porcelain-after.txt
+?? .garura/project/issues/_adr/20261102-030220/porcelain-before.txt
+?? docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md

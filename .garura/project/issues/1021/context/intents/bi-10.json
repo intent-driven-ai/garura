@@ -1,0 +1,14 @@
+{
+  "id": "bi-10",
+  "issue": 10,
+  "title": "Standards, structure, settings and memory",
+  "outcome": "A project runs on one foundation. Everything is built on the ICE model with written standards, the structure says where everything lives, settings hold what can be turned on or off, agents decide from three tiers of memory, and each part runs on the right model. Teams can build their own harness on it.",
+  "why": "Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.",
+  "asked_by": "the product owner",
+  "proof": [
+    "The checks hold every part to the standard.",
+    "Every tool reads its settings.",
+    "Nothing an agent decides from sits outside memory."
+  ],
+  "must_not": "Name a tracker in a play, skill or sub-agent, because they only know the tool."
+}
