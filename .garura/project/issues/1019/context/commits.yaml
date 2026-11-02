@@ -1,24 +1,14 @@
 commits:
-  - sha: 9cb373c7
-    message: "feat(remove-plan): add the skill that deletes approved plans (#1019)"
+  - sha: 83d52a15
+    message: "feat(author-intent-page): write the Touches list of an intent (#1019)"
     files:
-      - core/components/skills/remove-plan/SKILL.md
-      - core/components/skills/remove-plan/scripts/remove_plans.py
-      - core/components/skills/remove-plan/scripts/test_remove_plans.py
-    branch: feature/1019-three-reorganisation-skills
-  - sha: 0fe080c7
-    message: "feat(wiring): wire three skills into agents, install and docs (#1019)"
-    files:
+      - core/components/skills/author-intent-page/scripts/write_page.py
+      - core/components/skills/author-intent-page/scripts/test_write_page.py
+      - core/components/skills/author-intent-page/SKILL.md
       - core/components/agents/product-os-keeper.md
-      - core/components/agents/project-orchestrator.md
-      - core/components/memory/standards/rules/naming.md
-      - core/components/memory/standards/rules/naming.yaml
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/scripts/test_install.py
-      - docs/components/skills.md
     branch: feature/1019-three-reorganisation-skills
-  - sha: f9a64cab
-    message: "test(eval): record the passing eval run after the build (#1019)"
+  - sha: 95498e1b
+    message: "test(eval): record the acceptance check rerun, 87 passed (#1019)"
     files:
       - .garura/project/issues/1019/evidence/eval/eval-after.json
     branch: feature/1019-three-reorganisation-skills
