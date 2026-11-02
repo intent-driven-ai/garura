@@ -144,6 +144,7 @@ Write structured failure to the `stm.output.failure` path per the Structured Fai
 | `author-plan-file` | planning | Create, update, or check the plan for one issue (`{stm_base}{issue}/specs/plan.md`) |
 | `author-plan-changes` | plan sessions | Turn one instruction of an `/update-plan` session into the plan's list entries (`draft-entries.json`) |
 | `track-plan-changes` | plan sessions | Read a plan's issues (`snapshot.json`), and make the tracker writes of the list the person approved (`github-record.json`) |
+| `remove-plan` | plan files | Delete plans a person approved from the plans folder, each file and folder whole, and report what each held (`remove-plans-report.json`). Never opens a file under a plan's folder; never the tracker or the product model |
 
 ### When to Use Each Skill
 
@@ -160,6 +161,7 @@ Write structured failure to the `stm.output.failure` path per the Structured Fai
 | "is the plan done", "check the plan" | `author-plan-file` (action: check) | The script decides done, not judgment |
 | "turn this instruction into plan changes" (`/update-plan`) | `author-plan-changes` | What the person's words mean for the plan is judgment; the play's script checks the rules |
 | "read the plan's issues", "land the approved plan changes" (`/update-plan`) | `track-plan-changes` (mode: read / apply) | Mechanical: one recorded write per op, only for the approved list |
+| "remove these plans", "delete this plan" (a person approved it) | `remove-plan` | Mechanical and all or nothing: only with the name of the person who approved |
 
 ## Intent Recognition
 
@@ -410,6 +412,7 @@ What each skill needs from memory:
 |-------|-----------------------------------------------|
 | `track-issue` | nothing from memory. For `create`, the issue template (`standards/templates/github-issue.md`) comes from `template-manager` — `issue_template_path` |
 | `author-plan-file` | the work-plan rules (`**/standards/rules/work-plan.md`) — `rules_path`. The work-plan format (`standards/templates/work-plan.md`) comes from `template-manager` — `template_path` |
+| `remove-plan` | nothing from memory |
 
 ### Templates come from template-manager
 

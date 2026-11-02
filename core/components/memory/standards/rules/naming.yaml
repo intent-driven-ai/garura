@@ -53,6 +53,7 @@ skill:
     open: Git — open a pull request.
     merge: Git — merge a pull request.
     cut: Git — cut a branch.
+    remove: Take a part out of the model or a plan out of the plans folder, and repoint what named it.
   exceptions: [platform-adapter]
 agent:
   roles: [keeper, reviewer, builder, operator, crafter, engineer, steward, resolver, checker, analyst, orchestrator, reader, auditor, scriber, architect, designer, manager, runner]

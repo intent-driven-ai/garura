@@ -1,0 +1,324 @@
+# design-findings-memory.yaml - Layer 2 design-grounding for the 'memory' category of PR #1020 (issue #1019). ROUND 2.
+# Round 1 is kept at review/round-1/design-findings-memory.yaml. Round 2 re-checks the head after commit c1648337.
+# Written by change-reviewer (grounding job). Read-only on everything but this file and the memory_dir.
+# Paths are relative to the repo root. Severity classes follow the PR severity taxonomy copy at
+# .garura/project/issues/1019/context/memory/standards/rules/pr.md (P1 blocker .. P4 nit).
+pr: 1020
+issue: 1019
+base: main
+category: memory
+round: 2
+playbook: review/memory   # the copy at .garura/project/issues/1019/context/memory/knowledge/review/memory.md
+
+scope:
+  changed_files:
+    - core/components/memory/standards/rules/naming.md     # prose half: `remove` joins the skill-verb list
+    - core/components/memory/standards/rules/naming.yaml   # machine half: skill.verbs gains `remove` with a meaning
+    - core/components/memory/standards/rules/direct-model-write.md   # NEW in round 2 (commit c1648337): names two more writers of the spine
+  change_in_one_line: >
+    The naming standard gains one skill verb, `remove`, in both halves (unchanged since round 1: both naming diffs
+    are byte-identical to round 1). The direct-model-write contract gains an "Outside a play" paragraph that names
+    `link-model-part`'s script (link_part.py) and `remove-model-part`'s script (remove_part.py) as writers of the spine,
+    and drops the sentence "Outside a loop, the play's keyed script is still the only writer of shared files".
+  owner_decision_round_2: >
+    The product owner decided, for now, to leave the verb `remove` and its wording as they are and not to promote the
+    standard to Phoenix memory, because the verbs change next. MEM-1 to MEM-4 therefore stay recorded, open and
+    non-blocking, as that person's decision. The decision does not reach MEM-5 to MEM-7 (the direct-model-write change).
+
+grounding:
+  memory_dir: .garura/project/issues/1019/context/memory/grounding-memory/
+  manifest: .garura/project/issues/1019/context/memory/grounding-memory/manifest.json
+  note: >
+    Seven files copied through the memory tool (tier phoenix, version c14f515d910f): standards/rules/naming.md,
+    naming.yaml, _index.md, rename-map.yaml, and knowledge/_DESIGN.md, _TEMPLATE.md, _index.md. The Phoenix
+    copies of naming.md and naming.yaml equal main:core/components/memory/standards/rules/* except for a missing
+    final newline, so they are the base-ref design, not the branch's text.
+  principles:
+    - id: G1
+      principle: >
+        A change to the naming standard is a decision. It goes through /record-decision as an ADR, and the rule
+        files and the harness-standard page change with it.
+      source: docs/standards/harness-standard.md
+      ref: main
+      where: '"How the standard is kept", third bullet; principle 10 "One name, one meaning"'
+    - id: G2
+      principle: >
+        One verb, one meaning. Every verb is listed in naming.yaml with its one meaning. A new verb is added there
+        first, with its meaning, or it cannot be used. Adding a name: pick the verb from naming.yaml; if none fits,
+        add the verb with its one meaning first.
+      source: core/components/memory/standards/rules/naming.md
+      ref: main (also the Phoenix copy, standards/rules/naming.md, c14f515d910f)
+      where: '"The rules" 3; "Adding a name" step 1'
+    - id: G3
+      principle: >
+        No name is, or starts with, a built-in command of Claude Code or Codex; every name is used once across
+        plays, loops, skills and agents.
+      source: core/components/memory/standards/rules/naming.md
+      ref: main
+      where: '"The rules" 4 and 5; the reserved list in naming.yaml'
+    - id: G4
+      principle: >
+        The skill verbs are fixed by the decision: ADR 046 section 5 lists them, each with one meaning. Every
+        later change to a verb list has been recorded as an amendment of ADR 046 (its Status header names ADR 048
+        and ADR 059); ADR 059 lists "ADR 046 - section 4 ... the clause 'knowledge plays search, research, check'"
+        under Amends, and that change is the same change that removed `search` and `research` from naming.yaml
+        (commit 3a2a2136, #920).
+      source: docs/adr/046-one-naming-standard-for-every-harness-part.md
+      ref: main
+      where: 'Status line; Decision 5 "Skills use the skill verbs"; with docs/adr/059-... "Amends" line'
+    - id: G5
+      principle: >
+        The machine half is data only: naming.yaml holds no naming rule of its own, and lint-components reads it.
+        The linter takes a skill's first word and checks it against the keys of skill.verbs; it reads no meaning.
+      source: core/components/memory/standards/rules/naming.yaml (header) and core/tools/lint-components/lib/rules/naming.js
+      ref: main
+      where: 'naming.yaml lines 1-2; naming.js checkName, the "skill" branch'
+    - id: G6
+      principle: >
+        A rules file is the single source of truth for its domain and is enforced by at least one tool; its
+        index row says what it holds and who consumes it. Overlapping or conflicting entries return mush
+        regardless of the engine, so a new entry must not duplicate or contradict an existing one.
+      source: standards/rules/_index.md ("When to Add Here"; the Naming table) and knowledge/_DESIGN.md ("The real risk")
+      ref: Phoenix memory c14f515d910f, read through the memory tool
+      where: 'copies in the grounding-memory folder'
+    - id: G7
+      principle: >
+        In an installed project the naming rules are read from a copy of naming.yaml fetched through the memory
+        tool (--naming); the installed layout reads memory only through that copy.
+      source: docs/standards/harness-standard.md ("How the standard is kept", second bullet) and
+        core/tools/lint-components/lib/rules/naming.js (standardFile)
+      ref: main
+      where: 'second bullet; standardFile()'
+    - id: G8
+      principle: >
+        Under direct-model-write a keyed script owns every shared model file, and each departure from that is a declared
+        exception that names its decision: inside a loop (ADR 044), /discover-intent by hand (ADR 031), /record-decision
+        by hand (#632), /update-plan (ADR 062). ADR 044 amends ADR 026's "containment split" for exactly this kind of
+        extra writer, calls its exception "narrow and checked" (one script, inside the model folder, with a list of what
+        it changed), says it "records that exception; it does not widen it", and lists the follow-up edits: rule 3 and
+        lint L-DMW-5 of direct-model-write.md, and the product-os-keeper shared-file rule.
+      source: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md and docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md
+      ref: main
+      where: 'ADR 044 Amends, ICE impact, Consequences and follow-up lines; ADR 062 Amends; direct-model-write.md on main, rule 3 and the "Declared exception" paragraphs'
+    - id: G9
+      principle: >
+        A model write is reviewed through the branch git diff, and the delta is committed: the model tree is clean on entry,
+        the delta is committed on the way out (by the play, or by the loop with the round), and a post-write scoped guard runs
+        once over the full delta and reverts any path outside the declared write scope. The loop exception states who commits
+        its delta ("the loop commits that delta with the round, so the review sees it").
+      source: core/components/memory/standards/rules/direct-model-write.md
+      ref: main
+      where: 'rule 4 (guard), rule 7 (clean tree in, committed delta out), "Inside a loop (ADR 044)"; "Declared exception - /update-plan (ADR 062)"'
+    - id: G10
+      principle: >
+        The committed play update-plan already calls `link-model-part` (through product-os-keeper) under its own declared
+        exception (ADR 062), and the committed agent product-os-keeper already lists `link-model-part`'s script as a spine
+        writer citing #979.
+      source: core/components/plays/update-plan/SKILL.md and core/components/agents/product-os-keeper.md (NEVER, first bullet)
+      ref: main
+      where: 'update-plan lines 380-408; product-os-keeper "Change the product model by hand"'
+  not_used_as_grounding: >
+    The new text in naming.md, naming.yaml, direct-model-write.md and docs/components/skills.md; the SKILL.md files of
+    remove-plan and remove-model-part and the docstrings of link_part.py and remove_part.py (read only to check what the
+    scripts do against what the rule now says, a fact about the branch, not a principle). No principle above rests on a file this diff adds or rewrites.
+  grounding_unavailable:
+    - what: The route by which a change to core/components/memory/standards/** reaches Phoenix memory (promotion).
+      why: >
+        No committed source on main (docs/adr, docs/standards, docs/philosophy, core/grounding) states it; the
+        project CLAUDE.md says memory deploys to the machine-global copy, and the memory-tool rules say a person
+        promotes. Finding MEM-2 therefore states what was observed, not who owns the step.
+
+checks_run:
+  - check: verb list in naming.md and skill verbs in naming.yaml agree
+    result: pass as a set (23 verbs each, `remove` in both); fail as an order, see MEM-4
+    how: parsed both with PyYAML and a regex over naming.md lines 52-55
+  - check: the naming.yaml entry has the shape of its siblings (key, one sentence, valid YAML)
+    result: pass
+    how: yaml.safe_load gives skill.verbs.remove as one string; siblings are one-sentence strings
+  - check: "`remove` is not a reserved built-in and not already a name"
+    result: pass
+    how: not in the reserved list of naming.yaml on main; no play, skill or agent on main starts with remove-
+  - check: lint-components naming rule on core/components with the branch's own naming.yaml
+    result: pass - no naming violation
+    how: node core/tools/lint-components/index.js --layout source --target core/components, filtered to naming rules
+  - check: the same run with the Phoenix copy of naming.yaml given as --naming
+    result: fail - two naming-skill violations, remove-plan and remove-model-part, see MEM-2
+  - check: the verb is earned (used by at least two skills at one meaning) and does not overlap an existing verb
+    result: pass - two new skills use it (remove-plan, remove-model-part); no existing verb removes or deletes
+      (link makes links, enrich adds detail, track changes tracker issues); `delete` is reserved, so `remove` is the free word
+  - check: cross-references named by the changed text resolve
+    result: pass - the changed lines name no file or ADR; the untouched text still names ADR 046, issue 736 and
+      rename-map.yaml, all present on main
+  - check: the file is listed in standards/rules/_index.md and its row is still true
+    result: pass - the Naming table lists naming.md and naming.yaml; the naming.yaml row ("the verb lists,
+      industry terms, reserved built-in commands") is still accurate
+  - check: playbook shelf checks (_TEMPLATE.md shape, frontmatter id against path, shelf _index)
+    result: not applicable - both files are standards rules, not knowledge-shelf files; they carry no frontmatter
+      and no Topic/Conditions/Recommendation sections by design (standards/rules/_index.md "When to Add Here")
+  - check: the standard stays mechanical
+    result: pass - the change adds one key to a data map the linter reads by key (G5); no rule logic moved into the file
+  - check: ROUND 2 - the new direct-model-write text against the scripts it names
+    result: >
+      mostly accurate. link_part.py and remove_part.py both root at <product_base>/product-os, refuse a path that leaves the
+      model folder (Refused "leaves the model folder") and report every file changed; remove_part.py refuses a request with no
+      approved_by. Two mismatches: remove_part.py never removes a capability's page on its own (a capability is "never simply
+      removed", it merges into another; REMOVABLE has capability only with `into`), see MEM-7; and link-model-part is called from
+      the play /update-plan, so "Outside a play" is not true of it, see MEM-6.
+  - check: ROUND 2 - does the new paragraph name its decision, as every other exception in the file does
+    result: fail - it cites no ADR, issue or date; see MEM-5
+  - check: ROUND 2 - does the paragraph say who commits the delta, how it meets the scoped guard and the clean-tree entry check
+    result: fail - silent on all three; see MEM-6
+  - check: ROUND 2 - cross-references in the changed lines resolve
+    result: pass - the lines name link_part.py and remove_part.py (both exist), product-os-keeper (exists) and <product_base>product-os/
+  - check: ROUND 2 - the sentence removed, "Outside a loop, the play's keyed script is still the only writer of shared files"
+    result: replaced by "Everywhere else, ..." which is consistent with the new paragraph; no dangling reference to the removed sentence in the file
+
+findings:
+  - id: MEM-1
+    status: "open, non-blocking - the product owner's decision (round 2) is to leave the verb `remove` and its wording as they are for now, and not to promote to Phoenix memory, because the verbs change next"
+    first_seen: round 1
+    still_true_on_head: yes - both naming diffs are identical to round 1
+    severity: P3
+    file: core/components/memory/standards/rules/naming.yaml (and naming.md, lines 52-54)
+    title: A new skill verb changes the naming standard but no decision record covers it
+    principle: G1, G4
+    basis: >
+      The harness standard (main) says a change to the naming standard is a decision recorded as an ADR with the
+      rule files changing alongside it. ADR 046 section 5 lists the skill verbs, 22 of them, each with one meaning;
+      naming.yaml now holds 23. The only earlier change to a verb list (the play verbs, #920) was recorded as an
+      amendment of ADR 046 by ADR 059. This diff touches no docs/adr/** file, and no ADR on main mentions `remove`,
+      remove-plan, remove-model-part or this reorganisation (git grep on main found none). So ADR 046 section 5 and
+      the standard now disagree, and no later record explains why.
+    tension_in_the_base_standard: >
+      naming.md rule 3 and "Adding a name" step 1 describe adding a verb as a routine step with no ADR ("add the verb
+      with its one meaning first"). Read that way, the edit conforms. The two committed sources pull in different
+      directions, so this is P3 and not P2. A person decides whether a verb addition is a "change to the standard".
+    evidence: ADR 046 Status line and section 5 (main); docs/standards/harness-standard.md "How the standard is kept"; commit 3a2a2136 with ADR 059 Amends line
+    fix_direction: an ADR that amends ADR 046 section 5 for the skill verb `remove`, or a one-line rule in naming.md saying when a verb addition needs no ADR.
+
+  - id: MEM-2
+    status: "open, non-blocking - the product owner's decision (round 2) is to leave the verb `remove` and its wording as they are for now, and not to promote to Phoenix memory, because the verbs change next"
+    first_seen: round 1
+    still_true_on_head: yes - both naming diffs are identical to round 1
+    severity: P3
+    file: core/components/memory/standards/rules/naming.yaml
+    title: The global copy of the standard has no `remove` verb, so installed-layout lint fails for the two new skills until it does
+    principle: G7, G2
+    basis: >
+      An installed project lints its parts with the naming.yaml it fetches through the memory tool (harness-standard,
+      second bullet of "How the standard is kept"; naming.js standardFile). The copy the tool serves (Phoenix, version
+      c14f515d910f) equals main and has no `remove`. Run read-only with that copy as --naming, lint-components reports
+      naming-skill for core/components/skills/remove-model-part/SKILL.md and core/components/skills/remove-plan/SKILL.md.
+      With the branch's own naming.yaml it reports nothing. The install change in this PR lays both skills into the
+      harness scope, so the two skills land in projects before the verb that names them exists in the tier those
+      projects read.
+    condition: >
+      Holds only until the edited standard reaches Phoenix memory. That step is not part of this diff, and no committed
+      source says who owns it (see grounding_unavailable). Reported so the order of the two steps is a decision, not an accident.
+    evidence: lint-components run of 2026-11-02 on the branch with --naming .garura/project/issues/1019/context/memory/grounding-memory/standards/rules/naming.yaml
+    fix_direction: promote naming.md and naming.yaml to Phoenix memory in the same release as the skills, or hold the install change until they are.
+
+  - id: MEM-3
+    status: "open, non-blocking - the product owner's decision (round 2) is to leave the verb `remove` and its wording as they are for now, and not to promote to Phoenix memory, because the verbs change next"
+    first_seen: round 1
+    still_true_on_head: yes - both naming diffs are identical to round 1
+    severity: P3
+    file: core/components/memory/standards/rules/naming.yaml (line 56)
+    title: The verb's meaning is not one meaning that holds for both skills that use it
+    principle: G2
+    basis: >
+      Rule 3 (main): one verb, one meaning, listed in naming.yaml. The entry reads "Take a part out of the model or a
+      plan out of the plans folder, and repoint what named it." The last clause describes remove-model-part (its
+      request has a repoint list). remove-plan does not repoint anything: its SKILL.md and scripts hold no "repoint",
+      and it only deletes plans and reports what each held. A meaning that is only half true of its own first user
+      teaches the next author that a `remove-` skill must repoint. The siblings are one sentence and one action
+      (author: "Write a document from inputs."); track is the nearest two-action sibling, but both its actions are
+      true of every track-skill.
+    evidence: naming.yaml line 56; core/components/skills/remove-plan (no "repoint"); core/components/skills/remove-model-part/SKILL.md request schema
+    fix_direction: state only what is common to both, for example "Take a part out of the model or a plan out of the plans folder, once a person approved it."
+    confidence: medium - a person may judge the repoint clause to be part of a removal in this model and keep it.
+
+  - id: MEM-4
+    status: "open, non-blocking - the product owner's decision (round 2) is to leave the verb `remove` and its wording as they are for now, and not to promote to Phoenix memory, because the verbs change next"
+    first_seen: round 1
+    still_true_on_head: yes - both naming diffs are identical to round 1
+    severity: P4
+    file: core/components/memory/standards/rules/naming.yaml (line 56); core/components/memory/standards/rules/naming.md (line 54)
+    title: The two verb lists disagree in order, and the new naming.md line is the longest in the file
+    principle: G2, G5
+    basis: >
+      On main the three copies of the skill-verb list (naming.md, naming.yaml, ADR 046 section 5) share one order:
+      the plain verbs, then the git verbs commit, open, merge, cut. naming.md now puts `remove` before the git verbs;
+      naming.yaml puts it after `cut`, so the yaml's git group is no longer last. The sets agree, so the linter is
+      unaffected. Separately, naming.md line 54 is 107 characters; the longest line on main is 102.
+    evidence: PyYAML key order of skill.verbs; naming.md line lengths on main (max 102) and on the branch (107)
+    fix_direction: move the yaml line above `commit`; re-wrap the naming.md paragraph.
+
+  - id: MEM-5
+    status: open
+    first_seen: round 2
+    severity: P2
+    file: core/components/memory/standards/rules/direct-model-write.md (the new "Outside a play" paragraph, rule 3)
+    title: Two more writers of the spine, one that deletes, are added to the contract with no decision behind them
+    principle: G8
+    basis: >
+      The contract (main) says a keyed script owns every shared file, and every departure names its decision: ADR 044 for
+      the loop writer, ADR 031, #632 and ADR 062 for the three by-hand exceptions. ADR 044 shows how a new shared-file writer
+      is added: an ADR that amends ADR 026's containment split, then the edits to rule 3, to lint L-DMW-5 and to the
+      product-os-keeper rule; it also states its exception "does not widen" the rule. The new paragraph adds
+      `remove_part.py`, which deletes intent pages, merged capability pages, slice entries and slice record files, and names
+      `link_part.py`, with no ADR, issue or date, and this diff touches no docs/adr file (no ADR on main mentions either
+      skill). The "Not a finding" note of L-DMW-5 (which lists apply_links.py, ADR 044) is not extended. Mitigating, and why
+      this is not P1: both scripts are all-or-nothing, refuse paths outside the model folder, list what they changed, and
+      remove_part.py refuses a request that names no approving person; the link-model-part half is already allowed by the
+      committed agent text citing #979, so the contract is catching up there; the work is visible in the git diff.
+    evidence: direct-model-write.md on main (Declared exception paragraphs; lint anchors); ADR 044 Amends and ICE impact; git grep of docs/adr on main for link-model-part, remove-model-part
+    fix_direction: >
+      an ADR that amends ADR 026 for the two writers (or, for link-model-part, a cite of #979, and for remove-model-part the
+      decision that lets a script delete model pages), cited in the paragraph; add the writers to the L-DMW-5 "Not a finding" note.
+
+  - id: MEM-6
+    status: open
+    first_seen: round 2
+    severity: P3
+    file: core/components/memory/standards/rules/direct-model-write.md (the new "Outside a play" paragraph)
+    title: The paragraph says "outside a play" but one writer runs inside a play, and it does not say who commits, or how the guard sees the writes
+    principle: G9, G10
+    basis: >
+      (a) The committed play update-plan calls `link-model-part` and already carries its own declared exception (ADR 062), so
+      the heading "Outside a play" is not true for that writer; remove-model-part's request even has a `by` field for "the
+      play or run that asks". (b) The loop exception says who commits its delta and why review sees it; the new paragraph says
+      only "lists every file it changed". Rule 7 (clean tree in, committed delta out) and rule 4 (the scoped guard reverts any
+      path outside the play's declared scope) are not mentioned, so a play that has the keeper remove a page would, read
+      literally, have the guard put it back unless the play's scope allows removal (--remove-only). The contract is the one
+      place that must say how a new writer meets those two rules.
+    evidence: update-plan/SKILL.md on main lines 380-408; direct-model-write.md on main rules 4 and 7, "Inside a loop (ADR 044)"
+    fix_direction: name where each writer runs (inside /update-plan for link-model-part under ADR 062; the calling play or loop for remove-model-part), who commits the delta, and which guard scope covers a removal.
+
+  - id: MEM-7
+    status: open
+    first_seen: round 2
+    severity: P4
+    file: core/components/memory/standards/rules/direct-model-write.md (the new paragraph, third sentence)
+    title: The text says the script removes a capability's page as a separate act; the script only does it as part of a merge
+    principle: G8 (narrow and checked - the contract must state exactly what the writer may do)
+    basis: >
+      The text reads "merges a capability into another, and removes an intent's page, a capability's page or a slice and its
+      record". remove_part.py refuses to remove a capability outright ("a capability is never simply removed", `into` is
+      required); the page goes only as part of the merge. The text also leaves out the script's main safeguard, that a part is
+      refused while anything in the model still names it. A reader of the contract would believe the writer is wider than it is.
+    evidence: remove_part.py module docstring (merge a capability, `into` is required); the new paragraph
+    fix_direction: say "merges a capability into another (its page goes with the merge)" and add the "nothing may still name it" condition.
+
+by_class:
+  P1: []
+  P2: [MEM-5]
+  P3: [MEM-1, MEM-2, MEM-3, MEM-6]
+  P4: [MEM-4, MEM-7]
+
+summary: >
+  Round 2. The naming edit is unchanged, and MEM-1 to MEM-4 stay open and non-blocking as the product owner's decision.
+  The new direct-model-write paragraph is accurate about what both scripts guard against (folder check, change report, an
+  approving person for removals) but adds two spine writers, one that deletes model files, with no decision behind it (MEM-5,
+  P2), calls them "outside a play" when link-model-part runs inside /update-plan and says nothing of commit or guard (MEM-6),
+  and overstates what remove_part.py may do to a capability page (MEM-7). No blocker.

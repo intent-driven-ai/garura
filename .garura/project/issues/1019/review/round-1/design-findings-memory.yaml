@@ -1,0 +1,202 @@
+# design-findings-memory.yaml - Layer 2 design-grounding for the 'memory' category of PR #1020 (issue #1019).
+# Written by change-reviewer (grounding job). Read-only on everything but this file and the memory_dir.
+# Paths are relative to the repo root. Severity classes follow the PR severity taxonomy copy at
+# .garura/project/issues/1019/context/memory/standards/rules/pr.md (P1 blocker .. P4 nit).
+pr: 1020
+issue: 1019
+base: main
+category: memory
+playbook: review/memory   # the copy at .garura/project/issues/1019/context/memory/knowledge/review/memory.md
+
+scope:
+  changed_files:
+    - core/components/memory/standards/rules/naming.md     # prose half: `remove` joins the skill-verb list
+    - core/components/memory/standards/rules/naming.yaml   # machine half: skill.verbs gains `remove` with a meaning
+  change_in_one_line: >
+    The naming standard gains one skill verb, `remove`, in both halves. Nothing else in either file changes.
+
+grounding:
+  memory_dir: .garura/project/issues/1019/context/memory/grounding-memory/
+  manifest: .garura/project/issues/1019/context/memory/grounding-memory/manifest.json
+  note: >
+    Seven files copied through the memory tool (tier phoenix, version c14f515d910f): standards/rules/naming.md,
+    naming.yaml, _index.md, rename-map.yaml, and knowledge/_DESIGN.md, _TEMPLATE.md, _index.md. The Phoenix
+    copies of naming.md and naming.yaml equal main:core/components/memory/standards/rules/* except for a missing
+    final newline, so they are the base-ref design, not the branch's text.
+  principles:
+    - id: G1
+      principle: >
+        A change to the naming standard is a decision. It goes through /record-decision as an ADR, and the rule
+        files and the harness-standard page change with it.
+      source: docs/standards/harness-standard.md
+      ref: main
+      where: '"How the standard is kept", third bullet; principle 10 "One name, one meaning"'
+    - id: G2
+      principle: >
+        One verb, one meaning. Every verb is listed in naming.yaml with its one meaning. A new verb is added there
+        first, with its meaning, or it cannot be used. Adding a name: pick the verb from naming.yaml; if none fits,
+        add the verb with its one meaning first.
+      source: core/components/memory/standards/rules/naming.md
+      ref: main (also the Phoenix copy, standards/rules/naming.md, c14f515d910f)
+      where: '"The rules" 3; "Adding a name" step 1'
+    - id: G3
+      principle: >
+        No name is, or starts with, a built-in command of Claude Code or Codex; every name is used once across
+        plays, loops, skills and agents.
+      source: core/components/memory/standards/rules/naming.md
+      ref: main
+      where: '"The rules" 4 and 5; the reserved list in naming.yaml'
+    - id: G4
+      principle: >
+        The skill verbs are fixed by the decision: ADR 046 section 5 lists them, each with one meaning. Every
+        later change to a verb list has been recorded as an amendment of ADR 046 (its Status header names ADR 048
+        and ADR 059); ADR 059 lists "ADR 046 - section 4 ... the clause 'knowledge plays search, research, check'"
+        under Amends, and that change is the same change that removed `search` and `research` from naming.yaml
+        (commit 3a2a2136, #920).
+      source: docs/adr/046-one-naming-standard-for-every-harness-part.md
+      ref: main
+      where: 'Status line; Decision 5 "Skills use the skill verbs"; with docs/adr/059-... "Amends" line'
+    - id: G5
+      principle: >
+        The machine half is data only: naming.yaml holds no naming rule of its own, and lint-components reads it.
+        The linter takes a skill's first word and checks it against the keys of skill.verbs; it reads no meaning.
+      source: core/components/memory/standards/rules/naming.yaml (header) and core/tools/lint-components/lib/rules/naming.js
+      ref: main
+      where: 'naming.yaml lines 1-2; naming.js checkName, the "skill" branch'
+    - id: G6
+      principle: >
+        A rules file is the single source of truth for its domain and is enforced by at least one tool; its
+        index row says what it holds and who consumes it. Overlapping or conflicting entries return mush
+        regardless of the engine, so a new entry must not duplicate or contradict an existing one.
+      source: standards/rules/_index.md ("When to Add Here"; the Naming table) and knowledge/_DESIGN.md ("The real risk")
+      ref: Phoenix memory c14f515d910f, read through the memory tool
+      where: 'copies in the grounding-memory folder'
+    - id: G7
+      principle: >
+        In an installed project the naming rules are read from a copy of naming.yaml fetched through the memory
+        tool (--naming); the installed layout reads memory only through that copy.
+      source: docs/standards/harness-standard.md ("How the standard is kept", second bullet) and
+        core/tools/lint-components/lib/rules/naming.js (standardFile)
+      ref: main
+      where: 'second bullet; standardFile()'
+  not_used_as_grounding: >
+    The new text in naming.md, naming.yaml and docs/components/skills.md; the SKILL.md files of remove-plan and
+    remove-model-part (read once, only to check what the skills do against the verb's meaning, a fact about the
+    branch, not a principle). No principle above rests on a file this diff adds or rewrites.
+  grounding_unavailable:
+    - what: The route by which a change to core/components/memory/standards/** reaches Phoenix memory (promotion).
+      why: >
+        No committed source on main (docs/adr, docs/standards, docs/philosophy, core/grounding) states it; the
+        project CLAUDE.md says memory deploys to the machine-global copy, and the memory-tool rules say a person
+        promotes. Finding MEM-2 therefore states what was observed, not who owns the step.
+
+checks_run:
+  - check: verb list in naming.md and skill verbs in naming.yaml agree
+    result: pass as a set (23 verbs each, `remove` in both); fail as an order, see MEM-4
+    how: parsed both with PyYAML and a regex over naming.md lines 52-55
+  - check: the naming.yaml entry has the shape of its siblings (key, one sentence, valid YAML)
+    result: pass
+    how: yaml.safe_load gives skill.verbs.remove as one string; siblings are one-sentence strings
+  - check: "`remove` is not a reserved built-in and not already a name"
+    result: pass
+    how: not in the reserved list of naming.yaml on main; no play, skill or agent on main starts with remove-
+  - check: lint-components naming rule on core/components with the branch's own naming.yaml
+    result: pass - no naming violation
+    how: node core/tools/lint-components/index.js --layout source --target core/components, filtered to naming rules
+  - check: the same run with the Phoenix copy of naming.yaml given as --naming
+    result: fail - two naming-skill violations, remove-plan and remove-model-part, see MEM-2
+  - check: the verb is earned (used by at least two skills at one meaning) and does not overlap an existing verb
+    result: pass - two new skills use it (remove-plan, remove-model-part); no existing verb removes or deletes
+      (link makes links, enrich adds detail, track changes tracker issues); `delete` is reserved, so `remove` is the free word
+  - check: cross-references named by the changed text resolve
+    result: pass - the changed lines name no file or ADR; the untouched text still names ADR 046, issue 736 and
+      rename-map.yaml, all present on main
+  - check: the file is listed in standards/rules/_index.md and its row is still true
+    result: pass - the Naming table lists naming.md and naming.yaml; the naming.yaml row ("the verb lists,
+      industry terms, reserved built-in commands") is still accurate
+  - check: playbook shelf checks (_TEMPLATE.md shape, frontmatter id against path, shelf _index)
+    result: not applicable - both files are standards rules, not knowledge-shelf files; they carry no frontmatter
+      and no Topic/Conditions/Recommendation sections by design (standards/rules/_index.md "When to Add Here")
+  - check: the standard stays mechanical
+    result: pass - the change adds one key to a data map the linter reads by key (G5); no rule logic moved into the file
+
+findings:
+  - id: MEM-1
+    severity: P3
+    file: core/components/memory/standards/rules/naming.yaml (and naming.md, lines 52-54)
+    title: A new skill verb changes the naming standard but no decision record covers it
+    principle: G1, G4
+    basis: >
+      The harness standard (main) says a change to the naming standard is a decision recorded as an ADR with the
+      rule files changing alongside it. ADR 046 section 5 lists the skill verbs, 22 of them, each with one meaning;
+      naming.yaml now holds 23. The only earlier change to a verb list (the play verbs, #920) was recorded as an
+      amendment of ADR 046 by ADR 059. This diff touches no docs/adr/** file, and no ADR on main mentions `remove`,
+      remove-plan, remove-model-part or this reorganisation (git grep on main found none). So ADR 046 section 5 and
+      the standard now disagree, and no later record explains why.
+    tension_in_the_base_standard: >
+      naming.md rule 3 and "Adding a name" step 1 describe adding a verb as a routine step with no ADR ("add the verb
+      with its one meaning first"). Read that way, the edit conforms. The two committed sources pull in different
+      directions, so this is P3 and not P2. A person decides whether a verb addition is a "change to the standard".
+    evidence: ADR 046 Status line and section 5 (main); docs/standards/harness-standard.md "How the standard is kept"; commit 3a2a2136 with ADR 059 Amends line
+    fix_direction: an ADR that amends ADR 046 section 5 for the skill verb `remove`, or a one-line rule in naming.md saying when a verb addition needs no ADR.
+
+  - id: MEM-2
+    severity: P3
+    file: core/components/memory/standards/rules/naming.yaml
+    title: The global copy of the standard has no `remove` verb, so installed-layout lint fails for the two new skills until it does
+    principle: G7, G2
+    basis: >
+      An installed project lints its parts with the naming.yaml it fetches through the memory tool (harness-standard,
+      second bullet of "How the standard is kept"; naming.js standardFile). The copy the tool serves (Phoenix, version
+      c14f515d910f) equals main and has no `remove`. Run read-only with that copy as --naming, lint-components reports
+      naming-skill for core/components/skills/remove-model-part/SKILL.md and core/components/skills/remove-plan/SKILL.md.
+      With the branch's own naming.yaml it reports nothing. The install change in this PR lays both skills into the
+      harness scope, so the two skills land in projects before the verb that names them exists in the tier those
+      projects read.
+    condition: >
+      Holds only until the edited standard reaches Phoenix memory. That step is not part of this diff, and no committed
+      source says who owns it (see grounding_unavailable). Reported so the order of the two steps is a decision, not an accident.
+    evidence: lint-components run of 2026-11-02 on the branch with --naming .garura/project/issues/1019/context/memory/grounding-memory/standards/rules/naming.yaml
+    fix_direction: promote naming.md and naming.yaml to Phoenix memory in the same release as the skills, or hold the install change until they are.
+
+  - id: MEM-3
+    severity: P3
+    file: core/components/memory/standards/rules/naming.yaml (line 56)
+    title: The verb's meaning is not one meaning that holds for both skills that use it
+    principle: G2
+    basis: >
+      Rule 3 (main): one verb, one meaning, listed in naming.yaml. The entry reads "Take a part out of the model or a
+      plan out of the plans folder, and repoint what named it." The last clause describes remove-model-part (its
+      request has a repoint list). remove-plan does not repoint anything: its SKILL.md and scripts hold no "repoint",
+      and it only deletes plans and reports what each held. A meaning that is only half true of its own first user
+      teaches the next author that a `remove-` skill must repoint. The siblings are one sentence and one action
+      (author: "Write a document from inputs."); track is the nearest two-action sibling, but both its actions are
+      true of every track-skill.
+    evidence: naming.yaml line 56; core/components/skills/remove-plan (no "repoint"); core/components/skills/remove-model-part/SKILL.md request schema
+    fix_direction: state only what is common to both, for example "Take a part out of the model or a plan out of the plans folder, once a person approved it."
+    confidence: medium - a person may judge the repoint clause to be part of a removal in this model and keep it.
+
+  - id: MEM-4
+    severity: P4
+    file: core/components/memory/standards/rules/naming.yaml (line 56); core/components/memory/standards/rules/naming.md (line 54)
+    title: The two verb lists disagree in order, and the new naming.md line is the longest in the file
+    principle: G2, G5
+    basis: >
+      On main the three copies of the skill-verb list (naming.md, naming.yaml, ADR 046 section 5) share one order:
+      the plain verbs, then the git verbs commit, open, merge, cut. naming.md now puts `remove` before the git verbs;
+      naming.yaml puts it after `cut`, so the yaml's git group is no longer last. The sets agree, so the linter is
+      unaffected. Separately, naming.md line 54 is 107 characters; the longest line on main is 102.
+    evidence: PyYAML key order of skill.verbs; naming.md line lengths on main (max 102) and on the branch (107)
+    fix_direction: move the yaml line above `commit`; re-wrap the naming.md paragraph.
+
+by_class:
+  P1: []
+  P2: []
+  P3: [MEM-1, MEM-2, MEM-3]
+  P4: [MEM-4]
+
+summary: >
+  The verb itself is sound: it is free of the reserved list, earned by two skills, overlaps no existing verb, and the
+  edit is data the linter reads by key. The gaps are around the edit: no decision record against ADR 046 section 5
+  (MEM-1), the global copy of the standard still lacks the verb (MEM-2), the meaning text claims "repoint" for a
+  skill that does not (MEM-3), and an ordering nit (MEM-4). No blocker, no major.

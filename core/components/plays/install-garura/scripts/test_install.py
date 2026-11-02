@@ -520,6 +520,14 @@ class LaysLoops(unittest.TestCase):
             self.assertIn(agent, allow["agents"])
             self.assertTrue(os.path.isfile(os.path.join(components, "agents", agent + ".md")), agent)
 
+    def test_the_harness_scope_carries_the_reorganisation_skills(self):
+        # An approved reorganisation of business intents runs on Garura's own model and plans (#1019).
+        allow = install.SCOPES["harness"]
+        components = os.path.join(ROOT, "core", "components")
+        for skill in ("remove-model-part", "author-intent-page", "remove-plan"):
+            self.assertIn(skill, allow["skills"])
+            self.assertTrue(os.path.isfile(os.path.join(components, "skills", skill, "SKILL.md")), skill)
+
     def test_the_harness_scope_carries_shape_slice_and_its_workers(self):
         # Garura shapes the slice for each of its own business intents (plan 788).
         allow = install.SCOPES["harness"]

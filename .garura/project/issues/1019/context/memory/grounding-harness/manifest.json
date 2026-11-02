@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:678a6db2bc4dc094cd855ed28f87dbb91f2ebdcbc121103d9e66e24c55527225",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-harness/standards/rules/direct-model-write.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/spine.yaml",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:9bc65f2b6cdd25319b3086b445f228c4e4b90c08e9b4107071bbe43f9b4d539e",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/spine.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/naming.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:ec29d71122d6d667cd8f686678487b7cf4c3958f27621fb482c89d7bece36d78",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-harness/standards/rules/naming.md"
+    }
+  ]
+}

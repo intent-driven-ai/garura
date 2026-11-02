@@ -1,0 +1,441 @@
+{
+  "passed": 87,
+  "failed": 0,
+  "results": [
+    {
+      "check": "remove intent: runs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "remove intent: its page is gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "remove intent: other intent pages stay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "repoint: in place and in order",
+      "ok": true,
+      "detail": "{'id': 'dom-a', 'slug': 'a', 'intents': ['bi-1', 'bi-3'], 'status': 'proposed', 'one_line': 'Domain A', 'doc': 'a/domain.md'}"
+    },
+    {
+      "check": "repoint: capability, feature and slice follow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "the spine keeps its comments",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "the report is written",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "repoint: per part, and null drops the intent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge: runs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge: the capability is gone from the spine",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge: its page and empty folder are gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge: its features move to the survivor",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge: links to it follow",
+      "ok": true,
+      "detail": "{'id': 'cap-3', 'slug': 'cap-3', 'domain': '', 'intents': ['bi-2'], 'status': 'proposed', 'one_line': 'Stays', 'doc': 'capabilities/cap-3/capability.md', 'depends_on': ['cap-1'], 'identified_by': 'cap-1', 'issue': 30}"
+    },
+    {
+      "check": "merge: the survivor keeps no record of the merge",
+      "ok": true,
+      "detail": "{'id': 'cap-1', 'slug': 'cap-1', 'domain': 'dom-a', 'intents': ['bi-1'], 'status': 'proposed', 'one_line': 'Keeper', 'doc': 'a/cap-1/capability.md', 'depends_on': [], 'identified_by': '', 'issue': 10}"
+    },
+    {
+      "check": "slice: entry and record are gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "no approval: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: the request names no person who approved it (approved_by); nothing is removed without one\n"
+    },
+    {
+      "check": "no approval: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "intent still named: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: the business intent bi-1 is still named by domain dom-a, capability cap-1, capability cap-2, feature fn-1; repoint them first\n"
+    },
+    {
+      "check": "intent still named: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "intent still named: the refusal names cap-1",
+      "ok": true,
+      "detail": "remove_part.py: refused, nothing written: the business intent bi-1 is still named by domain dom-a, capability cap-1, capability cap-2, feature fn-1; repoint them first\n"
+    },
+    {
+      "check": "a page still mentions it: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: pages still name a part being removed; have the page skill fix these words first: features/fn-2/feature.md:2 names bi-3\n"
+    },
+    {
+      "check": "a page still mentions it: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "a page still mentions it: the refusal names fn-2/feature.md",
+      "ok": true,
+      "detail": "remove_part.py: refused, nothing written: pages still name a part being removed; have the page skill fix these words first: features/fn-2/feature.md:2 names bi-3\n"
+    },
+    {
+      "check": "repoint to an intent with no page: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: cap-3: the new business intent bi-9 has no page at intents/bi-9.md\n"
+    },
+    {
+      "check": "repoint to an intent with no page: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "repoint to an intent with no page: the refusal names bi-9",
+      "ok": true,
+      "detail": "remove_part.py: refused, nothing written: cap-3: the new business intent bi-9 has no page at intents/bi-9.md\n"
+    },
+    {
+      "check": "repoint a part that does not name the intent: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: cap-3 does not name the business intent bi-1\n"
+    },
+    {
+      "check": "repoint a part that does not name the intent: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge into itself: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: cap-2 cannot be merged into itself\n"
+    },
+    {
+      "check": "merge into itself: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge with no survivor: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: cap-2: a capability is only removed by merging it into another; name that one in `into`\n"
+    },
+    {
+      "check": "merge with no survivor: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "merge into a missing part: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: cap-2: cap-9, the capability it merges into, is not in the spine\n"
+    },
+    {
+      "check": "merge into a missing part: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "one bad item refuses all: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: sl-9 is not in the spine as a slice\n"
+    },
+    {
+      "check": "one bad item refuses all: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "a path that leaves the model: refused with exit 2",
+      "ok": true,
+      "detail": "exit 2: remove_part.py: refused, nothing written: '../../secret' is not a business intent id, or it leaves the model folder\n"
+    },
+    {
+      "check": "a path that leaves the model: every file left as it was",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "page: a new page is written",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "page: holds # People get the thing",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: holds **Outcome:** They get it.",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: holds **Why:** They need it.",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: holds **Asked by:** the product owner",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: holds They got it.",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: holds **Must not:** Break it.",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: holds **Stage:** proposed",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: holds **Tracker:** #40",
+      "ok": true,
+      "detail": "# People get the thing\n\n**Outcome:** They get it.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** proposed\n**Tracker:"
+    },
+    {
+      "check": "page: never overwrites without rewrite",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "check": "page: rewrite changes the words",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "page: rewrite keeps Touches and what was done",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "page: confirmed names who and when",
+      "ok": true,
+      "detail": "ome.\n\n**Why:** They need it.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- They got it.\n\n**Must not:** Break it.\n\n**Stage:** confirmed — by the product owner, 2026-11-02\n**Tracker:** #40\n\n**Touches:**\n- [Keeper](../a/cap-1/capability.md) (capability) — adds\n\n**What was done:** shipped it\n"
+    },
+    {
+      "check": "page refused: no proof",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "page refused: no why",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "page refused: id does not match issue",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "page refused: id leaves the folder",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "page refused: rewrite of a page that is not there",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "page refused: confirmed with no person",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "plans: removes the files and the folder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "plans: leaves the others",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "plans: the report counts what left",
+      "ok": true,
+      "detail": "{'by': 'eval', 'approved_by': 'the product owner', 'removed': [{'id': 1, 'title': 'One', 'plan_status': 'Paused', 'items': {'Done': 1}, 'folder_files': 0, 'deleted': ['plans/1.yaml']}, {'id': 2, 'title': 'Two', 'plan_status': 'Paused', 'items': {'In Progress': 1, 'Done': 1}, 'folder_files': 1, 'deleted': ['plans/2.yaml', 'plans/2']}]}"
+    },
+    {
+      "check": "plans: works without being able to read the evals folder's files",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "plans refused: no approval",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "plans refused: a plan on a live branch",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "plans refused: a plan on a live branch names plan/3/base",
+      "ok": true,
+      "detail": "remove_plans.py: refused, nothing changed: plan 3 is still on the branch plan/3/base\n"
+    },
+    {
+      "check": "plans refused: a plan another remaining plan needs",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "plans refused: a plan another remaining plan needs names 1",
+      "ok": true,
+      "detail": "remove_plans.py: refused, nothing changed: plan 1 stays and needs plan 2, which this request removes\n"
+    },
+    {
+      "check": "plans refused: one bad plan refuses all",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "plans refused: one bad plan refuses all names 9",
+      "ok": true,
+      "detail": "remove_plans.py: refused, nothing changed: plan 9 has no file 9.yaml in the plans folder\n"
+    },
+    {
+      "check": "plans refused: a path that leaves the folder",
+      "ok": true,
+      "detail": "exit 2"
+    },
+    {
+      "check": "remove-model-part: has its SKILL.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "remove-model-part: has tests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "remove-model-part: its tests pass",
+      "ok": true,
+      "detail": "...............................................................\n----------------------------------------------------------------------\nRan 63 tests in 7.395s\n\nOK\n"
+    },
+    {
+      "check": "author-intent-page: has its SKILL.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "author-intent-page: has tests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "author-intent-page: its tests pass",
+      "ok": true,
+      "detail": "..................................................\n----------------------------------------------------------------------\nRan 50 tests in 5.441s\n\nOK\n"
+    },
+    {
+      "check": "remove-plan: has its SKILL.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "remove-plan: has tests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "remove-plan: its tests pass",
+      "ok": true,
+      "detail": "...............................\n----------------------------------------------------------------------\nRan 31 tests in 2.573s\n\nOK\n"
+    },
+    {
+      "check": "naming: remove is a skill verb with a meaning",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "naming: the rules for people list remove",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "product-os-keeper lists its two skills",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "project-orchestrator lists its skill",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "a harness install lays remove-model-part",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "a harness install lays author-intent-page",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "a harness install lays remove-plan",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "lint: it inspected components",
+      "ok": true,
+      "detail": "{\"violations\": [{\"file\": \"core/components/skills/check-quality/SKILL.md\", \"rule\": \"structural/missing-frontmatter-field\", \"severity\": \"error\", \"message\": \"Missing required frontmatter field: model\", \""
+    },
+    {
+      "check": "lint: no error for the three skills",
+      "ok": true,
+      "detail": "[]"
+    }
+  ]
+}

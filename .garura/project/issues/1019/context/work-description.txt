@@ -1,0 +1,1 @@
+Build three skills so the approved reorganisation of business intents can run: remove-model-part, author-intent-page and remove-plan. Issue #1019.

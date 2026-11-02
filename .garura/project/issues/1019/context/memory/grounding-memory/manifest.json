@@ -1,0 +1,53 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/naming.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:ec29d71122d6d667cd8f686678487b7cf4c3958f27621fb482c89d7bece36d78",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-memory/standards/rules/naming.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/naming.yaml",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:6d011521460976f6dbb3aa0d6a5dc063356e263bbf09e7dcf8b42fd9cedb1ed0",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-memory/standards/rules/naming.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/_index.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:cd1c4617bb1cb68433e95d002480e14a959f46430b7f6f7965ff4f8fc8bf9aaa",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-memory/standards/rules/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/rename-map.yaml",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:09b7f07c421a82ef3fb614db1040091077550ec983d4841462c442863065c72d",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-memory/standards/rules/rename-map.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_DESIGN.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:7ec9aaa84087511bd72d4fecce54fcb4d43eb7de549296878fe7d435f160bf68",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-memory/knowledge/_DESIGN.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_TEMPLATE.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:7f617f26f0c9b0e81e6880563986061b528985761548e2dc8af9937297322d62",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-memory/knowledge/_TEMPLATE.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_index.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:7555a0c72c51137af2a3cbb8554a45805261c7829fce64fe549bd3f884cb57f3",
+      "copy": ".garura/project/issues/1019/context/memory/grounding-memory/knowledge/_index.md"
+    }
+  ]
+}

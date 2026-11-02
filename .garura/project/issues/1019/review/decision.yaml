@@ -1,0 +1,13 @@
+decision: approve
+decided_by: human
+reply: "approved"
+round: 2
+recommended: recommended_verdict.yaml (approve; 0 P1, 1 P2, 6 P3, 7 P4)
+blocking: []
+carried_to_the_reorganisation_change:
+  - "MEM-5 (P2) and F1: the decision record names the two writers of the spine outside a play"
+  - "F8, MEM-6 and MEM-7: that rule's wording says what the scripts do"
+  - "F6: the reorganisation writes the Touches lists of the new intents"
+left_by_the_product_owner:
+  - "MEM-1, MEM-2, MEM-3, MEM-4: the verb and Phoenix memory wait, because the verbs change next"
+  - "F3: the Serves line stays plain text"

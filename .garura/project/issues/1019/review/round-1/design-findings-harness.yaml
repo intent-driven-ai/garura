@@ -1,0 +1,455 @@
+# design-findings-harness.yaml - Layer 2 design-grounded findings, category: harness (PR #1020, issue #1019).
+# Written by change-reviewer. Principles come from the base ref and the memory-tool copies, never from the branch's added text.
+category: harness
+pr: 1020
+issue: 1019
+base: main
+base_sha: dce078282b5b73bc8e7635942cd4a44887f2473f
+head_sha: b62db32e333fca1b2f168f95833599c307c272b8
+written_by: change-reviewer (Layer 2, harness)
+scope:
+  evidence:
+  - core/components/skills/author-intent-page/SKILL.md
+  - core/components/skills/remove-model-part/SKILL.md
+  - core/components/skills/remove-plan/SKILL.md
+  - core/components/agents/product-os-keeper.md
+  - core/components/agents/project-orchestrator.md
+  read_as_the_skills_script_contract:
+  - core/components/skills/author-intent-page/scripts/write_page.py
+  - core/components/skills/remove-model-part/scripts/remove_part.py
+  - core/components/skills/remove-plan/scripts/remove_plans.py
+  - core/components/plays/install-garura/scripts/install.py
+  not_in_scope: naming.md and naming.yaml (the memory dispatch), docs/components/skills.md (documentation), the
+    code and tests categories
+severity_basis: Class by the bucket definitions of the taxonomy copy .garura/project/issues/1019/context/memory/standards/rules/pr.md
+  (lines 7-11). No row of its Severity Table maps a design-conformance finding, and its F3 rule (reject a finding
+  with no Standard ID) governs check-pr-quality's scan, not this layer. P1 = blocker (security, secrets, data loss,
+  breaking contract); P2 = major (structural violation, lint error, missing tests); P3 = minor (missing docs, naming);
+  P4 = nit (tech debt, style).
+grounding:
+  reconstructed_from:
+  - 'the base ref main (dce07828): docs/standards/harness-standard.md, docs/adr/**, CLAUDE.md, the base copies of
+    core/components/agents/product-os-keeper.md and project-orchestrator.md, the sibling skills link-model-part,
+    link-model-gaps and author-business-intent, create-play/references/intent_touches.py, core/tools/lint-components/lib/rules/shared-scripts.js'
+  - 'the standards, read through the memory tool (phoenix tier, version c14f515d910f) and copied into .garura/project/issues/1019/context/memory/grounding-harness/
+    (manifest .garura/project/issues/1019/context/memory/grounding-harness/manifest.json): standards/rules/direct-model-write.md,
+    standards/schemas/product-os/spine.yaml, standards/schemas/product-os/ontology.md, standards/rules/naming.md'
+  memory_dir: .garura/project/issues/1019/context/memory/grounding-harness/
+  manifest: .garura/project/issues/1019/context/memory/grounding-harness/manifest.json
+  copy_check: 'The four memory copies were compared with the same files on main: identical except a missing final
+    newline.'
+  read_order_note: While scoping, the standards were first read from the base ref with git show. The principles
+    below are cited to the memory-tool copies and checked against the base ref; nothing was taken from the branch's
+    added text.
+  not_used_as_grounding: 'GitHub issue #1019 (its scope and acceptance criteria) was read, read-only, to learn what
+    the change was asked to do. It is the work order, not a design source, so no principle is grounded in it. No
+    ADR or plan on main records the 2026-11-02 reorganisation these skills serve.'
+principles:
+- id: H1
+  principle: Plays orchestrate, agents gather context and call skills, skills do the work; a skill is model-invocable
+    only, through an agent; hand-offs are file paths in a JSON contract.
+  sources:
+  - path: docs/standards/harness-standard.md
+    ref: main
+    lines: 33-41 (principle 2)
+    kind: base ref
+  - path: docs/adr/005-skills-as-capabilities.md
+    ref: main
+    lines: Invocability Rules 1-3
+    kind: base ref
+  - path: docs/adr/016-agent-json-contract.md
+    ref: main
+    lines: 'Decision: Input and Output Contract'
+    kind: base ref
+- id: H2
+  principle: Mechanical work is a script; a model is used only where judgment is needed.
+  sources:
+  - path: docs/standards/harness-standard.md
+    ref: main
+    lines: 42-49 (principle 3)
+    kind: base ref
+- id: H3
+  principle: Build the eval first and run it first against today's code, where it must fail.
+  sources:
+  - path: docs/standards/harness-standard.md
+    ref: main
+    lines: 60-67 (principle 5)
+    kind: base ref
+- id: H4
+  principle: Agents work only from memory; a skill reads only what its agent puts in short-term memory.
+  sources:
+  - path: docs/standards/harness-standard.md
+    ref: main
+    lines: 98-106 (principle 9)
+    kind: base ref
+- id: H5
+  principle: Installed parts name only installed files, never Garura's source or docs.
+  sources:
+  - path: docs/standards/harness-standard.md
+    ref: main
+    lines: 116-137 (principle 11)
+    kind: base ref
+  - path: CLAUDE.md
+    ref: main
+    lines: Behavioral Rules 1, Source of Truth
+    kind: base ref
+- id: H6
+  principle: 'One name, one meaning: verb first, then the object in the model''s words, each verb with one meaning.'
+  sources:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/rules/naming.md
+    ref: phoenix c14f515d910f
+    lines: 19-25 (rules 2 and 3)
+    kind: memory tool copy
+  - path: docs/standards/harness-standard.md
+    ref: main
+    lines: 107-115 (principle 10)
+    kind: base ref
+- id: H7
+  principle: 'Containment split: the LLM writes only per-node pages; every shared model file (the spine) is written
+    only by a deterministic keyed script. Each added writer of a shared file is recorded by an ADR that amends ADR
+    026.'
+  sources:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/rules/direct-model-write.md
+    ref: phoenix c14f515d910f
+    lines: 30-52 (rule 3, with 'Inside a loop (ADR 044)'), 245-248 (L-DMW-5)
+    kind: memory tool copy
+  - path: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+    ref: main
+    lines: line 7 (Amends ADR 026, Containment split) and line 60
+    kind: base ref
+  - path: core/components/agents/product-os-keeper.md
+    ref: main
+    lines: '164-181 (NEVER: change the model only through a skill; the spine writers are listed; the missing skill
+      is built)'
+    kind: base ref
+- id: H8
+  principle: 'The Business Intent kind: its page properties, a Touches list written by a script, each capability
+    linked both ways (spine and Touches; a play that makes one side writes the other), only a person confirms or
+    drops an intent; a rule never stops a write, drift goes to the Alignment loop.'
+  sources:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md
+    ref: phoenix c14f515d910f
+    lines: '25, 173-225 (Business Intent: properties 181-196, relationships 199-210, rules 212-225)'
+    kind: memory tool copy
+  - path: core/components/skills/link-model-gaps/SKILL.md
+    ref: main
+    lines: 63-64 ('Both sides of every link')
+    kind: base ref
+- id: H9
+  principle: A spine entry holds the fields its schema declares.
+  sources:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/spine.yaml
+    ref: phoenix c14f515d910f
+    lines: 58-61, 98-101, 118-121, 136-140 (metadata keys)
+    kind: memory tool copy
+- id: H10
+  principle: The evals folder is read by no builder, no skill that builds the software and no context sub-agent.
+  sources:
+  - path: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    ref: main
+    lines: 53, 59 (section 4)
+    kind: base ref
+  - path: docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md
+    ref: main
+    lines: '75'
+    kind: base ref
+  - path: CLAUDE.md
+    ref: main
+    lines: 'Work Tracking: ''A builder never reads a plan''s evals'''
+    kind: base ref
+- id: H11
+  principle: Shared scaffolding lives once, in one common file that is emitted and linted; a copy of it is byte-identical
+    or checked.
+  sources:
+  - path: CLAUDE.md
+    ref: main
+    lines: 128-136 (Durability rule)
+    kind: base ref
+  - path: core/tools/lint-components/lib/rules/shared-scripts.js
+    ref: main
+    lines: 1-10 (the list is kept short on purpose)
+    kind: base ref
+  - path: core/components/plays/create-play/references/intent_touches.py
+    ref: main
+    lines: docstring lines 1-20 ('this module writes the intent-page side, so every play writes it the same way')
+    kind: base ref
+- id: H12
+  principle: A plan holds every slice that serves its intent (a slice may serve two plans); a change to a slice
+    that work has started from is named for the person, not silent.
+  sources:
+  - path: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    ref: main
+    lines: '38'
+    kind: base ref
+  - path: docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
+    ref: main
+    lines: section 3, lines 32-34, and the Context note that the in-progress rule lived only in /shape-slice
+    kind: base ref
+- id: H13
+  principle: Source of truth is core/components; a rule on a part that is an intent change goes through its ICE;
+    a play without an ICE source (install-garura) is edited directly.
+  sources:
+  - path: CLAUDE.md
+    ref: main
+    lines: Play Pipeline Rules
+    kind: base ref
+checks_passed:
+- principle: H1
+  result: pass
+  how: 'All three SKILL.md carry user-invocable: false, model: sonnet, allowed-tools: Read, Bash, the Input / Process
+    / Output / Rules sections and a script path run as ''python3 scripts/<script>'', the same shape as the sibling
+    link-model-part, link-model-gaps and enrich-grounding. Both agent files list the skills in their skill table
+    and their intent-to-skill table (project-orchestrator also in its memory-needs table; product-os-keeper also
+    in its never-rules). The hand-offs are request, report and output file paths, not data.'
+- principle: H2
+  result: pass
+  how: Each skill is a thin wrapper over one deterministic script (write_page.py, remove_part.py, remove_plans.py).
+    No judgment is asked of the model; the agent rows say the words come from a person-approved draft or request.
+- principle: H3
+  result: pass
+  how: .garura/project/issues/1019/evidence/eval/eval-before.json records 16 passed and 68 failed against the code
+    before the build ('no script ... remove_part.py'); eval-after.json records 87 passed, 0 failed. The eval was
+    committed first (939bced7). The review re-runs the eval; these are recorded numbers.
+- principle: H4
+  result: pass
+  how: 'No skill reads memory. project-orchestrator''s memory table says ''remove-plan: nothing from memory''; product-os-keeper''s
+    last row (''any other skill: the memory files its inputs name'') covers the other two.'
+- principle: H5
+  result: pass
+  how: grep of the three SKILL.md and their scripts finds no core/components, core/tools, docs/ or .claude/ path
+    (the one '#539' is an issue number in an example). lint-components (layout source) reports no violation whose
+    file is in changed_paths; its 36 errors are in other files ('there before').
+- principle: H6
+  result: pass for the skill names
+  how: remove-plan, remove-model-part and author-intent-page are verb-first; their objects are model words or follow
+    the base precedents link-model-part and author-knowledge-page. Whether the new verb's meaning in naming.yaml
+    is one meaning is the memory dispatch's check.
+- principle: H10
+  result: pass
+  how: remove-plan is not a builder, a build skill or a context sub-agent. Its script counts names under a plan's
+    folder with os.scandir and chmod, and opens no file there (open() appears only for the plan YAML, the report
+    and the request). The read rule of ADR 049 section 4 holds.
+- principle: H13
+  result: pass
+  how: 'ICE-source rule: no compiled play SKILL.md is in changed_paths. install.py (install-garura, which has no
+    reference/ice.md on main) gains three names in the harness skill allow-list; the harness scope already lists
+    product-os-keeper and project-orchestrator, so the agents that carry the skills are installed with them. The
+    deployed .claude/ copies are untouched.'
+- principle: H7
+  result: pass on the product owner's rule, with a gap in the record (see F1)
+  how: The base keeper rule says the model changes only through a skill and 'the missing skill is built, never worked
+    around'. The new writer is a deterministic script, the LLM only passes a request, and it writes only inside
+    product-os with an all-or-nothing undo.
+- principle: Never-remove exception
+  result: pass
+  how: The new exception in product-os-keeper's 'Remove a node' rule (line 186) is consistent with ADR 033 section
+    2 ('A dropped piece leaves the model') and with ontology line 223 only if a person decides; the skill refuses
+    a request with no approved_by.
+findings:
+- id: F1
+  severity: P3
+  file: core/components/agents/product-os-keeper.md
+  lines: 174-187 (the NEVER bullets that list the spine writers and the 'Remove a node' exception)
+  also: core/components/skills/remove-model-part/SKILL.md (a skill whose script rewrites _spine.yaml and deletes
+    pages and a slice record, outside a loop)
+  principle: H7. Each writer of a shared model file is recorded where the standard and the ADRs name the writers.
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/rules/direct-model-write.md
+    ref: phoenix c14f515d910f
+    lines: '50-52: ''Outside a loop, the play''s keyed script is still the only writer of shared files''; 245-248
+      (L-DMW-5) names link-model-gaps'' script as the one exception'
+    kind: memory tool copy
+  - path: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+    ref: main
+    lines: '7 and 60: adding a writer of shared files was recorded as an amendment of ADR 026''s containment split'
+    kind: base ref
+  what: The branch adds a third writer of the spine outside a play's keyed script and outside a loop (remove-model-part's
+    script, which also deletes intent pages, capability pages and slice records) and records it only in the keeper's
+    never-rule text. direct-model-write.md and the ADR chain still say the only writers are the play's keyed script
+    and, in a loop, link-model-gaps' script. The same lag already exists on main for link-model-part (#979), which
+    is named in the keeper rule but not in the standard.
+  why_not_higher: 'The keeper rule on main (line 170) is the product owner''s word that the model changes only through
+    a skill and a missing skill is built, so the new skill is within the owner''s design. The code is contained:
+    refuses a path outside product-os, is all or nothing, and lists every file it changed. The gap is the record,
+    so P3 (missing documentation), not P2.'
+  fix: Add remove-model-part (and link-model-part) to the writer list in direct-model-write.md rule 3 and L-DMW-5's
+    'Not a finding' case, or record the writers in an ADR that amends ADR 026 and 044. No change to the skill.
+- id: F2
+  severity: P3
+  file: core/components/skills/remove-model-part/scripts/remove_part.py
+  lines: 248 (writes survivor.metadata.merged_from); SKILL.md lines 57 and 79
+  principle: H9. A spine entry holds the fields its schema declares; a new field is declared where the schema lives.
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/spine.yaml
+    ref: phoenix c14f515d910f
+    lines: metadata of a capability is created_by, updated_by, version (lines 98-101); only an ICE entry gets thin
+      (136-140)
+    kind: memory tool copy
+  - path: git grep merged_from main
+    ref: main
+    lines: no match anywhere on main outside this branch
+    kind: base ref check
+  what: A capability merge writes a new persisted field, metadata.merged_from [{id, issue, one_line}], on the survivor's
+    spine entry. No schema, ontology line or earlier script on main declares it. The acceptance criteria say the
+    issue number 'stays on record' and the story 'does not change the ontology', so the record had to go somewhere;
+    the schema that says where is not updated.
+  why_not_higher: The grounding linter on main (create-play/references/lint_grounding.py) has no check on spine
+    metadata keys (it checks page sections), and the spine already carries undeclared fields (issue, metadata.deepen,
+    metadata.thin on non-ICE entries), so nothing breaks. P3 for the undocumented field, not P2.
+  fix: Declare merged_from in spine.yaml's capability metadata (a separate schema and ontology change through /edit-ontology,
+    since this story may not change the ontology), or keep the record somewhere the schema already declares.
+- id: F3
+  severity: P3
+  file: core/components/skills/author-intent-page/SKILL.md
+  lines: SKILL.md 33 and 54; scripts/write_page.py 181-182
+  principle: H8. An intent page holds the parts of the Business Intent kind; the acceptance criterion is 'in the
+    shape of the ontology's Business Intent'.
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md
+    ref: phoenix c14f515d910f
+    lines: '181-196 (the eleven properties: Title, Outcome, Why, Asked by, Proof it is met, Must not, Rules, Stage,
+      Confirmed by and when, Touches, What was done); relationships 199-210 name no Serves line from an intent'
+    kind: memory tool copy
+  - path: git grep '**Serves:**' main
+    ref: main
+    lines: no intent page and no template on main has a Serves line; the only 'serves' on a page is the plan template's
+      own field (standards/templates/work-plan.md:19)
+    kind: base ref check
+  what: 'The skill writes a **Serves:** line (for example #539) between Rules and Identified by. The Business Intent
+    kind has no Serves property or relation. Slices and capabilities serve an intent; an intent does not serve another.
+    Grounding for what the line means is unavailable from committed sources, and no reader (find-model-gaps, the
+    model linter, the review tool) is known to read it.'
+  why_not_higher: The line is optional and is written only when the caller gives it, so a page that does not use
+    it is in the ontology's shape. P3 (a page part with no definition), not P2.
+  fix: Drop serves from the skill, or define the line in the ontology first (through /edit-ontology; this story
+    may not change it) and then write it.
+- id: F4
+  severity: P4
+  file: core/components/skills/author-intent-page/scripts/write_page.py
+  lines: 59-62, 130-153 (the Touches block is rendered and validated by the script itself)
+  principle: H11. One common module writes the Touches list so every play writes it the same way.
+  basis:
+  - path: core/components/plays/create-play/references/intent_touches.py
+    ref: main
+    lines: 'docstring: ''this module writes the intent-page side, so every play writes it the same way. It is never
+      written by an LLM'''
+    kind: base ref
+  - path: core/components/skills/link-model-gaps/scripts/intent_touches.py
+    ref: main
+    lines: the sibling skill that writes the same list stamps a copy of that module
+    kind: base ref
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md
+    ref: phoenix c14f515d910f
+    lines: '194: the Touches list is ''written by a script whenever a play links a part to it'''
+    kind: memory tool copy
+  what: 'author-intent-page keeps its own copy of the Touches line grammar (kind and mark lists, the ''- [title](link)
+    (kind) — mark'' line) instead of stamping intent_touches.py as link-model-gaps and discover-domains do. The
+    output is the same grammar today. The two differ in behaviour: the shared module rewrites a title''s square
+    brackets to round ones; the new script refuses the title. A later change to the grammar must now be made in
+    a second place.'
+  why_not_higher: Output matches the canonical grammar, tests cover the lines, and intent_touches.py is not itself
+    lint-checked for byte identity. P4 (tech debt).
+  fix: Stamp intent_touches.py beside write_page.py and call render/entry, or note in the SKILL why the new skill
+    cannot.
+- id: F5
+  severity: P4
+  file: core/components/skills/remove-model-part/scripts/safe_write.py
+  lines: whole file; same in core/components/skills/author-intent-page/scripts/safe_write.py and core/components/skills/remove-model-part/scripts/spine_text.py
+  principle: H11. Shared scaffolding is one common file that is emitted and linted; a copy is checked for drift.
+  basis:
+  - path: CLAUDE.md
+    ref: main
+    lines: '128-136: ''Any new shared scaffolding follows the same pattern: one common file the plays point to,
+      emitted by the compiler and linted'''
+    kind: base ref
+  - path: core/tools/lint-components/lib/rules/shared-scripts.js
+    ref: main
+    lines: '10-13: SHARED_SCRIPTS lists lint_grounding.py, model_names.py and a few more; safe_write.py and spine_text.py
+      are not in it'
+    kind: base ref
+  what: 'The branch adds two more copies of safe_write.py (now five in the repo) and a third copy of spine_text.py,
+    each marked ''stamped beside this script''. Only model_names.py among the helpers these skills use is linted
+    for drift. The copies are byte-identical today (md5 checked: safe_write.py ab8272bc in all five, spine_text.py
+    14424d9e in all three), so nothing is wrong yet; a future edit to one copy would not be caught.'
+  why_not_higher: Identical now; the same pattern is on main for link-model-part and enrich-grounding. P4 (tech
+    debt).
+  fix: Add safe_write.py and spine_text.py to SHARED_SCRIPTS in a follow-up, with a canonical copy in create-play/references/.
+- id: F6
+  severity: P4
+  file: core/components/agents/product-os-keeper.md
+  lines: 107 (the removal row, which says to run remove-model-part after enrich-grounding)
+  principle: H8. Each capability is linked both ways, spine and Touches; a play that makes one side writes the other.
+  basis:
+  - path: .garura/project/issues/1019/context/memory/grounding-harness/standards/schemas/product-os/ontology.md
+    ref: phoenix c14f515d910f
+    lines: 218; and 25 (drift goes to the Alignment loop, a rule never stops a write)
+    kind: memory tool copy
+  - path: core/components/skills/link-model-gaps/SKILL.md
+    ref: main
+    lines: 63-64 ('Both sides of every link')
+    kind: base ref
+  what: 'A repoint changes only the spine side of a link: cap-2 moves from bi-1 to bi-3 in the spine. remove-model-part
+    writes no page words, and the old intent''s page (with its Touches list) is deleted. The keeper row tells the
+    keeper to fix the words that name the old part, but not to add the part to the new intent''s Touches list (author-intent-page
+    with touches, or enrich-grounding named lines). The other side of the link is left to whoever composes the steps.'
+  why_not_higher: The ontology says such drift is found by the Alignment loop and never stops a write; the story
+    does not run the skills and no play composes them yet. P4 (a missing line of guidance).
+  fix: 'Add to the removal row: after a repoint, complete the new intent''s Touches list through author-intent-page
+    (touches) or enrich-grounding, or say that the Alignment loop does it.'
+- id: F7
+  severity: P4
+  file: core/components/skills/remove-model-part/scripts/remove_part.py
+  lines: 256-264 (remove_slice); SKILL.md 76-77 ('Nothing under the plans folder is touched, even for a slice')
+  principle: H12. A plan holds the slices that serve its intent; a change to a slice that work has started from
+    is named for the person.
+  basis:
+  - path: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    ref: main
+    lines: '38: a plan holds every slice that serves its intent; a slice that serves two intents has one epic used
+      by both plans'
+    kind: base ref
+  - path: docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
+    ref: main
+    lines: 'section 3 (lines 32-34): work that started from the old text is named as out of date'
+    kind: base ref
+  what: 'Removing a slice deletes its spine entry and record without looking at the plans: a plan or epic that still
+    holds the slice is not checked, and the report does not name it. remove-plan has the opposite check for its
+    own folder (it refuses a plan another plan needs). If the plans of a removed slice stay, they point at a slice
+    that no longer exists.'
+  why_not_higher: ADR 058's own note says the in-progress rule lived only in /shape-slice, not in a general standard;
+    the story's scope is to delete all plans too, and the order of the two skills is the caller's. This is a gap
+    to know about, not a violation. P4.
+  fix: Either state in the removal row that plans of a removed slice are removed first (remove-plan) or add the
+    plan files that name the slice to the report as 'out of date'.
+observations:
+- 'Touches kind ''feature'': author-intent-page accepts domain, capability and feature (write_page.py:62). The ontology
+  line 194 says the Touches list ''does not name features''. The shipped writer intent_touches.py (KINDS includes
+  feature) and the live page bi-788 do name features, so the skill follows the code on main and the base is inconsistent
+  with itself. Not charged to this branch; settle in the ontology.'
+- 'Approval is a name: remove-model-part (approved_by), remove-plan (approved_by) and author-intent-page (confirmed_by)
+  take a non-empty string and cannot tell a person from an agent. The ontology says only a person confirms or drops
+  an intent (line 223). The stricter precedent is persist_intent.py (decisions must be ''by: person'' and carry
+  confirmed_by). The story asks for the name, and the keeper rows say to pass it only when a person approved, so
+  this is recorded, not charged.'
+- 'Refusal gates: remove-model-part refuses while any page names a part to remove. Ontology line 25 says rules never
+  stop a write; this is the skill''s own dangling-reference check, asked for by the story, with a key (fix the lines
+  through enrich-grounding, run again). Not a violation.'
+- 'Two capability merges now exist: link-model-gaps'' apply_links.py (agreed duplicates, inside a loop) and remove-model-part
+  (an approved reorganisation). They differ (the new one also repoints needs and identified_by, keeps merged_from
+  and lists needs to review). The keeper''s NEVER text names both. Known, not charged.'
+- 'Cross-reference for the memory dispatch: the naming.yaml meaning of ''remove'' joins two objects (a model part,
+  a plan) and ends ''and repoint what named it'', which only remove-model-part does. Rule 3 of naming.md is that
+  one verb has one meaning. That is that dispatch''s finding to make.'
+- 'Two writers of one page shape: shape-slice/scripts/write_intent_page.py (a play script, new page only) and author-intent-page
+  (new page or rewrite). Their pages differ (the play adds a ''Written by /shape-slice'' line). Both follow the
+  Business Intent shape; not charged.'
+counts:
+  P1: 0
+  P2: 0
+  P3: 3
+  P4: 4
+grounding_gaps:
+- 'F3: no committed source defines what a Business Intent page''s Serves line means, so it cannot be graded against
+  a design; reported as a gap, not a guess.'
+- No ADR or plan on main records the 2026-11-02 reorganisation these skills serve; only the issue text (read-only)
+  states the scope. The principles above come from the base ref and the memory copies, not from that issue.
