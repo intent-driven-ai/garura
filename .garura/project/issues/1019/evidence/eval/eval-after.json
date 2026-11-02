@@ -68,9 +68,9 @@
       "detail": "{'id': 'cap-3', 'slug': 'cap-3', 'domain': '', 'intents': ['bi-2'], 'status': 'proposed', 'one_line': 'Stays', 'doc': 'capabilities/cap-3/capability.md', 'depends_on': ['cap-1'], 'identified_by': 'cap-1', 'issue': 30}"
     },
     {
-      "check": "merge: its issue number stays on record",
+      "check": "merge: the survivor keeps no record of the merge",
       "ok": true,
-      "detail": "{'id': 'cap-1', 'slug': 'cap-1', 'domain': 'dom-a', 'intents': ['bi-1'], 'status': 'proposed', 'one_line': 'Keeper', 'doc': 'a/cap-1/capability.md', 'depends_on': [], 'identified_by': '', 'issue': 10, 'metadata': {'merged_from': [{'id': 'cap-2', 'issue': 20, 'one_line': 'Merged away'}]}}"
+      "detail": "{'id': 'cap-1', 'slug': 'cap-1', 'domain': 'dom-a', 'intents': ['bi-1'], 'status': 'proposed', 'one_line': 'Keeper', 'doc': 'a/cap-1/capability.md', 'depends_on': [], 'identified_by': '', 'issue': 10}"
     },
     {
       "check": "slice: entry and record are gone",
@@ -360,7 +360,7 @@
     {
       "check": "remove-model-part: its tests pass",
       "ok": true,
-      "detail": "............................................................\n----------------------------------------------------------------------\nRan 60 tests in 7.124s\n\nOK\n"
+      "detail": "...............................................................\n----------------------------------------------------------------------\nRan 63 tests in 7.043s\n\nOK\n"
     },
     {
       "check": "author-intent-page: has its SKILL.md",
@@ -375,7 +375,7 @@
     {
       "check": "author-intent-page: its tests pass",
       "ok": true,
-      "detail": "..................................................\n----------------------------------------------------------------------\nRan 50 tests in 5.354s\n\nOK\n"
+      "detail": "..................................................\n----------------------------------------------------------------------\nRan 50 tests in 5.831s\n\nOK\n"
     },
     {
       "check": "remove-plan: has its SKILL.md",
@@ -390,7 +390,7 @@
     {
       "check": "remove-plan: its tests pass",
       "ok": true,
-      "detail": "...............................\n----------------------------------------------------------------------\nRan 31 tests in 2.705s\n\nOK\n"
+      "detail": "...............................\n----------------------------------------------------------------------\nRan 31 tests in 2.612s\n\nOK\n"
     },
     {
       "check": "naming: remove is a skill verb with a meaning",
