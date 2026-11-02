@@ -48,8 +48,16 @@ git diff and the end-sequence PR.
    the dropped node of an agreed duplicate after moving its intents and children to the kept
    one — and changes no other node. It writes only inside `<product_base>product-os/`, refuses any path outside,
    and lists every file it changed; the loop commits that delta with the round, so the
-   review sees it. Outside a loop, the play's keyed script is still the only writer of
-   shared files.
+   review sees it.
+
+   **Outside a play.** Two more writers, each run by `product-os-keeper` and keyed by its
+   request. `link-model-part`'s script (`link_part.py`) writes the spine entry of a part found
+   during work, and the thin mark. `remove-model-part`'s script (`remove_part.py`) repoints
+   parts to other business intents, merges a capability into another, and removes an intent's
+   page, a capability's page or a slice and its record; its request must name the person who
+   approved it. Each changes only the parts its request names, writes only inside
+   `<product_base>product-os/`, refuses any path outside, and lists every file it changed.
+   Everywhere else, the play's keyed script is still the only writer of shared files.
 
    Migration consequence: this is not a path re-point. Any enrich/build skill that today
    writes a draft `_spine.yaml` delta must stop writing the spine and instead emit that
