@@ -71,3 +71,4 @@ may have no Status line.
 | [063](063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md) | /shape-plan Makes a Business Intent's One Plan Once; a Plan That Exists Is Changed Only by /update-plan | Accepted | 2026-10-31 |
 | [064](064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md) | An Item's Status in a Plan Follows Its Own Issue, With No Roll-Ups | Accepted | 2026-10-31 |
 | [065](065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md) | The Model's Index Is Changed Through Two Skills, a Person May Approve Deleting a Plan, the Model Never Names a Plan, and Only Tools Know the Tracker | Accepted | 2026-11-02 |
+| [066](066-names-say-who-does-the-work-five-roles-own-the-verbs.md) | Names Say Who Does the Work: Five Roles Own the Verbs, Loops Are Named loop-<from>-<to>, and a Name May Start With a Tool's Command | Accepted | 2026-11-03 |

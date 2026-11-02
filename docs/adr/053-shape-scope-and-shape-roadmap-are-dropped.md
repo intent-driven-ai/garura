@@ -1,6 +1,6 @@
 # ADR 053 — /shape-scope and /shape-roadmap Are Dropped; the Shaping Loop Does Their Jobs
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 066](066-names-say-who-does-the-work-five-roles-own-the-verbs.md): §4, "The seven design lens plays ... are not dropped": /shape-marketing-lens and /shape-measure-lens are dropped. The other five stay as §4 says
 **Date:** 2026-10-24
 **Level:** framework
 **Decided by:** the product owner · **Decided in:** #837 (drop the old Shape plays), plan #788
