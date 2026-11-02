@@ -11,6 +11,17 @@ github:
   owner: kapilvirenahuja   # GitHub account handle (from repo URL), not the display name
   name: garura             # repo name (lowercase, as in the URL)
 
+# Which tracker holds what. Tools read this; plays, skills and sub-agents never name a tracker.
+trackers:
+  intents:                  # business intents
+    platform: github
+    owner: intent-driven-ai
+    name: garura-intents
+  work:                     # agent work: epics, stories, bugs, chores, spikes
+    platform: github
+    owner: intent-driven-ai
+    name: garura
+
 # Schema documentation: uncomment and populate to switch to GitLab.
 # GitLab owner is a group path (may be nested, e.g. dx_innovations/phoenix).
 # The adapter URL-encodes the full path when building API calls (slashes → %2F).
