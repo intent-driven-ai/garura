@@ -2,7 +2,7 @@
 """
 write_page.py — write a business intent's page from its draft, new or rewritten (author-intent-page).
 
-It decides no words: every word comes from the draft, and the stage is confirmed only when the
+It decides no words: the page holds what the draft holds, and the stage is confirmed only when the
 caller names the person who confirmed it.
 
     python3 write_page.py --draft <working>/intent-draft.json --product-base <product_base> \
@@ -12,23 +12,34 @@ caller names the person who confirmed it.
 intent-draft.json:
     {"id": "bi-<issue>", "issue": <issue>, "title": "...", "outcome": "...", "why": "...",
      "asked_by": "<a persona>", "proof": ["...", ...], "must_not": "..." (optional),
-     "rules": ["...", ...] (optional), "serves": "#12" (optional), "identified_by": "..." (optional)}
+     "rules": ["...", ...] (optional), "serves": "#12" (optional), "identified_by": "..." (optional),
+     "touches": [{"title": "...", "link": "../care/booking/capability.md",
+                  "kind": "domain|capability|feature", "mark": "adds|changes|removes"}] (optional)}
 
 The page is <product_base>/product-os/intents/<id>.md, in this order, a blank line between each:
 the title, Outcome, Why, Asked by, Proof it is met, Must not, Rules, Serves and Identified by
-(the last four when the draft has them), then the stage line with the Tracker line right under it.
+(the last four when the draft has them), then the stage line with the Tracker line right under it,
+then the Touches block when there is one, then the What-was-done block.
+
+Touches is the page's side of the link between a part and this intent: one line per entry,
+"- [<title>](<link>) (<kind>) — <mark>". Each link is relative to the page's own folder and must
+lead to a file inside the model.
 
 A new page ends with "**What was done:** (nothing yet)", and a page already there refuses unless
---rewrite is given. A rewrite needs the page to be there. It keeps the old page's Touches block and
-What-was-done block byte for byte and replaces everything else; each block runs from its line to the
-next line that starts with ** or the end. An old page with no What-was-done block gets the new
-page's line.
+--rewrite is given. A rewrite needs the page to be there. It keeps the old page's What-was-done block
+byte for byte, and its Touches block byte for byte too unless the draft gives touches, which replace
+it; an empty list gives none. Everything else is replaced. Each block runs from its line to the next
+line that starts with ** or the end. An old page with no What-was-done block gets the new page's line.
 
 Refused, nothing written: a required part empty (title, outcome, why, asked by, a proof line); an id
 that is not bi-<digits> or not bi-<issue>; a part that holds a line break (it could write a stage line
-of its own); --stage confirmed with nobody in --confirmed-by; a date not in the form YYYY-MM-DD.
+of its own); a touches entry with a bad kind or mark, an empty title, a title holding a square bracket
+or a link holding whitespace or a closing bracket (the line could not be read back), or a link that
+leaves the model or leads to no file; --stage confirmed with nobody in --confirmed-by; a date not in
+the form YYYY-MM-DD.
 
-intent-page.json: id, page (relative to the product base), written, rewrite, stage, kept.
+intent-page.json: id, page (relative to the product base), written, rewrite, stage, kept (the old
+blocks kept as they were; none on a new page, and never a Touches block the draft replaced).
 The page and the report go through safe_write.atomic_write. No git, no network.
 Exit 0 written, 2 refused.
 """
@@ -45,8 +56,11 @@ import safe_write  # noqa: E402  (stamped beside this script)
 MODEL = "product-os"
 INTENT_ID = re.compile(r"bi-[0-9]+")
 DATE = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}")
-NOTHING_YET = "**What was done:** (nothing yet)"
-KEPT_BLOCKS = (("Touches", "**Touches:**"), ("What was done", "**What was done:**"))
+TOUCHES = "**Touches:**"
+WHAT_WAS_DONE = "**What was done:**"
+NOTHING_YET = f"{WHAT_WAS_DONE} (nothing yet)"
+TOUCH_KINDS = ("domain", "capability", "feature")
+TOUCH_MARKS = ("adds", "changes", "removes")
 
 
 class Refused(Exception):
@@ -102,6 +116,43 @@ def stage_line(stage, who, date):
     return f"**Stage:** confirmed — by {who.strip()}, {date}"
 
 
+def check_link(title, link, page, root):
+    """The link must lead, from the page's own folder, to a file inside the model."""
+    if not isinstance(link, str) or not link or ")" in link or any(c.isspace() for c in link):
+        raise Refused(f"touches, {title}: the link {link!r} is empty or holds whitespace or a closing bracket")
+    target = os.path.realpath(os.path.join(os.path.dirname(page), link))
+    if not target.startswith(root + os.sep):
+        raise Refused(f"touches, {title}: the link {link} leaves the model folder")
+    if not os.path.isfile(target):
+        raise Refused(f"touches, {title}: the link {link} leads to no file from the page's own folder")
+
+
+def touches_block(draft, page, root):
+    """The Touches block the draft gives, one line per entry; None when it gives none."""
+    entries = draft.get("touches")
+    if entries is None or entries == []:
+        return None
+    if not isinstance(entries, list):
+        raise Refused("the draft's touches must be a list of entries")
+    lines = [TOUCHES]
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise Refused(f"each entry of the draft's touches must be an object: {entry!r}")
+        title, link, kind, mark = (entry.get(k) for k in ("title", "link", "kind", "mark"))
+        if not isinstance(title, str) or not title.strip():
+            raise Refused(f"a touches entry has an empty title: {entry!r}")
+        title = title.strip()
+        if set(title) & set("[]\r\n"):
+            raise Refused(f"touches: the title {title!r} holds a square bracket or a line break")
+        if kind not in TOUCH_KINDS:
+            raise Refused(f"touches, {title}: the kind {kind!r} is not domain, capability or feature")
+        if mark not in TOUCH_MARKS:
+            raise Refused(f"touches, {title}: the mark {mark!r} is not adds, changes or removes")
+        check_link(title, link, page, root)
+        lines.append(f"- [{title}]({link}) ({kind}) — {mark}")
+    return "\n".join(lines)
+
+
 def block(lines, header):
     """The block from the line that starts with `header` to the next ** line or the end, without
     the blank lines after it; None when the page has no such line."""
@@ -117,7 +168,7 @@ def block(lines, header):
     return "".join(kept).rstrip("\r\n")
 
 
-def render(draft, stage, kept_blocks):
+def render(draft, stage, last_blocks):
     parts = [f"# {words(draft, 'title')}",
              f"**Outcome:** {words(draft, 'outcome')}",
              f"**Why:** {words(draft, 'why')}",
@@ -132,15 +183,31 @@ def render(draft, stage, kept_blocks):
     if words(draft, "identified_by"):
         parts.append(f"**Identified by:** {words(draft, 'identified_by')}")
     parts.append(f"{stage}\n**Tracker:** #{draft['issue']}")
-    return "\n\n".join(parts + kept_blocks) + "\n"
+    return "\n\n".join(parts + last_blocks) + "\n"
 
 
-def page_path(product_base, pid):
-    root = os.path.realpath(os.path.join(product_base, MODEL))
+def page_path(root, pid):
     page = os.path.join(root, "intents", f"{pid}.md")
     if not os.path.realpath(page).startswith(root + os.sep):
         raise Refused(f"the page of {pid} leaves the model folder")
     return page
+
+
+def last_blocks_of(old_text, new_touches):
+    """The blocks that end the page, and the names of the old ones kept as they were."""
+    old_lines = old_text.splitlines(keepends=True)
+    kept, blocks = [], []
+    old_touches = block(old_lines, TOUCHES)
+    if new_touches is not None:
+        blocks.append(new_touches)
+    elif old_touches is not None:
+        kept.append("Touches")
+        blocks.append(old_touches)
+    old_done = block(old_lines, WHAT_WAS_DONE)
+    if old_done is not None:
+        kept.append("What was done")
+    blocks.append(NOTHING_YET if old_done is None else old_done)
+    return blocks, kept
 
 
 def main(argv=None):
@@ -161,25 +228,19 @@ def main(argv=None):
         if not DATE.fullmatch(a.date):
             raise Refused(f"the date {a.date!r} is not in the form YYYY-MM-DD")
         stage = stage_line(a.stage, a.confirmed_by, a.date)
-        page = page_path(a.product_base, draft["id"])
+        root = os.path.realpath(os.path.join(a.product_base, MODEL))
+        page = page_path(root, draft["id"])
         there = os.path.lexists(page)
         if there and not a.rewrite:
             raise Refused(f"the page of {draft['id']} is already there; only --rewrite changes it")
         if a.rewrite and not there:
             raise Refused(f"--rewrite needs a page, and {draft['id']} has none")
-        kept, kept_blocks = [], []
+        new_touches = touches_block(draft, page, root)
         if a.rewrite:
             with open(page, encoding="utf-8", newline="") as fh:
                 old = fh.read()
-            old_lines = old.splitlines(keepends=True)
-            for name, header in KEPT_BLOCKS:
-                found = block(old_lines, header)
-                if found is not None:
-                    kept.append(name)
-                    kept_blocks.append(found)
-        if "What was done" not in kept:
-            kept_blocks.append(NOTHING_YET)
-        text = render(draft, stage, kept_blocks)
+        last_blocks, kept = last_blocks_of(old or "", new_touches)
+        text = render(draft, stage, last_blocks)
     except (Refused, OSError, ValueError) as err:
         sys.stderr.write(f"write_page.py: refused, nothing written: {err}\n")
         return 2

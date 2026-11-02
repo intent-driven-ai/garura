@@ -264,6 +264,143 @@ class Rewrite(WritePageCase):
         self.assert_refused(dict(DRAFT, title=""), "title", "--rewrite")
 
 
+BOOKING = {"title": "Booking", "link": "../care/booking/capability.md", "kind": "capability", "mark": "adds"}
+CARE = {"title": "Care", "link": "../care/domain.md", "kind": "domain", "mark": "changes"}
+SLOTS = {"title": "Pick a slot", "link": "../features/fn-7/feature.md", "kind": "feature", "mark": "removes"}
+TOUCH_LINES = """\
+**Touches:**
+- [Booking](../care/booking/capability.md) (capability) — adds
+- [Care](../care/domain.md) (domain) — changes
+- [Pick a slot](../features/fn-7/feature.md) (feature) — removes"""
+
+
+class Touches(WritePageCase):
+    def setUp(self):
+        super().setUp()
+        for rel in ("care/booking/capability.md", "care/domain.md", "features/fn-7/feature.md"):
+            path = os.path.join(self.base, "product-os", rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as fh:
+                fh.write("# A part\n")
+
+    def with_touches(self, *entries):
+        return dict(DRAFT, touches=list(entries))
+
+    def test_a_new_page_has_them_in_the_exact_form_just_before_what_was_done(self):
+        rep = self.done(self.with_touches(BOOKING, CARE, SLOTS))
+        self.assertTrue(self.text().endswith(
+            f"**Stage:** proposed\n**Tracker:** #340\n\n{TOUCH_LINES}\n\n**What was done:** (nothing yet)\n"))
+        self.assertEqual(rep["kept"], [])
+
+    def test_no_touches_writes_no_block(self):
+        for draft in (DRAFT, dict(DRAFT, touches=None), dict(DRAFT, touches=[])):
+            if os.path.exists(self.page):
+                os.remove(self.page)
+            self.done(draft)
+            self.assertNotIn("**Touches:**", self.text())
+
+    def test_the_lines_read_back_through_the_models_own_reader(self):
+        reader = os.path.join(HERE, "..", "..", "..", "plays", "shape-slice", "scripts")
+        if not os.path.isfile(os.path.join(reader, "intent_touches.py")):
+            self.skipTest("the reader is not beside this skill in this layout")
+        sys.path.insert(0, reader)
+        import intent_touches
+        self.done(self.with_touches(BOOKING, CARE, SLOTS))
+        self.assertEqual(intent_touches.read(self.text()), [BOOKING, CARE, SLOTS])
+
+    def test_a_link_works_when_the_intents_folder_is_not_there_yet(self):
+        os.rmdir(os.path.dirname(self.page))
+        self.done(self.with_touches(CARE))
+        self.assertIn("- [Care](../care/domain.md) (domain) — changes", self.text())
+
+    def test_a_rewrite_with_touches_replaces_the_old_block(self):
+        self.put_page()
+        rep = self.done(self.with_touches(BOOKING, CARE, SLOTS), "--rewrite")
+        self.assertTrue(self.text().endswith(f"**Tracker:** #340\n\n{TOUCH_LINES}\n\n{WHAT_WAS_DONE}\n"))
+        self.assertNotIn("a line a person wrote", self.text())
+        self.assertEqual(self.text().count("**Touches:**"), 1)
+        self.assertEqual(rep["kept"], ["What was done"])
+
+    def test_a_rewrite_with_no_touches_keeps_the_old_block_byte_for_byte(self):
+        for draft in (DRAFT, dict(DRAFT, touches=None), dict(DRAFT, touches=[])):
+            self.put_page()
+            rep = self.done(draft, "--rewrite")
+            self.assertTrue(self.text().endswith(f"**Tracker:** #340\n\n{TOUCHES}\n\n{WHAT_WAS_DONE}\n"))
+            self.assertEqual(rep["kept"], ["Touches", "What was done"])
+
+    def test_a_rewrite_adds_touches_to_a_page_that_had_none(self):
+        self.put_page(f"# Old\n\n{WHAT_WAS_DONE}\n")
+        rep = self.done(self.with_touches(CARE), "--rewrite")
+        self.assertTrue(self.text().endswith(
+            f"**Touches:**\n- [Care](../care/domain.md) (domain) — changes\n\n{WHAT_WAS_DONE}\n"))
+        self.assertEqual(rep["kept"], ["What was done"])
+
+    def test_a_rewrite_of_a_page_with_neither_block_keeps_nothing(self):
+        self.put_page("# Old\n\n**Outcome:** old.\n")
+        rep = self.done(self.with_touches(CARE), "--rewrite")
+        self.assertEqual(rep["kept"], [])
+        self.assertTrue(self.text().endswith(
+            "**Touches:**\n- [Care](../care/domain.md) (domain) — changes\n\n**What was done:** (nothing yet)\n"))
+
+    def test_a_replaced_block_is_not_reported_kept_when_what_was_done_is_missing(self):
+        self.put_page(f"# Old\n\n{TOUCHES}\n")
+        rep = self.done(self.with_touches(CARE), "--rewrite")
+        self.assertEqual(rep["kept"], [])
+        self.assertNotIn("a line a person wrote", self.text())
+
+    def test_each_refusal_on_a_new_page(self):
+        refusals = [
+            (dict(BOOKING, kind="epic"), "the kind 'epic'"),
+            (dict(BOOKING, kind="Capability"), "the kind 'Capability'"),
+            (dict(BOOKING, kind=None), "the kind None"),
+            (dict(BOOKING, kind=["capability"]), "the kind ['capability']"),
+            (dict(BOOKING, mark="adding"), "the mark 'adding'"),
+            (dict(BOOKING, mark=None), "the mark None"),
+            (dict(BOOKING, title=""), "empty title"),
+            (dict(BOOKING, title="   "), "empty title"),
+            (dict(BOOKING, title=None), "empty title"),
+            (dict(BOOKING, title=7), "empty title"),
+            (dict(BOOKING, title="Two\nlines"), "line break"),
+            (dict(BOOKING, title="Book [now]"), "square bracket"),
+            (dict(BOOKING, link="../care/booking/capa bility.md"), "whitespace"),
+            (dict(BOOKING, link="../care/domain.md "), "whitespace"),
+            (dict(BOOKING, link="../care/domain.md\t"), "whitespace"),
+            (dict(BOOKING, link="../care/domain.md\n**Stage:** confirmed"), "whitespace"),
+            (dict(BOOKING, link=""), "empty"),
+            (dict(BOOKING, link=None), "empty"),
+            (dict(BOOKING, link=5), "empty"),
+            (dict(BOOKING, link="../care/dom)ain.md"), "closing bracket"),
+            (dict(BOOKING, link="../care/missing.md"), "no file"),
+            (dict(BOOKING, link="../care"), "no file"),
+            (dict(BOOKING, link="https://example.com/page.md"), "no file"),
+            (dict(BOOKING, link="../care/domain.md#why"), "no file"),
+        ]
+        for entry, words in refusals:
+            self.assert_refused(self.with_touches(CARE, entry), words)
+
+    def test_a_link_is_read_from_the_pages_own_folder_not_the_model_root(self):
+        self.assert_refused(self.with_touches(dict(CARE, link="care/domain.md")), "no file")
+
+    def test_a_link_that_leaves_the_model_is_refused_even_when_the_file_is_there(self):
+        outside = os.path.join(self.base, "outside.md")
+        with open(outside, "w", encoding="utf-8") as fh:
+            fh.write("not model\n")
+        self.assert_refused(self.with_touches(dict(CARE, link="../../outside.md")), "leaves the model")
+        self.assert_refused(self.with_touches(dict(CARE, link=outside)), "leaves the model")
+        os.symlink(outside, os.path.join(self.base, "product-os", "care", "out.md"))
+        self.assert_refused(self.with_touches(dict(CARE, link="../care/out.md")), "leaves the model")
+
+    def test_touches_that_are_not_a_list_of_entries(self):
+        self.assert_refused(dict(DRAFT, touches="../care/domain.md"), "list of entries")
+        self.assert_refused(dict(DRAFT, touches=BOOKING), "list of entries")
+        self.assert_refused(dict(DRAFT, touches=["../care/domain.md"]), "must be an object")
+
+    def test_a_refused_rewrite_leaves_the_old_page_as_it_was(self):
+        self.put_page()
+        self.assert_refused(self.with_touches(BOOKING, dict(CARE, mark="gone")), "the mark 'gone'", "--rewrite")
+        self.assertEqual(self.text(), OLD_PAGE)
+
+
 class Refusals(WritePageCase):
     def test_a_required_part_empty(self):
         for key, word in (("title", "title"), ("outcome", "outcome"), ("why", "why"), ("asked_by", "asked by")):
