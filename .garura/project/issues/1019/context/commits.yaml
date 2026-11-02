@@ -1,5 +1,5 @@
 commits:
-  - sha: 83d52a15
+  - sha: 444727dc
     message: "feat(author-intent-page): write the Touches list of an intent (#1019)"
     files:
       - core/components/skills/author-intent-page/scripts/write_page.py
@@ -7,7 +7,7 @@ commits:
       - core/components/skills/author-intent-page/SKILL.md
       - core/components/agents/product-os-keeper.md
     branch: feature/1019-three-reorganisation-skills
-  - sha: 95498e1b
+  - sha: a2a616bc
     message: "test(eval): record the acceptance check rerun, 87 passed (#1019)"
     files:
       - .garura/project/issues/1019/evidence/eval/eval-after.json
