@@ -239,7 +239,7 @@ check("merge: its features move to the survivor", by_id(s["features"]).get("fn-1
 check("merge: links to it follow",
       caps.get("cap-3", {}).get("identified_by") == "cap-1" and caps.get("cap-3", {}).get("depends_on") == ["cap-1"],
       caps.get("cap-3"))
-check("merge: its issue number stays on record", "20" in json.dumps(caps.get("cap-1", {}).get("metadata", {})),
+check("merge: the survivor keeps no record of the merge", "merged_from" not in json.dumps(caps.get("cap-1", {})),
       caps.get("cap-1"))
 shutil.rmtree(base)
 
