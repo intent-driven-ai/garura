@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/1021-reorganise-business-intents",
+  "base_sha": "870170b5ad9a23583be58a07272e631079aebe3b",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}
