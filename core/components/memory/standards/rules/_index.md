@@ -14,6 +14,13 @@ Agents and skills query this category when they need to know: **"What rules must
 | `naming.yaml` | The machine half: the verb lists, industry terms, reserved built-in commands | `core/tools/lint-components` |
 | `rename-map.yaml` | Every old name and its new name, from adopting the standard. A name mapped to `null` was removed with no successor (ADR 059): the old-name check still reports it, and the install has nothing to lay for it | the old-name check, `install-garura` |
 
+### Product model rules
+
+| Path | Description | Consumers |
+|------|-------------|-----------|
+| `ice-rubric.md` | What a good ICE looks like: one goal, its limits, its failures, where context is gathered from, and a check by someone other than the doer | Any play or skill that writes or judges an ICE |
+| `intent-depth.md` | How deep business intents go: one need is one intent, the product owner chooses the depth, and not every part is an intent | Any play or skill that specifies intents |
+
 ### Knowledge rules
 
 | Path | Description | Consumers |
