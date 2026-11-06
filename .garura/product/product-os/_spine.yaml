@@ -238,6 +238,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-turn-intents-into-work
+  slug: turn-intents-into-work
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-1
+  status: proposed
+  detail: directional
+  one_line: A business intent becomes the epics, stories and other work items agents
+    execute.
+  doc: software-delivery-planning/turn-intents-into-work/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -813,6 +829,66 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-cut-intent-into-work
+  slug: fn-cut-intent-into-work
+  capability: cap-turn-intents-into-work
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Makes one epic for each slice that serves a business intent and one story
+    for each feature, after the product owner's yes.
+  doc: software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-write-story-from-ice
+  slug: fn-write-story-from-ice
+  capability: cap-turn-intents-into-work
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Writes a story's scope of work and Context guidance from its two ICE,
+    with the failure lines taken out.
+  doc: software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-change-work-items
+  slug: fn-change-work-items
+  capability: cap-turn-intents-into-work
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Adds, moves, renames and rewrites an intent's work items in one working
+    session, on one approval.
+  doc: software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-add-found-feature
+  slug: fn-add-found-feature
+  capability: cap-turn-intents-into-work
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Puts a feature found during work into the product model, its slice and
+    its epic, on one approval.
+  doc: software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -921,3 +997,33 @@ ices:
   metadata:
     created_by: 'product-os-keeper (approved pages for #1021)'
     thin: true
+- id: ice-turn-intents-into-work
+  for: cap-turn-intents-into-work
+  for_kind: capability
+  doc: software-delivery-planning/turn-intents-into-work/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-cut-intent-into-work
+  for: fn-cut-intent-into-work
+  for_kind: feature
+  doc: software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-write-story-from-ice
+  for: fn-write-story-from-ice
+  for_kind: feature
+  doc: software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-change-work-items
+  for: fn-change-work-items
+  for_kind: feature
+  doc: software-delivery-planning/turn-intents-into-work/fn-change-work-items/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-add-found-feature
+  for: fn-add-found-feature
+  for_kind: feature
+  doc: software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
