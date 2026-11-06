@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"This feature works out who the prototype serves, then uses it one step at a time in a browser with no window, and keeps a picture and the text of every step.\" \"Out: a check report that says whether the record is complete.\" \"A step that cannot be taken is a finding.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"This keeps a long journey quick.\" \"The walk notes it and tries another way, so the journey does not end there.\" \"Whether a journey means anything stays with the walker's judgment.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a journey with one step, when the check runs, then it reports that journey and reads not ok.\" \"In: the prototype, as a file, a local page or a link.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"On a deployed site, the walk refuses a click on a control with any of these words, unless the person cleared the site: accept, approve, reject, drop, send back, delete, remove, finish, submit, save, pay, buy, upload, sign out, log out, reset.\" \"Each journey needs its person, its goal, its end and two or more steps, and each step needs what was done, what it showed and its saved picture and text.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A prototype's screens show what it has, and a journey shows what it is for.\" \"It runs for a prototype only, because a document or plain words have no steps to take.\" \"Specify from a file (fn-specify-from-file) and Specify from a deployed site (fn-specify-from-site) do this.\"",
+      "fix": ""
+    }
+  ]
+}

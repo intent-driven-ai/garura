@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"The run keeps only files that end in .md or .txt at the top of the folder.\" \"Given a folder with README.md, NOTES.txt and app.js at its top, when it is captured, then the docs Source holds README.md and NOTES.txt and does not hold app.js.\" \"Finding the running app's views. Specify from a deployed site (fn-specify-from-site) does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"The run keeps only files that end in .md or .txt at the top of the folder.\" \"The agent running the work starts and stops the app by following the README. No fixed script does this, and no check confirms that the app stopped.\"",
+      "fix": "Give the reason behind the main design choices, not only the rule. Add a short why after the .md/.txt rule (why only top-level written docs are kept, and not subfolders or other formats). Add a short why for starting the app by following the README (rather than a fixed script), and say what the missing stop check risks (an app left running). Add one line on why a folder is treated as two Sources (the docs and the running app) instead of one."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a folder with no .md or .txt file at its top, when it is captured, then the capture fails and the record names the folder.\" \"Given a README that says how to start the project, when the run ends, then two Source records exist and each names every confirmed intent.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"It skips subfolders and links to other files. So a doc in a subfolder or in another format is not kept.\" \"Given a README that says how to start the project, when the run ends, then two Source records exist and each names every confirmed intent.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"The intent draft reads both Sources together.\" \"A person gives a project folder. The run treats it as two Sources: the project's written docs and its running app.\"",
+      "fix": "A cold reader can explain what the function does and where it stops, but not why it exists, and several terms are used without a meaning in this page: Source, capture record, intent draft and confirmed intents. Add one sentence saying why a project folder is read as two Sources (what the docs give and what the running app gives that the other does not). Add a plain-words meaning for Source (a saved copy of what the person gave) and for the intent draft, so the page stands without the parent page."
+    }
+  ]
+}

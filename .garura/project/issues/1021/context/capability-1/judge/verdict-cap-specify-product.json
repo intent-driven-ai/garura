@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "The product is understood from what a person gives, whether a video, a prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities and features.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "What makes it unique: it starts from something that works, not from a written spec.",
+      "fix": "Add one sentence to the Directional intent paragraph saying why this capability matters to Software delivery planning. The domain shapes, plans and evaluates work that starts from a confirmed business intent and model. This capability is where that intent and model come from, so without it a person must write a spec by hand before any slice can be shaped. Today the paragraph names what the capability does and what is unique, but never ties it to the domain."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "Features: Specify intents (fn-specify-intents), Specify domains (fn-specify-domains), Specify capabilities (fn-specify-capabilities) ... Specify against what exists (fn-specify-against-existing). How we will know: a new builder, who never saw the prototype, builds the product from the intents and the model alone. ... What is missing, half there or added is the drift.",
+      "fix": "Turn the twelve-feature run-on sentence into a bulleted index, one feature per line with its id. Split the How we will know bullet into short discrete points (who builds, what the rebuild test tries, what counts as drift, when the model is not good enough). Split the not-built paragraph into one bullet per gap."
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Who it serves: the product owner, who wants to confirm what a product is for without writing a spec first. Never: write over finished work.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "Nothing checks an ICE against the rubric yet, and intents have no judge with no context yet. Inside the discovery loop, which runs the three writers together in rounds, a step opens nothing and does not wait",
+      "fix": "A cold reader cannot say why this capability sits in Software delivery planning, and meets terms the page never explains: ICE, rubric, the discovery loop and its three writers. Add the domain link sentence (see self_explanation), say in plain words what an ICE and the rubric are or drop that not-built sentence, and name the three writers once (intents, domains, capabilities) where the discovery loop is first mentioned."
+    }
+  ]
+}

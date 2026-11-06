@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Out: one full page for each domain, with its intent, business goal, guiding rules, the kinds of capability it covers in plain words, its scope and its sources.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"A light page is raised to a full one and keeps what it said.\" \"A learned policy may pass a known shape of change with no wait, but only when no check found a blocking problem.\"",
+      "fix": "Give the why to the rules that state only the what. In the grow rule, add why a page is never cut back (other parts may already rely on its sections). In the checkpoint rule, add why there is exactly one wait and why a learned policy may skip it (the person reviews once on the whole result; a known safe shape needs no second look). In the shelf rule, add why the name never comes from the screens or sample data (sample data is only an example, so it would name a made-up field)."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given only a typed goal and an empty model, when the run is approved, then at least one domain has a full page and an index entry, the profile reads directional, and no capability exists.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"The feature asks two questions in order: which field does the product serve, and which job does it do there?\" \"Out: one rough product profile, only when none exists: the product's stage, users, way of earning and surfaces (where people use it, such as the web), with coarse quality levels.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"From a capture, every main section must sit in a domain, with the line from the shelf or research that covers its work and where that line is from.\" \"A learned policy may pass a known shape of change with no wait, but only when no check found a blocking problem.\"",
+      "fix": "Two gaps stop a cold reader. First, the why is missing: add one or two sentences under What it does saying why the model needs domains (they ground every later capability in a field the industry names, so a wrong reading of the source cannot spread). Second, terms used without a definition: define \"main section\" once (for example, a top-level area of the prototype that holds one body of work), say what \"learned policy\" is (a rule the person approved earlier that lets a known kind of change pass without waiting), and say what \"directional state\" and \"grounding check\" mean, in the same sentence where each first appears."
+    }
+  ]
+}

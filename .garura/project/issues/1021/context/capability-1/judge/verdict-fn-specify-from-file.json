@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "\"It finds views the same way as Specify from a deployed site (fn-specify-from-site), with the same limits and the same skipped controls.\"",
+      "fix": "In Rules & behavior, state on this page what the limits are (how many views or how deep the capture goes) and which kinds of control are skipped, one line each, instead of pointing to another feature for the core logic. Also say what 'found' and 'kept' mean in the record, so the branch where a view is found but not kept is visible here."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"It skips those controls here too, although a local file holds no real data to change.\" \"A person can then see the prototype again without the original file.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a path with no file, when the capture runs, then it fails and the record names the path.\" \"Only a web-page file takes this path.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Given a web-page file with three controls that each open a different view, when it is captured, then the run keeps the exact copy, four pictures and four texts, and the record reads four kept.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"with the same limits and the same skipped controls\" \"Given a web-page file, when it is captured, then the fingerprint of the copy equals one worked out from the original.\"",
+      "fix": "Make the page stand alone. Name the skipped controls and the limits on this page so a cold reader can say which views get captured and which do not. Say in a few words what a fingerprint is (a short code worked out from the file's bytes, so any change to the file changes the code) the first time it is used, and why it is checked here."
+    }
+  ]
+}

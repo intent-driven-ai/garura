@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"A person gives a link to a deployed site.\" \"Given a link that cannot be opened, when the capture runs, then it fails, and the record says why and that nothing was saved.\" \"Saying what the site shows in plain words. Specify intents (fn-specify-intents) does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"The size limit is 40 views beyond the first screen, or 160 clicks.\" \"The browser does not click a control with any of these words: accept, approve, reject, drop, send back, delete, remove, edit, comment, finish, submit, undo, save, reset, log out, sign out, point, upload, pay, buy.\"",
+      "fix": "Give the reason beside two rules in Rules & behavior. For the word list, add one sentence saying why these controls are never clicked (they answer or change data on a live site, and the capture only looks). For the size limit, add one sentence saying why the run stops at 40 views or 160 clicks (what the cap protects against, for example a run on a large site that never ends). The what and the effects are already stated; the why is not."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"A control is a button, a tab, a menu item, a link, a toggle or another marked element that a person can see and use.\" \"Given a control that fails when clicked, when the site is captured, then the record lists that view as not reached, with why, and the other views are kept.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"The browser clicks each control on the first screen, then each new control those views add, and saves each new view as a full-page picture and its visible text.\" \"A click that fails goes on the record as not reached, with the error, and the browser goes on to the next control.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A later step can then read the site as it was, even after the site is gone.\" \"Views deeper than two clicks. A journey reaches them when a person needs them: Specify from a prototype's journeys (fn-specify-from-journeys).\"",
+      "fix": ""
+    }
+  ]
+}

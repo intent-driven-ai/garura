@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Out: a run record that says whether each intent was decided, each Source was saved and each link exists on both sides.\" \"Given a person who types stop, when the run ends, then no intent page exists and the run reads halted with the reason.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"The check refuses a title, outcome or proof that copies eight or more words in a row from the source.\" \"A save refuses a draft that holds an ICE, a domain, a capability or a feature.\" \"After three rounds with the check still unclean, the run stops and shows the person what is left.\" \"Depth is fixed today. The draft always writes at the level of the product.\"",
+      "fix": "Add the reason to each of these rules in one clause. Say why a copy of eight or more words is refused (so an intent is written in the product's own words and the source is not pasted back), why a save refuses an ICE, domain, capability or feature (those belong to the other writers, and one wrong one here would spread), why the run stops after three rounds, and why depth is fixed at the product's level today. The same gap sits in the rules that a title, outcome or limit cannot be our own proposal and that why, asked by and proof are never asked of the person."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a draft with a part that maps to no intent, when the check runs, then it reports that part and the run does not go on to the person's decision.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Status: built, except reading existing intents, writing attribution, choosing a depth, and marking a part as not an intent.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"In: on a later round of the discovery loop, what the other two writers put in the model.\" \"A save refuses a draft that holds an ICE, a domain, a capability or a feature.\" \"Given an intent page that already has the same short name\" \"A part cannot yet be marked as not an intent, with its reason.\"",
+      "fix": "Make the page stand alone. In one sentence each, say what the discovery loop is and who the other two writers are, what an ICE is, what a short name is, and what the stage of an intent means (proposed, confirmed). Resolve the clash between \"Every part must map to an intent\" and \"A rule or a quality is not an intent\": say where a part that is a rule ends up when it cannot be marked as not an intent. Add one sentence to What it does on why a person wants this (to confirm what the product is for without writing a spec first)."
+    }
+  ]
+}

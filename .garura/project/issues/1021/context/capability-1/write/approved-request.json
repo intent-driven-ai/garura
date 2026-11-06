@@ -1,0 +1,111 @@
+{
+  "by": "product-os-keeper (approved pages for #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capability-1/drafts/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/specify-product/capability.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-against-existing/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-against-existing/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-against-existing/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/write/approved/fn-specify-against-existing/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-capabilities/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-domains/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-domains/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-document/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-document/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-file/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-file/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-folder/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-journeys/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-journeys/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-site/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-site/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-video/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-video/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-video/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/write/approved/fn-specify-from-video/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-words/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-from-words/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-intents/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-specify-intents/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-validate-attribution/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/drafts/product-os/software-delivery-planning/specify-product/fn-validate-attribution/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-validate-attribution/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-1/write/approved/fn-validate-attribution/ice.md"
+    }
+  ]
+}

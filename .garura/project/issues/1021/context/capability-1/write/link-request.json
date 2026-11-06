@@ -1,0 +1,99 @@
+{
+  "by": "product-os-keeper (approved pages for #1021)",
+  "parts": [
+    {
+      "id": "ice-specify-product",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-specify-product",
+      "doc": "software-delivery-planning/specify-product/ice.md"
+    },
+    {
+      "id": "ice-specify-intents",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-intents",
+      "doc": "software-delivery-planning/specify-product/fn-specify-intents/ice.md"
+    },
+    {
+      "id": "ice-specify-domains",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-domains",
+      "doc": "software-delivery-planning/specify-product/fn-specify-domains/ice.md"
+    },
+    {
+      "id": "ice-specify-capabilities",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-capabilities",
+      "doc": "software-delivery-planning/specify-product/fn-specify-capabilities/ice.md"
+    },
+    {
+      "id": "ice-specify-from-journeys",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-from-journeys",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-journeys/ice.md"
+    },
+    {
+      "id": "ice-specify-from-video",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-from-video",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-video/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-specify-from-file",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-from-file",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-file/ice.md"
+    },
+    {
+      "id": "ice-specify-from-folder",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-from-folder",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-folder/ice.md"
+    },
+    {
+      "id": "ice-specify-from-site",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-from-site",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-site/ice.md"
+    },
+    {
+      "id": "ice-specify-from-document",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-from-document",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-document/ice.md"
+    },
+    {
+      "id": "ice-specify-from-words",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-from-words",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-words/ice.md"
+    },
+    {
+      "id": "ice-validate-attribution",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-validate-attribution",
+      "doc": "software-delivery-planning/specify-product/fn-validate-attribution/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-specify-against-existing",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-specify-against-existing",
+      "doc": "software-delivery-planning/specify-product/fn-specify-against-existing/ice.md",
+      "thin": true
+    }
+  ]
+}

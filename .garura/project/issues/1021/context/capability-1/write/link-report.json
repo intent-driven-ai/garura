@@ -1,0 +1,30 @@
+{
+  "written": [
+    "ice-specify-product",
+    "ice-specify-intents",
+    "ice-specify-domains",
+    "ice-specify-capabilities",
+    "ice-specify-from-journeys",
+    "ice-specify-from-video",
+    "ice-specify-from-file",
+    "ice-specify-from-folder",
+    "ice-specify-from-site",
+    "ice-specify-from-document",
+    "ice-specify-from-words",
+    "ice-validate-attribution",
+    "ice-specify-against-existing"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-specify-from-video",
+    "ice-validate-attribution",
+    "ice-specify-against-existing"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/specify-product/fn-specify-from-video/ice.md",
+    "product-os/software-delivery-planning/specify-product/fn-validate-attribution/ice.md",
+    "product-os/software-delivery-planning/specify-product/fn-specify-against-existing/ice.md"
+  ],
+  "layout_kept": true
+}

@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"A missing working file fails the capture.\" \"Given no working file at the path, when the capture runs, then it fails and the record names the path.\" \"Turning the words into intents. Specify intents (fn-specify-intents) does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"A missing working file fails the capture.\" \"What the person says later goes in the answers record. The kept text stays as it was.\"",
+      "fix": "State why the words are kept byte for byte and never edited, in one line under What it does, for example: 'The words are kept exactly as typed so every later step can go back to what the person actually said, not to a reading of it.' Also say why 'who gave it' is recorded (so a reader knows whose words these are), and what happens when no giver can be named, since the Inputs line requires it but no rule covers its absence."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a person who answers a later question, when the answer is recorded, then the kept text's fingerprint has not changed.\" \"The agent's closing check asks that the kept text match the person's words.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"The work has two steps. The agent writes the typed words into the working file, and then a script makes the copy. Only the second step is mechanical.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"The kept text is the Source, and the run drafts its intents from it.\" \"Given a person who answers a later question, when the answer is recorded, then the kept text's fingerprint has not changed.\"",
+      "fix": "Make the page stand alone. Define in a clause each term it uses but does not explain: 'Source' (the saved copy later steps read, so they need not go back to the original), 'fingerprint' (a short code worked out from the file's bytes, so any change to the text changes the code), 'the run's evidence' and 'the answers record'. Add the why of keeping the words untouched, and one rule for the case where no one is named as the giver, so a cold reader can explain what, why and edges from this page alone."
+    }
+  ]
+}

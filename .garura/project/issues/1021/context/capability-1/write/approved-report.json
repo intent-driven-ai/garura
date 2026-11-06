@@ -1,0 +1,111 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/specify-product/capability.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-against-existing/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-against-existing/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-capabilities/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-domains/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-document/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-file/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-folder/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-journeys/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-site/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-video/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-video/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-words/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-intents/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-validate-attribution/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-validate-attribution/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capability-1/drafts/page-approvals.md",
+  "by": "product-os-keeper (approved pages for #1021)"
+}
