@@ -1,0 +1,95 @@
+{
+  "id": "bi-1",
+  "issue": 1,
+  "title": "Product → Spec",
+  "outcome": "What a person gives, whether a video, a prototype, a brief or all of those, becomes an understanding of the product and a spec agents can act on. The original intents are kept and stay up to date as the product evolves.",
+  "why": "The bottleneck is stating intent clearly and keeping it across sessions, not writing code. Most tools lose the intent once the work starts.",
+  "asked_by": "the product owner",
+  "proof": [
+    "A person confirms the intents without writing a spec.",
+    "An agent acts on the spec without asking again.",
+    "Everything a person gave can still be read as given.",
+    "An intent that drifts from the product gets named."
+  ],
+  "must_not": "Make a person write the spec, say how to build it, or block because earlier documents are missing.",
+  "touches": [
+    {
+      "title": "Specify the product",
+      "link": "../software-delivery-planning/specify-product/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify intents",
+      "link": "../software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify domains",
+      "link": "../software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify capabilities",
+      "link": "../software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify from a prototype's journeys",
+      "link": "../software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify from a video",
+      "link": "../software-delivery-planning/specify-product/fn-specify-from-video/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify from a file",
+      "link": "../software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify from a project folder",
+      "link": "../software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify from a deployed site",
+      "link": "../software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify from a document",
+      "link": "../software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify from plain words",
+      "link": "../software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Validate the attribution",
+      "link": "../software-delivery-planning/specify-product/fn-validate-attribution/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Specify against what exists",
+      "link": "../software-delivery-planning/specify-product/fn-specify-against-existing/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

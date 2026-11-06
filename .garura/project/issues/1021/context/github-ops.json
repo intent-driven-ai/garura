@@ -1,0 +1,387 @@
+{
+  "intents_repo": "intent-driven-ai/garura-intents",
+  "work_repo": "intent-driven-ai/garura",
+  "file_intents": [
+    {
+      "number": 1,
+      "title": "Product → Spec",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-1.md"
+    },
+    {
+      "number": 2,
+      "title": "Spec → Design",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-2.md"
+    },
+    {
+      "number": 3,
+      "title": "Design → Code",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-3.md"
+    },
+    {
+      "number": 4,
+      "title": "Code → Validation",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-4.md"
+    },
+    {
+      "number": 5,
+      "title": "Validation → Run",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-5.md"
+    },
+    {
+      "number": 6,
+      "title": "Run → Product",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-6.md"
+    },
+    {
+      "number": 7,
+      "title": "Install and distribute",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-7.md"
+    },
+    {
+      "number": 8,
+      "title": "Developer tooling",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-8.md"
+    },
+    {
+      "number": 9,
+      "title": "Orchestration",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-9.md"
+    },
+    {
+      "number": 10,
+      "title": "Standards, structure, settings and memory",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-10.md"
+    },
+    {
+      "number": 11,
+      "title": "Product model",
+      "body_file": ".garura/project/issues/1021/context/intents/issue-11.md"
+    }
+  ],
+  "retype_to_feature": [
+    {
+      "issue": 669,
+      "under_intent": 4
+    },
+    {
+      "issue": 893,
+      "under_intent": 10
+    },
+    {
+      "issue": 942,
+      "under_intent": 10
+    }
+  ],
+  "move_under_intent": [
+    {
+      "issue": 972,
+      "under_intent": 1
+    },
+    {
+      "issue": 922,
+      "under_intent": 1
+    },
+    {
+      "issue": 553,
+      "under_intent": 2
+    },
+    {
+      "issue": 595,
+      "under_intent": 3
+    },
+    {
+      "issue": 608,
+      "under_intent": 3
+    },
+    {
+      "issue": 978,
+      "under_intent": 3
+    },
+    {
+      "issue": 565,
+      "under_intent": 3
+    },
+    {
+      "issue": 609,
+      "under_intent": 3
+    },
+    {
+      "issue": 501,
+      "under_intent": 3
+    },
+    {
+      "issue": 510,
+      "under_intent": 4
+    },
+    {
+      "issue": 610,
+      "under_intent": 4
+    },
+    {
+      "issue": 800,
+      "under_intent": 4
+    },
+    {
+      "issue": 963,
+      "under_intent": 4
+    },
+    {
+      "issue": 611,
+      "under_intent": 6
+    },
+    {
+      "issue": 977,
+      "under_intent": 6
+    },
+    {
+      "issue": 545,
+      "under_intent": 6
+    },
+    {
+      "issue": 513,
+      "under_intent": 7
+    },
+    {
+      "issue": 862,
+      "under_intent": 7
+    },
+    {
+      "issue": 747,
+      "under_intent": 7
+    },
+    {
+      "issue": 973,
+      "under_intent": 7
+    },
+    {
+      "issue": 681,
+      "under_intent": 8
+    },
+    {
+      "issue": 648,
+      "under_intent": 8
+    },
+    {
+      "issue": 649,
+      "under_intent": 8
+    },
+    {
+      "issue": 650,
+      "under_intent": 8
+    },
+    {
+      "issue": 956,
+      "under_intent": 9
+    },
+    {
+      "issue": 971,
+      "under_intent": 9
+    },
+    {
+      "issue": 968,
+      "under_intent": 9
+    },
+    {
+      "issue": 1022,
+      "under_intent": 9
+    },
+    {
+      "issue": 699,
+      "under_intent": 10
+    },
+    {
+      "issue": 653,
+      "under_intent": 10
+    },
+    {
+      "issue": 511,
+      "under_intent": 10
+    },
+    {
+      "issue": 620,
+      "under_intent": 10
+    },
+    {
+      "issue": 735,
+      "under_intent": 10
+    },
+    {
+      "issue": 739,
+      "under_intent": 10
+    },
+    {
+      "issue": 768,
+      "under_intent": 10
+    },
+    {
+      "issue": 856,
+      "under_intent": 10
+    },
+    {
+      "issue": 967,
+      "under_intent": 10
+    },
+    {
+      "issue": 952,
+      "under_intent": 10
+    },
+    {
+      "issue": 982,
+      "under_intent": 10
+    },
+    {
+      "issue": 999,
+      "under_intent": 10
+    },
+    {
+      "issue": 1004,
+      "under_intent": 10
+    },
+    {
+      "issue": 966,
+      "under_intent": 10
+    },
+    {
+      "issue": 969,
+      "under_intent": 10
+    },
+    {
+      "issue": 1015,
+      "under_intent": 10
+    },
+    {
+      "issue": 723,
+      "under_intent": 11
+    },
+    {
+      "issue": 964,
+      "under_intent": 11
+    },
+    {
+      "issue": 979,
+      "under_intent": 11
+    },
+    {
+      "issue": 757,
+      "under_intent": 11
+    },
+    {
+      "issue": 761,
+      "under_intent": 11
+    },
+    {
+      "issue": 764,
+      "under_intent": 11
+    },
+    {
+      "issue": 962,
+      "under_intent": 11
+    },
+    {
+      "issue": 990,
+      "under_intent": 11
+    },
+    {
+      "issue": 541,
+      "under_intent": 11
+    }
+  ],
+  "move_in_work_repo": [
+    {
+      "issue": 1014,
+      "under": 510
+    }
+  ],
+  "detach_only": [
+    542,
+    543,
+    544
+  ],
+  "close_old_intents": [
+    {
+      "issue": 606,
+      "replaced_by": "split across the intents in garura-intents"
+    },
+    {
+      "issue": 680,
+      "replaced_by": "garura-intents#8"
+    },
+    {
+      "issue": 722,
+      "replaced_by": "garura-intents#11"
+    },
+    {
+      "issue": 734,
+      "replaced_by": "garura-intents#10"
+    },
+    {
+      "issue": 756,
+      "replaced_by": "garura-intents#11"
+    },
+    {
+      "issue": 767,
+      "replaced_by": "garura-intents#10"
+    },
+    {
+      "issue": 775,
+      "replaced_by": "garura-intents#10"
+    },
+    {
+      "issue": 788,
+      "replaced_by": "split across the intents in garura-intents"
+    },
+    {
+      "issue": 819,
+      "replaced_by": "split across the intents in garura-intents"
+    },
+    {
+      "issue": 899,
+      "replaced_by": "garura-intents#10"
+    },
+    {
+      "issue": 904,
+      "replaced_by": "garura-intents#11"
+    },
+    {
+      "issue": 944,
+      "replaced_by": "garura-intents#10"
+    },
+    {
+      "issue": 948,
+      "replaced_by": "garura-intents#7"
+    },
+    {
+      "issue": 961,
+      "replaced_by": "split between garura-intents#2 and garura-intents#3"
+    }
+  ],
+  "comment_only": [
+    {
+      "issue": 717,
+      "text": "Replaced by garura-intents#9 (Orchestration). This issue stays closed, because its plan work is done."
+    }
+  ],
+  "close_containers": {
+    "not_planned": [
+      955,
+      594,
+      960,
+      957,
+      958,
+      959,
+      794
+    ],
+    "completed": [
+      970
+    ]
+  },
+  "drop_not_planned": [
+    542,
+    543,
+    544,
+    540
+  ],
+  "leave_untouched": [
+    539
+  ]
+}

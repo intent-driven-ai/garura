@@ -1,0 +1,25 @@
+{
+  "written": [
+    "cap-specify-product",
+    "fn-specify-intents",
+    "fn-specify-domains",
+    "fn-specify-capabilities",
+    "fn-specify-from-journeys",
+    "fn-specify-from-video",
+    "fn-specify-from-file",
+    "fn-specify-from-folder",
+    "fn-specify-from-site",
+    "fn-specify-from-document",
+    "fn-specify-from-words",
+    "fn-validate-attribution",
+    "fn-specify-against-existing"
+  ],
+  "updated": [
+    "dom-software-delivery-planning"
+  ],
+  "thin": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "layout_kept": true
+}

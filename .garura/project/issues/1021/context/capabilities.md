@@ -67,3 +67,4 @@ None yet.
 ## Product model
 - Define what a product is made of: People and agents share one agreed map of what a product is made of, changed only on purpose.
 - Manage the model: A living map, added to and pruned as work is done, and the source of what to try next. (unique)
+  - Feature to add when this capability is reviewed: a tool that knows how to create and edit the product model (#1030). Not built, and to be built later.

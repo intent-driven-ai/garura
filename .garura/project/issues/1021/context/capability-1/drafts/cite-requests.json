@@ -1,0 +1,42 @@
+[
+  {
+    "issue": 1021,
+    "play": "draft run, capability 1 (reorganise business intents)",
+    "question": "Which second-level sections may the page of a capability at the directional depth carry?",
+    "answer": "Directional intent, then Sources, then Agent intent (ICE). The benefit hypothesis, boundary and guiding rules are kept as third-level headings inside Directional intent.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "the capability template's directional shape",
+        "found": "the directional stage requires only the Directional intent heading",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/schemas/product-os/grounding/capability.md",
+          "start": 23,
+          "end": 29,
+          "fingerprint": "sha256:07aaca1744d464aea919f5c28c04a4e3fe2919b7965e492c4b06d8b47ee1a64f"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft run, capability 1 (reorganise business intents)",
+    "question": "What is a Source, for the pages of the Specify-from features?",
+    "answer": "What a business intent was drawn from, kept exactly as it was when read.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "the Source kind in the ontology",
+        "found": "anything that explains the intent, kept exactly as it was when read",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/schemas/product-os/ontology.md",
+          "start": 252,
+          "end": 254,
+          "fingerprint": "sha256:283308c8f9a7eaffb31d581b8a325bb47530e0ddf75f54874f94440d5c1d5c22"
+        }
+      }
+    ]
+  }
+]

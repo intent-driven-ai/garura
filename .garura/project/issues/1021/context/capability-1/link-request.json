@@ -1,0 +1,182 @@
+{
+ "by": "product-os-keeper (reorganise business intents, #1021)",
+ "parts": [
+  {
+   "id": "cap-specify-product",
+   "kind": "capability",
+   "mode": "new",
+   "slug": "specify-product",
+   "domain": "dom-software-delivery-planning",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "The product is understood from what a person gives, whether a video, a prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities and features.",
+   "doc": "software-delivery-planning/specify-product/capability.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-intents",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-intents",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "What a person gives becomes the right business intents, at the depth the product owner chooses, each confirmed by them.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-domains",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-domains",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Each domain the product sits in has a detailed page.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-capabilities",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-capabilities",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Each capability the product needs has a detailed page with its features and ICE.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-from-journeys",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-from-journeys",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Each journey through a prototype is walked and recorded, the way its people would use it.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-from-video",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-from-video",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "What a video shows is captured, so intents can trace to moments in it.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-from-video/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-from-file",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-from-file",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "A file is kept, and every view it offers is captured.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-from-folder",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-from-folder",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "A project is captured from its written docs and its running app.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-from-site",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-from-site",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Every view a deployed site offers is captured, up to two clicks deep.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-from-document",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-from-document",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "A document is kept exactly as given.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-from-words",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-from-words",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "A person's words are kept byte for byte.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-validate-attribution",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-validate-attribution",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "A judge with no context says whether what was given was fully and correctly used.",
+   "doc": "software-delivery-planning/specify-product/fn-validate-attribution/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-specify-against-existing",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-specify-against-existing",
+   "capability": "cap-specify-product",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "What's given is sorted against what exists: a new intent, an enhancement, a new feature under one, or a clash.",
+   "doc": "software-delivery-planning/specify-product/fn-specify-against-existing/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "dom-software-delivery-planning",
+   "kind": "domain",
+   "mode": "update",
+   "add_intents": [
+    "bi-1"
+   ]
+  }
+ ]
+}

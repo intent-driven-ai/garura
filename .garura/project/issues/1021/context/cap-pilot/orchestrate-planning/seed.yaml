@@ -1,0 +1,11 @@
+# The person's recorded answers for this capability. Words copied, not written here.
+id: cap-orchestrate-planning
+slug: orchestrate-planning
+name: Orchestrate agent work through planning
+one_line: The work of the agents can be orchestrated by careful planning that reads the slices and creates verticals for a clear and crisp end-to-end delivery.
+why: Orchestration bridges intent and action.
+domain: dom-software-delivery-planning
+intents: [bi-9]
+doc: software-delivery-planning/orchestrate-planning/capability.md
+features: []
+answered_by: human

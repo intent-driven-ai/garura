@@ -1,0 +1,2099 @@
+{
+ "issue": 1021,
+ "ops_file": ".garura/project/issues/1021/context/github-ops.json",
+ "records": [
+  {
+   "seq": 1,
+   "at": "2026-11-02T15:32:18Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 1,
+   "result": "created",
+   "title": "Product → Spec",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 2,
+   "at": "2026-11-02T15:32:21Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 2,
+   "result": "created",
+   "title": "Spec → Design",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 3,
+   "at": "2026-11-02T15:32:25Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 3,
+   "result": "created",
+   "title": "Design → Code",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 4,
+   "at": "2026-11-02T15:32:28Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 4,
+   "result": "created",
+   "title": "Code → Validation",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 5,
+   "at": "2026-11-02T15:32:31Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 5,
+   "result": "created",
+   "title": "Validation → Run",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 6,
+   "at": "2026-11-02T15:32:34Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 6,
+   "result": "created",
+   "title": "Run → Product",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 7,
+   "at": "2026-11-02T15:32:38Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 7,
+   "result": "created",
+   "title": "Install and distribute",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 8,
+   "at": "2026-11-02T15:32:41Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 8,
+   "result": "created",
+   "title": "Developer tooling",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 9,
+   "at": "2026-11-02T15:32:43Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 9,
+   "result": "created",
+   "title": "Orchestration",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 10,
+   "at": "2026-11-02T15:32:46Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 10,
+   "result": "created",
+   "title": "Standards, structure, settings and memory",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 11,
+   "at": "2026-11-02T15:32:50Z",
+   "operation": "create-issue-typed",
+   "repo": "intent-driven-ai/garura-intents",
+   "issue": 11,
+   "result": "created",
+   "title": "Product model",
+   "type": "Business Intent",
+   "number_matches": true,
+   "body_matches_file": true,
+   "type_confirmed": true
+  },
+  {
+   "seq": 12,
+   "at": "2026-11-02T15:33:03Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 972,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#955"
+  },
+  {
+   "seq": 13,
+   "at": "2026-11-02T15:33:05Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 972,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#1",
+   "note": "cross-repo test link; read back confirmed"
+  },
+  {
+   "seq": 14,
+   "at": "2026-11-02T15:33:25Z",
+   "operation": "set-issue-type",
+   "repo": "intent-driven-ai/garura",
+   "issue": 669,
+   "result": "done",
+   "to": "Feature",
+   "was": "Business Intent"
+  },
+  {
+   "seq": 15,
+   "at": "2026-11-02T15:33:30Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 669,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 16,
+   "at": "2026-11-02T15:33:33Z",
+   "operation": "set-issue-type",
+   "repo": "intent-driven-ai/garura",
+   "issue": 893,
+   "result": "done",
+   "to": "Feature",
+   "was": "Business Intent"
+  },
+  {
+   "seq": 17,
+   "at": "2026-11-02T15:33:36Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 893,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 18,
+   "at": "2026-11-02T15:33:39Z",
+   "operation": "set-issue-type",
+   "repo": "intent-driven-ai/garura",
+   "issue": 942,
+   "result": "done",
+   "to": "Feature",
+   "was": "Business Intent"
+  },
+  {
+   "seq": 19,
+   "at": "2026-11-02T15:33:43Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 942,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 20,
+   "at": "2026-11-02T15:33:44Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 972,
+   "result": "skipped: already under intent-driven-ai/garura-intents#1"
+  },
+  {
+   "seq": 21,
+   "at": "2026-11-02T15:33:46Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 922,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#606"
+  },
+  {
+   "seq": 22,
+   "at": "2026-11-02T15:33:49Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 922,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#1"
+  },
+  {
+   "seq": 23,
+   "at": "2026-11-02T15:33:52Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 553,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#961"
+  },
+  {
+   "seq": 24,
+   "at": "2026-11-02T15:33:55Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 553,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#2"
+  },
+  {
+   "seq": 25,
+   "at": "2026-11-02T15:33:57Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 595,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 26,
+   "at": "2026-11-02T15:34:01Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 595,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 27,
+   "at": "2026-11-02T15:34:03Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 608,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 28,
+   "at": "2026-11-02T15:34:06Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 608,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 29,
+   "at": "2026-11-02T15:34:08Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 978,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#819"
+  },
+  {
+   "seq": 30,
+   "at": "2026-11-02T15:34:11Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 978,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 31,
+   "at": "2026-11-02T15:34:13Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 565,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#961"
+  },
+  {
+   "seq": 32,
+   "at": "2026-11-02T15:34:16Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 565,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 33,
+   "at": "2026-11-02T15:34:18Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 609,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 34,
+   "at": "2026-11-02T15:34:21Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 609,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 35,
+   "at": "2026-11-02T15:34:23Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 501,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 36,
+   "at": "2026-11-02T15:34:26Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 501,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 37,
+   "at": "2026-11-02T15:34:29Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 510,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#955"
+  },
+  {
+   "seq": 38,
+   "at": "2026-11-02T15:34:32Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 510,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 39,
+   "at": "2026-11-02T15:34:34Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 610,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 40,
+   "at": "2026-11-02T15:34:39Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 610,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 41,
+   "at": "2026-11-02T15:34:41Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 800,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#819"
+  },
+  {
+   "seq": 42,
+   "at": "2026-11-02T15:34:44Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 800,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 43,
+   "at": "2026-11-02T15:34:47Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 963,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#794"
+  },
+  {
+   "seq": 44,
+   "at": "2026-11-02T15:34:51Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 963,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 45,
+   "at": "2026-11-02T15:34:54Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 611,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 46,
+   "at": "2026-11-02T15:34:57Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 611,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#6"
+  },
+  {
+   "seq": 47,
+   "at": "2026-11-02T15:34:59Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 977,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 48,
+   "at": "2026-11-02T15:35:03Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 977,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#6"
+  },
+  {
+   "seq": 49,
+   "at": "2026-11-02T15:35:05Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 545,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#539"
+  },
+  {
+   "seq": 50,
+   "at": "2026-11-02T15:35:13Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 545,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#6"
+  },
+  {
+   "seq": 51,
+   "at": "2026-11-02T15:35:15Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 513,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#948"
+  },
+  {
+   "seq": 52,
+   "at": "2026-11-02T15:35:19Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 513,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 53,
+   "at": "2026-11-02T15:35:21Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 862,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#948"
+  },
+  {
+   "seq": 54,
+   "at": "2026-11-02T15:35:24Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 862,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 55,
+   "at": "2026-11-02T15:35:27Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 747,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 56,
+   "at": "2026-11-02T15:35:31Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 747,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 57,
+   "at": "2026-11-02T15:35:33Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 973,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 58,
+   "at": "2026-11-02T15:35:36Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 973,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 59,
+   "at": "2026-11-02T15:35:38Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 681,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#680"
+  },
+  {
+   "seq": 60,
+   "at": "2026-11-02T15:35:42Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 681,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 61,
+   "at": "2026-11-02T15:35:45Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 648,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 62,
+   "at": "2026-11-02T15:35:48Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 648,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 63,
+   "at": "2026-11-02T15:35:50Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 649,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 64,
+   "at": "2026-11-02T15:35:54Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 649,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 65,
+   "at": "2026-11-02T15:35:56Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 650,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 66,
+   "at": "2026-11-02T15:35:59Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 650,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 67,
+   "at": "2026-11-02T15:36:02Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 956,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#717"
+  },
+  {
+   "seq": 68,
+   "at": "2026-11-02T15:36:06Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 956,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 69,
+   "at": "2026-11-02T15:36:08Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 971,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#794"
+  },
+  {
+   "seq": 70,
+   "at": "2026-11-02T15:36:12Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 971,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 71,
+   "at": "2026-11-02T15:36:14Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 968,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#680"
+  },
+  {
+   "seq": 72,
+   "at": "2026-11-02T15:36:17Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 968,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 73,
+   "at": "2026-11-02T15:36:22Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 1022,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 74,
+   "at": "2026-11-02T15:36:27Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 699,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#594"
+  },
+  {
+   "seq": 75,
+   "at": "2026-11-02T15:36:30Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 699,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 76,
+   "at": "2026-11-02T15:36:32Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 653,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#955"
+  },
+  {
+   "seq": 77,
+   "at": "2026-11-02T15:36:35Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 653,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 78,
+   "at": "2026-11-02T15:36:37Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 511,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 79,
+   "at": "2026-11-02T15:36:41Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 511,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 80,
+   "at": "2026-11-02T15:36:43Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 620,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 81,
+   "at": "2026-11-02T15:37:16Z",
+   "operation": "set-issue-type",
+   "repo": "intent-driven-ai/garura",
+   "issue": 669,
+   "result": "skipped: already Feature"
+  },
+  {
+   "seq": 82,
+   "at": "2026-11-02T15:37:17Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 669,
+   "result": "skipped: already under intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 83,
+   "at": "2026-11-02T15:37:17Z",
+   "operation": "set-issue-type",
+   "repo": "intent-driven-ai/garura",
+   "issue": 893,
+   "result": "skipped: already Feature"
+  },
+  {
+   "seq": 84,
+   "at": "2026-11-02T15:37:18Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 893,
+   "result": "skipped: already under intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 85,
+   "at": "2026-11-02T15:37:19Z",
+   "operation": "set-issue-type",
+   "repo": "intent-driven-ai/garura",
+   "issue": 942,
+   "result": "skipped: already Feature"
+  },
+  {
+   "seq": 86,
+   "at": "2026-11-02T15:37:20Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 942,
+   "result": "skipped: already under intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 87,
+   "at": "2026-11-02T15:37:20Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 972,
+   "result": "skipped: already under intent-driven-ai/garura-intents#1"
+  },
+  {
+   "seq": 88,
+   "at": "2026-11-02T15:37:21Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 922,
+   "result": "skipped: already under intent-driven-ai/garura-intents#1"
+  },
+  {
+   "seq": 89,
+   "at": "2026-11-02T15:37:22Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 553,
+   "result": "skipped: already under intent-driven-ai/garura-intents#2"
+  },
+  {
+   "seq": 90,
+   "at": "2026-11-02T15:37:23Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 595,
+   "result": "skipped: already under intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 91,
+   "at": "2026-11-02T15:37:24Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 608,
+   "result": "skipped: already under intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 92,
+   "at": "2026-11-02T15:37:24Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 978,
+   "result": "skipped: already under intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 93,
+   "at": "2026-11-02T15:37:25Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 565,
+   "result": "skipped: already under intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 94,
+   "at": "2026-11-02T15:37:26Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 609,
+   "result": "skipped: already under intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 95,
+   "at": "2026-11-02T15:37:26Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 501,
+   "result": "skipped: already under intent-driven-ai/garura-intents#3"
+  },
+  {
+   "seq": 96,
+   "at": "2026-11-02T15:37:27Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 510,
+   "result": "skipped: already under intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 97,
+   "at": "2026-11-02T15:37:28Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 610,
+   "result": "skipped: already under intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 98,
+   "at": "2026-11-02T15:37:29Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 800,
+   "result": "skipped: already under intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 99,
+   "at": "2026-11-02T15:37:30Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 963,
+   "result": "skipped: already under intent-driven-ai/garura-intents#4"
+  },
+  {
+   "seq": 100,
+   "at": "2026-11-02T15:37:30Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 611,
+   "result": "skipped: already under intent-driven-ai/garura-intents#6"
+  },
+  {
+   "seq": 101,
+   "at": "2026-11-02T15:37:31Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 977,
+   "result": "skipped: already under intent-driven-ai/garura-intents#6"
+  },
+  {
+   "seq": 102,
+   "at": "2026-11-02T15:37:31Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 545,
+   "result": "skipped: already under intent-driven-ai/garura-intents#6"
+  },
+  {
+   "seq": 103,
+   "at": "2026-11-02T15:37:32Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 513,
+   "result": "skipped: already under intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 104,
+   "at": "2026-11-02T15:37:33Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 862,
+   "result": "skipped: already under intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 105,
+   "at": "2026-11-02T15:37:34Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 747,
+   "result": "skipped: already under intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 106,
+   "at": "2026-11-02T15:37:34Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 973,
+   "result": "skipped: already under intent-driven-ai/garura-intents#7"
+  },
+  {
+   "seq": 107,
+   "at": "2026-11-02T15:37:35Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 681,
+   "result": "skipped: already under intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 108,
+   "at": "2026-11-02T15:37:36Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 648,
+   "result": "skipped: already under intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 109,
+   "at": "2026-11-02T15:37:37Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 649,
+   "result": "skipped: already under intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 110,
+   "at": "2026-11-02T15:37:37Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 650,
+   "result": "skipped: already under intent-driven-ai/garura-intents#8"
+  },
+  {
+   "seq": 111,
+   "at": "2026-11-02T15:37:38Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 956,
+   "result": "skipped: already under intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 112,
+   "at": "2026-11-02T15:37:39Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 971,
+   "result": "skipped: already under intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 113,
+   "at": "2026-11-02T15:37:39Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 968,
+   "result": "skipped: already under intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 114,
+   "at": "2026-11-02T15:37:40Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 1022,
+   "result": "skipped: already under intent-driven-ai/garura-intents#9"
+  },
+  {
+   "seq": 115,
+   "at": "2026-11-02T15:37:41Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 699,
+   "result": "skipped: already under intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 116,
+   "at": "2026-11-02T15:37:42Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 653,
+   "result": "skipped: already under intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 117,
+   "at": "2026-11-02T15:37:42Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 511,
+   "result": "skipped: already under intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 118,
+   "at": "2026-11-02T15:37:46Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 620,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 119,
+   "at": "2026-11-02T15:37:49Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 735,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 120,
+   "at": "2026-11-02T15:37:53Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 735,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 121,
+   "at": "2026-11-02T15:37:55Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 739,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 122,
+   "at": "2026-11-02T15:37:58Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 739,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 123,
+   "at": "2026-11-02T15:38:01Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 768,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 124,
+   "at": "2026-11-02T15:38:04Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 768,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 125,
+   "at": "2026-11-02T15:38:07Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 856,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 126,
+   "at": "2026-11-02T15:38:10Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 856,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 127,
+   "at": "2026-11-02T15:38:13Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 967,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#958"
+  },
+  {
+   "seq": 128,
+   "at": "2026-11-02T15:38:16Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 967,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 129,
+   "at": "2026-11-02T15:38:18Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 952,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#775"
+  },
+  {
+   "seq": 130,
+   "at": "2026-11-02T15:38:22Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 952,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 131,
+   "at": "2026-11-02T15:38:24Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 982,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#775"
+  },
+  {
+   "seq": 132,
+   "at": "2026-11-02T15:38:27Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 982,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 133,
+   "at": "2026-11-02T15:38:29Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 999,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#775"
+  },
+  {
+   "seq": 134,
+   "at": "2026-11-02T15:38:32Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 999,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 135,
+   "at": "2026-11-02T15:38:35Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 1004,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#775"
+  },
+  {
+   "seq": 136,
+   "at": "2026-11-02T15:38:37Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 1004,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 137,
+   "at": "2026-11-02T15:38:41Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 966,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#899"
+  },
+  {
+   "seq": 138,
+   "at": "2026-11-02T15:38:46Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 966,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 139,
+   "at": "2026-11-02T15:38:48Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 969,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#944"
+  },
+  {
+   "seq": 140,
+   "at": "2026-11-02T15:38:52Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 969,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 141,
+   "at": "2026-11-02T15:38:55Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 1015,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#10"
+  },
+  {
+   "seq": 142,
+   "at": "2026-11-02T15:38:57Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 723,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#957"
+  },
+  {
+   "seq": 143,
+   "at": "2026-11-02T15:39:01Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 723,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 144,
+   "at": "2026-11-02T15:39:03Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 964,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#957"
+  },
+  {
+   "seq": 145,
+   "at": "2026-11-02T15:39:06Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 964,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 146,
+   "at": "2026-11-02T15:39:09Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 979,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#957"
+  },
+  {
+   "seq": 147,
+   "at": "2026-11-02T15:39:12Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 979,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 148,
+   "at": "2026-11-02T15:39:14Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 757,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#959"
+  },
+  {
+   "seq": 149,
+   "at": "2026-11-02T15:39:17Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 757,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 150,
+   "at": "2026-11-02T15:39:19Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 761,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#959"
+  },
+  {
+   "seq": 151,
+   "at": "2026-11-02T15:39:23Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 761,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 152,
+   "at": "2026-11-02T15:39:25Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 764,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#959"
+  },
+  {
+   "seq": 153,
+   "at": "2026-11-02T15:39:28Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 764,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 154,
+   "at": "2026-11-02T15:39:30Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 962,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#904"
+  },
+  {
+   "seq": 155,
+   "at": "2026-11-02T15:39:33Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 962,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 156,
+   "at": "2026-11-02T15:39:35Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 990,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#819"
+  },
+  {
+   "seq": 157,
+   "at": "2026-11-02T15:39:38Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 990,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 158,
+   "at": "2026-11-02T15:39:41Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 541,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#539"
+  },
+  {
+   "seq": 159,
+   "at": "2026-11-02T15:39:44Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 541,
+   "result": "done",
+   "parent": "intent-driven-ai/garura-intents#11"
+  },
+  {
+   "seq": 160,
+   "at": "2026-11-02T15:39:47Z",
+   "operation": "attach-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 1014,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#510"
+  },
+  {
+   "seq": 161,
+   "at": "2026-11-02T15:39:50Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 542,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#539"
+  },
+  {
+   "seq": 162,
+   "at": "2026-11-02T15:39:53Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 543,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#539"
+  },
+  {
+   "seq": 163,
+   "at": "2026-11-02T15:39:56Z",
+   "operation": "remove-sub-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 544,
+   "result": "done",
+   "parent": "intent-driven-ai/garura#539"
+  },
+  {
+   "seq": 164,
+   "at": "2026-11-02T15:40:34Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 606,
+   "result": "done",
+   "text": "Replaced by split across the intents in garura-intents."
+  },
+  {
+   "seq": 165,
+   "at": "2026-11-02T15:40:38Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 606,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 166,
+   "at": "2026-11-02T15:40:40Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 680,
+   "result": "done",
+   "text": "Replaced by garura-intents#8."
+  },
+  {
+   "seq": 167,
+   "at": "2026-11-02T15:40:44Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 680,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 168,
+   "at": "2026-11-02T15:40:46Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 722,
+   "result": "done",
+   "text": "Replaced by garura-intents#11."
+  },
+  {
+   "seq": 169,
+   "at": "2026-11-02T15:40:49Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 722,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 170,
+   "at": "2026-11-02T15:40:52Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 734,
+   "result": "done",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 171,
+   "at": "2026-11-02T15:40:55Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 734,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 172,
+   "at": "2026-11-02T15:40:57Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 756,
+   "result": "done",
+   "text": "Replaced by garura-intents#11."
+  },
+  {
+   "seq": 173,
+   "at": "2026-11-02T15:41:00Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 756,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 174,
+   "at": "2026-11-02T15:41:03Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 767,
+   "result": "done",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 175,
+   "at": "2026-11-02T15:41:06Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 767,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 176,
+   "at": "2026-11-02T15:41:08Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 775,
+   "result": "done",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 177,
+   "at": "2026-11-02T15:41:12Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 775,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 178,
+   "at": "2026-11-02T15:41:14Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 788,
+   "result": "done",
+   "text": "Replaced by split across the intents in garura-intents."
+  },
+  {
+   "seq": 179,
+   "at": "2026-11-02T15:41:18Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 788,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 180,
+   "at": "2026-11-02T15:41:20Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 819,
+   "result": "done",
+   "text": "Replaced by split across the intents in garura-intents."
+  },
+  {
+   "seq": 181,
+   "at": "2026-11-02T15:41:23Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 819,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 182,
+   "at": "2026-11-02T15:41:25Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 899,
+   "result": "done",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 183,
+   "at": "2026-11-02T15:41:28Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 899,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 184,
+   "at": "2026-11-02T15:41:30Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 904,
+   "result": "done",
+   "text": "Replaced by garura-intents#11."
+  },
+  {
+   "seq": 185,
+   "at": "2026-11-02T15:41:35Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 904,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 186,
+   "at": "2026-11-02T15:41:37Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 944,
+   "result": "done",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 187,
+   "at": "2026-11-02T15:41:40Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 944,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 188,
+   "at": "2026-11-02T15:41:42Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 948,
+   "result": "done",
+   "text": "Replaced by garura-intents#7."
+  },
+  {
+   "seq": 189,
+   "at": "2026-11-02T15:41:45Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 948,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 190,
+   "at": "2026-11-02T15:41:48Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 961,
+   "result": "done",
+   "text": "Replaced by split between garura-intents#2 and garura-intents#3."
+  },
+  {
+   "seq": 191,
+   "at": "2026-11-02T15:41:51Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 961,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 192,
+   "at": "2026-11-02T15:41:54Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 717,
+   "result": "done",
+   "text": "Replaced by garura-intents#9 (Orchestration). This issue stays closed, because its plan work is done."
+  },
+  {
+   "seq": 193,
+   "at": "2026-11-02T15:42:31Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 606,
+   "result": "skipped: comment already there",
+   "text": "Replaced by split across the intents in garura-intents."
+  },
+  {
+   "seq": 194,
+   "at": "2026-11-02T15:42:32Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 606,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 195,
+   "at": "2026-11-02T15:42:33Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 680,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#8."
+  },
+  {
+   "seq": 196,
+   "at": "2026-11-02T15:42:33Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 680,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 197,
+   "at": "2026-11-02T15:42:34Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 722,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#11."
+  },
+  {
+   "seq": 198,
+   "at": "2026-11-02T15:42:35Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 722,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 199,
+   "at": "2026-11-02T15:42:36Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 734,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 200,
+   "at": "2026-11-02T15:42:37Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 734,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 201,
+   "at": "2026-11-02T15:42:37Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 756,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#11."
+  },
+  {
+   "seq": 202,
+   "at": "2026-11-02T15:42:38Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 756,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 203,
+   "at": "2026-11-02T15:42:39Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 767,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 204,
+   "at": "2026-11-02T15:42:39Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 767,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 205,
+   "at": "2026-11-02T15:42:40Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 775,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 206,
+   "at": "2026-11-02T15:42:41Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 775,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 207,
+   "at": "2026-11-02T15:42:42Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 788,
+   "result": "skipped: comment already there",
+   "text": "Replaced by split across the intents in garura-intents."
+  },
+  {
+   "seq": 208,
+   "at": "2026-11-02T15:42:42Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 788,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 209,
+   "at": "2026-11-02T15:42:43Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 819,
+   "result": "skipped: comment already there",
+   "text": "Replaced by split across the intents in garura-intents."
+  },
+  {
+   "seq": 210,
+   "at": "2026-11-02T15:42:44Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 819,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 211,
+   "at": "2026-11-02T15:42:44Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 899,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 212,
+   "at": "2026-11-02T15:42:45Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 899,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 213,
+   "at": "2026-11-02T15:42:46Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 904,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#11."
+  },
+  {
+   "seq": 214,
+   "at": "2026-11-02T15:42:47Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 904,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 215,
+   "at": "2026-11-02T15:42:47Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 944,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#10."
+  },
+  {
+   "seq": 216,
+   "at": "2026-11-02T15:42:48Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 944,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 217,
+   "at": "2026-11-02T15:42:49Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 948,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#7."
+  },
+  {
+   "seq": 218,
+   "at": "2026-11-02T15:42:50Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 948,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 219,
+   "at": "2026-11-02T15:42:50Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 961,
+   "result": "skipped: comment already there",
+   "text": "Replaced by split between garura-intents#2 and garura-intents#3."
+  },
+  {
+   "seq": 220,
+   "at": "2026-11-02T15:42:51Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 961,
+   "result": "skipped: already closed (NOT_PLANNED)"
+  },
+  {
+   "seq": 221,
+   "at": "2026-11-02T15:42:52Z",
+   "operation": "comment-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 717,
+   "result": "skipped: comment already there",
+   "text": "Replaced by garura-intents#9 (Orchestration). This issue stays closed, because its plan work is done."
+  },
+  {
+   "seq": 222,
+   "at": "2026-11-02T15:43:07Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 594,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 223,
+   "at": "2026-11-02T15:43:10Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 960,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 224,
+   "at": "2026-11-02T15:43:14Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 957,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 225,
+   "at": "2026-11-02T15:43:17Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 958,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 226,
+   "at": "2026-11-02T15:43:22Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 959,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 227,
+   "at": "2026-11-02T15:43:26Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 970,
+   "result": "done",
+   "reason": "completed"
+  },
+  {
+   "seq": 228,
+   "at": "2026-11-02T15:43:31Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 955,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 229,
+   "at": "2026-11-02T15:43:36Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 794,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 230,
+   "at": "2026-11-02T15:43:39Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 542,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 231,
+   "at": "2026-11-02T15:43:44Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 543,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 232,
+   "at": "2026-11-02T15:43:46Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 544,
+   "result": "done",
+   "reason": "not planned"
+  },
+  {
+   "seq": 233,
+   "at": "2026-11-02T15:43:49Z",
+   "operation": "close-issue",
+   "repo": "intent-driven-ai/garura",
+   "issue": 540,
+   "result": "done",
+   "reason": "not planned"
+  }
+ ]
+}
