@@ -1,6 +1,6 @@
 ---
 name: link-model-part
-description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced, its intents added or its issue named; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /shape-slice; an /update-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin). Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
+description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced, its intents added or its issue named; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /shape-slice; an /update-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin); an ICE, which has its own page ice.md beside its part's page, gets its entry in the spine's ices list (the part it is for, its kind and its page), and a thin ICE gets the thin mark on its entry and as one Thin line at the top of its page — a part that has an ICE is never marked thin itself (ontology v15, #1031). Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Bash
@@ -18,7 +18,7 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`) — see the script's header for the fields of each mode. |
+| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice|ice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`; an ICE: `new` with `for` and `doc`, or `update` to mark it thin) — see the script's header for the fields of each mode. |
 | `product_base` | yes | The project's product base; the model is under `<product_base>product-os/`. |
 | `out` | yes | Where to write `link-report.json`. |
 
@@ -26,9 +26,10 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
 
 1. **Check the pages are there.** Each part's page must already be written, in its folder: a
    domain at `<folder>/domain.md`; a capability in `capabilities/<id>/` or under its domain's
-   folder; a feature in `features/<id>/` or under its capability's folder. A thin part's page
-   must have its ICE section. When a page is missing, stop and say so — this skill never
-   writes one.
+   folder; a feature in `features/<id>/` or under its capability's folder; an ICE's page
+   `ice.md` in the folder of its part's page, with Intent, Context and Expectation. A thin
+   part's page must have its ICE section. When a page is missing, stop and say so — this skill
+   never writes one.
 2. **Link the parts.** Run the script:
 
    ```bash
@@ -58,5 +59,10 @@ written when the script exits 2; its error names the part and why.
 - **The thin mark is two marks that agree.** `metadata.thin: true` on the spine entry and
   exactly one Thin line on the page, just before its ICE. The play that deepens the part
   removes both. A domain is never thin.
+- **An ICE is its own node.** Its entry in `ices` names the one capability or feature it is
+  for, never a business intent; each part has at most one. A thin ICE carries the mark on its
+  own entry and page, at the top, before Intent; the part it is for is not marked. The `ices`
+  list is made only when an ICE is added, because a spine with that list is checked as one
+  whose ICE are nodes.
 - **Never re-parent.** A part's parent is set when it is new; moving it later is
   `link-model-gaps`'s work.

@@ -302,5 +302,112 @@ class LinkPartTest(unittest.TestCase):
         self.assertIn(words, r.stderr)
         self.assertEqual(self.read("_spine.yaml"), before)
 
+
+ICE = ("## Intent\n- Goal: Send one message to one address.\n- Limit: Never without an address.\n"
+       "- Fails if: A message reaches the wrong address.\n\n## Context\n- Read: the mail rules.\n\n"
+       "## Expectation\n- Done means: A tester sees the message arrive.\n")
+THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
+
+
+class IceEntryTest(unittest.TestCase):
+    """ICE nodes (ontology v15, #1031): an entry in the spine's `ices` list, beside a page ice.md."""
+
+    write, read, run_request, new_fn2 = (LinkPartTest.write, LinkPartTest.read,
+                                         LinkPartTest.run_request, LinkPartTest.new_fn2)
+    tearDown = LinkPartTest.tearDown
+
+    def setUp(self):
+        LinkPartTest.setUp(self)
+        self.write("features/fn-1/ice.md", ICE)
+        self.write("capabilities/cap-1/ice.md", ICE)
+
+    def ice(self, **kw):
+        e = {"id": "ice-1", "kind": "ice", "mode": "new", "for": "fn-1", "doc": "features/fn-1/ice.md"}
+        e.update(kw)
+        return e
+
+    def test_a_thin_feature_ice_gets_its_entry_and_its_thin_line(self):
+        r, report = self.run_request(parts=[self.ice(thin=True)])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        text = self.read("_spine.yaml")
+        self.assertTrue(text.startswith("# The spine — a comment that must stay."))
+        entry = yaml.safe_load(text)["ices"][0]
+        self.assertEqual(entry, {"id": "ice-1", "for": "fn-1", "for_kind": "feature",
+                                 "doc": "features/fn-1/ice.md",
+                                 "metadata": {"created_by": "/test", "thin": True}})
+        page = self.read("features/fn-1/ice.md")
+        self.assertEqual(page.splitlines()[0], THIN)
+        self.assertEqual(page.count("Thin:"), 1)
+        self.assertEqual(report["written"], ["ice-1"])
+        self.assertEqual(report["thin"], ["ice-1"])
+        fn1 = next(f for f in yaml.safe_load(text)["features"] if f["id"] == "fn-1")
+        self.assertNotIn("thin", fn1.get("metadata") or {})
+
+    def test_a_capability_ice_that_is_not_thin(self):
+        r, _ = self.run_request(parts=[self.ice(id="ice-cap", **{"for": "cap-1", "doc": "capabilities/cap-1/ice.md"})])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        entry = yaml.safe_load(self.read("_spine.yaml"))["ices"][0]
+        self.assertEqual(entry["for_kind"], "capability")
+        self.assertNotIn("thin", entry["metadata"])
+        self.assertEqual(self.read("capabilities/cap-1/ice.md"), ICE)
+
+    def test_a_new_feature_and_its_ice_in_one_request(self):
+        self.write("features/fn-2/ice.md", ICE)
+        r, report = self.run_request(parts=[dict(self.new_fn2(thin=False), kind="feature"),
+                                            self.ice(id="ice-2", **{"for": "fn-2", "doc": "features/fn-2/ice.md"})])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(report["written"], ["fn-2", "ice-2"])
+
+    def test_an_ice_is_marked_thin_later(self):
+        self.run_request(parts=[self.ice()])
+        r, report = self.run_request(parts=[{"id": "ice-1", "kind": "ice", "mode": "update", "thin": True}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        entry = yaml.safe_load(self.read("_spine.yaml"))["ices"][0]
+        self.assertTrue(entry["metadata"]["thin"])
+        self.assertEqual(self.read("features/fn-1/ice.md").splitlines()[0], THIN)
+
+    def test_no_ice_no_ices_list(self):
+        r, _ = self.run_request([dict(self.new_fn2(thin=False))])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertNotIn("ices", yaml.safe_load(self.read("_spine.yaml")))
+
+    def refused(self, parts, words, first=None):
+        if first:
+            r, _ = self.run_request(parts=first)
+            self.assertEqual(r.returncode, 0, r.stderr)
+        before = {rel: self.read(rel) for rel in ("_spine.yaml", "features/fn-1/ice.md", "features/fn-1/feature.md")}
+        r, _ = self.run_request(parts=parts)
+        self.assertEqual(r.returncode, 2)
+        self.assertIn(words, r.stderr)
+        self.assertEqual({rel: self.read(rel) for rel in before}, before)
+
+    def test_a_second_ice_for_one_part_is_refused(self):
+        self.refused([self.ice(id="ice-9")], "already has an ICE", first=[self.ice()])
+
+    def test_an_ice_page_away_from_its_part_is_refused(self):
+        self.refused([self.ice(doc="capabilities/cap-1/ice.md")], "beside its part's page")
+
+    def test_an_ice_page_missing_a_part_is_refused(self):
+        self.write("features/fn-1/ice.md", ICE.split("## Expectation")[0])
+        self.refused([self.ice()], "lacks Expectation")
+
+    def test_an_ice_for_a_part_not_in_the_spine_is_refused(self):
+        self.refused([self.ice(**{"for": "fn-9"})], "not a capability or feature in the spine")
+
+    def test_an_ice_naming_a_business_intent_is_refused(self):
+        self.refused([self.ice(intents=["bi-1"])], "names no business intent")
+
+    def test_an_ice_update_does_only_the_thin_mark(self):
+        self.refused([{"id": "ice-1", "kind": "ice", "mode": "update", "doc": "x/ice.md", "thin": True}],
+                     "only to mark it thin", first=[self.ice()])
+
+    def test_a_part_with_an_ice_is_not_marked_thin_itself(self):
+        self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}],
+                     "belongs on the ICE", first=[self.ice()])
+
+    def test_a_part_and_its_ice_in_one_request_keep_the_mark_off_the_part(self):
+        self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}, self.ice()],
+                     "belongs on the ICE")
+
 if __name__ == "__main__":
     unittest.main()
