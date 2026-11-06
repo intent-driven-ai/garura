@@ -1,0 +1,18 @@
+# Orchestration
+
+**Outcome:** Work is orchestrated across business intents, agent intents, the product model and work issues, through planning and loops, tracked in the team's tracker, with ADRs recorded as decisions are made. A person always knows what's happening and what's next.
+
+**Why:** Orchestration bridges intent and action.
+
+**Asked by:** the product owner
+
+**Proof it is met:**
+- Any work traces up to its intent and down to its result.
+- A person can see where everything stands.
+
+**Must not:** Stop a person. Every gate has a way past it that records what's owed.
+
+**Stage:** confirmed — by the product owner, 2026-11-02
+**Tracker:** #9
+
+**What was done:** (nothing yet)

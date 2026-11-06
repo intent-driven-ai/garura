@@ -4,6 +4,7 @@ domains:
   intents:
   - bi-717
   - bi-788
+  - bi-1
   status: proposed
   detail: directional
   one_line: 'Turn a business intent into work that agents can build and that an outside
@@ -13,6 +14,7 @@ domains:
   metadata:
     created_by: /shape-slice
     deepen: true
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 capabilities:
 - id: cap-723
   slug: cap-723
@@ -219,6 +221,23 @@ capabilities:
   compliance_needs: []
   decisions:
   - dec-cap-initialize-security-none-medium
+- id: cap-specify-product
+  slug: specify-product
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-1
+  status: proposed
+  detail: directional
+  one_line: The product is understood from what a person gives, whether a video, a
+    prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities
+    and features.
+  doc: software-delivery-planning/specify-product/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -621,6 +640,179 @@ features:
     thin: true
     updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
       ontology v14 Thin line)'
+- id: fn-specify-intents
+  slug: fn-specify-intents
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: What a person gives becomes the right business intents, at the depth the
+    product owner chooses, each confirmed by them.
+  doc: software-delivery-planning/specify-product/fn-specify-intents/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-domains
+  slug: fn-specify-domains
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Each domain the product sits in has a detailed page.
+  doc: software-delivery-planning/specify-product/fn-specify-domains/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-capabilities
+  slug: fn-specify-capabilities
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Each capability the product needs has a detailed page with its features
+    and ICE.
+  doc: software-delivery-planning/specify-product/fn-specify-capabilities/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-from-journeys
+  slug: fn-specify-from-journeys
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Each journey through a prototype is walked and recorded, the way its people
+    would use it.
+  doc: software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-from-video
+  slug: fn-specify-from-video
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: What a video shows is captured, so intents can trace to moments in it.
+  doc: software-delivery-planning/specify-product/fn-specify-from-video/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-from-file
+  slug: fn-specify-from-file
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: A file is kept, and every view it offers is captured.
+  doc: software-delivery-planning/specify-product/fn-specify-from-file/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-from-folder
+  slug: fn-specify-from-folder
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: A project is captured from its written docs and its running app.
+  doc: software-delivery-planning/specify-product/fn-specify-from-folder/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-from-site
+  slug: fn-specify-from-site
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Every view a deployed site offers is captured, up to two clicks deep.
+  doc: software-delivery-planning/specify-product/fn-specify-from-site/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-from-document
+  slug: fn-specify-from-document
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: A document is kept exactly as given.
+  doc: software-delivery-planning/specify-product/fn-specify-from-document/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-from-words
+  slug: fn-specify-from-words
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: A person's words are kept byte for byte.
+  doc: software-delivery-planning/specify-product/fn-specify-from-words/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-validate-attribution
+  slug: fn-validate-attribution
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: A judge with no context says whether what was given was fully and correctly
+    used.
+  doc: software-delivery-planning/specify-product/fn-validate-attribution/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-specify-against-existing
+  slug: fn-specify-against-existing
+  capability: cap-specify-product
+  intents:
+  - bi-1
+  status: proposed
+  one_line: 'What''s given is sorted against what exists: a new intent, an enhancement,
+    a new feature under one, or a clash.'
+  doc: software-delivery-planning/specify-product/fn-specify-against-existing/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
