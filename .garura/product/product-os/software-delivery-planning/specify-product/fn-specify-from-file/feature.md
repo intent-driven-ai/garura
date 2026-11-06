@@ -10,10 +10,17 @@ Status: built.
 - In: any more pages to capture, and any named controls to click on the first page. Both are optional.
 - Out: the exact copy of the file.
 - Out: a full-page picture and the visible text of the first screen and of each new view.
-- Out: the capture record, with the kind "prototype — file" and how many views were found and kept, and each view not reached with why.
+- Out: the capture record, with the kind "prototype — file" and how many views were found and kept, and each view not reached with why. The record also holds a fingerprint of each saved file. A fingerprint is a short code worked out from a file's bytes, so any change to the file changes the code. The run does not compare it with the original. A test can, to show the copy is exact.
 
 ## Rules & behavior
 - It finds views the same way as Specify from a deployed site (fn-specify-from-site), with the same limits and the same skipped controls.
+- The browser goes two clicks deep. It clicks each control on the first screen, then each new control those views add.
+- A view is found when a click reaches it. It is kept when its visible text differs from each view already kept. So a control that shows a repeat counts as found, and is not kept again.
+- The size limit is 40 views beyond the first screen, or 160 clicks. Each control not tried then goes on the record as not reached, with the limit as the reason.
+- A click that fails goes on the record as not reached, with the error, and the browser goes on to the next control.
+- The browser does not follow mail, phone or script links, or any link that starts with http or https. It follows relative links.
+- A named control is clicked with no word test. A named control that cannot be found fails the capture.
+- The browser does not click a control with any of these words: accept, approve, reject, drop, send back, delete, remove, edit, comment, finish, submit, undo, save, reset, log out, sign out, point, upload, pay, buy. The test also finds these words inside longer words, and the record does not list the controls it skipped.
 - It skips those controls here too, although a local file holds no real data to change. So a view behind "Edit" is not captured here. A journey can still open it (fn-specify-from-journeys).
 - Only a web-page file takes this path. Specify from a document (fn-specify-from-document) takes any other file.
 
@@ -33,3 +40,6 @@ Status: built.
 - core/components/plays/discover-intent/scripts/capture_source.py: "a copy of the file + a rendered screenshot of every view"
 - core/components/plays/discover-intent/SKILL.md: "An HTML file is copied and rendered"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "a copy of the file for a file or a document"
+- core/components/plays/discover-intent/scripts/capture_source.py: "Find every view the page offers, two clicks deep", "a control whose view repeats one already kept is found but not kept again", "MAX_VIEWS = 40", "MAX_CLICKS = 160", "the exploration limit was reached", "record it, keep exploring", "leaves the prototype", "Controls that answer or change data rather than show a view: never clicked while exploring.", "a named control that cannot be found is a failure, not a skip", "def sha256(path):"
+- core/components/plays/discover-intent/reference/ice.md: "The Source is kept as it was when read"
+- .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "A fingerprint is a short code worked out from a file's bytes, so any change to the file changes the code."

@@ -2,12 +2,31 @@
 
 ## Directional intent
 The product is understood from what a person gives, whether a video, a prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities and features.
+It matters to software delivery planning because that domain turns a business intent into work that agents can build. This capability is where those business intents and the model come from.
 
 What makes it unique: it starts from something that works, not from a written spec.
 
-Features: Specify intents (fn-specify-intents), Specify domains (fn-specify-domains), Specify capabilities (fn-specify-capabilities), Specify from a prototype's journeys (fn-specify-from-journeys), Specify from a video (fn-specify-from-video), Specify from a file (fn-specify-from-file), Specify from a project folder (fn-specify-from-folder), Specify from a deployed site (fn-specify-from-site), Specify from a document (fn-specify-from-document), Specify from plain words (fn-specify-from-words), Validate the attribution (fn-validate-attribution), Specify against what exists (fn-specify-against-existing).
+Features:
+- Specify intents (fn-specify-intents): drafts one business intent for each need the product meets, and the person confirms or drops each one.
+- Specify domains (fn-specify-domains): finds each domain the product sits in and writes a full page for it.
+- Specify capabilities (fn-specify-capabilities): writes a full page for each capability and creates its features with their pages.
+- Specify from a prototype's journeys (fn-specify-from-journeys): uses the prototype one step at a time and keeps a picture and the text of every step.
+- Specify from a video (fn-specify-from-video): what a video shows is captured, so intents can trace to moments in it.
+- Specify from a file (fn-specify-from-file): saves an exact copy of one web-page file, and a picture and the text of each view.
+- Specify from a project folder (fn-specify-from-folder): keeps the project's written docs and captures its running app.
+- Specify from a deployed site (fn-specify-from-site): saves each view of a deployed site as a full-page picture and its visible text.
+- Specify from a document (fn-specify-from-document): saves an exact copy of a document, such as a brief or a PDF.
+- Specify from plain words (fn-specify-from-words): keeps the words a person types, byte for byte.
+- Validate the attribution (fn-validate-attribution): a judge with no context says whether what was given was fully and correctly used.
+- Specify against what exists (fn-specify-against-existing): what's given is sorted against what exists: a new intent, an enhancement, a new feature under one, or a clash.
 
-Specify from a video, Validate the attribution and Specify against what exists are not built. Specify intents has four parts not built, and its page names them. Nothing checks an ICE against the rubric yet, and intents have no judge with no context yet.
+What is not built yet:
+- Specify from a video is not built.
+- Validate the attribution is not built.
+- Specify against what exists is not built.
+- Specify intents has four parts not built, and its page names them.
+- Nothing checks an ICE against the rubric yet. An ICE is the agent's intent for one capability or feature: what an agent must make true there, for whom, and how it is checked. The rubric is the written rule for what a good ICE looks like.
+- Intents have no judge with no context yet.
 
 ### Benefit hypothesis
 - Who it serves: the product owner, who wants to confirm what a product is for without writing a spec first.
@@ -15,14 +34,18 @@ Specify from a video, Validate the attribution and Specify against what exists a
   - What the person gave stays readable as it was. Every later step can go back to it.
   - A prototype is used, not only read. Its screens show what it has, and using it shows what it is for.
   - Each kind of part has its own writer. One wrong reading of the source then cannot spread to every other kind.
-- How we will know: a new builder, who never saw the prototype, builds the product from the intents and the model alone. The rebuild test then tries what the prototype does on what the builder made. Design, layout and code may differ, but what a person can do and see may not. What is missing, half there or added is the drift. When the intents and the model do not bring the prototype back, they are not good enough to build from.
+- How we will know: a new builder, who never saw the prototype, builds the product from the intents and the model alone.
+  - The rebuild test then tries what the prototype does on what the builder made.
+  - Design, layout and code may differ, but what a person can do and see may not.
+  - What is missing, half there or added is the drift.
+  - When the intents and the model do not bring the prototype back, they are not good enough to build from.
 
 ### Boundary (In / Out / Never)
 - In: keeping what a person gives as a Source. A Source is a saved copy of a file, a project folder, a deployed site, a document or a person's own words. Later steps read this copy, so they do not need the original.
 - In: walking a prototype in journeys. A journey is one person's way through it, from what they set out to do to what they end with.
 - In: writing business intents, domains, capabilities and features. These kinds are the model that all later work reads.
 - In: setting each capability's quality and compliance needs, and rolling them up into the product profile. The profile holds the product's shape and the quality levels it commits to.
-- Out: linking parts that were written apart. Inside the discovery loop, a later step finds and makes those links. The work of managing the model owns the link rules.
+- Out: linking parts that were written apart. The discovery loop reads a prototype once and runs the three writers on that reading, in rounds: Specify intents, Specify domains and Specify capabilities. Inside the discovery loop, a later step finds and makes those links. The work of managing the model owns the link rules.
 - Out: choosing what to build first. Later shaping work picks the features a person can test end to end and turns them into work items.
 - Out: keeping intents up to date as the product changes. This capability does not do it, and no capability in the model owns it yet.
 - Never: write over finished work. An intent page is never overwritten, a domain page keeps each section it had, and a capability at full depth is not detailed again. Other parts may already rely on these pages.
@@ -49,4 +72,9 @@ Specify from a video, Validate the attribution and Specify against what exists a
 - core/components/agents/prototype-reader.md: "none walks the prototype again"
 - core/components/skills/author-business-intent/SKILL.md: "a work-tracking tool shown with a bakery's tasks is about any team's work"
 - core/tools/rebuild-eval/README.md: "A fresh agent, with no sight of the prototype and"
+- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into work that agents can build"
+- The short line beside each feature: the opening words of that feature's own page.
+- standards/schemas/product-os/ontology.md, in Phoenix memory: "The agent's intent for one capability or one feature: what an agent must make true there, for whom, and how it will be checked."
+- standards/rules/ice-rubric.md, in Phoenix memory: "What a good ICE looks like."
+- core/components/loops/complete-discovery/SKILL.md: "reads the prototype once and runs /discover-intent, /discover-domains and /discover-capabilities on that one reading"
 - Shelf: none. No knowledge shelf covers software delivery planning.
