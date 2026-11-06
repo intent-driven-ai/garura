@@ -1,0 +1,16 @@
+{
+  "note": "Not run: this run writes only under capability-2/. The caller runs it with: python3 .garura/core/tools/memory/memory.py cite --request \"$(cat .garura/project/issues/1021/context/capability-2/cite-request.json | python3 -c 'import json,sys; d=json.load(sys.stdin); d.pop(\"note\"); print(json.dumps(d))')\"",
+  "issue": 1021,
+  "play": "reorganise business intents (capability 2 research, draft only)",
+  "question": "Are the stories that Turn intents into agent work makes the same as the epics and stories that /shape-plan makes, and where is the boundary with Orchestrate agent work through planning?",
+  "answer": "They are the same: one /shape-plan run makes the epics and the stories from one business intent. The product owner settled the boundary on 2026-11-06 ('we narrow orchestration.. thats what an orchestrator will do'): Turn intents into agent work makes and changes the work items (epics, stories, chores, bugs, spikes); Orchestrate agent work through planning runs them (order, loops, tracking).",
+  "decided_by": "product-os-keeper (the boundary itself: the product owner)",
+  "trace": [
+    {"asked": "what the Plan kind makes", "found": "the plan play creates one Epic for each Slice and the Stories of that Epic, one for each Feature",
+     "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 583, "end": 583, "fingerprint": "sha256:d89c4152dd82bf7c669719080662aa1174d51f6949449d49166025347394e97c"}},
+    {"asked": "who makes a Story and from what", "found": "the plan play makes it when it creates the Epic, from its feature's ICE and that feature's capability's ICE",
+     "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 697, "end": 697, "fingerprint": "sha256:f28ca61180561130b80fdf8bdbb08592262f5e620b9e65d2e6611521b60b3615"}},
+    {"asked": "which lines of an ICE reach a story", "found": "each line has one reader; the plan play writes the story from every line except Fails if, and the builder never reads the ICE",
+     "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 513, "end": 513, "fingerprint": "sha256:de7f04a5cf3abc9c92f9f94c10e930ce3b72a21c97a0e0691b002c6197529d9d"}}
+  ]
+}

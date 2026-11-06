@@ -1,0 +1,47 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-change-work-items/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capability-2/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

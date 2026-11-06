@@ -1,0 +1,20 @@
+{
+  "written": [
+    "cap-turn-intents-into-work",
+    "fn-cut-intent-into-work",
+    "fn-write-story-from-ice",
+    "fn-change-work-items",
+    "fn-add-found-feature",
+    "ice-turn-intents-into-work",
+    "ice-cut-intent-into-work",
+    "ice-write-story-from-ice",
+    "ice-change-work-items",
+    "ice-add-found-feature"
+  ],
+  "updated": [],
+  "thin": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "layout_kept": true
+}

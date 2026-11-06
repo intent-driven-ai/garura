@@ -3,8 +3,9 @@
 Each line: name, then its one-liner. Marks: (planned) not built; (unique) a unique piece.
 
 ## Product → Spec
-- Understand the product: The product is understood from what a person gives, whether a video, a prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities and features. (unique: starts from what works)
-- Turn intents into agent work: A business intent becomes the stories, issues and tasks agents execute.
+- Specify the product: The product is understood from what a person gives, whether a video, a prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities and features. (unique: starts from what works)
+- Turn intents into agent work: A business intent becomes the epics, stories and other work items agents execute. (reworded 2026-11-06: the model has no task kind)
+  - Boundary, decided by the product owner on 2026-11-06: this capability owns turning a confirmed intent into the work items agents execute. "Orchestrate agent work through planning" (Orchestration) is narrowed to running that work once it exists. His words: "we narrow orchestration.. thats what an orchestrator will do".
 - Keep the original business intents: Everything a person gives is kept exactly as given, and the intents stay up to date as the product evolves, with no drift. (unique)
 
 ## Spec → Design (project-level positions)
@@ -52,6 +53,7 @@ None yet.
 
 ## Orchestration
 - Orchestrate agent work through planning: The work of the agents can be orchestrated by careful planning that reads the slices and creates verticals for a clear and crisp end-to-end delivery.
+  - Narrowed on 2026-11-06: running the work once it exists. Turning an intent into work items moved to "Turn intents into agent work" (Product → Spec). The line above is reworded when this capability is reviewed.
 - Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met.
 - Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog.
 - Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them. (unique)
