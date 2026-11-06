@@ -1,0 +1,190 @@
+pr: 1032
+issue: 1031
+layer1:
+  lint-components: 'installed tool, source layout: 0 findings in changed paths, 37 there before'
+  lint-play: 'did not run: no play SKILL.md changed'
+  language-linter: none configured
+  suites: 'all green: test_write_approved 16, test_link_part 36, test_change_lines 19, test_write_page 50, test_remove_part
+    63, test_persist_slice 119, test_write_hidden_file 26, test_render_brief 34; acceptance check 24 of 24'
+findings:
+- id: Q1
+  severity: P2
+  category: executable-code
+  file: core/components/skills/enrich-grounding/scripts/write_approved.py
+  line: 177
+  title: A failed write leaves empty folders behind when the new folders are nested
+  basis:
+    rule: 'review/code rubric: safe handling of destructive/irreversible operations; the script''s own promise (docstring
+      lines 33-34) that every folder the run made is removed'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: Q2
+  severity: P2
+  category: executable-code
+  file: core/components/skills/enrich-grounding/scripts/write_approved.py
+  line: 171
+  title: The undo can itself fail half way, and the script then says every page is back
+  basis:
+    rule: 'review/code rubric: error handling; safe handling of irreversible operations'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: Q3
+  severity: P2
+  category: executable-code
+  file: core/components/skills/enrich-grounding/scripts/write_approved.py
+  line: 203
+  title: The report is written with no guard after the pages are already written
+  basis:
+    rule: 'review/code rubric: error handling; the script''s own contract (docstring line 36) of exit 0 written, 2 refused
+      or bad input'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: Q4
+  severity: P2
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 150
+  title: A wrongly typed field in a new ICE entry crashes with a traceback instead of a refusal
+  basis:
+    rule: 'review/code rubric: error handling; the script''s own contract (docstring line 65) of exit 0 written, 2 refused
+      or bad input; the standard the suite already sets at test_link_part.py:284-296 (a bad request gives exit 2 and no Traceback)'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: Q5
+  severity: P2
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 347
+  title: Adding or marking an ICE silently drops entries of the spine's ices list that it does not recognise
+  basis:
+    rule: 'review/code rubric: safe handling of destructive/irreversible operations (a rewrite must not lose what it did not
+      mean to change)'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: Q6
+  severity: P2
+  category: tests
+  file: core/components/skills/enrich-grounding/scripts/test_write_approved.py
+  line: 149
+  title: The test for "new folders are removed after a failed write" cannot fail, so the folder undo is untested
+  basis:
+    rule: 'review/tests: no test that asserts nothing; the category''s manual check that the undo-on-failed-write case has
+      a test'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+  source: quality-findings.yaml
+- id: Q7
+  severity: P3
+  category: executable-code
+  file: core/components/skills/enrich-grounding/scripts/write_approved.py
+  line: 121
+  title: The refusal of intent pages is skipped when the path starts with "./"
+  basis:
+    rule: 'review/code rubric: error handling (a stated refusal that a plain variation of the input gets past)'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: H-1
+  severity: P3
+  category: harness
+  file: core/components/skills/enrich-grounding/SKILL.md
+  title: 'enrich-grounding Step 6: "... in that order (ontology v15)"; link-model-part frontmatter description: "(ontology
+    v15, #1031)"'
+  basis:
+  - 'docs/standards/harness-standard.md principle 6 "(ontology v5, #722, #724)": the tag is the entry that set the rule'
+  - 'core/components/memory/standards/schemas/product-os/ontology.md line 893 (v15: "no question, kind, link or property changes")
+    against line 884 (v6: the ICE becomes its own node, ice.md, ices list, three parts)'
+  - 'core/components/plays/discover-capabilities/scripts/lint_grounding.py line 20: "ICE NODES (ontology v6, #759"'
+  source: design-findings-harness.yaml
+- id: H-2
+  severity: P3
+  category: harness
+  file: core/components/skills/enrich-grounding/SKILL.md
+  title: 'Step 6: "a part''s page holds no ICE section" stated with no condition, while Step 4 (unchanged) writes the ICE
+    "In the page''s `## Agent intent (ICE)` section (or in its `ice.md` when the spine has an `ices` list)" and the Rules
+    bullet "A thin ICE has a Goal, a Limit, ... a Context line and a Checked by line" still describes the inline shape'
+  basis:
+  - 'core/components/memory/standards/schemas/product-os/spine.yaml lines 129-130: "Until #765 moves a model, its ICE stays
+    inline in the part''s page and the spine has no `ices` list."'
+  - 'core/components/memory/standards/schemas/product-os/ontology.md line 524: the inline section "is drift for the Alignment
+    loop to move ...; it is not an error", and line 523: "Not built yet: ... the move of Garura''s own model, #765."'
+  - docs/adr/047-the-ice-is-its-own-node.md lines 106-107 (the tools still read the inline section until the plays and the
+    move are built)
+  source: design-findings-harness.yaml
+- id: Q8
+  severity: P3
+  category: tests
+  file: core/components/skills/enrich-grounding/scripts/test_write_approved.py
+  line: 132
+  title: The test named for refusing an intent page never reaches the intent-page rule
+  basis:
+    rule: 'review/tests: no test that asserts nothing (here, a rule whose branch no test runs)'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+  source: quality-findings.yaml
+- id: Q9
+  severity: P3
+  category: tests
+  file: core/components/skills/link-model-part/scripts/test_link_part.py
+  line: 312
+  title: Several of the new ICE refusals have no test
+  basis:
+    rule: 'review/tests: coding best practice on test code (each new refusal in the script is asserted)'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+  source: quality-findings.yaml
+- id: Q10
+  severity: P4
+  category: executable-code
+  file: core/components/skills/enrich-grounding/scripts/safe_write.py
+  line: 11
+  title: The docstring edits leave a 114-character line and a ragged wrap
+  basis:
+    rule: 'review/code rubric: readable, consistent code; the pr.md P4 bucket is style-only'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: Q11
+  severity: P4
+  category: executable-code
+  file: core/components/skills/enrich-grounding/scripts/write_approved.py
+  line: 61
+  title: Two scripts carry their own copy of the path check and the "ICE has three parts" check, and the copies differ
+  basis:
+    rule: 'review/code rubric: industry best practice, one rule in one place'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+  source: quality-findings.yaml
+- id: H-3
+  severity: P4
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  title: 'The description and Rules say "a part that has an ICE is never marked thin itself" but do not say the other half
+    that link_part.py enforces: an ICE is refused for a part that already carries the part-level thin mark ("carries the thin
+    mark itself ... its mark must come off before its ICE is added"). Nothing in the pair takes that mark off (the Rules still
+    say "The play that deepens the part removes both").
+
+    '
+  basis:
+  - core/components/memory/standards/schemas/product-os/ontology.md line 524 (the move from the inline section to the ICE's
+    own page is "for the Alignment loop") and line 523 (#765 is the move of the model)
+  - 'core/components/agents/product-os-keeper.md (base ref), dispatch row "a part was found during work ... give it a thin
+    page": that path runs `enrich-grounding` thin mode and `link-model-part` with `thin`, which sets exactly the part-level
+    mark the new check refuses'
+  source: design-findings-harness.yaml
+- id: H-4
+  severity: P4
+  category: harness
+  file: core/components/agents/product-os-keeper.md
+  title: 'new dispatch row "write these pages as the person approved them": "Remove an old ICE section from a part''s page
+    first through named lines (step 5)"'
+  basis:
+  - 'core/components/agents/product-os-keeper.md (base ref) Core Principle: "You do NOT follow step-by-step workflows. Plays
+    define workflows."'
+  - The base row "change these lines of a page" names the mode (`update` or `fix`) and `lines_request`, never a step number;
+    the one other "Step N" in the file (line 104) names a play's step.
+  source: design-findings-harness.yaml
+- id: Q12
+  severity: P4
+  category: tests
+  file: core/components/skills/link-model-part/scripts/test_link_part.py
+  line: 315
+  title: The new test class borrows methods from another class by hand
+  basis:
+    rule: 'review/tests: coding best practice on test code'
+    source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+  source: quality-findings.yaml

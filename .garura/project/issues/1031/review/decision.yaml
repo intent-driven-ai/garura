@@ -1,0 +1,8 @@
+decision: approve
+decided_by: human
+reply: "approve"
+recommended: approve
+recommended_reason: no P1 findings; confidence acceptable
+note: The reviewer was told the play recommends approve, that the assistant recommended reject to fix the six major and five minor findings first, and what each choice leads to. The reviewer typed approve.
+citing_findings: []
+open_findings: [Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, H-1, H-2, Q10, Q11, H-3, H-4, Q12]

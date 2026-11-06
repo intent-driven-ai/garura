@@ -1,6 +1,6 @@
 ---
 name: enrich-grounding
-description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change.
+description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing; approved mode writes a domain, capability, feature or ICE page (ice.md, beside its part's page, with Intent, Context and Expectation) from text a person approved, word for word, through its write_approved.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change, or when a page a person approved must be written as it is.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash
@@ -18,7 +18,7 @@ and every move of a page.
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix`; an intent page takes `update` or `fix` only; a named-lines request (step 5) takes `update` or `fix` |
+| `mode` | no | `update` (the default), `new-feature`, `thin`, `fix` or `approved`; an intent page takes `update` or `fix` only; a named-lines request (step 5) takes `update` or `fix`; an approved-text request (step 6) takes `approved` |
 | `pages` | yes | The pages to work on, each `{id, kind: domain|capability|feature|intent, doc}` — in a slice run, from `fills.json` `updates` with `page: true`, its new features under a capability that exists, and its `thin` list; for found work, from the request |
 | `product_base` | yes | The live model root. The pages are read and written in place under `{product_base}product-os/` |
 | `schemas_dir` | yes | The grounding templates (`domain.md`, `capability.md`, `feature.md`) and the content standard, copied into short-term memory by the agent through the memory tool |
@@ -28,6 +28,7 @@ and every move of a page.
 | `fills` | in a slice run | `fills.json`: the parent of each new feature, and the thin parts |
 | `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts). In place of `record`, `split` and `fills` |
 | `lines_request` | for named lines | `lines-request.json` (step 5), written by the agent that dispatches this skill, never by the skill: `by`, `source` (an approved design, or the person's own words) and `pages`, each `{page, changes}` — a change is `{old, new}` (`new: null` removes the line) or `{after, add}`; see the script's header |
+| `approved_request` | for `approved` | `approved-request.json` (step 6), written by the agent that dispatches this skill, never by the skill: `by`, `approved_by` (the person), `source` (where the approval is recorded) and `pages`, each `{page, from}` — `from` is the file holding the approved text; see the script's header |
 | `problems` | for `fix` | `slice-check.json` (or a script's refusal): each problem with the page it names |
 | `out` | yes | Where to write `grounding-report.json` |
 
@@ -76,13 +77,33 @@ and every move of a page.
    agent, which corrects the request; never work around it. The meaning comes from the
    request's source, never from this skill: a new intent page is /discover-intent's, and a
    change of meaning is the person's or an approved design's.
-6. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
+6. **Approved mode — write a page a person approved, word for word.** When a person reviewed a
+   page's text before it reaches the model, the page is copied as it is: nothing is composed.
+   This covers a domain, capability or feature page, and an ICE page. An ICE has its own page,
+   `ice.md`, in the folder of its part's page, with `## Intent`, `## Context` and
+   `## Expectation`, in that order (ontology v15); a part's page holds no ICE section. The agent
+   wrote `approved-request.json` and handed you its path (`approved_request`); you do not write
+   or change it. Run the script on it:
+
+   ```bash
+   python3 scripts/write_approved.py --request <approved_request> \
+       --product-base <product_base> --out <working>/approved-report.json
+   ```
+
+   Exit 0: every page holds its approved text, word for word, new or replacing the page that
+   was there. Exit 2: nothing was written, or every page already written was put back; the
+   error names the page and why (a Thin line in the text, an ICE section on a part's page, an
+   ICE page without its three parts or with no part beside it, a wrong title, an intent page,
+   a path outside the model, a thin page on disk, or no one who approved). Return the error to
+   the agent; never work around it. The ICE page's entry in the spine and its thin mark are
+   `link-model-part`'s, run after this.
+7. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
    heading, a broken link, a thin ICE that lacks a line. Change only what the problem names.
    A problem in `slice.json` or `fills.json` is not this skill's: list it in `not_mine`.
-7. **Check the page against what it had.** Every section and line from step 1 is still on
+8. **Check the page against what it had.** Every section and line from step 1 is still on
    the page, except the lines a named-lines request (step 5) replaced or removed — its
-   `lines-report.json` names each one. When any other line is lost, put it back before you
-   write the report.
+   `lines-report.json` names each one — and a page approved mode (step 6) wrote, which holds
+   its approved text. When any other line is lost, put it back before you write the report.
 
 ## Output
 
@@ -98,7 +119,9 @@ The pages, written in place under `{product_base}product-os/`, and `grounding-re
 
 A named-lines request (step 5) writes `lines-report.json` instead: `source`, and for each page
 each change (old and new, or after and add), its line counts before and after and the lines
-kept, and `changed` (every page written).
+kept, and `changed` (every page written). An approved-text request (step 6) writes
+`approved-report.json`: `written` (each page, `created` or `replaced`), `approved_by` and
+`source`.
 
 Examples from different fields:
 - A clinic: the Booking capability's page had no Guiding rules section; the run adds it, with
@@ -111,11 +134,12 @@ Examples from different fields:
 ## Rules
 
 - In place: keep every section and line a page had, except the lines a named-lines request
-  names (step 5); never remove or move a page.
+  names (step 5) and a page a person approved whole (step 6); never remove or move a page.
 - Write per-node pages only. Never write `_spine.yaml`, the profile, a decision, the Thin
   line or `metadata.thin`; a play's scripts or `link-model-part` write them. On an intent
   page, change only the lines the request names (step 5); never write a new intent page. A
-  named-lines request goes through `change_lines.py`, all or nothing.
+  named-lines request goes through `change_lines.py`, and an approved-text request through
+  `write_approved.py`, each all or nothing.
 - A thin ICE has a Goal, a Limit, one Fails if line or more, a Context line and a Checked by
   line, each from the person's answers or the assumptions; nothing made up.
 - One new feature under a capability that exists never re-details the capability.

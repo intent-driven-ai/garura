@@ -1,0 +1,357 @@
+# quality-findings.yaml - Layer 1 (standards linter) for PR #1032, issue #1031.
+# Produced by quality-auditor with the check-pr-quality skill. Categories reviewed: executable-code (the
+# request called it "code"; its playbook is review/code) and tests. Nothing else was reviewed.
+# Two lists on purpose:
+#   taxonomy_findings - rows of the pr.md table that fired in the scan (standard_id present). None fired.
+#   rubric_findings   - defects found by reading the code against the playbooks' rubric and by running it.
+#                       No standard_id (the table has no row for them); each carries `basis` and the P class
+#                       that the pr.md "Severity buckets" text gives that kind of defect.
+# Line numbers in rubric_findings are lines of the file at the PR head, not diff lines.
+meta:
+  generated_at: "2026-11-06T08:35:12Z"
+  pr: 1032
+  issue: 1031
+  layer: 1
+  diff_path: .garura/project/issues/1031/review/pr.diff
+  categories_path: .garura/project/issues/1031/review/categories.yaml
+  taxonomy_path: .garura/project/issues/1031/context/memory/standards/rules/pr.md
+  playbooks:
+    - .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    - .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+  files_reviewed:
+    executable-code:
+      - core/components/skills/enrich-grounding/scripts/write_approved.py
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/enrich-grounding/scripts/safe_write.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+      - core/components/skills/author-intent-page/scripts/safe_write.py
+      - core/components/skills/remove-model-part/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/safe_write.py
+    tests:
+      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+  not_reviewed:
+    - path: .garura/project/issues/1031/evidence/eval/eval_1031.py
+      reason: >-
+        Named by the tests category as the issue's acceptance check. It is an eval file, and the quality-auditor
+        role never reads eval files or sees their results, so it was neither read nor run here. Under pr.md its
+        path is stm-evidence, which gets no scan finding in any case. Running it falls to the eval/judge path.
+    - path: category harness, category run-records
+      reason: not in the request (design layers / no playbook)
+  scan:
+    tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+    exit_code: 0
+    changed_paths_count: 9
+    scan_coverage: 1.0
+    standards_relevant: 0
+    catchall:
+      CODE-20: 9
+    errors: []
+    why_nothing_fired: >-
+      Every path under core/components/** is artifact type garura-prose in the pr.md classification table, so
+      grep rules are not eligible and only docs-targeting path rules can fire; none match these files.
+  language_linter: none configured (no ruff, flake8, pylint, pyproject, setup.cfg, tox.ini or editorconfig is tracked in git)
+  runs:
+    - command: python3 core/components/skills/enrich-grounding/scripts/test_write_approved.py
+      result: "16 tests, OK"
+    - command: python3 core/components/skills/link-model-part/scripts/test_link_part.py
+      result: "36 tests, OK"
+    - command: python3 core/components/skills/enrich-grounding/scripts/test_change_lines.py
+      result: "19 tests, OK"
+    - command: python3 core/components/skills/author-intent-page/scripts/test_write_page.py
+      result: "50 tests, OK"
+    - command: python3 core/components/skills/remove-model-part/scripts/test_remove_part.py
+      result: "63 tests, OK"
+    - command: python3 core/components/plays/shape-slice/scripts/test_persist_slice.py
+      result: "119 passed, 0 failed"
+    - command: python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+      result: "26 passed, 0 failed"
+    - command: python3 core/components/plays/shape-slice/scripts/test_render_brief.py
+      result: "34 passed, 0 failed"
+    - command: shasum -a 256 on the five safe_write.py copies
+      result: "all five give d5784e782e5b1d88f0e47043173914389942219c8eec3a4a8609e60819abea15 (byte-identical)"
+    - note: no skipped, disabled or expected-to-fail test in the two new suites (searched for skip, skipTest, expectedFailure)
+
+taxonomy_findings: []
+
+rubric_findings:
+
+  - id: Q1
+    severity: P2
+    category: executable-code
+    file: core/components/skills/enrich-grounding/scripts/write_approved.py
+    line: 177
+    line_end: 179
+    title: A failed write leaves empty folders behind when the new folders are nested
+    basis:
+      rule: "review/code rubric: safe handling of destructive/irreversible operations; the script's own promise (docstring lines 33-34) that every folder the run made is removed"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: "pr.md Severity buckets, P2: error-handling violations"
+    evidence: "for d in made: if os.path.isdir(d) and not os.listdir(d): os.rmdir(d)"
+    what_is_wrong: >-
+      `made` lists each page's new folders deepest first, but page after page, so a parent folder made for an
+      earlier page is tried before the child folder made for a later page. The parent still holds the child,
+      is not empty, and is skipped. The child is then removed and the parent stays.
+    how_checked: >-
+      Ran the committed write_all in a temporary folder with three new pages (care/new/capability.md,
+      care/new/fresh/feature.md, care/new/fresh/ice.md) and a disk-full error on the third write. The
+      files were removed, but the folders `care` and `care/new` were left behind.
+    suggested_fix: remove the folders in one pass, longest path first (for example sorted(set(made), key=len, reverse=True)).
+
+  - id: Q2
+    severity: P2
+    category: executable-code
+    file: core/components/skills/enrich-grounding/scripts/write_approved.py
+    line: 171
+    line_end: 180
+    also_at: ["core/components/skills/enrich-grounding/scripts/write_approved.py:200-202"]
+    title: The undo can itself fail half way, and the script then says every page is back
+    basis:
+      rule: "review/code rubric: error handling; safe handling of irreversible operations"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: "pr.md Severity buckets, P2: error-handling violations"
+    evidence: "except OSError: for full, old in reversed(done): os.remove(full) / safe_write.atomic_write(full, old)"
+    what_is_wrong: >-
+      os.remove and atomic_write inside the undo can raise. The first such error leaves the rest of the pages
+      unrestored, and main() then prints "a write failed, every page is back as it was" - which is untrue.
+    how_checked: >-
+      Ran write_all on three existing pages with the third write failing and the first restore failing too.
+      Two pages stayed on the new text, and the error that reached main() was the same OSError that main()
+      turns into the "every page is back" message.
+    suggested_fix: >-
+      Keep going through the whole undo, collect what could not be restored, and name those pages in the
+      message instead of claiming all are back.
+    same_pattern_not_raised: "link_part.py write_all (lines 353-371) has the same shape, but this diff does not change it."
+
+  - id: Q3
+    severity: P2
+    category: executable-code
+    file: core/components/skills/enrich-grounding/scripts/write_approved.py
+    line: 203
+    line_end: 207
+    title: The report is written with no guard after the pages are already written
+    basis:
+      rule: "review/code rubric: error handling; the script's own contract (docstring line 36) of exit 0 written, 2 refused or bad input"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: "pr.md Severity buckets, P2: error-handling violations"
+    evidence: 'with open(a.out, "w", encoding="utf-8") as fh: json.dump(report, fh, indent=2)'
+    what_is_wrong: >-
+      If the --out folder is missing or not writable, the pages are on disk but the script ends with a
+      traceback and exit 1, a result the contract does not have. The caller sees a failure for work that
+      was done, with no report of which pages changed.
+    how_checked: >-
+      Ran the script against a temporary model with --out in a folder that does not exist. The page was
+      written; the run ended with FileNotFoundError and exit 1.
+    suggested_fix: >-
+      Check the --out folder before the first page write (it is a check, so it belongs with the others),
+      and catch OSError on the report write so the exit code is 0 or 2.
+
+  - id: Q4
+    severity: P2
+    category: executable-code
+    file: core/components/skills/link-model-part/scripts/link_part.py
+    line: 150
+    line_end: 159
+    title: A wrongly typed field in a new ICE entry crashes with a traceback instead of a refusal
+    basis:
+      rule: "review/code rubric: error handling; the script's own contract (docstring line 65) of exit 0 written, 2 refused or bad input; the standard the suite already sets at test_link_part.py:284-296 (a bad request gives exit 2 and no Traceback)"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: "pr.md Severity buckets, P2: error-handling violations"
+    evidence: 'part = p.get("for") ... kind = next((k for k in ICE_KIND if part in index[k]), None) ... doc = (p.get("doc") or "").strip("/")'
+    what_is_wrong: >-
+      `part in index[k]` raises TypeError when `for` is a list, and `.strip` raises AttributeError when `doc`
+      is a number or list. main() catches neither, so the run ends with a traceback and exit 1. Nothing is
+      written (this happens before any write), so no data is at risk; the exit code and message are wrong.
+    how_checked: 'Ran link_part.py on a temporary model with {"kind": "ice", "for": ["fn-1"]}: TypeError "cannot use list as a dict key", exit 1.'
+    suggested_fix: check the types of `for` and `doc` (strings) at the top of the ICE branch and raise Refused.
+
+  - id: Q5
+    severity: P2
+    category: executable-code
+    file: core/components/skills/link-model-part/scripts/link_part.py
+    line: 347
+    line_end: 349
+    also_at: ["core/components/skills/link-model-part/scripts/link_part.py:248-249"]
+    title: Adding or marking an ICE silently drops entries of the spine's ices list that it does not recognise
+    basis:
+      rule: "review/code rubric: safe handling of destructive/irreversible operations (a rewrite must not lose what it did not mean to change)"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: >-
+      pr.md Severity buckets, P2: error-handling violations. The same text lists data-loss under P1; held at P2
+      because only entries the model's own tools never write (not a mapping, or no id) are lost, and the spine
+      is kept in git. The caller may raise it.
+    evidence: 'old_ices = [e for e in (spine.get("ices") or []) if isinstance(e, dict)] ... new_spine["ices"] = [ices[e["id"]] for e in old_ices if e.get("id") in ices] + [...]'
+    what_is_wrong: >-
+      The list is rebuilt from only the entries that are mappings with an id. Any other entry is removed from the
+      file and the run reports success. A malformed list should be refused, as the other checks refuse bad input.
+    how_checked: >-
+      Ran link_part.py on a temporary model whose ices list held one good entry, one mapping with no id and one
+      plain string, and added a valid ICE. Exit 0; the written spine kept the good entry and the new one, and
+      lost the other two.
+    suggested_fix: refuse (exit 2) when the ices list is not a list of mappings that each have an id, before any write.
+
+  - id: Q6
+    severity: P2
+    category: tests
+    file: core/components/skills/enrich-grounding/scripts/test_write_approved.py
+    line: 149
+    line_end: 172
+    title: The test for "new folders are removed after a failed write" cannot fail, so the folder undo is untested
+    basis:
+      rule: "review/tests: no test that asserts nothing; the category's manual check that the undo-on-failed-write case has a test"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+    severity_reason: "pr.md Severity buckets, P2: missing tests for new code (the folder removal added in aa3a5d2f)"
+    evidence: 'if len(calls) == 2: raise OSError("disk full") ... self.assertFalse(os.path.exists(os.path.join(self.root, "care/new")))'
+    what_is_wrong: >-
+      The second call raises before the real atomic_write runs, and atomic_write is what makes the folder. So
+      `care/new` never exists, and the last assertion is true whether or not the folder-removal code is there.
+      The first half of the test (the existing page is put back) is real. This is also why Q1 was not caught.
+    how_checked: >-
+      Copied write_approved.py and its test to a temporary folder, deleted the folder-removal loop from the
+      copy, and ran the repo's own test against it: 16 tests, OK.
+    suggested_fix: >-
+      Let the first write create the new folder and fail the second, and add a case with nested new folders
+      (see Q1).
+
+  - id: Q7
+    severity: P3
+    category: executable-code
+    file: core/components/skills/enrich-grounding/scripts/write_approved.py
+    line: 121
+    title: The refusal of intent pages is skipped when the path starts with "./"
+    basis:
+      rule: "review/code rubric: error handling (a stated refusal that a plain variation of the input gets past)"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: >-
+      Judged P3, between the error-handling bucket (P2) and style (P4): nothing is lost and the page still lands
+      inside the model, but a refusal the docstring states does not hold.
+    evidence: 'if rel.split("/")[0] == "intents":'
+    what_is_wrong: >-
+      The test compares the first piece of the text. "intents/x/feature.md" is refused; "./intents/x/feature.md"
+      is not, and is written under the intents folder. The containment check (inside) is sound; this is the
+      script's own rule, and it reads the raw text, not the resolved path.
+    how_checked: Ran the script with both spellings against a temporary model - first exit 2, second exit 0 and the page written.
+    suggested_fix: compare the resolved path (full) against the intents folder under the model root.
+
+  - id: Q8
+    severity: P3
+    category: tests
+    file: core/components/skills/enrich-grounding/scripts/test_write_approved.py
+    line: 132
+    line_end: 135
+    title: The test named for refusing an intent page never reaches the intent-page rule
+    basis:
+      rule: "review/tests: no test that asserts nothing (here, a rule whose branch no test runs)"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+    severity_reason: >-
+      Judged P3: one untested branch of new code; the table has no bucket for a partial gap, and "missing tests
+      for new code" (P2) is held for Q6, where the new behaviour has no working test at all.
+    evidence: 'self.assertRefused([{"page": "intents/bi-1.md", ...}], "only a domain")'
+    what_is_wrong: >-
+      bi-1.md is not one of the four page names, so the name check at write_approved.py:119-120 refuses it
+      first (the asserted text is "only a domain"). The rule at lines 121-122 is never run by any test, which
+      is how Q7 went unseen.
+    suggested_fix: add a case with a page name that is allowed in a folder named intents (for example intents/x/feature.md).
+
+  - id: Q9
+    severity: P3
+    category: tests
+    file: core/components/skills/link-model-part/scripts/test_link_part.py
+    line: 312
+    line_end: 415
+    title: Several of the new ICE refusals have no test
+    basis:
+      rule: "review/tests: coding best practice on test code (each new refusal in the script is asserted)"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+    severity_reason: "Judged P3 for the same reason as Q8: 14 ICE tests exist and cover the main rules; these are the gaps."
+    evidence: "no test reaches link_part.py lines 145-146, 160, 164-165, 177-178 or 267-268"
+    what_is_wrong: >-
+      Not tested: an ICE id that is already used (line 145-146); an ICE page path that leaves the model
+      (line 160); an ICE page that is not on disk (164-165); a thin-mark update for an ICE that is not in
+      the spine (177-178); a part or feature given the same id as an existing ICE (267-268).
+    suggested_fix: one short refused(...) case for each.
+
+  - id: Q10
+    severity: P4
+    category: executable-code
+    file: core/components/skills/enrich-grounding/scripts/safe_write.py
+    line: 11
+    line_end: 12
+    also_at:
+      - core/components/skills/link-model-part/scripts/safe_write.py:11-12
+      - core/components/skills/author-intent-page/scripts/safe_write.py:11-12
+      - core/components/skills/remove-model-part/scripts/safe_write.py:11-12
+      - core/components/plays/shape-slice/scripts/safe_write.py:11-12
+      - core/components/skills/link-model-part/scripts/link_part.py:57-58
+    title: The docstring edits leave a 114-character line and a ragged wrap
+    basis:
+      rule: "review/code rubric: readable, consistent code; the pr.md P4 bucket is style-only"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: "pr.md Severity buckets, P4: style-only"
+    evidence: "line 12 is 114 characters ('and write_approved.py write their output files and pages through it. No other script of theirs calls os.replace or'); on main no line of this file is over 100. link_part.py lines 57-58 split a sentence after 'only when an'."
+    what_is_wrong: >-
+      Wording was added without re-wrapping the paragraph. The repo commits no line-length rule, so this is a
+      nit. The five safe_write.py copies are still byte-identical, as required.
+    suggested_fix: re-wrap the paragraph once and stamp the same text into all five copies.
+
+  - id: Q11
+    severity: P4
+    category: executable-code
+    file: core/components/skills/enrich-grounding/scripts/write_approved.py
+    line: 61
+    line_end: 103
+    also_at:
+      - core/components/skills/link-model-part/scripts/link_part.py:106-112
+      - core/components/skills/link-model-part/scripts/link_part.py:127-138
+    title: Two scripts carry their own copy of the path check and the "ICE has three parts" check, and the copies differ
+    basis:
+      rule: "review/code rubric: industry best practice, one rule in one place"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/code.md
+    severity_reason: "pr.md Severity buckets, P4: tech-debt / style-level"
+    evidence: "inside() is the same function in both files; write_approved.sections()/check_text() require Intent, Context, Expectation in that order, link_part.ice_parts_missing() only requires that each is present and non-empty."
+    what_is_wrong: >-
+      The page skill refuses an out-of-order ICE page; the index skill accepts one that was written another way.
+      The repo's convention for shared helpers is a stamped copy (as with safe_write.py), which these are not.
+    suggested_fix: not needed for this change; note it for the next change that touches either rule.
+
+  - id: Q12
+    severity: P4
+    category: tests
+    file: core/components/skills/link-model-part/scripts/test_link_part.py
+    line: 315
+    line_end: 320
+    also_at: ["core/components/skills/link-model-part/scripts/test_link_part.py:417"]
+    title: The new test class borrows methods from another class by hand
+    basis:
+      rule: "review/tests: coding best practice on test code"
+      source: .garura/project/issues/1031/context/memory/knowledge/review/tests.md
+    severity_reason: "pr.md Severity buckets, P4: style-only"
+    evidence: "write, read, run_request, new_fn2 = (LinkPartTest.write, ...); tearDown = LinkPartTest.tearDown; setUp calls LinkPartTest.setUp(self)"
+    what_is_wrong: >-
+      It works, but IceEntryTest is not a LinkPartTest, so a later change to LinkPartTest's setup can break it
+      with no signal. A shared base class would say the same thing plainly. Line 417 also has one blank line
+      before the `if __name__` guard where two are usual.
+    suggested_fix: move the shared setup into a small base class both test classes extend.
+
+counts:
+  P1: 0
+  P2: 6
+  P3: 3
+  P4: 3
+  total: 12
+
+considered_not_raised:
+  - what: "link_part.py plan() grew from 100 to 120 lines"
+    why: >-
+      The rubric says function size, and CODE-10 (P3) names a function line count, but no number is given in the
+      memory copies and no quality standards were copied for this run (knowledge/quality is not in the manifest).
+      Reported as a measurement only.
+  - what: "Lines over 100 characters elsewhere in the two scripts and the two suites"
+    why: no line-length rule is committed in the repo.
+  - what: "The `from` path in a write_approved.py request can name any readable file"
+    why: the request comes from the play that holds the person's approval, not from outside; the target page is contained in the model.
+  - what: "Containment of page paths, safe loading, and checks-before-writes"
+    why: >-
+      Checked and sound: inside() refuses absolute paths, "..", and anything whose resolved path leaves the model;
+      YAML is read with safe_load and JSON with json.load; every refusal in plan() runs before the first write;
+      every write goes through safe_write.atomic_write.
