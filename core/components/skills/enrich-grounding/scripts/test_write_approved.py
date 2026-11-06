@@ -64,7 +64,10 @@ class WriteApprovedTest(unittest.TestCase):
             json.dump(req, fh)
         p = subprocess.run([sys.executable, SCRIPT, "--request", rp, "--product-base", self.base,
                             "--out", out], capture_output=True, text=True)
-        report = json.load(open(out)) if p.returncode == 0 else None
+        report = None
+        if p.returncode == 0:
+            with open(out, encoding="utf-8") as fh:
+                report = json.load(fh)
         return p.returncode, p.stderr, report
 
     def test_writes_a_new_feature_and_its_ice_word_for_word(self):
@@ -142,6 +145,31 @@ class WriteApprovedTest(unittest.TestCase):
         self.assertRefused([
             {"page": "care/booking/book-slot/feature.md", "from": self.src("f.md", FEATURE)},
             {"page": "care/booking/ice.md", "from": self.src("i.md", THIN + "\n" + ICE)}], "Thin line")
+
+    def test_a_failed_write_puts_every_page_back_and_removes_new_folders(self):
+        sys.path.insert(0, HERE)
+        import write_approved
+        self.put("care/booking/book-slot/feature.md", "# Feature: Book a slot\n")
+        before = self.files()
+        real = write_approved.safe_write.atomic_write
+        calls = []
+
+        def fail_second(path, text):
+            calls.append(path)
+            if len(calls) == 2:
+                raise OSError("disk full")
+            real(path, text)
+
+        write_approved.safe_write.atomic_write = fail_second
+        try:
+            with self.assertRaises(OSError):
+                write_approved.write_all([
+                    (os.path.join(self.root, "care/booking/book-slot/feature.md"), "", "feature.md", FEATURE),
+                    (os.path.join(self.root, "care/new/fresh/ice.md"), "", "ice.md", ICE)])
+        finally:
+            write_approved.safe_write.atomic_write = real
+        self.assertEqual(self.files(), before)
+        self.assertFalse(os.path.exists(os.path.join(self.root, "care/new")))
 
     def test_refuses_a_page_named_twice(self):
         src = self.src("i.md", ICE)

@@ -53,7 +53,8 @@ link-request.json:
   {created_by, thin when thin}; it names no business intent. mode `update` only marks an ICE
   that is there thin. A thin ICE carries the thin mark: `metadata.thin: true` on its entry and
   exactly one Thin line at the top of its page, before "## Intent". A part that has an ICE is
-  never marked thin itself; its mark belongs on its ICE. The `ices` list is made only when an
+  never marked thin itself; its mark belongs on its ICE, so an ICE is refused for a part that
+  carries the mark. The `ices` list is made only when an
   ICE is added.
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
@@ -152,6 +153,9 @@ def plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report):
             raise Refused(f"{iid}: its part {part!r} is not a capability or feature in the spine")
         if part in ice_for:
             raise Refused(f"{iid}: {part} already has an ICE ({ice_for[part]}); each part has exactly one")
+        if (index[kind][part].get("metadata") or {}).get("thin"):
+            raise Refused(f"{iid}: {part} carries the thin mark itself; a part with an ICE is never thin, "
+                          f"so its mark must come off before its ICE is added")
         doc = (p.get("doc") or "").strip("/")
         full = inside(root, doc)
         part_dir = os.path.dirname(index[kind][part].get("doc", ""))

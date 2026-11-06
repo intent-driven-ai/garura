@@ -8,8 +8,8 @@ moved into place is removed. The file keeps the permissions it had; a new file g
 permissions the process would give any new file (0666 less its umask).
 
 /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
-write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py and write_approved.py write
-their output files and pages through it. No other script of theirs calls os.replace or
+write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py
+and write_approved.py write their output files and pages through it. No other script of theirs calls os.replace or
 tempfile.mkstemp.
 """
 

@@ -31,7 +31,7 @@ approved-request.json:
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
 writes nothing. When a write fails part way, every page already written is put back as it was,
-and a page that was new is removed (exit 2). Every page is written through
+a page that was new is removed, and so is each folder the run made (exit 2). Every page is written through
 safe_write.atomic_write. Reads and writes files on disk only; no git, no network.
 Exit 0 written, 2 refused or bad input.
 """
@@ -146,15 +146,26 @@ def plan(root, request):
     return writes
 
 
+def missing_dirs(full):
+    """The folders above `full` that do not exist yet, deepest first."""
+    out, d = [], os.path.dirname(full)
+    while d and not os.path.isdir(d):
+        out.append(d)
+        d = os.path.dirname(d)
+    return out
+
+
 def write_all(writes):
-    """Write every page; when one write fails, put back each page already written and raise."""
-    done = []
+    """Write every page; when one write fails, put back each page already written, remove the
+    folders this run made, and raise."""
+    done, made = [], []
     try:
         for full, _rel, _name, text in writes:
             old = None
             if os.path.exists(full):
                 with open(full, encoding="utf-8") as fh:
                     old = fh.read()
+            made += missing_dirs(full)
             safe_write.atomic_write(full, text)
             done.append((full, old))
     except OSError:
@@ -163,6 +174,9 @@ def write_all(writes):
                 os.remove(full)
             else:
                 safe_write.atomic_write(full, old)
+        for d in made:
+            if os.path.isdir(d) and not os.listdir(d):
+                os.rmdir(d)
         raise
 
 

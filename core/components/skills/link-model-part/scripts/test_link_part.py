@@ -401,13 +401,18 @@ class IceEntryTest(unittest.TestCase):
         self.refused([{"id": "ice-1", "kind": "ice", "mode": "update", "doc": "x/ice.md", "thin": True}],
                      "only to mark it thin", first=[self.ice()])
 
+    def test_a_part_that_carries_the_thin_mark_gets_no_ice(self):
+        r, _ = self.run_request(parts=[{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.refused([self.ice()], "carries the thin mark itself")
+
     def test_a_part_with_an_ice_is_not_marked_thin_itself(self):
         self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}],
                      "belongs on the ICE", first=[self.ice()])
 
     def test_a_part_and_its_ice_in_one_request_keep_the_mark_off_the_part(self):
         self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}, self.ice()],
-                     "belongs on the ICE")
+                     "thin mark")
 
 if __name__ == "__main__":
     unittest.main()

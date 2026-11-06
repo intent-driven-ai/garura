@@ -43,8 +43,8 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
 
 ## Output
 
-`link-report.json`, at `out`: `written` (each new part's id), `updated` (each existing part
-changed), `thin` (each part now marked thin), `changed` (every file it touched, relative to the
+`link-report.json`, at `out`: `written` (each new part's id, an ICE's too), `updated` (each
+existing part or ICE changed), `thin` (each part or ICE now marked thin), `changed` (every file it touched, relative to the
 product base) and `layout_kept` (false only when the spine had to be written whole). Nothing is
 written when the script exits 2; its error names the part and why.
 
