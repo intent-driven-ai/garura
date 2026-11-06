@@ -1,0 +1,43 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/specify-product/capability.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "action": "replaced"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capability-1/drafts/page-approvals.md",
+  "by": "product-os-keeper (approved redrafts for #1021)"
+}

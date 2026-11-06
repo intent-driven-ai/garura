@@ -10,3 +10,5 @@
 - 2026-11-06, feature 1 of 12, Specify intents: page and its own ICE page, no thin mark. The product owner replied: "approved".
 - 2026-11-06, feature 2 of 12, Specify domains: page and its own ICE page, no thin mark. The product owner replied: "approved".
 - 2026-11-06, features 3 to 12 of 12. The product owner replied: "all features unde this capabiltiy are approved. ensure you use this same format". Written in the same format: page without the ICE, and its own ICE page. The three unbuilt features (video, validate the attribution, against what exists) carry the thin mark.
+- 2026-11-06, redraft page 1 of 9, capability page: the lines the judge asked for, shown as new and changed lines. The product owner replied: "approved".
+- 2026-11-06, redraft pages 2 to 9 (intents, domains, capabilities, file, folder, site, document, words). The product owner replied: "i approve all the 9 proceed".
