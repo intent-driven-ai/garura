@@ -1,0 +1,197 @@
+# categories.yaml - the work categories present in PR #1032 (issue #1031), derived from the diff's content.
+# The play reads each category's treatment from here only. Treatments come from the playbook copies in
+# short-term memory (.garura/project/issues/1031/context/memory/knowledge/review/), never from memory of the assessor.
+pr: 1032
+issue: 1031
+base: main
+changed_files: 31
+memory:
+  review_shelf: .garura/project/issues/1031/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/1031/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/1031/context/memory/manifest.json
+  source_tier: phoenix          # no short-term or Garura copy existed; answered by Phoenix memory
+  version: b2e40bff2131
+absent_seeded_categories:       # judged from content, nothing changed in them: decision records, documentation, memory, config maps
+  - adrs
+  - docs
+  - memory
+  - config-maps
+
+categories:
+
+  - category: harness
+    design_bearing: true
+    playbook: review/harness
+    what_it_is: >
+      The skill and agent definitions (Markdown) that tell the model's page skill and index skill what
+      to do: a new "approved" mode for enrich-grounding, an ICE kind for link-model-part, and the
+      product-os-keeper agent's dispatch table that routes to them.
+    evidence:
+      - core/components/agents/product-os-keeper.md
+      - core/components/skills/enrich-grounding/SKILL.md
+      - core/components/skills/link-model-part/SKILL.md
+    read_with_for_context:        # the skills' own scripts are the contract the Markdown points at; not harness files themselves
+      - core/components/skills/enrich-grounding/scripts/write_approved.py
+      - core/components/skills/link-model-part/scripts/link_part.py
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: lint-components (shape of skills and agents; finds installed parts that name Garura source)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          run_from: repo root
+          counts_as_finding: only a violation whose file is in changed_paths; count the rest and record the count as "there before"
+          if_not_installed: record "not installed"
+          if_it_crashes: 'record "did not run: <first error line>"; neither is a pass'
+          note: the tool is installed at .garura/core/tools/lint-components/
+        - name: lint_play (play structure - evals per constraint, recovery per failure, sections, fingerprint, orphans)
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/<play>/SKILL.md --next-map .garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md
+          changed_plays: []
+          result: not run - no play's SKILL.md is in changed_paths (the shape-slice play changed only scripts/safe_write.py, a helper docstring)
+      runnable_checks:
+        - lint-components, as above
+      manual_checks:
+        - ICE-source rule (an intent change to a play traces to its ICE source, not a hand edit of the compiled file) applies here because the repository holds the plays' source; no play SKILL.md changed, so there is nothing to trace. Record it as "no play changed".
+        - play -> agent -> skill -> script wiring stays intact (product-os-keeper dispatches enrich-grounding then link-model-part; skills read only short-term memory and working files; scripts do the mechanical work).
+        - the Markdown (inputs, steps, refusals, report names) matches what the two scripts accept and write.
+      design_grounding:
+        required: true
+        grounded_from: committed or external sources only - docs/philosophy/**, docs/adr/**, the standards under memory/standards/rules/** (read through the memory tool; e.g. user-facing-voice, play-close, evidence-recording), the glossary - never the branch's own new SKILL.md or agent prose
+        check_against: agent-first delegation, JSON contracts over files, play orchestrates / skills produce / scripts do mechanical work, ICE-source discipline
+        hint_for_layer_2_not_a_finding: >
+          The new text says an ICE has its own page ice.md and its own entry in an `ices` list. The
+          ontology on the base ref (core/components/memory/standards/schemas/product-os/ontology.md,
+          Log) already records that rule (entry "v6", #758) and the "Who writes" section says no play
+          owns a kind. Ground the ICE-node rule from there, not from the branch's prose.
+    follow_up_if_gap: none; playbook exists
+
+  - category: executable-code
+    design_bearing: false
+    playbook: review/code
+    what_it_is: >
+      Python the runtime executes: the new write_approved.py (writes approved pages word for word),
+      the extended link_part.py (adds an ICE entry to the spine and the thin mark), and the shared
+      safe_write.py helper stamped in five places (docstring-only edit in each).
+    evidence:
+      - core/components/skills/enrich-grounding/scripts/write_approved.py
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/enrich-grounding/scripts/safe_write.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+      - core/components/skills/author-intent-page/scripts/safe_write.py
+      - core/components/skills/remove-model-part/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/safe_write.py
+    treatment:
+      reviewer: the tool, against industry best practice
+      layers: [1]
+      linters:
+        - name: language linter (the one the target repo commits)
+          command: null
+          result: none committed - no ruff, flake8, pyproject or similar Python lint config is tracked in the repo (git ls-files). Record "no language linter configured"; ruff on this machine is not the repo's.
+        - name: check-pr-quality (best-practice and severity rows of the pr.md taxonomy - SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*)
+          command: null           # the playbook names the skill, not a command line; the play runs it through quality-auditor
+          taxonomy: .garura/project/issues/1031/context/memory/standards/rules/pr.md
+          note: >
+            Under that taxonomy every path above is artifact type garura-prose (core/components/** is
+            first in the classification table), so grep rules are ineligible and only docs-targeting
+            path rules fire. Expect few or no scan findings; a clean scan here is not evidence the
+            scripts are safe, so the manual review below carries the weight.
+      runnable_checks:
+        - the tests of the category below run these scripts (see the tests category)
+      manual_checks:
+        - hard review of the data-safety paths (the playbook's extra weight) - write_approved.py and link_part.py write pages and the spine inside the product model, promise all-or-nothing with an undo on a partial failure, and refuse a path that leaves the model. Check: every check runs before the first write; the undo restores files and removes the folders the run made; every write goes through safe_write.atomic_write; paths are contained in the model root; request and YAML input are read safely.
+        - rubric - error handling, function size, no stray debug output, no secrets, safe handling of irreversible operations, deterministic where it claims to be.
+        - the five safe_write.py copies stay byte-identical. By hand - run shasum -a 256 on the five paths in evidence. At assessment time all five gave d5784e782e5b1d88f0e47043173914389942219c8eec3a4a8609e60819abea15.
+      design_grounding:
+        required: false
+        reason: the standard is industry best practice and the taxonomy, not a Garura-internal design (playbook)
+    follow_up_if_gap: none; playbook exists (its language-linter step has no committed linter in this repo)
+
+  - category: tests
+    design_bearing: false
+    playbook: review/tests
+    what_it_is: >
+      Automated checks: two unittest suites that exercise the new script modes, and the issue's
+      acceptance check (written first, failing, then passing after the build). The suites sit in the
+      skills' scripts folders, not in a folder named test; content decides, not path.
+    evidence:
+      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - .garura/project/issues/1031/evidence/eval/eval_1031.py
+    treatment:
+      reviewer: the tool
+      layers: [1]                # plus run the suite
+      linters:
+        - name: coding-best-practice read of the test code (clear assertions, no skipped or disabled test, no test that asserts nothing) plus the pr.md TEST-* rows via check-pr-quality
+          command: null           # the playbook gives no command line; the play runs check-pr-quality through quality-auditor
+          taxonomy: .garura/project/issues/1031/context/memory/standards/rules/pr.md
+          note: none of these paths sits in a folder named test/tests/spec, and core/components/** and .garura/project/** are prose types under pr.md, so the TEST-* rows will not fire; the read of the test code is by hand.
+      runnable_checks:           # run, do not just read. A red suite is a blocker finding.
+        - command: python3 core/components/skills/enrich-grounding/scripts/test_write_approved.py
+          covers: write_approved.py
+          on_failure: blocker finding
+        - command: python3 core/components/skills/link-model-part/scripts/test_link_part.py
+          covers: link_part.py (needs PyYAML, which is installed)
+          on_failure: blocker finding
+        - command: python3 .garura/project/issues/1031/evidence/eval/eval_1031.py
+          run_from: repo root      # the check reads the current folder as the repo root; it works only in temporary folders
+          covers: the issue's acceptance check, both skills together
+          on_failure: blocker finding
+          note: the file is under .garura/project/**, which pr.md types stm-evidence (no scan finding on it); it is run here because it is the issue's own runnable check
+        - optional_regression_for_the_shared_helper:     # safe_write.py changed (docstring only) in five copies; these suites call it
+            - python3 core/components/skills/enrich-grounding/scripts/test_change_lines.py
+            - python3 core/components/skills/author-intent-page/scripts/test_write_page.py
+            - python3 core/components/skills/remove-model-part/scripts/test_remove_part.py
+            - python3 core/components/plays/shape-slice/scripts/test_persist_slice.py
+            - python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+            - python3 core/components/plays/shape-slice/scripts/test_render_brief.py
+      manual_checks:
+        - no skipped or disabled test sneaks in; every test asserts something; the undo-on-failed-write case has a test.
+      design_grounding:
+        required: false
+    follow_up_if_gap: none; playbook exists; a runnable suite exists for this change
+
+  - category: run-records
+    design_bearing: false
+    playbook: null
+    playbook_missing: >
+      New category, no playbook on the review shelf. Nothing there says how to treat a play's own run
+      records. The only statement is the severity taxonomy copy (pr.md, Artifact-Type Scoping,
+      #851): a path of artifact type stm-evidence (.garura/project/**) gets no finding - these are
+      run records and installed copies that the plays write, evidence of a run and not work to
+      review. A playbook (suggested id review/run-records) is owed so the rule lives on the shelf.
+    what_it_is: >
+      The files /start-change, /commit-change and /propose-change wrote under this issue's own
+      folder: analysis, commit plans, branch/PR/issue snapshots, the PR body, the self-review, the
+      rules the self-review used, and the template copies the plays installed beside them.
+    evidence:
+      - .garura/project/issues/1031/context/analysis-2.yaml
+      - .garura/project/issues/1031/context/analysis.yaml
+      - .garura/project/issues/1031/context/args.json
+      - .garura/project/issues/1031/context/branch.json
+      - .garura/project/issues/1031/context/commits-2.yaml
+      - .garura/project/issues/1031/context/commits.yaml
+      - .garura/project/issues/1031/context/issue.json
+      - .garura/project/issues/1031/context/plan.json
+      - .garura/project/issues/1031/context/porcelain.txt
+      - .garura/project/issues/1031/context/pr-body.md
+      - .garura/project/issues/1031/context/pr.json
+      - .garura/project/issues/1031/context/resolved-rules.json
+      - .garura/project/issues/1031/context/self-review.md
+      - .garura/project/issues/1031/context/target.json
+      - .garura/project/issues/1031/context/templates/manifest-close-start-change.json
+      - .garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1031/context/templates/standards/templates/delivery-report.md
+      - .garura/project/issues/1031/context/work-description.txt
+    treatment:
+      reviewer: none assigned (no playbook)
+      layers: []
+      linters: []
+      runnable_checks: []
+      manual_checks:
+        - none. Counted as covered, not reviewed. Do not force-fit these into the documentation or memory categories.
+      design_grounding:
+        required: false
+    follow_up_if_gap: >
+      Write knowledge/review/run-records.md (no layers, no finding, counted as covered). A follow-up
+      task could not be created from this agent (no task tool in its tool list); the caller should
+      record it.

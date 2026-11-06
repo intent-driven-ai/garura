@@ -1,0 +1,282 @@
+# design-findings-harness.yaml - Layer 2 (design-grounding) for the 'harness' category of PR #1032 (issue #1031).
+# One category, one file. Every principle below is read from a source that exists on the base ref
+# (origin/main at 870170b5ad9a23583be58a07272e631079aebe3b) or from the memory tool; none is read from
+# a file this branch adds or rewrites. Severity classes are the P1-P4 buckets of the copied
+# .garura/project/issues/1031/context/memory/standards/rules/pr.md.
+pr: 1032
+issue: 1031
+category: harness
+base: main
+base_sha: 870170b5ad9a23583be58a07272e631079aebe3b
+files_checked:
+  - core/components/agents/product-os-keeper.md
+  - core/components/skills/enrich-grounding/SKILL.md
+  - core/components/skills/link-model-part/SKILL.md
+read_with_for_context:            # the scripts the Markdown points at; read to test "docs match scripts", not graded as harness files
+  - core/components/skills/enrich-grounding/scripts/write_approved.py
+  - core/components/skills/link-model-part/scripts/link_part.py
+memory:
+  dir: .garura/project/issues/1031/context/memory/grounding-harness/
+  manifest: .garura/project/issues/1031/context/memory/grounding-harness/manifest.json
+  copied_through_the_memory_tool:      # tier phoenix, version b2e40bff2131; byte-for-byte the same as origin/main apart from a final newline
+    - standards/schemas/product-os/ontology.md
+    - standards/schemas/product-os/spine.yaml
+    - standards/rules/direct-model-write.md
+  shared_copies_read: [knowledge/review/harness.md, standards/rules/pr.md]
+no_branch_content_used_as_grounding: true
+
+# ---------------------------------------------------------------------------------------------
+# The principles, each with the committed source it came from
+# ---------------------------------------------------------------------------------------------
+principles:
+  - id: G1
+    principle: >
+      Plays orchestrate, agents gather context, skills do the work; the agent hands a skill file paths,
+      never the data itself, and each skill writes its artifact to disk.
+    source:
+      path: docs/standards/harness-standard.md
+      where: 'principle 2, "Plays orchestrate, agents gather context, skills do the work" ("hands each agent a contract of file paths, never the data itself")'
+    also: [docs/adr/016-agent-json-contract.md, docs/adr/001-three-layer-hierarchy.md]
+  - id: G2
+    principle: Mechanical work is a script; a model is used only where judgment is needed.
+    source:
+      path: docs/standards/harness-standard.md
+      where: 'principle 3, "Mechanical work is a script, judgment is a model"'
+  - id: G3
+    principle: >
+      The keeper agent gathers context and passes it on; it never reshapes what a skill wrote, and it
+      does no skill's work. A request file it writes for a skill is context, not the skill's work
+      (base precedent: the named-lines request).
+    source:
+      path: core/components/agents/product-os-keeper.md (base ref)
+      where: 'Core Principle: "You gather context and pass it on: every choice, draft and decision is made by a named skill"; dispatch row "change these lines of a page" (the agent writes lines-request.json and hands it as lines_request)'
+  - id: G4
+    principle: >
+      The ICE is its own node: its own page ice.md in the folder of its part, three sections in the order
+      Intent, Context, Expectation; one entry in the spine's `ices` list (id, for, for_kind, doc,
+      metadata); no business intent on it; exactly one ICE for each capability or feature; the thin mark
+      lives on the ICE (the Thin line at the top of its page and metadata.thin on its entry), set by the
+      writing play and removed by the play that deepens it.
+    source:
+      path: core/components/memory/standards/schemas/product-os/ontology.md (base ref; same text through the memory tool)
+      where: 'kind "ICE": "Lives at" (line 486), Rules (lines 508-524, thin mark at 522); Log entry v6 (#758, line 884)'
+    also:
+      - 'docs/adr/047-the-ice-is-its-own-node.md (Decision 1, line 34: "its own page, ice.md, in the folder of its part ... its own entry in a new ices list")'
+      - 'core/components/memory/standards/schemas/product-os/spine.yaml (base ref; the `ices:` list and its fields, lines 123-140)'
+  - id: G5
+    principle: >
+      The inline ICE section ("## Agent intent (ICE)") is the older shape. It stays on pages written
+      before v6 as drift for the Alignment loop, "not an error", and a model keeps it, with no `ices`
+      list, until its move (#765).
+    source:
+      path: core/components/memory/standards/schemas/product-os/ontology.md (base ref)
+      where: 'line 524: "Pages written before v6 hold the ICE as the last section ... That section is drift for the Alignment loop to move to the ICE''s own page; it is not an error."; line 523: "Not built yet: plays that write ICE nodes ... #761, and the move of Garura''s own model, #765."'
+    also:
+      - "core/components/memory/standards/schemas/product-os/spine.yaml (lines 129-130: \"Until #765 moves a model, its ICE stays inline in the part's page and the spine has no `ices` list.\")"
+      - 'docs/adr/047-the-ice-is-its-own-node.md (lines 106-107, consequences: tools still read the inline section until #759-#761 are built; every inline section moves under #765)'
+  - id: G6
+    principle: >
+      No play owns a kind; any play writes what it finds, only inside its own declared write scope.
+      Rules say what holds once aligned and never stop a write. (Weighed in H-notes below.)
+    source:
+      path: core/components/memory/standards/schemas/product-os/ontology.md (base ref)
+      where: 'line 25: "No play owns a kind ... A play still writes only inside its own declared write scope"; line 519: "Writing it is never blocked. Any play may write it or add to it, inside that play''s declared write scope, and keeps what is there."'
+    also: [core/components/memory/standards/rules/direct-model-write.md, docs/standards/harness-standard.md principle 6 "Nothing is blocked"]
+  - id: G7
+    principle: >
+      A version tag on a rule ("ontology vN") names the Log entry that set the rule, not the ontology's
+      current version. This is how the committed text cites it everywhere.
+    source:
+      path: docs/standards/harness-standard.md
+      where: 'principle 6 "(ontology v5, #722, #724)" and principle 7 "(ADR 031, ontology v5)"'
+    also:
+      - 'core/components/plays/discover-capabilities/scripts/lint_grounding.py line 20: "ICE NODES (ontology v6, #759 ..."'
+      - 'core/components/plays/create-play/references/check_ice_workable.py line 2: "(ontology v6, #760; v5, #724)" and line 10: thin mark "ontology v11"'
+  - id: G8
+    principle: >
+      Installed parts name only installed files; no pointer to Garura's own core/ or docs/, no note of origin.
+    source:
+      path: docs/standards/harness-standard.md
+      where: 'principle 11 "Installed parts never touch the source" (ADR 055)'
+
+# ---------------------------------------------------------------------------------------------
+# The question raised at assessment: "ontology v15"
+# ---------------------------------------------------------------------------------------------
+question_ontology_v15:
+  asked: >
+    The new text calls the ICE-on-its-own-page rule "ontology v15". On main the Log records the ICE node
+    at v6 (#758) and the current version is 15. Is "ontology v15" wrong, or only imprecise?
+  answer: >
+    Wrong as a source cite; right only as "the ontology file is at v15 now". The rule it names is real and
+    the new text states it correctly. But v15 did not set it. The v15 Log entry changes the Plan kind's
+    status rule only and says "no question, kind, link or property changes". By the committed convention
+    (G7) the tag names the entry that set the rule, which for the ICE node is v6 (#758). A reader who
+    follows "v15" lands on the Plan status rule and cannot find the ICE rule there. Fix: "ontology v6
+    (#758)" for the own page, the `ices` entry and the three sections; "v11" for the thin mark; "v14" for
+    the Thin line wording.
+  evidence_on_the_base_ref:
+    - 'ontology.md line 3: "version: 15" (the file''s current version, and nothing more)'
+    - 'ontology.md line 884: "2026-10-22 — v6 (#758, plan #756 ...): the ICE becomes its own node, with its own page (`ice.md`, in its part''s folder) and its own spine entry (a new `ices` list) ... in three parts (Intent, Context, Expectation)"'
+    - 'ontology.md line 889: v11 (#846), the thin mark is read by the ready check'
+    - 'ontology.md line 892: v14 (#720), "The ICE''s Thin line becomes ''Thin: proposed from the person''s words; deepen with `/discover-capabilities`.''"'
+    - 'ontology.md line 893: "2026-10-31 — v15 (#1007, ADR 064 ...): an item''s status in a plan follows its own issue ... Only the Plan kind''s status rule changes; no question, kind, link or property changes."'
+  the_branch_cites_both_ways:
+    - 'core/components/skills/link-model-part/scripts/link_part.py line 101 cites "ontology v14" for the Thin line, which is right (the v14 entry set that wording). The same branch cites "ontology v15" for the ICE node at SKILL.md and at link_part.py line 45, so the branch is not consistent with itself.'
+  where_it_appears:
+    harness_files:
+      - core/components/skills/enrich-grounding/SKILL.md (Step 6, "in that order (ontology v15)")
+      - core/components/skills/link-model-part/SKILL.md (frontmatter description, "(ontology v15, #1031)")
+    outside_this_category_same_cite:     # for the executable-code and tests reviewers; not graded here
+      - core/components/skills/enrich-grounding/scripts/write_approved.py (docstring, line 7)
+      - core/components/skills/link-model-part/scripts/link_part.py (docstring, line 45)
+      - core/components/skills/link-model-part/scripts/test_link_part.py (line 313)
+
+# ---------------------------------------------------------------------------------------------
+# Findings
+# ---------------------------------------------------------------------------------------------
+findings:
+  - id: H-1
+    severity: P3
+    file: core/components/skills/enrich-grounding/SKILL.md
+    also_in: [core/components/skills/link-model-part/SKILL.md]
+    where: 'enrich-grounding Step 6: "... in that order (ontology v15)"; link-model-part frontmatter description: "(ontology v15, #1031)"'
+    principle_violated: G7 (a version tag names the Log entry that set the rule)
+    basis:
+      - 'docs/standards/harness-standard.md principle 6 "(ontology v5, #722, #724)": the tag is the entry that set the rule'
+      - 'core/components/memory/standards/schemas/product-os/ontology.md line 893 (v15: "no question, kind, link or property changes") against line 884 (v6: the ICE becomes its own node, ice.md, ices list, three parts)'
+      - 'core/components/plays/discover-capabilities/scripts/lint_grounding.py line 20: "ICE NODES (ontology v6, #759"'
+    why_it_matters: >
+      Both files are read on every run, and the cite is the pointer a reader follows to ground the rule.
+      v15 does not contain it. No behaviour changes; the traceability does.
+    fix: 'Write "ontology v6, #758" for the own page and `ices` entry, and v11 / v14 where the thin mark is meant.'
+
+  - id: H-2
+    severity: P3
+    file: core/components/skills/enrich-grounding/SKILL.md
+    where: 'Step 6: "a part''s page holds no ICE section" stated with no condition, while Step 4 (unchanged) writes the ICE "In the page''s `## Agent intent (ICE)` section (or in its `ice.md` when the spine has an `ices` list)" and the Rules bullet "A thin ICE has a Goal, a Limit, ... a Context line and a Checked by line" still describes the inline shape'
+    principle_violated: G5 (the inline section is the shape every model keeps until its move; it is "not an error")
+    basis:
+      - 'core/components/memory/standards/schemas/product-os/spine.yaml lines 129-130: "Until #765 moves a model, its ICE stays inline in the part''s page and the spine has no `ices` list."'
+      - 'core/components/memory/standards/schemas/product-os/ontology.md line 524: the inline section "is drift for the Alignment loop to move ...; it is not an error", and line 523: "Not built yet: ... the move of Garura''s own model, #765."'
+      - 'docs/adr/047-the-ice-is-its-own-node.md lines 106-107 (the tools still read the inline section until the plays and the move are built)'
+    note_on_what_is_right: >
+      The sentence is a correct statement of what ADR 047 Decision 1 (line 36) decided, and the script
+      enforces it only in approved mode, where the docs list the refusal. The defect is the missing
+      condition: written as a plain fact in a file whose Step 4 still has the inline shape as the first
+      branch, so the file says both things and a model at the old shape reads it as already true.
+    fix: 'Scope the sentence to approved mode, for example "In approved mode a part''s page holds no ICE section", or to "a model whose ICE are nodes".'
+
+  - id: H-3
+    severity: P4
+    file: core/components/skills/link-model-part/SKILL.md
+    where: >
+      The description and Rules say "a part that has an ICE is never marked thin itself" but do not say
+      the other half that link_part.py enforces: an ICE is refused for a part that already carries the
+      part-level thin mark ("carries the thin mark itself ... its mark must come off before its ICE is
+      added"). Nothing in the pair takes that mark off (the Rules still say "The play that deepens the
+      part removes both").
+    principle_violated: G5 (moving an inline ICE to its own node is the Alignment loop's job, and it must stay possible)
+    basis:
+      - 'core/components/memory/standards/schemas/product-os/ontology.md line 524 (the move from the inline section to the ICE''s own page is "for the Alignment loop") and line 523 (#765 is the move of the model)'
+      - 'core/components/agents/product-os-keeper.md (base ref), dispatch row "a part was found during work ... give it a thin page": that path runs `enrich-grounding` thin mode and `link-model-part` with `thin`, which sets exactly the part-level mark the new check refuses'
+    why_it_matters: >
+      A part made thin through the found-work path (#979) cannot get an ICE node through these two skills,
+      and the SKILL.md does not tell the keeper so; the keeper meets a refusal with no documented way out.
+      Small, and likely outside this issue's scope, so it is a note for a follow-up, not a block.
+    fix: 'Add the refusal to the SKILL.md refusal list, and name who removes a part-level thin mark.'
+
+  - id: H-4
+    severity: P4
+    file: core/components/agents/product-os-keeper.md
+    where: 'new dispatch row "write these pages as the person approved them": "Remove an old ICE section from a part''s page first through named lines (step 5)"'
+    principle_violated: G3 (the keeper names a skill and a mode, not a step; it follows no step-by-step workflow)
+    basis:
+      - 'core/components/agents/product-os-keeper.md (base ref) Core Principle: "You do NOT follow step-by-step workflows. Plays define workflows."'
+      - 'The base row "change these lines of a page" names the mode (`update` or `fix`) and `lines_request`, never a step number; the one other "Step N" in the file (line 104) names a play''s step.'
+    why_it_matters: >
+      "step 5" is enrich-grounding's Step 5 (named lines). The agent file has no step 5, so the pointer
+      is ambiguous for the reader of this file alone.
+    fix: 'Write "through named lines (mode `update` or `fix` with a `lines_request`)".'
+
+# ---------------------------------------------------------------------------------------------
+# What was checked and found to conform (no finding)
+# ---------------------------------------------------------------------------------------------
+conformance_checked:
+  - principle: G1, G3 (agent gathers context, skill does the work, contracts move paths)
+    result: conforms
+    how: >
+      The new keeper row has the agent write approved-request.json and hand its path as `approved_request`,
+      the same shape as the base row for lines-request.json; the text itself comes from files a person
+      approved (`from`), never from the keeper or the skill; the reports (`approved-report.json`,
+      `link-report.json`) are files named in the row. enrich-grounding Step 6 and Rules say the agent
+      writes the request and the skill "do[es] not write or change it".
+  - principle: G2 (mechanical work is a script)
+    result: conforms
+    how: >
+      Approved mode and the ICE kind each run one script (write_approved.py, link_part.py). The Markdown
+      holds no judgment step for them: "nothing is composed", "all or nothing".
+  - principle: docs match what the two scripts accept and write
+    result: conforms, with the loose ends in H-3
+    how: >
+      write_approved.py: every refusal Step 6 names exists in the script (Thin line in text, ICE section
+      on a part's page, ICE page without its three parts or with no part beside it, wrong title, intent
+      page, path outside the model, thin page on disk, no one who approved); command line, exit 0 and
+      exit 2, and the report keys `written` (created or replaced), `approved_by`, `source` match.
+      The script also writes `by`, and refuses empty text, sections out of order or empty, a page named
+      twice and an unreadable source; the docs give their list as examples, not as a closed list.
+      link_part.py: `kind: ice` with `new` (for, doc) or `update` (thin only), at most one ICE for each
+      part, no business intent, page beside its part's page with three parts, entry fields id, for,
+      for_kind, doc, metadata, `ices` made only when an ICE is added, Thin line at the top before Intent,
+      part never marked thin when it has an ICE, report keys written, updated, thin, changed, layout_kept.
+    probe: >
+      A scratch model outside the repository: the keeper row's two-step flow (approved request for a new
+      feature page, a feature ICE page and a capability ICE page, then one link request with the feature
+      `new`, a capability ICE and a thin feature ICE) exited 0 and 0, kept the spine's comment, set
+      layout_kept true, appended the `ices` list with the fields the ontology names, and put the Thin
+      line first on the thin ICE's page. Nothing in the repository was written.
+  - principle: G4 (the ICE kind as committed)
+    result: conforms in content
+    how: >
+      Own page ice.md beside the part's page, Intent / Context / Expectation in that order, entry fields
+      and the "ices" list, no business intent, thin mark on the ICE in two places, one ICE for each part:
+      each matches ontology.md lines 486-524 and spine.yaml lines 131-140. The only gaps are the cite (H-1),
+      the missing condition (H-2) and the undocumented refusal (H-3).
+  - principle: G6 (no play owns a kind; write scope)
+    result: conforms
+    how: >
+      No play is named as the owner of ICE writing; both skills write only under the product model
+      (the scripts refuse any path that leaves it) and the keeper's constraint line adds "an ICE's entry
+      (#1031)" to the list of spine writers, in line with the base wording. The new rows name no caller play,
+      as the base rows for #979 and #993 do not either.
+  - principle: ICE-source discipline
+    result: not applicable
+    how: No play SKILL.md is in the changed paths, so there is no intent change to trace to an ICE source.
+  - principle: G8 (installed parts name only installed files)
+    result: conforms
+    how: >
+      The added lines in the three files and the two scripts name no path under core/ or docs/ and no
+      note of origin (searched the added lines). Issue numbers in brackets follow the base style (#979, #993).
+
+considered_not_findings:
+  - topic: The scripts refuse an ICE page that lacks a part, and an approved part page that holds an inline ICE section.
+    why_not_a_finding: >
+      Set against ontology.md line 519 ("Writing it is never blocked") and harness-standard principle 6
+      ("Nothing is blocked") there is a real tension, and the ontology's own "Order history" example keeps an
+      ICE page with no Context and calls it "not ready". But the committed linter already treats the same
+      shapes as errors (lint_grounding.py check_ices, #759: "'<doc>' has no '## Context' - a missing part
+      makes the ICE not ready"), the refusal sits in a write of text a person already approved, and the
+      base skills refuse for rule reasons in the same way (an id already there, a parent not in the spine).
+      Left for the product owner as a design point; no basis to classify it as a violation.
+  - topic: Base-ref text that is itself stale about the ICE.
+    why_not_a_finding: >
+      core/grounding/glossary.md on main still describes the ICE as attached to a node, kept as ice.yaml;
+      ontology.md line 523 still says plays that write ICE nodes are "not built yet". The glossary is the
+      older text and ADR 047 (Work This Creates, last line) already owed its update; the ontology line goes
+      stale once this change lands. Neither file is in this PR. Grounding was taken from the ontology,
+      spine.yaml and ADR 047, not from the glossary. A person decides whether the ontology line is updated.
+  - topic: Plays carrying a write scope and the scoped-write guard for the new rows.
+    why_not_a_finding: >
+      direct-model-write.md puts the declared scope and the guard on model-writing plays. The new rows name no
+      calling play; so do not the base rows for #979 and #993. Not new in this change.
+
+grounding_unavailable: []        # every principle above was found in a committed source on the base ref

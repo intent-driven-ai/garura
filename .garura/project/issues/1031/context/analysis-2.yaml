@@ -1,0 +1,55 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by the assess-changes skill
+# issue: 1031
+needs_judgment: true
+branch: feature/1031-skills-write-ice-page
+issue: 1031
+
+change_groups:
+  - id: fix-ice-write-self-review
+    issue: 1031
+    commit_type: fix
+    scope: skills
+    subject: "undo new folders after a failed approved-page write, refuse an ICE for a part marked thin, and fix the doc lines"
+    confidence: high
+    files:
+      - core/components/skills/enrich-grounding/scripts/write_approved.py
+      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/agents/product-os-keeper.md
+      - core/components/skills/enrich-grounding/scripts/safe_write.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+      - core/components/skills/author-intent-page/scripts/safe_write.py
+      - core/components/skills/remove-model-part/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/safe_write.py
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Fixes the self-review found in the build already on this branch: write_approved.py removes the folders it made when it undoes a failed write (with a test); link_part.py refuses an ICE for a part that carries the thin mark (with a test); doc lines in product-os-keeper.md and link-model-part/SKILL.md; the header note rewrapped in the five identical safe_write.py copies (same diff, same hash); a test now closes its report file."
+
+  - id: chore-stm-propose-change-records
+    issue: 1031
+    commit_type: chore
+    scope: stm
+    subject: "record the propose-change run's self-review and the rules it used"
+    confidence: high
+    files:
+      - .garura/project/issues/1031/context/resolved-rules.json
+      - .garura/project/issues/1031/context/self-review.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational run records of the propose-change play, kept apart from the code fix."
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: DEFERRED, evidence: "grouping delegated to analyze agent"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

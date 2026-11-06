@@ -42,6 +42,20 @@ link-request.json:
 - kind `slice`, mode `update` only (a slice is shaped by /shape-slice): `add_features` are added
   to its `feature_refs`, in their order, at the end or right after the feature named by `after`;
   a feature already there is not added twice, and each must be in the spine (#931).
+- kind `ice` (ontology v15, #1031): an ICE is its own node, with its own page and its own entry
+  in the spine's `ices` list.
+    {"id": "ice-booking", "kind": "ice", "mode": "new", "for": "cap-booking",
+     "doc": "care/booking/ice.md", "thin": true}
+  mode `new`: the id must not be in the spine; `for` must be a capability or feature in the
+  spine (or given earlier in the same request) that has no ICE yet; its page `ice.md` must be on
+  disk, in the folder of that part's page, with "## Intent", "## Context" and "## Expectation",
+  none empty. The entry gets id, for, for_kind (capability or feature), doc and metadata
+  {created_by, thin when thin}; it names no business intent. mode `update` only marks an ICE
+  that is there thin. A thin ICE carries the thin mark: `metadata.thin: true` on its entry and
+  exactly one Thin line at the top of its page, before "## Intent". A part that has an ICE is
+  never marked thin itself; its mark belongs on its ICE, so an ICE is refused for a part that
+  carries the mark. The `ices` list is made only when an
+  ICE is added.
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
 writes nothing. When a write itself fails part way, every file already written is put back as
@@ -73,6 +87,10 @@ PAGE = {"domain": "domain.md", "capability": "capability.md", "feature": "featur
 ICE_HEADINGS = ("## Agent intent (ICE)", "## Intent")
 OLD_THIN = re.compile(r"^\s*(?:>\s*)?\**Thin(?: ICE)?\**\s*:", re.I)
 NEW_KEYS = ("id", "slug", "intents", "one_line", "doc")
+ICE_PAGE = "ice.md"
+ICE_PARTS = ("Intent", "Context", "Expectation")
+ICE_KIND = {"capability": "capability", "feature": "feature"}
+BI_KEYS = ("intents", "business_intent", "business_intents")
 NOT_A_DOMAIN_FOLDER = {"capabilities", "features", "intents"}
 
 
@@ -104,6 +122,78 @@ def with_thin_line(text, line):
     while before and not before[-1].strip():
         before.pop()
     return "\n".join(before + ([""] if before else []) + [line, ""] + lines[at:]).rstrip("\n") + "\n"
+
+
+def ice_parts_missing(text):
+    """The ICE parts an ice.md lacks or leaves empty (headings outside code fences)."""
+    found, cur, fence = {}, None, False
+    for line in text.splitlines():
+        if line.strip().startswith("```"):
+            fence = not fence
+        if not fence and line.startswith("## "):
+            cur = line[3:].strip()
+            found.setdefault(cur, [])
+        elif cur is not None:
+            found[cur].append(line)
+    return [p for p in ICE_PARTS if p not in found or not "\n".join(found[p]).strip()]
+
+
+def plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report):
+    """Add one ICE entry (mode new) or mark one thin (mode update); writes go into `pages`."""
+    iid, mode = p["id"], p["mode"]
+    if mode == "new":
+        if iid in before_ids or iid in ices:
+            raise Refused(f"{iid} is already in the spine")
+        for k in BI_KEYS:
+            if k in p:
+                raise Refused(f"{iid}: an ICE names no business intent; it finds them through its part")
+        part = p.get("for")
+        kind = next((k for k in ICE_KIND if part in index[k]), None)
+        if not part or kind is None:
+            raise Refused(f"{iid}: its part {part!r} is not a capability or feature in the spine")
+        if part in ice_for:
+            raise Refused(f"{iid}: {part} already has an ICE ({ice_for[part]}); each part has exactly one")
+        if (index[kind][part].get("metadata") or {}).get("thin"):
+            raise Refused(f"{iid}: {part} carries the thin mark itself; a part with an ICE is never thin, "
+                          f"so its mark must come off before its ICE is added")
+        doc = (p.get("doc") or "").strip("/")
+        full = inside(root, doc)
+        part_dir = os.path.dirname(index[kind][part].get("doc", ""))
+        if os.path.basename(doc) != ICE_PAGE or os.path.dirname(doc) != part_dir:
+            raise Refused(f"{iid}: its page must be {part_dir}/{ICE_PAGE}, beside its part's page")
+        if not os.path.isfile(full):
+            raise Refused(f"{iid}: its page {doc} is not on disk; write the page first")
+        with open(full, encoding="utf-8") as fh:
+            text = fh.read()
+        missing = ice_parts_missing(text)
+        if missing:
+            raise Refused(f"{iid}: its page {doc} lacks {', '.join(missing)}; an ICE has all three parts")
+        entry = {"id": iid, "for": part, "for_kind": ICE_KIND[kind], "doc": doc,
+                 "metadata": {"created_by": by}}
+        ices[iid] = entry
+        ice_for[part] = iid
+        report["written"].append(iid)
+    else:
+        if iid not in ices:
+            raise Refused(f"{iid} is not in the spine as an ICE; use mode new")
+        if set(p) - {"id", "kind", "mode", "thin"} or not p.get("thin"):
+            raise Refused(f"{iid}: an ICE is updated here only to mark it thin")
+        entry = ices[iid]
+        entry.setdefault("metadata", {})["updated_by"] = by
+        report["updated"].append(iid)
+    if p.get("thin"):
+        page = inside(root, entry["doc"])
+        if not os.path.isfile(page):
+            raise Refused(f"{iid}: its page {entry['doc']} is not on disk")
+        with open(page, encoding="utf-8") as fh:
+            text = pages.get(page) or fh.read()
+        new_text = with_thin_line(text, THIN_LINE)
+        if new_text is None:
+            raise Refused(f"{iid}: its page has no Intent section to mark thin")
+        entry.setdefault("metadata", {})["thin"] = True
+        if new_text != text:
+            pages[page] = new_text
+        report["thin"].append(iid)
 
 
 def allowed_docs(kind, pid, doc, parent_entry):
@@ -155,14 +245,27 @@ def plan(root, spine, request):
     before = {kind: set(ids) for kind, ids in index.items()}
     pages, intents, seen = {}, set(), set()
     report = {"written": [], "updated": [], "thin": [], "changed": []}
+    old_ices = [e for e in (spine.get("ices") or []) if isinstance(e, dict)]
+    ices = {e["id"]: copy.deepcopy(e) for e in old_ices if e.get("id")}
+    added_ices = []
+    ice_for = {e.get("for"): e["id"] for e in ices.values() if e.get("for")}
+    before_ids = set().union(*before.values())
+    thin_parts = []
     for p in parts:
         pid, kind, mode = p.get("id"), p.get("kind"), p.get("mode")
-        if not pid or kind not in KINDS or mode not in ("new", "update"):
-            raise Refused(f"each part needs an id, a kind (domain, capability, feature or slice) and a "
-                          f"mode (new or update): {p!r}")
+        if not pid or (kind not in KINDS and kind != "ice") or mode not in ("new", "update"):
+            raise Refused(f"each part needs an id, a kind (domain, capability, feature, slice or ice) "
+                          f"and a mode (new or update): {p!r}")
         if pid in seen:
             raise Refused(f"{pid} is given twice")
         seen.add(pid)
+        if kind == "ice":
+            had = set(ices)
+            plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report)
+            added_ices += [i for i in ices if i not in had]
+            continue
+        if pid in ices:
+            raise Refused(f"{pid} is already in the spine as an ICE")
         if kind == "slice":
             if mode != "update" or p.get("thin"):
                 raise Refused(f"{pid}: a slice is only updated here (add_features); /shape-slice shapes a slice")
@@ -222,6 +325,7 @@ def plan(root, spine, request):
             report["updated"].append(pid)
         intents.update(entry.get("intents") or [])
         if p.get("thin"):
+            thin_parts.append(pid)
             page = inside(root, entry["doc"])
             if not os.path.isfile(page):
                 raise Refused(f"{pid}: its page {entry['doc']} is not on disk")
@@ -234,9 +338,15 @@ def plan(root, spine, request):
             if new_text != text:
                 pages[page] = new_text
             report["thin"].append(pid)
+    for pid in thin_parts:
+        if pid in ice_for:
+            raise Refused(f"{pid} has an ICE ({ice_for[pid]}); its thin mark belongs on the ICE, not the part")
     for i in sorted(intents):
         if not os.path.isfile(inside(root, f"intents/{i}.md")):
             raise Refused(f"the business intent {i} has no page in the model")
+    if ices != {e["id"]: e for e in old_ices if e.get("id")} or added_ices:
+        new_spine["ices"] = [ices[e["id"]] for e in old_ices if e.get("id") in ices] + \
+            [ices[i] for i in added_ices]
     return new_spine, pages, report
 
 
