@@ -1,0 +1,9 @@
+core/components/skills/enrich-grounding/scripts/test_write_approved.py :: Ran 16 tests in 1.150s  OK 
+core/components/skills/link-model-part/scripts/test_link_part.py :: Ran 36 tests in 3.380s  OK 
+core/components/skills/enrich-grounding/scripts/test_change_lines.py :: Ran 19 tests in 1.312s  OK 
+core/components/skills/author-intent-page/scripts/test_write_page.py :: Ran 50 tests in 5.893s  OK 
+core/components/skills/remove-model-part/scripts/test_remove_part.py :: Ran 63 tests in 7.270s  OK 
+core/components/plays/shape-slice/scripts/test_persist_slice.py ::   [PASS] the old-name spine writes no record  119 passed, 0 failed 
+core/components/plays/shape-slice/scripts/test_write_hidden_file.py ::   [PASS] lines: with an ices list the lines come from each ice.md's Intent  26 passed, 0 failed 
+core/components/plays/shape-slice/scripts/test_render_brief.py ::   [PASS] render: the confirmation brief with no --root or --spine is refused (exit 2)  34 passed, 0 failed 
+24 of 24 pass

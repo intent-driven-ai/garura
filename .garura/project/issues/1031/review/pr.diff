@@ -1,0 +1,1889 @@
+diff --git a/.garura/project/issues/1031/context/analysis-2.yaml b/.garura/project/issues/1031/context/analysis-2.yaml
+new file mode 100644
+index 000000000..9ebce25d6
+--- /dev/null
++++ b/.garura/project/issues/1031/context/analysis-2.yaml
+@@ -0,0 +1,55 @@
++---
++# analyze_changeset.py output (C8 fast path), grouped by the assess-changes skill
++# issue: 1031
++needs_judgment: true
++branch: feature/1031-skills-write-ice-page
++issue: 1031
++
++change_groups:
++  - id: fix-ice-write-self-review
++    issue: 1031
++    commit_type: fix
++    scope: skills
++    subject: "undo new folders after a failed approved-page write, refuse an ICE for a part marked thin, and fix the doc lines"
++    confidence: high
++    files:
++      - core/components/skills/enrich-grounding/scripts/write_approved.py
++      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
++      - core/components/skills/link-model-part/scripts/link_part.py
++      - core/components/skills/link-model-part/scripts/test_link_part.py
++      - core/components/skills/link-model-part/SKILL.md
++      - core/components/agents/product-os-keeper.md
++      - core/components/skills/enrich-grounding/scripts/safe_write.py
++      - core/components/skills/link-model-part/scripts/safe_write.py
++      - core/components/skills/author-intent-page/scripts/safe_write.py
++      - core/components/skills/remove-model-part/scripts/safe_write.py
++      - core/components/plays/shape-slice/scripts/safe_write.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Fixes the self-review found in the build already on this branch: write_approved.py removes the folders it made when it undoes a failed write (with a test); link_part.py refuses an ICE for a part that carries the thin mark (with a test); doc lines in product-os-keeper.md and link-model-part/SKILL.md; the header note rewrapped in the five identical safe_write.py copies (same diff, same hash); a test now closes its report file."
++
++  - id: chore-stm-propose-change-records
++    issue: 1031
++    commit_type: chore
++    scope: stm
++    subject: "record the propose-change run's self-review and the rules it used"
++    confidence: high
++    files:
++      - .garura/project/issues/1031/context/resolved-rules.json
++      - .garura/project/issues/1031/context/self-review.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Operational run records of the propose-change play, kept apart from the code fix."
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: DEFERRED, evidence: "grouping delegated to analyze agent"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/1031/context/analysis.yaml b/.garura/project/issues/1031/context/analysis.yaml
+new file mode 100644
+index 000000000..18b2780b8
+--- /dev/null
++++ b/.garura/project/issues/1031/context/analysis.yaml
+@@ -0,0 +1,57 @@
++---
++# analyze_changeset.py output (C8 fast path), grouped by assess-changes
++# issue: 1031
++needs_judgment: true
++branch: feature/1031-skills-write-ice-page
++issue: 1031
++
++change_groups:
++  - id: feat-write-approved-ice-page-and-index-entry
++    issue: 1031
++    commit_type: feat
++    scope: skills
++    subject: "write an approved ICE page and its index entry"
++    confidence: high
++    files:
++      - core/components/skills/enrich-grounding/scripts/write_approved.py
++      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
++      - core/components/skills/enrich-grounding/SKILL.md
++      - core/components/skills/link-model-part/scripts/link_part.py
++      - core/components/skills/link-model-part/scripts/test_link_part.py
++      - core/components/skills/link-model-part/SKILL.md
++      - core/components/agents/product-os-keeper.md
++      - core/components/plays/shape-slice/scripts/safe_write.py
++      - core/components/skills/author-intent-page/scripts/safe_write.py
++      - core/components/skills/enrich-grounding/scripts/safe_write.py
++      - core/components/skills/link-model-part/scripts/safe_write.py
++      - core/components/skills/remove-model-part/scripts/safe_write.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "One concern: the page skill (enrich-grounding) gains write_approved.py and its tests; the index skill (link-model-part) gains ICE entries in link_part.py and its tests; both SKILL.md files and the product-os-keeper agent list the new jobs. The five safe_write.py copies changed only in the same one header-note line (it now names write_approved.py), so they belong to this change and are not a separate concern."
++
++  - id: chore-stm-template-copies
++    issue: 1031
++    commit_type: chore
++    scope: stm
++    subject: "record the template copies the start-change close step fetched"
++    confidence: high
++    files:
++      - .garura/project/issues/1031/context/templates/manifest-close-start-change.json
++      - .garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md
++      - .garura/project/issues/1031/context/templates/standards/templates/delivery-report.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Operational record in the issue's short-term memory, not part of the feature; kept apart from the feat commit. The scan listed the templates folder as one untracked entry; it holds exactly these three files."
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "all 15 changed files (10 modified, 2 new scripts, 3 files in the untracked templates folder) sit in exactly one of 2 groups; none excluded"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched; write_approved.py, its test and the template copies were also searched for key/secret/password/token words and held none"}
+diff --git a/.garura/project/issues/1031/context/args.json b/.garura/project/issues/1031/context/args.json
+new file mode 100644
+index 000000000..37109dac6
+--- /dev/null
++++ b/.garura/project/issues/1031/context/args.json
+@@ -0,0 +1,9 @@
++{
++  "mode": "issue",
++  "issue": "1031",
++  "plan": null,
++  "description": null,
++  "note": null,
++  "fetched": null,
++  "error": null
++}
+diff --git a/.garura/project/issues/1031/context/branch.json b/.garura/project/issues/1031/context/branch.json
+new file mode 100644
+index 000000000..1b1bc0e2f
+--- /dev/null
++++ b/.garura/project/issues/1031/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "feature/1031-skills-write-ice-page",
++  "base_sha": "870170b5ad9a23583be58a07272e631079aebe3b",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": null,
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1031/context/commits-2.yaml b/.garura/project/issues/1031/context/commits-2.yaml
+new file mode 100644
+index 000000000..c1cd675dd
+--- /dev/null
++++ b/.garura/project/issues/1031/context/commits-2.yaml
+@@ -0,0 +1,28 @@
++commits:
++  - sha: aa3a5d2f
++    message: "fix(skills): undo new folders after a failed approved-page write, refuse an ICE for a part marked thin, and fix the doc lines (#1031)"
++    files:
++      - core/components/skills/enrich-grounding/scripts/write_approved.py
++      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
++      - core/components/skills/link-model-part/scripts/link_part.py
++      - core/components/skills/link-model-part/scripts/test_link_part.py
++      - core/components/skills/link-model-part/SKILL.md
++      - core/components/agents/product-os-keeper.md
++      - core/components/skills/enrich-grounding/scripts/safe_write.py
++      - core/components/skills/link-model-part/scripts/safe_write.py
++      - core/components/skills/author-intent-page/scripts/safe_write.py
++      - core/components/skills/remove-model-part/scripts/safe_write.py
++      - core/components/plays/shape-slice/scripts/safe_write.py
++    branch: feature/1031-skills-write-ice-page
++  - sha: c8948313
++    message: "chore(stm): record the propose-change run's self-review and the rules it used (#1031)"
++    files:
++      - .garura/project/issues/1031/context/resolved-rules.json
++      - .garura/project/issues/1031/context/self-review.md
++    branch: feature/1031-skills-write-ice-page
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1031/context/commits.yaml b/.garura/project/issues/1031/context/commits.yaml
+new file mode 100644
+index 000000000..c1cd675dd
+--- /dev/null
++++ b/.garura/project/issues/1031/context/commits.yaml
+@@ -0,0 +1,28 @@
++commits:
++  - sha: aa3a5d2f
++    message: "fix(skills): undo new folders after a failed approved-page write, refuse an ICE for a part marked thin, and fix the doc lines (#1031)"
++    files:
++      - core/components/skills/enrich-grounding/scripts/write_approved.py
++      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
++      - core/components/skills/link-model-part/scripts/link_part.py
++      - core/components/skills/link-model-part/scripts/test_link_part.py
++      - core/components/skills/link-model-part/SKILL.md
++      - core/components/agents/product-os-keeper.md
++      - core/components/skills/enrich-grounding/scripts/safe_write.py
++      - core/components/skills/link-model-part/scripts/safe_write.py
++      - core/components/skills/author-intent-page/scripts/safe_write.py
++      - core/components/skills/remove-model-part/scripts/safe_write.py
++      - core/components/plays/shape-slice/scripts/safe_write.py
++    branch: feature/1031-skills-write-ice-page
++  - sha: c8948313
++    message: "chore(stm): record the propose-change run's self-review and the rules it used (#1031)"
++    files:
++      - .garura/project/issues/1031/context/resolved-rules.json
++      - .garura/project/issues/1031/context/self-review.md
++    branch: feature/1031-skills-write-ice-page
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1031/context/issue.json b/.garura/project/issues/1031/context/issue.json
+new file mode 100644
+index 000000000..f4b95e686
+--- /dev/null
++++ b/.garura/project/issues/1031/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 1031,
++  "title": "The model's skills write an approved ICE page and its index entry",
++  "created": false
++}
+diff --git a/.garura/project/issues/1031/context/plan.json b/.garura/project/issues/1031/context/plan.json
+new file mode 100644
+index 000000000..ad0b97cef
+--- /dev/null
++++ b/.garura/project/issues/1031/context/plan.json
+@@ -0,0 +1,12 @@
++{
++  "issue": "1031",
++  "plan_id": null,
++  "plan_branch": null,
++  "issue_branch": "feature/1031-skills-write-ice-page",
++  "closed_plan": null,
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": []
++  }
++}
+diff --git a/.garura/project/issues/1031/context/porcelain.txt b/.garura/project/issues/1031/context/porcelain.txt
+new file mode 100644
+index 000000000..e4b79aac3
+--- /dev/null
++++ b/.garura/project/issues/1031/context/porcelain.txt
+@@ -0,0 +1,13 @@
++ M core/components/agents/product-os-keeper.md
++ M core/components/plays/shape-slice/scripts/safe_write.py
++ M core/components/skills/author-intent-page/scripts/safe_write.py
++ M core/components/skills/enrich-grounding/SKILL.md
++ M core/components/skills/enrich-grounding/scripts/safe_write.py
++ M core/components/skills/link-model-part/SKILL.md
++ M core/components/skills/link-model-part/scripts/link_part.py
++ M core/components/skills/link-model-part/scripts/safe_write.py
++ M core/components/skills/link-model-part/scripts/test_link_part.py
++ M core/components/skills/remove-model-part/scripts/safe_write.py
++?? .garura/project/issues/1031/context/templates/
++?? core/components/skills/enrich-grounding/scripts/test_write_approved.py
++?? core/components/skills/enrich-grounding/scripts/write_approved.py
+diff --git a/.garura/project/issues/1031/context/pr-body.md b/.garura/project/issues/1031/context/pr-body.md
+new file mode 100644
+index 000000000..d248c251f
+--- /dev/null
++++ b/.garura/project/issues/1031/context/pr-body.md
+@@ -0,0 +1,66 @@
++## What this does
++
++The model's skills can now write an ICE on its own page, so nothing in the product model has to be written by hand. Ontology v15 says each capability and feature has its own ICE page, `ice.md`, beside its page, with Intent, Context and Expectation, and its own entry in the model's index.
++
++- **The page skill (`enrich-grounding`)** gains approved mode: it writes a domain, capability, feature or ICE page from text a person approved, word for word (`write_approved.py`). It refuses a Thin line in the text, an ICE section on a part's page, an ICE page without its three parts or with no part beside it, an intent page, a path outside the model, or a request with no one who approved it. It is all or nothing, and a failed write puts every page and folder back.
++- **The index skill (`link-model-part`)** gains the ICE kind: an entry in the spine's `ices` list (the part it is for, its kind, its page) and, for a thin ICE, the thin mark on that entry and as a Thin line at the top of its page. A part that has an ICE is never marked thin itself. The `ices` list is made only when an ICE is added.
++- The `product-os-keeper` agent lists both jobs.
++
++The acceptance check (`.garura/project/issues/1031/evidence/eval/eval_1031.py`) was committed first, failing, and now passes 24 of 24. Unit tests: 36 for `link-model-part`, 35 for `enrich-grounding`.
++
++Out of scope: plays writing ICE pages (#761), moving older pages' ICE (#765), the page templates, and the product model tool (#1030).
++
++Closes #1031
++
++---
++
++# Self-review: #1031 (the model's skills write an approved ICE page and its index entry)
++
++- Branch: feature/1031-skills-write-ice-page, against origin/main (5 commits ahead, 0 behind)
++- Rules used: the base self-review rules, `standards/rules/self-review.md` (no project override; the choice is recorded in `.garura/project/issues/1031/context/resolved-rules.json`)
++- Issue scope: the page skill (`enrich-grounding`) writes an approved page word for word, and the index skill (`link-model-part`) adds an ICE entry with the thin mark on the ICE page. Out of scope: plays writing ICE pages, moving older pages' ICE (#765), the page templates, the product model tool (#1030).
++
++## Result
++
++Ready to raise. Blocking findings: none (0). The rules say this review informs the reviewer and does not stop the raise, and none of the findings below is serious enough to stop it. Six notes are listed for the reviewer to weigh.
++
++## Scope checks
++
++- **Matches the issue.** PASS. The two jobs are there. The page skill has a new `approved` mode through a new script, `core/components/skills/enrich-grounding/scripts/write_approved.py`. It writes a domain, capability, feature or ICE page word for word, new or replacing, and refuses a Thin line, an ICE section on a part's page, an ICE page missing a part, an intent page, a path outside the model and a missing approver. The index skill's script, `core/components/skills/link-model-part/scripts/link_part.py`, gets the `ice` kind: an entry in `ices` (id, for, for_kind, doc, metadata), the thin mark on the ICE's entry and as a Thin line at the top of its page, and no business intent on an ICE.
++- **No scope creep.** PASS. All 12 files under `core/components/` map to the issue: the two skills (script, tests, docs), the `product-os-keeper` agent's table rows, and the one shared `safe_write.py`. That file is stamped in five places (the four skills and the shape-slice play); each got the same one-line docstring change to name the new script that writes through it, and the five copies are identical (same hash). No play, page template or product model tool file is touched, and nothing moves an older page's ICE.
++- **Reasonable size.** PASS. 24 files, +1218 and -24 in total, but 12 of them are this issue's own run records and the acceptance check under `.garura/project/issues/1031/`. The change to `core/components/` is +620 and -24, and about 260 of those lines are tests. It is one concern and reads in one sitting.
++- **No stray artifacts.** PASS. `git diff --check` is clean. The added lines hold no debug prints (the one `print` is the script's report line), no commented-out code and no TODO. The files under `.garura/project/issues/1031/` are the play's normal run records, committed as `chore(stm)`. The run's own `resolved-rules.json` is still untracked and this file is new; both are this run's records, to be committed by the play.
++
++## Quality checks
++
++- **Tests present.** PASS, with note 1. New: `test_write_approved.py` (15 tests) and 13 new tests in `test_link_part.py`. I ran both skills' test folders: 34 tests pass for `enrich-grounding` and 35 for `link-model-part`. The acceptance check for the issue, `.garura/project/issues/1031/evidence/eval/eval_1031.py`, passes 24 of 24. It was committed first, failing, before the build.
++- **Commits are clean.** PASS. Five commits: one test (`test(eval)`), one feature (`feat(skills)`), three `chore(stm)`. All are in conventional format, each names (#1031), and the feature commit holds code, tests and docs together. No attribution lines in any message.
++- **No secrets.** PASS. I searched the added lines for credential words and home-folder paths. Nothing real turned up; the only hit is a sentence in `analysis.yaml` that says the earlier scan found none.
++- **Docs in step.** PASS, with note 4. `enrich-grounding/SKILL.md` and `link-model-part/SKILL.md` describe the new modes, inputs, steps, refusals and reports, and the `product-os-keeper` agent has a new dispatch row and updated skill rows.
++- **Nothing obviously broken.** PASS, with notes 2 and 3. No merge conflicts against origin/main (`git merge-tree` is clean). The component linter, run from the repo root, reports 36 errors and 1 warning across the repo, none in a file this change touches.
++
++## Project checks (from the assess-pr rules for this repo)
++
++- No merge conflicts: PASS. No secrets committed: PASS.
++- Skill and agent files changed: PASS. Frontmatter keys are intact, `## Input` and `## Output` are still there in both skills, and the agent's Boundaries section is unchanged.
++- Features documented: PASS (see Docs in step).
++- Components deployed from `core/components/`: REVIEW. The installed copies under `.claude/` are not refreshed. That is deliberate, because this repo installs only when the product owner asks. It is owed after merge.
++
++## Findings (every one is a note; none blocks the raise)
++
++1. **The undo path of `write_approved.py` is not tested.** The script promises that when a write fails part way, every page already written is put back and a new page is removed. No test makes a write fail. I simulated a failure on the second of two writes: the files were restored correctly, but the empty new folder of the first page stayed behind. Cosmetic.
++2. **A thin page on disk cannot be replaced with its approved text.** `write_approved.py` also refuses when the page already on disk has a Thin line. The issue and its acceptance check ask only that the approved text has no Thin line. The extra refusal is written in the skill doc and tested, but it means a thin ICE page cannot be swapped for its approved full page through this skill, and nothing in this change removes the thin mark ("the play that deepens the part removes both"). Worth the product owner's eye; it may belong to #761 or #765.
++3. **An ICE added for a part that is already thin leaves the part's old mark.** The skill doc says a part that has an ICE is never marked thin itself, but `link_part.py` only refuses a new mark on such a part. I ran it on a feature that already carried `metadata.thin: true`: the ICE entry was added and the feature kept its mark. This is an edge case for older pages, which #765 moves.
++4. **Two small doc gaps.** In `product-os-keeper.md`, the "use when" column of the `link-model-part` row and the line in its NEVER list that names who writes the spine still say only "a part found during work (#979)", while the `enrich-grounding` row names approved pages (#1031). `link-model-part/SKILL.md` does not say that ICE ids now appear in the report's `written` and `thin` lists.
++5. **Cosmetic.** The edited docstring line in the five `safe_write.py` copies is longer than its neighbours. `test_write_approved.py` opens the report file without closing it, which prints a ResourceWarning in the test run.
++6. **Install owed after merge.** The deployed skills and agent under `.claude/` stay old until an install is run on request.
++
++## Fixed before the raise
++
++Findings 1, 3, 4 and 5 were fixed on the branch before the push, in one `fix(skills)` commit:
++- 1: the undo path now also removes each folder the run made, and a test makes the second write fail and checks every page and folder is back as it was.
++- 3: an ICE is now refused for a part that carries the thin mark itself, with a test.
++- 4: the keeper's `link-model-part` row and its NEVER-list line name ICE entries (#1031), and `link-model-part/SKILL.md` says ICE ids appear in `written`, `updated` and `thin`.
++- 5: the helper's header note is rewrapped in all five copies (still identical), and the test closes the report file.
++
++After the fixes, 36 tests pass for `link-model-part`, 35 for `enrich-grounding`, and the acceptance check passes 24 of 24. Finding 2 stays open for the product owner; finding 6 is owed after merge.
+diff --git a/.garura/project/issues/1031/context/pr.json b/.garura/project/issues/1031/context/pr.json
+new file mode 100644
+index 000000000..1b4c848af
+--- /dev/null
++++ b/.garura/project/issues/1031/context/pr.json
+@@ -0,0 +1,8 @@
++{
++  "number": 1032,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1032",
++  "state": "OPEN",
++  "base": "main",
++  "from_host": true,
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1031/context/resolved-rules.json b/.garura/project/issues/1031/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1031/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1031/context/self-review.md b/.garura/project/issues/1031/context/self-review.md
+new file mode 100644
+index 000000000..0c8ac4825
+--- /dev/null
++++ b/.garura/project/issues/1031/context/self-review.md
+@@ -0,0 +1,50 @@
++# Self-review: #1031 (the model's skills write an approved ICE page and its index entry)
++
++- Branch: feature/1031-skills-write-ice-page, against origin/main (5 commits ahead, 0 behind)
++- Rules used: the base self-review rules, `standards/rules/self-review.md` (no project override; the choice is recorded in `.garura/project/issues/1031/context/resolved-rules.json`)
++- Issue scope: the page skill (`enrich-grounding`) writes an approved page word for word, and the index skill (`link-model-part`) adds an ICE entry with the thin mark on the ICE page. Out of scope: plays writing ICE pages, moving older pages' ICE (#765), the page templates, the product model tool (#1030).
++
++## Result
++
++Ready to raise. Blocking findings: none (0). The rules say this review informs the reviewer and does not stop the raise, and none of the findings below is serious enough to stop it. Six notes are listed for the reviewer to weigh.
++
++## Scope checks
++
++- **Matches the issue.** PASS. The two jobs are there. The page skill has a new `approved` mode through a new script, `core/components/skills/enrich-grounding/scripts/write_approved.py`. It writes a domain, capability, feature or ICE page word for word, new or replacing, and refuses a Thin line, an ICE section on a part's page, an ICE page missing a part, an intent page, a path outside the model and a missing approver. The index skill's script, `core/components/skills/link-model-part/scripts/link_part.py`, gets the `ice` kind: an entry in `ices` (id, for, for_kind, doc, metadata), the thin mark on the ICE's entry and as a Thin line at the top of its page, and no business intent on an ICE.
++- **No scope creep.** PASS. All 12 files under `core/components/` map to the issue: the two skills (script, tests, docs), the `product-os-keeper` agent's table rows, and the one shared `safe_write.py`. That file is stamped in five places (the four skills and the shape-slice play); each got the same one-line docstring change to name the new script that writes through it, and the five copies are identical (same hash). No play, page template or product model tool file is touched, and nothing moves an older page's ICE.
++- **Reasonable size.** PASS. 24 files, +1218 and -24 in total, but 12 of them are this issue's own run records and the acceptance check under `.garura/project/issues/1031/`. The change to `core/components/` is +620 and -24, and about 260 of those lines are tests. It is one concern and reads in one sitting.
++- **No stray artifacts.** PASS. `git diff --check` is clean. The added lines hold no debug prints (the one `print` is the script's report line), no commented-out code and no TODO. The files under `.garura/project/issues/1031/` are the play's normal run records, committed as `chore(stm)`. The run's own `resolved-rules.json` is still untracked and this file is new; both are this run's records, to be committed by the play.
++
++## Quality checks
++
++- **Tests present.** PASS, with note 1. New: `test_write_approved.py` (15 tests) and 13 new tests in `test_link_part.py`. I ran both skills' test folders: 34 tests pass for `enrich-grounding` and 35 for `link-model-part`. The acceptance check for the issue, `.garura/project/issues/1031/evidence/eval/eval_1031.py`, passes 24 of 24. It was committed first, failing, before the build.
++- **Commits are clean.** PASS. Five commits: one test (`test(eval)`), one feature (`feat(skills)`), three `chore(stm)`. All are in conventional format, each names (#1031), and the feature commit holds code, tests and docs together. No attribution lines in any message.
++- **No secrets.** PASS. I searched the added lines for credential words and home-folder paths. Nothing real turned up; the only hit is a sentence in `analysis.yaml` that says the earlier scan found none.
++- **Docs in step.** PASS, with note 4. `enrich-grounding/SKILL.md` and `link-model-part/SKILL.md` describe the new modes, inputs, steps, refusals and reports, and the `product-os-keeper` agent has a new dispatch row and updated skill rows.
++- **Nothing obviously broken.** PASS, with notes 2 and 3. No merge conflicts against origin/main (`git merge-tree` is clean). The component linter, run from the repo root, reports 36 errors and 1 warning across the repo, none in a file this change touches.
++
++## Project checks (from the assess-pr rules for this repo)
++
++- No merge conflicts: PASS. No secrets committed: PASS.
++- Skill and agent files changed: PASS. Frontmatter keys are intact, `## Input` and `## Output` are still there in both skills, and the agent's Boundaries section is unchanged.
++- Features documented: PASS (see Docs in step).
++- Components deployed from `core/components/`: REVIEW. The installed copies under `.claude/` are not refreshed. That is deliberate, because this repo installs only when the product owner asks. It is owed after merge.
++
++## Findings (every one is a note; none blocks the raise)
++
++1. **The undo path of `write_approved.py` is not tested.** The script promises that when a write fails part way, every page already written is put back and a new page is removed. No test makes a write fail. I simulated a failure on the second of two writes: the files were restored correctly, but the empty new folder of the first page stayed behind. Cosmetic.
++2. **A thin page on disk cannot be replaced with its approved text.** `write_approved.py` also refuses when the page already on disk has a Thin line. The issue and its acceptance check ask only that the approved text has no Thin line. The extra refusal is written in the skill doc and tested, but it means a thin ICE page cannot be swapped for its approved full page through this skill, and nothing in this change removes the thin mark ("the play that deepens the part removes both"). Worth the product owner's eye; it may belong to #761 or #765.
++3. **An ICE added for a part that is already thin leaves the part's old mark.** The skill doc says a part that has an ICE is never marked thin itself, but `link_part.py` only refuses a new mark on such a part. I ran it on a feature that already carried `metadata.thin: true`: the ICE entry was added and the feature kept its mark. This is an edge case for older pages, which #765 moves.
++4. **Two small doc gaps.** In `product-os-keeper.md`, the "use when" column of the `link-model-part` row and the line in its NEVER list that names who writes the spine still say only "a part found during work (#979)", while the `enrich-grounding` row names approved pages (#1031). `link-model-part/SKILL.md` does not say that ICE ids now appear in the report's `written` and `thin` lists.
++5. **Cosmetic.** The edited docstring line in the five `safe_write.py` copies is longer than its neighbours. `test_write_approved.py` opens the report file without closing it, which prints a ResourceWarning in the test run.
++6. **Install owed after merge.** The deployed skills and agent under `.claude/` stay old until an install is run on request.
++
++## Fixed before the raise
++
++Findings 1, 3, 4 and 5 were fixed on the branch before the push, in one `fix(skills)` commit:
++- 1: the undo path now also removes each folder the run made, and a test makes the second write fail and checks every page and folder is back as it was.
++- 3: an ICE is now refused for a part that carries the thin mark itself, with a test.
++- 4: the keeper's `link-model-part` row and its NEVER-list line name ICE entries (#1031), and `link-model-part/SKILL.md` says ICE ids appear in `written`, `updated` and `thin`.
++- 5: the helper's header note is rewrapped in all five copies (still identical), and the test closes the report file.
++
++After the fixes, 36 tests pass for `link-model-part`, 35 for `enrich-grounding`, and the acceptance check passes 24 of 24. Finding 2 stays open for the product owner; finding 6 is owed after merge.
+diff --git a/.garura/project/issues/1031/context/target.json b/.garura/project/issues/1031/context/target.json
+new file mode 100644
+index 000000000..b1563f1e7
+--- /dev/null
++++ b/.garura/project/issues/1031/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "feature/1031-skills-write-ice-page",
++  "kind": "one-off",
++  "plan_id": null,
++  "issue": "1031",
++  "base": "main"
++}
+diff --git a/.garura/project/issues/1031/context/templates/manifest-close-start-change.json b/.garura/project/issues/1031/context/templates/manifest-close-start-change.json
+new file mode 100644
+index 000000000..2d9894d75
+--- /dev/null
++++ b/.garura/project/issues/1031/context/templates/manifest-close-start-change.json
+@@ -0,0 +1,25 @@
++{
++  "templates": [
++    {
++      "name": "standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/1031/context/templates/standards/templates/delivery-report.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/templates/delivery-report.md",
++        "version": "b2e40bff2131",
++        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
++      }
++    },
++    {
++      "name": "standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/rules/pipeline-next.md",
++        "version": "b2e40bff2131",
++        "fingerprint": "sha256:b76c52d6e15aaa17e5ea20d161ccb76b0f3b784bfde3b721cb5285cd5e4a3c65"
++      }
++    }
++  ],
++  "missing": []
++}
+diff --git a/.garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md b/.garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md
+new file mode 100644
+index 000000000..2078bacf6
+--- /dev/null
++++ b/.garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md
+@@ -0,0 +1,95 @@
++# Pipeline-next — the successor map (single source of truth)
++
++Every user-invocable compiled play — and every loop, which closes like a play (ADR 029) —
++when it finishes, tells the user what to run next when it has one successor. This file is the one place that mapping lives. The **Standard Play Close**
++(`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
++`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
++`meta_exempt`.
++
++The rendered line reads:
++
++> **Next:** `/<command>` — <why>.
++
++When a play's `command` is `null`, the play has no single successor and the close leaves the
++Next line out. The person picks the next piece of work from the plan (one plan for each
++business intent, with done / now / next) or from `/list-focus-issues` (ADR 051).
++
++## The flow
++
++The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
++
++- **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge step is a step of the loop run by one agent, not a play (ADR 059).
++- **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then `/shape-plan <intent>`, then `/shape-eval <intent>`. `/shape-slice` hands to `/shape-plan`, which makes the intent's one plan, once: the plan file, one epic for each slice and one story for each feature. When the intent already has a plan, `/shape-plan` stops and a later slice joins the plan through `/update-plan <intent>`; `/shape-plan` hands to `/shape-eval`, which writes each slice's eval. The build stage (#819) is not built yet, so `/shape-eval` has no Next line. The Discovery plays hand to the loop (`/shape-slice <intent>`, the business intent's issue number).
++- **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
++  - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
++  - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
++  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/shape-slice` no longer reads that mark (ADR 049).
++  ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
++- **Execute loop (per epic):** `/build-epic → /validate-epic → /release-epic`. `/release-epic` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
++- **Change loop (git):** `/start-change` (injected at a play's head) `→ /commit-change → /propose-change → /check-change → /merge-change`.
++- **Learn loop:** `/learn-outcomes`. `/list-focus-issues` lists the open issues worth attention.
++- Branch points (at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
++
++## The map
++
++```yaml
++next:
++  # Standalone (no loop)
++  record-decision:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
++  # Discovery loop, then the Shaping loop (/shape-slice <intent>)
++  complete-discovery:      { command: shape-slice,          why: "the model holds the business intents — shape the slice that serves one (/shape-slice <intent>)" }
++  discover-intent:         { command: discover-domains,         why: "seed the product model from a confirmed business intent (give /discover-domains its title, outcome and why as the goal)" }
++  discover-domains:         { command: discover-capabilities,     why: "expand this capability's intent (ICE)" }
++  discover-capabilities:     { command: shape-slice,     why: "the capabilities are detailed — shape the slice that serves a business intent (/shape-slice <intent>)" }
++  # Older chain, stale (#855): old Shape loop — design plays, functional (ux → agentic → marketing)
++  shape-ux-lens:             { command: shape-agentic-lens,        why: "next lens in the functional pipe" }
++  shape-agentic-lens:        { command: shape-marketing-lens,      why: "next lens in the functional pipe" }
++  shape-marketing-lens:      { command: null,           why: "functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain, stale (#855): old Shape loop — design plays, non-functional (arch → quality → run)
++  shape-architecture-lens:           { command: shape-quality-lens,        why: "next lens in the non-functional pipe" }
++  shape-quality-lens:        { command: shape-run-lens,            why: "next lens in the non-functional pipe" }
++  shape-run-lens:            { command: null,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
++  shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /shape-slice, not from this mark" }
++
++  # Shaping loop (ADR 049) — the live shape loop: /shape-slice, then /shape-plan, then /shape-eval
++  shape-slice:          { command: shape-plan,     why: "the slice is shaped; make its plan, epic and stories (/shape-plan <intent>), or add them to the plan that exists (/update-plan <intent>)" }
++  shape-plan:           { command: shape-eval,     why: "the plan, its epics and its stories are made; write each slice's eval (/shape-eval <intent>)" }
++  shape-eval:           { command: null,           why: "each slice's eval is written; the build stage (#819) is not built yet" }
++
++  # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
++  build-epic:      { command: validate-epic,       why: "independently verify the built epic" }
++  validate-epic:       { command: release-epic,         why: "land the validated epic on human acceptance" }
++  release-epic:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
++  release-increment:         { command: null,           why: "increment deployed — the plan shows what comes next" }
++
++  # Defect and refactor lanes (ADR 023); /learn-outcomes is the Learn loop
++  fix-bug:        { command: null,           why: "defect resolved — the plan shows what comes next" }
++  refactor-code:       { command: null,           why: "refactor landed — the plan shows what comes next" }
++  learn-outcomes:          { command: null,           why: "model updated from outcomes — the plan shows what comes next" }
++
++  # Navigation
++  list-focus-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
++  list-plans:     { command: null,           why: "shows every plan — it has no successor" }
++  show-plan:      { command: null,           why: "shows one plan — it has no successor" }
++  update-plan:    { command: null,           why: "the plan is updated on its own branch — it reaches main with the plan's other work" }
++
++  # Change loop (git members)
++  start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
++  commit-change:  { command: propose-change, why: "raise the committed change" }
++  propose-change: { command: check-change,  why: "review the raised PR" }
++  check-change:  { command: merge-change,   why: "merge on approval" }
++  merge-change:   { command: null,           why: "change landed — the plan shows what comes next" }
++
++# Meta / bootstrap plays — not part of the product pipeline; no Next required.
++meta_exempt:
++  - install-garura
++  - uninstall-garura
++  - create-play
++  - edit-play
++  - create-loop
++  - edit-loop
++  - edit-ontology
++```
+\ No newline at end of file
+diff --git a/.garura/project/issues/1031/context/templates/standards/templates/delivery-report.md b/.garura/project/issues/1031/context/templates/standards/templates/delivery-report.md
+new file mode 100644
+index 000000000..c557fdb31
+--- /dev/null
++++ b/.garura/project/issues/1031/context/templates/standards/templates/delivery-report.md
+@@ -0,0 +1,72 @@
++# Delivery Report Template
++
++Canonical shape for the human-readable terminal report a play presents to the user at close. This is the user-facing output, not the machine-readable STM evidence file (see `templates/evidence-file.md` for that).
++
++Consumers: `ship`, `fix-it`, `implement`, every play that closes with a delivery step.
++
++## Shape
++
++```markdown
++## {Play Name} Delivered — {context}
++
++### Run Summary
++
++| Field | Value |
++|-------|-------|
++| Play | {play-name} |
++| Issue | #{issue} |
++| Status | {COMPLETE \| PARTIAL \| FAILED} |
++| Started | {ISO-8601 timestamp} |
++| Completed | {ISO-8601 timestamp} |
++
++### Pipeline Steps
++
++| Step | Description | Status | Key Output |
++|------|-------------|--------|------------|
++| {n} | {step description} | {PASS/FAIL/SKIP} | {primary artifact or action taken} |
++
++### Artifacts Produced
++
++| Artifact | Path | Notes |
++|----------|------|-------|
++| {artifact name} | {path} | {description or status} |
++
++### Next
++
++{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. If the mapped command is null, the play has no single successor: omit the line.}
++
++{Optional: any other real follow-ons beyond the mapped next command — open defects, uncommitted artifacts. Omit if none.}
++```
++
++## Field Rules
++
++| Field | Required | Rule |
++|-------|----------|------|
++| `play` | yes | Exact play slug (e.g. `ship`, `fix-it`, `implement`). |
++| `issue` | yes | Issue number. Required for all project-scoped plays. |
++| `status` | yes | `COMPLETE` when all steps passed; `PARTIAL` when some steps skipped by configuration; `FAILED` when a step halted. |
++| `started` / `completed` | yes | ISO-8601 timestamps. |
++| `pipeline_steps` table | yes | At least one row per major step executed. Status: `PASS`, `FAIL`, or `SKIP`. |
++| `artifacts` table | no | Include when the play produces named artifacts (evidence files, PRs, SHAs). |
++| `next_steps` | no | Optional. Use when there are explicit follow-on actions (e.g., "Run validate after implement"). |
++
++## Per-Play Notes
++
++### ship
++Include in Pipeline Steps: commit, PR creation, review-pr (if run), merge, distill.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, distill output.
++
++### fix-it
++Include in Pipeline Steps: RCA, design, approval gate, implement, quality check, PR, merge.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, issue comment dispatch status.
++Add to Run Summary: Root Cause (summary), Fix Strategy (summary).
++
++### implement
++Include in Pipeline Steps: context build, eval generation, test authoring, code authoring, quality audit.
++Include in Artifacts: quality report, judge report, status report.
++Add to Run Summary: Milestone, Scope Items count, Quality status, Judge pass rate.
++
++## Related
++
++- `templates/evidence-file.md` — machine-readable STM evidence file (distinct from this human-facing report)
++- `templates/checkpoint.md` — checkpoint artifact written at each approval gate during the run
+\ No newline at end of file
+diff --git a/.garura/project/issues/1031/context/work-description.txt b/.garura/project/issues/1031/context/work-description.txt
+new file mode 100644
+index 000000000..2564ae7c9
+--- /dev/null
++++ b/.garura/project/issues/1031/context/work-description.txt
+@@ -0,0 +1 @@
++The model's skills write an approved ICE page and its index entry
+diff --git a/.garura/project/issues/1031/evidence/eval/eval_1031.py b/.garura/project/issues/1031/evidence/eval/eval_1031.py
+new file mode 100644
+index 000000000..3c48d8668
+--- /dev/null
++++ b/.garura/project/issues/1031/evidence/eval/eval_1031.py
+@@ -0,0 +1,269 @@
++#!/usr/bin/env python3
++"""Acceptance check: the model's skills write an approved ICE page and its index entry.
++
++Written before the build, so it fails until the two jobs exist. Run from the repo root:
++
++    python3 <this file>
++
++E1  The page skill writes a feature page and its ICE page from approved text, word for word.
++E2  The page skill refuses, and the model stays byte for byte as it was, when:
++    the text holds a Thin line; a part page holds an ICE section; an ICE page lacks a part;
++    no one approved it; the page leaves the model; the page is an intent page.
++E3  The index skill adds the ICE's entry (id, for, for_kind, doc) and, for a thin one, the thin
++    mark on the ICE page (a Thin line before Intent) and on its entry; the spine keeps its comment.
++E4  The index skill refuses, and the model stays as it was, when: the part is not in the spine;
++    the part already has an ICE; the ICE page is not beside the part's page; the ICE page lacks
++    a part; the thin mark is asked for on a part that has an ICE.
++E5  A spine that gets no ICE entry gets no `ices` list.
++"""
++
++import json
++import os
++import subprocess
++import sys
++import tempfile
++
++import yaml
++
++ROOT = os.getcwd()
++PAGE_SCRIPT = os.path.join(ROOT, "core/components/skills/enrich-grounding/scripts/write_approved.py")
++INDEX_SCRIPT = os.path.join(ROOT, "core/components/skills/link-model-part/scripts/link_part.py")
++
++SPINE = """\
++# The spine: a comment that must stay.
++domains: []
++capabilities:
++- id: cap-mail
++  slug: mail
++  domain: ''
++  intents:
++  - bi-1
++  status: proposed
++  one_line: Send mail
++  doc: capabilities/cap-mail/capability.md
++features:
++- id: fn-send
++  slug: fn-send
++  capability: cap-mail
++  intents:
++  - bi-1
++  status: proposed
++  one_line: Send one message
++  doc: capabilities/cap-mail/fn-send/feature.md
++  depends_on: []
++  identified_by: ''
++slices: []
++"""
++
++FEATURE = """\
++# Feature: Send one message
++
++## What it does
++A person writes one message and sends it to one address.
++
++## Inputs / Outputs
++- In: the address and the words.
++- Out: the sent message.
++
++## Rules & behavior
++- A message with no address is not sent.
++
++## Acceptance criteria
++- Given an address and words, when the person sends, then the message arrives.
++
++## Out of scope
++- Sending to a group. Another feature does this.
++"""
++
++ICE = """\
++## Intent
++- Goal: A person sends one message to one address.
++- Limit: It never sends without an address.
++- Fails if: A message goes to the wrong address.
++
++## Context
++- Read: the mail rules.
++- Persona: a person with one message to send.
++
++## Expectation
++- Scenario: A message with an address arrives.
++- Done means: A tester who did not build it sees the message arrive.
++"""
++
++THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
++results = []
++
++
++def check(name, ok, detail=""):
++    results.append((name, bool(ok), detail))
++
++
++class Model:
++    def __init__(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        self.base = self.tmp.name + "/"
++        self.root = os.path.join(self.base, "product-os")
++        self.work = os.path.join(self.tmp.name, "work")
++        os.makedirs(self.work)
++        self.put("_spine.yaml", SPINE)
++        self.put("intents/bi-1.md", "# People get their mail\n")
++        self.put("capabilities/cap-mail/capability.md", "# Capability: Send mail\n\n## Directional intent\nPeople send mail.\n")
++        self.put("capabilities/cap-mail/fn-send/feature.md", "# Feature: Send one message\n\n## What it does\nOld words.\n")
++
++    def put(self, rel, text):
++        path = os.path.join(self.root, rel)
++        os.makedirs(os.path.dirname(path), exist_ok=True)
++        with open(path, "w", encoding="utf-8") as fh:
++            fh.write(text)
++
++    def read(self, rel):
++        with open(os.path.join(self.root, rel), encoding="utf-8") as fh:
++            return fh.read()
++
++    def snapshot(self):
++        out = {}
++        for d, _, files in os.walk(self.root):
++            for f in files:
++                p = os.path.join(d, f)
++                with open(p, "rb") as fh:
++                    out[os.path.relpath(p, self.root)] = fh.read()
++        return out
++
++    def approved(self, name, text):
++        path = os.path.join(self.work, name)
++        with open(path, "w", encoding="utf-8") as fh:
++            fh.write(text)
++        return path
++
++    def run(self, script, request):
++        req = os.path.join(self.work, "request.json")
++        out = os.path.join(self.work, "report.json")
++        with open(req, "w", encoding="utf-8") as fh:
++            json.dump(request, fh)
++        if os.path.exists(out):
++            os.remove(out)
++        if not os.path.isfile(script):
++            return 127, f"{os.path.relpath(script, ROOT)} does not exist"
++        p = subprocess.run([sys.executable, script, "--request", req, "--product-base", self.base,
++                            "--out", out], capture_output=True, text=True)
++        return p.returncode, p.stderr
++
++
++def page_request(m, pages, approved_by="the product owner"):
++    req = {"by": "the acceptance check", "source": "an approved draft", "pages": pages}
++    if approved_by:
++        req["approved_by"] = approved_by
++    return req
++
++
++# E1
++m = Model()
++fp = m.approved("feature.md", FEATURE)
++ip = m.approved("ice.md", ICE)
++code, err = m.run(PAGE_SCRIPT, page_request(m, [
++    {"page": "capabilities/cap-mail/fn-send/feature.md", "from": fp},
++    {"page": "capabilities/cap-mail/fn-send/ice.md", "from": ip}]))
++check("E1 page skill writes both pages", code == 0, err.strip()[:200])
++if code == 0:
++    check("E1 feature page word for word", m.read("capabilities/cap-mail/fn-send/feature.md") == FEATURE)
++    check("E1 ICE page word for word", m.read("capabilities/cap-mail/fn-send/ice.md") == ICE)
++
++# E2
++refusals = {
++    "a Thin line in the text": [{"page": "capabilities/cap-mail/fn-send/ice.md",
++                                 "from": ("thin.md", THIN + "\n\n" + ICE)}],
++    "an ICE section on a part page": [{"page": "capabilities/cap-mail/fn-send/feature.md",
++                                       "from": ("inline.md", FEATURE + "\n## Agent intent (ICE)\n- Goal: Send one message to one address.\n")}],
++    "an ICE page with no Expectation": [{"page": "capabilities/cap-mail/fn-send/ice.md",
++                                         "from": ("short.md", ICE.split("## Expectation")[0])}],
++    "a page that leaves the model": [{"page": "../outside.md", "from": ("out.md", FEATURE)}],
++    "an intent page": [{"page": "intents/bi-1.md", "from": ("intent.md", "# People get their mail\n")}],
++}
++for why, pages in refusals.items():
++    m = Model()
++    before = m.snapshot()
++    pages = [{"page": p["page"], "from": m.approved(*p["from"])} for p in pages]
++    code, err = m.run(PAGE_SCRIPT, page_request(m, pages))
++    check(f"E2 page skill refuses {why}", code == 2 and m.snapshot() == before, f"exit {code}: {err.strip()[:160]}")
++m = Model()
++before = m.snapshot()
++code, err = m.run(PAGE_SCRIPT, page_request(m, [{"page": "capabilities/cap-mail/fn-send/feature.md",
++                                                 "from": m.approved("f.md", FEATURE)}], approved_by=None))
++check("E2 page skill refuses with no one who approved", code == 2 and m.snapshot() == before, f"exit {code}")
++
++
++def index_request(parts):
++    return {"by": "the acceptance check", "parts": parts}
++
++
++def with_ice(m, thin_text=False):
++    m.put("capabilities/cap-mail/fn-send/ice.md", ICE)
++    m.put("capabilities/cap-mail/ice.md", ICE)
++
++
++# E3
++m = Model()
++with_ice(m)
++code, err = m.run(INDEX_SCRIPT, index_request([
++    {"id": "ice-send", "kind": "ice", "mode": "new", "for": "fn-send",
++     "doc": "capabilities/cap-mail/fn-send/ice.md", "thin": True},
++    {"id": "ice-mail", "kind": "ice", "mode": "new", "for": "cap-mail",
++     "doc": "capabilities/cap-mail/ice.md"}]))
++check("E3 index skill adds the ICE entries", code == 0, err.strip()[:200])
++if code == 0:
++    spine = yaml.safe_load(m.read("_spine.yaml"))
++    ices = {e.get("id"): e for e in spine.get("ices") or []}
++    send, mail = ices.get("ice-send") or {}, ices.get("ice-mail") or {}
++    check("E3 feature ICE entry", send.get("for") == "fn-send" and send.get("for_kind") == "feature"
++          and send.get("doc") == "capabilities/cap-mail/fn-send/ice.md")
++    check("E3 capability ICE entry", mail.get("for") == "cap-mail" and mail.get("for_kind") == "capability")
++    check("E3 thin on the ICE entry only", (send.get("metadata") or {}).get("thin") is True
++          and not (mail.get("metadata") or {}).get("thin"))
++    page = m.read("capabilities/cap-mail/fn-send/ice.md")
++    check("E3 Thin line at the top, before Intent", page.splitlines()[0] == THIN and page.index(THIN) < page.index("## Intent"))
++    check("E3 unthin ICE page untouched", m.read("capabilities/cap-mail/ice.md") == ICE)
++    check("E3 no business intent on an ICE entry", not any(k in send for k in ("intents", "business_intent")))
++    check("E3 spine keeps its comment", m.read("_spine.yaml").startswith("# The spine: a comment that must stay."))
++    check("E3 part entry not marked thin", not ((next(f for f in spine["features"] if f["id"] == "fn-send").get("metadata") or {}).get("thin")))
++
++# E4
++cases = {
++    "a part not in the spine": {"id": "ice-x", "kind": "ice", "mode": "new", "for": "fn-none",
++                                "doc": "capabilities/cap-mail/fn-send/ice.md"},
++    "an ICE page not beside its part": {"id": "ice-send", "kind": "ice", "mode": "new", "for": "fn-send",
++                                        "doc": "capabilities/cap-mail/ice.md"},
++}
++for why, part in cases.items():
++    m = Model()
++    with_ice(m)
++    before = m.snapshot()
++    code, err = m.run(INDEX_SCRIPT, index_request([part]))
++    check(f"E4 index skill refuses {why}", code == 2 and m.snapshot() == before, f"exit {code}: {err.strip()[:160]}")
++m = Model()
++with_ice(m)
++first = {"id": "ice-send", "kind": "ice", "mode": "new", "for": "fn-send", "doc": "capabilities/cap-mail/fn-send/ice.md"}
++code, _ = m.run(INDEX_SCRIPT, index_request([first]))
++before = m.snapshot()
++code2, err = m.run(INDEX_SCRIPT, index_request([dict(first, id="ice-send-2")]))
++check("E4 index skill refuses a second ICE for one part", code == 0 and code2 == 2 and m.snapshot() == before, f"exit {code}/{code2}: {err.strip()[:160]}")
++code3, err = m.run(INDEX_SCRIPT, index_request([{"id": "fn-send", "kind": "feature", "mode": "update", "thin": True}]))
++check("E4 index skill refuses the thin mark on a part that has an ICE", code == 0 and code3 == 2 and m.snapshot() == before, f"exit {code3}: {err.strip()[:160]}")
++m = Model()
++m.put("capabilities/cap-mail/fn-send/ice.md", ICE.split("## Expectation")[0])
++before = m.snapshot()
++code, err = m.run(INDEX_SCRIPT, index_request([first]))
++check("E4 index skill refuses an ICE page with a part missing", code == 2 and m.snapshot() == before, f"exit {code}: {err.strip()[:160]}")
++
++# E5
++m = Model()
++m.put("capabilities/cap-mail/fn-other/feature.md", FEATURE.replace("Send one message", "Send a copy"))
++code, err = m.run(INDEX_SCRIPT, index_request([{"id": "fn-other", "kind": "feature", "mode": "new", "slug": "fn-other",
++                                                "capability": "cap-mail", "intents": ["bi-1"], "one_line": "Send a copy",
++                                                "doc": "capabilities/cap-mail/fn-other/feature.md"}]))
++check("E5 no ICE entry, no ices list", code == 0 and "ices" not in (yaml.safe_load(m.read("_spine.yaml")) or {}), err.strip()[:160])
++
++failed = [r for r in results if not r[1]]
++for name, ok, detail in results:
++    print(("PASS " if ok else "FAIL ") + name + ("" if ok or not detail else f"  ({detail})"))
++print(f"\n{len(results) - len(failed)} of {len(results)} pass")
++sys.exit(1 if failed else 0)
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index a1de079a6..a2331d0a8 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -70,8 +70,8 @@ the missing skill; never do the work yourself.
+ | `author-business-intent` | Draft a business intent page from what a person shared: title, outcome, why, asked by (a persona), proof it is met, must not, in plain words and personas only. For /shape-slice, one-intent mode: the issue's plain statement in, one intent out as `intent-draft.json`. Draft only, never the product model. | /shape-slice (when the model has no page for the intent) |
+ | `find-slice-gaps` | List each thing a slice needs that neither the model nor memory answers, and write each as one question by the rule for asking a person (id, topic, question, why, examples from several domains, blocking, assume, settled with its basis); never the surface or the tester. Rewrite mode rewrites only the questions the play's script refuses. Writes `questions.json`. | /shape-slice |
+ | `author-slice` | Choose the slice: the one surface and its tester (a persona), the features from any capability in build order, what is left out, and the needs list (`fills.json`: new parts, updates, thin parts); `no-slice.json` when no surface can be tested end to end. Reuse mode writes `reuse.json` (pull in, push out); fix mode fixes `slice.json` or `fills.json`; edit mode turns a person's edit words into `edit-list.json` (each change's record, part, old and new text, and the records made out of date). Never writes the model. | /shape-slice |
+-| `enrich-grounding` | Write on the pages of the model's parts, in place, keeping every section and line: bring a domain, capability or feature page up to the current rules, write one new feature under a capability that exists, write a thin ICE (Goal, Limit, Fails if, Context, Checked by), change the named lines of any page — domain, capability, feature or intent — through its `change_lines.py` (all or nothing; #993), fix the pages the model check names. Never writes `_spine.yaml` or the thin marks. | /shape-slice; a part found during work (#979), before `link-model-part`; named lines of any page (#993) |
+-| `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, issue, status proposed), an existing one's one-line, intents or issue, and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page); add features to a slice that exists (#931). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding`; `/update-plan`'s new feature (#931) |
++| `enrich-grounding` | Write on the pages of the model's parts, in place, keeping every section and line: bring a domain, capability or feature page up to the current rules, write one new feature under a capability that exists, write a thin ICE (Goal, Limit, Fails if, Context, Checked by), change the named lines of any page — domain, capability, feature or intent — through its `change_lines.py` (all or nothing; #993), write a page a person approved word for word — a domain, capability or feature page, or an ICE page `ice.md` — through its `write_approved.py` (all or nothing; #1031), fix the pages the model check names. Never writes `_spine.yaml` or the thin marks. | /shape-slice; a part found during work (#979), before `link-model-part`; named lines of any page (#993); approved pages (#1031) |
++| `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, issue, status proposed), an existing one's one-line, intents or issue, and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page); add features to a slice that exists (#931); an ICE's entry in `ices` (the part it is for, its kind, its page) and, for a thin ICE, the mark on that entry and at the top of its page (#1031). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding`; `/update-plan`'s new feature (#931); an approved page's ICE (#1031), after `enrich-grounding` |
+ | `remove-model-part` | Take parts out of the model once a person approved it: repoint what names an old business intent, part by part; remove an intent's page once nothing names it; merge a capability into another (its features, links, intents and decisions move, its needs are listed for review); remove a slice and its record. All or nothing; it refuses while the spine or a page still names a part being removed, naming each path and line, and writes no page words. `remove-report.json` lists every file it changed or deleted. | a removal a person approved, after `enrich-grounding` has fixed the words |
+ | `author-intent-page` | Write a business intent's page from its draft (`intent-draft.json`, one-intent mode), new or rewritten, in the one fixed order; a rewrite keeps the old What-was-done block, and the old Touches block unless the draft gives `touches`. It never drafts a word, never overwrites without `rewrite`, and writes confirmed only when given the person who confirmed it. `intent-page.json` reports what it wrote and kept. | an intent page whose words a person approved |
+ | `author-slice-brief` | Write the opening of the early brief or the confirmation brief: two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person (or the play's floor). The play's script builds the rest of the brief. | /shape-slice |
+@@ -105,6 +105,7 @@ the missing skill; never do the work yourself.
+ | "draft the story for a feature a plan session named" (`/update-plan`, #1002) | "Draft the story for fn-818 that the person added under #721" | `author-work-items` (story mode) | The play's `feature_ice.py copy` has written the clean copy and `story-input.json`; hand the skill only those, and pass its `story-draft.json` on as it is. Never open an ICE page and never write the model, the plan file or the tracker |
+ | "change these lines of a page", "bring this page to the approved design", "name a persona, not a person" | "Change cap-720's ICE to the approved #720 design"; "Name the product owner, not a person, on the intent page" | `enrich-grounding` (mode `update` or `fix`, with a named-lines request you write to `lines-request.json` and hand it as `lines_request`: every line to change, whole and as it is on the page, with its new words and the request's source; when the script refuses, correct the request) | `lines-report.json`: each page, each line old and new; every other line kept word for word; all or nothing. A page needs no spine entry for this; a changed one-line or intents still goes through `link-model-part` |
+ | "take this part out of the model", "merge this capability into that one", "repoint these parts to the new intent", "remove this intent's page", "remove this slice" | "Merge the view capability into the plan capability, as the product owner approved" | `enrich-grounding` (named lines, for each page that still names the part), then one `remove-model-part` run | `remove-report.json`: all or nothing, only with the name of the person who approved; when it refuses over a mention, fix that line through `enrich-grounding` and run it again. The page of a survivor is `enrich-grounding`'s work. Pass `needs_to_review` on as it is |
++| "write these pages as the person approved them", "write the ICE on its own page" | "Write the approved pages of Specify the product and their ICE pages" | `enrich-grounding` (mode `approved`, with an approved-text request you write to `approved-request.json` and hand it as `approved_request`: each page, the file holding its approved text, the person who approved it and where that is recorded), then one `link-model-part` run: each new part `new`, each ICE `new` with `for` and `doc`, thin only for a thin ICE | `approved-report.json` and `link-report.json`: every page word for word, then every entry; each all or nothing. Remove an old ICE section from a part's page first through named lines (step 5), or approve the whole page without it |
+ | "write this intent page from its draft", "rewrite this intent page", "the person confirmed these words" | "Rewrite the page of bi-340 from its draft; the product owner confirmed it" | `author-intent-page` (with `rewrite` for a page that is there, `stage: confirmed` and `confirmed_by` only when a person confirmed it) | `intent-page.json`: mechanical; the words come from the draft, and the confirmation only from the caller |
+ | "change the product ontology", "add a kind", "change a kind, link or rule" | "Run the `kinds` stage for the ICE kind" | `author-product-ontology` | One stage per dispatch from /edit-ontology; the product owner agrees each stage at the play's checkpoint |
+ 
+@@ -175,7 +176,7 @@ a path belongs.
+   intent page, the profile — but only through a skill (the product owner, 2026-10-29). Under
+   direct-model-write (ADR 026) the page skills write per-node docs in place. The spine is
+   written by a play's keyed persist script, by `link-model-gaps`'s script inside a loop, or by
+-  `link-model-part`'s script for a part found during work (#979), or by `remove-model-part`'s script
++  `link-model-part`'s script for a part found during work (#979) or an ICE's entry (#1031), or by `remove-model-part`'s script
+   for a removal a person approved; each writes only inside
+   `<product_base>product-os/`, refuses any path outside and lists every file it changed. When
+   no skill covers a change, say so and stop: the missing skill is built, never worked around.
+diff --git a/core/components/plays/shape-slice/scripts/safe_write.py b/core/components/plays/shape-slice/scripts/safe_write.py
+index 195bc134c..49ffbdf07 100644
+--- a/core/components/plays/shape-slice/scripts/safe_write.py
++++ b/core/components/plays/shape-slice/scripts/safe_write.py
+@@ -8,8 +8,8 @@
+ permissions the process would give any new file (0666 less its umask).
+ 
+ /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
+-write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
+-their output files and pages through it. No other script of theirs calls os.replace or
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py
++and write_approved.py write their output files and pages through it. No other script of theirs calls os.replace or
+ tempfile.mkstemp.
+ """
+ 
+diff --git a/core/components/skills/author-intent-page/scripts/safe_write.py b/core/components/skills/author-intent-page/scripts/safe_write.py
+index 195bc134c..49ffbdf07 100644
+--- a/core/components/skills/author-intent-page/scripts/safe_write.py
++++ b/core/components/skills/author-intent-page/scripts/safe_write.py
+@@ -8,8 +8,8 @@
+ permissions the process would give any new file (0666 less its umask).
+ 
+ /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
+-write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
+-their output files and pages through it. No other script of theirs calls os.replace or
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py
++and write_approved.py write their output files and pages through it. No other script of theirs calls os.replace or
+ tempfile.mkstemp.
+ """
+ 
+diff --git a/core/components/skills/enrich-grounding/SKILL.md b/core/components/skills/enrich-grounding/SKILL.md
+index 1994a268d..d17258a74 100644
+--- a/core/components/skills/enrich-grounding/SKILL.md
++++ b/core/components/skills/enrich-grounding/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: enrich-grounding
+-description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change.
++description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing; approved mode writes a domain, capability, feature or ICE page (ice.md, beside its part's page, with Intent, Context and Expectation) from text a person approved, word for word, through its write_approved.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change, or when a page a person approved must be written as it is.
+ user-invocable: false
+ model: opus
+ allowed-tools: Read, Write, Bash
+@@ -18,7 +18,7 @@ and every move of a page.
+ 
+ | Field | Required | Meaning |
+ |-------|----------|---------|
+-| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix`; an intent page takes `update` or `fix` only; a named-lines request (step 5) takes `update` or `fix` |
++| `mode` | no | `update` (the default), `new-feature`, `thin`, `fix` or `approved`; an intent page takes `update` or `fix` only; a named-lines request (step 5) takes `update` or `fix`; an approved-text request (step 6) takes `approved` |
+ | `pages` | yes | The pages to work on, each `{id, kind: domain|capability|feature|intent, doc}` — in a slice run, from `fills.json` `updates` with `page: true`, its new features under a capability that exists, and its `thin` list; for found work, from the request |
+ | `product_base` | yes | The live model root. The pages are read and written in place under `{product_base}product-os/` |
+ | `schemas_dir` | yes | The grounding templates (`domain.md`, `capability.md`, `feature.md`) and the content standard, copied into short-term memory by the agent through the memory tool |
+@@ -28,6 +28,7 @@ and every move of a page.
+ | `fills` | in a slice run | `fills.json`: the parent of each new feature, and the thin parts |
+ | `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts). In place of `record`, `split` and `fills` |
+ | `lines_request` | for named lines | `lines-request.json` (step 5), written by the agent that dispatches this skill, never by the skill: `by`, `source` (an approved design, or the person's own words) and `pages`, each `{page, changes}` — a change is `{old, new}` (`new: null` removes the line) or `{after, add}`; see the script's header |
++| `approved_request` | for `approved` | `approved-request.json` (step 6), written by the agent that dispatches this skill, never by the skill: `by`, `approved_by` (the person), `source` (where the approval is recorded) and `pages`, each `{page, from}` — `from` is the file holding the approved text; see the script's header |
+ | `problems` | for `fix` | `slice-check.json` (or a script's refusal): each problem with the page it names |
+ | `out` | yes | Where to write `grounding-report.json` |
+ 
+@@ -76,13 +77,33 @@ and every move of a page.
+    agent, which corrects the request; never work around it. The meaning comes from the
+    request's source, never from this skill: a new intent page is /discover-intent's, and a
+    change of meaning is the person's or an approved design's.
+-6. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
++6. **Approved mode — write a page a person approved, word for word.** When a person reviewed a
++   page's text before it reaches the model, the page is copied as it is: nothing is composed.
++   This covers a domain, capability or feature page, and an ICE page. An ICE has its own page,
++   `ice.md`, in the folder of its part's page, with `## Intent`, `## Context` and
++   `## Expectation`, in that order (ontology v15); a part's page holds no ICE section. The agent
++   wrote `approved-request.json` and handed you its path (`approved_request`); you do not write
++   or change it. Run the script on it:
++
++   ```bash
++   python3 scripts/write_approved.py --request <approved_request> \
++       --product-base <product_base> --out <working>/approved-report.json
++   ```
++
++   Exit 0: every page holds its approved text, word for word, new or replacing the page that
++   was there. Exit 2: nothing was written, or every page already written was put back; the
++   error names the page and why (a Thin line in the text, an ICE section on a part's page, an
++   ICE page without its three parts or with no part beside it, a wrong title, an intent page,
++   a path outside the model, a thin page on disk, or no one who approved). Return the error to
++   the agent; never work around it. The ICE page's entry in the spine and its thin mark are
++   `link-model-part`'s, run after this.
++7. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
+    heading, a broken link, a thin ICE that lacks a line. Change only what the problem names.
+    A problem in `slice.json` or `fills.json` is not this skill's: list it in `not_mine`.
+-7. **Check the page against what it had.** Every section and line from step 1 is still on
++8. **Check the page against what it had.** Every section and line from step 1 is still on
+    the page, except the lines a named-lines request (step 5) replaced or removed — its
+-   `lines-report.json` names each one. When any other line is lost, put it back before you
+-   write the report.
++   `lines-report.json` names each one — and a page approved mode (step 6) wrote, which holds
++   its approved text. When any other line is lost, put it back before you write the report.
+ 
+ ## Output
+ 
+@@ -98,7 +119,9 @@ The pages, written in place under `{product_base}product-os/`, and `grounding-re
+ 
+ A named-lines request (step 5) writes `lines-report.json` instead: `source`, and for each page
+ each change (old and new, or after and add), its line counts before and after and the lines
+-kept, and `changed` (every page written).
++kept, and `changed` (every page written). An approved-text request (step 6) writes
++`approved-report.json`: `written` (each page, `created` or `replaced`), `approved_by` and
++`source`.
+ 
+ Examples from different fields:
+ - A clinic: the Booking capability's page had no Guiding rules section; the run adds it, with
+@@ -111,11 +134,12 @@ Examples from different fields:
+ ## Rules
+ 
+ - In place: keep every section and line a page had, except the lines a named-lines request
+-  names (step 5); never remove or move a page.
++  names (step 5) and a page a person approved whole (step 6); never remove or move a page.
+ - Write per-node pages only. Never write `_spine.yaml`, the profile, a decision, the Thin
+   line or `metadata.thin`; a play's scripts or `link-model-part` write them. On an intent
+   page, change only the lines the request names (step 5); never write a new intent page. A
+-  named-lines request goes through `change_lines.py`, all or nothing.
++  named-lines request goes through `change_lines.py`, and an approved-text request through
++  `write_approved.py`, each all or nothing.
+ - A thin ICE has a Goal, a Limit, one Fails if line or more, a Context line and a Checked by
+   line, each from the person's answers or the assumptions; nothing made up.
+ - One new feature under a capability that exists never re-details the capability.
+diff --git a/core/components/skills/enrich-grounding/scripts/safe_write.py b/core/components/skills/enrich-grounding/scripts/safe_write.py
+index 195bc134c..49ffbdf07 100644
+--- a/core/components/skills/enrich-grounding/scripts/safe_write.py
++++ b/core/components/skills/enrich-grounding/scripts/safe_write.py
+@@ -8,8 +8,8 @@
+ permissions the process would give any new file (0666 less its umask).
+ 
+ /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
+-write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
+-their output files and pages through it. No other script of theirs calls os.replace or
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py
++and write_approved.py write their output files and pages through it. No other script of theirs calls os.replace or
+ tempfile.mkstemp.
+ """
+ 
+diff --git a/core/components/skills/enrich-grounding/scripts/test_write_approved.py b/core/components/skills/enrich-grounding/scripts/test_write_approved.py
+new file mode 100644
+index 000000000..42d2e3ac8
+--- /dev/null
++++ b/core/components/skills/enrich-grounding/scripts/test_write_approved.py
+@@ -0,0 +1,181 @@
++"""Tests for write_approved.py (#1031): pages written from approved text, word for word, all or nothing."""
++
++import json
++import os
++import subprocess
++import sys
++import tempfile
++import unittest
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++SCRIPT = os.path.join(HERE, "write_approved.py")
++
++FEATURE = "# Feature: Book a slot\n\n## What it does\nA patient picks a free slot.\n"
++ICE = ("## Intent\n- Goal: A patient books a free slot.\n- Limit: No slot is booked twice.\n"
++       "- Fails if: Two patients get one slot.\n\n## Context\n- Read: the clinic's booking rules.\n\n"
++       "## Expectation\n- Done means: A tester books a slot and sees it taken.\n")
++THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
++
++
++class WriteApprovedTest(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        self.base = self.tmp.name + "/"
++        self.root = os.path.join(self.base, "product-os")
++        self.work = os.path.join(self.tmp.name, "work")
++        os.makedirs(self.work)
++        self.put("_spine.yaml", "features: []\n")
++        self.put("care/booking/capability.md", "# Capability: Booking\n")
++        self.put("intents/bi-1.md", "# Patients book online\n")
++
++    def tearDown(self):
++        self.tmp.cleanup()
++
++    def put(self, rel, text):
++        path = os.path.join(self.root, rel)
++        os.makedirs(os.path.dirname(path), exist_ok=True)
++        with open(path, "w", encoding="utf-8") as fh:
++            fh.write(text)
++
++    def read(self, rel):
++        with open(os.path.join(self.root, rel), encoding="utf-8") as fh:
++            return fh.read()
++
++    def src(self, name, text):
++        path = os.path.join(self.work, name)
++        with open(path, "w", encoding="utf-8") as fh:
++            fh.write(text)
++        return path
++
++    def files(self):
++        out = {}
++        for d, _, names in os.walk(self.root):
++            for n in names:
++                with open(os.path.join(d, n), encoding="utf-8") as fh:
++                    out[os.path.relpath(os.path.join(d, n), self.root)] = fh.read()
++        return out
++
++    def run_req(self, pages, approved_by="the product owner"):
++        req = {"by": "a test", "source": "a review", "pages": pages}
++        if approved_by is not None:
++            req["approved_by"] = approved_by
++        rp, out = os.path.join(self.work, "req.json"), os.path.join(self.work, "out.json")
++        with open(rp, "w", encoding="utf-8") as fh:
++            json.dump(req, fh)
++        p = subprocess.run([sys.executable, SCRIPT, "--request", rp, "--product-base", self.base,
++                            "--out", out], capture_output=True, text=True)
++        report = None
++        if p.returncode == 0:
++            with open(out, encoding="utf-8") as fh:
++                report = json.load(fh)
++        return p.returncode, p.stderr, report
++
++    def test_writes_a_new_feature_and_its_ice_word_for_word(self):
++        code, err, report = self.run_req([
++            {"page": "care/booking/book-slot/feature.md", "from": self.src("f.md", FEATURE)},
++            {"page": "care/booking/book-slot/ice.md", "from": self.src("i.md", ICE)}])
++        self.assertEqual(code, 0, err)
++        self.assertEqual(self.read("care/booking/book-slot/feature.md"), FEATURE)
++        self.assertEqual(self.read("care/booking/book-slot/ice.md"), ICE)
++        self.assertEqual([w["action"] for w in report["written"]], ["created", "created"])
++        self.assertEqual(report["approved_by"], "the product owner")
++
++    def test_replaces_a_page_that_is_there(self):
++        self.put("care/booking/book-slot/feature.md", "# Feature: Book a slot\n\n## What it does\nOld.\n")
++        code, err, report = self.run_req([{"page": "care/booking/book-slot/feature.md",
++                                           "from": self.src("f.md", FEATURE)}])
++        self.assertEqual(code, 0, err)
++        self.assertEqual(self.read("care/booking/book-slot/feature.md"), FEATURE)
++        self.assertEqual(report["written"][0]["action"], "replaced")
++
++    def test_an_ice_page_for_a_capability(self):
++        code, err, _ = self.run_req([{"page": "care/booking/ice.md", "from": self.src("i.md", ICE)}])
++        self.assertEqual(code, 0, err)
++        self.assertEqual(self.read("care/booking/ice.md"), ICE)
++
++    def assertRefused(self, pages, needle, approved_by="the product owner"):
++        before = self.files()
++        code, err, _ = self.run_req(pages, approved_by)
++        self.assertEqual(code, 2, err)
++        self.assertIn(needle, err)
++        self.assertEqual(self.files(), before)
++
++    def test_refuses_a_thin_line(self):
++        self.assertRefused([{"page": "care/booking/ice.md", "from": self.src("i.md", THIN + "\n\n" + ICE)}],
++                           "Thin line")
++
++    def test_refuses_an_ice_section_on_a_part_page(self):
++        text = FEATURE + "\n## Agent intent (ICE)\n- Goal: A patient books a free slot.\n"
++        self.assertRefused([{"page": "care/booking/book-slot/feature.md", "from": self.src("f.md", text)}],
++                           "ICE has its own page")
++
++    def test_refuses_an_ice_page_missing_a_part(self):
++        self.assertRefused([{"page": "care/booking/ice.md", "from": self.src("i.md", ICE.split("## Expectation")[0])}],
++                           "lacks Expectation")
++
++    def test_refuses_an_ice_page_out_of_order(self):
++        parts = ICE.split("\n\n")
++        self.assertRefused([{"page": "care/booking/ice.md", "from": self.src("i.md", "\n\n".join([parts[1], parts[0], parts[2]]))}],
++                           "in that order")
++
++    def test_refuses_an_empty_part(self):
++        text = ICE.replace("- Read: the clinic's booking rules.\n", "")
++        self.assertRefused([{"page": "care/booking/ice.md", "from": self.src("i.md", text)}], "Context section is empty")
++
++    def test_refuses_an_ice_with_no_part_beside_it(self):
++        self.assertRefused([{"page": "care/lonely/ice.md", "from": self.src("i.md", ICE)}], "holds no capability or feature page")
++
++    def test_refuses_a_wrong_title(self):
++        self.assertRefused([{"page": "care/booking/book-slot/feature.md",
++                             "from": self.src("f.md", FEATURE.replace("# Feature:", "# Capability:"))}], "starts with")
++
++    def test_refuses_an_intent_page_the_spine_and_the_outside(self):
++        self.assertRefused([{"page": "intents/bi-1.md", "from": self.src("x.md", "# Patients book online\n")}], "only a domain")
++        self.assertRefused([{"page": "_spine.yaml", "from": self.src("x.md", "features: []\n")}], "only a domain")
++        self.assertRefused([{"page": "../x/feature.md", "from": self.src("x.md", FEATURE)}], "leaves the model")
++
++    def test_refuses_with_no_approver(self):
++        self.assertRefused([{"page": "care/booking/ice.md", "from": self.src("i.md", ICE)}], "approved_by", approved_by=None)
++
++    def test_refuses_replacing_a_thin_page(self):
++        self.put("care/booking/ice.md", THIN + "\n\n" + ICE)
++        self.assertRefused([{"page": "care/booking/ice.md", "from": self.src("i.md", ICE)}], "is thin")
++
++    def test_one_bad_page_refuses_all(self):
++        self.assertRefused([
++            {"page": "care/booking/book-slot/feature.md", "from": self.src("f.md", FEATURE)},
++            {"page": "care/booking/ice.md", "from": self.src("i.md", THIN + "\n" + ICE)}], "Thin line")
++
++    def test_a_failed_write_puts_every_page_back_and_removes_new_folders(self):
++        sys.path.insert(0, HERE)
++        import write_approved
++        self.put("care/booking/book-slot/feature.md", "# Feature: Book a slot\n")
++        before = self.files()
++        real = write_approved.safe_write.atomic_write
++        calls = []
++
++        def fail_second(path, text):
++            calls.append(path)
++            if len(calls) == 2:
++                raise OSError("disk full")
++            real(path, text)
++
++        write_approved.safe_write.atomic_write = fail_second
++        try:
++            with self.assertRaises(OSError):
++                write_approved.write_all([
++                    (os.path.join(self.root, "care/booking/book-slot/feature.md"), "", "feature.md", FEATURE),
++                    (os.path.join(self.root, "care/new/fresh/ice.md"), "", "ice.md", ICE)])
++        finally:
++            write_approved.safe_write.atomic_write = real
++        self.assertEqual(self.files(), before)
++        self.assertFalse(os.path.exists(os.path.join(self.root, "care/new")))
++
++    def test_refuses_a_page_named_twice(self):
++        src = self.src("i.md", ICE)
++        self.assertRefused([{"page": "care/booking/ice.md", "from": src},
++                            {"page": "care/booking/ice.md", "from": src}], "named twice")
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/core/components/skills/enrich-grounding/scripts/write_approved.py b/core/components/skills/enrich-grounding/scripts/write_approved.py
+new file mode 100644
+index 000000000..518a1f00b
+--- /dev/null
++++ b/core/components/skills/enrich-grounding/scripts/write_approved.py
+@@ -0,0 +1,213 @@
++#!/usr/bin/env python3
++"""
++write_approved.py — write product-model pages from text a person approved, word for word
++(enrich-grounding, #1031).
++
++A person reviews a page's text before it reaches the model: a domain, capability or feature
++page, or an ICE page (ontology v15: an ICE has its own page, `ice.md`, beside its part's page,
++with three sections, Intent, Context and Expectation). This script copies each approved text to
++its page exactly as it is. It decides nothing and composes nothing.
++
++    python3 write_approved.py --request <working>/approved-request.json \
++        --product-base <product_base> --out <working>/approved-report.json
++
++approved-request.json:
++    {"by": "<the play or run that asks>",
++     "approved_by": "<the person who approved the text>",
++     "source": "<where the approval is recorded>",
++     "pages": [
++       {"page": "<domain>/<capability>/<feature>/feature.md", "from": "<path to the approved text>"},
++       {"page": "<domain>/<capability>/<feature>/ice.md", "from": "<path to the approved text>"}]}
++
++- `page` is a path inside `<product_base>product-os/`, named domain.md, capability.md,
++  feature.md or ice.md. An intent page is author-intent-page's; the spine is never a page.
++- A capability page starts "# Capability:", a feature page "# Feature:". A part's page holds no
++  ICE section ("## Agent intent (ICE)"): the ICE has its own page.
++- An ICE page has "## Intent", "## Context" and "## Expectation", in that order, none empty. Its
++  folder holds its part's page (capability.md or feature.md), on disk or in the same request.
++- No text holds a Thin line, and no page that carries one on disk is replaced: the thin mark is
++  link-model-part's.
++- `approved_by` names the person. No page is named twice.
++
++Every check runs before the first write; any failure refuses the whole request (exit 2) and
++writes nothing. When a write fails part way, every page already written is put back as it was,
++a page that was new is removed, and so is each folder the run made (exit 2). Every page is written through
++safe_write.atomic_write. Reads and writes files on disk only; no git, no network.
++Exit 0 written, 2 refused or bad input.
++"""
++
++import argparse
++import json
++import os
++import re
++import sys
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import safe_write  # noqa: E402  (stamped beside this script)
++
++PAGES = {"domain.md", "capability.md", "feature.md", "ice.md"}
++TITLES = {"capability.md": "# Capability:", "feature.md": "# Feature:"}
++PART_PAGES = ("capability.md", "feature.md")
++ICE_PARTS = ("Intent", "Context", "Expectation")
++INLINE_ICE = "## Agent intent (ICE)"
++THIN = re.compile(r"^\s*(?:>\s*)?\**Thin(?: ICE)?\**\s*:", re.I)
++
++
++class Refused(Exception):
++    pass
++
++
++def inside(root, rel):
++    if not isinstance(rel, str) or not rel or os.path.isabs(rel) or ".." in rel.split("/"):
++        raise Refused(f"the path {rel!r} leaves the model folder")
++    full = os.path.realpath(os.path.join(root, rel))
++    if not full.startswith(os.path.realpath(root) + os.sep):
++        raise Refused(f"the path {rel!r} leaves the model folder")
++    return full
++
++
++def sections(text):
++    """[(heading, body)] for each '## ' heading outside a code fence, in order."""
++    out, cur, fence = [], None, False
++    for line in text.splitlines():
++        if line.strip().startswith("```"):
++            fence = not fence
++        if not fence and line.startswith("## "):
++            cur = [line[3:].strip(), []]
++            out.append(cur)
++        elif cur is not None:
++            cur[1].append(line)
++    return [(h, "\n".join(b)) for h, b in out]
++
++
++def check_text(rel, name, text):
++    if not text.strip():
++        raise Refused(f"{rel}: the approved text is empty")
++    if any(THIN.match(ln) for ln in text.splitlines()):
++        raise Refused(f"{rel}: the approved text holds a Thin line; the thin mark is link-model-part's")
++    if name in TITLES and not text.lstrip().startswith(TITLES[name]):
++        raise Refused(f"{rel}: a {name[:-3]} page starts with {TITLES[name]!r}")
++    if name != "ice.md" and any(ln.strip() == INLINE_ICE for ln in text.splitlines()):
++        raise Refused(f"{rel}: a part's page holds no ICE section; the ICE has its own page, ice.md")
++    if name == "ice.md":
++        found = sections(text)
++        heads = [h for h, _ in found]
++        missing = [p for p in ICE_PARTS if p not in heads]
++        if missing:
++            raise Refused(f"{rel}: an ICE page has Intent, Context and Expectation; it lacks {', '.join(missing)}")
++        if [h for h in heads if h in ICE_PARTS] != list(ICE_PARTS):
++            raise Refused(f"{rel}: an ICE page has Intent, Context and Expectation, in that order")
++        for h, body in found:
++            if h in ICE_PARTS and not body.strip():
++                raise Refused(f"{rel}: its {h} section is empty")
++
++
++def plan(root, request):
++    if not isinstance(request, dict):
++        raise Refused("the request is not a JSON object")
++    if not isinstance(request.get("approved_by"), str) or not request["approved_by"].strip():
++        raise Refused("`approved_by` must name the person who approved the text")
++    pages = request.get("pages")
++    if not isinstance(pages, list) or not pages or not all(isinstance(p, dict) for p in pages):
++        raise Refused("`pages` must be a non-empty list of objects")
++    writes, seen = [], set()
++    for p in pages:
++        rel = p.get("page")
++        full = inside(root, rel)
++        name = os.path.basename(rel)
++        if name not in PAGES:
++            raise Refused(f"{rel}: only a domain, capability, feature or ICE page is written here")
++        if rel.split("/")[0] == "intents":
++            raise Refused(f"{rel}: an intent page is author-intent-page's")
++        if full in seen:
++            raise Refused(f"{rel} is named twice")
++        seen.add(full)
++        src = p.get("from")
++        if not isinstance(src, str) or not os.path.isfile(src):
++            raise Refused(f"{rel}: the approved text {src!r} is not a file")
++        with open(src, encoding="utf-8") as fh:
++            text = fh.read()
++        check_text(rel, name, text)
++        if os.path.isfile(full):
++            with open(full, encoding="utf-8") as fh:
++                if any(THIN.match(ln) for ln in fh.read().splitlines()):
++                    raise Refused(f"{rel}: the page on disk is thin; its thin mark is link-model-part's, "
++                                  f"so it is not replaced here")
++        writes.append((full, rel, name, text))
++    for full, rel, name, _ in writes:
++        if name != "ice.md":
++            continue
++        folder = os.path.dirname(full)
++        part = [n for n in PART_PAGES
++                if os.path.isfile(os.path.join(folder, n)) or os.path.join(folder, n) in seen]
++        if not part:
++            raise Refused(f"{rel}: its folder holds no capability or feature page; an ICE sits beside its part")
++    return writes
++
++
++def missing_dirs(full):
++    """The folders above `full` that do not exist yet, deepest first."""
++    out, d = [], os.path.dirname(full)
++    while d and not os.path.isdir(d):
++        out.append(d)
++        d = os.path.dirname(d)
++    return out
++
++
++def write_all(writes):
++    """Write every page; when one write fails, put back each page already written, remove the
++    folders this run made, and raise."""
++    done, made = [], []
++    try:
++        for full, _rel, _name, text in writes:
++            old = None
++            if os.path.exists(full):
++                with open(full, encoding="utf-8") as fh:
++                    old = fh.read()
++            made += missing_dirs(full)
++            safe_write.atomic_write(full, text)
++            done.append((full, old))
++    except OSError:
++        for full, old in reversed(done):
++            if old is None:
++                os.remove(full)
++            else:
++                safe_write.atomic_write(full, old)
++        for d in made:
++            if os.path.isdir(d) and not os.listdir(d):
++                os.rmdir(d)
++        raise
++
++
++def main():
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--request", required=True)
++    ap.add_argument("--product-base", required=True)
++    ap.add_argument("--out", required=True)
++    a = ap.parse_args()
++    root = os.path.join(a.product_base, "product-os")
++    try:
++        with open(a.request, encoding="utf-8") as fh:
++            request = json.load(fh)
++        writes = plan(root, request)
++        actions = [(rel, "replaced" if os.path.exists(full) else "created") for full, rel, _, _ in writes]
++    except (Refused, OSError, ValueError, json.JSONDecodeError, UnicodeDecodeError) as e:
++        sys.stderr.write(f"write_approved.py: refused, nothing written: {e}\n")
++        return 2
++    try:
++        write_all(writes)
++    except OSError as e:
++        sys.stderr.write(f"write_approved.py: a write failed, every page is back as it was: {e}\n")
++        return 2
++    report = {"written": [{"page": rel, "action": act} for rel, act in actions],
++              "approved_by": request["approved_by"], "source": request.get("source", ""),
++              "by": request.get("by", "")}
++    with open(a.out, "w", encoding="utf-8") as fh:
++        json.dump(report, fh, indent=2)
++    print(json.dumps(report))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/skills/link-model-part/SKILL.md b/core/components/skills/link-model-part/SKILL.md
+index 9327b0829..c162a71a3 100644
+--- a/core/components/skills/link-model-part/SKILL.md
++++ b/core/components/skills/link-model-part/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: link-model-part
+-description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced, its intents added or its issue named; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /shape-slice; an /update-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin). Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
++description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced, its intents added or its issue named; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /shape-slice; an /update-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin); an ICE, which has its own page ice.md beside its part's page, gets its entry in the spine's ices list (the part it is for, its kind and its page), and a thin ICE gets the thin mark on its entry and as one Thin line at the top of its page — a part that has an ICE is never marked thin itself (ontology v15, #1031). Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
+ user-invocable: false
+ model: sonnet
+ allowed-tools: Read, Bash
+@@ -18,7 +18,7 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
+ 
+ | Field | Required | Meaning |
+ |-------|----------|---------|
+-| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`) — see the script's header for the fields of each mode. |
++| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice|ice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`; an ICE: `new` with `for` and `doc`, or `update` to mark it thin) — see the script's header for the fields of each mode. |
+ | `product_base` | yes | The project's product base; the model is under `<product_base>product-os/`. |
+ | `out` | yes | Where to write `link-report.json`. |
+ 
+@@ -26,9 +26,10 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
+ 
+ 1. **Check the pages are there.** Each part's page must already be written, in its folder: a
+    domain at `<folder>/domain.md`; a capability in `capabilities/<id>/` or under its domain's
+-   folder; a feature in `features/<id>/` or under its capability's folder. A thin part's page
+-   must have its ICE section. When a page is missing, stop and say so — this skill never
+-   writes one.
++   folder; a feature in `features/<id>/` or under its capability's folder; an ICE's page
++   `ice.md` in the folder of its part's page, with Intent, Context and Expectation. A thin
++   part's page must have its ICE section. When a page is missing, stop and say so — this skill
++   never writes one.
+ 2. **Link the parts.** Run the script:
+ 
+    ```bash
+@@ -42,8 +43,8 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
+ 
+ ## Output
+ 
+-`link-report.json`, at `out`: `written` (each new part's id), `updated` (each existing part
+-changed), `thin` (each part now marked thin), `changed` (every file it touched, relative to the
++`link-report.json`, at `out`: `written` (each new part's id, an ICE's too), `updated` (each
++existing part or ICE changed), `thin` (each part or ICE now marked thin), `changed` (every file it touched, relative to the
+ product base) and `layout_kept` (false only when the spine had to be written whole). Nothing is
+ written when the script exits 2; its error names the part and why.
+ 
+@@ -58,5 +59,10 @@ written when the script exits 2; its error names the part and why.
+ - **The thin mark is two marks that agree.** `metadata.thin: true` on the spine entry and
+   exactly one Thin line on the page, just before its ICE. The play that deepens the part
+   removes both. A domain is never thin.
++- **An ICE is its own node.** Its entry in `ices` names the one capability or feature it is
++  for, never a business intent; each part has at most one. A thin ICE carries the mark on its
++  own entry and page, at the top, before Intent; the part it is for is not marked. The `ices`
++  list is made only when an ICE is added, because a spine with that list is checked as one
++  whose ICE are nodes.
+ - **Never re-parent.** A part's parent is set when it is new; moving it later is
+   `link-model-gaps`'s work.
+diff --git a/core/components/skills/link-model-part/scripts/link_part.py b/core/components/skills/link-model-part/scripts/link_part.py
+index e6c8f6983..85b92e990 100644
+--- a/core/components/skills/link-model-part/scripts/link_part.py
++++ b/core/components/skills/link-model-part/scripts/link_part.py
+@@ -42,6 +42,20 @@
+ - kind `slice`, mode `update` only (a slice is shaped by /shape-slice): `add_features` are added
+   to its `feature_refs`, in their order, at the end or right after the feature named by `after`;
+   a feature already there is not added twice, and each must be in the spine (#931).
++- kind `ice` (ontology v15, #1031): an ICE is its own node, with its own page and its own entry
++  in the spine's `ices` list.
++    {"id": "ice-booking", "kind": "ice", "mode": "new", "for": "cap-booking",
++     "doc": "care/booking/ice.md", "thin": true}
++  mode `new`: the id must not be in the spine; `for` must be a capability or feature in the
++  spine (or given earlier in the same request) that has no ICE yet; its page `ice.md` must be on
++  disk, in the folder of that part's page, with "## Intent", "## Context" and "## Expectation",
++  none empty. The entry gets id, for, for_kind (capability or feature), doc and metadata
++  {created_by, thin when thin}; it names no business intent. mode `update` only marks an ICE
++  that is there thin. A thin ICE carries the thin mark: `metadata.thin: true` on its entry and
++  exactly one Thin line at the top of its page, before "## Intent". A part that has an ICE is
++  never marked thin itself; its mark belongs on its ICE, so an ICE is refused for a part that
++  carries the mark. The `ices` list is made only when an
++  ICE is added.
+ 
+ Every check runs before the first write; any failure refuses the whole request (exit 2) and
+ writes nothing. When a write itself fails part way, every file already written is put back as
+@@ -73,6 +87,10 @@
+ ICE_HEADINGS = ("## Agent intent (ICE)", "## Intent")
+ OLD_THIN = re.compile(r"^\s*(?:>\s*)?\**Thin(?: ICE)?\**\s*:", re.I)
+ NEW_KEYS = ("id", "slug", "intents", "one_line", "doc")
++ICE_PAGE = "ice.md"
++ICE_PARTS = ("Intent", "Context", "Expectation")
++ICE_KIND = {"capability": "capability", "feature": "feature"}
++BI_KEYS = ("intents", "business_intent", "business_intents")
+ NOT_A_DOMAIN_FOLDER = {"capabilities", "features", "intents"}
+ 
+ 
+@@ -106,6 +124,78 @@ def with_thin_line(text, line):
+     return "\n".join(before + ([""] if before else []) + [line, ""] + lines[at:]).rstrip("\n") + "\n"
+ 
+ 
++def ice_parts_missing(text):
++    """The ICE parts an ice.md lacks or leaves empty (headings outside code fences)."""
++    found, cur, fence = {}, None, False
++    for line in text.splitlines():
++        if line.strip().startswith("```"):
++            fence = not fence
++        if not fence and line.startswith("## "):
++            cur = line[3:].strip()
++            found.setdefault(cur, [])
++        elif cur is not None:
++            found[cur].append(line)
++    return [p for p in ICE_PARTS if p not in found or not "\n".join(found[p]).strip()]
++
++
++def plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report):
++    """Add one ICE entry (mode new) or mark one thin (mode update); writes go into `pages`."""
++    iid, mode = p["id"], p["mode"]
++    if mode == "new":
++        if iid in before_ids or iid in ices:
++            raise Refused(f"{iid} is already in the spine")
++        for k in BI_KEYS:
++            if k in p:
++                raise Refused(f"{iid}: an ICE names no business intent; it finds them through its part")
++        part = p.get("for")
++        kind = next((k for k in ICE_KIND if part in index[k]), None)
++        if not part or kind is None:
++            raise Refused(f"{iid}: its part {part!r} is not a capability or feature in the spine")
++        if part in ice_for:
++            raise Refused(f"{iid}: {part} already has an ICE ({ice_for[part]}); each part has exactly one")
++        if (index[kind][part].get("metadata") or {}).get("thin"):
++            raise Refused(f"{iid}: {part} carries the thin mark itself; a part with an ICE is never thin, "
++                          f"so its mark must come off before its ICE is added")
++        doc = (p.get("doc") or "").strip("/")
++        full = inside(root, doc)
++        part_dir = os.path.dirname(index[kind][part].get("doc", ""))
++        if os.path.basename(doc) != ICE_PAGE or os.path.dirname(doc) != part_dir:
++            raise Refused(f"{iid}: its page must be {part_dir}/{ICE_PAGE}, beside its part's page")
++        if not os.path.isfile(full):
++            raise Refused(f"{iid}: its page {doc} is not on disk; write the page first")
++        with open(full, encoding="utf-8") as fh:
++            text = fh.read()
++        missing = ice_parts_missing(text)
++        if missing:
++            raise Refused(f"{iid}: its page {doc} lacks {', '.join(missing)}; an ICE has all three parts")
++        entry = {"id": iid, "for": part, "for_kind": ICE_KIND[kind], "doc": doc,
++                 "metadata": {"created_by": by}}
++        ices[iid] = entry
++        ice_for[part] = iid
++        report["written"].append(iid)
++    else:
++        if iid not in ices:
++            raise Refused(f"{iid} is not in the spine as an ICE; use mode new")
++        if set(p) - {"id", "kind", "mode", "thin"} or not p.get("thin"):
++            raise Refused(f"{iid}: an ICE is updated here only to mark it thin")
++        entry = ices[iid]
++        entry.setdefault("metadata", {})["updated_by"] = by
++        report["updated"].append(iid)
++    if p.get("thin"):
++        page = inside(root, entry["doc"])
++        if not os.path.isfile(page):
++            raise Refused(f"{iid}: its page {entry['doc']} is not on disk")
++        with open(page, encoding="utf-8") as fh:
++            text = pages.get(page) or fh.read()
++        new_text = with_thin_line(text, THIN_LINE)
++        if new_text is None:
++            raise Refused(f"{iid}: its page has no Intent section to mark thin")
++        entry.setdefault("metadata", {})["thin"] = True
++        if new_text != text:
++            pages[page] = new_text
++        report["thin"].append(iid)
++
++
+ def allowed_docs(kind, pid, doc, parent_entry):
+     if kind == "domain":
+         folder = os.path.dirname(doc)
+@@ -155,14 +245,27 @@ def plan(root, spine, request):
+     before = {kind: set(ids) for kind, ids in index.items()}
+     pages, intents, seen = {}, set(), set()
+     report = {"written": [], "updated": [], "thin": [], "changed": []}
++    old_ices = [e for e in (spine.get("ices") or []) if isinstance(e, dict)]
++    ices = {e["id"]: copy.deepcopy(e) for e in old_ices if e.get("id")}
++    added_ices = []
++    ice_for = {e.get("for"): e["id"] for e in ices.values() if e.get("for")}
++    before_ids = set().union(*before.values())
++    thin_parts = []
+     for p in parts:
+         pid, kind, mode = p.get("id"), p.get("kind"), p.get("mode")
+-        if not pid or kind not in KINDS or mode not in ("new", "update"):
+-            raise Refused(f"each part needs an id, a kind (domain, capability, feature or slice) and a "
+-                          f"mode (new or update): {p!r}")
++        if not pid or (kind not in KINDS and kind != "ice") or mode not in ("new", "update"):
++            raise Refused(f"each part needs an id, a kind (domain, capability, feature, slice or ice) "
++                          f"and a mode (new or update): {p!r}")
+         if pid in seen:
+             raise Refused(f"{pid} is given twice")
+         seen.add(pid)
++        if kind == "ice":
++            had = set(ices)
++            plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report)
++            added_ices += [i for i in ices if i not in had]
++            continue
++        if pid in ices:
++            raise Refused(f"{pid} is already in the spine as an ICE")
+         if kind == "slice":
+             if mode != "update" or p.get("thin"):
+                 raise Refused(f"{pid}: a slice is only updated here (add_features); /shape-slice shapes a slice")
+@@ -222,6 +325,7 @@ def plan(root, spine, request):
+             report["updated"].append(pid)
+         intents.update(entry.get("intents") or [])
+         if p.get("thin"):
++            thin_parts.append(pid)
+             page = inside(root, entry["doc"])
+             if not os.path.isfile(page):
+                 raise Refused(f"{pid}: its page {entry['doc']} is not on disk")
+@@ -234,9 +338,15 @@ def plan(root, spine, request):
+             if new_text != text:
+                 pages[page] = new_text
+             report["thin"].append(pid)
++    for pid in thin_parts:
++        if pid in ice_for:
++            raise Refused(f"{pid} has an ICE ({ice_for[pid]}); its thin mark belongs on the ICE, not the part")
+     for i in sorted(intents):
+         if not os.path.isfile(inside(root, f"intents/{i}.md")):
+             raise Refused(f"the business intent {i} has no page in the model")
++    if ices != {e["id"]: e for e in old_ices if e.get("id")} or added_ices:
++        new_spine["ices"] = [ices[e["id"]] for e in old_ices if e.get("id") in ices] + \
++            [ices[i] for i in added_ices]
+     return new_spine, pages, report
+ 
+ 
+diff --git a/core/components/skills/link-model-part/scripts/safe_write.py b/core/components/skills/link-model-part/scripts/safe_write.py
+index 195bc134c..49ffbdf07 100644
+--- a/core/components/skills/link-model-part/scripts/safe_write.py
++++ b/core/components/skills/link-model-part/scripts/safe_write.py
+@@ -8,8 +8,8 @@
+ permissions the process would give any new file (0666 less its umask).
+ 
+ /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
+-write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
+-their output files and pages through it. No other script of theirs calls os.replace or
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py
++and write_approved.py write their output files and pages through it. No other script of theirs calls os.replace or
+ tempfile.mkstemp.
+ """
+ 
+diff --git a/core/components/skills/link-model-part/scripts/test_link_part.py b/core/components/skills/link-model-part/scripts/test_link_part.py
+index ad5c521f9..1afb26583 100644
+--- a/core/components/skills/link-model-part/scripts/test_link_part.py
++++ b/core/components/skills/link-model-part/scripts/test_link_part.py
+@@ -302,5 +302,117 @@ def assert_refused_parts(self, parts, words):
+         self.assertIn(words, r.stderr)
+         self.assertEqual(self.read("_spine.yaml"), before)
+ 
++
++ICE = ("## Intent\n- Goal: Send one message to one address.\n- Limit: Never without an address.\n"
++       "- Fails if: A message reaches the wrong address.\n\n## Context\n- Read: the mail rules.\n\n"
++       "## Expectation\n- Done means: A tester sees the message arrive.\n")
++THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
++
++
++class IceEntryTest(unittest.TestCase):
++    """ICE nodes (ontology v15, #1031): an entry in the spine's `ices` list, beside a page ice.md."""
++
++    write, read, run_request, new_fn2 = (LinkPartTest.write, LinkPartTest.read,
++                                         LinkPartTest.run_request, LinkPartTest.new_fn2)
++    tearDown = LinkPartTest.tearDown
++
++    def setUp(self):
++        LinkPartTest.setUp(self)
++        self.write("features/fn-1/ice.md", ICE)
++        self.write("capabilities/cap-1/ice.md", ICE)
++
++    def ice(self, **kw):
++        e = {"id": "ice-1", "kind": "ice", "mode": "new", "for": "fn-1", "doc": "features/fn-1/ice.md"}
++        e.update(kw)
++        return e
++
++    def test_a_thin_feature_ice_gets_its_entry_and_its_thin_line(self):
++        r, report = self.run_request(parts=[self.ice(thin=True)])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        text = self.read("_spine.yaml")
++        self.assertTrue(text.startswith("# The spine — a comment that must stay."))
++        entry = yaml.safe_load(text)["ices"][0]
++        self.assertEqual(entry, {"id": "ice-1", "for": "fn-1", "for_kind": "feature",
++                                 "doc": "features/fn-1/ice.md",
++                                 "metadata": {"created_by": "/test", "thin": True}})
++        page = self.read("features/fn-1/ice.md")
++        self.assertEqual(page.splitlines()[0], THIN)
++        self.assertEqual(page.count("Thin:"), 1)
++        self.assertEqual(report["written"], ["ice-1"])
++        self.assertEqual(report["thin"], ["ice-1"])
++        fn1 = next(f for f in yaml.safe_load(text)["features"] if f["id"] == "fn-1")
++        self.assertNotIn("thin", fn1.get("metadata") or {})
++
++    def test_a_capability_ice_that_is_not_thin(self):
++        r, _ = self.run_request(parts=[self.ice(id="ice-cap", **{"for": "cap-1", "doc": "capabilities/cap-1/ice.md"})])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        entry = yaml.safe_load(self.read("_spine.yaml"))["ices"][0]
++        self.assertEqual(entry["for_kind"], "capability")
++        self.assertNotIn("thin", entry["metadata"])
++        self.assertEqual(self.read("capabilities/cap-1/ice.md"), ICE)
++
++    def test_a_new_feature_and_its_ice_in_one_request(self):
++        self.write("features/fn-2/ice.md", ICE)
++        r, report = self.run_request(parts=[dict(self.new_fn2(thin=False), kind="feature"),
++                                            self.ice(id="ice-2", **{"for": "fn-2", "doc": "features/fn-2/ice.md"})])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertEqual(report["written"], ["fn-2", "ice-2"])
++
++    def test_an_ice_is_marked_thin_later(self):
++        self.run_request(parts=[self.ice()])
++        r, report = self.run_request(parts=[{"id": "ice-1", "kind": "ice", "mode": "update", "thin": True}])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        entry = yaml.safe_load(self.read("_spine.yaml"))["ices"][0]
++        self.assertTrue(entry["metadata"]["thin"])
++        self.assertEqual(self.read("features/fn-1/ice.md").splitlines()[0], THIN)
++
++    def test_no_ice_no_ices_list(self):
++        r, _ = self.run_request([dict(self.new_fn2(thin=False))])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertNotIn("ices", yaml.safe_load(self.read("_spine.yaml")))
++
++    def refused(self, parts, words, first=None):
++        if first:
++            r, _ = self.run_request(parts=first)
++            self.assertEqual(r.returncode, 0, r.stderr)
++        before = {rel: self.read(rel) for rel in ("_spine.yaml", "features/fn-1/ice.md", "features/fn-1/feature.md")}
++        r, _ = self.run_request(parts=parts)
++        self.assertEqual(r.returncode, 2)
++        self.assertIn(words, r.stderr)
++        self.assertEqual({rel: self.read(rel) for rel in before}, before)
++
++    def test_a_second_ice_for_one_part_is_refused(self):
++        self.refused([self.ice(id="ice-9")], "already has an ICE", first=[self.ice()])
++
++    def test_an_ice_page_away_from_its_part_is_refused(self):
++        self.refused([self.ice(doc="capabilities/cap-1/ice.md")], "beside its part's page")
++
++    def test_an_ice_page_missing_a_part_is_refused(self):
++        self.write("features/fn-1/ice.md", ICE.split("## Expectation")[0])
++        self.refused([self.ice()], "lacks Expectation")
++
++    def test_an_ice_for_a_part_not_in_the_spine_is_refused(self):
++        self.refused([self.ice(**{"for": "fn-9"})], "not a capability or feature in the spine")
++
++    def test_an_ice_naming_a_business_intent_is_refused(self):
++        self.refused([self.ice(intents=["bi-1"])], "names no business intent")
++
++    def test_an_ice_update_does_only_the_thin_mark(self):
++        self.refused([{"id": "ice-1", "kind": "ice", "mode": "update", "doc": "x/ice.md", "thin": True}],
++                     "only to mark it thin", first=[self.ice()])
++
++    def test_a_part_that_carries_the_thin_mark_gets_no_ice(self):
++        r, _ = self.run_request(parts=[{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.refused([self.ice()], "carries the thin mark itself")
++
++    def test_a_part_with_an_ice_is_not_marked_thin_itself(self):
++        self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}],
++                     "belongs on the ICE", first=[self.ice()])
++
++    def test_a_part_and_its_ice_in_one_request_keep_the_mark_off_the_part(self):
++        self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}, self.ice()],
++                     "thin mark")
++
+ if __name__ == "__main__":
+     unittest.main()
+diff --git a/core/components/skills/remove-model-part/scripts/safe_write.py b/core/components/skills/remove-model-part/scripts/safe_write.py
+index 195bc134c..49ffbdf07 100644
+--- a/core/components/skills/remove-model-part/scripts/safe_write.py
++++ b/core/components/skills/remove-model-part/scripts/safe_write.py
+@@ -8,8 +8,8 @@
+ permissions the process would give any new file (0666 less its umask).
+ 
+ /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
+-write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
+-their output files and pages through it. No other script of theirs calls os.replace or
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py
++and write_approved.py write their output files and pages through it. No other script of theirs calls os.replace or
+ tempfile.mkstemp.
+ """
+ 
