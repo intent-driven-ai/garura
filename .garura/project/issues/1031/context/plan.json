@@ -1,0 +1,12 @@
+{
+  "issue": "1031",
+  "plan_id": null,
+  "plan_branch": null,
+  "issue_branch": "feature/1031-skills-write-ice-page",
+  "closed_plan": null,
+  "source": {
+    "ref": "origin/main",
+    "fetched": true,
+    "plan_branches_read": []
+  }
+}
