@@ -7,17 +7,46 @@ What makes it unique: it starts from something that works, not from a written sp
 
 Features: Specify intents (fn-specify-intents), Specify domains (fn-specify-domains), Specify capabilities (fn-specify-capabilities), Specify from a prototype's journeys (fn-specify-from-journeys), Specify from a video (fn-specify-from-video), Specify from a file (fn-specify-from-file), Specify from a project folder (fn-specify-from-folder), Specify from a deployed site (fn-specify-from-site), Specify from a document (fn-specify-from-document), Specify from plain words (fn-specify-from-words), Validate the attribution (fn-validate-attribution), Specify against what exists (fn-specify-against-existing).
 
-## Agent intent (ICE)
-- Goal: What a person gives becomes a confirmed understanding of the product, at the depth the product owner chooses.
-- Limit: What a person gives is the input, never the intent. An intent must allow more than one way to build it, so nothing copies how the source does it.
-- Limit: Nothing without a basis. Every title, outcome and limit traces to the source, to memory or to the person's own answers.
-- Limit: Only a person confirms an intent.
-- Limit: Each kind can be written on its own, and no part waits for another to run first.
-- Limit: The one who does the work reviews it first, and then a judge with no context checks it. The doer's own review never counts as the check.
-- Fails if: A source couldn't be read and the work went on anyway.
-- Fails if: An intent describes the source (its screens, fields or copied text) instead of the outcome the person wants.
-- Fails if: A value appears that neither the source nor the person gave, with no basis named.
-- Fails if: A part of what was given that matters isn't attributed, and the judge can't see that it was read.
-- Fails if: Something already in the model is written as new, or a clash between intents isn't shown to a person.
-- Context: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: what the person gave, the intents, domains and capabilities already in the model, and what's known about the product's field.
-- Checked by: `rebuild-eval` runs discovery on a prototype and tests the result: each intent has its outcome, why, asked by, proof and sources, and the domain is a real one. A judge with clean context gets only what was given and the attribution record, and says what was missed. A person sees each thing sorted, with what it touches.
+Specify from a video, Validate the attribution and Specify against what exists are not built. Specify intents has four parts not built, and its page names them. Nothing checks an ICE against the rubric yet, and intents have no judge with no context yet.
+
+### Benefit hypothesis
+- Who it serves: the product owner, who wants to confirm what a product is for without writing a spec first.
+- What we believe: a person can give something that works and get a full product model from it, if the work stands on these rules:
+  - What the person gave stays readable as it was. Every later step can go back to it.
+  - A prototype is used, not only read. Its screens show what it has, and using it shows what it is for.
+  - Each kind of part has its own writer. One wrong reading of the source then cannot spread to every other kind.
+- How we will know: a new builder, who never saw the prototype, builds the product from the intents and the model alone. The rebuild test then tries what the prototype does on what the builder made. Design, layout and code may differ, but what a person can do and see may not. What is missing, half there or added is the drift. When the intents and the model do not bring the prototype back, they are not good enough to build from.
+
+### Boundary (In / Out / Never)
+- In: keeping what a person gives as a Source. A Source is a saved copy of a file, a project folder, a deployed site, a document or a person's own words. Later steps read this copy, so they do not need the original.
+- In: walking a prototype in journeys. A journey is one person's way through it, from what they set out to do to what they end with.
+- In: writing business intents, domains, capabilities and features. These kinds are the model that all later work reads.
+- In: setting each capability's quality and compliance needs, and rolling them up into the product profile. The profile holds the product's shape and the quality levels it commits to.
+- Out: linking parts that were written apart. Inside the discovery loop, a later step finds and makes those links. The work of managing the model owns the link rules.
+- Out: choosing what to build first. Later shaping work picks the features a person can test end to end and turns them into work items.
+- Out: keeping intents up to date as the product changes. This capability does not do it, and no capability in the model owns it yet.
+- Never: write over finished work. An intent page is never overwritten, a domain page keeps each section it had, and a capability at full depth is not detailed again. Other parts may already rely on these pages.
+- Never: set a capability to active, or rank one part above another. Ranking belongs to the later shaping work, and no step sets a capability active today.
+
+### Guiding rules
+- Every Source is kept the same way. A capture saves the Source's files with the run's evidence and writes one capture record: the kind of Source, the date it was read, who gave it (the git user running the work) and a fingerprint of each saved file. A fingerprint is a short code worked out from a file's bytes, so any change to the file changes the code. The reason: the Source must outlive the link or the file.
+- A failed capture stops the work. A missing file, a link that does not open, or no name for who gave the Source fails the capture. The person hears what could not be opened and gets asked for a readable copy or a working link. The reason: a model drawn from a source nobody read has no basis.
+- A gap another step left is a warning, not a stop. A missing intent page or a light domain page goes on record, and the run goes on. The reason: a person can start from whatever they have.
+- There are two ways to run. Started by hand, a step opens its own change, stops at its checkpoint, and lands the change. Inside the discovery loop, which runs the three writers together in rounds, a step opens nothing and does not wait: it works on the loop's branch, and the person decides at the loop's final review. The reason: the person decides once, on the whole result.
+- Inside the loop, one reader captures and walks the prototype once, and every writer reads that one capture. The reason: walking is long work that needs little judgment, so it runs once and apart from the writers.
+- Sample data is only an example. A tool shown with a bakery's tasks is about any team's work, not about bakeries. So intents, domains, capabilities and features hold for any such content, and never name the sample's company, items or counts.
+- Domain, capability and feature pages get two checks. A structure check tests the headings and the links. A judge then reads each page with no context: it gets only the page, its parent page and the guidance for its kind. The reason: a page can have the right shape and still be thin. A pass stands while those inputs do not change, so a second run does not judge the same text again.
+- Each writer starts from a clean model and checks its own scope at the end. A step stops if the model has unsaved changes when it starts. After it writes, a guard compares the model with how it started. A file outside the step's scope fails the step and goes back as it was. The reason: the comparison then shows only this run's work.
+
+## Sources
+- The one line, the unique line and the feature list the product owner approved on 2026-11-03.
+- .garura/product/product-os/intents/bi-1.md: "A person confirms the intents without writing a spec."
+- core/components/plays/discover-intent/reference/ice.md: "The Source is kept as it was when read", "A prototype is understood by using it", "one wrong intent spread to the whole model", "Stands alone, or runs inside a loop"
+- core/components/plays/discover-intent/scripts/capture_source.py: "keep a Source exactly as it was when read"
+- core/components/plays/discover-intent/scripts/persist_intent.py: "a business intent is never overwritten"
+- core/components/plays/discover-domains/reference/ice.md: "Starts from whatever is there, and never blocks", "keeping every section it had", "The eval settles"
+- core/components/plays/discover-capabilities/reference/ice.md: "never prioritizes (no slices, no", "Runs inside a loop without stopping", "Clean tree in, committed delta out", "Profile roll-up is monotonic-up"
+- core/components/agents/prototype-reader.md: "none walks the prototype again"
+- core/components/skills/author-business-intent/SKILL.md: "a work-tracking tool shown with a bakery's tasks is about any team's work"
+- core/tools/rebuild-eval/README.md: "A fresh agent, with no sight of the prototype and"
+- Shelf: none. No knowledge shelf covers software delivery planning.

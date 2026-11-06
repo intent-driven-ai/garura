@@ -839,3 +839,85 @@ slices:
   intents:
   - bi-788
   record: slices/sl-intent-to-design.yaml
+ices:
+- id: ice-specify-product
+  for: cap-specify-product
+  for_kind: capability
+  doc: software-delivery-planning/specify-product/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-intents
+  for: fn-specify-intents
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-intents/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-domains
+  for: fn-specify-domains
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-domains/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-capabilities
+  for: fn-specify-capabilities
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-capabilities/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-from-journeys
+  for: fn-specify-from-journeys
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-from-journeys/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-from-video
+  for: fn-specify-from-video
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-from-video/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+    thin: true
+- id: ice-specify-from-file
+  for: fn-specify-from-file
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-from-file/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-from-folder
+  for: fn-specify-from-folder
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-from-folder/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-from-site
+  for: fn-specify-from-site
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-from-site/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-from-document
+  for: fn-specify-from-document
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-from-document/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-specify-from-words
+  for: fn-specify-from-words
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-from-words/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+- id: ice-validate-attribution
+  for: fn-validate-attribution
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-validate-attribution/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+    thin: true
+- id: ice-specify-against-existing
+  for: fn-specify-against-existing
+  for_kind: feature
+  doc: software-delivery-planning/specify-product/fn-specify-against-existing/ice.md
+  metadata:
+    created_by: 'product-os-keeper (approved pages for #1021)'
+    thin: true
