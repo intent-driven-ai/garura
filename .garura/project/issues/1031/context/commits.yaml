@@ -1,26 +1,24 @@
 commits:
-  - sha: 5497c9c3
-    message: "feat(skills): write an approved ICE page and its index entry (#1031)"
+  - sha: aa3a5d2f
+    message: "fix(skills): undo new folders after a failed approved-page write, refuse an ICE for a part marked thin, and fix the doc lines (#1031)"
     files:
       - core/components/skills/enrich-grounding/scripts/write_approved.py
       - core/components/skills/enrich-grounding/scripts/test_write_approved.py
-      - core/components/skills/enrich-grounding/SKILL.md
       - core/components/skills/link-model-part/scripts/link_part.py
       - core/components/skills/link-model-part/scripts/test_link_part.py
       - core/components/skills/link-model-part/SKILL.md
       - core/components/agents/product-os-keeper.md
-      - core/components/plays/shape-slice/scripts/safe_write.py
-      - core/components/skills/author-intent-page/scripts/safe_write.py
       - core/components/skills/enrich-grounding/scripts/safe_write.py
       - core/components/skills/link-model-part/scripts/safe_write.py
+      - core/components/skills/author-intent-page/scripts/safe_write.py
       - core/components/skills/remove-model-part/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/safe_write.py
     branch: feature/1031-skills-write-ice-page
-  - sha: a609188f
-    message: "chore(stm): record the template copies the start-change close step fetched (#1031)"
+  - sha: c8948313
+    message: "chore(stm): record the propose-change run's self-review and the rules it used (#1031)"
     files:
-      - .garura/project/issues/1031/context/templates/manifest-close-start-change.json
-      - .garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md
-      - .garura/project/issues/1031/context/templates/standards/templates/delivery-report.md
+      - .garura/project/issues/1031/context/resolved-rules.json
+      - .garura/project/issues/1031/context/self-review.md
     branch: feature/1031-skills-write-ice-page
 excluded_files:
   []
