@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Given a person who types stop, when the run ends, then no intent page exists and the run reads halted with the reason.\" \"Sorting what is given against the intents that exist. Specify against what exists (fn-specify-against-existing) will do this, and it is not built.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"The reason: an earlier run that left them open ended with every proof open.\" \"The reason for refusing them: each kind has its own writer, so one wrong reading of the source cannot spread to the whole model.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "\"A person wants this to confirm what the product is for without writing a spec first.\" \"A person shares something that explains what they want: a prototype, a document or plain words. This feature reads it and drafts one business intent for each need the product meets for its user.\"",
+      "fix": "Delete the sentence 'A person wants this to confirm what the product is for without writing a spec first.' It is a user-story want-clause, and a feature states the function's behavior, not a person's wish. If the purpose must stay, recast it as a result in the behavior, for example 'Result: the product's intents are confirmed without a spec being written first.' Also turn the single What it does paragraph into discrete points: when it runs (a person shares a prototype, a document or plain words), what it reads, what it drafts (one business intent for each need, with its outcome, why, asked by, proof and limits), what the person decides (confirm or drop each one), and what is saved (a page for each confirmed intent, linked to its Sources)."
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Not built: reading existing intents. The draft does not read the intent pages already in the model, so it cannot say that a new draft repeats or clashes with one.\" \"Given a prototype with three main sections, when the draft is checked against the journeys, then each section has an intent of its own and each intent names the journey it came from.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A person shares something that explains what they want: a prototype, a document or plain words.\" \"The reason: an intent states the outcome the person wants, not a copy of the source.\" \"Sorting what is given against the intents that exist.\"",
+      "fix": ""
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Out: one page for each feature, with what it does, its inputs and outputs, its rules, its acceptance criteria, what is out of scope and its sources.\" \"Given three capabilities and one that cannot pass its checks, when the run ends, then nothing is committed.\" \"Shaping slices or setting priorities. Later shaping work does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"A behaviour the screens do not show is written as our default and marked as ours. It is never left as an open question.\" \"A capability seeded here holds only what its source said: the person's recorded answers, or the screens it was read from. The save refuses any other seed.\"",
+      "fix": "Several rules state what happens but not why, while only two (the all-or-nothing run and the first-run firming) carry a reason. Add a one-sentence reason to each of these rules: (1) the seed rule, why a capability may be seeded only from the person's answers or the screens (so every claim on the page traces to something a person gave and nothing is invented); (2) the default rule, why a behaviour the screens do not show is written as our default and marked as ours rather than left open (a builder gets a complete page, and a reader can tell what was assumed from what was seen); (3) the feature rule, why one panel, count or label is a part of a feature and not a feature (so the feature list stays at the level a person can test, not a list of screen widgets); (4) the quotes rule, why each screen is quoted in its exact words (so the check can prove the page describes the real prototype)."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a capability at directional depth and no names, when the run is approved, then its page and entry read detailed and it has at least one feature, each with an entry and a page.\" \"From a capture, a feature is something a person does or sees on the screens, named in the words its users would use.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Quality levels only go up. Each level in the profile becomes the highest of the current level and each capability's need.\" \"Given a set profile and a need above it, when the run reaches the checkpoint, then the checkpoint shows the capability, the dimension and the levels from and to as one line.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A product owner gets from it the detailed capabilities and features that later shaping work turns into slices a person can test end to end.\" \"Writing business intents. Specify intents (fn-specify-intents) does this.\"",
+      "fix": ""
+    }
+  ]
+}

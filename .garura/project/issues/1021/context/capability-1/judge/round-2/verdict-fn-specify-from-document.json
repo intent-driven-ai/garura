@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Any file whose name does not end in .html or .htm counts as a document.\" \"Given a path with no file, when the capture runs, then it fails and the record names the path.\" \"Saying what the document shows, and drafting intents from it. Specify intents (fn-specify-intents) does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"What the document shows goes in the Source record, beside the copy. The copy itself stays as it was.\"",
+      "fix": "Give this rule the reason every other rule on the page gives. Add a sentence in the same form as the others, for example 'The reason: the copy is the evidence of what the person gave, so a later step must find it exactly as it was saved.' Also say in one clause why the capture record holds the copy's fingerprint (it is the code a later check compares to see whether the copy has changed), since the rule now only says that it does."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a path with no file, when the capture runs, then it fails and the record names the path.\" \"A video counts too, so today a video is only copied.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Any file whose name does not end in .html or .htm counts as a document.\" \"A video counts too, so today a video is only copied.\" \"So a damaged file, or a format no later step can read, passes this step.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"At this step the run does not open or read the document.\" \"So the run cannot tell when the copy differs from the original.\" \"A web-page file. Specify from a file (fn-specify-from-file) does this.\"",
+      "fix": ""
+    }
+  ]
+}

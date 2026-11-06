@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"The run keeps only files that end in .md or .txt at the top of the folder.\" \"Given a folder with no .md or .txt file at its top, when it is captured, then the capture fails and the record names the folder.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A folder gives two because a runnable source is also run through, so what it does is seen, not only what its docs say.\" \"No fixed script does this, and no check confirms that the app stopped. So an app left running after the capture is not caught.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a folder with README.md, NOTES.txt and app.js at its top, when it is captured, then the docs Source holds README.md and NOTES.txt and does not hold app.js.\" \"Reading the project's code. Specify against what exists (fn-specify-against-existing) will read it, and it is not built.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"The run keeps only files that end in .md or .txt at the top of the folder. It skips subfolders and links to other files.\" \"An app that does not start fails its capture, as any source does that cannot be run through.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A person gives a project folder. The run treats it as two Sources: the project's written docs and its running app.\" \"Finding the running app's views. Specify from a deployed site (fn-specify-from-site) does this.\"",
+      "fix": ""
+    }
+  ]
+}
