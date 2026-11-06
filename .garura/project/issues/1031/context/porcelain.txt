@@ -1,0 +1,13 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/plays/shape-slice/scripts/safe_write.py
+ M core/components/skills/author-intent-page/scripts/safe_write.py
+ M core/components/skills/enrich-grounding/SKILL.md
+ M core/components/skills/enrich-grounding/scripts/safe_write.py
+ M core/components/skills/link-model-part/SKILL.md
+ M core/components/skills/link-model-part/scripts/link_part.py
+ M core/components/skills/link-model-part/scripts/safe_write.py
+ M core/components/skills/link-model-part/scripts/test_link_part.py
+ M core/components/skills/remove-model-part/scripts/safe_write.py
+?? .garura/project/issues/1031/context/templates/
+?? core/components/skills/enrich-grounding/scripts/test_write_approved.py
+?? core/components/skills/enrich-grounding/scripts/write_approved.py

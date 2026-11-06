@@ -1,0 +1,57 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by assess-changes
+# issue: 1031
+needs_judgment: true
+branch: feature/1031-skills-write-ice-page
+issue: 1031
+
+change_groups:
+  - id: feat-write-approved-ice-page-and-index-entry
+    issue: 1031
+    commit_type: feat
+    scope: skills
+    subject: "write an approved ICE page and its index entry"
+    confidence: high
+    files:
+      - core/components/skills/enrich-grounding/scripts/write_approved.py
+      - core/components/skills/enrich-grounding/scripts/test_write_approved.py
+      - core/components/skills/enrich-grounding/SKILL.md
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/agents/product-os-keeper.md
+      - core/components/plays/shape-slice/scripts/safe_write.py
+      - core/components/skills/author-intent-page/scripts/safe_write.py
+      - core/components/skills/enrich-grounding/scripts/safe_write.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+      - core/components/skills/remove-model-part/scripts/safe_write.py
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "One concern: the page skill (enrich-grounding) gains write_approved.py and its tests; the index skill (link-model-part) gains ICE entries in link_part.py and its tests; both SKILL.md files and the product-os-keeper agent list the new jobs. The five safe_write.py copies changed only in the same one header-note line (it now names write_approved.py), so they belong to this change and are not a separate concern."
+
+  - id: chore-stm-template-copies
+    issue: 1031
+    commit_type: chore
+    scope: stm
+    subject: "record the template copies the start-change close step fetched"
+    confidence: high
+    files:
+      - .garura/project/issues/1031/context/templates/manifest-close-start-change.json
+      - .garura/project/issues/1031/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1031/context/templates/standards/templates/delivery-report.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational record in the issue's short-term memory, not part of the feature; kept apart from the feat commit. The scan listed the templates folder as one untracked entry; it holds exactly these three files."
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "all 15 changed files (10 modified, 2 new scripts, 3 files in the untracked templates folder) sit in exactly one of 2 groups; none excluded"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched; write_approved.py, its test and the template copies were also searched for key/secret/password/token words and held none"}
