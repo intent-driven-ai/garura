@@ -1,0 +1,15 @@
+{
+  "routing_result": {
+    "work": "Design the technology and architecture: the technology and architecture positions for the whole of a software project (its stack, its system shape and the standards every slice follows) are set once, written down, and can evolve later; nothing blocks on them. Part of a harness that takes a software product from its spec to its design before AI agents build it.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "software delivery (the field of building software, here its design stage: setting a project's technology and architecture)",
+        "why": "The product serves people who build software, and the job is to set the technology and system shape a software project is built on. None of the ten shelves (analytics, collaboration, content management, ecommerce, experience, marketing, notifications, payments, personalization, user management) has a trigger about building software or designing its architecture; each is about what an end product does for its own users. The technology and architecture shelves of memory are condition-matched learnings used inside a design, not domain shelves, so they are no home for the capability itself."
+      }
+    ],
+    "why": "No domain shelf lists the work of designing a software project's technology and architecture. Recorded as unmatched for the nothing-fits path."
+  }
+}

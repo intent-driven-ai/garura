@@ -1,0 +1,31 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/design-technology-architecture/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-set-architecture/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-1/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

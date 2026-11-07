@@ -1,0 +1,34 @@
+{
+  "id": "bi-2",
+  "issue": 2,
+  "title": "Spec → Design",
+  "outcome": "The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments. The memory each lens needs is seeded, and a design is locked before agents take over.",
+  "why": "Without shared positions, each builder invents its own answer. Without the lock, agents drift.",
+  "asked_by": "the product owner",
+  "proof": [
+    "Each position is written down and can change later.",
+    "Each lens has its memory.",
+    "No agent builds from a design that isn't locked."
+  ],
+  "must_not": "Block on anything except the lock, which is the only gate.",
+  "touches": [
+    {
+      "title": "Design the technology and architecture",
+      "link": "../software-delivery-planning/design-technology-architecture/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Set the project's architecture",
+      "link": "../software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Update the architecture as the project changes",
+      "link": "../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

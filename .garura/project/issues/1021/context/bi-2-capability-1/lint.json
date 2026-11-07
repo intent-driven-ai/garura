@@ -1,0 +1,126 @@
+{
+ "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional]",
+ "pages": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+   "args": [
+    "--kind",
+    "capability",
+    "--stage",
+    "directional"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "capability": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/fn-set-technology/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/fn-change-position/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  }
+ ],
+ "ice_pages": {
+  "note": "The structure check has no kind for an ICE page; a small check tested the three sections in order, exactly one Goal, at least one Limit, Fails if and Done means, the fixed Read line first, the Context labels in order, a Done means checked by someone other than the doer, and the thin mark on the three unbuilt features only.",
+  "results": [
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 3,
+    "fails_if": 4,
+    "done_means": 2,
+    "thin": false
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/fn-set-technology/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 2,
+    "fails_if": 3,
+    "done_means": 1,
+    "thin": true
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/fn-set-architecture/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1,
+    "thin": true
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/fn-change-position/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1,
+    "thin": true
+   }
+  ]
+ },
+ "source_quotes": {
+  "quotes_checked": 108,
+  "missing": [],
+  "lines_without_quote": [
+   [
+    ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+    "The short line beside each feature: the opening words of that feature's own page."
+   ],
+   [
+    ".garura/project/issues/1021/context/bi-2-capability-1/drafts/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+    "Shelf: none. No domain shelf in memory covers designing a software project's technology an"
+   ]
+  ]
+ }
+}

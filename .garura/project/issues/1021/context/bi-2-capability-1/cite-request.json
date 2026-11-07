@@ -1,0 +1,186 @@
+{
+ "note": "Draft run: these decisions are for the caller to record with `memory.py cite`; this run writes nothing outside bi-2-capability-1/.",
+ "requests": [
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 1 draft",
+   "question": "Which domain shelf in memory covers designing a software project's technology and architecture?",
+   "answer": "None. The ten domain shelves are about what an end product does for its own users; none has a trigger for building software or designing its architecture. The placement is recorded as unmatched (placement/routing-result.json).",
+   "decided_by": "product-os-keeper (find-work-placement)",
+   "trace": [
+    {
+     "asked": "does the analytics shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/analytics.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d"
+     }
+    },
+    {
+     "asked": "does the collaboration shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/collaboration.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487"
+     }
+    },
+    {
+     "asked": "does the content-management shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/content-management.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f"
+     }
+    },
+    {
+     "asked": "does the ecommerce shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d"
+     }
+    },
+    {
+     "asked": "does the experience shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144"
+     }
+    },
+    {
+     "asked": "does the marketing shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/marketing.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0"
+     }
+    },
+    {
+     "asked": "does the notifications shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3"
+     }
+    },
+    {
+     "asked": "does the payments shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a"
+     }
+    },
+    {
+     "asked": "does the personalization shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/personalization.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460"
+     }
+    },
+    {
+     "asked": "does the user-management shelf's trigger cover designing a software project's technology and architecture",
+     "found": "no",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 1 draft",
+   "question": "Does the product model's ontology have a kind for a project-wide technology or architecture position?",
+   "answer": "No. Ontology v15 defines thirteen kinds, none of them a position or a design, and lists nothing as not yet defined; the drafts say where positions are kept is not decided.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "the kinds the ontology defines",
+     "found": "thirteen kinds in two layers: Business Intent, Source, Domain, Capability, Feature, Slice and ICE; the Plan; Epic, Story, Spike, Chore and Bug",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 7,
+      "end": 9,
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53"
+     }
+    },
+    {
+     "asked": "kinds named but not yet defined",
+     "found": "None",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 868,
+      "end": 870,
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 1 draft",
+   "question": "What does memory hold that a technology or architecture position can be proposed from?",
+   "answer": "The knowledge base's architecture and technology shelves: learnings matched to a product's conditions, each saying when it fits and which choice comes after it.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "the shelves of the knowledge base",
+     "found": "architecture/: product-condition to best-fit architecture ladders; technology/: technology and stack choices and the conditions they fit",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/_index.md",
+      "start": 36,
+      "end": 38,
+      "fingerprint": "sha256:7555a0c72c51137af2a3cbb8554a45805261c7829fce64fe549bd3f884cb57f3"
+     }
+    },
+    {
+     "asked": "one architecture learning, its conditions and what comes after it",
+     "found": "modular monolith, the default start, with conditions and evolve_when: microservices",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/architecture/modular-monolith.md",
+      "start": 1,
+      "end": 12,
+      "fingerprint": "sha256:cfb326a9043925d09942b67644ef27c573fef4e1d52169c51376491d1dd7adf2"
+     }
+    }
+   ]
+  }
+ ]
+}
