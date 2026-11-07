@@ -31,5 +31,16 @@
 - [Specify from plain words](../software-delivery-planning/specify-product/fn-specify-from-words/feature.md) (feature) — adds
 - [Validate the attribution](../software-delivery-planning/specify-product/fn-validate-attribution/feature.md) (feature) — adds
 - [Specify against what exists](../software-delivery-planning/specify-product/fn-specify-against-existing/feature.md) (feature) — adds
+- [Turn intents into agent work](../software-delivery-planning/turn-intents-into-work/capability.md) (capability) — adds
+- [Cut an intent into epics and stories](../software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md) (feature) — adds
+- [Write a story from its ICE](../software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md) (feature) — adds
+- [Change the work items](../software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md) (feature) — adds
+- [Add a feature found during work](../software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md) (feature) — adds
+- [Keep the spec matched to what's built](../software-delivery-planning/keep-spec-matched/capability.md) (capability) — adds
+- [Update the spec to match what's built](../software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md) (feature) — adds
+- [Keep an intent's links current](../software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md) (feature) — adds
+- [Replace or retire an intent](../software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md) (feature) — adds
+- [Keep the tracker's words matched to the model](../software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md) (feature) — adds
+- [Find where the spec and what's built no longer match](../software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)

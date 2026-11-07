@@ -47,7 +47,7 @@ What is not built yet:
 - In: setting each capability's quality and compliance needs, and rolling them up into the product profile. The profile holds the product's shape and the quality levels it commits to.
 - Out: linking parts that were written apart. The discovery loop reads a prototype once and runs the three writers on that reading, in rounds: Specify intents, Specify domains and Specify capabilities. Inside the discovery loop, a later step finds and makes those links. The work of managing the model owns the link rules.
 - Out: choosing what to build first. Later shaping work picks the features a person can test end to end and turns them into work items.
-- Out: keeping intents up to date as the product changes. This capability does not do it, and no capability in the model owns it yet.
+- Out: keeping the spec matched to what's built as the product changes. Keep the spec matched to what's built owns it.
 - Never: write over finished work. An intent page is never overwritten, a domain page keeps each section it had, and a capability at full depth is not detailed again. Other parts may already rely on these pages.
 - Never: set a capability to active, or rank one part above another. Ranking belongs to the later shaping work, and no step sets a capability active today.
 

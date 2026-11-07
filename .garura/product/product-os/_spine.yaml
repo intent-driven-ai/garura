@@ -254,6 +254,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-keep-spec-matched
+  slug: keep-spec-matched
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-1
+  status: proposed
+  detail: directional
+  one_line: As the product is built and changed, the spec is kept matched to what's
+    implemented and planned, and any drift is named and fixed.
+  doc: software-delivery-planning/keep-spec-matched/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -889,6 +905,81 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-update-spec-to-match-built
+  slug: fn-update-spec-to-match-built
+  capability: cap-keep-spec-matched
+  intents:
+  - bi-1
+  status: proposed
+  one_line: When the work changes what the product does, the pages of the spec that
+    it makes out of date are updated to say what the product now does.
+  doc: software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-keep-intent-links-current
+  slug: fn-keep-intent-links-current
+  capability: cap-keep-spec-matched
+  intents:
+  - bi-1
+  status: proposed
+  one_line: As parts are built, moved or removed, the link between each business intent
+    and the parts that serve it stays matched, on both of its sides.
+  doc: software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-replace-or-retire-intent
+  slug: fn-replace-or-retire-intent
+  capability: cap-keep-spec-matched
+  intents:
+  - bi-1
+  status: proposed
+  one_line: When the work shows that an intent has been replaced or is no longer wanted,
+    and the person approves it, the spec is changed to match.
+  doc: software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-keep-tracker-matched
+  slug: fn-keep-tracker-matched
+  capability: cap-keep-spec-matched
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Each intent's issue in the tracker says what the intent's page in the
+    product model says.
+  doc: software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-find-spec-drift
+  slug: fn-find-spec-drift
+  capability: cap-keep-spec-matched
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Finds the places where the spec no longer matches what the agents built
+    and planned, and names each one to a person.
+  doc: software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -1027,3 +1118,40 @@ ices:
   doc: software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-keep-spec-matched
+  for: cap-keep-spec-matched
+  for_kind: capability
+  doc: software-delivery-planning/keep-spec-matched/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-update-spec-to-match-built
+  for: fn-update-spec-to-match-built
+  for_kind: feature
+  doc: software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-keep-intent-links-current
+  for: fn-keep-intent-links-current
+  for_kind: feature
+  doc: software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-replace-or-retire-intent
+  for: fn-replace-or-retire-intent
+  for_kind: feature
+  doc: software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-keep-tracker-matched
+  for: fn-keep-tracker-matched
+  for_kind: feature
+  doc: software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-find-spec-drift
+  for: fn-find-spec-drift
+  for_kind: feature
+  doc: software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
