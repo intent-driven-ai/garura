@@ -270,6 +270,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-design-technology-architecture
+  slug: design-technology-architecture
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-2
+  status: proposed
+  detail: directional
+  one_line: The technology and architecture for the whole project are set here and
+    can evolve. Nothing blocks on them.
+  doc: software-delivery-planning/design-technology-architecture/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -980,6 +996,37 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-set-architecture
+  slug: fn-set-architecture
+  capability: cap-design-technology-architecture
+  intents:
+  - bi-2
+  status: proposed
+  one_line: Sets the shape of the whole system and what it is built with, its style,
+    its main parts and how they connect, and the technology of each part with its
+    version, so every slice builds on the same architecture.
+  doc: software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-update-architecture
+  slug: fn-update-architecture
+  capability: cap-design-technology-architecture
+  intents:
+  - bi-2
+  status: proposed
+  one_line: When the project outgrows its architecture, a person confirms an update,
+    and what held before stays readable with why it changed.
+  doc: software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -1152,6 +1199,27 @@ ices:
   for: fn-find-spec-drift
   for_kind: feature
   doc: software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-design-technology-architecture
+  for: cap-design-technology-architecture
+  for_kind: capability
+  doc: software-delivery-planning/design-technology-architecture/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-set-architecture
+  for: fn-set-architecture
+  for_kind: feature
+  doc: software-delivery-planning/design-technology-architecture/fn-set-architecture/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-update-architecture
+  for: fn-update-architecture
+  for_kind: feature
+  doc: software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true

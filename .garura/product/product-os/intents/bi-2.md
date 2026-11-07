@@ -16,4 +16,9 @@
 **Stage:** confirmed — by the product owner, 2026-11-02
 **Tracker:** #2
 
+**Touches:**
+- [Design the technology and architecture](../software-delivery-planning/design-technology-architecture/capability.md) (capability) — adds
+- [Set the project's architecture](../software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md) (feature) — adds
+- [Update the architecture as the project changes](../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md) (feature) — adds
+
 **What was done:** (nothing yet)
