@@ -1,0 +1,66 @@
+{
+ "mode": "new-feature, draft only (product_base is the drafts folder, never the live model)",
+ "request": "the product owner rejected the earlier drafts on 2026-11-07; each feature redrafted around the capability's job",
+ "updated": [
+  {
+   "id": "keep-spec-matched (no model id yet)",
+   "doc": "product-os/software-delivery-planning/keep-spec-matched/capability.md",
+   "added_sections": [],
+   "renamed": [],
+   "changed_lines": [
+    "Features list: the first feature's name and id only"
+   ]
+  }
+ ],
+ "new_features": [
+  {
+   "id": "fn-update-spec-to-match-built",
+   "doc": "product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+   "replaces": "fn-update-intent-from-approved-words"
+  },
+  {
+   "id": "fn-keep-intent-links-current",
+   "doc": "product-os/software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md",
+   "replaces": "its earlier draft"
+  },
+  {
+   "id": "fn-replace-or-retire-intent",
+   "doc": "product-os/software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md",
+   "replaces": "its earlier draft"
+  },
+  {
+   "id": "fn-keep-tracker-matched",
+   "doc": "product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+   "replaces": "its earlier draft"
+  },
+  {
+   "id": "fn-find-spec-drift",
+   "doc": "product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md",
+   "replaces": "its earlier draft"
+  }
+ ],
+ "thin": [
+  {
+   "id": "fn-find-spec-drift",
+   "lines": [
+    "Goal",
+    "Limit",
+    "Limit",
+    "Fails if",
+    "Fails if",
+    "Read",
+    "Persona",
+    "Scope",
+    "Scenario",
+    "Done means"
+   ],
+   "note": "Thin line kept from the earlier draft; no other ICE carries it"
+  }
+ ],
+ "superseded_copy": "drafts-superseded/keep-spec-matched/ (all five earlier feature folders and the capability page before the rename)",
+ "fixed": [],
+ "not_mine": [
+  "capability.md Guiding rules line 62 still names 'Update an intent from approved words'; outside the Features list, so left for the product owner",
+  "capability.md Features list short lines no longer equal each feature page's opening words; left for the product owner"
+ ]
+}

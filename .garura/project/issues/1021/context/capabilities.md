@@ -6,7 +6,8 @@ Each line: name, then its one-liner. Marks: (planned) not built; (unique) a uniq
 - Specify the product: The product is understood from what a person gives, whether a video, a prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities and features. (unique: starts from what works)
 - Turn intents into agent work: A business intent becomes the epics, stories and other work items agents execute. (reworded 2026-11-06: the model has no task kind)
   - Boundary, decided by the product owner on 2026-11-06: this capability owns turning a confirmed intent into the work items agents execute. "Orchestrate agent work through planning" (Orchestration) is narrowed to running that work once it exists. His words: "we narrow orchestration.. thats what an orchestrator will do".
-- Keep the original business intents: Everything a person gives is kept exactly as given, and the intents stay up to date as the product evolves, with no drift. (unique)
+- Keep the spec matched to what's built: As the product is built and changed, the spec (the intents, domains, capabilities and features) is kept matched to what's implemented and planned, and any drift between them is named and fixed. (unique)
+  - Renamed and redefined by the product owner on 2026-11-07, replacing "Keep the original business intents". Keeping what a person gave stays with Specify the product, which saves each copy.
 
 ## Spec → Design (project-level positions)
 - Design the technology and architecture: The technology and architecture for the whole project are set here and can evolve. Nothing blocks on them.

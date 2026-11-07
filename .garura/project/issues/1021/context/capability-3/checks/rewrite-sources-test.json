@@ -1,0 +1,28 @@
+{
+ "what": "Does a rewrite through author-intent-page keep an intent page's Sources block? Run on a throwaway copy, never on the product model.",
+ "script": "core/components/skills/author-intent-page/scripts/write_page.py --rewrite",
+ "page_before": "# Old title\n**Outcome:** old\n**Why:** old why\n**Asked by:** a team lead\n**Proof it is met:** old proof\n**Stage:** confirmed — by someone, 2026-10-01\n**Sources:**\n- [statement, read 2026-10-01](../../_evidence/intent/x/source.md)\n\n**What was done:** (nothing yet)\n",
+ "draft": {
+  "id": "bi-5",
+  "issue": 5,
+  "title": "New title",
+  "outcome": "new outcome",
+  "why": "new why",
+  "asked_by": "a team lead",
+  "proof": [
+   "new proof"
+  ]
+ },
+ "report": {
+  "id": "bi-5",
+  "page": "product-os/intents/bi-5.md",
+  "written": true,
+  "rewrite": true,
+  "stage": "proposed",
+  "kept": [
+   "What was done"
+  ]
+ },
+ "page_after": "# New title\n\n**Outcome:** new outcome\n\n**Why:** new why\n\n**Asked by:** a team lead\n\n**Proof it is met:**\n- new proof\n\n**Stage:** proposed\n**Tracker:** #5\n\n**What was done:** (nothing yet)\n",
+ "found": "The Sources block and its link to the Source record are gone after the rewrite; only What was done is kept. The stage went from confirmed to proposed, as designed, because no confirming person was named."
+}

@@ -1,0 +1,126 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-keep-spec-matched",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "keep-spec-matched",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-1"
+      ],
+      "one_line": "As the product is built and changed, the spec is kept matched to what's implemented and planned, and any drift is named and fixed.",
+      "doc": "software-delivery-planning/keep-spec-matched/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-spec-to-match-built",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-spec-to-match-built",
+      "capability": "cap-keep-spec-matched",
+      "intents": [
+        "bi-1"
+      ],
+      "one_line": "When the work changes what the product does, the pages of the spec that it makes out of date are updated to say what the product now does.",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-intent-links-current",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-intent-links-current",
+      "capability": "cap-keep-spec-matched",
+      "intents": [
+        "bi-1"
+      ],
+      "one_line": "As parts are built, moved or removed, the link between each business intent and the parts that serve it stays matched, on both of its sides.",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-replace-or-retire-intent",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-replace-or-retire-intent",
+      "capability": "cap-keep-spec-matched",
+      "intents": [
+        "bi-1"
+      ],
+      "one_line": "When the work shows that an intent has been replaced or is no longer wanted, and the person approves it, the spec is changed to match.",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-tracker-matched",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-tracker-matched",
+      "capability": "cap-keep-spec-matched",
+      "intents": [
+        "bi-1"
+      ],
+      "one_line": "Each intent's issue in the tracker says what the intent's page in the product model says.",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-find-spec-drift",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-find-spec-drift",
+      "capability": "cap-keep-spec-matched",
+      "intents": [
+        "bi-1"
+      ],
+      "one_line": "Finds the places where the spec no longer matches what the agents built and planned, and names each one to a person.",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-keep-spec-matched",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-keep-spec-matched",
+      "doc": "software-delivery-planning/keep-spec-matched/ice.md"
+    },
+    {
+      "id": "ice-update-spec-to-match-built",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-spec-to-match-built",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/ice.md"
+    },
+    {
+      "id": "ice-keep-intent-links-current",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-intent-links-current",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/ice.md"
+    },
+    {
+      "id": "ice-replace-or-retire-intent",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-replace-or-retire-intent",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/ice.md"
+    },
+    {
+      "id": "ice-keep-tracker-matched",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-tracker-matched",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/ice.md"
+    },
+    {
+      "id": "ice-find-spec-drift",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-find-spec-drift",
+      "doc": "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md",
+      "thin": true
+    }
+  ]
+}

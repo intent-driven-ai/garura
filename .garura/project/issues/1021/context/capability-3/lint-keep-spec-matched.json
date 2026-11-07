@@ -1,0 +1,72 @@
+{
+ "pages": [
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/capability.md",
+   "args": [
+    "--kind",
+    "capability",
+    "--stage",
+    "directional"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-update-intent-from-approved-words/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  }
+ ]
+}

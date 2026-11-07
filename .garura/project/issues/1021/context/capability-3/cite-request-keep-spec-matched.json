@@ -1,0 +1,18 @@
+{
+  "note": "Not run: this run writes only under capability-3/. The caller runs it with: python3 .garura/core/tools/memory/memory.py cite --request \"$(python3 -c 'import json; d=json.load(open(\".garura/project/issues/1021/context/capability-3/cite-request-keep-spec-matched.json\")); d.pop(\"note\"); print(json.dumps(d))')\"",
+  "issue": 1021,
+  "play": "reorganise business intents (capability 3 redraft to the approved definition, draft only)",
+  "question": "Under the approved definition of Keep the spec matched to what's built, how does a difference between the spec and the work get fixed, and which side wins?",
+  "answer": "What was built is the ground truth for domains, capabilities and features: their pages are brought up to match the work, through words a person approved. An intent is never brought to match the work on its own: the difference is named and the person decides whether the intent or the work changes. A work item that no longer matches the spec is changed by Turn intents into agent work. Nothing is fixed before the person's yes.",
+  "decided_by": "product-os-keeper (draft for the product owner's review)",
+  "trace": [
+    {"asked": "who writes, what drift is, and what is never left to alignment", "found": "rules never stop a write; drift is found and fixed by the Alignment loop; only a person confirms or drops a business intent",
+     "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 25, "end": 25, "fingerprint": "sha256:5f42e9382e431019d277ccb06aab48482893a8303fb06f5794ceba6df812f13a"}},
+    {"asked": "when an intent counts as met", "found": "it is met by its proof, never because its work is finished",
+     "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 219, "end": 219, "fingerprint": "sha256:70b36a17e7b17097b3e174233c83aadecbe0221b790134a0e79a58ba395ef012"}},
+    {"asked": "who may change an intent", "found": "only a person confirms or drops it; an agent never does",
+     "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 223, "end": 223, "fingerprint": "sha256:75ebca24eb1c80c7eb861ca47cf55faf29c6884ec7307dc13da116b812d8918d"}},
+    {"asked": "whether a story out of date with its ICE is drift", "found": "it is drift for the Alignment loop, and the plan play makes the story again",
+     "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 735, "end": 735, "fingerprint": "sha256:2291ce576b0aaaa953b7a43c54615dc19a77dda7c23370b3a1cb1ed70639605f"}}
+  ]
+}

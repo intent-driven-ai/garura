@@ -1,0 +1,75 @@
+{
+ "pages": [
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "counts": {
+    "feature": 1
+   },
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "counts": {
+    "feature": 1
+   },
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "counts": {
+    "feature": 1
+   },
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "counts": {
+    "feature": 1
+   },
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "counts": {
+    "feature": 1
+   },
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "exit": 0
+  }
+ ],
+ "note": "First run: fn-find-spec-drift had one error, a label bullet in What it does; reworded and run again."
+}
