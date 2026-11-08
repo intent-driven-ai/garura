@@ -1,0 +1,369 @@
+{
+ "round": 3,
+ "date": "2026-11-08",
+ "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional]",
+ "pages": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/capability.md",
+   "args": [
+    "--kind",
+    "capability",
+    "--stage",
+    "directional"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "capability": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  }
+ ],
+ "ice_check": {
+  "what": "three sections in order; exactly one Goal; at least one Limit, Fails if and Done means; at most three Limits and three Fails if on a thin ICE (ICE rubric); the fixed Read line first; Context labels in order (Read, Never read, Persona, Scope); a Done means checked by someone other than the doer; the thin mark at the top; no plan named. The structure check has no mode for an ICE page, and its five-word bullet rule does not apply to ICE pages.",
+  "results": [
+   {
+    "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/ice.md",
+    "ok": true,
+    "errors": [],
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 2
+   },
+   {
+    "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+    "ok": true,
+    "errors": [],
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1
+   },
+   {
+    "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+    "ok": true,
+    "errors": [],
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1
+   },
+   {
+    "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+    "ok": true,
+    "errors": [],
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1
+   }
+  ]
+ },
+ "part_pages_hold_no_ice_section": true,
+ "quotes": {
+  "what": "every quote in each page's Sources section, checked word for word against its file (repo files directly; Phoenix memory files against the copies the memory tool made in bi-2-capability-3/memory/; the capability list and the agreed names against capabilities.md and names.md; GitHub issues against their text as read on 2026-11-08); the product owner's words of 2026-11-08 against the direction as given in the round 2 addendum of research.md; his words of the second drafts against the round 3 addendum (spelling corrected there, one word added in brackets)",
+  "checked": 203,
+  "missing": [],
+  "without_quote": [
+   "The short line beside each feature (capability page)",
+   "Shelf: none (capability page)"
+  ]
+ },
+ "changed_lines_against_round_2": [
+  "diff -r drafts-round-2/product-os/software-delivery-planning/deployment-design/capability.md drafts/product-os/software-delivery-planning/deployment-design/capability.md",
+  "7c7",
+  "12c12",
+  "22c22",
+  "40c40",
+  "43c43",
+  "51c51",
+  "54c54",
+  "75c75,76",
+  "91a93",
+  "diff -r drafts-round-2/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md drafts/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+  "15c15",
+  "diff -r drafts-round-2/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md drafts/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+  "4c4",
+  "8c8",
+  "13c13",
+  "39a40",
+  "46c47",
+  "58c59",
+  "69c70",
+  "75c76",
+  "78c79",
+  "79a81,82",
+  "91c94",
+  "102a106",
+  "diff -r drafts-round-2/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md drafts/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+  "4c4",
+  "6c6",
+  "16c16",
+  "diff -r drafts-round-2/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+  "5c5",
+  "42c42",
+  "diff -r drafts-round-2/product-os/software-delivery-planning/deployment-design/ice.md drafts/product-os/software-delivery-planning/deployment-design/ice.md",
+  "4c4",
+  "6c6",
+  "16c16"
+ ],
+ "fixed_on_the_way": [
+  "None needed: every page, ICE page and quote passed on the first run of round 3."
+ ],
+ "round_2": {
+  "round": 2,
+  "date": "2026-11-08",
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional]",
+  "pages": [
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/capability.md",
+    "args": [
+     "--kind",
+     "capability",
+     "--stage",
+     "directional"
+    ],
+    "result": {
+     "ok": true,
+     "errors": [],
+     "warnings": [],
+     "counts": {
+      "capability": 1
+     }
+    }
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+    "args": [
+     "--kind",
+     "feature"
+    ],
+    "result": {
+     "ok": true,
+     "errors": [],
+     "warnings": [],
+     "counts": {
+      "feature": 1
+     }
+    }
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+    "args": [
+     "--kind",
+     "feature"
+    ],
+    "result": {
+     "ok": true,
+     "errors": [],
+     "warnings": [],
+     "counts": {
+      "feature": 1
+     }
+    }
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+    "args": [
+     "--kind",
+     "feature"
+    ],
+    "result": {
+     "ok": true,
+     "errors": [],
+     "warnings": [],
+     "counts": {
+      "feature": 1
+     }
+    }
+   }
+  ],
+  "ice_check": {
+   "what": "three sections in order; exactly one Goal; at least one Limit, Fails if and Done means; at most three Limits and three Fails if on a thin ICE (ICE rubric); the fixed Read line first; Context labels in order (Read, Never read, Persona, Scope); a Done means checked by someone other than the doer; the thin mark at the top; no plan named. The structure check has no mode for an ICE page, and its five-word bullet rule does not apply to ICE pages.",
+   "results": [
+    {
+     "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/ice.md",
+     "ok": true,
+     "errors": [],
+     "limits": 3,
+     "fails_if": 3,
+     "done_means": 2
+    },
+    {
+     "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+     "ok": true,
+     "errors": [],
+     "limits": 3,
+     "fails_if": 3,
+     "done_means": 1
+    },
+    {
+     "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+     "ok": true,
+     "errors": [],
+     "limits": 3,
+     "fails_if": 3,
+     "done_means": 1
+    },
+    {
+     "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+     "ok": true,
+     "errors": [],
+     "limits": 3,
+     "fails_if": 3,
+     "done_means": 1
+    }
+   ]
+  },
+  "part_pages_hold_no_ice_section": true,
+  "quotes": {
+   "what": "every quote in each page's Sources section, checked word for word against its file (repo files directly; Phoenix memory files against the copies the memory tool made in bi-2-capability-3/memory/; the capability list and the agreed names against capabilities.md and names.md; GitHub issues against their text as read on 2026-11-08); the product owner's words of 2026-11-08 against the direction as given in the round 2 addendum of research.md",
+   "checked": 201,
+   "missing": [],
+   "without_quote": [
+    "The short line beside each feature (capability page)",
+    "Shelf: none (capability page)"
+   ]
+  },
+  "fixed_on_the_way": [
+   "None needed: every page, ICE page and quote passed on the first run of round 2."
+  ]
+ },
+ "round_1": {
+  "pages": [
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/capability.md",
+    "args": [
+     "--kind",
+     "capability",
+     "--stage",
+     "directional"
+    ],
+    "result": {
+     "ok": true,
+     "errors": [],
+     "warnings": [],
+     "counts": {
+      "capability": 1
+     }
+    }
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-design-deployment/feature.md",
+    "args": [
+     "--kind",
+     "feature"
+    ],
+    "result": {
+     "ok": true,
+     "errors": [],
+     "warnings": [],
+     "counts": {
+      "feature": 1
+     }
+    }
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+    "args": [
+     "--kind",
+     "feature"
+    ],
+    "result": {
+     "ok": true,
+     "errors": [],
+     "warnings": [],
+     "counts": {
+      "feature": 1
+     }
+    }
+   }
+  ],
+  "ice_check": {
+   "what": "three sections in order; exactly one Goal; at least one Limit, Fails if and Done means; at most three Limits and three Fails if on a thin ICE (ICE rubric); the fixed Read line first; Context labels in order (Read, Never read, Persona, Scope); a Done means checked by someone other than the doer; the thin mark at the top; no plan named. The structure check has no mode for an ICE page, and its five-word bullet rule does not apply to ICE pages.",
+   "results": [
+    {
+     "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/ice.md",
+     "ok": true,
+     "errors": [],
+     "limits": 3,
+     "fails_if": 3,
+     "done_means": 2
+    },
+    {
+     "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-design-deployment/ice.md",
+     "ok": true,
+     "errors": [],
+     "limits": 3,
+     "fails_if": 3,
+     "done_means": 1
+    },
+    {
+     "page": "bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+     "ok": true,
+     "errors": [],
+     "limits": 3,
+     "fails_if": 3,
+     "done_means": 1
+    }
+   ]
+  },
+  "quotes": {
+   "what": "every quote in each page's Sources section, checked word for word against its file (repo files directly; Phoenix memory files against the copies the memory tool made in bi-2-capability-3/memory/; the capability list and the agreed names against capabilities.md and names.md; GitHub issues against their text as read on 2026-11-08)",
+   "checked": 133,
+   "missing": [],
+   "without_quote": [
+    "The short line beside each feature (capability page)",
+    "Shelf: none (capability page)"
+   ]
+  },
+  "fixed_on_the_way": [
+   "Two quotes did not match their file word for word because the source line breaks inside them (release-increment ICE, shape-run-lens ICE); each was replaced by a shorter quote that sits on one line.",
+   "One quote held escaped inner quotes; it was cut to the words after them."
+  ]
+ }
+}

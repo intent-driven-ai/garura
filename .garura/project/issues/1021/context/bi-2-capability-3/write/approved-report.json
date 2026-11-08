@@ -1,0 +1,39 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/deployment-design/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-3/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

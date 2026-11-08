@@ -1,0 +1,27 @@
+{
+  "written": [
+    "cap-deployment-design",
+    "fn-design-how-project-runs",
+    "fn-cloud-cartridges",
+    "fn-update-deployment",
+    "ice-deployment-design",
+    "ice-design-how-project-runs",
+    "ice-cloud-cartridges",
+    "ice-update-deployment"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-deployment-design",
+    "ice-design-how-project-runs",
+    "ice-cloud-cartridges",
+    "ice-update-deployment"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/deployment-design/ice.md",
+    "product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+    "product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+    "product-os/software-delivery-planning/deployment-design/fn-update-deployment/ice.md"
+  ],
+  "layout_kept": true
+}

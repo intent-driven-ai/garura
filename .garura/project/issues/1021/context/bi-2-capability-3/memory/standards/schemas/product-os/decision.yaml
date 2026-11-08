@@ -1,0 +1,83 @@
+# Decision Schema (ADR) — v1 (+ the #632 fields)
+#
+# A decision record IS an ADR — usable at product, capability, feature, or
+# framework level. The third thing ProductOS keeps forever: DECISIONS.
+# Accepted decisions are never edited — a new decision supersedes them, so the
+# history stays intact.
+
+schema:
+  name: decision
+  version: 1
+  is_adr: true            # these records are ADRs, at any level
+
+decision:
+  id: string
+  node_ref: string        # node this affects; null = framework-wide ADR
+  level: string           # product | capability | feature | framework
+  title: string
+  reason: string
+  alternatives:           # what else was considered, and why it lost
+    - name: string
+      why_not: string
+  status: string          # one of: proposed | accepted | superseded | rejected
+  superseded_by: string   # id of the decision that replaced this one; else null
+  # --- #632: the core fields of standards/templates/adr.md, added; the original fields unchanged ---
+  supersedes:             # older decisions this one replaces
+    - id: string
+      part: string        # "full" or what part
+  amends:                 # older decisions this one changes in part
+    - id: string
+      part: string
+  amended_by: [string]    # forward pointers from newer decisions (the only later edit)
+  affects: [string]       # files, rules, schemas, nodes the decision changes
+  ice_impact: string      # the ICE it changes, or "none — why"
+  business_intent_check: string   # none | kind | instance — `instance` is never applied;
+                                  # it goes to the person (ADR 031)
+  consequences:
+    positive: [string]
+    negative: [string]
+  for_the_accepter:       # #920 — optional: what the person who accepts must know, each point whole
+    - point: string             # the point, as a plain statement
+      what_and_where: string    # its plain name and its place
+      detail: string            # what is wrong or worth knowing: the lines, the names, the dates
+      why_it_matters: string    # what goes wrong, and for whom
+      this_decision_does: string  # what changes, or "nothing — why"
+      you_decide: string        # the choice left to the person, or "nothing"
+  metadata:
+    decided_by: string    # play that recorded the decision
+    accepted_by: string   # #632 — the PERSON who accepted it; empty while proposed
+    decided_in: string    # #632 — the issue or run it was decided in
+    date: string          # passed in by the play; not auto-generated
+    version: integer
+
+immutability: "accepted decisions are not edited — supersede or amend with a new record; the only later edits are the forward pointers (superseded_by, amended_by) and status superseded when replaced in full"
+
+# ---- Fill rules -------------------------------------------------------------
+fill_rules:
+  - play: "/record-decision"
+    writes: "any decision a person brings, from the one ADR template (#632); accepted only on the person's word"
+  - play: "/discover-capabilities"
+    writes: "decisions made while clarifying intent"
+  - play: "/realize"
+    writes: "architecture, run, quality, and agentic decisions"
+  # /build-epic does NOT write decisions — it executes them, not decides them.
+  # Boundary moves: when an ICE specific falls outside the profile box, the
+  # approved boundary change is recorded HERE as a decision (level: product),
+  # proposed during /discover-capabilities and accepted by a human.
+
+# ---- Enhance rules ----------------------------------------------------------
+enhance_rules:
+  governed_by: "PARKED — see product-os.yaml (future schema-evolution play)"
+
+# ---- Migration note (#632) --------------------------------------------------
+# Additive. #632 adds the core fields of standards/templates/adr.md — supersedes, amends,
+# amended_by, affects, ice_impact, business_intent_check, consequences, and
+# metadata.accepted_by / decided_in. Every earlier record stays valid as written; the new
+# fields are empty on it — until /record-decision accepts one: a record /record-decision writes or accepts must carry
+# the #632 fields its lint requires (consequences, metadata.date, metadata.decided_in), so an
+# older proposed record gains them when it is accepted through /record-decision. The version stays 1: additive changes keep the version here (the
+# #548 / #550 precedent; schema evolution is parked — schemas/product-os/_index.md). The only
+# field ever written on an accepted record later is a forward pointer (superseded_by /
+# amended_by), plus status superseded when replaced in full.
+# #920 adds `for_the_accepter`, optional and additive: `adr.py lint` checks that each point has
+# its six parts when the field is there; a record without it stays valid.
