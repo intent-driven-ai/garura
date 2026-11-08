@@ -1,0 +1,582 @@
+{
+  "approval": ".garura/project/issues/1021/context/bi-2-cleanup/approval.md",
+  "request": ".garura/project/issues/1021/context/bi-2-cleanup/change-lines-request.json",
+  "request_sha256": "1476aeee7efd42f8b71978caff6a706d7f8b0bcb737a7cb2448faebadf415de2",
+  "request_sha256_unchanged_since_precheck": true,
+  "precheck": {
+    "every_old_line_once": true,
+    "problems": [],
+    "pages_named": 24,
+    "changes": 71,
+    "replaced": 58,
+    "removed": 13,
+    "file": ".garura/project/issues/1021/context/bi-2-cleanup/write/precheck.json"
+  },
+  "change_lines": {
+    "script": ".claude/skills/enrich-grounding/scripts/change_lines.py",
+    "runs": 1,
+    "exit": 0,
+    "report": ".garura/project/issues/1021/context/bi-2-cleanup/write/lines-report.json",
+    "pages_in_report": 24,
+    "changed": 24,
+    "changes_in_report": 71,
+    "removed_in_report": 13
+  },
+  "scratch_copy_equality": {
+    "copy": "<session scratchpad>/bi2-cleanup-copy/product-os",
+    "page_count": 31,
+    "all_equal": true,
+    "mismatches": [],
+    "pages": {
+      "intents/bi-2.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/deployment-design/capability.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": false,
+        "changed_on_disk": false
+      },
+      "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": false,
+        "changed_on_disk": false
+      },
+      "software-delivery-planning/deployment-design/fn-update-deployment/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/deployment-design/fn-update-deployment/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/deployment-design/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/design-technology-architecture/capability.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/design-technology-architecture/fn-set-architecture/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": false,
+        "changed_on_disk": false
+      },
+      "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/design-technology-architecture/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/environment-setup/capability.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/environment-setup/fn-build-environment/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/environment-setup/fn-build-environment/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": false,
+        "changed_on_disk": false
+      },
+      "software-delivery-planning/environment-setup/fn-declare-environments/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/environment-setup/fn-declare-environments/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": false,
+        "changed_on_disk": false
+      },
+      "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": false,
+        "changed_on_disk": false
+      },
+      "software-delivery-planning/environment-setup/fn-update-environments/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/environment-setup/fn-update-environments/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/environment-setup/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/manage-surfaces/capability.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": false,
+        "changed_on_disk": false
+      },
+      "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      },
+      "software-delivery-planning/manage-surfaces/ice.md": {
+        "equals_scratch_copy": true,
+        "named_in_request": true,
+        "changed_on_disk": true
+      }
+    }
+  },
+  "pages_changed_on_disk": {
+    "count": 24,
+    "equals_pages_named": true,
+    "pages": [
+      "intents/bi-2.md",
+      "software-delivery-planning/deployment-design/capability.md",
+      "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+      "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+      "software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+      "software-delivery-planning/deployment-design/ice.md",
+      "software-delivery-planning/design-technology-architecture/capability.md",
+      "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+      "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+      "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md",
+      "software-delivery-planning/design-technology-architecture/ice.md",
+      "software-delivery-planning/environment-setup/capability.md",
+      "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+      "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+      "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+      "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+      "software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+      "software-delivery-planning/environment-setup/ice.md",
+      "software-delivery-planning/manage-surfaces/capability.md",
+      "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+      "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+      "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+      "software-delivery-planning/manage-surfaces/ice.md"
+    ]
+  },
+  "git_status_product": {
+    "command": "git status --porcelain -- .garura/product/",
+    "entries": [
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/intents/bi-2.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/ice.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/deployment-design/ice.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/ice.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/environment-setup/fn-build-environment/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/environment-setup/fn-declare-environments/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/ice.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/environment-setup/ice.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md"
+      },
+      {
+        "status": " M",
+        "path": ".garura/product/product-os/software-delivery-planning/manage-surfaces/ice.md"
+      }
+    ],
+    "count": 24,
+    "only_modified_in_scope_pages": true,
+    "equals_pages_named": true
+  },
+  "bi2_tail": {
+    "stage_line_before": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "stage_line_after": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "stage_line_unchanged": true,
+    "tail_from_stage_sha256_before": "428d9154d0218700b124f05eb28889a81232b0ef397fec21e9afec50a589cea1",
+    "tail_from_stage_sha256_after": "428d9154d0218700b124f05eb28889a81232b0ef397fec21e9afec50a589cea1",
+    "tail_from_stage_unchanged": true,
+    "touches_lines": 15
+  },
+  "lint_part_pages": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional for capabilities]",
+    "page_count": 15,
+    "all_no_errors": true,
+    "before": [
+      {
+        "page": "software-delivery-planning/deployment-design/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/design-technology-architecture/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/manage-surfaces/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      }
+    ],
+    "after": [
+      {
+        "page": "software-delivery-planning/deployment-design/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/design-technology-architecture/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/manage-surfaces/capability.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+        "exit": 0,
+        "errors": 0,
+        "warnings": 0
+      }
+    ]
+  },
+  "lint_whole_model": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "exit": 1,
+      "errors": 87,
+      "warnings": 92,
+      "file": ".garura/project/issues/1021/context/bi-2-cleanup/write/lint-before.json"
+    },
+    "after": {
+      "exit": 1,
+      "errors": 87,
+      "warnings": 92,
+      "file": ".garura/project/issues/1021/context/bi-2-cleanup/write/lint-after.json"
+    },
+    "new_errors": [],
+    "gone_errors": [],
+    "new_warnings": [],
+    "gone_warnings": [],
+    "messages_naming_in_scope_pages_after": [
+      ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-build-environment/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-declare-environments/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "in_scope": {
+      "errors_before": 0,
+      "errors_after": 0,
+      "warnings_before": 15,
+      "warnings_after": 15,
+      "same_messages_before_and_after": true,
+      "note": "The 15 in-scope warnings are the old alignment warning (no ICE section on the part page) on each of the 15 part pages; each part has its ICE on its own ice.md. They were there before the write and are unchanged."
+    }
+  },
+  "grep_body_lock_lens_seed": {
+    "rule": "lines outside a '## Sources' section, whole words lock|locks|locked|locking|lens|lenses|seed|seeds|seeded|seeding, or 'only gate', case-insensitive",
+    "hits_before": 56,
+    "hits_after": 1,
+    "after": {
+      "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md": [
+        {
+          "line": 18,
+          "text": "- An older skill refused to change a locked architecture until it was moved back to draft. No play calls it."
+        }
+      ]
+    }
+  },
+  "citation": {
+    "id": "cite-20261108-001",
+    "stored": ".garura/project/issues/1021/context/citations.jsonl"
+  },
+  "all_checks_pass": true
+}

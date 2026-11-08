@@ -1,0 +1,156 @@
+{
+ "note": "Decision traces of the BI-2 capability 6 draft (Lock the design), for the caller to record with `python3 .garura/core/tools/memory/memory.py cite --request <one entry>`. Not recorded here, because this run writes only under bi-2-capability-6/. The persona, the governance options and the overlap leans rest on Garura's code and ADRs (not a memory tier) and on the product owner's words; they are in research.md.",
+ "requests": [
+  {
+   "question": "May a setting switch off the check that stops a build when no lock is in force?",
+   "answer": "No. Garura's gate rules let a setting switch only a person's checkpoint; a check a play runs before it starts is one of the machine's walls and is never switched off. The way past the lock is a person's yes, not a setting.",
+   "trace": [
+    {
+     "asked": "what the gate switch may turn off",
+     "found": "only human checkpoints; pre-flight halts, sensitive-file blocks, stop-condition gates and eval failures are never gated",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "start": 121,
+      "end": 123,
+      "fingerprint": "sha256:a4e53f9e7d4e63c9eefec6d092588de08cb0e87806f54861a2ff545a4b4c96f9"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 6 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Who may lock the design?",
+   "answer": "Only a person. Garura already leaves confirming a business intent and accepting a decision record to a person alone, as pinned steps; the lock is drafted the same way, with the product owner as the persona.",
+   "trace": [
+    {
+     "asked": "which steps only a person may take",
+     "found": "only a person confirms a business intent; only a person accepts a decision record",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "start": 103,
+      "end": 107,
+      "fingerprint": "sha256:5dee0ba55d790e7f858782a30dc535d98510f0849769b7b34e3ae5630e0fbe24"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 6 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "May the lock stop a write to a position after the design is locked?",
+   "answer": "No. A rule stops work, never a write, so a position may change after the lock; the check finds the change by its fingerprint and builds keep starting from the locked version until a person locks the update.",
+   "trace": [
+    {
+     "asked": "what a rule of the product model may stop",
+     "found": "what a rule can stop is work, never a write",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 25,
+      "end": 25,
+      "fingerprint": "sha256:5f42e9382e431019d277ccb06aab48482893a8303fb06f5794ceba6df812f13a"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 6 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "How is an earlier lock kept when the design is locked again?",
+   "answer": "It is never edited; a new lock replaces it and the old one stays readable, marked replaced, as an accepted decision record is replaced by a new record and never edited.",
+   "trace": [
+    {
+     "asked": "how an accepted decision is changed",
+     "found": "accepted decisions are not edited; supersede or amend with a new record",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/decision.yaml",
+      "start": 53,
+      "end": 53,
+      "fingerprint": "sha256:af8d791099d4e15b04039b6d4cafcb9305e9a769ea5f61c6f4bdf35aa52bf6c0"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 6 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Does any play set a locked state in the product model today?",
+   "answer": "No. The profile's locked state is set by no play since ADR 053, so nothing of the capability is built and every ICE is thin.",
+   "trace": [
+    {
+     "asked": "who sets the profile's locked state",
+     "found": "locked: no play sets it now, ADR 053",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/spine.yaml",
+      "start": 170,
+      "end": 170,
+      "fingerprint": "sha256:95556deb1b5de920d79b379fdc4cc54fff4f0843170b0482d6c68af42d8c434f"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 6 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Does the old rule that a locked project file is the answer still hold?",
+   "answer": "Not as it was: the locked file won unconditionally under the old resolution rule, which ADR 035 superseded in part when agents moved to the memory tool. The pages name it as older work, not as built behaviour.",
+   "trace": [
+    {
+     "asked": "how the old rule treated a locked file",
+     "found": "the LOCKED artifact wins unconditionally",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/resolution.md",
+      "start": 49,
+      "end": 55,
+      "fingerprint": "sha256:7ec028ab10f3f26a9c3a70d0fa263a1e0630f0250f3156b1ad02df13d93994df"
+     }
+    },
+    {
+     "asked": "whether that rule still governs agents",
+     "found": "superseded in part by ADR 035 \u00a75 for agents that work through the memory tool",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/resolution.md",
+      "start": 77,
+      "end": 79,
+      "fingerprint": "sha256:78e4b3c44de6e717146c6811cf4189615e6ae657083132b7f8ccc35574089568"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 6 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Does the product model have a kind where the lock could be kept?",
+   "answer": "No kind for the project's design or its lock exists, and the ontology lists no missing kind, so where the lock is kept is named as not decided, as on the other four BI-2 pages.",
+   "trace": [
+    {
+     "asked": "which kinds the ontology still lacks",
+     "found": "none; every kind a question or a relationship names is defined, and none is a design or a lock",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 868,
+      "end": 870,
+      "fingerprint": "sha256:ca8e932b74ed05ddd239c19182ae7ebeb2da18580691864af00c212cc5b89df9"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 6 draft",
+   "decided_by": "product-os-keeper"
+  }
+ ]
+}

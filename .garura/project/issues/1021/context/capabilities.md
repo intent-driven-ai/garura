@@ -16,6 +16,7 @@ Each line: name, then its one-liner. Marks: (planned) not built; (unique) a uniq
 - Environment setup (planned): Which environments exist, how many, and how each is set up.
 - Seed the memory for the lenses: The memory each design lens needs is seeded, ready for slices to use. It is part of initialize, not a play.
 - Lock the design: A design is locked before agents take over. This is the only gate, because without it agents drift. It is a governance check, not a play. Its final place is settled when it is built.
+  - Both lines above dropped by the product owner on 2026-11-08. Seeding memory: "seeding memory is part of the play when we start building.. right now we are simply updating the model", then "seeding memory - drop it. also these are not lenses anymore." Lock the design: "we are not locking design, we can run this anytime. drop this and i think ouf bi2 is complete". Spec → Design is complete with its first four capabilities. The text above is kept as it was, so the pages that quote it still match.
 
 ## Design → Code (slice-level design)
 - Design slices: The work is cut into vertical slices a person can test end to end. (unique: vertical slices)

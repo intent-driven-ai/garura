@@ -1,0 +1,410 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-2 (Spec → Design) clean-up, draft",
+  "source": "The product owner's own words on 2026-11-08, recorded in .garura/project/issues/1021/context/capabilities.md, the note under the Spec → Design list. Seeding memory: \"seeding memory is part of the play when we start building.. right now we are simply updating the model\", then \"seeding memory - drop it. also these are not lenses anymore.\" Lock the design: \"we are not locking design, we can run this anytime. drop this and i think ouf bi2 is complete\".",
+  "pages": [
+    {
+      "page": "intents/bi-2.md",
+      "changes": [
+        {
+          "old": "**Outcome:** The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments. The memory each lens needs is seeded, and a design is locked before agents take over.",
+          "new": "**Outcome:** The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments."
+        },
+        {
+          "old": "**Why:** Without shared positions, each builder invents its own answer. Without the lock, agents drift.",
+          "new": "**Why:** Without shared positions, each builder invents its own answer."
+        },
+        {
+          "old": "- Each lens has its memory.",
+          "new": null
+        },
+        {
+          "old": "- No agent builds from a design that isn't locked.",
+          "new": null
+        },
+        {
+          "old": "**Must not:** Block on anything except the lock, which is the only gate.",
+          "new": "**Must not:** Block other work. Each design can be run at any time."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/capability.md",
+      "changes": [
+        {
+          "old": "- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the business intent's only gate is the lock.",
+          "new": "- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Out: locking the design before agents take over. Lock the design owns the lock, the only gate.",
+          "new": null
+        },
+        {
+          "old": "- Out: any design of how the project runs inside one slice. Nothing about how the project runs is designed in a slice. Use the lenses on each slice (Design → Code) designs the rest of each slice, and a slice that needs something this design does not cover names it as a gap, which an update here closes. A lens is one view of a slice's design, such as its screens or its architecture.",
+          "new": "- Out: any design of how the project runs inside one slice. Nothing about how the project runs is designed in a slice. Designing each slice (Design → Code) designs the rest of each slice, and a slice that needs something this design does not cover names it as a gap, which an update here closes."
+        },
+        {
+          "old": "- Out: putting the memory that fits the deployment design into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it.",
+          "new": "- Out: putting the memory that fits the deployment design into the project. It belongs to the play that starts the build, not to the product model."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        },
+        {
+          "old": "- .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: \"Out: how the product is deployed (Deployment design), its environments (Environment setup), and locking the design before agents take over (Lock the design, the only gate).\"",
+          "new": "- .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: \"Out: how the product is deployed (Deployment design) and its environments (Environment setup).\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+      "changes": [
+        {
+          "old": "- A missing cartridge or entry is a gap, not a stop. The design names that cloud's cost as open, and the work goes on. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- A missing cartridge or entry is a gap, not a stop. The design names that cloud's cost as open, and the work goes on. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for the design. A slice can be designed and built with a part still open: the work goes on, and the builder names what it chose, so a person can set it later. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for the design. A slice can be designed and built with a part still open: the work goes on, and the builder names what it chose, so a person can set it later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Not decided: how the deployment design is updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.",
+          "new": null
+        },
+        {
+          "old": "- Opening a locked design for an update. Lock the design owns the lock.",
+          "new": null
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: updating how the whole project runs and each cloud's cartridge as the project and the clouds change, and keeping what held before with why it changed. Out: setting the first design, preparing the first cartridges, moving what already runs onto the updated design, setting up a new environment, updating the architecture, raising a quality level in the product profile, decision records, opening a locked design, production, and moving a memory update into Phoenix memory.",
+          "new": "- Scope: In: updating how the whole project runs and each cloud's cartridge as the project and the clouds change, and keeping what held before with why it changed. Out: setting the first design, preparing the first cartridges, moving what already runs onto the updated design, setting up a new environment, updating the architecture, raising a quality level in the product profile, decision records, production, and moving a memory update into Phoenix memory."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: proposing, setting and updating how the whole project runs: the physical architecture, the path through the environments Environment setup declares and the one design each is built from, the pipeline for continuous integration and continuous delivery, the tests in each environment, release and rollback, stored data, secrets and settings, the cost on each cloud, the cartridges and the rules every release keeps. Out: production, setting up each environment, the architecture and its technology, the surfaces, any design of how the project runs inside a slice, carrying out the pipeline, writing and running the tests, the files that carry out the design, the product profile, decision records, seeding memory, moving a memory update into Phoenix memory, and the lock.",
+          "new": "- Scope: In: proposing, setting and updating how the whole project runs: the physical architecture, the path through the environments Environment setup declares and the one design each is built from, the pipeline for continuous integration and continuous delivery, the tests in each environment, release and rollback, stored data, secrets and settings, the cost on each cloud, the cartridges and the rules every release keeps. Out: production, setting up each environment, the architecture and its technology, the surfaces, any design of how the project runs inside a slice, carrying out the pipeline, writing and running the tests, the files that carry out the design, the product profile, decision records, putting the memory that fits the deployment design into the project, and moving a memory update into Phoenix memory."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/capability.md",
+      "changes": [
+        {
+          "old": "- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the business intent's only gate is the lock.",
+          "new": "- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Out: locking the design before agents take over. Lock the design owns the lock, the only gate.",
+          "new": null
+        },
+        {
+          "old": "- Out: designing one slice through the lenses. A lens is one view of a slice's design, such as its screens or its architecture: for architecture, the parts the slice passes through and what crosses between them. Use the lenses on each slice (Design → Code) owns it, and builds on the project's architecture.",
+          "new": "- Out: designing one slice: for architecture, the parts the slice passes through and what crosses between them. Designing each slice (Design → Code) owns it, and builds on the project's architecture."
+        },
+        {
+          "old": "- Out: putting the memory that matches the architecture into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it.",
+          "new": "- Out: putting the memory that matches the architecture into the project. It belongs to the play that starts the build, not to the product model."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for the architecture. A slice can be designed and built with a choice still open: the builder goes by the project's code and memory and names what it chose, so the open choice can be settled later. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for the architecture. A slice can be designed and built with a choice still open: the builder goes by the project's code and memory and names what it chose, so the open choice can be settled later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Which parts one slice passes through, and what crosses each seam for it. Use the lenses on each slice designs it.",
+          "new": "- Which parts one slice passes through, and what crosses each seam for it. Designing each slice (Design → Code) designs it."
+        },
+        {
+          "old": "- Putting the memory that matches the architecture into the project. Seed the memory for the lenses, part of initialize, does it.",
+          "new": "- Putting the memory that matches the architecture into the project. It belongs to the play that starts the build, not to the product model."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Not decided: how the architecture is updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.",
+          "new": null
+        },
+        {
+          "old": "- Opening a locked design for an update. Lock the design owns the lock.",
+          "new": null
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: updating the project's architecture, with its technology, as the project changes, and keeping what held before with why it changed. Out: setting the first architecture, moving built work onto the update, the product profile, decision records, opening a locked design, and moving a memory update into Phoenix memory.",
+          "new": "- Scope: In: updating the project's architecture, with its technology, as the project changes, and keeping what held before with why it changed. Out: setting the first architecture, moving built work onto the update, the product profile, decision records, and moving a memory update into Phoenix memory."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: proposing, setting and updating the project's architecture, with its technology, for the whole project. Out: each slice's design through the lenses, the product profile, writing and keeping decision records, seeding memory, moving a memory update into Phoenix memory, surfaces, deployment, environments and the lock.",
+          "new": "- Scope: In: proposing, setting and updating the project's architecture, with its technology, for the whole project. Out: designing each slice (Design → Code), the product profile, writing and keeping decision records, putting the memory that matches the architecture into the project, moving a memory update into Phoenix memory, surfaces, deployment and environments."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/capability.md",
+      "changes": [
+        {
+          "old": "- Never: block work on a missing declaration. Design and build go on from the project's code and memory, and what is open is named. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Never: block work on a missing declaration. Design and build go on from the project's code and memory, and what is open is named. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- A missing declaration is a gap, not a stop. Slices are designed and built with an environment still open, and the gap is named. Only building an environment needs its confirmed declaration, because it stands up something live. The reason: the business intent's only gate is the lock, and a person's yes before a live step is already the rule.",
+          "new": "- A missing declaration is a gap, not a stop. Slices are designed and built with an environment still open, and the gap is named. Only building an environment needs its confirmed declaration, because it stands up something live. The reason: the Spec → Design business intent blocks no work, each design can run at any time, and a person's yes before a live step is already the rule."
+        },
+        {
+          "old": "- Out: locking the design before agents take over. Lock the design owns the lock, the only gate.",
+          "new": null
+        },
+        {
+          "old": "- Out: putting the memory that fits the environments into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it.",
+          "new": "- Out: putting the memory that fits the environments into the project. It belongs to the play that starts the build, not to the product model."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing else waits for an environment. Slices are designed and built whether or not an environment is built; only a deployment needs its environment. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing else waits for an environment. Slices are designed and built whether or not an environment is built; only a deployment needs its environment. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for the declaration. A slice can be designed and built with an environment or a property still open: the work goes on, and the open part is named, so a person can set it later. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for the declaration. A slice can be designed and built with an environment or a property still open: the work goes on, and the open part is named, so a person can set it later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for the sandbox. A builder can build with a part still open: the work goes on, and the open part is named. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for the sandbox. A builder can build with a part still open: the work goes on, and the open part is named. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Not decided: how the environments are updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.",
+          "new": null
+        },
+        {
+          "old": "- Opening a locked design for an update. Lock the design owns the lock.",
+          "new": null
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: updating which environments the project has and how each is set up as the project changes, and keeping what held before with why it changed. Out: declaring the first environments, applying an update to a built environment, updating the dev sandbox, updating the deployment design, raising a compliance need in the product profile, decision records, opening a locked design, production, and moving a memory update into Phoenix memory.",
+          "new": "- Scope: In: updating which environments the project has and how each is set up as the project changes, and keeping what held before with why it changed. Out: declaring the first environments, applying an update to a built environment, updating the dev sandbox, updating the deployment design, raising a compliance need in the product profile, decision records, production, and moving a memory update into Phoenix memory."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: proposing, declaring and updating which environments the project has and how each is set up, building, checking, changing and taking down each environment on its own when a deployment needs it, and setting up the dev sandbox on a builder's machine. Out: production, the path and what each environment is for, the tests in each, the one design of the underlying technology, the cloud and the cost, deploying each change, the files an environment is built from, writing and running the tests, where a person's acceptance walk runs, the product profile, decision records, seeding memory, moving a memory update into Phoenix memory, and the lock.",
+          "new": "- Scope: In: proposing, declaring and updating which environments the project has and how each is set up, building, checking, changing and taking down each environment on its own when a deployment needs it, and setting up the dev sandbox on a builder's machine. Out: production, the path and what each environment is for, the tests in each, the one design of the underlying technology, the cloud and the cost, deploying each change, the files an environment is built from, writing and running the tests, where a person's acceptance walk runs, the product profile, decision records, putting the memory that fits the environments into the project, and moving a memory update into Phoenix memory."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/capability.md",
+      "changes": [
+        {
+          "old": "- Never: block work on a missing surface, property or guideline. The work goes on from the project's code and memory, and what is open is named. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Never: block work on a missing surface, property or guideline. The work goes on from the project's code and memory, and what is open is named. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- A missing surface, property or guideline is a gap, not a stop. A slice can be designed with one still open; the designer names what it chose, so a person can declare it later. The reason: the business intent's only gate is the lock.",
+          "new": "- A missing surface, property or guideline is a gap, not a stop. A slice can be designed with one still open; the designer names what it chose, so a person can declare it later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Out: how the product is deployed (Deployment design), its environments (Environment setup), and locking the design before agents take over (Lock the design, the only gate).",
+          "new": "- Out: how the product is deployed (Deployment design) and its environments (Environment setup)."
+        },
+        {
+          "old": "The surfaces are declared once for the project, before the slices are designed, and they are updated as the project changes. A slice is an ordered group of features that one person can test end to end on one surface. Each slice picks its one surface from the declared ones, and its design follows that surface's properties and guidelines. Designing the slice stays with Design slices and Use the lenses on each slice, which read what is declared here.",
+          "new": "The surfaces are declared once for the project, before the slices are designed, and they are updated as the project changes. A slice is an ordered group of features that one person can test end to end on one surface. Each slice picks its one surface from the declared ones, and its design follows that surface's properties and guidelines. Designing the slice stays with Design slices and with designing each slice (Design → Code), which read what is declared here."
+        },
+        {
+          "old": "- Out: designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Use the lenses on each slice owns it, following the surface's properties and guidelines, and Bring the design together for a vertical slice joins it with the rest of the slice's design. A lens is one view of a slice's design, such as its screens or its architecture.",
+          "new": "- Out: designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Designing each slice (Design → Code) owns it, following the surface's properties and guidelines, and Bring the design together for a vertical slice joins it with the rest of the slice's design."
+        },
+        {
+          "old": "- Out: putting the memory and the review rules that fit the surfaces into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it, and reads the declared surfaces.",
+          "new": "- Out: putting the memory and the review rules that fit the surfaces into the project. It belongs to the play that starts the build, not to the product model, and that play reads the declared surfaces."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.\", \"Without shared positions, each builder invents its own answer.\", \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for the surfaces. A slice can be designed with a surface, a property or a guideline still open: the work goes on, and the designer names what it chose, so a person can declare it later. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for the surfaces. A slice can be designed with a surface, a property or a guideline still open: the work goes on, and the designer names what it chose, so a person can declare it later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Use the lenses on each slice owns it, following what is declared here.",
+          "new": "- Designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Designing each slice (Design → Code) owns it, following what is declared here."
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Without shared positions, each builder invents its own answer.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+      "changes": [
+        {
+          "old": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent must not block on anything except the lock.",
+          "new": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent blocks no work, and each design can run at any time."
+        },
+        {
+          "old": "- Not decided: how the surfaces are updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.",
+          "new": null
+        },
+        {
+          "old": "- Opening a locked design for an update. Lock the design owns the lock.",
+          "new": null
+        },
+        {
+          "old": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block on anything except the lock, which is the only gate.\"",
+          "new": "- .garura/product/product-os/intents/bi-2.md: \"Each position is written down and can change later.\", \"Block other work. Each design can be run at any time.\""
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: updating the project's surfaces, their properties and their guidelines as the project changes, and keeping what held before with why it changed. Out: declaring the first surfaces, moving slices already designed or built onto an updated surface, the technology of a new surface or design system, raising a quality level in the product profile, decision records, opening a locked design, and moving a memory update into Phoenix memory.",
+          "new": "- Scope: In: updating the project's surfaces, their properties and their guidelines as the project changes, and keeping what held before with why it changed. Out: declaring the first surfaces, moving slices already designed or built onto an updated surface, the technology of a new surface or design system, raising a quality level in the product profile, decision records, and moving a memory update into Phoenix memory."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/ice.md",
+      "changes": [
+        {
+          "old": "- Scope: In: proposing, declaring and updating each surface of the project, with its kind, who opens it, what they do there, why, its properties and its guidelines. Out: the rest of the product profile, each slice's surface and tester, designing a slice on its surface, testing each kind of surface, the technology of a surface and of its design system, seeding memory and review rules, decision records, moving a memory update into Phoenix memory, deployment, environments and the lock.",
+          "new": "- Scope: In: proposing, declaring and updating each surface of the project, with its kind, who opens it, what they do there, why, its properties and its guidelines. Out: the rest of the product profile, each slice's surface and tester, designing a slice on its surface, testing each kind of surface, the technology of a surface and of its design system, putting the memory and the review rules that fit the surfaces into the project, decision records, moving a memory update into Phoenix memory, deployment and environments."
+        }
+      ]
+    }
+  ]
+}

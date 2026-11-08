@@ -1,0 +1,154 @@
+{
+ "round": 1,
+ "date": "2026-11-08",
+ "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional]",
+ "pages": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/capability.md",
+   "args": [
+    "--kind",
+    "capability",
+    "--stage",
+    "directional"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "capability": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/fn-lock-design/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/fn-check-lock/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/fn-update-locked-design/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  }
+ ],
+ "ice_shape_check": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/fn-check-lock/ice.md",
+   "thin_first_line": true,
+   "sections": [
+    "## Intent",
+    "## Context",
+    "## Expectation"
+   ],
+   "goals": 1,
+   "limits": 3,
+   "fails_if": 3,
+   "read_line_fixed": true,
+   "never_read": true,
+   "scenario": 1,
+   "done_means_by_other": true
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/fn-lock-design/ice.md",
+   "thin_first_line": true,
+   "sections": [
+    "## Intent",
+    "## Context",
+    "## Expectation"
+   ],
+   "goals": 1,
+   "limits": 3,
+   "fails_if": 3,
+   "read_line_fixed": true,
+   "never_read": false,
+   "scenario": 1,
+   "done_means_by_other": true
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/fn-update-locked-design/ice.md",
+   "thin_first_line": true,
+   "sections": [
+    "## Intent",
+    "## Context",
+    "## Expectation"
+   ],
+   "goals": 1,
+   "limits": 3,
+   "fails_if": 3,
+   "read_line_fixed": true,
+   "never_read": false,
+   "scenario": 1,
+   "done_means_by_other": true
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-6/drafts/product-os/software-delivery-planning/lock-design/ice.md",
+   "thin_first_line": true,
+   "sections": [
+    "## Intent",
+    "## Context",
+    "## Expectation"
+   ],
+   "goals": 1,
+   "limits": 3,
+   "fails_if": 3,
+   "read_line_fixed": true,
+   "never_read": true,
+   "scenario": 1,
+   "done_means_by_other": true
+  }
+ ],
+ "quotes": {
+  "sources_checked": 129,
+  "sources_missing": 0,
+  "body_quotes_checked": 6,
+  "body_missing": 0,
+  "lines_without_quote": [
+   "The short line beside each feature: the opening words of that feature's own page",
+   "Shelf: none. No knowledge shelf covers locking a software project's design befor"
+  ],
+  "how": "each Sources quote checked word for word (whitespace collapsed) against its file: repo files as named, Phoenix memory files against this run's short-term copies in bi-2-capability-6/memory/, the agreed lines against .garura/project/issues/1021/context/capabilities.md, GitHub #893 against its text as read on 2026-11-08, and the product owner's words of 2026-11-08 against research.md, where the coordinator's words are recorded; each quote in a page body checked against the files that page cites"
+ },
+ "scan": {
+  "word_lens": false,
+  "home_paths": false,
+  "plan_named": false,
+  "real_names": false,
+  "seeding_memory": false,
+  "ice_section_on_part_page": false
+ }
+}

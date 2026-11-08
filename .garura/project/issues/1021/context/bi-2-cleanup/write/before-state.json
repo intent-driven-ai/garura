@@ -1,0 +1,447 @@
+{
+  "page_sha256": {
+    "intents/bi-2.md": "96cfb9f48df401dcb842e5e7ec98328eb209aedb495257972c5c3b619cc64b2b",
+    "software-delivery-planning/deployment-design/capability.md": "696a2c13e00f044aa341af403d648258e50cdf6149687fe4782127787d0f25a8",
+    "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md": "48b025a40da2b4cc66e040a0a5e093c479c32009b1e3e780555665dacbfefa0d",
+    "software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md": "0994204037667ee6a0e74b012557a689a8165222b4f76d0ae4f9009b5c50af54",
+    "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md": "11dae2a1f0bfb7b208a59daee283c10a0beb1fab93140cae2bb03d7b5ed3f7a7",
+    "software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md": "68f67ef80c8416f53691cbdbd81f9a437a8d3e9b4a5f37cf6002aea586ea2900",
+    "software-delivery-planning/deployment-design/fn-update-deployment/feature.md": "f79e61592e660af056ddf53e3fe9b592f18cf05e1c6f15dcfb1bfd2dc11e3d5c",
+    "software-delivery-planning/deployment-design/fn-update-deployment/ice.md": "d261f50db2bb3b442fd031d4b3bf13ab3a2a3cea1ac07e9c4e0cedb954671573",
+    "software-delivery-planning/deployment-design/ice.md": "a089edec26d8008da356742b36fb3ab2a77fd99b5c5ef4ca638a62cf266bc798",
+    "software-delivery-planning/design-technology-architecture/capability.md": "9d274f2d79dd532871d5733d74e9f06bee612bc7fefdd37295d7adfbd5a54dcd",
+    "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md": "5ddc6f1d796c6a456be4245f44fbd1211fc6ca5a598b06dbae398cb1dfe9f3b3",
+    "software-delivery-planning/design-technology-architecture/fn-set-architecture/ice.md": "07bb3a053b59a189557e9a42d25033c523e74324151af61db582383e8547d6ce",
+    "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md": "0bc5dfa0b53b1fa72070cde6bcc4948dfd7adf054b0fe11def48b8181d62f90c",
+    "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md": "ef7a1c56b2dd617ee91114c33eb8422e62611ee62766e92a4b197d67dced90ac",
+    "software-delivery-planning/design-technology-architecture/ice.md": "ac4aadbf4dde180ad8ce78e029e4654b6124833dde9fcba0db8ea691d0aab7d2",
+    "software-delivery-planning/environment-setup/capability.md": "26d231c46d558e6f0e48f14fe45555c903c1ac30118e641ac7101e0f9e506c71",
+    "software-delivery-planning/environment-setup/fn-build-environment/feature.md": "0060254b5f3aa776ef0200304d2704249317280a74d75ed9cca3dcc5bfee5061",
+    "software-delivery-planning/environment-setup/fn-build-environment/ice.md": "f3ca89b1dc792cb8cd0c81dcca34fd331188bb095a164fd308fefabd09a35c80",
+    "software-delivery-planning/environment-setup/fn-declare-environments/feature.md": "29c0b2c0bc5d9f8264b666364c2be21e3bf5ccba7204c1531d16c1719d38f937",
+    "software-delivery-planning/environment-setup/fn-declare-environments/ice.md": "0c8fc8962a9a7aa2bbe67ee7948a9f23dd50dbbb445041ba00435d80c37fa56e",
+    "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md": "d67633ac83cc5fec9bc63d9158275308e45065cbfe2c04ccc6e0713bcecebafe",
+    "software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md": "004b4e850e1e6850e8eda64a37e56f9ee00343b93b5ea5e0ed3e4c2d289f63f5",
+    "software-delivery-planning/environment-setup/fn-update-environments/feature.md": "d43bc459cf17ded32d88c68b79c358b2ded6358086295d923d5b680eb7ff1de3",
+    "software-delivery-planning/environment-setup/fn-update-environments/ice.md": "75d5b706227f895c310151008915d41ff1f5c32e93a3753572ac024bc21e1dc9",
+    "software-delivery-planning/environment-setup/ice.md": "c5d47a9e3d4a554ad61d2269993c6b1119e46cee8cec123471b0bfe018c2beab",
+    "software-delivery-planning/manage-surfaces/capability.md": "27a46d389125db0d3f47e67b783f8929328c555b72ad53d2a685bfd18e8687d2",
+    "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md": "15e2e273eb31476999a4d6f8722b0735304467f6572a20c14a99e2e9b96053ac",
+    "software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md": "a9c452d61502a532853984ff575913c284cf923649ad616a4eb05840b152de5c",
+    "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md": "b8e069e55e3438157e2ed4b18edbd076e9d774e4cedcdf095d85e6df45fd5c28",
+    "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md": "649c95c9469fb8a043223a421ce9d2c22e559ef27cb297bea1b4a2407472c094",
+    "software-delivery-planning/manage-surfaces/ice.md": "a04407abeca22dc55c85d1dadf0afb4c75b2739142058f54710c3ee384a5ac36"
+  },
+  "bi2_stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+  "bi2_tail_from_stage_sha256": "428d9154d0218700b124f05eb28889a81232b0ef397fec21e9afec50a589cea1",
+  "bi2_tail_from_stage": "**Stage:** confirmed — by the product owner, 2026-11-02\n**Tracker:** #2\n\n**Touches:**\n- [Design the technology and architecture](../software-delivery-planning/design-technology-architecture/capability.md) (capability) — adds\n- [Set the project's architecture](../software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md) (feature) — adds\n- [Update the architecture as the project changes](../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md) (feature) — adds\n- [Manage surfaces](../software-delivery-planning/manage-surfaces/capability.md) (capability) — adds\n- [Declare a surface, its properties and its guidelines](../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md) (feature) — adds\n- [Update the surfaces as the project changes](../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md) (feature) — adds\n- [Deployment design](../software-delivery-planning/deployment-design/capability.md) (capability) — adds\n- [Design how the project runs](../software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md) (feature) — adds\n- [Prepare a dedicated cartridge for each cloud: AWS, GCP and Azure](../software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md) (feature) — adds\n- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds\n- [Environment setup](../software-delivery-planning/environment-setup/capability.md) (capability) — adds\n- [Declare the environments and how each is set up](../software-delivery-planning/environment-setup/fn-declare-environments/feature.md) (feature) — adds\n- [Build and manage an environment when a deployment needs it](../software-delivery-planning/environment-setup/fn-build-environment/feature.md) (feature) — adds\n- [Update the environments as the project changes](../software-delivery-planning/environment-setup/fn-update-environments/feature.md) (feature) — adds\n- [Set up a dev sandbox on a builder's machine](../software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md) (feature) — adds\n\n**What was done:** (nothing yet)\n",
+  "grep_body_hits": {
+    "intents/bi-2.md": [
+      {
+        "line": 3,
+        "text": "**Outcome:** The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments. The memory each lens needs is seeded, and a design is locked before agents take over."
+      },
+      {
+        "line": 5,
+        "text": "**Why:** Without shared positions, each builder invents its own answer. Without the lock, agents drift."
+      },
+      {
+        "line": 11,
+        "text": "- Each lens has its memory."
+      },
+      {
+        "line": 12,
+        "text": "- No agent builds from a design that isn't locked."
+      },
+      {
+        "line": 14,
+        "text": "**Must not:** Block on anything except the lock, which is the only gate."
+      }
+    ],
+    "software-delivery-planning/deployment-design/capability.md": [
+      {
+        "line": 57,
+        "text": "- Out: any design of how the project runs inside one slice. Nothing about how the project runs is designed in a slice. Use the lenses on each slice (Design → Code) designs the rest of each slice, and a slice that needs something this design does not cover names it as a gap, which an update here closes. A lens is one view of a slice's design, such as its screens or its architecture."
+      },
+      {
+        "line": 64,
+        "text": "- Out: putting the memory that fits the deployment design into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it."
+      },
+      {
+        "line": 66,
+        "text": "- Out: locking the design before agents take over. Lock the design owns the lock, the only gate."
+      },
+      {
+        "line": 68,
+        "text": "- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 87,
+        "text": "- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the business intent's only gate is the lock."
+      }
+    ],
+    "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md": [
+      {
+        "line": 39,
+        "text": "- A missing cartridge or entry is a gap, not a stop. The design names that cloud's cost as open, and the work goes on. The reason: the Spec → Design business intent must not block on anything except the lock."
+      }
+    ],
+    "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md": [
+      {
+        "line": 69,
+        "text": "- Nothing waits for the design. A slice can be designed and built with a part still open: the work goes on, and the builder names what it chose, so a person can set it later. The reason: the Spec → Design business intent must not block on anything except the lock."
+      }
+    ],
+    "software-delivery-planning/deployment-design/fn-update-deployment/feature.md": [
+      {
+        "line": 44,
+        "text": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 46,
+        "text": "- Not decided: how the deployment design is updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built."
+      },
+      {
+        "line": 71,
+        "text": "- Opening a locked design for an update. Lock the design owns the lock."
+      }
+    ],
+    "software-delivery-planning/deployment-design/fn-update-deployment/ice.md": [
+      {
+        "line": 16,
+        "text": "- Scope: In: updating how the whole project runs and each cloud's cartridge as the project and the clouds change, and keeping what held before with why it changed. Out: setting the first design, preparing the first cartridges, moving what already runs onto the updated design, setting up a new environment, updating the architecture, raising a quality level in the product profile, decision records, opening a locked design, production, and moving a memory update into Phoenix memory."
+      }
+    ],
+    "software-delivery-planning/deployment-design/ice.md": [
+      {
+        "line": 16,
+        "text": "- Scope: In: proposing, setting and updating how the whole project runs: the physical architecture, the path through the environments Environment setup declares and the one design each is built from, the pipeline for continuous integration and continuous delivery, the tests in each environment, release and rollback, stored data, secrets and settings, the cost on each cloud, the cartridges and the rules every release keeps. Out: production, setting up each environment, the architecture and its technology, the surfaces, any design of how the project runs inside a slice, carrying out the pipeline, writing and running the tests, the files that carry out the design, the product profile, decision records, seeding memory, moving a memory update into Phoenix memory, and the lock."
+      }
+    ],
+    "software-delivery-planning/design-technology-architecture/capability.md": [
+      {
+        "line": 39,
+        "text": "- Out: designing one slice through the lenses. A lens is one view of a slice's design, such as its screens or its architecture: for architecture, the parts the slice passes through and what crosses between them. Use the lenses on each slice (Design → Code) owns it, and builds on the project's architecture."
+      },
+      {
+        "line": 42,
+        "text": "- Out: putting the memory that matches the architecture into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it."
+      },
+      {
+        "line": 45,
+        "text": "- Out: locking the design before agents take over. Lock the design owns the lock, the only gate."
+      },
+      {
+        "line": 46,
+        "text": "- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 59,
+        "text": "- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the business intent's only gate is the lock."
+      }
+    ],
+    "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md": [
+      {
+        "line": 49,
+        "text": "- Nothing waits for the architecture. A slice can be designed and built with a choice still open: the builder goes by the project's code and memory and names what it chose, so the open choice can be settled later. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 65,
+        "text": "- Which parts one slice passes through, and what crosses each seam for it. Use the lenses on each slice designs it."
+      },
+      {
+        "line": 68,
+        "text": "- Putting the memory that matches the architecture into the project. Seed the memory for the lenses, part of initialize, does it."
+      }
+    ],
+    "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md": [
+      {
+        "line": 18,
+        "text": "- An older skill refused to change a locked architecture until it was moved back to draft. No play calls it."
+      },
+      {
+        "line": 39,
+        "text": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 41,
+        "text": "- Not decided: how the architecture is updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built."
+      },
+      {
+        "line": 58,
+        "text": "- Opening a locked design for an update. Lock the design owns the lock."
+      }
+    ],
+    "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md": [
+      {
+        "line": 16,
+        "text": "- Scope: In: updating the project's architecture, with its technology, as the project changes, and keeping what held before with why it changed. Out: setting the first architecture, moving built work onto the update, the product profile, decision records, opening a locked design, and moving a memory update into Phoenix memory."
+      }
+    ],
+    "software-delivery-planning/design-technology-architecture/ice.md": [
+      {
+        "line": 17,
+        "text": "- Scope: In: proposing, setting and updating the project's architecture, with its technology, for the whole project. Out: each slice's design through the lenses, the product profile, writing and keeping decision records, seeding memory, moving a memory update into Phoenix memory, surfaces, deployment, environments and the lock."
+      }
+    ],
+    "software-delivery-planning/environment-setup/capability.md": [
+      {
+        "line": 57,
+        "text": "- Out: putting the memory that fits the environments into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it."
+      },
+      {
+        "line": 59,
+        "text": "- Out: locking the design before agents take over. Lock the design owns the lock, the only gate."
+      },
+      {
+        "line": 63,
+        "text": "- Never: block work on a missing declaration. Design and build go on from the project's code and memory, and what is open is named. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 81,
+        "text": "- A missing declaration is a gap, not a stop. Slices are designed and built with an environment still open, and the gap is named. Only building an environment needs its confirmed declaration, because it stands up something live. The reason: the business intent's only gate is the lock, and a person's yes before a live step is already the rule."
+      }
+    ],
+    "software-delivery-planning/environment-setup/fn-build-environment/feature.md": [
+      {
+        "line": 47,
+        "text": "- Nothing else waits for an environment. Slices are designed and built whether or not an environment is built; only a deployment needs its environment. The reason: the Spec → Design business intent must not block on anything except the lock."
+      }
+    ],
+    "software-delivery-planning/environment-setup/fn-declare-environments/feature.md": [
+      {
+        "line": 58,
+        "text": "- Nothing waits for the declaration. A slice can be designed and built with an environment or a property still open: the work goes on, and the open part is named, so a person can set it later. The reason: the Spec → Design business intent must not block on anything except the lock."
+      }
+    ],
+    "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md": [
+      {
+        "line": 58,
+        "text": "- Nothing waits for the sandbox. A builder can build with a part still open: the work goes on, and the open part is named. The reason: the Spec → Design business intent must not block on anything except the lock."
+      }
+    ],
+    "software-delivery-planning/environment-setup/fn-update-environments/feature.md": [
+      {
+        "line": 42,
+        "text": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 43,
+        "text": "- Not decided: how the environments are updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built."
+      },
+      {
+        "line": 65,
+        "text": "- Opening a locked design for an update. Lock the design owns the lock."
+      }
+    ],
+    "software-delivery-planning/environment-setup/fn-update-environments/ice.md": [
+      {
+        "line": 16,
+        "text": "- Scope: In: updating which environments the project has and how each is set up as the project changes, and keeping what held before with why it changed. Out: declaring the first environments, applying an update to a built environment, updating the dev sandbox, updating the deployment design, raising a compliance need in the product profile, decision records, opening a locked design, production, and moving a memory update into Phoenix memory."
+      }
+    ],
+    "software-delivery-planning/environment-setup/ice.md": [
+      {
+        "line": 16,
+        "text": "- Scope: In: proposing, declaring and updating which environments the project has and how each is set up, building, checking, changing and taking down each environment on its own when a deployment needs it, and setting up the dev sandbox on a builder's machine. Out: production, the path and what each environment is for, the tests in each, the one design of the underlying technology, the cloud and the cost, deploying each change, the files an environment is built from, writing and running the tests, where a person's acceptance walk runs, the product profile, decision records, seeding memory, moving a memory update into Phoenix memory, and the lock."
+      }
+    ],
+    "software-delivery-planning/manage-surfaces/capability.md": [
+      {
+        "line": 12,
+        "text": "The surfaces are declared once for the project, before the slices are designed, and they are updated as the project changes. A slice is an ordered group of features that one person can test end to end on one surface. Each slice picks its one surface from the declared ones, and its design follows that surface's properties and guidelines. Designing the slice stays with Design slices and Use the lenses on each slice, which read what is declared here."
+      },
+      {
+        "line": 48,
+        "text": "- Out: designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Use the lenses on each slice owns it, following the surface's properties and guidelines, and Bring the design together for a vertical slice joins it with the rest of the slice's design. A lens is one view of a slice's design, such as its screens or its architecture."
+      },
+      {
+        "line": 51,
+        "text": "- Out: putting the memory and the review rules that fit the surfaces into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it, and reads the declared surfaces."
+      },
+      {
+        "line": 54,
+        "text": "- Out: how the product is deployed (Deployment design), its environments (Environment setup), and locking the design before agents take over (Lock the design, the only gate)."
+      },
+      {
+        "line": 55,
+        "text": "- Never: block work on a missing surface, property or guideline. The work goes on from the project's code and memory, and what is open is named. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 71,
+        "text": "- A missing surface, property or guideline is a gap, not a stop. A slice can be designed with one still open; the designer names what it chose, so a person can declare it later. The reason: the business intent's only gate is the lock."
+      }
+    ],
+    "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md": [
+      {
+        "line": 57,
+        "text": "- Nothing waits for the surfaces. A slice can be designed with a surface, a property or a guideline still open: the work goes on, and the designer names what it chose, so a person can declare it later. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 75,
+        "text": "- Designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Use the lenses on each slice owns it, following what is declared here."
+      }
+    ],
+    "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md": [
+      {
+        "line": 39,
+        "text": "- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent must not block on anything except the lock."
+      },
+      {
+        "line": 41,
+        "text": "- Not decided: how the surfaces are updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built."
+      },
+      {
+        "line": 62,
+        "text": "- Opening a locked design for an update. Lock the design owns the lock."
+      }
+    ],
+    "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md": [
+      {
+        "line": 15,
+        "text": "- Scope: In: updating the project's surfaces, their properties and their guidelines as the project changes, and keeping what held before with why it changed. Out: declaring the first surfaces, moving slices already designed or built onto an updated surface, the technology of a new surface or design system, raising a quality level in the product profile, decision records, opening a locked design, and moving a memory update into Phoenix memory."
+      }
+    ],
+    "software-delivery-planning/manage-surfaces/ice.md": [
+      {
+        "line": 15,
+        "text": "- Scope: In: proposing, declaring and updating each surface of the project, with its kind, who opens it, what they do there, why, its properties and its guidelines. Out: the rest of the product profile, each slice's surface and tester, designing a slice on its surface, testing each kind of surface, the technology of a surface and of its design system, seeding memory and review rules, decision records, moving a memory update into Phoenix memory, deployment, environments and the lock."
+      }
+    ]
+  },
+  "grep_body_hit_count": 56,
+  "lint_docs": [
+    {
+      "page": "software-delivery-planning/deployment-design/capability.md",
+      "kind": "capability",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/capability.md",
+      "kind": "capability",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/capability.md",
+      "kind": "capability",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/capability.md",
+      "kind": "capability",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+      "kind": "feature",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "lint_model": {
+    "exit": 1,
+    "ok": false,
+    "errors": 87,
+    "warnings": 92,
+    "counts": {
+      "domain": 1,
+      "capability": 19,
+      "feature": 65,
+      "ice": 39
+    }
+  }
+}

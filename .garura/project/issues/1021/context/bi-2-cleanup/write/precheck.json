@@ -1,0 +1,680 @@
+{
+  "request": ".garura/project/issues/1021/context/bi-2-cleanup/change-lines-request.json",
+  "request_sha256": "1476aeee7efd42f8b71978caff6a706d7f8b0bcb737a7cb2448faebadf415de2",
+  "pages_named": 24,
+  "changes": 71,
+  "replaced": 58,
+  "removed": 13,
+  "added": 0,
+  "in_scope_page_count": 31,
+  "every_old_line_once": true,
+  "problems": [],
+  "pages": [
+    {
+      "page": "intents/bi-2.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            3
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            5
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            11
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            12
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            14
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/capability.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            68
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            87
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            66
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            57
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            64
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            95
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            99
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            39
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            67
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            69
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            108
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            44
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            46
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            71
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            77
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            16
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            16
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/capability.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            46
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            59
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            45
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            39
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            42
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            66
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            49
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            65
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            68
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            74
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            39
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            41
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            58
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            64
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            16
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/design-technology-architecture/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            17
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/capability.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            63
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            81
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            59
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            57
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            90
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            47
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            78
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            58
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            90
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            58
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            89
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            42
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            43
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            65
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            72
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            16
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            16
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/capability.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            55
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            71
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            54
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            12
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            48
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            51
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            78
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            57
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            75
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            84
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            39
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            41
+          ],
+          "count": 1
+        },
+        {
+          "kind": "remove",
+          "found_at": [
+            62
+          ],
+          "count": 1
+        },
+        {
+          "kind": "replace",
+          "found_at": [
+            68
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            15
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/ice.md",
+      "in_scope": true,
+      "exists": true,
+      "changes": [
+        {
+          "kind": "replace",
+          "found_at": [
+            15
+          ],
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "git_status_product_before": []
+}
