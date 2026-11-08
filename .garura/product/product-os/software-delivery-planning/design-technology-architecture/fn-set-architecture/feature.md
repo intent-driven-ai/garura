@@ -46,7 +46,7 @@ Status: not built. What exists covers only parts of it:
 - A part is named by its job, and its technology names a real product and its version, not a kind of product. The reason: replacing the database product then changes one line of technology, not the shape of the system; and a builder told "a relational database" must still choose one, and the next builder may choose another.
 - One answer for each job. The reason: two answers to one choice are no answer, and two builders would each take a different one.
 - A person confirms each choice. The reason: the architecture binds every builder in the project, so an agent never sets it alone.
-- Nothing waits for the architecture. A slice can be designed and built with a choice still open: the builder goes by the project's code and memory and names what it chose, so the open choice can be settled later. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for the architecture. A slice can be designed and built with a choice still open: the builder goes by the project's code and memory and names what it chose, so the open choice can be settled later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: where the project's architecture is kept, and whether each choice is a decision record. The model has no kind for it yet.
 
 ## Acceptance criteria
@@ -62,16 +62,16 @@ Status: not built. What exists covers only parts of it:
 
 ## Out of scope
 - Updating the confirmed architecture as the project changes. Update the architecture as the project changes (fn-update-architecture) does it.
-- Which parts one slice passes through, and what crosses each seam for it. Use the lenses on each slice designs it.
+- Which parts one slice passes through, and what crosses each seam for it. Designing each slice (Design → Code) designs it.
 - The platform the product runs on and its environments. Deployment design and Environment setup own them.
 - The quality levels in the product profile. Specify the product sets them.
-- Putting the memory that matches the architecture into the project. Seed the memory for the lenses, part of initialize, does it.
+- Putting the memory that matches the architecture into the project. It belongs to the play that starts the build, not to the product model.
 - Moving an approved memory update into Phoenix memory. A person does it on purpose, as a promotion, outside this work.
 
 ## Sources
 - The one line the product owner agreed on 2026-11-03: "The technology and architecture for the whole project are set here and can evolve. Nothing blocks on them."
 - The product owner on 2026-11-07, on the first drafts: "set the project arch will include the tech parts too.", "we need to read the phoenix memory and if not found then go about research."
-- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block other work. Each design can be run at any time."
 - docs/adr/028-agentic-lifecycle-five-loops.md: "These set the project's guidelines, rules, and guardrails. Every slice follows them.", "A skipped area can be built up later at runtime by the execution trinities"
 - docs/adr/014-three-axis-project-profiling.md: "Rejected because architecture is product-scoped, not epic-scoped.", "An architecture chosen per-epic would risk inconsistency across epics."
 - docs/adr/014-three-axis-project-profiling.md: "prepare-architecture → reads profiles      → selects technology stack and quality standards"

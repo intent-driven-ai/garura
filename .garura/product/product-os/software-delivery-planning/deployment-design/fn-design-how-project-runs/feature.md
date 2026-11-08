@@ -66,7 +66,7 @@ Status: not built. What exists covers only parts of it:
 - Never a secret's value. The design names only where each secret is kept. The reason: every agent reads the design, so a secret written there is no longer secret.
 - "Nothing to deploy" is an answer only with its reason. The reason: a design nobody made looks the same as one that found nothing to deploy.
 - A person confirms each part and chooses the cloud, and the reason is written beside each. The reason: each choice has reasons, and without them the next person cannot tell a choice from an accident.
-- Nothing waits for the design. A slice can be designed and built with a part still open: the work goes on, and the builder names what it chose, so a person can set it later. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for the design. A slice can be designed and built with a part still open: the work goes on, and the builder names what it chose, so a person can set it later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: where the design is kept, because the model has no kind for it.
 
 ## Acceptance criteria
@@ -105,7 +105,7 @@ Status: not built. What exists covers only parts of it:
 - The product owner on 2026-11-08, on the first drafts: "This is how the entire project is to be run.", "The environment setups: yes, minimum 3: dev, testing, and then pre-production.", "Production never gets set on this, not in the path of the project. We are never touching production.", "Container delivery, container integration: absolutely yes.", "The design and technology architecture needs to get converted into physical architecture.", "Are we running which services?", "How do we test it?", "Is it Kubernetes, Docker, whatnot, and stuff and things?", "Which cloud?", "For each one, we need to know what the cost looks like to get this piece figured out, running it across, and whatnot."
 - The product owner on 2026-11-08, on the second drafts: "each env can be built separately and managed separately, the underlying tech and reusability is important but we needed these to be done only [when] a deployment is needed"
 - The capability list the product owner locked on 2026-11-03: "Continuous integration (planned): Changes are built and tested together automatically.", "Continuous delivery (planned): Accepted changes are delivered to their environments automatically.", "Test with evals the builder never sees: Each slice is tested end to end by evals its builder can't read."
-- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block other work. Each design can be run at any time."
 - docs/adr/028-agentic-lifecycle-five-loops.md: "Most of that design — UX rules, architecture, quality bars, run model — is project-wide, not per-slice"
 - core/components/plays/shape-run-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)", "the slice-level design (rollout, migrations, config/secrets, CI/CD) once, and ONE environment per call", "a cloud environment — provider, region, compute, services, firewalls, security, deploy command —"
 - core/components/skills/author-run-lens/SKILL.md: "reuse an existing material decision", "is allowed only with its reason."

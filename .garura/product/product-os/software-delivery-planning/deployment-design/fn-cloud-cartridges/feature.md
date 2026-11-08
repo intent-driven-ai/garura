@@ -36,7 +36,7 @@ Status: not built. What exists covers only parts of it:
 - The same questions in the same shape for all three clouds. The reason: costs worked out in different ways cannot be set side by side, and the person choosing a cloud needs the three side by side.
 - What a cloud offers, never a project's choice. The reason: the choice needs the project's conditions, which the design holds, and a cartridge that chose would decide before the person sees the three costs.
 - Each entry names its source. The reason: a cloud's services and prices change, and an entry can be checked, and updated, only when its source is known.
-- A missing cartridge or entry is a gap, not a stop. The design names that cloud's cost as open, and the work goes on. The reason: the Spec → Design business intent must not block on anything except the lock.
+- A missing cartridge or entry is a gap, not a stop. The design names that cloud's cost as open, and the work goes on. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - A person confirms each cartridge. The reason: the design reads the cartridges as the facts behind the choice of cloud, so an unchecked cartridge would make that choice on unchecked facts.
 - Never the value of a secret, such as a cloud account's key. The reason: a cartridge is read by every design that maps onto its cloud.
 - Not decided: where a cartridge lives, what more it holds, and whether other clouds get one.
@@ -64,6 +64,6 @@ Status: not built. What exists covers only parts of it:
 - GitHub #435 (closed): "TCO is a core run decision.", "If exact pricing is unavailable, /run still produces a directional range with assumptions and confidence.", "If KB has no matching cost pattern, /run creates a KB-learning-gap proposal for the cost model."
 - knowledge/technology/gcp-modular-monolith-runtime.md, in Phoenix memory: "Modular-monolith runtime on GCP: Cloud Run + Cloud SQL Postgres, cache only when it earns it, secure by default", "Reach for GKE only when you genuinely outgrow Cloud Run (long-lived connections, complex"
 - knowledge/technology/agent-platform-bedrock-gcp.md, in Phoenix memory: "Agent platform: build on AWS Bedrock and GCP Vertex AI — managed models, tools, and guardrails"
-- .garura/product/product-os/intents/bi-2.md: "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Block other work. Each design can be run at any time."
 - core/tools/memory/GUIDE.md: "Never answer from what you already know, and never from the web, without a", "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:", "An update always goes to the issue's short-term memory, and it is used only after a person"
 - core/tools/memory/GUIDE.md: "to Garura memory or Phoenix memory is a promotion a person makes on purpose, outside your"

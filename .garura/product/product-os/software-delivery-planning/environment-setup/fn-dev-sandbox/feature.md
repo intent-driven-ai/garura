@@ -55,7 +55,7 @@ Status: not built. What exists covers only parts of it, and some of it does not 
 - Not where the path's tests are counted. The reason: a change moves on only when the tests named for an environment pass there, so it never moves on because it worked on one machine.
 - Never a slice's eval. The reason: the builder never reads the evals, which test each slice from the outside.
 - A person confirms how each part runs there, and the reason is written beside it. The reason: each choice has reasons, and without them the next builder cannot tell a choice from an accident.
-- Nothing waits for the sandbox. A builder can build with a part still open: the work goes on, and the open part is named. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for the sandbox. A builder can build with a part still open: the work goes on, and the open part is named. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: how a part that needs a cloud service, such as a managed data store or an outside service it calls, runs in the sandbox.
 - Not decided: where the sandbox setup is kept, because the model has no kind for it.
 
@@ -86,7 +86,7 @@ Status: not built. What exists covers only parts of it, and some of it does not 
 - The product owner on 2026-11-08, on the first drafts of Environment setup: "local machine is dev sandbox and not an environment - but we do need this.", "we don't need to burden a local laptop with cloud like setup - for example things like docker etc."
 - The product owner on 2026-11-08, on the first drafts of Deployment design: "We are never touching production."
 - The capability list the product owner locked on 2026-11-03: "Test with evals the builder never sees: Each slice is tested end to end by evals its builder can't read.", "User acceptance testing (planned): Users test the product and accept it.", "Build the work: Each work item, whether a slice, a feature, a story or a chore, is built end to end from its design."
-- .garura/product/product-os/intents/bi-2.md: "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Block other work. Each design can be run at any time."
 - .garura/product/product-os/software-delivery-planning/domain.md: "it never gives a builder the eval"
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md: "Each environment names the tests that run there, and a change moves to the next one only when they pass."
 - standards/schemas/product-os/lens/run.yaml, in Phoenix memory: "how to bring it up locally (command / compose file)", "optional — test-data seed step", "order: 0 local, 1 dev, 2 qa, 3 stage, 4 prod."

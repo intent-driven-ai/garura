@@ -36,9 +36,8 @@ Status: not built. What exists covers only parts of it:
 - A person confirms each update. The reason: the architecture binds every builder in the project, so changing it is the person's decision, never an agent's.
 - An update follows the other rules of a first choice too: the project's code describes what is, each proposal names its source, and the product profile sizes it. The reason: an updated choice must be as well founded as the first one.
 - One answer in force for each job. The reason: an agent that finds two would pick one, and the next agent might pick the other.
-- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: how an update reaches the work already built or planned on what held before. Nothing names that work today.
-- Not decided: how the architecture is updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.
 
 ## Acceptance criteria
 - Given an architecture of one deployable unit and a project whose teams now deploy on their own schedules, when an update is proposed, then it names the Phoenix memory learning that says the unit is outgrown and what comes next.
@@ -55,13 +54,12 @@ Status: not built. What exists covers only parts of it:
 - Moving work already built onto the updated architecture. The build owns it (Code → Validation), from work items that Turn intents into agent work makes.
 - Raising a quality level in the product profile. Specify the product owns the profile, and a decision moves it.
 - Writing and keeping the decision record behind an update. Manage ADRs owns decision records.
-- Opening a locked design for an update. Lock the design owns the lock.
 - Moving an approved memory update into Phoenix memory. A person does it on purpose, as a promotion, outside this work.
 
 ## Sources
 - The one line the product owner agreed on 2026-11-03: "The technology and architecture for the whole project are set here and can evolve."
 - The product owner on 2026-11-07, on the first drafts: "this should be reflected as updating arch. as the project changes.", "we need to read the phoenix memory and if not found then go about research."
-- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block other work. Each design can be run at any time."
 - standards/schemas/product-os/decision.yaml, in Phoenix memory: "accepted decisions are not edited — supersede or amend with a new record", "id of the decision that replaced this one; else null"
 - core/components/plays/record-decision/SKILL.md: "keeps every older ADR pointing forward", "Only a person accepts an ADR."
 - core/components/plays/shape-architecture-lens/reference/ice.md: "accepted decisions are superseded, never edited in place", "reuse the product decision if one exists"

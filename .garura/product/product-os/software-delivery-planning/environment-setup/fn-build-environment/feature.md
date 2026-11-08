@@ -44,7 +44,7 @@ Status: not built. What exists covers only parts of it:
 - Never production. A request that names production is refused. The reason, in the product owner's words: "We are never touching production."
 - No data from production. An environment's data is filled as its declaration says. The reason: copying production's data touches production, and the review already treats real personal data in an environment other than production as a finding.
 - Never a secret's value in a record or a log. The reason: every agent reads the records, so a secret written there is no longer secret.
-- Nothing else waits for an environment. Slices are designed and built whether or not an environment is built; only a deployment needs its environment. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing else waits for an environment. Slices are designed and built whether or not an environment is built; only a deployment needs its environment. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: whether an environment that no deployment has used for a while is taken down on its own, or only when a person asks. As built, an environment is taken down only when asked, and the copy for acceptance after its walk.
 
 ## Acceptance criteria
@@ -75,7 +75,7 @@ Status: not built. What exists covers only parts of it:
 - The product owner on 2026-11-08, on the first drafts of Deployment design: "We are never touching production."
 - The product owner on 2026-11-08, on the second drafts of Deployment design: "each env can be built separately and managed separately, the underlying tech and reusability is important but we needed these to be done only [when] a deployment is needed"
 - The capability list the product owner locked on 2026-11-03: "Continuous delivery (planned): Accepted changes are delivered to their environments automatically.", "Build the work: Each work item, whether a slice, a feature, a story or a chore, is built end to end from its design."
-- .garura/product/product-os/intents/bi-2.md: "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Block other work. Each design can be run at any time."
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md: "Each environment is built and managed on its own, from one design of its underlying technology that is reused for every environment, and it is built only when a deployment to it is needed."
 - .garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md: "Declaring which environments exist and how many, and building and setting up each one when a deployment to it is needed. Environment setup owns it, from the design made here.", "Making the container, Kubernetes, pipeline and infrastructure files. Build the work makes them, from work items."
 - .garura/product/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md: "Setting up an environment on a cloud. Environment setup owns it."

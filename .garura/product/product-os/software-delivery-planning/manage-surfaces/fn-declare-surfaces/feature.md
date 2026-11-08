@@ -54,7 +54,7 @@ Status: not built. What exists covers only parts of it:
 - A person confirms each surface, property and guideline, and the reason is written beside it. The reason: each has reasons, and without them the next person cannot tell a choice from an accident.
 - Each surface names who opens it and what they do there. The reason: a surface is chosen for a person and a job, so a reader can check its kind, properties and guidelines against them.
 - Only surfaces are declared. The reason: a list that holds something that is not a surface sends design and tests after the wrong thing. Not decided: the written definition that tells a surface from an integration point; until it is written, a person decides each doubtful case.
-- Nothing waits for the surfaces. A slice can be designed with a surface, a property or a guideline still open: the work goes on, and the designer names what it chose, so a person can declare it later. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for the surfaces. A slice can be designed with a surface, a property or a guideline still open: the work goes on, and the designer names what it chose, so a person can declare it later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: where the declared surfaces are kept, and which list of kinds they use. The model has no kind for a surface, and today four lists of kinds disagree.
 
 ## Acceptance criteria
@@ -72,7 +72,7 @@ Status: not built. What exists covers only parts of it:
 ## Out of scope
 - Updating the declared surfaces as the project changes. Update the surfaces as the project changes (fn-update-surfaces) does it.
 - Choosing the one surface of a slice and the person who tests it there. Design slices owns it.
-- Designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Use the lenses on each slice owns it, following what is declared here.
+- Designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Designing each slice (Design → Code) owns it, following what is declared here.
 - The step library of each kind of surface and the eval of each slice. Design for evaluation and testing owns them.
 - The technology a surface and its design system are built with, such as a web framework or a component library and their versions. Design the technology and architecture owns it.
 - The first rough profile and the product's quality levels. Specify the product owns them.
@@ -81,7 +81,7 @@ Status: not built. What exists covers only parts of it:
 ## Sources
 - The one line the product owner agreed on 2026-11-03: "The project's surfaces are declared: CLI, browser, mobile or other."
 - The product owner on 2026-11-07, on the first drafts: "the surface needs to be designed based on what they offer for example web would be responsive, adaptive, view ports etc.", "same for agentic like claude-code we need to use the characteristics.", "declare the surface, and its properties is what this is about for each surface we need to define guidelines example for web - we need to handle for design system etc."
-- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block other work. Each design can be run at any time."
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md: "Out: one rough product profile, only when none exists: the product's stage, users, way of earning and surfaces (where people use it, such as the web), with coarse quality levels."
 - core/components/skills/author-domains/SKILL.md: "the `shape` at a rough cut", "(stage / users / monetization / surfaces)"
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "# web | mobile | cli | api | desktop | embedded", "The box moves ONLY by an approved decision."

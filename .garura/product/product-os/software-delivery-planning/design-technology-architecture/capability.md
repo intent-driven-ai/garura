@@ -36,14 +36,13 @@ What is not built yet:
 ### Boundary (In / Out / Never)
 - In: setting the project's architecture: its style, its main parts with one job each, how the parts connect, and the technology of each part with its version.
 - In: updating the architecture as the project changes, keeping what held before and why it changed.
-- Out: designing one slice through the lenses. A lens is one view of a slice's design, such as its screens or its architecture: for architecture, the parts the slice passes through and what crosses between them. Use the lenses on each slice (Design → Code) owns it, and builds on the project's architecture.
+- Out: designing one slice: for architecture, the parts the slice passes through and what crosses between them. Designing each slice (Design → Code) owns it, and builds on the project's architecture.
 - Out: the product profile. The profile holds the product's shape, such as its stage, its users and its surfaces, and the quality levels it commits to, such as how fast, how secure and how reliable it must be. Specify the product sets it and rolls it up. This capability reads it to size each choice and never writes it.
 - Out: writing the decision record behind each architecture choice, accepting it and keeping its history. A decision record says what was decided, why, and what else was weighed. Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over.
-- Out: putting the memory that matches the architecture into the project. Seed the memory for the lenses, a part of the project set-up step (initialize), owns it.
+- Out: putting the memory that matches the architecture into the project. It belongs to the play that starts the build, not to the product model.
 - Out: moving an approved memory update into Phoenix memory. A memory update goes to the project's short-term memory, and moving it up is a promotion a person makes on purpose, outside this work.
 - Out: the project's surfaces (Manage surfaces), how the product is deployed and the platform it runs on (Deployment design), and its environments (Environment setup).
-- Out: locking the design before agents take over. Lock the design owns the lock, the only gate.
-- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Never: block work on a missing choice. The work goes on from the project's code and memory, and the open choice is named. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Never: make a choice from what the AI agent knows by itself, or write a choice that no person confirmed. The reason: a choice with no memory behind it is the agent's taste, nobody can check it, and every builder after it would build on a guess.
 - Never: change the architecture's words in place. An update replaces what held before and keeps it. The reason: work already built on the old architecture must still be explainable.
 
@@ -56,14 +55,14 @@ What is not built yet:
 - The product profile sizes each choice. A choice must meet the quality levels the profile commits to, without going far beyond them. The reason: a small internal tool does not need the architecture of a public payments product, and a public product cannot run on the architecture of a throwaway.
 - The technology of a part names a real product and its version, not a kind of product. The reason: a builder told "a relational database" must still choose one, and the next builder may choose another.
 - A person confirms each choice and each update. The reason: the architecture binds every builder in the project, so an agent never sets it alone.
-- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the business intent's only gate is the lock.
+- A missing choice is a gap, not a stop. The builder goes by the project's code and memory and names what it chose, and the gap stays on record so a later step knows it was skipped, not forgotten. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - The architecture is kept where every agent looks first. Agents gather context from the project's code and the project's own memory, Garura memory, before Phoenix memory, and the product model is part of Garura memory. The reason: an architecture that builders do not find is no architecture. Not decided: the place in the model, because the model has no kind for the project's architecture.
 
 ## Sources
 - The one line the product owner agreed on 2026-11-03: "The technology and architecture for the whole project are set here and can evolve. Nothing blocks on them."
 - The product owner on 2026-11-07, on the first drafts: "set the project arch will include the tech parts too.", "this should be reflected as updating arch. as the project changes.", "we need to read the phoenix memory and if not found then go about research."
 - The capability list the product owner locked on 2026-11-03: "Seed the memory for the lenses: The memory each design lens needs is seeded, ready for slices to use. It is part of initialize, not a play.", "Lock the design: A design is locked before agents take over. This is the only gate", "Use the lenses on each slice: Each slice is designed through the lenses", "Manage ADRs: Decisions on how the project is built are recorded closely as they're made"
-- .garura/product/product-os/intents/bi-2.md: "The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.", "Without shared positions, each builder invents its own answer.", "Each position is written down and can change later.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "The project's positions are set for the whole project: technology and architecture, surfaces, deployment and environments.", "Without shared positions, each builder invents its own answer.", "Each position is written down and can change later.", "Block other work. Each design can be run at any time."
 - .garura/product/product-os/software-delivery-planning/domain.md: "Its job comes before the build"
 - docs/adr/028-agentic-lifecycle-five-loops.md: "These set the project's guidelines, rules, and guardrails. Every slice follows them.", "re-deriving it per slice is ceremony", "A skipped area can be built up later at runtime by the execution trinities"
 - docs/adr/028-agentic-lifecycle-five-loops.md, Open question 3: "Where do the project-wide design outputs live in the product model?", "The product model is to be rebuilt as an ontology"

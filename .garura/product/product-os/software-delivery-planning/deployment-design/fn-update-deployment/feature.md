@@ -41,9 +41,8 @@ Status: not built. What exists covers only parts of it:
 - No update brings production into the path. The reason, in the product owner's words: "We are never touching production."
 - An update follows the rules of a first design too: the path through the environments Environment setup declares ends at pre-production, each environment is built from the one reused design, every part of the architecture has a place to run, every release has a way back that keeps stored data, each part names its source, the cost is shown on all three clouds the same way, the design never holds a secret's value, and the product profile sizes each choice. The reason: an updated design must be as well founded as the first one.
 - One answer in force for each part of the design and each cartridge entry. The reason: an agent that finds two would pick one, and the next agent might pick the other.
-- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: how what already runs is moved onto an updated design, such as moving the project to another cloud. Carrying it out is work for the build and the delivery, from work items.
-- Not decided: how the deployment design is updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.
 
 ## Acceptance criteria
 - Given a design for one deployable unit, and an architecture updated to split it into parts that each release on their own, when an update is proposed, then it proposes a service, a container platform and a place in the path for each new part, and names the architecture update.
@@ -68,13 +67,12 @@ Status: not built. What exists covers only parts of it:
 - Updating the parts of the system and their technology. Design the technology and architecture owns them, and a change of cloud or platform can call for an update there.
 - Raising a quality level in the product profile. Specify the product owns the profile, and a decision moves it.
 - Writing and keeping the decision record behind an update. Manage ADRs owns decision records.
-- Opening a locked design for an update. Lock the design owns the lock.
 - Moving an approved memory update into Phoenix memory. A person does it on purpose, as a promotion, outside this work.
 
 ## Sources
 - The one line the product owner agreed on 2026-11-03: "How the product gets deployed is designed."
 - The product owner on 2026-11-08, on the first drafts: "We are never touching production.", "We need dedicated cartridges for AWS, GCP, and Azure.", "Which cloud?"
-- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block other work. Each design can be run at any time."
 - core/components/plays/shape-run-lens/reference/ice.md: "design is written once and carried forward unchanged unless the target environment forces a change", "Re-running re-derives the target environment; accepted decisions are"
 - core/components/plays/shape-run-lens/SKILL.md: "Incremental: re-run to add or edit an environment; the rest are preserved."
 - knowledge/technology/gcp-modular-monolith-runtime.md, in Phoenix memory: "Scale, team size, or independent-deploy pressure crosses the line where one deployment holds", "Reach for GKE only when you genuinely outgrow Cloud Run (long-lived connections, complex"

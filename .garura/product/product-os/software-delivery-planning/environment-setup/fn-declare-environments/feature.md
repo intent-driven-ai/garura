@@ -55,7 +55,7 @@ Status: not built. What exists covers only parts of it:
 - The compliance needs in the product profile bound each environment's data, and a declaration never changes them. The reason: the profile is the box the product commits to, only an approved decision moves it, and the review already treats real personal data in an environment other than production as a finding.
 - Never a secret's value. A declaration names a setting, and where its secret is kept comes from the deployment design. The reason: every agent reads the declarations, so a secret written there is no longer secret.
 - A person confirms each environment and property, and the reason is written beside it. The reason: each has reasons, and without them the next person cannot tell a choice from an accident.
-- Nothing waits for the declaration. A slice can be designed and built with an environment or a property still open: the work goes on, and the open part is named, so a person can set it later. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for the declaration. A slice can be designed and built with an environment or a property still open: the work goes on, and the open part is named, so a person can set it later. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: where the declared environments are kept, because the model has no kind for an environment.
 - Not decided: how an environment the project already has under another name, such as staging or qa, is matched to dev, testing or pre-production.
 - Not decided: how the three environments look for a product that keeps nothing running, such as a command a person installs. The eval of a play already runs the play in a test project.
@@ -87,7 +87,7 @@ Status: not built. What exists covers only parts of it:
 - The one line the product owner agreed on 2026-11-03: "Which environments exist, how many, and how each is set up."
 - The product owner on 2026-11-08, on the first drafts of Deployment design: "The environment setups: yes, minimum 3: dev, testing, and then pre-production.", "We are never touching production."
 - The product owner on 2026-11-08, on the second drafts of Deployment design: "the underlying tech and reusability is important"
-- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block other work. Each design can be run at any time."
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md: "at least dev, testing and pre-production, each built and managed on its own when a deployment to it is needed, with its data, its size, its network and who can reach it.", "This capability holds the path a change takes through them, what each is for, and the one design each is built from.", "where the settings that differ between environments are kept"
 - .garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md: "A learning that ends its path in production gives everything up to pre-production, and its production step is left out."
 - core/components/plays/shape-run-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)", "the slice-level design (rollout, migrations, config/secrets, CI/CD) once, and ONE environment per call"

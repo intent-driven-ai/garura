@@ -13,7 +13,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 ## Context
 - Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: Phoenix memory's architecture and technology learnings, with when each choice is outgrown and what comes after it; the architecture in force and what it replaced; what changed in the project; and the product profile as it is now.
 - Persona: the architect, who decides when the project has outgrown its architecture.
-- Scope: In: updating the project's architecture, with its technology, as the project changes, and keeping what held before with why it changed. Out: setting the first architecture, moving built work onto the update, the product profile, decision records, opening a locked design, and moving a memory update into Phoenix memory.
+- Scope: In: updating the project's architecture, with its technology, as the project changes, and keeping what held before with why it changed. Out: setting the first architecture, moving built work onto the update, the product profile, decision records, and moving a memory update into Phoenix memory.
 
 ## Expectation
 - Scenario: A product built as one deployable unit grows until several teams deploy on their own schedules; the agent proposes separate services from the Phoenix memory learning that says the unit is outgrown, the architect confirms it, and what held before stays readable, marked replaced, with why.

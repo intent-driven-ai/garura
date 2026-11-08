@@ -39,8 +39,7 @@ Status: not built. What exists covers only parts of it:
 - An update follows the rules of a first declaration too: the project's files describe what is, each part names its source, a declaration says only what makes its environment different, its data stays within the compliance needs of the product profile, and it never holds a secret's value. The reason: an updated declaration must be as well founded as the first one.
 - One answer in force for each property of each environment. The reason: an agent that finds two would pick one, and the next agent might pick the other.
 - A built environment changes only through a build step, after a person's yes, and only that environment changes. The reason: the product owner asked that each environment be managed on its own, and a declaration that changed while the environment did not would describe a place that does not exist.
-- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent must not block on anything except the lock.
-- Not decided: how the environments are updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.
+- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design, build or release. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 
 ## Acceptance criteria
 - Given declared dev, testing and pre-production, and a deployment design updated with a performance step before pre-production, when an update is proposed, then it proposes a new environment before pre-production, with its data, size, network and access, and names the deployment design update.
@@ -62,14 +61,13 @@ Status: not built. What exists covers only parts of it:
 - Updating the path, what each environment is for, the tests in each and the one design of the underlying technology. Update the deployment design as the project changes, under Deployment design, does it.
 - Raising a compliance need in the product profile. Specify the product owns the profile, and a decision moves it.
 - Writing and keeping the decision record behind an update. Manage ADRs owns decision records.
-- Opening a locked design for an update. Lock the design owns the lock.
 - Moving an approved memory update into Phoenix memory. A person does it on purpose, as a promotion, outside this work.
 
 ## Sources
 - The one line the product owner agreed on 2026-11-03: "Which environments exist, how many, and how each is set up."
 - The product owner on 2026-11-08, on the first drafts of Deployment design: "The environment setups: yes, minimum 3: dev, testing, and then pre-production.", "We are never touching production."
 - The product owner on 2026-11-08, on the second drafts of Deployment design: "each env can be built separately and managed separately"
-- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block other work. Each design can be run at any time."
 - .garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md: "or a new environment is set up in the path before pre-production.", "Setting up a new environment. Environment setup owns it.", "the team moves to another cloud"
 - core/components/plays/shape-run-lens/SKILL.md: "Incremental: re-run to add or edit an environment; the rest are preserved."
 - core/components/plays/shape-run-lens/reference/ice.md: "design is written once and carried forward unchanged unless the target environment forces a change"

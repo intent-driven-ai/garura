@@ -36,9 +36,8 @@ Status: not built. What exists covers only parts of it:
 - A person confirms each update. The reason: a surface's kind, properties and guidelines decide how every slice on it is designed, so changing them is a person's decision, never an agent's.
 - An update follows the rules of a first declaration too: the project's code describes what is, each part names its source, each guideline serves a property or a quality level of the profile, and only surfaces go on the list. The reason: an updated surface must be as well founded as the first one.
 - One answer in force for each property and each guideline of a surface. The reason: an agent that finds two would pick one, and the next agent might pick the other.
-- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent must not block on anything except the lock.
+- Nothing waits for an update. An update in progress, or one waiting for a memory update, does not stop design or build. The reason: the Spec → Design business intent blocks no work, and each design can run at any time.
 - Not decided: how an update reaches the slices already designed or built on the surface it changes. A changed property or guideline can mean a slice's design is written again.
-- Not decided: how the surfaces are updated once the design is locked. Lock the design owns the lock, the only gate, and it is not built.
 
 ## Acceptance criteria
 - Given a declared browser page that serves desktop screens, and a project whose code now lays its pages out for phones too, when an update is proposed, then it proposes the new screen sizes and names the files that show them.
@@ -59,13 +58,12 @@ Status: not built. What exists covers only parts of it:
 - The technology of a new surface or of a new design system. Design the technology and architecture owns it, and a new surface can call for an update of the architecture.
 - Raising a quality level in the product profile. Specify the product owns the profile, and a decision moves it.
 - Writing and keeping the decision record behind an update. Manage ADRs owns decision records.
-- Opening a locked design for an update. Lock the design owns the lock.
 - Moving an approved memory update into Phoenix memory. A person does it on purpose, as a promotion, outside this work.
 
 ## Sources
 - The one line the product owner agreed on 2026-11-03: "The project's surfaces are declared: CLI, browser, mobile or other."
 - The product owner on 2026-11-07, on the first drafts: "declare the surface, and its properties is what this is about for each surface we need to define guidelines example for web - we need to handle for design system etc.", "the design would be for that surface"
-- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block on anything except the lock, which is the only gate."
+- .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block other work. Each design can be run at any time."
 - GitHub #559 (open): "Changing a medium later is recorded as a decision, not a silent edit.", "Every surface record carries a medium and a reason for it."
 - GitHub #553 (open, under the Spec → Design business intent in the tracker): "all of them cost a rewrite after the design was already written"
 - core/components/plays/discover-domains/scripts/persist_seed.py: "the profile block: added ONLY if the live spine has none."
