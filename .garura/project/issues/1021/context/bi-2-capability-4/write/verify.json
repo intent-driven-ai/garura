@@ -1,0 +1,339 @@
+{
+  "pages": {
+    "software-delivery-planning/environment-setup/capability.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/environment-setup/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/environment-setup/fn-declare-environments/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/environment-setup/fn-declare-environments/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/environment-setup/fn-build-environment/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/environment-setup/fn-build-environment/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/environment-setup/fn-update-environments/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/environment-setup/fn-update-environments/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 10,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "capabilities": {
+      "before": 18,
+      "after": 19,
+      "new": [
+        "cap-environment-setup"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "features": {
+      "before": 61,
+      "after": 65,
+      "new": [
+        "fn-declare-environments",
+        "fn-build-environment",
+        "fn-update-environments",
+        "fn-dev-sandbox"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "ices": {
+      "before": 34,
+      "after": 39,
+      "new": [
+        "ice-environment-setup",
+        "ice-declare-environments",
+        "ice-build-environment",
+        "ice-update-environments",
+        "ice-dev-sandbox"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "profile_unchanged": true,
+    "other_top_keys": [],
+    "other_top_keys_unchanged": true,
+    "new_entries": {
+      "cap-environment-setup": {
+        "slug": "environment-setup",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "Which environments exist, how many, and how each is set up.",
+        "doc": "software-delivery-planning/environment-setup/capability.md",
+        "thin": false
+      },
+      "fn-declare-environments": {
+        "slug": "fn-declare-environments",
+        "capability": "cap-environment-setup",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "Declares which environments the project has, at least dev, testing and pre-production and never production, and for each one its data, its size, its network, who can reach it and its own settings, so every deployment and every test runs in a place that was set up on purpose.",
+        "doc": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+        "thin": false
+      },
+      "fn-build-environment": {
+        "slug": "fn-build-environment",
+        "capability": "cap-environment-setup",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "When a deployment needs an environment that is not built yet, builds it on its own from the one design of the underlying technology and its declaration, after a person's yes, checks that it answers, and from then on keeps it apart from the others until a person asks to take it down.",
+        "doc": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+        "thin": false
+      },
+      "fn-update-environments": {
+        "slug": "fn-update-environments",
+        "capability": "cap-environment-setup",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "When the project needs another environment, or an environment's data, size, network, access or settings must change, a person confirms an update, and what held before stays readable with why it changed.",
+        "doc": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+        "thin": false
+      },
+      "fn-dev-sandbox": {
+        "slug": "fn-dev-sandbox",
+        "capability": "cap-environment-setup",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "Sets up a place on a builder's own machine where the builder runs the project's code while building it, with each part running on the machine itself and no container platform or cloud service needed, so a builder can try a change before it goes to dev.",
+        "doc": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+        "thin": false
+      },
+      "ice-environment-setup": {
+        "for": "cap-environment-setup",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/environment-setup/ice.md",
+        "thin": true
+      },
+      "ice-declare-environments": {
+        "for": "fn-declare-environments",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/environment-setup/fn-declare-environments/ice.md",
+        "thin": true
+      },
+      "ice-build-environment": {
+        "for": "fn-build-environment",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/environment-setup/fn-build-environment/ice.md",
+        "thin": true
+      },
+      "ice-update-environments": {
+        "for": "fn-update-environments",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+        "thin": true
+      },
+      "ice-dev-sandbox": {
+        "for": "fn-dev-sandbox",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md",
+        "thin": true
+      }
+    },
+    "entries_as_asked": true,
+    "feature_one_lines_match_capability_list": {
+      "fn-declare-environments": true,
+      "fn-build-environment": true,
+      "fn-update-environments": true,
+      "fn-dev-sandbox": true
+    },
+    "capability_one_line_as_given": true,
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 117,
+    "insert_blocks": 3,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0,
+    "comments_kept": true,
+    "layout_kept_reported_by_link_part": true
+  },
+  "bi_2": {
+    "lines_before": 31,
+    "lines_after": 36,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 5,
+    "added": [
+      "- [Environment setup](../software-delivery-planning/environment-setup/capability.md) (capability) — adds",
+      "- [Declare the environments and how each is set up](../software-delivery-planning/environment-setup/fn-declare-environments/feature.md) (feature) — adds",
+      "- [Build and manage an environment when a deployment needs it](../software-delivery-planning/environment-setup/fn-build-environment/feature.md) (feature) — adds",
+      "- [Update the environments as the project changes](../software-delivery-planning/environment-setup/fn-update-environments/feature.md) (feature) — adds",
+      "- [Set up a dev sandbox on a builder's machine](../software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "touches_lines": 15,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/design-technology-architecture/capability.md": true,
+      "../software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md": true,
+      "../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md": true,
+      "../software-delivery-planning/manage-surfaces/capability.md": true,
+      "../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md": true,
+      "../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md": true,
+      "../software-delivery-planning/deployment-design/capability.md": true,
+      "../software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md": true,
+      "../software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md": true,
+      "../software-delivery-planning/deployment-design/fn-update-deployment/feature.md": true,
+      "../software-delivery-planning/environment-setup/capability.md": true,
+      "../software-delivery-planning/environment-setup/fn-declare-environments/feature.md": true,
+      "../software-delivery-planning/environment-setup/fn-build-environment/feature.md": true,
+      "../software-delivery-planning/environment-setup/fn-update-environments/feature.md": true,
+      "../software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_parts_naming_bi_2": 15,
+    "spine_part_ids_naming_bi_2": [
+      "cap-design-technology-architecture",
+      "cap-manage-surfaces",
+      "cap-deployment-design",
+      "cap-environment-setup",
+      "fn-set-architecture",
+      "fn-update-architecture",
+      "fn-declare-surfaces",
+      "fn-update-surfaces",
+      "fn-design-how-project-runs",
+      "fn-cloud-cartridges",
+      "fn-update-deployment",
+      "fn-declare-environments",
+      "fn-build-environment",
+      "fn-update-environments",
+      "fn-dev-sandbox"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kind_matches": true,
+    "request_form": "All 5 adds anchor on the page's last Touches line as it was before the run (change_lines.py checks each 'after' line against the page as it was), and the script put them below it in request order."
+  },
+  "git_status": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-2.md",
+    "?? .garura/product/product-os/software-delivery-planning/environment-setup/"
+  ],
+  "git_status_only_expected": true,
+  "new_folder_files": [
+    ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-build-environment/ice.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-declare-environments/ice.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+    ".garura/product/product-os/software-delivery-planning/environment-setup/ice.md"
+  ],
+  "new_folder_holds_only_the_10_pages": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 87,
+      "counts": {
+        "domain": 1,
+        "capability": 18,
+        "feature": 61,
+        "ice": 34
+      },
+      "file": ".garura/project/issues/1021/context/bi-2-capability-4/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 92,
+      "counts": {
+        "domain": 1,
+        "capability": 19,
+        "feature": 65,
+        "ice": 39
+      },
+      "file": ".garura/project/issues/1021/context/bi-2-capability-4/write/lint-after.json"
+    },
+    "new_errors": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-declare-environments/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-build-environment/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "errors_gone": [],
+    "warnings_gone": [],
+    "errors_naming_a_new_part": [],
+    "warnings_naming_a_new_part": [
+      ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-declare-environments/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-build-environment/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "same_warning_on_pages_before": 34,
+    "note": "The 5 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'); under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning already stood on 34 pages before this write, among them the pages of Deployment design. No error names a new page."
+  },
+  "all_checks_pass": true,
+  "before_state": "git HEAD ab8e3606: the spine and intents/bi-2.md as committed (the model had no uncommitted change before this write; both were copied aside before the first write)"
+}

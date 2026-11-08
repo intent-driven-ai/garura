@@ -1,0 +1,110 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-environment-setup",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "environment-setup",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "Which environments exist, how many, and how each is set up.",
+      "doc": "software-delivery-planning/environment-setup/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-declare-environments",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-declare-environments",
+      "capability": "cap-environment-setup",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "Declares which environments the project has, at least dev, testing and pre-production and never production, and for each one its data, its size, its network, who can reach it and its own settings, so every deployment and every test runs in a place that was set up on purpose.",
+      "doc": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-build-environment",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-build-environment",
+      "capability": "cap-environment-setup",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "When a deployment needs an environment that is not built yet, builds it on its own from the one design of the underlying technology and its declaration, after a person's yes, checks that it answers, and from then on keeps it apart from the others until a person asks to take it down.",
+      "doc": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-environments",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-environments",
+      "capability": "cap-environment-setup",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "When the project needs another environment, or an environment's data, size, network, access or settings must change, a person confirms an update, and what held before stays readable with why it changed.",
+      "doc": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-dev-sandbox",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-dev-sandbox",
+      "capability": "cap-environment-setup",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "Sets up a place on a builder's own machine where the builder runs the project's code while building it, with each part running on the machine itself and no container platform or cloud service needed, so a builder can try a change before it goes to dev.",
+      "doc": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-environment-setup",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-environment-setup",
+      "doc": "software-delivery-planning/environment-setup/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-declare-environments",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-declare-environments",
+      "doc": "software-delivery-planning/environment-setup/fn-declare-environments/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-build-environment",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-build-environment",
+      "doc": "software-delivery-planning/environment-setup/fn-build-environment/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-environments",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-environments",
+      "doc": "software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-dev-sandbox",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-dev-sandbox",
+      "doc": "software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md",
+      "thin": true
+    }
+  ]
+}

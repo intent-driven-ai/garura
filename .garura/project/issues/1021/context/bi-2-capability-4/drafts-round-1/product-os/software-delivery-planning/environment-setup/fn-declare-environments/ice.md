@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: Which environments the project has, at least dev, testing and pre-production in that order and never production, is declared once for the whole project, and for each one its data, its size, its network, who can reach it and its own settings, each part with its reason, its source and the person who confirmed it.
+- Limit: Each environment and property is proposed from the project's own memory and code first, then from Garura memory, then from Phoenix memory; only when none of them answers is it researched, and the research is used only after a person approves it as a memory update. Nothing comes from what the AI agent knows by itself.
+- Limit: No environment declared here is production or holds data taken from production; a declaration says only what makes its environment different, its data stays within the compliance needs of the product profile, and it never holds the value of a secret.
+- Limit: Only a person confirms an environment or a property, and no work waits for one.
+- Fails if: An environment or a property is declared with no person's confirmation, or with nothing behind it but what the AI agent knows by itself.
+- Fails if: Production is declared as an environment, an environment's data comes from production, or fewer than dev, testing and pre-production are declared.
+- Fails if: An agent that builds or deploys to a declared environment cannot find its data, its size, its network, who can reach it or its own settings, and decides them alone with no gap named.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the project's code and its settings, such as infrastructure files that create environments, pipeline files that name them, container and compose files, and an example settings file; the deployment design, with the path, what each environment is for and the one design every environment is built from; the approved architecture and the declared surfaces; the compliance needs in the product profile; the project's set-up answers, when it has them; and Phoenix memory's architecture and technology learnings on environments, with the conditions each fits.
+- Never read: the value of any secret, such as a password or a key, and anything in production, such as its data.
+- Persona: the devops engineer, who confirms which environments the project has and how each is set up.
+- Scope: In: proposing and declaring the environments of the whole project, with each one's name, place, data, size, network, who can reach it and own settings. Out: building and managing each environment, updating the declarations, the path and what each environment is for, the tests in each, the one design of the underlying technology, the cloud and the cost, a copy on a builder's own machine, the product profile, production, and moving a memory update into Phoenix memory.
+
+## Expectation
+- Scenario: A team's planning tool, one deployable unit with a database and a browser page, has pipeline files that already deploy to a dev environment. Its dev is proposed as it is, from those files, and testing and pre-production are proposed from the deployment design and memory: made-up data in each, a larger made-up set in pre-production, each reached only from inside the team's network, testers in testing and the people who accept a release in pre-production. The product profile says the tool holds personal data, so no environment holds real personal data. The devops engineer confirms them, and nothing names production.
+- Done means: An agent that did not declare the environments prepares to build testing from the declaration alone, naming its data, its size, its network, who can reach it and its own settings, and a person other than the one who declared them finds a source and a confirmation behind each part, and no environment that is production or holds data taken from it.

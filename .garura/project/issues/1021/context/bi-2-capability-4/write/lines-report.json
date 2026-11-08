@@ -1,0 +1,38 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-4/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-2.md",
+      "changes": [
+        {
+          "after": "- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds",
+          "add": "- [Environment setup](../software-delivery-planning/environment-setup/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds",
+          "add": "- [Declare the environments and how each is set up](../software-delivery-planning/environment-setup/fn-declare-environments/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds",
+          "add": "- [Build and manage an environment when a deployment needs it](../software-delivery-planning/environment-setup/fn-build-environment/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds",
+          "add": "- [Update the environments as the project changes](../software-delivery-planning/environment-setup/fn-update-environments/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds",
+          "add": "- [Set up a dev sandbox on a builder's machine](../software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md) (feature) — adds"
+        }
+      ],
+      "lines_before": 31,
+      "lines_after": 36,
+      "lines_added": 5,
+      "lines_kept": 31
+    }
+  ],
+  "changed": [
+    "intents/bi-2.md"
+  ]
+}
