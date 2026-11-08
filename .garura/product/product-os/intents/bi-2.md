@@ -23,5 +23,9 @@
 - [Manage surfaces](../software-delivery-planning/manage-surfaces/capability.md) (capability) — adds
 - [Declare a surface, its properties and its guidelines](../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md) (feature) — adds
 - [Update the surfaces as the project changes](../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md) (feature) — adds
+- [Deployment design](../software-delivery-planning/deployment-design/capability.md) (capability) — adds
+- [Design how the project runs](../software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md) (feature) — adds
+- [Prepare a dedicated cartridge for each cloud: AWS, GCP and Azure](../software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md) (feature) — adds
+- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
