@@ -20,5 +20,8 @@
 - [Design the technology and architecture](../software-delivery-planning/design-technology-architecture/capability.md) (capability) — adds
 - [Set the project's architecture](../software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md) (feature) — adds
 - [Update the architecture as the project changes](../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md) (feature) — adds
+- [Manage surfaces](../software-delivery-planning/manage-surfaces/capability.md) (capability) — adds
+- [Declare a surface, its properties and its guidelines](../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md) (feature) — adds
+- [Update the surfaces as the project changes](../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)

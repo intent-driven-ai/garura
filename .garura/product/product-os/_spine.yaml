@@ -286,6 +286,21 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-manage-surfaces
+  slug: manage-surfaces
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-2
+  status: proposed
+  detail: directional
+  one_line: 'The project''s surfaces are declared: CLI, browser, mobile or other.'
+  doc: software-delivery-planning/manage-surfaces/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -1027,6 +1042,38 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-declare-surfaces
+  slug: fn-declare-surfaces
+  capability: cap-manage-surfaces
+  intents:
+  - bi-2
+  status: proposed
+  one_line: Declares each surface the project has, with its kind, who opens it and
+    why, what it offers and how it behaves, and the guidelines every design on it
+    must handle, so each design on that surface is made for it.
+  doc: software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-update-surfaces
+  slug: fn-update-surfaces
+  capability: cap-manage-surfaces
+  intents:
+  - bi-2
+  status: proposed
+  one_line: When the project gains or drops a surface, or a surface's kind, properties
+    or guidelines must change, a person confirms an update, and what held before stays
+    readable with why it changed.
+  doc: software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -1220,6 +1267,27 @@ ices:
   for: fn-update-architecture
   for_kind: feature
   doc: software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-manage-surfaces
+  for: cap-manage-surfaces
+  for_kind: capability
+  doc: software-delivery-planning/manage-surfaces/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-declare-surfaces
+  for: fn-declare-surfaces
+  for_kind: feature
+  doc: software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-update-surfaces
+  for: fn-update-surfaces
+  for_kind: feature
+  doc: software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true
