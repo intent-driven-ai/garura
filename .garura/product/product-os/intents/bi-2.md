@@ -27,5 +27,10 @@
 - [Design how the project runs](../software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md) (feature) — adds
 - [Prepare a dedicated cartridge for each cloud: AWS, GCP and Azure](../software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md) (feature) — adds
 - [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds
+- [Environment setup](../software-delivery-planning/environment-setup/capability.md) (capability) — adds
+- [Declare the environments and how each is set up](../software-delivery-planning/environment-setup/fn-declare-environments/feature.md) (feature) — adds
+- [Build and manage an environment when a deployment needs it](../software-delivery-planning/environment-setup/fn-build-environment/feature.md) (feature) — adds
+- [Update the environments as the project changes](../software-delivery-planning/environment-setup/fn-update-environments/feature.md) (feature) — adds
+- [Set up a dev sandbox on a builder's machine](../software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)

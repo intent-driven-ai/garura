@@ -316,6 +316,21 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-environment-setup
+  slug: environment-setup
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-2
+  status: proposed
+  detail: directional
+  one_line: Which environments exist, how many, and how each is set up.
+  doc: software-delivery-planning/environment-setup/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -1141,6 +1156,73 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-declare-environments
+  slug: fn-declare-environments
+  capability: cap-environment-setup
+  intents:
+  - bi-2
+  status: proposed
+  one_line: Declares which environments the project has, at least dev, testing and
+    pre-production and never production, and for each one its data, its size, its
+    network, who can reach it and its own settings, so every deployment and every
+    test runs in a place that was set up on purpose.
+  doc: software-delivery-planning/environment-setup/fn-declare-environments/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-build-environment
+  slug: fn-build-environment
+  capability: cap-environment-setup
+  intents:
+  - bi-2
+  status: proposed
+  one_line: When a deployment needs an environment that is not built yet, builds it
+    on its own from the one design of the underlying technology and its declaration,
+    after a person's yes, checks that it answers, and from then on keeps it apart
+    from the others until a person asks to take it down.
+  doc: software-delivery-planning/environment-setup/fn-build-environment/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-update-environments
+  slug: fn-update-environments
+  capability: cap-environment-setup
+  intents:
+  - bi-2
+  status: proposed
+  one_line: When the project needs another environment, or an environment's data,
+    size, network, access or settings must change, a person confirms an update, and
+    what held before stays readable with why it changed.
+  doc: software-delivery-planning/environment-setup/fn-update-environments/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-dev-sandbox
+  slug: fn-dev-sandbox
+  capability: cap-environment-setup
+  intents:
+  - bi-2
+  status: proposed
+  one_line: Sets up a place on a builder's own machine where the builder runs the
+    project's code while building it, with each part running on the machine itself
+    and no container platform or cloud service needed, so a builder can try a change
+    before it goes to dev.
+  doc: software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -1383,6 +1465,41 @@ ices:
   for: fn-update-deployment
   for_kind: feature
   doc: software-delivery-planning/deployment-design/fn-update-deployment/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-environment-setup
+  for: cap-environment-setup
+  for_kind: capability
+  doc: software-delivery-planning/environment-setup/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-declare-environments
+  for: fn-declare-environments
+  for_kind: feature
+  doc: software-delivery-planning/environment-setup/fn-declare-environments/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-build-environment
+  for: fn-build-environment
+  for_kind: feature
+  doc: software-delivery-planning/environment-setup/fn-build-environment/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-update-environments
+  for: fn-update-environments
+  for_kind: feature
+  doc: software-delivery-planning/environment-setup/fn-update-environments/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-dev-sandbox
+  for: fn-dev-sandbox
+  for_kind: feature
+  doc: software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true
