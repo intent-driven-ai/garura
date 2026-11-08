@@ -1,0 +1,31 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/manage-surfaces/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-2/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

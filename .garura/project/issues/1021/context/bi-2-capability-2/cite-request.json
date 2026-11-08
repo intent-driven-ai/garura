@@ -1,0 +1,321 @@
+{
+ "note": "Draft run: these decisions are for the caller to record with `memory.py cite`; this run writes nothing outside bi-2-capability-2/.",
+ "requests": [
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 2 draft",
+   "question": "What does the product profile's list of surfaces hold today?",
+   "answer": "One word for each kind of surface (web, mobile, cli, api, desktop, embedded), with no name, no person who opens it and no reason. So a declared surface, with its name, kind, who opens it and why, does not fit the list as it is, and where it is kept is left as not decided.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "the shape of the profile's surfaces field",
+     "found": "a list of strings, one word per kind",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-profile.yaml",
+      "start": 26,
+      "end": 26,
+      "fingerprint": "sha256:bcc288b621e09cb94a01b76bee594869b5ef4335acc7c10062964ee398ba8d07"
+     }
+    },
+    {
+     "asked": "the same field in the spine's profile block",
+     "found": "a list of strings, one word per kind, open to more",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/spine.yaml",
+      "start": 175,
+      "end": 175,
+      "fingerprint": "sha256:7d45ddcf515a0c02c80ccf6125255bb059773b0a706b45b86824627afe5914e3"
+     }
+    },
+    {
+     "asked": "who writes the rough list",
+     "found": "Specify domains writes one rough profile, only when none exists, with its surfaces",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "start": 17,
+      "end": 17,
+      "fingerprint": "sha256:5883770d76bd1c3ea424285b0b025f1cf6a1ae6216d8335e361bc16595646b05"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 2 draft",
+   "question": "Which kinds of surface can a slice's eval test today, and how does it find the kind?",
+   "answer": "Only the command line. The eval finds a step library whose match words appear in the slice's surface name; a library for the browser page, the mobile app and the backend endpoint is added when a slice first needs it. So the drafts put the libraries Out, with the lean that the eval finds its library from the declared kind.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "what a step library is for",
+     "found": "one step library for each surface kind of a slice's eval",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/_index.md",
+      "start": 3,
+      "end": 3,
+      "fingerprint": "sha256:a02d98afe058b097b0011d8d0b32ad6f9546280b62c6b4b26303de63dd1cfcba"
+     }
+    },
+    {
+     "asked": "which libraries exist",
+     "found": "only the command-line one; the others are added when a slice first needs them",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/_index.md",
+      "start": 12,
+      "end": 12,
+      "fingerprint": "sha256:96db29b311b0ae20d0c3c8c5f6153f1970ec961981d13fb4e475e0ad5c5d3069"
+     }
+    },
+    {
+     "asked": "how a library is matched to a slice",
+     "found": "by match words such as command line, terminal or cli",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/steps-command-line.yaml",
+      "start": 22,
+      "end": 23,
+      "fingerprint": "sha256:46e49de9bf1bfffca8693406d199a236b9b1dada29b9fce135d7329336dccb35"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 2 draft",
+   "question": "Does memory hold an answer for which kind of surface a project needs, so the capability can propose it?",
+   "answer": "Not in Phoenix memory: its shelves and learnings use the surfaces as a condition for other choices and never say which kind fits a person or a job. The project's own code and model, and initialize's surfaces answer once it is built, are where a proposal comes from; when none answers, the agent researches and raises a memory update for a person to approve.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "how a domain shelf uses the surfaces",
+     "found": "push notifications are chosen when the surfaces include mobile",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "start": 73,
+      "end": 73,
+      "fingerprint": "sha256:f376286d3eae36059d96c0168047243757d74a0445b11717470d13533e355952"
+     }
+    },
+    {
+     "asked": "how a shelf selects",
+     "found": "the surfaces are one of its selection keys",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "start": 6,
+      "end": 6,
+      "fingerprint": "sha256:cb45faf673b64dd7fc164c8f9918496cae112d98673257089946051761456e5a"
+     }
+    },
+    {
+     "asked": "how a UX learning uses the surface",
+     "found": "a web app or site is a condition of the learning",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/ux-responsive-default-adaptive-on-evidence.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:94d5d7532c63f2918842ac5bebe0dc7e210b9fa2e0ebb516e3eac1e76a1ec1b9"
+     }
+    },
+    {
+     "asked": "whether initialize will ask about the surfaces",
+     "found": "its setup questions cover the surfaces (web, mobile, command line, API)",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "start": 6,
+      "end": 6,
+      "fingerprint": "sha256:3584472660f2ff39c8c185968ed3221c858e863350a502903754124716ca4dcc"
+     }
+    },
+    {
+     "asked": "what the surfaces answer decides in initialize",
+     "found": "the front-end review group is skipped when there is no web and no mobile surface",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "start": 18,
+      "end": 18,
+      "fingerprint": "sha256:bf9272fdad6ff48544585769c9904f279a330a81274388a63ab77078d3227063"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 2 draft",
+   "question": "Do the lists of surface kinds in memory agree?",
+   "answer": "No. The profile has web, mobile, cli, api, desktop and embedded; the older surface contract has web_dashboard, server_api, cli, library and service_read_model; the eval has command line, browser page, mobile app and backend endpoint; initialize will ask about web, mobile, command line and API. The drafts name one list of kinds as not decided.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "the profile's kinds",
+     "found": "web, mobile, cli, api, desktop, embedded",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-profile.yaml",
+      "start": 26,
+      "end": 26,
+      "fingerprint": "sha256:bcc288b621e09cb94a01b76bee594869b5ef4335acc7c10062964ee398ba8d07"
+     }
+    },
+    {
+     "asked": "the older surface contract's types",
+     "found": "web_dashboard, server_api, cli, library, service_read_model",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "start": 29,
+      "end": 37,
+      "fingerprint": "sha256:44ca11bcdb00bb2a5f1059d2831e3ebbe265ecb01ec7c791ffff3b61bc44c721"
+     }
+    },
+    {
+     "asked": "the kinds a slice's usage guide names",
+     "found": "a browser page, a mobile app, a command line command or a backend endpoint",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 440,
+      "end": 440,
+      "fingerprint": "sha256:f19bcc2e3527e798f7eeb16d7b0c0cf88316f4336e17329e16335e7642bce66a"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 2 draft",
+   "question": "Is the project's surfaces list already ruled Out of the approved first capability?",
+   "answer": "Yes. Design the technology and architecture puts the project's surfaces Out, to Manage surfaces, so this capability declares what each surface is and the architecture names what it is built with.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "the approved Out line of Design the technology and architecture",
+     "found": "Out: the project's surfaces (Manage surfaces)",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+      "start": 44,
+      "end": 44,
+      "fingerprint": "sha256:da495d527e17fa79263866b6eb20ed71d0d2fa662ce5b95c6cda395f3e087467"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 2 draft, round 2",
+   "question": "Does Phoenix memory hold the properties and guidelines of each kind of surface?",
+   "answer": "Only for a browser surface: its learnings are matched to web kinds of surface and cover layout across screen sizes, navigation, a design system of tokens and shared components, states, forms and accessibility. For a mobile app, an API, a coding agent or another kind, memory holds only scattered lines, so those are researched and raised as memory updates. The pages say where each answer comes from and write none of memory's answers as a rule.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "the kind of surface the responsive-or-adaptive learning is matched to",
+     "found": "a web app or site",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/ux-responsive-default-adaptive-on-evidence.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:94d5d7532c63f2918842ac5bebe0dc7e210b9fa2e0ebb516e3eac1e76a1ec1b9"
+     }
+    },
+    {
+     "asked": "the kind of surface the design-system learning is matched to",
+     "found": "a web app or site",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/ux-design-system-tokens.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:94d5d7532c63f2918842ac5bebe0dc7e210b9fa2e0ebb516e3eac1e76a1ec1b9"
+     }
+    },
+    {
+     "asked": "the kind of surface the accessibility learning is matched to",
+     "found": "any public screen",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/ux-accessibility-floor.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:019a3aea8d865c04780ba76b5068cb2f4748fa21451aada639e4ccc4c601c147"
+     }
+    },
+    {
+     "asked": "what memory says a mobile surface brings",
+     "found": "one-tap phone wallets when the surfaces include mobile",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "start": 47,
+      "end": 47,
+      "fingerprint": "sha256:bc8ec15bae47abe96db5d0e267587d42041ad8fc38915131f6c38acfc63f172e"
+     }
+    },
+    {
+     "asked": "what memory says about a Claude Code play as a surface",
+     "found": "a Claude Code play is a command-line surface run as a command with scripted answers",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/steps-command-line.yaml",
+      "start": 5,
+      "end": 6,
+      "fingerprint": "sha256:2f6737de15c50dc496c9be37f59d17c0475ccf773e7fa2e31b77a08a3743c9bb"
+     }
+    },
+    {
+     "asked": "whether memory treats agentic as a kind of surface",
+     "found": "no: agentic is a pattern across the three experience surfaces, not a fourth",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "start": 67,
+      "end": 68,
+      "fingerprint": "sha256:5afa4e40f559e42985d60c0be6f0704c203b2944136742c69858a516124bea22"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 2 draft, round 2",
+   "question": "Where is the design system a slice's screens follow set today?",
+   "answer": "Nowhere for the whole project. The stale screens lens reads its name from the product profile or an earlier product decision, says when none exists, and records the visual core as a decision later slices reuse, so as built the first slice sets it. The UX lens schema says the visual core is set once for the product. The drafts declare the design system as a guideline of the browser surface here, leave its technology to Design the technology and architecture, and its use in each slice to the lens.",
+   "decided_by": "product-os-keeper",
+   "trace": [
+    {
+     "asked": "how the UX lens schema scopes the visual core",
+     "found": "set once, referenced by every capability",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/ux.yaml",
+      "start": 63,
+      "end": 63,
+      "fingerprint": "sha256:60bf9fbf8c3f151476665533ee0aba93ab0f905a2472fe34a9ac9ec8f58356fc"
+     }
+    },
+    {
+     "asked": "what the UX lens guidance says the design-system reference is",
+     "found": "the name of the design system the real look comes from and where it lives, or that none exists",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/lens/ux.md",
+      "start": 90,
+      "end": 92,
+      "fingerprint": "sha256:8841fbb6b39209f5fb5129375912ee2b1b205e124cc2ba9cd95b78ecd5197b5f"
+     }
+    }
+   ]
+  }
+ ]
+}
