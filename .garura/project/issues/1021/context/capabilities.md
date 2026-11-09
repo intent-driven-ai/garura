@@ -23,6 +23,13 @@ Each line: name, then its one-liner. Marks: (planned) not built; (unique) a uniq
 - Use the lenses on each slice: Each slice is designed through the lenses, using the memory seeded for them.
 - Design for evaluation and testing: How each slice will be tested is designed along with the slice.
 - Bring the design together for a vertical slice: The separate parts of the design (UX, technology, aesthetics, surfaces, testing) come together cohesively to deliver one vertical slice. (unique: vertical slices)
+  - The four lines above were replaced by the product owner on 2026-11-09, and kept as they were so the pages that quote them still match. His words: "the work we are doing are based on where the phase ends ... design -> code will deliver code"; "bi-3 is for coding ... coding is also test driven"; "making the plan is part of the orchestration, not this intent. This intent's job is to execute on the plan"; "making evals is going to be critical because those are the evals that are going to be used to check its own work"; "all the tests are written, and then all the code is written to make sure all the tests are passing ... the code, when being written, should not get to see what tests there were". The list he approved ("yes, draft them one at a time"):
+    1. Pick an epic from the plan and gather its work: its stories, chores, bugs and spikes.
+    2. Write the evals that will check the work, before anything is built, never shown to the builder.
+    3. Design the work: a technical design and a UX design, against the project standards from Spec → Design.
+    4. Build the work test first: all the tests for the work are written and shown to fail, then all the code until every test passes, then the code is tidied while they stay passing. The builder never sees the tests; a separate check runs them.
+    5. Fix defects test first: the cause is traced, the tests that prove the defect are written and shown to fail, then the fix and the tidy. Moved here from Code → Validation ("Fix defects quickly").
+  - Test-driven development (planned, under Code → Validation) is now the rule of 4 and 5, not a capability. "Build the work" moves here from Code → Validation as item 4. Slicing and making the plan leave this intent for wherever the plan is made (Orchestration, by his words; confirmed when Orchestration is reviewed). Assumed: an epic stands for one slice, as the approved Turn intents into agent work page says.
 
 ## Code → Validation
 - Build the work: Each work item, whether a slice, a feature, a story or a chore, is built end to end from its design.

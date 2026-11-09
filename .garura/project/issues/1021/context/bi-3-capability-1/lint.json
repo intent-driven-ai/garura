@@ -1,0 +1,121 @@
+{
+ "round": 1,
+ "date": "2026-11-08",
+ "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional]",
+ "pages": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-3-capability-1/drafts/product-os/software-delivery-planning/design-slices/capability.md",
+   "args": [
+    "--kind",
+    "capability",
+    "--stage",
+    "directional"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "capability": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-3-capability-1/drafts/product-os/software-delivery-planning/design-slices/fn-design-slice/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-3-capability-1/drafts/product-os/software-delivery-planning/design-slices/fn-update-slice/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  }
+ ],
+ "ice_shape_check": {
+  "rules": "no thin mark (each part is built); Intent, Context, Expectation in order; exactly one Goal; at least one Limit and one Fails if; the fixed Read line first; Context labels in order (Read, Never read, Persona, Scope); a Scenario; a Done means checked by someone other than the doer; no part page holds an ICE section",
+  "pages": [
+   {
+    "page": ".garura/project/issues/1021/context/bi-3-capability-1/drafts/product-os/software-delivery-planning/design-slices/ice.md",
+    "ok": true,
+    "problems": [],
+    "counts": {
+     "goal": 1,
+     "limit": 4,
+     "fails_if": 4
+    }
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-3-capability-1/drafts/product-os/software-delivery-planning/design-slices/fn-design-slice/ice.md",
+    "ok": true,
+    "problems": [],
+    "counts": {
+     "goal": 1,
+     "limit": 3,
+     "fails_if": 3
+    }
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-3-capability-1/drafts/product-os/software-delivery-planning/design-slices/fn-update-slice/ice.md",
+    "ok": true,
+    "problems": [],
+    "counts": {
+     "goal": 1,
+     "limit": 3,
+     "fails_if": 3
+    }
+   }
+  ]
+ },
+ "quote_check": {
+  "rules": "every quote in a Sources line found word for word (spaces folded) in its file; memory quotes against this run's short-term copies in memory/; the agreed one line and the capability list against .garura/project/issues/1021/context/capabilities.md; the business intent's words in a page body against .garura/product/product-os/intents/bi-3.md",
+  "quotes_checked": 115,
+  "quotes_missing": 0,
+  "lines_with_no_quote": [
+   "GitHub #1033 (open): plays read the whole model by one rule once its index has I",
+   "GitHub #561 (open): a slice's stated outcome is traced to what delivers it, writ",
+   "GitHub #553 (open): a surface declares what it is before anyone designs it.",
+   "GitHub #795, #838, #842 and #908 (closed): the slice play, the skill that picks ",
+   "The old model parts this capability takes over: Shape a slice (cap-shape-slice) ",
+   "The short line beside each feature: the opening words of that feature's own page",
+   "Shelf: none. No knowledge shelf covers software delivery planning.",
+   "GitHub #1033 (open): the slice play's model check reports drift on older thin pa",
+   "GitHub #561 (open): a slice's stated outcome is traced to what delivers it, writ",
+   "GitHub #795, #838 and #842 (closed): the slice play, the skill that picks the sl",
+   "The old model part this feature takes over: fn-795, from Shape a slice (cap-shap",
+   "GitHub #908 (closed): a person changes the slice record or an entry of its hidde",
+   "The old model part this feature takes over: the reuse rules of fn-795, from Shap"
+  ]
+ },
+ "word_check": {
+  "rules": "no lens or lenses, no real name, no home-folder path, no particular plan, nothing on seeding memory, no lock or gate",
+  "hits": [
+   {
+    "page": ".garura/project/issues/1021/context/bi-3-capability-1/drafts/product-os/software-delivery-planning/design-slices/capability.md",
+    "word": "\\block",
+    "at": "- The capability list the product owner locked on 2026-11-03: \"Design for evaluation"
+   }
+  ],
+  "note": "the one hit is the agreed list's own heading, 'The capability list the product owner locked on 2026-11-03', worded as on the approved pages; it is not a design lock"
+ },
+ "ok": true
+}
