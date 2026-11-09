@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-4/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-4/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/loop-contract.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:5731bd3f35be8aa0aa6bc315ce59a41f39a63bfd9cd973b7ad90a40ac565530a",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-4/memory/standards/rules/loop-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/naming.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:6d011521460976f6dbb3aa0d6a5dc063356e263bbf09e7dcf8b42fd9cedb1ed0",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-4/memory/standards/rules/naming.yaml"
+    }
+  ]
+}

@@ -1,0 +1,456 @@
+{
+  "pages": {
+    "software-delivery-planning/build-work-test-first/capability.md": {
+      "equals_draft": true,
+      "bytes": 25727,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-work-test-first/ice.md": {
+      "equals_draft": true,
+      "bytes": 5578,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md": {
+      "equals_draft": true,
+      "bytes": 11796,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md": {
+      "equals_draft": true,
+      "bytes": 4030,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md": {
+      "equals_draft": true,
+      "bytes": 23724,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md": {
+      "equals_draft": true,
+      "bytes": 6060,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md": {
+      "equals_draft": true,
+      "bytes": 6929,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md": {
+      "equals_draft": true,
+      "bytes": 3149,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md": {
+      "equals_draft": true,
+      "bytes": 8216,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md": {
+      "equals_draft": true,
+      "bytes": 3688,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 10,
+  "thin_lines_only_on_the_five_ice_pages": true,
+  "new_folder_files": [
+    "software-delivery-planning/build-work-test-first/capability.md",
+    "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+    "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md",
+    "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md",
+    "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md",
+    "software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+    "software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md",
+    "software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md",
+    "software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md",
+    "software-delivery-planning/build-work-test-first/ice.md"
+  ],
+  "new_folder_holds_only_the_10_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 22,
+      "after": 23,
+      "new": [
+        "cap-build-work-test-first"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 73,
+      "after": 77,
+      "new": [
+        "fn-write-failing-tests",
+        "fn-build-code-to-pass",
+        "fn-write-usage-guide",
+        "fn-update-tests-and-code"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 50,
+      "after": 55,
+      "new": [
+        "ice-build-work-test-first",
+        "ice-write-failing-tests",
+        "ice-build-code-to-pass",
+        "ice-write-usage-guide",
+        "ice-update-tests-and-code"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-build-work-test-first": {
+        "slug": "build-work-test-first",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Build the work under a chosen plan item test first: all the tests for the work are written and shown to fail, then all the code until every test passes, then the code is tidied while they stay passing. The builder never sees the tests; a separate check runs them.",
+        "doc": "software-delivery-planning/build-work-test-first/capability.md",
+        "thin": false
+      },
+      "fn-write-failing-tests": {
+        "slug": "fn-write-failing-tests",
+        "capability": "cap-build-work-test-first",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Before any code, a test writer who is not the builder writes a code-level test for each expectation of each story under the chosen item, and the separate check shows each one fails because what it checks is not built yet.",
+        "doc": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+        "thin": false
+      },
+      "fn-build-code-to-pass": {
+        "slug": "fn-build-code-to-pass",
+        "capability": "cap-build-work-test-first",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Once every test for the work has failed on the check's record, the builder writes all the code for the work under the chosen item from its own part, the collected context and the design, in the order it chooses, until a separate check, which runs the tests through a tool on the model or service the test model setting names, finds every test passing, then tidies the code where it needs it while every test stays passing, and never sees or changes a test.",
+        "doc": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+        "thin": false
+      },
+      "fn-write-usage-guide": {
+        "slug": "fn-write-usage-guide",
+        "capability": "cap-build-work-test-first",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "With the build, the builder writes the slice's usage guide, what its surface is, how to reach it and the steps a person takes, in the plan's guides folder, without seeing the eval.",
+        "doc": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md",
+        "thin": false
+      },
+      "fn-update-tests-and-code": {
+        "slug": "fn-update-tests-and-code",
+        "capability": "cap-build-work-test-first",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "When the design, a story or an eval's finding changes the work, the test writer updates the tests first and the check shows the new ones fail, then the builder changes the code until every test passes again.",
+        "doc": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md",
+        "thin": false
+      },
+      "ice-build-work-test-first": {
+        "for": "cap-build-work-test-first",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/build-work-test-first/ice.md",
+        "thin": true,
+        "for_kind_right": true
+      },
+      "ice-write-failing-tests": {
+        "for": "fn-write-failing-tests",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md",
+        "thin": true,
+        "for_kind_right": true
+      },
+      "ice-build-code-to-pass": {
+        "for": "fn-build-code-to-pass",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md",
+        "thin": true,
+        "for_kind_right": true
+      },
+      "ice-write-usage-guide": {
+        "for": "fn-write-usage-guide",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md",
+        "thin": true,
+        "for_kind_right": true
+      },
+      "ice-update-tests-and-code": {
+        "for": "fn-update-tests-and-code",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md",
+        "thin": true,
+        "for_kind_right": true
+      }
+    },
+    "entries_as_asked": true,
+    "capability_one_line_is_first_line_of_directional_intent": true,
+    "feature_one_lines_match_page_list": true,
+    "thin_ice_new": [
+      "ice-build-work-test-first",
+      "ice-write-failing-tests",
+      "ice-build-code-to-pass",
+      "ice-write-usage-guide",
+      "ice-update-tests-and-code"
+    ],
+    "all_five_new_ice_thin": true,
+    "new_parts_not_thin_themselves": true,
+    "ice_ids_unique": true,
+    "all_ids_unique": true,
+    "each_part_one_ice": true,
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 120,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0,
+    "comments_kept": true
+  },
+  "bi_3": {
+    "lines_before": 31,
+    "lines_after": 36,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 5,
+    "added": [
+      "- [Build the work test first](../software-delivery-planning/build-work-test-first/capability.md) (capability) — adds",
+      "- [Write all the tests for the work, and show each one fails](../software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md) (feature) — adds",
+      "- [Build the code until every test passes, then tidy it, without seeing the tests](../software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md) (feature) — adds",
+      "- [Write the usage guide that tells the eval how to reach the built work](../software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md) (feature) — adds",
+      "- [Update the tests and the code as the work changes](../software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "outcome_and_proof_lines_unchanged": true,
+    "touches_lines": 16,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/gather-work-under-item/capability.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md": true,
+      "../software-delivery-planning/write-work-evals/capability.md": true,
+      "../software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-update-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md": true,
+      "../software-delivery-planning/design-work/capability.md": true,
+      "../software-delivery-planning/design-work/fn-design-chosen-work/feature.md": true,
+      "../software-delivery-planning/design-work/fn-update-work-design/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/capability.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_3": 16,
+    "spine_entry_ids_naming_bi_3": [
+      "cap-gather-work-under-item",
+      "cap-write-work-evals",
+      "cap-design-work",
+      "cap-build-work-test-first",
+      "fn-gather-item-tree",
+      "fn-collect-story-context",
+      "fn-write-work-evals",
+      "fn-update-evals",
+      "fn-add-eval-steps",
+      "fn-keep-evals-from-builder",
+      "fn-design-chosen-work",
+      "fn-update-work-design",
+      "fn-write-failing-tests",
+      "fn-build-code-to-pass",
+      "fn-write-usage-guide",
+      "fn-update-tests-and-code"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kinds_agree_with_spine": true,
+    "other_spine_entries_naming_bi_3": []
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-3.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-work-test-first/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 103,
+      "counts": {
+        "domain": 1,
+        "capability": 22,
+        "feature": 73,
+        "ice": 50
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-4/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 108,
+      "counts": {
+        "domain": 1,
+        "capability": 23,
+        "feature": 77,
+        "ice": 55
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-4/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 5 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021."
+  },
+  "failed_checks": [],
+  "checks_run": 66,
+  "checks_passed": 66,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md no thin line": true,
+    "page capability.md equals draft": true,
+    "page ice.md thin line back": true,
+    "page ice.md equals draft": true,
+    "page fn-write-failing-tests/feature.md no thin line": true,
+    "page fn-write-failing-tests/feature.md equals draft": true,
+    "page fn-write-failing-tests/ice.md thin line back": true,
+    "page fn-write-failing-tests/ice.md equals draft": true,
+    "page fn-build-code-to-pass/feature.md no thin line": true,
+    "page fn-build-code-to-pass/feature.md equals draft": true,
+    "page fn-build-code-to-pass/ice.md thin line back": true,
+    "page fn-build-code-to-pass/ice.md equals draft": true,
+    "page fn-write-usage-guide/feature.md no thin line": true,
+    "page fn-write-usage-guide/feature.md equals draft": true,
+    "page fn-write-usage-guide/ice.md thin line back": true,
+    "page fn-write-usage-guide/ice.md equals draft": true,
+    "page fn-update-tests-and-code/feature.md no thin line": true,
+    "page fn-update-tests-and-code/feature.md equals draft": true,
+    "page fn-update-tests-and-code/ice.md thin line back": true,
+    "page fn-update-tests-and-code/ice.md equals draft": true,
+    "thin lines only on five ICE pages": true,
+    "new folder holds only the 10 pages": true,
+    "spine domains nothing removed or changed, order kept": true,
+    "spine capabilities nothing removed or changed, order kept": true,
+    "spine features nothing removed or changed, order kept": true,
+    "spine slices nothing removed or changed, order kept": true,
+    "spine ices nothing removed or changed, order kept": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "spine entry cap-build-work-test-first as asked": true,
+    "spine entry fn-write-failing-tests as asked": true,
+    "spine entry fn-build-code-to-pass as asked": true,
+    "spine entry fn-write-usage-guide as asked": true,
+    "spine entry fn-update-tests-and-code as asked": true,
+    "spine entry ice-build-work-test-first as asked": true,
+    "spine entry ice-write-failing-tests as asked": true,
+    "spine entry ice-build-code-to-pass as asked": true,
+    "spine entry ice-write-usage-guide as asked": true,
+    "spine entry ice-update-tests-and-code as asked": true,
+    "capability one_line = first line of Directional intent": true,
+    "feature fn-write-failing-tests one_line = list text, first letter capitalised": true,
+    "feature fn-build-code-to-pass one_line = list text, first letter capitalised": true,
+    "feature fn-write-usage-guide one_line = list text, first letter capitalised": true,
+    "feature fn-update-tests-and-code one_line = list text, first letter capitalised": true,
+    "all five new ICE thin": true,
+    "new parts not thin themselves": true,
+    "ICE ids unique": true,
+    "all ids unique": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-3 only_insertions": true,
+    "bi-3 added_as_asked_in_order": true,
+    "bi-3 inserted_after_last_touches_line": true,
+    "bi-3 no_blank_line_added": true,
+    "bi-3 byte_check_other_lines": true,
+    "bi-3 outcome_and_proof_lines_unchanged": true,
+    "bi-3 gained exactly 5 lines in one block": true,
+    "bi-3 every Touches line in form": true,
+    "bi-3 every link opens a file": true,
+    "bi-3 titles match page titles": true,
+    "16 index entries naming bi-3 match the 16 Touches lines": true,
+    "bi-3 kinds agree with spine": true,
+    "under .garura/product only the spine, bi-3.md and the new folder changed": true,
+    "structure check: no error names a new page": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD 667d9e36: the spine and intents/bi-3.md as committed (the model had no uncommitted change before this write)"
+}

@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/build-work-test-first/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/drafts/product-os/software-delivery-planning/build-work-test-first/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/write/approved/build-work-test-first/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/drafts/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/write/approved/fn-write-failing-tests/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/drafts/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/write/approved/fn-build-code-to-pass/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/drafts/product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/write/approved/fn-write-usage-guide/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/drafts/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-4/write/approved/fn-update-tests-and-code/ice.md"
+    }
+  ]
+}

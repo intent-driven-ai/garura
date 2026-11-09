@@ -1,0 +1,47 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/build-work-test-first/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

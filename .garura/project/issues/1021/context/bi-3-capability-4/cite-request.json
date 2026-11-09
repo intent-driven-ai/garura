@@ -1,0 +1,107 @@
+[
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "What may the builder of the work receive, given that the tests are written first by someone else?",
+  "answer": "The builder's part, each story's collected context and the design; never a test, the test writer's part, an eval, the hidden file or the evals folder.",
+  "trace": [
+   {
+    "asked": "what a builder may receive",
+    "found": "the builder never receives success scenarios; it cannot teach to a test it cannot see",
+    "source": {"tier": "phoenix", "path": "standards/rules/builder-isolation.md", "start": 35, "end": 35, "fingerprint": "sha256:2142297c17ad74a0bb9854267a55fb3ad4768e216963e1f15852c184ec0b4cc5"}
+   },
+   {
+    "asked": "why the builder must not see the scenarios",
+    "found": "a builder that sees the scenarios optimizes toward the test rather than toward the goal",
+    "source": {"tier": "phoenix", "path": "standards/rules/builder-isolation.md", "start": 38, "end": 40, "fingerprint": "sha256:3e88f5d45c97a97178c72542de1947599d5cfc3627860158f029249c83e68749"}
+   },
+   {
+    "asked": "what the build never reads",
+    "found": "a builder, a skill that builds the software or the context sub-agent never reads the eval, the hidden file or a plan's evals folder",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 463, "end": 463, "fingerprint": "sha256:f3deaa9d0b16ec03bd40e7ac26b2a079b2e6a3a5059817e75bcede8f864efcf0"}
+   },
+   {
+    "asked": "what the builder reads",
+    "found": "the builder reads the story and the context the context sub-agent collected, never an ICE page",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 734, "end": 734, "fingerprint": "sha256:af584dabfbf5d32403e57b4ffa421de63d5071f8ab566073b8accc968b115a72"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "Who writes the slice's usage guide, what does it hold, and where is it kept?",
+  "answer": "The build writes it, never seeing the eval: what the surface is, how to reach it and the steps a person takes; one guide per slice, in its home plan's guides folder, beside the evals folder and never in it.",
+  "trace": [
+   {
+    "asked": "who writes the usage guide and where",
+    "found": "the build delivers it with the slice, in the guides folder beside the evals folder, so the builder writes it and never sees the eval",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 469, "end": 469, "fingerprint": "sha256:65fa91a01da16e7a1bf087f337ec8e1a8fcd8bc4a6159d0b3e9ee3ba1e948888"}
+   },
+   {
+    "asked": "what a usage guide holds",
+    "found": "what its surface is, how to reach it, and the steps a person takes; delivered by the build, kept in its home plan's guides folder",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 440, "end": 440, "fingerprint": "sha256:f19bcc2e3527e798f7eeb16d7b0c0cf88316f4336e17329e16335e7642bce66a"}
+   },
+   {
+    "asked": "how many guides a slice has",
+    "found": "one eval, one hidden file and one usage guide, also when two plans hold it; another plan points to them and never copies them",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 462, "end": 462, "fingerprint": "sha256:8a2d7f4a0cd799d0910a714e0d34eaa17f8d58ed515623859c3724ab8991330b"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "What may the tidy after the build change?",
+  "answer": "How the code is written, never what it does; every test stays passing and none is changed.",
+  "trace": [
+   {
+    "asked": "what a refactor is in memory",
+    "found": "refactor: improve code without changing what it does",
+    "source": {"tier": "phoenix", "path": "standards/rules/naming.yaml", "start": 18, "end": 18, "fingerprint": "sha256:b7dd8b305b05ed55b1e04512f40aa5cbc0e56894b30d6b609ce3ece471d9f2ef"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "When the eval finds a failure, does the work come back to the builder?",
+  "answer": "Only when the recovery condition says the builder can fix it alone; then the handoff plan, which names no failure condition, comes back as an update of the tests and the code, tests first. Otherwise it goes to a person.",
+  "trace": [
+   {
+    "asked": "where a handoff plan goes",
+    "found": "it goes to the builder when the builder can fix it alone, and to a person when a person must decide; it never names the failure condition, its id or the check",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 466, "end": 466, "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "Does any memory tier hold a rule for test-driven development?",
+  "answer": "No. Garura memory and Phoenix memory have no hit for test-driven, test first, test-first or red before green; the pages name it as not built, and the name of the cycle is raised as a memory update request.",
+  "trace": [
+   {
+    "asked": "a test-driven development rule in every tier (searched again on 2026-11-09, tier by tier: Garura memory hits only the model's own pages; Phoenix memory has no hit)",
+    "found": "the stock-take of what is built for coding found none either",
+    "source": {"tier": "short-term", "path": "1021/context/bi-3-inventory/inventory.md", "start": 481, "end": 481, "fingerprint": "sha256:036d2c96eec4dbdb81844ac58a42a0b8069e1522a5604672487e744a2dfeded7"}
+   },
+   {
+    "asked": "what the product owner set as the rule",
+    "found": "all the tests for the work are written and shown to fail, then all the code until every test passes, then the tidy; the builder never sees the tests; a separate check runs them",
+    "source": {"tier": "short-term", "path": "1021/context/capabilities.md", "start": 30, "end": 30, "fingerprint": "sha256:d1662612e92f87a254af973c35e91bcc772b9f010e9b9a4380e54dcf2d54e857"}
+   },
+   {
+    "asked": "whether test-driven development is its own capability",
+    "found": "it is now the rule of items 4 and 5, not a capability",
+    "source": {"tier": "short-term", "path": "1021/context/capabilities.md", "start": 32, "end": 32, "fingerprint": "sha256:51e6d95607823d8de38365df2d540cf8585ff32e4d532f63ecaf9bda818d5ac0"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ }
+]
