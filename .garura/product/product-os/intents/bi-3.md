@@ -19,5 +19,10 @@
 - [Gather the work under a chosen plan item](../software-delivery-planning/gather-work-under-item/capability.md) (capability) — adds
 - [Gather the whole tree under a chosen item](../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md) (feature) — adds
 - [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds
+- [Write the evals that check the work](../software-delivery-planning/write-work-evals/capability.md) (capability) — adds
+- [Write the evals of the chosen work, with what must never happen, before it is built](../software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md) (feature) — adds
+- [Update the evals as the work changes](../software-delivery-planning/write-work-evals/fn-update-evals/feature.md) (feature) — adds
+- [Add the steps an eval may use on a kind of surface](../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md) (feature) — adds
+- [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
