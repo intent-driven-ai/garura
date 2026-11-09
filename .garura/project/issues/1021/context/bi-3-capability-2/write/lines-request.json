@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-3.md",
+      "changes": [
+        {
+          "after": "- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds",
+          "add": "- [Write the evals that check the work](../software-delivery-planning/write-work-evals/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds",
+          "add": "- [Write the evals of the chosen work, with what must never happen, before it is built](../software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds",
+          "add": "- [Update the evals as the work changes](../software-delivery-planning/write-work-evals/fn-update-evals/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds",
+          "add": "- [Add the steps an eval may use on a kind of surface](../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds",
+          "add": "- [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds"
+        }
+      ]
+    }
+  ]
+}

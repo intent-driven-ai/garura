@@ -1,0 +1,110 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-write-work-evals",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "write-work-evals",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Write the evals that will check the work under a chosen plan item, before any of it is built, and keep them from everyone who builds it.",
+      "doc": "software-delivery-planning/write-work-evals/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-write-work-evals",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-write-work-evals",
+      "capability": "cap-write-work-evals",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "For the stories under the item a person names, writes each feature's entry in the slice's hidden file, one way back for each \"Fails if\" line of its two ICE, and then their story files and their slice's file, from the epic, the stories and the hidden file only, before their build starts and never for the builder.",
+      "doc": "software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-evals",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-evals",
+      "capability": "cap-write-work-evals",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "When the stories or their \"Fails if\" lines change, adds what is not covered yet and names what moved, and never changes or deletes a scenario that is there.",
+      "doc": "software-delivery-planning/write-work-evals/fn-update-evals/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-add-eval-steps",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-add-eval-steps",
+      "capability": "cap-write-work-evals",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Adds the fixed sentences an eval step may use on a kind of surface that has none yet, or that a scenario needs, through a memory update a person approves.",
+      "doc": "software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-evals-from-builder",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-evals-from-builder",
+      "capability": "cap-write-work-evals",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Checks that no part that builds the work is given the evals, and records in the build run's evidence each build session that read their folder.",
+      "doc": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-write-work-evals",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-write-work-evals",
+      "doc": "software-delivery-planning/write-work-evals/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-write-work-evals-feature",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-write-work-evals",
+      "doc": "software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-update-evals",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-evals",
+      "doc": "software-delivery-planning/write-work-evals/fn-update-evals/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-add-eval-steps",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-add-eval-steps",
+      "doc": "software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-keep-evals-from-builder",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-evals-from-builder",
+      "doc": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md",
+      "thin": true
+    }
+  ]
+}
