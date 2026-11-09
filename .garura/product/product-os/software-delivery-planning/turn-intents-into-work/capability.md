@@ -59,7 +59,7 @@ What is not built yet:
 ## Sources
 - The one line the product owner approved on 2026-11-03 and reworded on 2026-11-06, and the boundary they settled on 2026-11-06: "we narrow orchestration.. thats what an orchestrator will do".
 - .garura/product/product-os/intents/bi-1.md: "An agent acts on the spec without asking again."
-- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into work that agents can build"
+- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - core/components/plays/shape-plan/reference/ice.md: "Each story is written from its feature's ICE and that feature's capability's ICE, and holds no failure condition and no recovery condition.", "the play never matches a work item by its title", "An epic stands for its slice"
 - core/components/plays/shape-plan/SKILL.md: "lines reach no skill and no person"
 - core/components/skills/author-work-items/SKILL.md: "Each story tells the build play what the feature must do, inside which limits", "Say where to look; never copy the facts themselves."

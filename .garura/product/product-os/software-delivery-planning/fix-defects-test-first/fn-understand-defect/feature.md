@@ -71,7 +71,7 @@ Status: not built as one job. Parts of it are built in the bug fix play, /fix-bu
 - The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "This intent's job is to execute on the plan"
 - The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Fix defects quickly: A defect is traced to its cause, and its fix is agreed with a person and proven by a test."
 - The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "the code, when being written, should not get to see what tests there were"
-- .garura/product/product-os/intents/bi-3.md: "Tell the builder the steps, or deliver work that only a later slice makes testable."
+- .garura/product/product-os/intents/bi-3.md: "Tell the builder the steps, or show the builder the tests."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "In: writing business intents, domains, capabilities and features."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md: "any drift between them is named and fixed"
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "a bug gathered here is handed on to it."

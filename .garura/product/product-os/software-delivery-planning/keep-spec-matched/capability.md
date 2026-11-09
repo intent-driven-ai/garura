@@ -69,7 +69,7 @@ What is not built yet:
 - The boundary the product owner approved on 2026-11-07: In, finding drift, updating an intent or a model part only from approved words, keeping an intent's links current, replacing or retiring an intent, and keeping an intent's words in the tracker matched to its page; Out, the first specification, cutting the spec into work, and learning from real users once the product runs.
 - .garura/product/product-os/intents/bi-1.md: "The original intents are kept and stay up to date as the product evolves.", "Most tools lose the intent once the work starts.", "An intent that drifts from the product gets named."
 - .garura/product/product-os/intents/bi-6.md: "What happens in use flows back."
-- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into work that agents can build"
+- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "In: keeping what a person gives as a Source.", "Out: keeping intents up to date as the product changes."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "In: changing the work items later, and adding a feature found during work.", "A story is not written again when its ICE changes."
 - GitHub #977 (open): "The product model falls behind the work.", "Agents decide from the model, so a model that is out of date leads them wrong.", "What was built is the ground truth: the model is brought up to match it, not the other way round"

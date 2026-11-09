@@ -72,7 +72,7 @@ What is not built yet:
 - core/components/agents/prototype-reader.md: "none walks the prototype again"
 - core/components/skills/author-business-intent/SKILL.md: "a work-tracking tool shown with a bakery's tasks is about any team's work"
 - core/tools/rebuild-eval/README.md: "A fresh agent, with no sight of the prototype and"
-- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into work that agents can build"
+- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - The short line beside each feature: the opening words of that feature's own page.
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The agent's intent for one capability or one feature: what an agent must make true there, for whom, and how it will be checked."
 - standards/rules/ice-rubric.md, in Phoenix memory: "What a good ICE looks like."

@@ -1,16 +1,17 @@
 # Design → Code
 
-**Outcome:** Each slice is designed through the lenses, with how it will be tested, and the parts of the design come together to deliver one vertical slice.
+**Outcome:** The work under any item a person names from the plan becomes working code: it is designed against the project's standards, its evals are written before it is built, and it is built test first by a builder who never sees the tests. Defects are fixed test first too, quickly and without a full design.
 
-**Why:** Left alone, agents build horizontally, and nothing can be tested until the end. Vertical slices usually get left to people.
+**Why:** Left alone, agents build from a guess and check their own work, so a pass proves nothing.
 
 **Asked by:** the product owner
 
 **Proof it is met:**
-- Each slice can be tested end to end by one person on one surface.
-- How a slice is tested is designed before it's built.
+- The work is designed before it is coded, against the project's standards.
+- Every expected result has a test that was written and shown to fail before its code.
+- The builder never sees a test or an eval.
 
-**Must not:** Tell the builder the steps, or deliver work that only a later slice makes testable.
+**Must not:** Tell the builder the steps, or show the builder the tests.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
 **Tracker:** #3

@@ -95,7 +95,7 @@ What is not built yet:
 - The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Settings: Everything that can be turned on or off lives in settings."
 - .garura/product/product-os/intents/bi-10.md: "settings hold what can be turned on or off", "Every tool reads its settings."
 - .garura/project/issues/1021/context/bi-3-inventory/inventory.md, the stock-take of what is built for coding: "Nothing designs a piece of work, technically or for its surface, except a bug fix.", "design one slice's components and stack, its screens, flows and states", "none in any memory tier", "Live, full install only (/fix-bug)", "only tech-designer names them, and no play dispatches them; they come from the pipelines ADR 050 deleted"
-- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into work that agents can build"
+- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - .garura/product/product-os/intents/bi-2.md: "Without shared positions, each builder invents its own answer.", "Block other work. Each design can be run at any time."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "Out: designing the gathered tree. Design the work does it with the tree gathered here", "It reads the builder's part and the project's standards itself.", "Out: fixing a defect. Fix defects test first owns it; a bug gathered here is handed on to it."
 - .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: "Out: designing the work. Design the work does it."

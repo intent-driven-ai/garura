@@ -1,7 +1,7 @@
 # Theme: Software delivery planning
 
 ## Intent
-This domain turns a business intent into work that agents can build and that a check from the outside can prove. It serves the product owner, who names the work and approves its design, and the plays that build from that design. Its job comes before the build: it shapes one slice that a person can test end to end, it plans that slice as work items in the tracker, and it writes the eval that says if the intent is met. It does not build, check or release the work, and it never gives a builder the eval: the build is given the intent, and a check flags each build session that read the evals folder and records the flag in that build run's evidence.
+This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It does not run the evals, release the work, or run the product.
 
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
