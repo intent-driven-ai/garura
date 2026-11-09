@@ -15,4 +15,10 @@
 **Stage:** confirmed — by the product owner, 2026-11-02
 **Tracker:** #4
 
+**Touches:**
+- [Test what the product does, with evals the builder never sees](../software-delivery-planning/test-product-with-evals/capability.md) (capability) — adds
+- [Run a slice's eval on the built work, and give the verdict](../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md) (feature) — adds
+- [Send each failure back as a handoff plan, to the builder or to a person](../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md) (feature) — adds
+- [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds
+
 **What was done:** (nothing yet)

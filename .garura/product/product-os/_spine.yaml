@@ -416,6 +416,23 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-test-product-with-evals
+  slug: test-product-with-evals
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-4
+  status: proposed
+  detail: directional
+  one_line: 'Test what the product does, with evals the builder never sees: each slice''s
+    eval runs on the built work, and every goal, expectation and failure condition
+    it covers gets a pass or a fail.'
+  doc: software-delivery-planning/test-product-with-evals/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -1556,6 +1573,57 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-run-slice-eval
+  slug: fn-run-slice-eval
+  capability: cap-test-product-with-evals
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Once a slice's work is built, runs the slice's eval on it step by step
+    with no agent, through the usage guide, in the testing environment, and gives
+    every goal, expectation and failure condition it covers a pass or a fail, trusting
+    a pass only when the build never saw the eval.
+  doc: software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-send-handoff-plan
+  slug: fn-send-handoff-plan
+  capability: cap-test-product-with-evals
+  intents:
+  - bi-4
+  status: proposed
+  one_line: For each failure the eval finds, writes what the product does wrong and
+    the way back, from the recovery parts of the hidden file only, and sends it to
+    the builder when the builder can fix it alone, or to a person when a person must
+    decide.
+  doc: software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-rerun-evals
+  slug: fn-rerun-evals
+  capability: cap-test-product-with-evals
+  intents:
+  - bi-4
+  status: proposed
+  one_line: When the built product changes, runs a slice's whole eval again after
+    a fix and the evals of the slices that passed before, names each scenario that
+    passed before and fails now, and hands a failure to a person once the rounds the
+    project allows are used up.
+  doc: software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -1970,6 +2038,34 @@ ices:
   for: fn-fix-defect-code
   for_kind: feature
   doc: software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-test-product-with-evals
+  for: cap-test-product-with-evals
+  for_kind: capability
+  doc: software-delivery-planning/test-product-with-evals/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-run-slice-eval
+  for: fn-run-slice-eval
+  for_kind: feature
+  doc: software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-send-handoff-plan
+  for: fn-send-handoff-plan
+  for_kind: feature
+  doc: software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-rerun-evals
+  for: fn-rerun-evals
+  for_kind: feature
+  doc: software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true
