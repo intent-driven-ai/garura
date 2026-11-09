@@ -1,0 +1,18 @@
+## Intent
+- Goal: Once the built work runs in the testing environment, a person who is not the builder, named by the product owner, walks the slice end to end on its surface with a keyboard alone, with a screen reader and in any other way the surface's accessibility guideline names, and records for each part that the pass bar, a need or the guideline says a person checks a pass or a fail, with the step, the screen, the way it was walked and who walked, so the product owner knows what no tool can tell.
+- Limit: The person walks only the copy in the testing environment, with its made-up data and test accounts, never production and never a builder's own machine; the builder never walks its own work.
+- Limit: What the person checks comes only from the pass bar, the needs and the guideline, read from memory first; a part a person must check that no one walked is named as not walked, never passed, and goes to the product owner.
+- Limit: Each walk records who walked, the surface, each step, the way it was walked and what was found, so a second person can walk the same steps; the record never reaches a part that builds the work.
+- Fails if: A part a person must check is counted as passed with no person's walk, or after a tool's clean run alone.
+- Fails if: The builder walked its own work, or the walk touched production or a builder's own machine.
+- Fails if: A walk's record does not name who walked, each step and the way it was walked, or it reached a part that builds the work.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the product profile's accessibility level and pass bar with how it is checked, each capability's accessibility need, the slice's surface with who opens it and its accessibility guideline, the slice's steps in order, how the surface is reached in the testing environment, the person the product owner named to walk, and the testing environment's declaration with its data and test accounts.
+- Never read: the value of any secret other than the testing environment's own; anything in production, such as its data or its traffic; and any ICE page.
+- Persona: the product owner, who names who walks and wants to know whether a person can use the slice in the ways the level and the guideline name.
+- Scope: In: a person's walk of the slice end to end on its surface, with a keyboard alone, with a screen reader and in the other ways the guideline names, in the testing environment, with the walk recorded. Out: running the tools, the verdict and the handoff plans, the screen design and layout, user acceptance testing, declaring the surface, and fixing.
+
+## Expectation
+- Scenario: A school's timetable app for phones runs in the testing environment, and its guideline says a person checks that a pupil who uses the phone's screen reader can find today's lessons. The person the product owner named walks the slice with the screen reader: the lessons are read out, but the room for each is not. They record a pass for finding the lessons, a fail for the room, the step and the screen, and who walked and how. A part the guideline says a tool checks is left to the tools, and the walk does not pass it.
+- Done means: A second person who did not walk the first time walks the same steps on the same built work in the same ways, and finds the same pass or fail for each part, the record naming who walked, each step and the way it was walked, no part a person must check passed without a walk, and no walk outside the testing environment.

@@ -1,0 +1,31 @@
+{
+  "written": [
+    "cap-test-accessibility",
+    "fn-test-accessibility-with-tools",
+    "fn-walk-with-keyboard-and-screen-reader",
+    "fn-send-accessibility-findings",
+    "fn-retest-accessibility",
+    "ice-test-accessibility",
+    "ice-test-accessibility-with-tools",
+    "ice-walk-with-keyboard-and-screen-reader",
+    "ice-send-accessibility-findings",
+    "ice-retest-accessibility"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-test-accessibility",
+    "ice-test-accessibility-with-tools",
+    "ice-walk-with-keyboard-and-screen-reader",
+    "ice-send-accessibility-findings",
+    "ice-retest-accessibility"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/test-accessibility/ice.md",
+    "product-os/software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/ice.md",
+    "product-os/software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/ice.md",
+    "product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/ice.md",
+    "product-os/software-delivery-planning/test-accessibility/fn-retest-accessibility/ice.md"
+  ],
+  "layout_kept": true
+}

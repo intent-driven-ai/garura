@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-4.md",
+      "changes": [
+        {
+          "after": "- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds",
+          "add": "- [Test accessibility](../software-delivery-planning/test-accessibility/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds",
+          "add": "- [Test the running build for accessibility with tools, in the testing environment](../software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds",
+          "add": "- [Walk the running build with a keyboard alone and with a screen reader, in the testing environment](../software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds",
+          "add": "- [Give the accessibility verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds",
+          "add": "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds"
+        }
+      ]
+    }
+  ]
+}
