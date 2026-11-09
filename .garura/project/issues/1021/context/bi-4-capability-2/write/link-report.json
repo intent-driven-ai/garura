@@ -1,0 +1,31 @@
+{
+  "written": [
+    "cap-test-security",
+    "fn-test-code-security",
+    "fn-test-running-security",
+    "fn-send-security-findings",
+    "fn-retest-security",
+    "ice-test-security",
+    "ice-test-code-security",
+    "ice-test-running-security",
+    "ice-send-security-findings",
+    "ice-retest-security"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-test-security",
+    "ice-test-code-security",
+    "ice-test-running-security",
+    "ice-send-security-findings",
+    "ice-retest-security"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/test-security/ice.md",
+    "product-os/software-delivery-planning/test-security/fn-test-code-security/ice.md",
+    "product-os/software-delivery-planning/test-security/fn-test-running-security/ice.md",
+    "product-os/software-delivery-planning/test-security/fn-send-security-findings/ice.md",
+    "product-os/software-delivery-planning/test-security/fn-retest-security/ice.md"
+  ],
+  "layout_kept": true
+}

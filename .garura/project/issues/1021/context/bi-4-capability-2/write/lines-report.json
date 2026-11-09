@@ -1,0 +1,38 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-4.md",
+      "changes": [
+        {
+          "after": "- [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds",
+          "add": "- [Test security](../software-delivery-planning/test-security/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds",
+          "add": "- [Test the built code, its settings and its libraries for security weaknesses](../software-delivery-planning/test-security/fn-test-code-security/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds",
+          "add": "- [Test the running build for security in the testing environment](../software-delivery-planning/test-security/fn-test-running-security/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds",
+          "add": "- [Give the security verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-security/fn-send-security-findings/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds",
+          "add": "- [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds"
+        }
+      ],
+      "lines_before": 24,
+      "lines_after": 29,
+      "lines_added": 5,
+      "lines_kept": 24
+    }
+  ],
+  "changed": [
+    "intents/bi-4.md"
+  ]
+}

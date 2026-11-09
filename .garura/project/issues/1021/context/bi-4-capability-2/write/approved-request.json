@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/test-security/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/drafts/product-os/software-delivery-planning/test-security/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/write/approved/test-security/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-test-code-security/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/drafts/product-os/software-delivery-planning/test-security/fn-test-code-security/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-test-code-security/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/write/approved/fn-test-code-security/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-test-running-security/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/drafts/product-os/software-delivery-planning/test-security/fn-test-running-security/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-test-running-security/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/write/approved/fn-test-running-security/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/drafts/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-send-security-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/write/approved/fn-send-security-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-retest-security/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/drafts/product-os/software-delivery-planning/test-security/fn-retest-security/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-retest-security/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-2/write/approved/fn-retest-security/ice.md"
+    }
+  ]
+}
