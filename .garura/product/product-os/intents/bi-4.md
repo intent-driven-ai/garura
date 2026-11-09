@@ -30,5 +30,10 @@
 - [Measure how fast the running build answers under the load the pass bar names](../software-delivery-planning/test-performance/fn-test-under-load/feature.md) (feature) — adds
 - [Give the performance verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-performance/fn-send-performance-findings/feature.md) (feature) — adds
 - [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds
+- [Test accessibility](../software-delivery-planning/test-accessibility/capability.md) (capability) — adds
+- [Test the running build for accessibility with tools, in the testing environment](../software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md) (feature) — adds
+- [Walk the running build with a keyboard alone and with a screen reader, in the testing environment](../software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md) (feature) — adds
+- [Give the accessibility verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md) (feature) — adds
+- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)

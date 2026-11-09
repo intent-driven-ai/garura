@@ -469,6 +469,26 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-test-accessibility
+  slug: test-accessibility
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-4
+  status: proposed
+  detail: directional
+  one_line: 'Test accessibility, against the product profile''s accessibility level
+    and each surface''s accessibility guideline: the running build is tested in the
+    testing environment, by tools and by a person who uses it with a keyboard alone
+    and with a screen reader, against the accessibility level the product profile
+    commits to and the accessibility guideline of each declared surface, and each
+    finding goes back to the developer or to a person.'
+  doc: software-delivery-planning/test-accessibility/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -1798,6 +1818,77 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-test-accessibility-with-tools
+  slug: fn-test-accessibility-with-tools
+  capability: cap-test-accessibility
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Once the built work runs in the testing environment, runs on each declared
+    surface a person opens, by a part that is not the builder, the tools that check
+    what the pass bar, each capability's accessibility need and the surface's accessibility
+    guideline say a tool checks, and records each result with what was checked and
+    where.
+  doc: software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-walk-with-keyboard-and-screen-reader
+  slug: fn-walk-with-keyboard-and-screen-reader
+  capability: cap-test-accessibility
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Once the built work runs in the testing environment, a person who is not
+    the builder, named by the product owner, uses the slice end to end on its surface
+    with a keyboard alone, with a screen reader and in any other way the surface's
+    guideline names, and records what they could and could not do, where, and how
+    they walked.
+  doc: software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-send-accessibility-findings
+  slug: fn-send-accessibility-findings
+  capability: cap-test-accessibility
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Gives one verdict for the built work against the profile's accessibility
+    level and each surface's accessibility guideline, with a pass or a fail for every
+    part, and sends each finding back as a handoff plan to the developer when the
+    builder can fix it alone, or to the product owner when a person must decide.
+  doc: software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-retest-accessibility
+  slug: fn-retest-accessibility
+  capability: cap-test-accessibility
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Runs the tools and the walk again after a fix, when more work is built,
+    when an approved decision raises the accessibility level and when a surface's
+    accessibility guideline is updated, keeps each verdict, names what passed before
+    and fails now, and sends a finding that keeps coming back to a person once the
+    rounds the project allows are used up.
+  doc: software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -2310,6 +2401,41 @@ ices:
   for: fn-retest-performance
   for_kind: feature
   doc: software-delivery-planning/test-performance/fn-retest-performance/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-test-accessibility
+  for: cap-test-accessibility
+  for_kind: capability
+  doc: software-delivery-planning/test-accessibility/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-test-accessibility-with-tools
+  for: fn-test-accessibility-with-tools
+  for_kind: feature
+  doc: software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-walk-with-keyboard-and-screen-reader
+  for: fn-walk-with-keyboard-and-screen-reader
+  for_kind: feature
+  doc: software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-send-accessibility-findings
+  for: fn-send-accessibility-findings
+  for_kind: feature
+  doc: software-delivery-planning/test-accessibility/fn-send-accessibility-findings/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-retest-accessibility
+  for: fn-retest-accessibility
+  for_kind: feature
+  doc: software-delivery-planning/test-accessibility/fn-retest-accessibility/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true
