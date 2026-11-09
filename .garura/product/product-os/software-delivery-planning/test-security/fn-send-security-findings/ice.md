@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: Once the code and the running build are tested, one security verdict for the built work gives each part of the profile's pass bar and each capability's security need a pass or a fail, names each part not tested with its reason, and is a pass only when every part passes; and each finding goes back as a handoff plan with the weakness, where it is and the way back: to the developer through Build the work test first when the builder can fix it alone, to the product owner when a person must decide, and to Fix defects test first when the work was already accepted.
+- Limit: The verdict takes the records of the review of each change and of the build's separate test run as evidence without running them again, and it is kept where no part that builds the work reads it.
+- Limit: A handoff plan never names the test, its rule, its id or its tool, its way back is guidance, never code, and no verdict or handoff plan holds a secret's value.
+- Limit: A finding goes to the developer only when its way back is a change of the code the builder controls; one that needs judgment or authority the builder does not hold, or one in doubt, goes to a person, and only an approved decision moves the security level.
+- Fails if: The verdict is a pass while a part failed or was not tested, or while a test could not run.
+- Fails if: A handoff plan names the test, its rule, its id or its tool, or holds a secret's value, or the builder was given the verdict.
+- Fails if: A finding that needs a person's judgment or authority, such as a secret to change where it is kept, went to the developer, or a finding was let through with neither a fix nor an approved decision.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the findings and results of the tests of the code and of the running build, the product profile's security level and pass bar, each capability's security need, the decisions that moved them, the records of the review of each change and of the build's separate test run, the approved architecture and deployment design, whether the work was already accepted, and the recovery rule.
+- Never read: the value of any secret, such as a password or a key; anything in production, such as its data; and any ICE page.
+- Persona: the product owner, who reads the verdict and decides each finding a person must decide; the developer gets back, as a handoff plan, each finding the builder can fix alone.
+- Scope: In: the one verdict against the profile's security level, and writing and sending each handoff plan. Out: running the tests, fixing, setting or moving the security level, recording a defect in the tracker, and running the tests again.
+
+## Expectation
+- Scenario: A clinic's booking page is tested. The verdict fails two parts of the pass bar and names a third, a security standard the pass bar names, as not tested, because memory holds no test for it. The developer gets a handoff plan: a signed-in patient can open another patient's booking by changing the booking's number in the page's address; make each patient see only their own bookings. The product owner gets the second finding, a password of the booking service's data store written in a settings file, with the file named and the password left out, because it must be changed where it is kept. No handoff plan names a test, a rule or a tool.
+- Done means: Someone other than the one who gave the verdict reads it beside the findings and the pass bar, and finds every part with a pass, a fail or a reason it was not tested, no pass while a part failed or was not tested, each handoff plan with the weakness, where it is and the way back, sent where the recovery rule's test says, and no secret's value and no test named in any of them.

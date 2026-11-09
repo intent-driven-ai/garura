@@ -433,6 +433,24 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-test-security
+  slug: test-security
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-4
+  status: proposed
+  detail: directional
+  one_line: 'Test security, against the product profile''s security level: the built
+    work is tested for security, at rest and while it runs in the testing environment,
+    against the security level the product profile commits to, and each finding goes
+    back to the developer or to a person.'
+  doc: software-delivery-planning/test-security/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -1624,6 +1642,74 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-test-code-security
+  slug: fn-test-code-security
+  capability: cap-test-security
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Once the work is built, tests the whole built code at rest, by a part
+    that is not the builder, for weaknesses in how it is written, for libraries with
+    known weaknesses and for any secret's value, and compares each result with the
+    profile's pass bar and each capability's security need.
+  doc: software-delivery-planning/test-security/fn-test-code-security/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-test-running-security
+  slug: fn-test-running-security
+  capability: cap-test-security
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Once the built work runs in the testing environment, tries on its declared
+    surfaces what the pass bar and each capability's security need say to try, with
+    the environment's made-up data and test accounts, and never touches anything outside
+    that environment.
+  doc: software-delivery-planning/test-security/fn-test-running-security/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-send-security-findings
+  slug: fn-send-security-findings
+  capability: cap-test-security
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Gives one verdict for the built work against the profile's security level,
+    with a pass or a fail for every part of the pass bar and each capability's security
+    need, and sends each finding back as a handoff plan to the developer when the
+    builder can fix it alone, or to the product owner when a person must decide.
+  doc: software-delivery-planning/test-security/fn-send-security-findings/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-retest-security
+  slug: fn-retest-security
+  capability: cap-test-security
+  intents:
+  - bi-4
+  status: proposed
+  one_line: Runs the security tests again after a fix, when more work is built, and
+    when an approved decision raises the security level, keeps each verdict, names
+    what passed before and fails now, and sends a finding that keeps coming back to
+    a person once the rounds the project allows are used up.
+  doc: software-delivery-planning/test-security/fn-retest-security/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -2066,6 +2152,41 @@ ices:
   for: fn-rerun-evals
   for_kind: feature
   doc: software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-test-security
+  for: cap-test-security
+  for_kind: capability
+  doc: software-delivery-planning/test-security/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-test-code-security
+  for: fn-test-code-security
+  for_kind: feature
+  doc: software-delivery-planning/test-security/fn-test-code-security/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-test-running-security
+  for: fn-test-running-security
+  for_kind: feature
+  doc: software-delivery-planning/test-security/fn-test-running-security/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-send-security-findings
+  for: fn-send-security-findings
+  for_kind: feature
+  doc: software-delivery-planning/test-security/fn-send-security-findings/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-retest-security
+  for: fn-retest-security
+  for_kind: feature
+  doc: software-delivery-planning/test-security/fn-retest-security/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true

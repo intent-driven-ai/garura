@@ -20,5 +20,10 @@
 - [Run a slice's eval on the built work, and give the verdict](../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md) (feature) — adds
 - [Send each failure back as a handoff plan, to the builder or to a person](../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md) (feature) — adds
 - [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds
+- [Test security](../software-delivery-planning/test-security/capability.md) (capability) — adds
+- [Test the built code, its settings and its libraries for security weaknesses](../software-delivery-planning/test-security/fn-test-code-security/feature.md) (feature) — adds
+- [Test the running build for security in the testing environment](../software-delivery-planning/test-security/fn-test-running-security/feature.md) (feature) — adds
+- [Give the security verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-security/fn-send-security-findings/feature.md) (feature) — adds
+- [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
