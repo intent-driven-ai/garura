@@ -331,6 +331,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-gather-work-under-item
+  slug: gather-work-under-item
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-3
+  status: proposed
+  detail: directional
+  one_line: Take any item a person names from the plan, and gather the whole tree
+    of work under it.
+  doc: software-delivery-planning/gather-work-under-item/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -1223,6 +1239,39 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-gather-item-tree
+  slug: fn-gather-item-tree
+  capability: cap-gather-work-under-item
+  intents:
+  - bi-3
+  status: proposed
+  one_line: From the item the technical lead names by its ID, at any level of the
+    plan, gathers it and every item under it with their text and status, and nothing
+    outside it, and splits each story so the builder's part holds no expectation,
+    eval or test.
+  doc: software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-collect-story-context
+  slug: fn-collect-story-context
+  capability: cap-gather-work-under-item
+  intents:
+  - bi-3
+  status: proposed
+  one_line: Reads the Context guidance of each story in the gathered tree and collects
+    what it points to, from the project's code and memory first, into the story's
+    short-term memory, so the work is read in one place and no ICE page is opened.
+  doc: software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -1500,6 +1549,27 @@ ices:
   for: fn-dev-sandbox
   for_kind: feature
   doc: software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-gather-work-under-item
+  for: cap-gather-work-under-item
+  for_kind: capability
+  doc: software-delivery-planning/gather-work-under-item/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-gather-item-tree
+  for: fn-gather-item-tree
+  for_kind: feature
+  doc: software-delivery-planning/gather-work-under-item/fn-gather-item-tree/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-collect-story-context
+  for: fn-collect-story-context
+  for_kind: feature
+  doc: software-delivery-planning/gather-work-under-item/fn-collect-story-context/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true

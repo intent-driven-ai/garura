@@ -15,4 +15,9 @@
 **Stage:** confirmed — by the product owner, 2026-11-02
 **Tracker:** #3
 
+**Touches:**
+- [Gather the work under a chosen plan item](../software-delivery-planning/gather-work-under-item/capability.md) (capability) — adds
+- [Gather the whole tree under a chosen item](../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md) (feature) — adds
+- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds
+
 **What was done:** (nothing yet)
