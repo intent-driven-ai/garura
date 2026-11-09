@@ -32,5 +32,9 @@
 - [Build the code until every test passes, then tidy it, without seeing the tests](../software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md) (feature) — adds
 - [Write the usage guide that tells the eval how to reach the built work](../software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md) (feature) — adds
 - [Update the tests and the code as the work changes](../software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md) (feature) — adds
+- [Fix defects test first](../software-delivery-planning/fix-defects-test-first/capability.md) (capability) — adds
+- [Understand the defect: its feature in the product model, its tests and why they pass, and its root cause](../software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md) (feature) — adds
+- [Write the tests that prove the defect, and show each one fails](../software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md) (feature) — adds
+- [Fix the code and run every test, then tidy it, without seeing the tests](../software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
