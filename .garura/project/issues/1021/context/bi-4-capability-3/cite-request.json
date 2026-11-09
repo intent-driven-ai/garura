@@ -1,0 +1,197 @@
+[
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 3 (Test performance)",
+  "question": "What is a performance test measured against?",
+  "answer": "The product profile's performance level and its pass bar (the standard or measure, and how it is measured), with each capability's own performance need under it; what is measured, its numbers and how it is measured are per product, set through the profile, never in the capability. The drafts state it as the capability's first guiding rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what the profile holds for performance, and where load sits",
+    "found": "performance is a level on the scale none to xhigh and a gate, for speed and latency; load sits under scalability",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/product-profile.yaml",
+     "start": 28,
+     "end": 33,
+     "fingerprint": "sha256:515b57d75e085c0b4bb435dd451aa7768f67247ba86a2ab731a17587f8b0873f"
+    }
+   },
+   {
+    "asked": "what a capability's performance need holds",
+    "found": "a level, a target and a gate, with a load test as the example check",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/spine.yaml",
+     "start": 79,
+     "end": 86,
+     "fingerprint": "sha256:ee8776614ba19ae28ecc9f56720bab18d6cd8dc6190d45a583fa41dd87e76dfe"
+    }
+   },
+   {
+    "asked": "where the numbers of a bar live",
+    "found": "in the product profile, per product, never in the knowledge base",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+     "start": 27,
+     "end": 37,
+     "fingerprint": "sha256:9e4dfab1503c09661933bb12942fb7835bf77e53cc88591a51206617a5f55ae7"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 3 (Test performance)",
+  "question": "Does the project's own profile set a performance level?",
+  "answer": "No. Garura's profile sets reliability, maintainability and security at medium, and no performance level; no capability in the model has a performance need. The drafts say so as not built, and the verdict feature says plainly when no level is set, never reading it as a pass.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the project's own quality levels",
+    "found": "reliability, maintainability and security, each medium; no performance entry",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/_spine.yaml",
+     "start": 1713,
+     "end": 1726,
+     "fingerprint": "sha256:88f5697bde1eb65e0b6184a7a05fa723da6fc123b6c1b1ed084d7f647b1dd200"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 3 (Test performance)",
+  "question": "May a performance figure, load or number come from the agent, or be worked out from another environment's figure?",
+  "answer": "No. Every number comes from the pass bar or a capability's need; a figure counts only for the conditions it was measured in, and none is worked out from another size. No memory tier holds a rule for scaling a figure, so the drafts name it as a Never and leave the rest not decided.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the rule on numbers with no source",
+    "found": "a numeric constraint without a source is a hallucination dressed up as a fact",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/features.md",
+     "start": 129,
+     "end": 131,
+     "fingerprint": "sha256:cf7d2b081b719a6d90ff1c5cf581e7ccd79d25c82668d70ef8e33244ec6cd2b5"
+    }
+   },
+   {
+    "asked": "how a verification treats a bar with no captured result",
+    "found": "an unmeasured bar is not a passed bar",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+     "start": 27,
+     "end": 37,
+     "fingerprint": "sha256:9e4dfab1503c09661933bb12942fb7835bf77e53cc88591a51206617a5f55ae7"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 3 (Test performance)",
+  "question": "Does a tool's own score decide a performance result?",
+  "answer": "No. Each figure is compared with the pass bar; a page-audit score counts only when the pass bar names it, and a part not measured is a fail.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how a verification compares tool results",
+    "found": "green is the entry, the profile floor is the bar; performance and accessibility audits are among the check classes",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+     "start": 21,
+     "end": 35,
+     "fingerprint": "sha256:4298c0899a0305b2d8a2f8bc398764105f0889f5b3cca504f72ff1fe8e37bbf1"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 3 (Test performance)",
+  "question": "Who gets a performance finding: the builder alone, or a person?",
+  "answer": "The developer only when the way back is a change of the code the builder controls; the product owner when it changes the architecture, the deployment design or an environment's size, the level itself, or a part the environment cannot give the conditions for; a person when in doubt.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the rule that routes a recovery",
+    "found": "autonomous only when mechanical from what the builder controls; human when it needs judgment or authority the builder does not hold",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 50,
+     "end": 60,
+     "fingerprint": "sha256:dfaf0f5e402b2ab699637a2687236523129354b1fa153bb7847ea7e674ec3d36"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 3 (Test performance)",
+  "question": "What may a performance handoff plan name, and what may the builder see?",
+  "answer": "What is slow, where and in what conditions, and the way back as guidance; never the test, its rule, its id, its tool or the figures measured. The builder knows the level and its pass bar, never the tests, their figures or the verdict.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what a handoff plan never names",
+    "found": "the failure condition, its id or the check",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 466,
+     "end": 466,
+     "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"
+    }
+   },
+   {
+    "asked": "the rule that divides what the builder gets from what is checked after",
+    "found": "would knowing this change how the builder writes code? yes is a constraint, no is a failure condition",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/builder-isolation.md",
+     "start": 53,
+     "end": 59,
+     "fingerprint": "sha256:a3f050898870ccb3ee2c19eb06131bfd78b10f276aa207440967bcbb77bd334c"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 3 (Test performance)",
+  "question": "Do the review's performance rows test the product's performance level?",
+  "answer": "No. They match words and file names on each change and at most highlight without blocking; they belong to Check the code against its standards, and this capability takes the review's record as evidence.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what rank the review gives a performance finding",
+    "found": "P2 highlights without blocking, load-critical perf regressions among them",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 7,
+     "end": 11,
+     "fingerprint": "sha256:8e30de6e238798f47795542c510b3057d53405ee537970ae5ea91ed760ac7078"
+    }
+   },
+   {
+    "asked": "the review's performance rows",
+    "found": "file-name rows at P4, and word rows for pools, caches, lazy loading, a query in a loop, migrations and bundle-size files",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 300,
+     "end": 323,
+     "fingerprint": "sha256:cc88afa33b34e2ab126a5ddc02bfeb1012895822ce2c27614b1b757084dd4921"
+    }
+   }
+  ]
+ }
+]

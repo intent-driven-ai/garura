@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-4.md",
+      "changes": [
+        {
+          "after": "- [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds",
+          "add": "- [Test performance](../software-delivery-planning/test-performance/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds",
+          "add": "- [Measure how fast the running build answers, in the testing environment](../software-delivery-planning/test-performance/fn-test-running-speed/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds",
+          "add": "- [Measure how fast the running build answers under the load the pass bar names](../software-delivery-planning/test-performance/fn-test-under-load/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds",
+          "add": "- [Give the performance verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-performance/fn-send-performance-findings/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds",
+          "add": "- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds"
+        }
+      ]
+    }
+  ]
+}

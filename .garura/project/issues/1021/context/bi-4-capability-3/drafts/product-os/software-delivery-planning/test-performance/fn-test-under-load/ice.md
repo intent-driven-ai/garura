@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: When the pass bar or a capability's performance need names a load, a part that is not the builder puts that load on the running build with the environment's test accounts and made-up data, in the environment the deployment design places the load tests in and at the size Environment setup declares, measures what the bar names under it the way the bar says, and records for each part the figure, a pass or a fail, the load, how long it ran and the environment's size, so the product owner knows the product keeps its performance level when many use it at once.
+- Limit: The load comes only from the pass bar or a capability's performance need; no load reaches production, a builder's own machine or a system the environment does not hold, and no secret's value is written down.
+- Limit: The test never makes the environment bigger or smaller; when the environment cannot carry the named load at its declared size, the part is named as not measured, and no figure is worked out from a smaller load.
+- Limit: Each run records how long it ran and what load it put on, so the cost Deployment design worked out can be checked; the builder never sees the figures.
+- Fails if: Load reached production, a builder's own machine or a system the testing environment does not hold, such as a payment provider's live service.
+- Fails if: The environment's size was changed for the test, or a figure for the named load was worked out from a smaller load or a smaller environment and counted.
+- Fails if: A run's record does not name the load, how long it ran and the environment's declared size.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the load the pass bar or each capability's performance need names, what is measured under it and how, where the deployment design places the load tests and the cost it worked out for them on each cloud, the declaration of that environment with its size, data and test accounts, and where the deployment design keeps that environment's secrets.
+- Never read: the value of any secret other than the environment's own, which a test takes at run time and never writes down; anything in production, such as its data or its traffic; and any ICE page.
+- Persona: the product owner, who wants to know that the product keeps its performance level when many use it at once, and what the tests cost.
+- Scope: In: putting the named load on the running build in the environment set up for it, measuring under it, and recording the figures and the conditions. Out: measuring as one person meets it, declaring, building or resizing the environment, placing the tests and working out their cost, the verdict and the handoff plans, and fixing.
+
+## Expectation
+- Scenario: A school's timetable app for phones has a capability's performance need that says how long the day's timetable may take to open when a named number of pupils open it in the same minute. The deployment design places the load tests in an environment of their own, which Environment setup declared with a size fit for that load. The test opens the timetable with that many test pupils on made-up data, records the figure, a pass, the load, how long it ran and the declared size, and sends nothing outside the environment. In a second project, the environment for load tests is declared smaller than the named load needs, so the part is named as not measured and goes to the product owner.
+- Done means: Someone other than the one who ran the test reads the records of the run, and finds the named load put on, every part with a figure in its conditions or named as not measured with its reason, the environment at its declared size, no load outside the environment, no secret's value, and how long each run ran.

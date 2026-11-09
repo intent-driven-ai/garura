@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/test-performance/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/drafts/product-os/software-delivery-planning/test-performance/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/write/approved/test-performance/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-test-running-speed/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/drafts/product-os/software-delivery-planning/test-performance/fn-test-running-speed/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-test-running-speed/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/write/approved/fn-test-running-speed/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-test-under-load/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/drafts/product-os/software-delivery-planning/test-performance/fn-test-under-load/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-test-under-load/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/write/approved/fn-test-under-load/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-send-performance-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/drafts/product-os/software-delivery-planning/test-performance/fn-send-performance-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-send-performance-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/write/approved/fn-send-performance-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-retest-performance/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/drafts/product-os/software-delivery-planning/test-performance/fn-retest-performance/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-performance/fn-retest-performance/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-3/write/approved/fn-retest-performance/ice.md"
+    }
+  ]
+}
