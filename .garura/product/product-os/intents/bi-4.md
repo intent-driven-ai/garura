@@ -25,5 +25,10 @@
 - [Test the running build for security in the testing environment](../software-delivery-planning/test-security/fn-test-running-security/feature.md) (feature) — adds
 - [Give the security verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-security/fn-send-security-findings/feature.md) (feature) — adds
 - [Test security again as the product changes](../software-delivery-planning/test-security/fn-retest-security/feature.md) (feature) — adds
+- [Test performance](../software-delivery-planning/test-performance/capability.md) (capability) — adds
+- [Measure how fast the running build answers, in the testing environment](../software-delivery-planning/test-performance/fn-test-running-speed/feature.md) (feature) — adds
+- [Measure how fast the running build answers under the load the pass bar names](../software-delivery-planning/test-performance/fn-test-under-load/feature.md) (feature) — adds
+- [Give the performance verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-performance/fn-send-performance-findings/feature.md) (feature) — adds
+- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
