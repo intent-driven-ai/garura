@@ -27,5 +27,10 @@
 - [Design the work](../software-delivery-planning/design-work/capability.md) (capability) — adds
 - [Design the chosen work, how it is built and what its surface shows](../software-delivery-planning/design-work/fn-design-chosen-work/feature.md) (feature) — adds
 - [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds
+- [Build the work test first](../software-delivery-planning/build-work-test-first/capability.md) (capability) — adds
+- [Write all the tests for the work, and show each one fails](../software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md) (feature) — adds
+- [Build the code until every test passes, then tidy it, without seeing the tests](../software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md) (feature) — adds
+- [Write the usage guide that tells the eval how to reach the built work](../software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md) (feature) — adds
+- [Update the tests and the code as the work changes](../software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
