@@ -1,0 +1,68 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-design-work",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "design-work",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Design the work under a chosen plan item before it is built: how it is built, and what a person meets on its surface, against the project's standards.",
+      "doc": "software-delivery-planning/design-work/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-design-chosen-work",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-design-chosen-work",
+      "capability": "cap-design-work",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "For the tree gathered under the item the technical lead names, designs each story, chore and spike in one design with a technical part, its components, classes, functions, data model, interfaces, libraries and patterns, drawn as diagrams a CTO can read, and a surface part, what a person sees and does there and how each screen will look, against the project's standards with the deployment design among them, and with no test in it.",
+      "doc": "software-delivery-planning/design-work/fn-design-chosen-work/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-work-design",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-work-design",
+      "capability": "cap-design-work",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "When the work, a project standard or what the build finds no longer matches the design, the technical lead confirms an update, and what held before stays readable with why it changed.",
+      "doc": "software-delivery-planning/design-work/fn-update-work-design/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-design-work",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-design-work",
+      "doc": "software-delivery-planning/design-work/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-design-chosen-work",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-design-chosen-work",
+      "doc": "software-delivery-planning/design-work/fn-design-chosen-work/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-work-design",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-work-design",
+      "doc": "software-delivery-planning/design-work/fn-update-work-design/ice.md",
+      "thin": true
+    }
+  ]
+}

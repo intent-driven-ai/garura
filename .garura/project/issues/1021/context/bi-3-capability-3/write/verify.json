@@ -1,0 +1,292 @@
+{
+  "pages": {
+    "software-delivery-planning/design-work/capability.md": {
+      "equals_draft": true,
+      "bytes": 26647,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/design-work/ice.md": {
+      "equals_draft": true,
+      "bytes": 5672,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/design-work/fn-design-chosen-work/feature.md": {
+      "equals_draft": true,
+      "bytes": 25433,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/design-work/fn-design-chosen-work/ice.md": {
+      "equals_draft": true,
+      "bytes": 5821,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/design-work/fn-update-work-design/feature.md": {
+      "equals_draft": true,
+      "bytes": 10237,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/design-work/fn-update-work-design/ice.md": {
+      "equals_draft": true,
+      "bytes": 3625,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 6,
+  "thin_lines_only_on_the_three_ice_pages": true,
+  "new_folder_files": [
+    "software-delivery-planning/design-work/capability.md",
+    "software-delivery-planning/design-work/fn-design-chosen-work/feature.md",
+    "software-delivery-planning/design-work/fn-design-chosen-work/ice.md",
+    "software-delivery-planning/design-work/fn-update-work-design/feature.md",
+    "software-delivery-planning/design-work/fn-update-work-design/ice.md",
+    "software-delivery-planning/design-work/ice.md"
+  ],
+  "new_folder_holds_only_the_6_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 21,
+      "after": 22,
+      "new": [
+        "cap-design-work"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 71,
+      "after": 73,
+      "new": [
+        "fn-design-chosen-work",
+        "fn-update-work-design"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 47,
+      "after": 50,
+      "new": [
+        "ice-design-work",
+        "ice-design-chosen-work",
+        "ice-update-work-design"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "profile_unchanged": true,
+    "top_key_order_kept": true,
+    "other_top_keys": [],
+    "other_top_keys_unchanged": true,
+    "new_entries": {
+      "cap-design-work": {
+        "slug": "design-work",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Design the work under a chosen plan item before it is built: how it is built, and what a person meets on its surface, against the project's standards.",
+        "doc": "software-delivery-planning/design-work/capability.md",
+        "thin": false
+      },
+      "fn-design-chosen-work": {
+        "slug": "fn-design-chosen-work",
+        "capability": "cap-design-work",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "For the tree gathered under the item the technical lead names, designs each story, chore and spike in one design with a technical part, its components, classes, functions, data model, interfaces, libraries and patterns, drawn as diagrams a CTO can read, and a surface part, what a person sees and does there and how each screen will look, against the project's standards with the deployment design among them, and with no test in it.",
+        "doc": "software-delivery-planning/design-work/fn-design-chosen-work/feature.md",
+        "thin": false
+      },
+      "fn-update-work-design": {
+        "slug": "fn-update-work-design",
+        "capability": "cap-design-work",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "When the work, a project standard or what the build finds no longer matches the design, the technical lead confirms an update, and what held before stays readable with why it changed.",
+        "doc": "software-delivery-planning/design-work/fn-update-work-design/feature.md",
+        "thin": false
+      },
+      "ice-design-work": {
+        "for": "cap-design-work",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/design-work/ice.md",
+        "thin": true
+      },
+      "ice-design-chosen-work": {
+        "for": "fn-design-chosen-work",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/design-work/fn-design-chosen-work/ice.md",
+        "thin": true
+      },
+      "ice-update-work-design": {
+        "for": "fn-update-work-design",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/design-work/fn-update-work-design/ice.md",
+        "thin": true
+      }
+    },
+    "entries_as_asked": true,
+    "capability_one_line_as_asked": true,
+    "feature_one_lines_match_page_list": true,
+    "thin_ice_new": [
+      "ice-design-work",
+      "ice-design-chosen-work",
+      "ice-update-work-design"
+    ],
+    "all_three_new_ice_thin": true,
+    "new_parts_not_thin_themselves": true,
+    "ice_ids_unique": true,
+    "all_ids_unique": true,
+    "each_part_one_ice": true,
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 72,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0,
+    "comments_kept": true
+  },
+  "bi_3": {
+    "lines_before": 28,
+    "lines_after": 31,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 3,
+    "added": [
+      "- [Design the work](../software-delivery-planning/design-work/capability.md) (capability) — adds",
+      "- [Design the chosen work, how it is built and what its surface shows](../software-delivery-planning/design-work/fn-design-chosen-work/feature.md) (feature) — adds",
+      "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "outcome_and_proof_lines_unchanged": true,
+    "touches_lines": 11,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/gather-work-under-item/capability.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md": true,
+      "../software-delivery-planning/write-work-evals/capability.md": true,
+      "../software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-update-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md": true,
+      "../software-delivery-planning/design-work/capability.md": true,
+      "../software-delivery-planning/design-work/fn-design-chosen-work/feature.md": true,
+      "../software-delivery-planning/design-work/fn-update-work-design/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_3": 11,
+    "spine_entry_ids_naming_bi_3": [
+      "cap-gather-work-under-item",
+      "cap-write-work-evals",
+      "cap-design-work",
+      "fn-gather-item-tree",
+      "fn-collect-story-context",
+      "fn-write-work-evals",
+      "fn-update-evals",
+      "fn-add-eval-steps",
+      "fn-keep-evals-from-builder",
+      "fn-design-chosen-work",
+      "fn-update-work-design"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kinds_agree_with_spine": true,
+    "other_spine_entries_naming_bi_3": []
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-3.md",
+    "?? .garura/product/product-os/software-delivery-planning/design-work/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/design-work/fn-design-chosen-work/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/design-work/fn-design-chosen-work/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/design-work/fn-update-work-design/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/design-work/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 100,
+      "counts": {
+        "domain": 1,
+        "capability": 21,
+        "feature": 71,
+        "ice": 47
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-3/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 103,
+      "counts": {
+        "domain": 1,
+        "capability": 22,
+        "feature": 73,
+        "ice": 50
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-3/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/design-work/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/design-work/fn-design-chosen-work/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/design-work/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/design-work/fn-design-chosen-work/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 3 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021."
+  },
+  "failed_checks": [],
+  "checks_run": 51,
+  "checks_passed": 51,
+  "all_checks_pass": true,
+  "before_state": "git HEAD 21c7592c: the spine and intents/bi-3.md as committed (the model had no uncommitted change before this write)"
+}
