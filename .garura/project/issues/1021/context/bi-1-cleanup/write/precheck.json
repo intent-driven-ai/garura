@@ -1,0 +1,75 @@
+{
+  "request": ".garura/project/issues/1021/context/bi-1-cleanup/change-lines-request.json",
+  "model_root": ".garura/product/product-os",
+  "pages": [
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/capability.md",
+      "lines_on_page": 74,
+      "changes": 9,
+      "old_line_numbers": [
+        20,
+        31,
+        37,
+        42,
+        43,
+        44,
+        45,
+        51,
+        52
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/ice.md",
+      "lines_on_page": 21,
+      "changes": 1,
+      "old_line_numbers": [
+        21
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+      "lines_on_page": 54,
+      "changes": 4,
+      "old_line_numbers": [
+        6,
+        23,
+        42,
+        43
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+      "lines_on_page": 54,
+      "changes": 5,
+      "old_line_numbers": [
+        10,
+        24,
+        30,
+        39,
+        41
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+      "lines_on_page": 52,
+      "changes": 3,
+      "old_line_numbers": [
+        29,
+        38,
+        39
+      ]
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+      "lines_on_page": 79,
+      "changes": 1,
+      "old_line_numbers": [
+        55
+      ]
+    }
+  ],
+  "changes": 23,
+  "found_once": 23,
+  "problems": [],
+  "ok": true
+}
