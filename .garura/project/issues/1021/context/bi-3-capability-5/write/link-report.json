@@ -1,0 +1,27 @@
+{
+  "written": [
+    "cap-fix-defects-test-first",
+    "fn-understand-defect",
+    "fn-write-defect-tests",
+    "fn-fix-defect-code",
+    "ice-fix-defects-test-first",
+    "ice-understand-defect",
+    "ice-write-defect-tests",
+    "ice-fix-defect-code"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-fix-defects-test-first",
+    "ice-understand-defect",
+    "ice-write-defect-tests",
+    "ice-fix-defect-code"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/fix-defects-test-first/ice.md",
+    "product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md",
+    "product-os/software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md",
+    "product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md"
+  ],
+  "layout_kept": true
+}

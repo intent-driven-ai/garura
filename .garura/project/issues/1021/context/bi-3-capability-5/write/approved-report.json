@@ -1,0 +1,39 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-5/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

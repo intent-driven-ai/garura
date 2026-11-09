@@ -1,0 +1,39 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-5/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/drafts/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/write/approved/fix-defects-test-first/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/drafts/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/write/approved/fn-understand-defect/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/drafts/product-os/software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/write/approved/fn-write-defect-tests/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/drafts/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-5/write/approved/fn-fix-defect-code/ice.md"
+    }
+  ]
+}

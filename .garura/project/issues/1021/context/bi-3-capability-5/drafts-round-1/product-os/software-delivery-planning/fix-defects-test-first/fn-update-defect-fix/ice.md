@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: When a result still fails after the tries the project allows, or the builder finds the fix design wrong, the AI agent proposes an updated cause or fix design from what the tries showed, the technical lead confirms it, the test writer updates the tests first and the check shows each new or changed test failing, and the builder changes the code, without seeing a test, until the check's record shows every test passing again, with the cause and fix design that held before kept readable.
+- Limit: Only the test writer adds, changes or takes out a test, always with its reason; the builder never does.
+- Limit: The first fix's rules hold: the builder sees no test, an eval or the hidden file, a pass counts only on the check's record, and the update comes from the project's code and memory first, never from what the AI agent knows by itself.
+- Limit: Only what the update touches changes, and the cause and fix design that held before are kept as they were, marked replaced, with who changed them, when and why.
+- Fails if: The code was tried again after the tries ran out with no updated cause or fix design, or code was changed for an update before its new or changed tests failed on the check's record.
+- Fails if: The builder changed, weakened or took out a test, or a test went away with no reason in the check's record.
+- Fails if: The cause or fix design that held before was lost or edited in place, or an update changed a part it does not touch.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: what did not hold, such as the check's records of the failed tries or the builder's reason for a file outside the fix design; the cause and the fix design in force and those they replaced; for the test writer, the bug and the updated cause; for the builder, the updated cause and fix design; the tests and the code as they are.
+- Never read: for the builder, the tests that prove the defect, the plan's evals folder, the eval, the slice's hidden file and any ICE page; for the test writer, the fix design, the plan's evals folder, the eval, the slice's hidden file and any ICE page.
+- Persona: the technical lead, who confirms each updated cause and fix; and the developer, as test writer and as builder, who keeps the tests and the code in step with it.
+- Scope: In: updating the cause and the fix design when the fix does not hold, keeping what held before, updating the tests first, and then the code. Out: the first cause, tests and fix, updating the design of the work, a failure the eval finds before the work is accepted, and running the eval.
+
+## Expectation
+- Scenario: In a school's timetable app on a phone, a bug says a lesson moved to another room still shows the old room. The first fix design clears the stored timetable when a room changes. After the two tries the project allows, the check's record still shows one test failing. The builder stops. The AI agent reads the failed tries and the code and proposes an updated cause: the phone keeps a second copy of the timetable for when it is offline. The technical lead confirms it. The test writer adds a test for the offline copy, and the check shows it failing. The builder, who never sees the tests, clears both copies, and the check's record shows every test passing. The first cause and fix design are kept, marked replaced, with why.
+- Done means: Someone other than the builder compares the cause, the fix design, the tests, the code and the check's records before and after the update, and finds the earlier cause and fix design kept and marked replaced, each new or changed test failing before the code changed and every test passing after, no test changed by the builder, and no change outside what the update touched.

@@ -1,0 +1,89 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-fix-defects-test-first",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "fix-defects-test-first",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Fix a reported defect quickly and test first: the defect is understood against the product model, its tests and its code, the tests that prove it are written and shown to fail, then the code is fixed while every test of the project is run, and then tidied while they all pass. The builder never sees the tests; a separate check runs them.",
+      "doc": "software-delivery-planning/fix-defects-test-first/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-understand-defect",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-understand-defect",
+      "capability": "cap-fix-defects-test-first",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "From a defect reported anywhere, the developer who will write its tests finds the feature the defect breaks, the tests that already check that behaviour and why they pass, and the root cause, and writes only what the fix needs; a defect no feature covers is named as a new need and not fixed.",
+      "doc": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-write-defect-tests",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-write-defect-tests",
+      "capability": "cap-fix-defects-test-first",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Before any fix code, a test writer who is not the builder writes a code-level test for each wrong result the report names, and the separate check shows each one fails because the defect is there.",
+      "doc": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-fix-defect-code",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-fix-defect-code",
+      "capability": "cap-fix-defects-test-first",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "The builder changes the code from the cause and what the fix changes until a separate check, which runs every test of the project through a tool on the model or service the test model setting names, finds them all passing, then tidies the code it changed while they stay passing; when a test still fails after the tries the project allows, the defect goes back to be understood again.",
+      "doc": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-fix-defects-test-first",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-fix-defects-test-first",
+      "doc": "software-delivery-planning/fix-defects-test-first/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-understand-defect",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-understand-defect",
+      "doc": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-write-defect-tests",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-write-defect-tests",
+      "doc": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-fix-defect-code",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-fix-defect-code",
+      "doc": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md",
+      "thin": true
+    }
+  ]
+}

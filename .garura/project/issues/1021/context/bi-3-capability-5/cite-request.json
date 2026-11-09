@@ -1,0 +1,74 @@
+[
+  {
+    "issue": 1021,
+    "play": "draft BI-3 capability 5 (Fix defects test first)",
+    "question": "Where does a bug sit in the plan, and can one be made where nothing is built?",
+    "answer": "A bug is a defect under the story whose work brought it in, also when it is found later; it is never made where nothing is built. So the fix starts from a bug gathered under a plan item, and a defect in code no story built is named as not decided.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {"asked": "the Bug kind in the ontology", "found": "a defect, the child of the story that introduced it",
+       "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 832, "end": 832, "fingerprint": "sha256:b928ba8667050e35919751aaf20e48ec3ac37b4dd7d725834bfa8364bdd3b263"}},
+      {"asked": "the Bug kind's rules", "found": "it sits under the story that introduced the defect, also after the plan is done; it is never made where nothing is built",
+       "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 856, "end": 857, "fingerprint": "sha256:0c5142da74c199c06eea18173bff603a130746e5c4368e6995f6cfc6eff3a335"}}
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-3 capability 5 (Fix defects test first)",
+    "question": "May the agent that traces a defect fall back to the AI model's own reasoning when memory has no answer?",
+    "answer": "No. An agent that works through the memory tool never falls back to the model; it raises a memory update for a person. The bug fix play's design agent does fall back, so the pages name it as built against the rule.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {"asked": "the resolution rule's fallback", "found": "an agent on the memory tool never falls back to the model and raises a memory update instead",
+       "source": {"tier": "phoenix", "path": "standards/rules/resolution.md", "start": 120, "end": 125, "fingerprint": "sha256:ad74c538e892d15dec1ce8415b7d3e0e1e1e25bd7011af56011b91453e71c77b"}}
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-3 capability 5 (Fix defects test first)",
+    "question": "May the builder of a fix see the tests that prove the defect?",
+    "answer": "No. The builder never sees a test; the separate check tells it which results still fail. The bug fix play hands its builder the test's path, which the pages name as built against the rule.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {"asked": "the builder isolation rule", "found": "the builder cannot teach to a test it cannot see",
+       "source": {"tier": "phoenix", "path": "standards/rules/builder-isolation.md", "start": 35, "end": 35, "fingerprint": "sha256:2142297c17ad74a0bb9854267a55fb3ad4768e216963e1f15852c184ec0b4cc5"}}
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-3 capability 5 (Fix defects test first)",
+    "question": "What does the tidy after a fix change?",
+    "answer": "How the code is written, never what it does.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {"asked": "the meaning of fix and refactor in the naming rule", "found": "fix: fix a defect; refactor: improve code without changing what it does",
+       "source": {"tier": "phoenix", "path": "standards/rules/naming.yaml", "start": 17, "end": 18, "fingerprint": "sha256:aa0be2a140dc498bb0544fce85903e08014d809b886429a3bc9ba78fbf503d7c"}}
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-3 capability 5 (Fix defects test first)",
+    "question": "What is the sign that work was accepted, for the open point on where a failure found by the eval after acceptance goes?",
+    "answer": "Lean only, not decided: the story's own issue closed as completed (its item is Done); a defect found later sits under it as a bug and the story stays Done.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {"asked": "how an item's status follows its issue", "found": "closed as completed means Done; no roll-ups",
+       "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 623, "end": 623, "fingerprint": "sha256:8f25070054c8629c7dbf4a82c7c61d824cdaafe92af2162036e281990d6005fc"}},
+      {"asked": "a story found to have a defect later", "found": "it stays Done, with the defect linked under it",
+       "source": {"tier": "phoenix", "path": "standards/templates/plan-view.md", "start": 31, "end": 33, "fingerprint": "sha256:ae3adafe79e093ec1d79670e35c77f7466ad09e65d9b372b20fd61d646113a0f"}},
+      {"asked": "where the eval's handoff plan goes", "found": "to the builder when the builder can fix it alone, to a person when a person must decide",
+       "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 466, "end": 466, "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"}}
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-3 capability 5 (Fix defects test first)",
+    "question": "Does the fix's check run every test the project already had, or only those the fix could touch?",
+    "answer": "Left not decided on the pages. Memory's current answer, for agent-led validation, scopes the re-run to what the change could touch, never the full suite by default; it is not written into a page as a rule.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {"asked": "how much existing behaviour a check re-runs after a change", "found": "the checks impacted by the blast radius of what changed, never the full suite by default",
+       "source": {"tier": "phoenix", "path": "knowledge/architecture/regression-by-blast-radius.md", "start": 14, "end": 17, "fingerprint": "sha256:73433a818e07975e151c81637e4764308c3631b74e44c5c0c2a571333b6ae324"}}
+    ]
+  }
+]
