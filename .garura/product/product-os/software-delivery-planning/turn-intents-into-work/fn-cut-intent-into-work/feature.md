@@ -3,7 +3,7 @@
 ## What it does
 This feature takes a confirmed business intent and makes its first work items. A business intent is what a person or the organisation wants, in their own words, and only a person confirms it. A work item is an issue in the team's tracker, the tool where the team keeps its issues, such as GitHub.
 It makes one epic for each slice that serves the intent, and one story for each feature of that slice. A slice is an ordered group of features that one person can test end to end on one screen or surface. An epic stands for one slice, and a story stands for one feature and delivers it.
-It runs as /shape-plan, once for each intent, after the slice is designed. It reads the slices from the product model, finds any work items that already exist, and has each story written from its ICE. An ICE is the agent's intent for one capability or feature: what an agent must make true there, for whom, and how it is checked. It shows the product owner every item it will make, and files them in the tracker only after a typed yes. Then it writes the plan file, a file in the repository that holds the intent's work items as a tree, so the plan file and the tracker agree.
+It runs as /shape-plan, once for each intent, after the slice is shaped. It reads the slices from the product model, finds any work items that already exist, and has each story written from its ICE. An ICE is the agent's intent for one capability or feature: what an agent must make true there, for whom, and how it is checked. It shows the product owner every item it will make, and files them in the tracker only after a typed yes. Then it writes the plan file, a file in the repository that holds the intent's work items as a tree, so the plan file and the tracker agree.
 The feature exists because agents build from work items, not from the model. Before it was built, these trees of epics and stories were filed by hand.
 
 Status: built.
@@ -20,7 +20,7 @@ Known break: #1034. Since the model's index has ICE entries, the ready check and
 
 ## Rules & behavior
 - One set of first work items for each intent. When the intent already has a plan file, the run stops before it opens a change or writes anything, and names /update-plan. The reason: a second run would make a second epic or story for the same slice or feature.
-- It never picks, orders or tests a slice. It takes every slice the model links to the intent. The reason: the product owner chose the slice when it was designed.
+- It never picks, orders or tests a slice. It takes every slice the model links to the intent. The reason: the product owner chose the slice when it was shaped.
 - A work item is found by its mark, never by its title. The plan file marks each epic with its slice and each story with its feature. The reason: titles change, and a match by title can join the wrong item.
 - Work in the wrong place stops the run. An item under an epic that is not a story of its slice is named with its title, and nothing is written until a person files it in its own place. The reason: an epic stands for its slice, so other work under it is hidden from where it belongs.
 - A feature whose ICE is not ready is skipped. It gets no story, and the brief names it with its reason. The ready check decides: both ICE need all three parts, the capability must serve a confirmed business intent, and every capability it needs must be done. The reason: work cannot start from a missing part, or from an intent no person confirmed.
@@ -39,8 +39,8 @@ Known break: #1034. Since the model's index has ICE entries, the ready check and
 - The words of each story. Write a story from its ICE (fn-write-story-from-ice) writes them.
 - Changing the work items after they exist. Change the work items (fn-change-work-items) does it.
 - The order, status and tracking of the work. Orchestrate agent work through planning does them.
-- The slice and its hidden file of failure conditions. Design slices writes them.
-- The eval that tests the slice. Design for evaluation and testing writes it.
+- The slice and its hidden file of failure conditions. Choosing the slice left Design → Code, and its place is settled when Orchestrate agent work through planning is reviewed. Write the evals that check the work writes the hidden file, just before the evals.
+- The eval that tests the slice. Write the evals that check the work writes it.
 
 ## Sources
 - core/components/plays/shape-plan/reference/ice.md: "/shape-plan makes the intent's one plan, once", "The play never picks, ranks or tests a slice", "the play never matches a work item by its title", "A part whose ICE is not ready is skipped, its story is not made, and the run names it in the brief", "at one checkpoint that no config value can skip", "the play stops at pre-flight", "Anything else under an epic is misplaced work"

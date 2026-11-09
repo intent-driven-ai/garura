@@ -26,7 +26,7 @@ Known break: #1036. A found feature cannot land, because the thin mark goes to a
 - It may join a slice whose work is already under way. The confirm screen then names each epic of that slice, with its status, as out of date. The reason: the epic's work and its eval do not cover the new feature yet.
 - When no slice serves the intent, its story goes where the person names, and the slice is recorded as owed. The reason: the person is not stopped, and the gap stays visible.
 - The model is written only through the model's own skills, never by hand, and only after "approved". A guard then puts back any model file outside the session's parts. The reason: a change to the model lands only as the person approved it.
-- It never writes the folder that holds the evals. The hidden-file entry and the eval scenarios are named as owed. The reason: those belong to Design slices and Design for evaluation and testing, and no builder may see them.
+- It never writes the folder that holds the evals. The hidden-file entry and the eval scenarios are named as owed. The reason: those belong to Write the evals that check the work, and no builder may see them.
 - A bug, a chore or a spike never changes the model. The reason: none of them holds an ICE or stands for a feature.
 
 ## Acceptance criteria
@@ -35,8 +35,8 @@ Known break: #1036. A found feature cannot land, because the thin mark goes to a
 - Given the landing, when the plan file, the tracker and the model are compared, then they agree and the folder that holds the evals is unchanged.
 
 ## Out of scope
-- Designing a new slice. Design slices does it.
-- Writing the feature's hidden-file entry and its eval scenarios. Design slices and Design for evaluation and testing do them, after this feature names them as owed.
+- Choosing a new slice. It left Design → Code, and its place is settled when Orchestrate agent work through planning is reviewed.
+- Writing the feature's hidden-file entry and its eval scenarios. Write the evals that check the work does them, after this feature names them as owed.
 - Deepening the thin ICE. Specify the product does it.
 - Writing a part's page and its model entry. The model's own skills do it, and this feature asks them to.
 - Changes to work items that are already in the model. Change the work items (fn-change-work-items) does them.

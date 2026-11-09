@@ -52,7 +52,7 @@ Status: built in part. A person's approved words can go on any page of the spec,
 - Given a change that lands and makes a feature's page out of date, when it lands, then that page is named to a person as out of date. This is not built.
 
 ## Out of scope
-- The first page of an intent or a part. Specify the product writes it from what a person gives, and Design slices writes an intent's page from its issue when the model has none.
+- The first page of an intent or a part. Specify the product writes it from what a person gives, and the step that chooses the slice writes an intent's page from its issue when the model has none.
 - A feature found while its work goes on. Add a feature found during work (fn-add-found-feature), in Turn intents into agent work, puts it in the model.
 - Finding drift across the whole spec. Find where the spec and what's built no longer match (fn-find-spec-drift) will do it.
 - The link between an intent and the parts that serve it. Keep an intent's links current (fn-keep-intent-links-current) keeps it on both sides.

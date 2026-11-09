@@ -18,4 +18,4 @@
 ## Expectation
 - Scenario: A confirmed intent served by one slice with three ready features becomes one epic and three stories after the product owner's yes, and the epic's map names the three stories.
 - Done means: The plan check, the draft check and the tracker check read ok: each feature has one story, no story holds a failure line, and each item is in the tracker with its type and no label.
-- Done means: An agent that did not write a story builds its feature from the story and the context its guidance points to, without asking a person.
+- Done means: An agent that did not write a story builds its feature from the builder's part of the story (its title, goals, limits and Context guidance) and the context its guidance points to, without asking a person.

@@ -17,7 +17,7 @@ Features:
 - Add a feature found during work (fn-add-found-feature): puts a feature found while the work goes on into the product model, its slice and its epic, on one approval.
 
 What is not built yet:
-- No builder reads a story yet. The build step that reads a story's Context guidance and collects its context is not built. The old build play, /build-epic, reads an epic record that the model no longer keeps. So nothing yet shows that an agent acts on a story without asking again.
+- No builder reads a story yet. The build step that reads a story's Context guidance and collects its context is not built. That step is now Collect each story's context from its guidance, in Gather the work under a chosen plan item. The old build play, /build-epic, reads an epic record that the model no longer keeps. So nothing yet shows that an agent acts on a story without asking again.
 - A later slice is not added in one step. When an intent already has its work items, /shape-plan stops, and /update-plan adds the new slice's epic and stories one item at a time.
 - A story is not written again when its ICE changes. The ontology calls this drift for a later alignment step, and no step does it yet.
 - No check stops a story from naming the eval or the folder that holds it. An older page of the model sets this rule, but the writer is told only to keep failure and recovery conditions out.
@@ -28,28 +28,28 @@ What is not built yet:
   - Each story carries every line of its two ICE except the failure lines, in the story's own words.
   - Each story says where to look for its context, not the facts themselves.
   - Only a feature whose ICE is ready becomes a story drafted from that ICE.
-- How we will know: an agent that did not write a story builds its feature from the story and the context its guidance points to, without asking a person.
+- How we will know: an agent that did not write a story builds its feature from the builder's part of the story (its title, goals, limits and Context guidance) and the context its guidance points to, without asking a person.
   - The slice's eval reads the same stories, so it tests what the agent was asked to build.
   - No builder reads a story yet, so this is not tested today.
 
 ### Boundary (In / Out / Never)
 - In: cutting a confirmed business intent into one epic for each slice that serves it and one story for each feature of that slice. The slices come from the model's link "slice serves business intent", so the cut follows the slice the product owner chose.
-- In: writing each story from its feature's ICE and its capability's ICE. The builder reads the story and never the ICE, so this is where the intent reaches the agent.
+- In: writing each story from its feature's ICE and its capability's ICE. The builder reads the story's title, goals, limits and Context guidance, never its expectations or the ICE, so this is where the intent reaches the agent.
 - In: changing the work items later, and adding a feature found during work. The intent and the model change while work goes on, so the work items must follow them.
 - In: keeping the plan file's list of work items in step with the tracker. The plan file is a file in the repository that holds one business intent's work items as a tree. It sits outside the product model.
 - Out: running the work once it exists: its order, the status of each item, the loops that run plays, and tracking it in the tracker. Orchestrate agent work through planning owns these. The product owner narrowed that capability to running the work.
 - Out: seeing the work and its plans, and getting work onto a plan's own branch. These are part of running the work, so Orchestrate agent work through planning owns them.
-- Out: choosing the slice and writing its hidden file. Design slices owns them. The hidden file holds each feature's failure conditions and the way back from each. The eval uses it, and no builder reads it.
-- Out: writing the eval that tests the slice. Design for evaluation and testing owns it.
-- Out: writing the ICE itself. Specify the product writes it, and Design slices proposes a thin one where a slice needs it.
-- Out: breaking a story into tasks and building it. Build the work owns the build. Today /build-epic cuts an epic into stories, tasks, tests and docs inside the build.
+- Out: choosing the slice and writing its hidden file. Choosing the slice left Design → Code, and its place is settled when Orchestrate agent work through planning is reviewed. Write the evals that check the work writes the hidden file, just before the evals. The hidden file holds each feature's failure conditions and the way back from each. The eval uses it, and no builder reads it.
+- Out: writing the eval that tests the slice. Write the evals that check the work owns it.
+- Out: writing the ICE itself. Specify the product writes it, and the step that chooses the slice proposes a thin one where a slice needs it.
+- Out: breaking a story into tasks and building it. Build the work test first owns the build. Today /build-epic cuts an epic into stories, tasks, tests and docs inside the build.
 - Never: put a failure condition or a recovery condition in an epic, a story or the plan file. A failure condition is a "Fails if" line of an ICE. The reason: the eval judges the build by these lines, so a builder that saw them would build to pass the check, not to meet the intent.
 - Never: make a work item twice. An epic or a story is found by the mark in the plan file that names its slice or feature, never by its title. The reason: titles change, and two items for one feature split the work.
 - Never: guess the intent. A feature whose ICE is not ready is not drafted from it, and words that fit no feature or more than one become a question. The reason: a story built on a guess sends the agent after the wrong intent.
 
 ### Guiding rules
-- Each line of an ICE has one reader. The "Fails if" lines go to the slice's hidden file, which Design slices writes. Every other line goes to the story. The reason: each line then has one meaning, so the story and the eval never disagree.
-- A story holds the Context guidance, never the context. The guidance says what to read, what never to read, who the work is for, and what is in and out. The reason: the build collects the context when it runs and puts it in the issue's short-term memory, so the builder reads it in one place and never opens an ICE page.
+- Each line of an ICE has one reader. The "Fails if" lines go to the slice's hidden file, which Write the evals that check the work writes just before the evals. Every other line goes to the story. The reason: each line then has one meaning, so the story and the eval never disagree.
+- A story holds the Context guidance, never the context. The guidance says what to read, what never to read, who the work is for, and what is in and out. The reason: Gather the work under a chosen plan item collects the context when it gathers the work and puts it in the issue's short-term memory, so the builder reads it in one place and never opens an ICE page.
 - A skill writes the words, and scripts check them. The skill reads clean copies of the two ICE that hold no failure line. A check script reads the original ICE pages and refuses a draft that holds a failure line. The reason: the writer never sees the failure lines, so only a reader that has them can prove none got in.
 - Nothing reaches the tracker, the plan file or the model before the product owner's typed yes, and the yes is tied to the exact list the person saw. The reason: agents and people pick up what is in the tracker, so what lands must be what the person approved.
 - An epic stands for its slice. Its sub-issues are the stories of its slice, and a chore, a bug or a spike sits under a story. The reason: work under the wrong parent is hidden from the slice it belongs to.

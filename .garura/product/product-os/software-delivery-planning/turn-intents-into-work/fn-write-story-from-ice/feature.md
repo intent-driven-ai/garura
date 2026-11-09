@@ -7,7 +7,7 @@ The story gets a title, a scope of work and Context guidance:
 - The Context guidance says what to read, what never to read, who the work is for, and what is in and what is out.
 Every line of the two ICE goes into the story, in the story's own words, except the "Fails if" lines, which say how the work fails.
 It runs inside Cut an intent into epics and stories for each story of a new set of work items, and inside Change the work items for one story a person asks for.
-The feature exists because the builder reads the story and never the ICE. The story is where the model's intent reaches the agent.
+The feature exists because the builder reads the story's title, goals, limits and Context guidance, the test writer reads its expectations, and neither reads the ICE. The story is where the model's intent reaches the agent.
 
 Status: built.
 
@@ -21,13 +21,13 @@ Status: built.
 ## Rules & behavior
 - The writer reads only the clean copies and the list of slices and features. It never opens an ICE page. The reason: an ICE page holds the "Fails if" lines, and the eval judges the build by them.
 - The writer uses every line of the clean copy. The reason: the builder never opens the ICE, so a line the story leaves out never reaches the build.
-- The Context guidance says where to look, never the facts. The reason: the build collects the context when it runs and puts it in the issue's short-term memory, so the builder reads it in one place.
+- The Context guidance says where to look, never the facts. The reason: Gather the work under a chosen plan item collects the context when it gathers the work and puts it in the issue's short-term memory, so the builder reads it in one place.
 - The writer never writes a failure condition, a recovery condition, the words "Fails if", or the phrases that say who fixes a failure. A limit says what the feature must stay inside; it is not a failure said the other way round. The reason: these belong in the slice's hidden file, which no builder reads.
 - A script checks every draft before anyone sees it. Each story needs a title, the three parts of the scope of work and the four Context lines. The script reads the original ICE pages itself and refuses any line of a "Fails if" block, the words "Fails if" or a recovery phrase. A failed check sends back only the stories it names. The reason: the writer never saw the failure lines, so only a reader that has them can prove none got in.
 - A story is drafted only from a ready ICE. The reason: work cannot start from a missing part, or from an intent no person confirmed.
 - Plain words and personas, and no real names. The reason: people read the story in the tracker, and the eval reads it to write its tests.
 - Not built: no check stops a story or its Context guidance from naming the eval, the hidden file or the folder that holds them, though an older page of the model sets that rule.
-- Not built: no builder reads a story yet. The build step that reads the Context guidance and collects the context is not built.
+- Not built: no builder reads a story yet. The step that reads the Context guidance and collects the context is not built. It is Collect each story's context from its guidance, in Gather the work under a chosen plan item.
 
 ## Acceptance criteria
 - Given a feature whose two ICE are ready, when its story is drafted and checked, then the story has a title, goals, limits, expectations and the four Context lines.
@@ -36,9 +36,9 @@ Status: built.
 
 ## Out of scope
 - Which stories exist, and filing them in the tracker. Cut an intent into epics and stories (fn-cut-intent-into-work) and Change the work items (fn-change-work-items) do this.
-- The slice's hidden file, written from the "Fails if" lines. Design slices writes it.
+- The slice's hidden file, written from the "Fails if" lines. Write the evals that check the work writes it, just before the evals.
 - Writing or deepening the ICE itself. Specify the product does this.
-- Collecting the context when the build runs. Build the work does this.
+- Collecting the context when the work is gathered. Collect each story's context from its guidance, in Gather the work under a chosen plan item, does this.
 
 ## Sources
 - core/components/skills/author-work-items/SKILL.md: "Never open any other file, and never an ICE page: those pages hold the failure lines, which are not yours to read."
