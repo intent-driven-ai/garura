@@ -24,5 +24,8 @@
 - [Update the evals as the work changes](../software-delivery-planning/write-work-evals/fn-update-evals/feature.md) (feature) — adds
 - [Add the steps an eval may use on a kind of surface](../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md) (feature) — adds
 - [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds
+- [Design the work](../software-delivery-planning/design-work/capability.md) (capability) — adds
+- [Design the chosen work, how it is built and what its surface shows](../software-delivery-planning/design-work/fn-design-chosen-work/feature.md) (feature) — adds
+- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)

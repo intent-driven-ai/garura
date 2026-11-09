@@ -363,6 +363,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-design-work
+  slug: design-work
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-3
+  status: proposed
+  detail: directional
+  one_line: 'Design the work under a chosen plan item before it is built: how it is
+    built, and what a person meets on its surface, against the project''s standards.'
+  doc: software-delivery-planning/design-work/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -1350,6 +1366,41 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-design-chosen-work
+  slug: fn-design-chosen-work
+  capability: cap-design-work
+  intents:
+  - bi-3
+  status: proposed
+  one_line: For the tree gathered under the item the technical lead names, designs
+    each story, chore and spike in one design with a technical part, its components,
+    classes, functions, data model, interfaces, libraries and patterns, drawn as diagrams
+    a CTO can read, and a surface part, what a person sees and does there and how
+    each screen will look, against the project's standards with the deployment design
+    among them, and with no test in it.
+  doc: software-delivery-planning/design-work/fn-design-chosen-work/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-update-work-design
+  slug: fn-update-work-design
+  capability: cap-design-work
+  intents:
+  - bi-3
+  status: proposed
+  one_line: When the work, a project standard or what the build finds no longer matches
+    the design, the technical lead confirms an update, and what held before stays
+    readable with why it changed.
+  doc: software-delivery-planning/design-work/fn-update-work-design/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -1680,6 +1731,27 @@ ices:
   for: fn-keep-evals-from-builder
   for_kind: feature
   doc: software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-design-work
+  for: cap-design-work
+  for_kind: capability
+  doc: software-delivery-planning/design-work/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-design-chosen-work
+  for: fn-design-chosen-work
+  for_kind: feature
+  doc: software-delivery-planning/design-work/fn-design-chosen-work/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-update-work-design
+  for: fn-update-work-design
+  for_kind: feature
+  doc: software-delivery-planning/design-work/fn-update-work-design/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true
