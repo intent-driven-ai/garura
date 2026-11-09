@@ -1,0 +1,89 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-test-product-with-evals",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "test-product-with-evals",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Test what the product does, with evals the builder never sees: each slice's eval runs on the built work, and every goal, expectation and failure condition it covers gets a pass or a fail.",
+      "doc": "software-delivery-planning/test-product-with-evals/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-run-slice-eval",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-run-slice-eval",
+      "capability": "cap-test-product-with-evals",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Once a slice's work is built, runs the slice's eval on it step by step with no agent, through the usage guide, in the testing environment, and gives every goal, expectation and failure condition it covers a pass or a fail, trusting a pass only when the build never saw the eval.",
+      "doc": "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-send-handoff-plan",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-send-handoff-plan",
+      "capability": "cap-test-product-with-evals",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "For each failure the eval finds, writes what the product does wrong and the way back, from the recovery parts of the hidden file only, and sends it to the builder when the builder can fix it alone, or to a person when a person must decide.",
+      "doc": "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-rerun-evals",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-rerun-evals",
+      "capability": "cap-test-product-with-evals",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "When the built product changes, runs a slice's whole eval again after a fix and the evals of the slices that passed before, names each scenario that passed before and fails now, and hands a failure to a person once the rounds the project allows are used up.",
+      "doc": "software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-test-product-with-evals",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-test-product-with-evals",
+      "doc": "software-delivery-planning/test-product-with-evals/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-run-slice-eval",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-run-slice-eval",
+      "doc": "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-send-handoff-plan",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-send-handoff-plan",
+      "doc": "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-rerun-evals",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-rerun-evals",
+      "doc": "software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md",
+      "thin": true
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "bi-4",
+  "issue": 4,
+  "title": "Code → Validation",
+  "outcome": "Code is proven to do what the spec asked, by evals its builder never sees, and every change lands the same way.",
+  "why": "A builder believes its own work, so its opinion isn't evidence. \"Intent in, quality out\" depends on an outside check.",
+  "asked_by": "the product owner",
+  "proof": [
+    "Every expected result has a pass or fail from an eval the builder never saw.",
+    "Every change lands reviewed, and a person approves the merge."
+  ],
+  "must_not": "Let a builder grade itself, weaken a check to pass, or merge without a person.",
+  "touches": [
+    {
+      "title": "Test what the product does, with evals the builder never sees",
+      "link": "../software-delivery-planning/test-product-with-evals/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Run a slice's eval on the built work, and give the verdict",
+      "link": "../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Send each failure back as a handoff plan, to the builder or to a person",
+      "link": "../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Run the evals again as the product changes",
+      "link": "../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

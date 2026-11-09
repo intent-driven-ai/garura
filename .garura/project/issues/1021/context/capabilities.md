@@ -37,6 +37,14 @@ Each line: name, then its one-liner. Marks: (planned) not built; (unique) a uniq
 - Test with evals the builder never sees: Each slice is tested end to end by evals its builder can't read. (unique)
 - Validate its own code: The code is checked against its standards.
 - Test-driven development (planned): Tests come before the code.
+  - The lines above were replaced by the product owner on 2026-11-09, and kept as they were so the pages that quote them still match. His words: "this is code to validate hence this is about testing and it needs to test functionality which are product evals, but it also needs to handle other forms of testing i.e. security and performance and accessibility, ux (responsive) hence all 5 needs to be handled". The list he approved ("yes, record it and draft the first one"):
+    1. Test what the product does, with evals the builder never sees: each slice's eval runs on the built work. It takes in "Automated functional testing" from Validation → Run.
+    2. Test security, against the product profile's security level. Moved here from Validation → Run.
+    3. Test performance, against the product profile's performance level. Moved here from Validation → Run.
+    4. Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline. New.
+    5. Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work. New.
+    6. Check the code against its standards: "Validate its own code" renamed, because the old name read like the builder grading itself, which BI-4's Must not forbids. BI-3's approved page hands this check to BI-4 by name.
+  - Approved with the list: reviewing a change against its standards is BI-4's; opening the branch, committing, raising and merging stay with "Ship every change the same way" in Developer tooling, so BI-4's page loses its landing clause at BI-4's close, in new words he approves. BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again. The flag on a build that read the evals stays in BI-3, and BI-4 reads it before it trusts a pass. The domain line "It does not run the evals" changes so the domain also tests the work. Build the work and Fix defects quickly are BI-3's (see the Design → Code note), and test-driven development is BI-3's rule. Assumed: security and performance tests run in the testing environment Environment setup declares, never in production.
 
 ## Validation → Run
 - Evaluate the product model: The model is tested too, not just the code.
@@ -47,6 +55,7 @@ Each line: name, then its one-liner. Marks: (planned) not built; (unique) a uniq
 - User acceptance testing (planned): Users test the product and accept it.
 - Continuous integration (planned): Changes are built and tested together automatically.
 - Continuous delivery (planned): Accepted changes are delivered to their environments automatically.
+  - Security testing, Automated functional testing and Performance testing moved to Code → Validation on 2026-11-09, by the product owner (see the note there). The lines above are kept as they were.
 
 ## Run → Product
 None yet.
