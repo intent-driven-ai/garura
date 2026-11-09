@@ -1,0 +1,24 @@
+{
+  "when": "before the write",
+  "page": ".garura/product/product-os/intents/bi-3.md",
+  "sha256_before": "6eaccf4d2af5840bb0a8667f0e73047ae3114cf34f2efe14d85e3e4dac7852a4",
+  "lines_before": 41,
+  "old_outcome_line": {
+    "count": 1,
+    "line": [
+      3
+    ],
+    "exactly_once": true
+  },
+  "old_sentence_search": {
+    "pattern": "Defects are fixed the same way",
+    "under": ".garura/product/product-os/",
+    "hits": [
+      ".garura/product/product-os/intents/bi-3.md:3:**Outcome:** The work under any item a person names from the plan becomes working code: it is designed against the project's standards, its evals are written before it is built, and it is built test first by a builder who never sees the tests. Defects are fixed the same way, quickly."
+    ],
+    "pages_quoting_it": [],
+    "note": "The one hit is the Outcome line of bi-3.md itself, the line being changed; no other page quotes the sentence."
+  },
+  "product_files_hashed_before": 184,
+  "pass": true
+}

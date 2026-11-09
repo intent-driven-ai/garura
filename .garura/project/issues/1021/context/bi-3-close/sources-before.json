@@ -1,0 +1,222 @@
+[
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+    "line": 99,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build and that a check from the outside can prove.",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+    "line": 111,
+    "target": ".garura/product/product-os/intents/bi-3.md",
+    "quotes": [
+      {
+        "quote": "Tell the builder the steps, or deliver work that only a later slice makes testable.",
+        "still_true": false,
+        "becomes": "Tell the builder the steps, or show the builder the tests."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+    "line": 96,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "Its job comes before the build",
+        "still_true": false,
+        "becomes": "It specifies the product, sets the project's design, and builds the work test first."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+    "line": 66,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "Its job comes before the build",
+        "still_true": false,
+        "becomes": "It specifies the product, sets the project's design, and builds the work test first."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/design-work/capability.md",
+    "line": 98,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+    "line": 91,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "Its job comes before the build",
+        "still_true": false,
+        "becomes": "It specifies the product, sets the project's design, and builds the work test first."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+    "line": 90,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "it never gives a builder the eval",
+        "still_true": true
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+    "line": 106,
+    "target": ".garura/product/product-os/intents/bi-3.md",
+    "quotes": [
+      {
+        "quote": "Tell the builder the steps, or deliver work that only a later slice makes testable.",
+        "still_true": false,
+        "becomes": "Tell the builder the steps, or show the builder the tests."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+    "line": 108,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build and that a check from the outside can prove.",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+    "line": 85,
+    "target": ".garura/product/product-os/intents/bi-3.md",
+    "quotes": [
+      {
+        "quote": "Tell the builder the steps, or deliver work that only a later slice makes testable.",
+        "still_true": false,
+        "becomes": "Tell the builder the steps, or show the builder the tests."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+    "line": 74,
+    "target": ".garura/product/product-os/intents/bi-3.md",
+    "quotes": [
+      {
+        "quote": "Tell the builder the steps, or deliver work that only a later slice makes testable.",
+        "still_true": false,
+        "becomes": "Tell the builder the steps, or show the builder the tests."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md",
+    "line": 70,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md",
+    "line": 72,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+    "line": 79,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "Its job comes before the build",
+        "still_true": false,
+        "becomes": "It specifies the product, sets the project's design, and builds the work test first."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+    "line": 75,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+    "line": 62,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+    "line": 70,
+    "target": ".garura/product/product-os/software-delivery-planning/domain.md",
+    "quotes": [
+      {
+        "quote": "This domain turns a business intent into work that agents can build and that a check from the outside can prove.",
+        "still_true": false,
+        "becomes": "This domain turns a business intent into working code that a check from the outside can prove."
+      },
+      {
+        "quote": "It serves the product owner, who names the work and approves its design",
+        "still_true": false,
+        "becomes": "It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it."
+      }
+    ]
+  },
+  {
+    "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+    "line": 71,
+    "target": ".garura/product/product-os/intents/bi-3.md",
+    "quotes": [
+      {
+        "quote": "How a slice is tested is designed before it's built.",
+        "still_true": false,
+        "becomes": "its evals are written before it is built"
+      }
+    ]
+  }
+]

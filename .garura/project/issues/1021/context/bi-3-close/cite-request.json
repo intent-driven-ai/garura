@@ -1,0 +1,15 @@
+{"issue": 1021,
+ "play": "reorganise business intents (no play, a run the product owner approved), BI-3 close",
+ "question": "May BI-3's Outcome, Why, Proof it is met and Must not, and the first paragraph of the software delivery planning domain page, be written to the product model in the reworded form, with each Sources quote of either page kept true?",
+ "answer": "Yes. The product owner saw the full diff on 2026-11-09 and replied \"ok\". The four BI-3 lines (Proof as three lines, in order) and the domain paragraph are written word for word through enrich-grounding change_lines.py in one all-or-nothing request; each Sources quote of either page that no longer matches is changed only in its quote, to the closest sentence of the approved words (17 lines on 15 pages); the one quote still true is kept.",
+ "decided_by": "product-os-keeper",
+ "trace": [
+   {"asked": "the approval of the BI-3 page and domain page rewording",
+    "found": "the product owner saw the full diff of BI-3's page and the domain page's first paragraph and replied ok",
+    "source": {"tier": "short-term", "path": "1021/context/bi-3-close/approval.md", "start": 3, "end": 3,
+               "fingerprint": "sha256:30281d0fb181a24611ad2f7f4e6245375df9106412865d23f0dc2fc4cd108066"}},
+   {"asked": "the exact approved words of the four BI-3 lines and the domain paragraph",
+    "found": "Outcome, Why, the three Proof lines, Must not, and the domain's first paragraph, as written in the request",
+    "source": {"tier": "short-term", "path": "1021/context/bi-3-close/approval.md", "start": 5, "end": 12,
+               "fingerprint": "sha256:aaae76e5faf63fa686b4fc98653cd01f18fc884281bda6cad93e65f8307996cf"}}
+ ]}

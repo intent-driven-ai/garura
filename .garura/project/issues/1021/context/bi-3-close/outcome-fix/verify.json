@@ -1,0 +1,32 @@
+{
+  "when": "after the write",
+  "page": ".garura/product/product-os/intents/bi-3.md",
+  "sha256_before": "6eaccf4d2af5840bb0a8667f0e73047ae3114cf34f2efe14d85e3e4dac7852a4",
+  "sha256_after": "fc5ef780c2f40590454d1e7b1164c015d1b4cecc022224db4cad8d840c0f0e8f",
+  "lines_before": 41,
+  "lines_after": 41,
+  "differing_lines": [
+    {
+      "line": 3,
+      "before": "**Outcome:** The work under any item a person names from the plan becomes working code: it is designed against the project's standards, its evals are written before it is built, and it is built test first by a builder who never sees the tests. Defects are fixed the same way, quickly.",
+      "after": "**Outcome:** The work under any item a person names from the plan becomes working code: it is designed against the project's standards, its evals are written before it is built, and it is built test first by a builder who never sees the tests. Defects are fixed test first too, quickly and without a full design.",
+      "ending_kept": true
+    }
+  ],
+  "page_differs_only_in_outcome_line": true,
+  "every_other_line_byte_for_byte": true,
+  "product_tree": {
+    "under": ".garura/product/",
+    "files_hashed_before": 184,
+    "files_hashed_after": 184,
+    "changed_in_this_run": [
+      ".garura/product/product-os/intents/bi-3.md"
+    ],
+    "added": [],
+    "removed": [],
+    "only_bi_3_changed": true,
+    "note": "Compared by sha256 of every file under .garura/product/ taken just before and just after change_lines.py ran; files already modified on the branch before this run are not counted."
+  },
+  "old_sentence_left_under_product_os": [],
+  "pass": true
+}
