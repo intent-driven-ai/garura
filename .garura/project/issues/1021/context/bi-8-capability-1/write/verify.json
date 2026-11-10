@@ -1,0 +1,909 @@
+{
+ "status": "done: steps 1 to 5 written, each skill on its first run",
+ "before_state": "git HEAD 65cb83fc: the model as committed (no uncommitted model change before this write)",
+ "steps": [
+  {
+   "step": "lint-before",
+   "file": ".garura/project/issues/1021/context/bi-8-capability-1/write/lint-before.json"
+  },
+  {
+   "step": "1 pages",
+   "skill": "enrich-grounding (write_approved.py)",
+   "exit": 0,
+   "report": ".garura/project/issues/1021/context/bi-8-capability-1/write/approved-report.json"
+  },
+  {
+   "step": "2 fn-725 line",
+   "skill": "enrich-grounding (change_lines.py)",
+   "exit": 0,
+   "report": ".garura/project/issues/1021/context/bi-8-capability-1/write/lines-report-fn-725.json"
+  },
+  {
+   "step": "3 index",
+   "skill": "link-model-part (link_part.py)",
+   "exit": 0,
+   "report": ".garura/project/issues/1021/context/bi-8-capability-1/write/link-report.json"
+  },
+  {
+   "step": "4 check before the merge",
+   "file": ".garura/project/issues/1021/context/bi-8-capability-1/write/cap-721-mentions-before-merge.json",
+   "pages_naming_cap_721": []
+  },
+  {
+   "step": "4 merge",
+   "skill": "remove-model-part (remove_part.py)",
+   "exit": 0,
+   "report": ".garura/project/issues/1021/context/bi-8-capability-1/write/remove-report.json"
+  },
+  {
+   "step": "5 BI-8 Touches block",
+   "skill": "author-intent-page (write_page.py --rewrite, stage confirmed by the product owner, 2026-11-02)",
+   "exit": 0,
+   "report": ".garura/project/issues/1021/context/bi-8-capability-1/write/intent-page.json"
+  },
+  {
+   "step": "lint-after",
+   "file": ".garura/project/issues/1021/context/bi-8-capability-1/write/lint-after.json"
+  }
+ ],
+ "page_count": 18,
+ "pages": {
+  "software-delivery-planning/ship-every-change/capability.md": {
+   "equals_draft": true,
+   "bytes": 18053,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/ice.md": {
+   "equals_draft": true,
+   "bytes": 3985,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "features/fn-731/feature.md": {
+   "equals_draft": true,
+   "bytes": 10617,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "features/fn-731/ice.md": {
+   "equals_draft": true,
+   "bytes": 3297,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md": {
+   "equals_draft": true,
+   "bytes": 7917,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md": {
+   "equals_draft": true,
+   "bytes": 2490,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-raise-change/feature.md": {
+   "equals_draft": true,
+   "bytes": 8057,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-raise-change/ice.md": {
+   "equals_draft": true,
+   "bytes": 2554,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "features/fn-673/feature.md": {
+   "equals_draft": true,
+   "bytes": 10526,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "features/fn-673/ice.md": {
+   "equals_draft": true,
+   "bytes": 3387,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md": {
+   "equals_draft": true,
+   "bytes": 6502,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md": {
+   "equals_draft": true,
+   "bytes": 2400,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md": {
+   "equals_draft": true,
+   "bytes": 5523,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md": {
+   "equals_draft": true,
+   "bytes": 2234,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md": {
+   "equals_draft": true,
+   "bytes": 6329,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md": {
+   "equals_draft": true,
+   "bytes": 2208,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md": {
+   "equals_draft": true,
+   "bytes": 5767,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md": {
+   "equals_draft": true,
+   "bytes": 2285,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  }
+ },
+ "new_folder_files": [
+  "software-delivery-planning/ship-every-change/capability.md",
+  "software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md",
+  "software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md",
+  "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+  "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md",
+  "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+  "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md",
+  "software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md",
+  "software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md",
+  "software-delivery-planning/ship-every-change/fn-raise-change/feature.md",
+  "software-delivery-planning/ship-every-change/fn-raise-change/ice.md",
+  "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+  "software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md",
+  "software-delivery-planning/ship-every-change/ice.md"
+ ],
+ "fn_725_changed_lines": [
+  {
+   "line": 54,
+   "old": "- Finding which plans a plan needs, and the merge order between plan branches. Build a plan (cap-718), Manage a plan (cap-720) and Start and land work against a plan (cap-721) own those.",
+   "new": "- Finding which plans a plan needs. Build a plan (cap-718) and Manage a plan (cap-720) own it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main."
+  }
+ ],
+ "spine": {
+  "domains": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  },
+  "capabilities": {
+   "before": 35,
+   "after": 35,
+   "new": [
+    "cap-ship-every-change"
+   ],
+   "removed": [
+    "cap-721"
+   ],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  },
+  "features": {
+   "before": 134,
+   "after": 140,
+   "new": [
+    "fn-commit-by-concern",
+    "fn-raise-change",
+    "fn-land-plan-with-evidence",
+    "fn-land-several-issues",
+    "fn-scan-every-push",
+    "fn-keep-docs-in-step"
+   ],
+   "removed": [],
+   "old_entries_changed": [
+    "fn-731",
+    "fn-673"
+   ],
+   "old_order_kept": true
+  },
+  "slices": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  },
+  "ices": {
+   "before": 133,
+   "after": 142,
+   "new": [
+    "ice-ship-every-change",
+    "ice-731",
+    "ice-commit-by-concern",
+    "ice-raise-change",
+    "ice-673",
+    "ice-land-plan-with-evidence",
+    "ice-land-several-issues",
+    "ice-scan-every-push",
+    "ice-keep-docs-in-step"
+   ],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  }
+ },
+ "entries": {
+  "cap-ship-every-change": {
+   "id": "cap-ship-every-change",
+   "slug": "ship-every-change",
+   "domain": "dom-software-delivery-planning",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "detail": "directional",
+   "one_line": "Ship every change the same way: Every change goes from opening to merge through the same steps, with an outside review and a person's yes.",
+   "doc": "software-delivery-planning/ship-every-change/capability.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-commit-by-concern": {
+   "id": "fn-commit-by-concern",
+   "slug": "fn-commit-by-concern",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "Every changed file is committed on the change's branch in commits of one concern each, each naming its issue, and a sensitive file stops the commit.",
+   "doc": "software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-raise-change": {
+   "id": "fn-raise-change",
+   "slug": "fn-raise-change",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "After the machine checks, the branch is pushed and one pull request is opened against the branch the change will land on, naming its issue.",
+   "doc": "software-delivery-planning/ship-every-change/fn-raise-change/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-land-plan-with-evidence": {
+   "id": "fn-land-plan-with-evidence",
+   "slug": "fn-land-plan-with-evidence",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "When a plan pauses, its landing shows that every commit on its branch was reviewed and that the plan, its epics and the commits agree.",
+   "doc": "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-land-several-issues": {
+   "id": "fn-land-several-issues",
+   "slug": "fn-land-several-issues",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "A person groups several ready issues, and one run of the path lands them all and closes each.",
+   "doc": "software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-scan-every-push": {
+   "id": "fn-scan-every-push",
+   "slug": "fn-scan-every-push",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "Every push a change play makes is scanned first, and a reference stops it.",
+   "doc": "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-keep-docs-in-step": {
+   "id": "fn-keep-docs-in-step",
+   "slug": "fn-keep-docs-in-step",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "A change that adds, renames, retires or changes a command brings the docs and command pages it alters, and a check fails it while they disagree.",
+   "doc": "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-673": {
+   "id": "fn-673",
+   "slug": "fn-673",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "Once the review approved the change and a person typed yes, it is merged where its branch lands, its branch is deleted, and an issue in a plan is closed with its item set Done.",
+   "doc": "features/fn-673/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "issue": 673,
+   "metadata": {
+    "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+   }
+  },
+  "fn-731": {
+   "id": "fn-731",
+   "slug": "fn-731",
+   "capability": "cap-ship-every-change",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "A person names the change, and its issue is found or filed, its branch is cut from the branch it will land on, and its working folder is made.",
+   "doc": "features/fn-731/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "issue": 731,
+   "metadata": {
+    "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+   }
+  }
+ },
+ "old_entries": {
+  "fn-673": {
+   "changed_keys": [
+    "capability",
+    "intents",
+    "metadata",
+    "one_line"
+   ],
+   "capability_before": "cap-721",
+   "capability_after": "cap-ship-every-change",
+   "intents_before": [
+    "bi-717"
+   ],
+   "intents_after": [
+    "bi-8"
+   ],
+   "one_line_before": "merge-change lands an issue on its plan branch, and a plan on main whenever it pauses",
+   "one_line_after": "Once the review approved the change and a person typed yes, it is merged where its branch lands, its branch is deleted, and an issue in a plan is closed with its item set Done.",
+   "metadata_before": {
+    "updated_by": "product-os-keeper (#779, review finding DM-1 of PR #1010)"
+   },
+   "metadata_after": {
+    "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+   },
+   "issue": 673,
+   "depends_on": []
+  },
+  "fn-731": {
+   "changed_keys": [
+    "capability",
+    "intents",
+    "metadata",
+    "one_line"
+   ],
+   "capability_before": "cap-721",
+   "capability_after": "cap-ship-every-change",
+   "intents_before": [
+    "bi-717"
+   ],
+   "intents_after": [
+    "bi-8"
+   ],
+   "one_line_before": "start-change cuts a plan's branch, and each issue's branch from it",
+   "one_line_after": "A person names the change, and its issue is found or filed, its branch is cut from the branch it will land on, and its working folder is made.",
+   "metadata_before": {},
+   "metadata_after": {
+    "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+   },
+   "issue": 731,
+   "depends_on": []
+  }
+ },
+ "ice_entries": {
+  "ice-ship-every-change": {
+   "for": "cap-ship-every-change",
+   "for_kind": "capability",
+   "doc": "software-delivery-planning/ship-every-change/ice.md",
+   "thin": false,
+   "doc_leads_to_file": true
+  },
+  "ice-731": {
+   "for": "fn-731",
+   "for_kind": "feature",
+   "doc": "features/fn-731/ice.md",
+   "thin": false,
+   "doc_leads_to_file": true
+  },
+  "ice-commit-by-concern": {
+   "for": "fn-commit-by-concern",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md",
+   "thin": false,
+   "doc_leads_to_file": true
+  },
+  "ice-raise-change": {
+   "for": "fn-raise-change",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/ship-every-change/fn-raise-change/ice.md",
+   "thin": false,
+   "doc_leads_to_file": true
+  },
+  "ice-673": {
+   "for": "fn-673",
+   "for_kind": "feature",
+   "doc": "features/fn-673/ice.md",
+   "thin": false,
+   "doc_leads_to_file": true
+  },
+  "ice-land-plan-with-evidence": {
+   "for": "fn-land-plan-with-evidence",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-land-several-issues": {
+   "for": "fn-land-several-issues",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-scan-every-push": {
+   "for": "fn-scan-every-push",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-keep-docs-in-step": {
+   "for": "fn-keep-docs-in-step",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  }
+ },
+ "merge": {
+  "repointed": [
+   "cap-721",
+   "fn-731",
+   "fn-673"
+  ],
+  "merged": [
+   {
+    "id": "cap-721",
+    "into": "cap-ship-every-change"
+   }
+  ],
+  "moved_features": [
+   "fn-731",
+   "fn-673"
+  ],
+  "needs_to_review": [],
+  "deleted": [
+   "product-os/capabilities/cap-721/capability.md",
+   "product-os/capabilities/cap-721"
+  ],
+  "cap_721_before": {
+   "id": "cap-721",
+   "slug": "cap-721",
+   "domain": "",
+   "intents": [
+    "bi-717"
+   ],
+   "status": "proposed",
+   "detail": "directional",
+   "one_line": "Start and land work against a plan: plan branches in start-change and merge-change",
+   "doc": "capabilities/cap-721/capability.md",
+   "depends_on": [],
+   "identified_by": "cap-720",
+   "issue": 721
+  }
+ },
+ "model_lines_naming_cap_721": [],
+ "spine_text": {
+  "lines_removed_or_replaced": 21,
+  "removed_or_replaced": [
+   "- id: cap-721",
+   "  slug: cap-721",
+   "  domain: ''",
+   "  intents:",
+   "  - bi-717",
+   "  status: proposed",
+   "  detail: directional",
+   "  one_line: 'Start and land work against a plan: plan branches in start-change and",
+   "    merge-change'",
+   "  doc: capabilities/cap-721/capability.md",
+   "  depends_on: []",
+   "  identified_by: cap-720",
+   "  issue: 721",
+   "  capability: cap-721",
+   "  - bi-717",
+   "  one_line: start-change cuts a plan's branch, and each issue's branch from it",
+   "  capability: cap-721",
+   "  - bi-717",
+   "  one_line: merge-change lands an issue on its plan branch, and a plan on main whenever",
+   "    it pauses",
+   "    updated_by: 'product-os-keeper (#779, review finding DM-1 of PR #1010)'"
+  ],
+  "lines_added": 176,
+  "unexplained_removed_lines": [],
+  "comment_lines_before": 0,
+  "comment_lines_after": 0
+ },
+ "bi_8": {
+  "lines_before": 19,
+  "lines_after": 30,
+  "only_insertions": true,
+  "insert_blocks": 1,
+  "lines_added": 11,
+  "added": [
+   "**Touches:**",
+   "- [Ship every change the same way](../software-delivery-planning/ship-every-change/capability.md) (capability) — adds",
+   "- [Open each change where it will land](../features/fn-731/feature.md) (feature) — changes",
+   "- [Commit each change by concern, with its issue named and nothing sensitive](../software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md) (feature) — adds",
+   "- [Raise each change for review against where it lands](../software-delivery-planning/ship-every-change/fn-raise-change/feature.md) (feature) — adds",
+   "- [Merge each change where it lands, on the review's approval and a person's yes](../features/fn-673/feature.md) (feature) — changes",
+   "- [Land a plan's branch on main with evidence that every commit was reviewed](../software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md) (feature) — adds",
+   "- [Land several ready issues in one change](../software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md) (feature) — adds",
+   "- [Scan every push for client, company and personal references](../software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md) (feature) — adds",
+   "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+   ""
+  ],
+  "added_as_asked_in_order": true,
+  "line_before_block": "",
+  "line_two_before_block": "**Tracker:** #8",
+  "line_after_block": "**What was done:** (nothing yet)",
+  "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+  "stage_line_unchanged": true,
+  "touches_lines": 9,
+  "links": {
+   "../software-delivery-planning/ship-every-change/capability.md": true,
+   "../features/fn-731/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-raise-change/feature.md": true,
+   "../features/fn-673/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md": true
+  },
+  "titles_match_page_titles": {
+   "../software-delivery-planning/ship-every-change/capability.md": true,
+   "../features/fn-731/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-raise-change/feature.md": true,
+   "../features/fn-673/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md": true,
+   "../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md": true
+  },
+  "index_entries_naming_bi_8_before": [],
+  "index_entries_naming_bi_8": [
+   "cap-ship-every-change",
+   "fn-731",
+   "fn-673",
+   "fn-commit-by-concern",
+   "fn-raise-change",
+   "fn-land-plan-with-evidence",
+   "fn-land-several-issues",
+   "fn-scan-every-push",
+   "fn-keep-docs-in-step"
+  ]
+ },
+ "git_status_product": [
+  " M .garura/product/product-os/_spine.yaml",
+  " D .garura/product/product-os/capabilities/cap-721/capability.md",
+  " M .garura/product/product-os/features/fn-673/feature.md",
+  " M .garura/product/product-os/features/fn-725/feature.md",
+  " M .garura/product/product-os/features/fn-731/feature.md",
+  " M .garura/product/product-os/intents/bi-8.md",
+  "?? .garura/product/product-os/features/fn-673/ice.md",
+  "?? .garura/product/product-os/features/fn-731/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-raise-change/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-raise-change/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/ship-every-change/ice.md"
+ ],
+ "structure_check": {
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+  "before": {
+   "errors": 83,
+   "warnings": 176,
+   "counts": {
+    "domain": 1,
+    "capability": 35,
+    "feature": 134,
+    "ice": 133
+   },
+   "file": ".garura/project/issues/1021/context/bi-8-capability-1/write/lint-before.json"
+  },
+  "after": {
+   "errors": 75,
+   "warnings": 181,
+   "counts": {
+    "domain": 1,
+    "capability": 35,
+    "feature": 140,
+    "ice": 142
+   },
+   "file": ".garura/project/issues/1021/context/bi-8-capability-1/write/lint-after.json"
+  },
+  "new_errors": [],
+  "errors_gone": [
+   ".garura/product/product-os/features/fn-731/feature.md: missing required section '## Inputs / Outputs'",
+   ".garura/product/product-os/features/fn-731/feature.md: missing required section '## Rules & behavior'",
+   ".garura/product/product-os/features/fn-731/feature.md: missing required section '## Acceptance criteria'",
+   ".garura/product/product-os/features/fn-731/feature.md: missing required section '## Out of scope'",
+   ".garura/product/product-os/features/fn-673/feature.md: missing required section '## Inputs / Outputs'",
+   ".garura/product/product-os/features/fn-673/feature.md: missing required section '## Rules & behavior'",
+   ".garura/product/product-os/features/fn-673/feature.md: missing required section '## Acceptance criteria'",
+   ".garura/product/product-os/features/fn-673/feature.md: missing required section '## Out of scope'"
+  ],
+  "new_warnings": [
+   ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/features/fn-731/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/features/fn-673/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-raise-change/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "warnings_gone": [
+   "spine capability 'cap-721': no domain yet — not ready until it is attributed (ADR 043)",
+   "spine capability 'cap-721': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-731': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-673': no ICE yet — each capability and feature has one (#765)"
+  ]
+ },
+ "write_folder_files_naming_local_paths": [],
+ "failed_checks": [],
+ "checks_run": 151,
+ "checks_passed": 151,
+ "all_checks_pass": true,
+ "checks": {
+  "page software-delivery-planning/ship-every-change/capability.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/capability.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/capability.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/ice.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/ice.md carries no Thin line": true,
+  "page features/fn-731/feature.md equals draft byte for byte": true,
+  "page features/fn-731/feature.md holds no ICE section": true,
+  "page features/fn-731/feature.md carries no Thin line": true,
+  "page features/fn-731/ice.md equals draft byte for byte": true,
+  "page features/fn-731/ice.md holds no ICE section": true,
+  "page features/fn-731/ice.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-raise-change/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-raise-change/feature.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-raise-change/feature.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-raise-change/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-raise-change/ice.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-raise-change/ice.md carries no Thin line": true,
+  "page features/fn-673/feature.md equals draft byte for byte": true,
+  "page features/fn-673/feature.md holds no ICE section": true,
+  "page features/fn-673/feature.md carries no Thin line": true,
+  "page features/fn-673/ice.md equals draft byte for byte": true,
+  "page features/fn-673/ice.md holds no ICE section": true,
+  "page features/fn-673/ice.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md holds no ICE section": true,
+  "fn-land-plan-with-evidence/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md holds no ICE section": true,
+  "fn-land-several-issues/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md holds no ICE section": true,
+  "fn-scan-every-push/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md holds no ICE section": true,
+  "page software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md carries no Thin line": true,
+  "page software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md holds no ICE section": true,
+  "fn-keep-docs-in-step/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "new folder holds only the 14 pages": true,
+  "fn-731 folder holds only feature.md and ice.md": true,
+  "fn-673 folder holds only feature.md and ice.md": true,
+  "fn-725's page changed in line 54 only, to the approved words": true,
+  "fn-725's old and new line are the words in the approvals record": true,
+  "spine domains: new entries are exactly the ones asked": true,
+  "spine domains: only the asked entries removed": true,
+  "spine domains: of the old entries only the asked ones changed": true,
+  "spine domains: order of the kept entries kept": true,
+  "spine capabilities: new entries are exactly the ones asked": true,
+  "spine capabilities: only the asked entries removed": true,
+  "spine capabilities: of the old entries only the asked ones changed": true,
+  "spine capabilities: order of the kept entries kept": true,
+  "spine features: new entries are exactly the ones asked": true,
+  "spine features: only the asked entries removed": true,
+  "spine features: of the old entries only the asked ones changed": true,
+  "spine features: order of the kept entries kept": true,
+  "spine slices: new entries are exactly the ones asked": true,
+  "spine slices: only the asked entries removed": true,
+  "spine slices: of the old entries only the asked ones changed": true,
+  "spine slices: order of the kept entries kept": true,
+  "spine ices: new entries are exactly the ones asked": true,
+  "spine ices: only the asked entries removed": true,
+  "spine ices: of the old entries only the asked ones changed": true,
+  "spine ices: order of the kept entries kept": true,
+  "every new id was unused before the write": true,
+  "spine: other top keys unchanged": true,
+  "spine: top key order kept": true,
+  "feature list order on the capability page = the eight features in order": true,
+  "capability cap-ship-every-change as asked": true,
+  "capability one_line = first line of its Directional intent, word for word": true,
+  "cap-ship-every-change's intents are [bi-8] only": true,
+  "feature fn-commit-by-concern as asked": true,
+  "fn-commit-by-concern one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-raise-change as asked": true,
+  "fn-raise-change one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-land-plan-with-evidence as asked": true,
+  "fn-land-plan-with-evidence one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-land-several-issues as asked": true,
+  "fn-land-several-issues one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-scan-every-push as asked": true,
+  "fn-scan-every-push one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-keep-docs-in-step as asked": true,
+  "fn-keep-docs-in-step one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-673 under cap-ship-every-change, intents [bi-8], its new one-line": true,
+  "feature fn-673: every other field kept (metadata.updated_by aside, which link_part.py sets on an update)": true,
+  "feature fn-731 under cap-ship-every-change, intents [bi-8], its new one-line": true,
+  "feature fn-731: every other field kept (metadata.updated_by aside, which link_part.py sets on an update)": true,
+  "ICE ice-ship-every-change as asked": true,
+  "ICE ice-ship-every-change: the only ICE for cap-ship-every-change": true,
+  "ICE ice-ship-every-change: thin mark on entry and page agree": true,
+  "ICE ice-731 as asked": true,
+  "ICE ice-731: the only ICE for fn-731": true,
+  "ICE ice-731: thin mark on entry and page agree": true,
+  "ICE ice-commit-by-concern as asked": true,
+  "ICE ice-commit-by-concern: the only ICE for fn-commit-by-concern": true,
+  "ICE ice-commit-by-concern: thin mark on entry and page agree": true,
+  "ICE ice-raise-change as asked": true,
+  "ICE ice-raise-change: the only ICE for fn-raise-change": true,
+  "ICE ice-raise-change: thin mark on entry and page agree": true,
+  "ICE ice-673 as asked": true,
+  "ICE ice-673: the only ICE for fn-673": true,
+  "ICE ice-673: thin mark on entry and page agree": true,
+  "ICE ice-land-plan-with-evidence as asked": true,
+  "ICE ice-land-plan-with-evidence: the only ICE for fn-land-plan-with-evidence": true,
+  "ICE ice-land-plan-with-evidence: thin mark on entry and page agree": true,
+  "ICE ice-land-several-issues as asked": true,
+  "ICE ice-land-several-issues: the only ICE for fn-land-several-issues": true,
+  "ICE ice-land-several-issues: thin mark on entry and page agree": true,
+  "ICE ice-scan-every-push as asked": true,
+  "ICE ice-scan-every-push: the only ICE for fn-scan-every-push": true,
+  "ICE ice-scan-every-push: thin mark on entry and page agree": true,
+  "ICE ice-keep-docs-in-step as asked": true,
+  "ICE ice-keep-docs-in-step: the only ICE for fn-keep-docs-in-step": true,
+  "ICE ice-keep-docs-in-step: thin mark on entry and page agree": true,
+  "only the four named ICE are thin among the nine": true,
+  "no part of this write is thin itself": true,
+  "cap-721 gone from the spine's data": true,
+  "cap-721's page and folder gone": true,
+  "no file in the model names cap-721 (pages, ICE pages and the spine's text)": true,
+  "no feature is under cap-721": true,
+  "nothing in the spine was identified by or depends on cap-721 before the merge": true,
+  "merge report: cap-721 into cap-ship-every-change, fn-731 and fn-673 moved, nothing to review": true,
+  "spine only gained lines, apart from the lines the merge and the two one-line updates replace or remove": true,
+  "spine comments kept": true,
+  "BI-8's page gained only the Touches block, in one place, as asked": true,
+  "BI-8's page: every other line byte for byte": true,
+  "BI-8's stage line keeps its person and date": true,
+  "BI-8's Touches: 9 lines": true,
+  "BI-8's Touches: each link leads to a file": true,
+  "BI-8's Touches: each title is its page's title": true,
+  "BI-8's Touches: marks as asked (seven adds; fn-731 and fn-673 changes)": true,
+  "BI-8's Touches form matches BI-7's page": true,
+  "the 9 index entries that name bi-8 match the 9 Touches lines one for one": true,
+  "under .garura/product/ only the spine, bi-8.md, fn-725's page, the fn-731 and fn-673 folders, the cap-721 folder and the new folder changed": true,
+  "structure check: no new error": true,
+  "no file in the write folder names a home folder, a temp or working folder, or a user name": true
+ }
+}

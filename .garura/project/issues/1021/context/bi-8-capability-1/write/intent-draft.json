@@ -1,0 +1,69 @@
+{
+  "id": "bi-8",
+  "issue": 8,
+  "title": "Developer tooling",
+  "outcome": "People judge what agents made at the level of the outcome, reviewing ADRs, memories, domains, capabilities and ICE in tools that ship with Garura. Argus comes first.",
+  "why": "Agents now make more in one run than a pull request can show.",
+  "asked_by": "the product owner",
+  "proof": [
+    "A person reviews a whole run in the tool.",
+    "Their answers become part of the work."
+  ],
+  "must_not": "Make people read raw files to know what was made.",
+  "touches": [
+    {
+      "title": "Ship every change the same way",
+      "link": "../software-delivery-planning/ship-every-change/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Open each change where it will land",
+      "link": "../features/fn-731/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Commit each change by concern, with its issue named and nothing sensitive",
+      "link": "../software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Raise each change for review against where it lands",
+      "link": "../software-delivery-planning/ship-every-change/fn-raise-change/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Merge each change where it lands, on the review's approval and a person's yes",
+      "link": "../features/fn-673/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Land a plan's branch on main with evidence that every commit was reviewed",
+      "link": "../software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Land several ready issues in one change",
+      "link": "../software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Scan every push for client, company and personal references",
+      "link": "../software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep the docs and command pages in step with each change",
+      "link": "../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

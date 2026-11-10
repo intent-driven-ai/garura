@@ -1,0 +1,1247 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 239,
+  "not_found": 0,
+  "problems": [],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-673/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/SKILL.md",
+          "quote": "no config value, policy, or ledger turns it off",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/SKILL.md",
+          "quote": "there is nothing to approve, so the human is not asked",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/SKILL.md",
+          "quote": "The merge proceeds solely on the typed approval",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/SKILL.md",
+          "quote": "only that item, no roll-up",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/reference/ice.md",
+          "quote": "open work is no reason to hold it off main",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/reference/ice.md",
+          "quote": "always presents and waits for a typed human approval",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/scripts/merge_pr.py",
+          "quote": "because the code host closes issues only on main",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/scripts/merge_pr.py",
+          "quote": "the bookkeeping push rides on that authorization, no second ask.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/scripts/read_merge_state.py",
+          "quote": "Approved iff the review verdict decision reads approve.",
+          "found": true
+        },
+        {
+          "source": "core/components/loops/_shared/loop-run.md",
+          "quote": "the merge keeping its pinned human approval",
+          "found": true
+        },
+        {
+          "source": "standards/rules/gate-config.md, in Phoenix memory",
+          "quote": "merging to main is the one irreversible action in the chain, so the actual land always keeps its human beat",
+          "found": true
+        },
+        {
+          "source": ".garura/user-provided/managing-work.md",
+          "quote": "Merging is a decision taken with a human looking at the diff",
+          "found": true
+        },
+        {
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, the product owner on 2026-10-28",
+          "quote": "branch should not be stopped to merge just because plan is not complete.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "A parent never changes because its children closed",
+          "found": true
+        },
+        {
+          "source": "The page this one replaces, .garura/product/product-os/features/fn-673/feature.md as it read on 2026-11-10",
+          "quote": "An issue in a plan merges into its plan's branch.",
+          "found": true
+        },
+        {
+          "source": "The page this one replaces, .garura/product/product-os/features/fn-673/feature.md as it read on 2026-11-10",
+          "quote": "Plan order does not hold a plan off main.",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/ice.md",
+          "quote": "the product owner gives the merge their yes in Developer tooling.",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "source": "core/config.yaml",
+          "quote": "bypass: true",
+          "found": true
+        },
+        {
+          "source": "GitHub #673 (closed)",
+          "quote": "merge-change lands an issue on its plan branch, and a plan on main whenever it pauses",
+          "found": true
+        },
+        {
+          "source": "GitHub #1014 (open)",
+          "quote": "merge-change closes the top item of a plan's tree (the Epic) when every issue under it is closed, against the no-roll-up rule",
+          "found": true
+        },
+        {
+          "source": "GitHub #579, #583 and #787 (open)",
+          "quote": "records an empty merge commit id after a successful merge",
+          "found": true
+        },
+        {
+          "source": "GitHub #579, #583 and #787 (open)",
+          "quote": "crashes at Step 1 when the change has no review folder yet",
+          "found": true
+        },
+        {
+          "source": "GitHub #579, #583 and #787 (open)",
+          "quote": "cannot recover after a host error during the merge",
+          "found": true
+        },
+        {
+          "source": "GitHub #992 (open)",
+          "quote": "the merge onto main keeps a typed approval (merge-change)",
+          "found": true
+        },
+        {
+          "source": "GitHub #992 (open)",
+          "quote": "or exceptions to the principle",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "the human is not asked",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "from opening to merge",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "a person's yes",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Merging is a decision taken with a human looking at the diff",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "always keeps its human beat",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "there is nothing to approve",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "open work is no reason to hold it off main",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "branch should not be stopped to merge just because plan is not complete.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "A parent never changes because its children closed",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "the bookkeeping push rides on that authorization, no second ask.",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-673/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-731/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/SKILL.md",
+          "quote": "It is never locked to a plan",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/SKILL.md",
+          "quote": "the change is what the person typed",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/SKILL.md",
+          "quote": "a merge conflict exits 1 and halts for a person",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/SKILL.md",
+          "quote": "the workspace opens with a clean tree and its own record",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/reference/ice.md",
+          "quote": "Nothing typed starts nothing",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/reference/ice.md",
+          "quote": "a closed plan's branch is never cut",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/reference/ice.md",
+          "quote": "An issue in a plan works on `plan/<plan-id>/<issue>-<slug>`, cut from its plan's branch `plan/<plan-id>/base`",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/reference/ice.md",
+          "quote": "Running it again for the same issue resumes the existing context",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/scripts/validate_issue.py",
+          "quote": "title present and >= 15 characters",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/scripts/validate_issue.py",
+          "quote": "title carries a type tag: [ENH] [BUG] [FEAT] [DOCS] [TASK]",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/scripts/validate_issue.py",
+          "quote": "a work description exists",
+          "found": true
+        },
+        {
+          "source": "core/components/loops/_shared/loop-run.md",
+          "quote": "one issue, one branch for the whole loop",
+          "found": true
+        },
+        {
+          "source": "standards/rules/loop-contract.md, in Phoenix memory",
+          "quote": "The loop opens and lands the change.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "A one-off fix outside any plan still branches from main.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "Every cut goes through one script",
+          "found": true
+        },
+        {
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "so every cut is made the same way, whichever play starts the work.",
+          "found": true
+        },
+        {
+          "source": "The page this one replaces, .garura/product/product-os/features/fn-731/feature.md as it read on 2026-11-10",
+          "quote": "Every issue in a plan works on a branch cut from its plan's branch.",
+          "found": true
+        },
+        {
+          "source": "The page this one replaces, .garura/product/product-os/features/fn-731/feature.md as it read on 2026-11-10",
+          "quote": "A one-off fix outside any plan still branches from main.",
+          "found": true
+        },
+        {
+          "source": "GitHub #731 (closed)",
+          "quote": "start-change cuts a plan's branch, and each issue's branch from it",
+          "found": true
+        },
+        {
+          "source": "GitHub #989 (closed)",
+          "quote": "start-change starts a plan on its own: it cuts the plan's branch from main, with no story branch",
+          "found": true
+        },
+        {
+          "source": "GitHub #501 (open)",
+          "quote": "Self-contained play chains + parallel worktree autonomy",
+          "found": true
+        },
+        {
+          "source": "GitHub #976 (open)",
+          "quote": "Several ready issues land in one change: one branch, one pull request, one review",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "Nothing typed starts nothing",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Every change goes from opening to merge through the same steps",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Nothing typed starts nothing",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Every cut goes through one script",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "so every cut is made the same way, whichever play starts the work",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-731/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/capability.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": ".garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10",
+          "quote": "with the self-review dropped: one review, after the pull request",
+          "found": true
+        },
+        {
+          "source": ".garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10",
+          "quote": "the outside review stays BI-4's, as one step of this path",
+          "found": true
+        },
+        {
+          "source": ".garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10",
+          "quote": "reviewing a change against its standards is BI-4's",
+          "found": true
+        },
+        {
+          "source": ".garura/project/issues/613/specs/plan.md, the product owner on 2026-10-20",
+          "quote": "one review, after the pull request",
+          "found": true
+        },
+        {
+          "source": ".garura/project/issues/613/specs/plan.md, the product owner on 2026-10-20",
+          "quote": "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens",
+          "found": true
+        },
+        {
+          "source": ".garura/project/issues/1021/context/names.md",
+          "quote": "Work plays: anyone can run them, under Developer tooling",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/intents/bi-8.md",
+          "quote": "People judge what agents made at the level of the outcome",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+          "quote": "A change is one piece of work raised for review and merged on its own, such as a pull request on GitHub.",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+          "quote": "The developer is a person or an AI agent who builds the code.",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md, the product owner on 2026-11-08",
+          "quote": "We are never touching production.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/start-change/reference/ice.md",
+          "quote": "Nothing typed starts nothing",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/reference/ice.md",
+          "quote": "Work is committed on a feature branch, never on main.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/propose-change/scripts/resolve_target.py",
+          "quote": "Open work in a plan never holds its branch off main",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/check-change/SKILL.md",
+          "quote": "the change under review is never its own standard",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/check-change/scripts/platform_adapter.py",
+          "quote": "UNTESTED here",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/SKILL.md",
+          "quote": "no config value, policy, or ledger turns it off",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/SKILL.md",
+          "quote": "there is nothing to approve, so the human is not asked",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/scripts/merge_pr.py",
+          "quote": "the bookkeeping push rides on that authorization, no second ask.",
+          "found": true
+        },
+        {
+          "source": "core/components/loops/_shared/loop-run.md",
+          "quote": "the merge keeping its pinned human approval",
+          "found": true
+        },
+        {
+          "source": "core/config.yaml",
+          "quote": "bypass: true",
+          "found": true
+        },
+        {
+          "source": ".garura/user-provided/managing-work.md",
+          "quote": "Merging is a decision taken with a human looking at the diff",
+          "found": true
+        },
+        {
+          "source": "docs/adr/025-level-3-redefined-skeleton-and-loop.md",
+          "quote": "all four, in order, every time.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/028-agentic-lifecycle-five-loops.md",
+          "quote": "every change lands the same way",
+          "found": true
+        },
+        {
+          "source": "docs/adr/032-drive-review-of-outcomes.md",
+          "quote": "The pull request only lands it. The merge stays pinned to the person.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, the product owner on 2026-10-28",
+          "quote": "start a plan with a branch, and when we want to pause a plan, merge it. branch should not be stopped to merge just because plan is not complete.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, the product owner on 2026-10-28",
+          "quote": "A plan's branch is never kept off main just because the plan is not done.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found": true
+        },
+        {
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "A parent never changes because its children closed",
+          "found": true
+        },
+        {
+          "source": "standards/rules/loop-contract.md, in Phoenix memory",
+          "quote": "The loop opens and lands the change.",
+          "found": true
+        },
+        {
+          "source": "standards/rules/gate-config.md, in Phoenix memory",
+          "quote": "granted only in the same change that adds the replacement checks",
+          "found": true
+        },
+        {
+          "source": "GitHub #982 (open), the product owner's rule of 2026-10-18",
+          "quote": "No client reference and no personal reference — not in files, not in history",
+          "found": true
+        },
+        {
+          "source": "GitHub #992 (open)",
+          "quote": "The harness never stops a person.",
+          "found": true
+        },
+        {
+          "source": "The short line beside each feature: the opening words of that feature's own page.",
+          "status": "no source path",
+          "quotes": 0
+        },
+        {
+          "source": "Shelf: none. No knowledge shelf in any memory tier covers how a team lands a change.",
+          "status": "no source path",
+          "quotes": 0
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "yes, record it with self-review dropped",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "anyone can run",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "reviewing a change against its standards",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "The pull request only lands it. The merge stays pinned to the person.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "one review, after the pull request",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "UNTESTED here",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Merging is a decision taken with a human looking at the diff",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "no config value, policy, or ledger turns it off",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "the change under review is never its own standard",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "A plan's branch is never kept off main just because the plan is not done",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "No client reference and no personal reference — not in files, not in history",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Work is committed on a feature branch, never on main.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Nothing typed starts nothing",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "We are never touching production.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "every change lands the same way",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "all four, in order, every time.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "The loop opens and lands the change.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "one review, after the pull request",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "yes, record it with self-review dropped",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "granted only in the same change that adds the replacement checks",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Open work in a plan never holds its branch off main",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "start a plan with a branch, and when we want to pause a plan, merge it. branch should not be stopped to merge just because plan is not complete.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "there is nothing to approve, so the human is not asked",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "A parent never changes because its children closed",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "the bookkeeping push rides on that authorization, no second ask.",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/SKILL.md",
+          "quote": "commits only; it does not push",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/SKILL.md",
+          "quote": "exactly one issue reference",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/SKILL.md",
+          "quote": "reviewable from the log alone",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/reference/ice.md",
+          "quote": "Work is committed on a feature branch, never on main.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/reference/ice.md",
+          "quote": "Changes are grouped by concern; each commit holds one coherent concern.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/reference/ice.md",
+          "quote": "Every changed file lands in a commit or has a stated exclusion reason",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/reference/ice.md",
+          "quote": "Sensitive files (secrets, credentials, keys) are never committed; their presence blocks the commit.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/reference/ice.md",
+          "quote": "an iteration cap of 5",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/scripts/analyze_changeset.py",
+          "quote": "A content match in these paths is a NON-BLOCKING warning",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/scripts/analyze_changeset.py",
+          "quote": "a content match anywhere else, and every FILENAME match (.env, .pem, id_rsa, ...), stays a hard block.",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+          "quote": "keeping a secret's value out of each commit, and landing the change. Ship every change the same way, in Developer tooling, owns them.",
+          "found": true
+        },
+        {
+          "source": "GitHub #537 (open)",
+          "quote": "The working tree ended clean",
+          "found": true
+        },
+        {
+          "source": "GitHub #857 (open)",
+          "quote": "commit-change never reads its own record as clean",
+          "found": true
+        },
+        {
+          "source": "GitHub #996 (open)",
+          "quote": "writes a broken commit record when a commit subject holds a double quote",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "the same steps",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Work is committed on a feature branch, never on main.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "from the log alone",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Sensitive files (secrets, credentials, keys) are never committed; their presence blocks the commit.",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "GitHub #973 (open)",
+          "quote": "The docs and the command pages say what Garura does today, and something keeps them in step when a play changes.",
+          "found": true
+        },
+        {
+          "source": "GitHub #529 (open)",
+          "quote": "Nothing owns keeping it current.",
+          "found": true
+        },
+        {
+          "source": "GitHub #529 (open)",
+          "quote": "There is a mechanical guard that fails when the cheat sheet and the plays disagree",
+          "found": true
+        },
+        {
+          "source": "GitHub #529 (open)",
+          "quote": "The guard runs as part of the normal component lint, not as a separate thing to remember",
+          "found": true
+        },
+        {
+          "source": "GitHub #529 (open)",
+          "quote": "The footer command count matches that set",
+          "found": true
+        },
+        {
+          "source": "standards/rules/self-review.md, in Phoenix memory",
+          "quote": "Docs in step.",
+          "found": true
+        },
+        {
+          "source": "knowledge/review/docs.md, in Phoenix memory",
+          "quote": "the PR changes human-facing prose that is not a decision record",
+          "found": true
+        },
+        {
+          "source": "docs/components/plays.md",
+          "quote": "Merge the approved PR, return to main, delete the branch",
+          "found": true
+        },
+        {
+          "source": "docs/components/plays.md",
+          "quote": "| `implement` |",
+          "found": true
+        },
+        {
+          "source": "docs/components/plays.md",
+          "quote": "| `launch` |",
+          "found": true
+        },
+        {
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "Not on this list: #973 (Garura's docs and command pages stay in step with what ships), brought to the review of Developer tooling.",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "The docs and the command pages say what Garura does today, and something keeps them in step when a play changes.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "not as a separate thing to remember",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Docs in step",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "the PR changes human-facing prose that is not a decision record",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "to main",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Nothing owns keeping it current.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "something keeps them in step when a play changes",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "There is a mechanical guard that fails when the cheat sheet and the plays disagree",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "The guard runs as part of the normal component lint, not as a separate thing to remember",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "GitHub #915 (open)",
+          "quote": "Landing a plan branch on main shows evidence that every commit was reviewed and that the plan, its epics and the commits agree",
+          "found": true
+        },
+        {
+          "source": "GitHub #915 (open)",
+          "quote": "The review that lands it should not repeat that work, and should not miss anything either.",
+          "found": true
+        },
+        {
+          "source": "GitHub #915 (open)",
+          "quote": "Every commit was reviewed.",
+          "found": true
+        },
+        {
+          "source": "GitHub #915 (open)",
+          "quote": "Anything skipped is reviewed as part of the landing, before the merge.",
+          "found": true
+        },
+        {
+          "source": "GitHub #915 (open)",
+          "quote": "Open items are allowed (a plan does not need to be finished to land), and each one is named as open.",
+          "found": true
+        },
+        {
+          "source": "GitHub #915 (open)",
+          "quote": "reviewing again what a pull request already reviewed",
+          "found": true
+        },
+        {
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "When the plan pauses, its branch merges into main through the change plays",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/update-plan/SKILL.md",
+          "quote": "the plan's branch reaches main later through the change plays",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "The review that lands it should not repeat that work, and should not miss anything either.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Anything skipped is reviewed as part of the landing, before the merge.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "reviewing again what a pull request already reviewed",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Open items are allowed (a plan does not need to be finished to land), and each one is named as open.",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "GitHub #976 (open)",
+          "quote": "while working, a person groups several ready issues (often bugs) into one change, so one run of the change pipeline lands them all.",
+          "found": true
+        },
+        {
+          "source": "GitHub #976 (open)",
+          "quote": "We need to group as many things as we can do together so that the overhead cost of running the entire change pipeline is reduced.",
+          "found": true
+        },
+        {
+          "source": "GitHub #976 (open)",
+          "quote": "Each bug is still logged on its own, as its own issue, under the story that introduced it.",
+          "found": true
+        },
+        {
+          "source": "GitHub #976 (open)",
+          "quote": "The person's checkpoints are grouped too",
+          "found": true
+        },
+        {
+          "source": "GitHub #976 (open)",
+          "quote": "One run of the change pipeline lands several issues, and each one is closed by it.",
+          "found": true
+        },
+        {
+          "source": "GitHub #976 (open)",
+          "quote": "Grouping never moves an issue between plans, slices or epics.",
+          "found": true
+        },
+        {
+          "source": ".garura/user-provided/managing-work.md",
+          "quote": "One issue, one session, one branch, one pull request.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/SKILL.md",
+          "quote": "exactly one issue reference",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "We need to group as many things as we can do together so that the overhead cost of running the entire change pipeline is reduced.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "One issue, one session, one branch, one pull request",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Grouping never moves an issue between plans, slices or epics.",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-raise-change/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-10-20, in .garura/project/issues/613/specs/plan.md",
+          "quote": "one review, after the pull request",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-10-20, in .garura/project/issues/613/specs/plan.md",
+          "quote": "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/propose-change/SKILL.md",
+          "quote": "run a self-review on its scope and quality, push the branch, and open a pull request that carries that review against where the branch lands",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/propose-change/SKILL.md",
+          "quote": "Working tree is clean (change is committed)",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/propose-change/SKILL.md",
+          "quote": "the PR body references the issue",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/propose-change/SKILL.md",
+          "quote": "this run updates it (refreshes the self-review and body) instead of opening a second one",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/propose-change/scripts/resolve_target.py",
+          "quote": "Open work in a plan never holds its branch off main",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/propose-change/scripts/check_self_review.py",
+          "quote": "machine replacement for propose-change's confirm-raise gate (#467)",
+          "found": true
+        },
+        {
+          "source": "standards/rules/gate-config.md, in Phoenix memory",
+          "quote": "granted only in the same change that adds the replacement checks",
+          "found": true
+        },
+        {
+          "source": "standards/rules/self-review.md, in Phoenix memory",
+          "quote": "The output is an informational checklist that travels in the PR.",
+          "found": true
+        },
+        {
+          "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+          "quote": "The run marker inside each play, and the check in the review of each change. How a play is built, and Ship every change the same way, own them.",
+          "found": true
+        },
+        {
+          "source": "GitHub #517 (open)",
+          "quote": "Give pull requests a template so every raise says the same things",
+          "found": true
+        },
+        {
+          "source": "GitHub #452 (open)",
+          "quote": "propose-change halts on its own evidence files at push time",
+          "found": true
+        },
+        {
+          "source": "GitHub #893 (open)",
+          "quote": "refuses a pull request when a commit that changed a play, the ontology or an ADR has no matching play run on record",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "one review, after the pull request",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "the check in the review of each change",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "granted only in the same change that adds the replacement checks",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "Open work in a plan never holds its branch off main",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "one review, after the pull request",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-raise-change/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+      "sources": [
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.",
+          "found": true
+        },
+        {
+          "source": "The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+          "quote": "yes, record it with self-review dropped",
+          "found": true
+        },
+        {
+          "source": "GitHub #982 (open), the product owner's rule of 2026-10-18",
+          "quote": "No client reference and no personal reference — not in files, not in history",
+          "found": true
+        },
+        {
+          "source": "GitHub #982 (open), the product owner's rule of 2026-10-18",
+          "quote": "Every path a play writes into a run record is relative to the repository root, or uses `~` for the home folder.",
+          "found": true
+        },
+        {
+          "source": "GitHub #888 (open)",
+          "quote": "The change plays push to the public repo with no scan for client, company or personal references.",
+          "found": true
+        },
+        {
+          "source": "GitHub #888 (open)",
+          "quote": "The branch had to be rewritten and force-pushed",
+          "found": true
+        },
+        {
+          "source": "GitHub #888 (open)",
+          "quote": "Every push a change play makes runs one scan first, over every file in the commits it pushes, and stops with no push when a reference is found.",
+          "found": true
+        },
+        {
+          "source": "GitHub #888 (open)",
+          "quote": "The scan reads its word list from the project's own memory, never from a file in the repo",
+          "found": true
+        },
+        {
+          "source": "GitHub #672 (open)",
+          "quote": "The list of names the rule protects is kept outside every repository, on the machine only.",
+          "found": true
+        },
+        {
+          "source": "GitHub #914 (open)",
+          "quote": "every change that lands publishes the person's user name and folder layout.",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/commit-change/scripts/analyze_changeset.py",
+          "quote": "Scans the changeset for sensitive files",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/check-change/SKILL.md",
+          "quote": "commits+pushes the review run artifacts",
+          "found": true
+        },
+        {
+          "source": "core/components/plays/merge-change/scripts/merge_pr.py",
+          "quote": "PUSHES the records commit",
+          "found": true
+        }
+      ],
+      "page_text_quotes": [
+        {
+          "quote": "No client reference and no personal reference — not in files, not in history",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "The branch had to be rewritten and force-pushed",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "The list of names the rule protects is kept outside every repository, on the machine only.",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "publishes the person's user name and folder layout",
+          "found_in_named_sources": true
+        },
+        {
+          "quote": "its word list from the project's own memory",
+          "found_in_named_sources": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/ice.md",
+      "sources": [],
+      "page_text_quotes": []
+    }
+  ]
+}
