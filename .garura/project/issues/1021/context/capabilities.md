@@ -60,6 +60,13 @@ Each line: name, then its one-liner. Marks: (planned) not built; (unique) a uniq
 
 ## Run → Product
 None yet.
+  - Set by the product owner on 2026-11-10, after the research in .garura/project/issues/1021/context/bi-6-inventory/inventory.md and a proposed list of three (Learn from what happens in use, Promote each learning on purpose, Measure each intent). His words: "It's for B16. What I want you to record is that we are able to: connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit; start understanding what it is that the consumers want and what the competition is doing; start building features into the product or start updating the product intent model automatically, or at least making those recommendations". "B16" read as BI-6. The list:
+    1. Connect to what happens in use and in the market: tools that access web analytics, product analytics, user feedback, and forums like Reddit.
+    2. Understand what consumers want and what the competition is doing.
+    3. Build features into the product, or update the product intent model, automatically, or at least recommend those changes.
+  - Assumed: reading web analytics, product analytics, user feedback and forums through their own tools is not touching production; "We are never touching production" (deploying to it and testing in it) stands.
+  - Not on this list: choosing and promoting learnings to Garura or Phoenix memory (left to the review of Memory, in Standards, structure, settings and memory) and measuring each intent (#545, parked).
+  - Open, to settle when item 3 is drafted: BI-6's Must not says "Change an intent, or promote memory, without a person", while item 3 allows the model to be updated automatically, "or at least" recommended.
 
 ## Install and distribute
 - Install into a project: A team installs Garura, chooses what it gets, and can take it out again.
