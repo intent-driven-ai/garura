@@ -1,0 +1,490 @@
+{
+  "pages": {
+    "software-delivery-planning/understand-consumers-and-competition/capability.md": {
+      "equals_draft": true,
+      "bytes": 21709,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/understand-consumers-and-competition/ice.md": {
+      "equals_draft": true,
+      "bytes": 4491,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md": {
+      "equals_draft": true,
+      "bytes": 10427,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/ice.md": {
+      "equals_draft": true,
+      "bytes": 3482,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md": {
+      "equals_draft": true,
+      "bytes": 8344,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/ice.md": {
+      "equals_draft": true,
+      "bytes": 3417,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md": {
+      "equals_draft": true,
+      "bytes": 9061,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/ice.md": {
+      "equals_draft": true,
+      "bytes": 3028,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md": {
+      "equals_draft": true,
+      "bytes": 7252,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/ice.md": {
+      "equals_draft": true,
+      "bytes": 3059,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md": {
+      "equals_draft": true,
+      "bytes": 6404,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/ice.md": {
+      "equals_draft": true,
+      "bytes": 3300,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 12,
+  "thin_lines_only_on_the_six_ice_pages": true,
+  "new_folder_files": [
+    "capability.md",
+    "fn-hand-on-findings/feature.md",
+    "fn-hand-on-findings/ice.md",
+    "fn-place-findings/feature.md",
+    "fn-place-findings/ice.md",
+    "fn-understand-competition/feature.md",
+    "fn-understand-competition/ice.md",
+    "fn-understand-consumer-wants/feature.md",
+    "fn-understand-consumer-wants/ice.md",
+    "fn-update-understanding/feature.md",
+    "fn-update-understanding/ice.md",
+    "ice.md"
+  ],
+  "new_folder_holds_only_the_12_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 31,
+      "after": 32,
+      "new": [
+        "cap-understand-consumers-and-competition"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 107,
+      "after": 112,
+      "new": [
+        "fn-understand-consumer-wants",
+        "fn-understand-competition",
+        "fn-place-findings",
+        "fn-hand-on-findings",
+        "fn-update-understanding"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 93,
+      "after": 99,
+      "new": [
+        "ice-understand-consumers-and-competition",
+        "ice-understand-consumer-wants",
+        "ice-understand-competition",
+        "ice-place-findings",
+        "ice-hand-on-findings",
+        "ice-update-understanding"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-understand-consumers-and-competition": {
+        "slug": "understand-consumers-and-competition",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Understand what consumers want and what the competition is doing: from what the first capability of Run → Product took in, the needs and problems of the product's consumers, and what the products it competes with are doing, are drawn out, each finding with every item it rests on and how sure it is, placed on the business intents, capabilities and features it bears on, and handed to the product owner and to the next capability, so that what the product becomes next starts from what really happened in use and in the market.",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/capability.md",
+        "thin": false
+      },
+      "fn-understand-consumer-wants": {
+        "slug": "fn-understand-consumer-wants",
+        "capability": "cap-understand-consumers-and-competition",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Sorts the items the first capability took in into wants, the needs and problems that come up across many items, and sums each one: every item it rests on, quoted as taken in, how many items from which connections, how the count moved over time, and how sure it is.",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md",
+        "thin": false
+      },
+      "fn-understand-competition": {
+        "slug": "fn-understand-competition",
+        "capability": "cap-understand-consumers-and-competition",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "For each competitor the product owner follows, proposed from memory and from the rivals people name, draws from the same items what people say it does, offers or lacks, each finding with every item it rests on.",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md",
+        "thin": false
+      },
+      "fn-place-findings": {
+        "slug": "fn-place-findings",
+        "capability": "cap-understand-consumers-and-competition",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Names the business intents, capabilities and features each finding bears on, with why, or names it as fitting none, a possible new need, and names a defect or a part no page names for its owner.",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md",
+        "thin": false
+      },
+      "fn-hand-on-findings": {
+        "slug": "fn-hand-on-findings",
+        "capability": "cap-understand-consumers-and-competition",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Shows the product owner one current report of what consumers want and what the competition is doing, with what is new or has moved and the weak findings marked as weak, and hands the same findings, whole, to the next capability of Run → Product.",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md",
+        "thin": false
+      },
+      "fn-update-understanding": {
+        "slug": "fn-update-understanding",
+        "capability": "cap-understand-consumers-and-competition",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "As new items come in, the model changes, or the product owner changes which competitors are followed, updates each finding and its place, marks a want that stops coming up as fading, and keeps what held before readable with why it changed.",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md",
+        "thin": false
+      },
+      "ice-understand-consumers-and-competition": {
+        "for": "cap-understand-consumers-and-competition",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/ice.md",
+        "thin": true,
+        "doc_leads_to_file": true
+      },
+      "ice-understand-consumer-wants": {
+        "for": "fn-understand-consumer-wants",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/ice.md",
+        "thin": true,
+        "doc_leads_to_file": true
+      },
+      "ice-understand-competition": {
+        "for": "fn-understand-competition",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/ice.md",
+        "thin": true,
+        "doc_leads_to_file": true
+      },
+      "ice-place-findings": {
+        "for": "fn-place-findings",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/ice.md",
+        "thin": true,
+        "doc_leads_to_file": true
+      },
+      "ice-hand-on-findings": {
+        "for": "fn-hand-on-findings",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/ice.md",
+        "thin": true,
+        "doc_leads_to_file": true
+      },
+      "ice-update-understanding": {
+        "for": "fn-update-understanding",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/ice.md",
+        "thin": true,
+        "doc_leads_to_file": true
+      }
+    },
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 146,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_6": {
+    "lines_before": 25,
+    "lines_after": 31,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 6,
+    "added": [
+      "- [Understand what consumers want and what the competition is doing](../software-delivery-planning/understand-consumers-and-competition/capability.md) (capability) — adds",
+      "- [Understand what consumers want, from what is taken in](../software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md) (feature) — adds",
+      "- [Understand what the competition is doing, from what people say about it](../software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md) (feature) — adds",
+      "- [Place each finding on the intents, capabilities and features it bears on](../software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md) (feature) — adds",
+      "- [Show the findings to the product owner, and hand them to the next capability](../software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md) (feature) — adds",
+      "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Update the connections as the product and its tools change](../software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "outcome_proof_must_not_lines_unchanged": true,
+    "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "touches_lines": 11,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/connect-use-and-market/capability.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md": true,
+      "../software-delivery-planning/understand-consumers-and-competition/capability.md": true,
+      "../software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md": true,
+      "../software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md": true,
+      "../software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md": true,
+      "../software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md": true,
+      "../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md": true
+    },
+    "every_link_leads_to_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_6": 11,
+    "spine_entry_ids_naming_bi_6": [
+      "cap-connect-use-and-market",
+      "cap-understand-consumers-and-competition",
+      "fn-connect-tools",
+      "fn-take-in-use",
+      "fn-take-in-what-people-say",
+      "fn-update-connections",
+      "fn-understand-consumer-wants",
+      "fn-understand-competition",
+      "fn-place-findings",
+      "fn-hand-on-findings",
+      "fn-update-understanding"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kinds_agree_with_spine": true,
+    "new_touches_order_matches_capability_then_feature_list": true
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-6.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 146,
+      "counts": {
+        "domain": 1,
+        "capability": 31,
+        "feature": 107,
+        "ice": 93
+      },
+      "file": ".garura/project/issues/1021/context/bi-6-capability-2/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 152,
+      "counts": {
+        "domain": 1,
+        "capability": 32,
+        "feature": 112,
+        "ice": 99
+      },
+      "file": ".garura/project/issues/1021/context/bi-6-capability-2/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 6 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page, so these warnings are expected, as in the BI-4 capability 2 write."
+  },
+  "failed_checks": [],
+  "checks_run": 79,
+  "checks_passed": 79,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md equals draft": true,
+    "page capability.md no thin line": true,
+    "page ice.md equals draft": true,
+    "page ice.md thin line back on top, rest = approved copy": true,
+    "page fn-understand-consumer-wants/feature.md equals draft": true,
+    "page fn-understand-consumer-wants/feature.md no thin line": true,
+    "page fn-understand-consumer-wants/ice.md equals draft": true,
+    "page fn-understand-consumer-wants/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-understand-competition/feature.md equals draft": true,
+    "page fn-understand-competition/feature.md no thin line": true,
+    "page fn-understand-competition/ice.md equals draft": true,
+    "page fn-understand-competition/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-place-findings/feature.md equals draft": true,
+    "page fn-place-findings/feature.md no thin line": true,
+    "page fn-place-findings/ice.md equals draft": true,
+    "page fn-place-findings/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-hand-on-findings/feature.md equals draft": true,
+    "page fn-hand-on-findings/feature.md no thin line": true,
+    "page fn-hand-on-findings/ice.md equals draft": true,
+    "page fn-hand-on-findings/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-update-understanding/feature.md equals draft": true,
+    "page fn-update-understanding/feature.md no thin line": true,
+    "page fn-update-understanding/ice.md equals draft": true,
+    "page fn-update-understanding/ice.md thin line back on top, rest = approved copy": true,
+    "new folder holds only the 12 pages": true,
+    "spine domains: nothing removed or changed, order kept": true,
+    "spine domains: new entries are exactly the ones asked": true,
+    "spine capabilities: nothing removed or changed, order kept": true,
+    "spine capabilities: new entries are exactly the ones asked": true,
+    "spine features: nothing removed or changed, order kept": true,
+    "spine features: new entries are exactly the ones asked": true,
+    "spine slices: nothing removed or changed, order kept": true,
+    "spine slices: new entries are exactly the ones asked": true,
+    "spine ices: nothing removed or changed, order kept": true,
+    "spine ices: new entries are exactly the ones asked": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "spine entry cap-understand-consumers-and-competition as asked": true,
+    "spine entry fn-understand-consumer-wants as asked": true,
+    "spine entry fn-understand-competition as asked": true,
+    "spine entry fn-place-findings as asked": true,
+    "spine entry fn-hand-on-findings as asked": true,
+    "spine entry fn-update-understanding as asked": true,
+    "spine entry ice-understand-consumers-and-competition as asked": true,
+    "spine entry ice-understand-consumer-wants as asked": true,
+    "spine entry ice-understand-competition as asked": true,
+    "spine entry ice-place-findings as asked": true,
+    "spine entry ice-hand-on-findings as asked": true,
+    "spine entry ice-update-understanding as asked": true,
+    "capability one_line = first line of Directional intent, word for word": true,
+    "feature fn-understand-consumer-wants one_line = list text, first letter capitalised": true,
+    "feature fn-understand-competition one_line = list text, first letter capitalised": true,
+    "feature fn-place-findings one_line = list text, first letter capitalised": true,
+    "feature fn-hand-on-findings one_line = list text, first letter capitalised": true,
+    "feature fn-update-understanding one_line = list text, first letter capitalised": true,
+    "feature list order on the capability page = the five features in order": true,
+    "all six new ICE thin": true,
+    "capability and features not thin themselves": true,
+    "ICE ids unique in the spine": true,
+    "all ids unique in the spine": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-6 only_insertions": true,
+    "bi-6 added_as_asked_in_order": true,
+    "bi-6 inserted_after_last_touches_line": true,
+    "bi-6 no_blank_line_added": true,
+    "bi-6 byte_check_other_lines": true,
+    "bi-6 outcome_proof_must_not_lines_unchanged": true,
+    "bi-6 every_touches_line_in_form": true,
+    "bi-6 every_link_leads_to_a_file": true,
+    "bi-6 titles_match_page_titles": true,
+    "bi-6 kinds_agree_with_spine": true,
+    "bi-6 new_touches_order_matches_capability_then_feature_list": true,
+    "bi-6 gained exactly the 6 Touches lines, one block": true,
+    "the 11 index entries naming bi-6 match the 11 Touches lines": true,
+    "under .garura/product only the spine, bi-6.md and the new folder changed": true,
+    "structure check: no error names a new page": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD 0772c129: the spine and intents/bi-6.md as committed (the model had no uncommitted change before this write)"
+}

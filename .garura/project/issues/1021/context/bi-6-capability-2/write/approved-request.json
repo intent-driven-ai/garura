@@ -1,0 +1,55 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-6-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/drafts/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/write/approved/understand-consumers-and-competition/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/drafts/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/write/approved/fn-understand-consumer-wants/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/drafts/product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/write/approved/fn-understand-competition/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/drafts/product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/write/approved/fn-place-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/drafts/product-os/software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/write/approved/fn-hand-on-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/drafts/product-os/software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-2/write/approved/fn-update-understanding/ice.md"
+    }
+  ]
+}

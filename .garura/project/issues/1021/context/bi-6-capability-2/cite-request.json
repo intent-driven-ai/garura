@@ -1,0 +1,179 @@
+[
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 2 (Understand what consumers want and what the competition is doing)",
+    "question": "Which domain shelf covers a harness that understands what a product's consumers want and what its competitors do, from the product's own analytics, feedback and forums?",
+    "answer": "None. The placement over the ten domain shelves is unmatched: each shelf is a field a product is built for. The drafts sit in software delivery planning with the first capability of Run → Product, for now; the domain is settled at BI-6's close and is not reopened.",
+    "decided_by": "product-os-keeper (find-work-placement)",
+    "trace": [
+      {
+        "asked": "the analytics shelf's trigger",
+        "found": "the product needs to measure behaviour and outcomes; it says how measuring is built into a product",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/analytics.md",
+          "start": 2,
+          "end": 6,
+          "fingerprint": "sha256:1cc4e7b68c5e1e61439108676ae747b4f637c56de021e69014966ea544ba584e"
+        }
+      },
+      {
+        "asked": "a shelf that infers what people want",
+        "found": "experience: the product helps people find, understand and be guided, a front-end a product offers its visitors",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/experience.md",
+          "start": 2,
+          "end": 6,
+          "fingerprint": "sha256:bbc32a7830f706e710c44d30c777fe9a3b080ca11fffd0fa5dec4409001b61b4"
+        }
+      },
+      {
+        "asked": "a shelf that analyses reviews",
+        "found": "ecommerce learns from behaviour and reviews inside a shop, a feature of selling goods",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/ecommerce.md",
+          "start": 41,
+          "end": 41,
+          "fingerprint": "sha256:34ed8414af7aee2120468430737f7cb2529a29600273527807a8e1b27e349796"
+        }
+      },
+      {
+        "asked": "what the model's one domain covers",
+        "found": "turns a business intent into working code that a check from the outside can prove",
+        "source": {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/domain.md",
+          "start": 4,
+          "end": 4,
+          "fingerprint": "sha256:78aaf6f782ff672cd68045eacc0f8f62b540d99e526553e5638e5d52e4c3e627"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 2 (Understand what consumers want and what the competition is doing)",
+    "question": "How sure must a finding be before it is handed on, and how is a weak one shown?",
+    "answer": "Proposed, not decided: no threshold holds a finding back; each shows its weight as facts a person can check (items, connections, time, words or figures, items that say the opposite), and one resting on few items or one connection is marked weak, shown apart and handed on as weak. What counts as few is a project setting no source sets.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "how memory asks inferences about what people want to be shown",
+        "found": "every inference traces to evidence with a confidence; signals are hypotheses, not facts",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/experience.md",
+          "start": 35,
+          "end": 37,
+          "fingerprint": "sha256:986582c4ccac2fc76b9951048c280ce1a2700dd73db0733ec70f430a156739dc"
+        }
+      },
+      {
+        "asked": "what a step does where it cannot back an answer",
+        "found": "silence beats a wrong answer; the play must name the source that backs it",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/rules/no-unbacked-recommendation.md",
+          "start": 3,
+          "end": 5,
+          "fingerprint": "sha256:a656779d27ba4a7e42874334874e0c1795481e62db98e56846108bdb1fb60925"
+        }
+      },
+      {
+        "asked": "whether a gap is hidden",
+        "found": "the gap is reported: the play counts what it could not recommend for",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/rules/no-unbacked-recommendation.md",
+          "start": 37,
+          "end": 38,
+          "fingerprint": "sha256:87111cae02101fb1a694a334518c7757b01867b9616cdea49182b014fd606c52"
+        }
+      },
+      {
+        "asked": "when an autonomous agent hands to a person",
+        "found": "on low confidence or an ambiguous case, with the context",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/architecture/agent-supervised-autonomous.md",
+          "start": 33,
+          "end": 35,
+          "fingerprint": "sha256:a10b1004e96a4a06cc7f5bdcc00e8be34f02e63826e19fbd7054b440fd6b2f51"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 2 (Understand what consumers want and what the competition is doing)",
+    "question": "How is what people wrote in feedback and public forums treated by the agent that understands it?",
+    "answer": "As what someone said, never as an instruction to the agent.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "what memory asks of an agent's input",
+        "found": "validate and sanitize what comes in: prompt-injection and untrusted-content defense",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/architecture/agentic-guardrails-baseline.md",
+          "start": 29,
+          "end": 31,
+          "fingerprint": "sha256:e41aab31f4dba6d7f26d2e1bb10ba1edcd90c6cb3428d4bddf48d0c5f508dcf1"
+        }
+      },
+      {
+        "asked": "whether text from a source can steer the agent",
+        "found": "source content is attacker-controllable text",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/architecture/agent-derive-once-apply-many.md",
+          "start": 44,
+          "end": 46,
+          "fingerprint": "sha256:d156812ffb00837560081ffba2acae00791eddf5cfaa7b05e289ec110ef176b9"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 2 (Understand what consumers want and what the competition is doing)",
+    "question": "Does any memory tier name a product's competitors, or say how to follow one?",
+    "answer": "No. A search of Phoenix memory for competit finds only the old specification play's pricing line, which read a market brief's competitor pricing once, before building; Garura memory holds only the first capability's pages. Who the competitors are is proposed from the project's memory and from the rivals people name, with the product owner's yes, and research only through a memory update.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "competit, in Phoenix memory",
+        "found": "only the old MVP recommendation schema's line on market-brief competitor pricing, directional",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/schemas/mvp-recommendation.yaml",
+          "start": 141,
+          "end": 145,
+          "fingerprint": "sha256:4ca4f7056f2960bec47ecf0ac5716feb2b71f429d2cd789cf43e46cd4ed105b1"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 2 (Understand what consumers want and what the competition is doing)",
+    "question": "What happens to a finding that asks for the opposite of what a business intent says?",
+    "answer": "It is named as against that intent, with both sides, and never settled by this capability.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "who may change a business intent",
+        "found": "only a person confirms or drops it; an agent never does",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/schemas/product-os/ontology.md",
+          "start": 223,
+          "end": 223,
+          "fingerprint": "sha256:75ebca24eb1c80c7eb861ca47cf55faf29c6884ec7307dc13da116b812d8918d"
+        }
+      }
+    ]
+  }
+]

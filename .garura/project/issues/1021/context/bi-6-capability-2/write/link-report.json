@@ -1,0 +1,35 @@
+{
+  "written": [
+    "cap-understand-consumers-and-competition",
+    "fn-understand-consumer-wants",
+    "fn-understand-competition",
+    "fn-place-findings",
+    "fn-hand-on-findings",
+    "fn-update-understanding",
+    "ice-understand-consumers-and-competition",
+    "ice-understand-consumer-wants",
+    "ice-understand-competition",
+    "ice-place-findings",
+    "ice-hand-on-findings",
+    "ice-update-understanding"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-understand-consumers-and-competition",
+    "ice-understand-consumer-wants",
+    "ice-understand-competition",
+    "ice-place-findings",
+    "ice-hand-on-findings",
+    "ice-update-understanding"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/understand-consumers-and-competition/ice.md",
+    "product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/ice.md",
+    "product-os/software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/ice.md",
+    "product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/ice.md",
+    "product-os/software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/ice.md",
+    "product-os/software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/ice.md"
+  ],
+  "layout_kept": true
+}

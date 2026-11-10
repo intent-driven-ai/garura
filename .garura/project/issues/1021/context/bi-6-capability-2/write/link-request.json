@@ -1,0 +1,131 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-understand-consumers-and-competition",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "understand-consumers-and-competition",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Understand what consumers want and what the competition is doing: from what the first capability of Run → Product took in, the needs and problems of the product's consumers, and what the products it competes with are doing, are drawn out, each finding with every item it rests on and how sure it is, placed on the business intents, capabilities and features it bears on, and handed to the product owner and to the next capability, so that what the product becomes next starts from what really happened in use and in the market.",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-understand-consumer-wants",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-understand-consumer-wants",
+      "capability": "cap-understand-consumers-and-competition",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Sorts the items the first capability took in into wants, the needs and problems that come up across many items, and sums each one: every item it rests on, quoted as taken in, how many items from which connections, how the count moved over time, and how sure it is.",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-understand-competition",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-understand-competition",
+      "capability": "cap-understand-consumers-and-competition",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "For each competitor the product owner follows, proposed from memory and from the rivals people name, draws from the same items what people say it does, offers or lacks, each finding with every item it rests on.",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-place-findings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-place-findings",
+      "capability": "cap-understand-consumers-and-competition",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Names the business intents, capabilities and features each finding bears on, with why, or names it as fitting none, a possible new need, and names a defect or a part no page names for its owner.",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-hand-on-findings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-hand-on-findings",
+      "capability": "cap-understand-consumers-and-competition",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Shows the product owner one current report of what consumers want and what the competition is doing, with what is new or has moved and the weak findings marked as weak, and hands the same findings, whole, to the next capability of Run → Product.",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-understanding",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-understanding",
+      "capability": "cap-understand-consumers-and-competition",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "As new items come in, the model changes, or the product owner changes which competitors are followed, updates each finding and its place, marks a want that stops coming up as fading, and keeps what held before readable with why it changed.",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-understand-consumers-and-competition",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-understand-consumers-and-competition",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-understand-consumer-wants",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-understand-consumer-wants",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-understand-competition",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-understand-competition",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-place-findings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-place-findings",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-hand-on-findings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-hand-on-findings",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-understanding",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-understanding",
+      "doc": "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/ice.md",
+      "thin": true
+    }
+  ]
+}
