@@ -608,6 +608,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-support-coding-tools
+  slug: support-coding-tools
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-7
+  status: proposed
+  detail: directional
+  one_line: 'Support each coding tool: Each team gets an install built for its tool:
+    Claude Code, Codex, GitHub Copilot, Antigravity or Factory.'
+  doc: software-delivery-planning/support-coding-tools/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -2566,6 +2582,99 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-install-for-claude-code
+  slug: fn-install-for-claude-code
+  capability: cap-support-coding-tools
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Every sub-agent, play, loop and skill is laid where Claude Code reads
+    it, each sub-agent with its tier, with the shared files, the memory guide every
+    agent reads, and Garura's instructions beside the team's own. Built.
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-install-for-codex
+  slug: fn-install-for-codex
+  capability: cap-support-coding-tools
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Every part a play needs is laid where Codex reads it, with the memory
+    guide as a marked block in the team's own instructions file. Stopped until its
+    redesign (#863).
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-install-for-copilot
+  slug: fn-install-for-copilot
+  capability: cap-support-coding-tools
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Every part laid where GitHub Copilot reads it, through its own adapter.
+    Neither built nor filed.
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-install-for-antigravity
+  slug: fn-install-for-antigravity
+  capability: cap-support-coding-tools
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Every part laid where Antigravity reads it, through its own adapter. Neither
+    built nor filed.
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-install-for-factory
+  slug: fn-install-for-factory
+  capability: cap-support-coding-tools
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Every part laid where Factory's agent reads it, through its own adapter.
+    Supported once, then removed.
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-map-model-tier
+  slug: fn-map-model-tier
+  capability: cap-support-coding-tools
+  intents:
+  - bi-7
+  status: proposed
+  one_line: The tier a part names is read once, and each tool's adapter writes it
+    where that tool takes a model for that kind of part, so the part runs on the tier
+    its maker chose. Built in part.
+  doc: software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -3385,5 +3494,50 @@ ices:
   for: fn-move-model
   for_kind: feature
   doc: software-delivery-planning/upgrade-project/fn-move-model/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-support-coding-tools
+  for: cap-support-coding-tools
+  for_kind: capability
+  doc: software-delivery-planning/support-coding-tools/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-install-for-claude-code
+  for: fn-install-for-claude-code
+  for_kind: feature
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-install-for-codex
+  for: fn-install-for-codex
+  for_kind: feature
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-install-for-copilot
+  for: fn-install-for-copilot
+  for_kind: feature
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-install-for-antigravity
+  for: fn-install-for-antigravity
+  for_kind: feature
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-install-for-factory
+  for: fn-install-for-factory
+  for_kind: feature
+  doc: software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-map-model-tier
+  for: fn-map-model-tier
+  for_kind: feature
+  doc: software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
