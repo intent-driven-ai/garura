@@ -1,0 +1,58 @@
+{
+  "id": "bi-7",
+  "issue": 7,
+  "title": "Install and distribute",
+  "outcome": "A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.",
+  "why": "A team can only use Garura once it's in their project, and only keeps using it if upgrades are safe.",
+  "asked_by": "the product owner",
+  "proof": [
+    "A first install takes one step.",
+    "An upgrade loses nothing the team changed.",
+    "Each tool gets what it supports."
+  ],
+  "must_not": "Change what a project's people changed without asking them.",
+  "touches": [
+    {
+      "title": "Install into a project",
+      "link": "../software-delivery-planning/install-into-project/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Install Garura in one step, with a record of what it laid",
+      "link": "../software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Choose what the project gets",
+      "link": "../software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Check that the installed Garura runs before the team uses it",
+      "link": "../software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Lay Garura's guardrails with the install",
+      "link": "../software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Update what the project gets as the project changes",
+      "link": "../software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Take Garura out of the project again",
+      "link": "../software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

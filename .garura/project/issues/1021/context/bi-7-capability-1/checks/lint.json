@@ -1,0 +1,78 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

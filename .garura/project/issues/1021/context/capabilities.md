@@ -72,6 +72,15 @@ None yet.
 - Install into a project: A team installs Garura, chooses what it gets, and can take it out again.
 - Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work. It is an engine thing, like installation, not a play.
 - Support each coding tool: Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.
+  - Set by the product owner on 2026-11-10, after the research in .garura/project/issues/1021/context/bi-7-inventory/inventory.md and a proposed list of four. His words: "yes, record it and draft the first one".
+    1. Install into a project, as above. Lean: one install engine behind both the one-line command and the install play (read as what "an engine thing" means), so the one-step install also keeps a record of what it laid, removes what Garura dropped, offers a choice of parts and can be taken out again; a first install never writes over a project's own files.
+    2. Upgrade a project, as above. Leans: "Installs follow the renames" (cap-747, filed under the closed bi-734) merges into it; an upgrade finds a person's edit to an installed part and asks before replacing it (#945); the model moves only in its structure, shown first and on the person's yes (#835); Garura's own releases and their notes sit here.
+    3. Support each coding tool, as above, one feature per tool with each tool's state named.
+    4. Set a project up after the install (Initialize): new on this list. Its capability is designed in the model with six features and names no intent; the tracker files #862 under BI-7, and ADR 066 §5 names Initialize with install and upgrade as engine things.
+  - Assumed: Antigravity is Google's agent IDE and Factory is Factory.ai's Droids; both confirmed with links when item 3 is drafted.
+  - Left to the close: the domain (lean: software delivery planning, its opening widened, as for BI-6).
+  - Not on this list: #973 (Garura's docs and command pages stay in step with what ships), brought to the review of Developer tooling.
+  - Found and not filed: the one-line installer's first install writes over a CLAUDE.md the project already has (installer/install.sh line 371), and it does not lay the agents' shared files (installer/install.sh lines 274-285).
 
 ## Developer tooling
 - Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.

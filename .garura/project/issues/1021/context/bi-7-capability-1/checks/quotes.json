@@ -1,0 +1,1443 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 234,
+  "not_found": 5,
+  "problems": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "The release facts: git tag v3.0.0 of 2026-10-07, and `git rev-list --count v3.0.",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "The short line beside each feature: the opening words of that feature's own page",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "Shelf: none. No knowledge shelf in any memory tier covers installing, distributi",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "The release facts: git tag v3.0.0 of 2026-10-07, and `git rev-list --count v3.0.",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "The release facts: git tag v3.0.0 of 2026-10-07; the v3.0.0 tree holds no `memor",
+      "status": "no source path",
+      "quotes": []
+    }
+  ],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "It is an engine thing, like installation, not a play.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "one install engine behind both the one-line command and the install play",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "also keeps a record of what it laid, removes what Garura dropped, offers a choice of parts and can be taken out again; a first install never writes over a project's own files",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "yes, record it and draft the first one",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Support each coding tool: Each team gets an install built for its tool",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Set a project up after the install (Initialize): new on this list.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Garura's own releases and their notes sit here.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "A team can only use Garura once it's in their project, and only keeps using it if upgrades are safe.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "A first install takes one step.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "quote": "Initialize starts where that install stops, so a project has no Garura memory of its own until initialize runs, and the two never write the same files.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+      "quote": "We are never touching production.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "installer/install.sh",
+      "quote": "install the latest published release",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "installer/install.sh",
+      "quote": "This release has no memory system; skipped.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "README.md",
+      "quote": "A version that does not exist stops the install with a message; it never falls back to `main`.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "The adapter is the seam.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "Only manifest-recorded paths are candidates",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "The install never changes a product model the project already has (#813).",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "which would put how Garura is built into every agent of the project",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/common.py",
+      "quote": "neither ships to a project",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "never clobber the user's own",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "Both install paths call this",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "never removes a file it cannot prove the installer placed",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "Prefer `--dry-run` when unsure.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/components/plays/uninstall-garura/scripts/uninstall.py",
+      "quote": "never deletes work",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "docs/adr/038-install-brings-no-memory.md",
+      "quote": "install finishes without any memory.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A laid tool must pass its smoke check.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md",
+      "quote": "Initialize, seeding memory and upgrade are engine things, not plays.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "Never answer from what you already know, and never from the web, without a",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "GitHub #513",
+      "quote": "Someone with no prior exposure to Garura can install it into their project in one step, and choose a subset of components while doing so.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "GitHub #568",
+      "quote": "The installed project records which Garura version it has, so a later upgrade and a bug report can name it.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "GitHub #893",
+      "quote": "The guardrails are laid by the Garura install, so every project that uses Garura gets them, not only Garura's own repo.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "GitHub #945",
+      "quote": "It shows the person what it will do before it does it, and reports what it did.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "phoenix:standards/rules/naming.yaml",
+      "quote": "install: Harness. Put Garura into a project.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "phoenix:standards/rules/naming.yaml",
+      "quote": "uninstall: Harness. Take Garura out of a project.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "The release facts: git tag v3.0.0 of 2026-10-07, and `git rev-list --count v3.0.",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "The short line beside each feature: the opening words of that feature's own page",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "Shelf: none. No knowledge shelf in any memory tier covers installing, distributi",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "an engine thing",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "not a play",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "also keeps a record of what it laid, removes what Garura dropped, offers a choice of parts and can be taken out again; a first install never writes over a project's own files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "install finishes without any memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "the two never write the same files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "can only use Garura once it's in their project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Both install paths call this",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "This release has no memory system; skipped.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "would put how Garura is built into every agent of the project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "a first install never writes over a project's own files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The install never changes a product model the project already has (#813).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "never deletes work",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "neither ships to a project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "would put how Garura is built into every agent of the project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "We are never touching production.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "it never falls back to `main`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "an engine thing, like installation, not a play",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Both install paths call this",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A first install takes one step.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Someone with no prior exposure to Garura can install it into their project in one step",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The installed project records which Garura version it has, so a later upgrade and a bug report can name it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Only manifest-recorded paths are candidates",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "never removes a file it cannot prove the installer placed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "never clobber the user's own",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A laid tool must pass its smoke check.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "install finishes without any memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "the person what it will do before it does it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Prefer `--dry-run` when unsure.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The adapter is the seam.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Never answer from what you already know, and never from the web, without a",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "removes what Garura dropped",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "chooses what it gets",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "Only manifest-recorded paths are candidates",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "over a previously full install retires the out-of-scope components",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "only paths inside the target are ever touched",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "GitHub #945",
+      "quote": "It shows the person what it will do before it does it, and reports what it did.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "GitHub #945",
+      "quote": "No part is overwritten that a person changed, unless the person says so.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "GitHub #843",
+      "quote": "so a later plain `harness` install (or an uninstall) takes them out again.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "GitHub #938",
+      "quote": "A reinstall removes the parts Garura no longer has, even in a project installed before the install record",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-inventory/inventory.md",
+      "quote": "The one-line installer removes nothing, so a dropped play still shows as a command and runs its old way",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Only manifest-recorded paths are candidates",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "removes what Garura dropped",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "chooses what it gets",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "over a previously full install retires the out-of-scope components",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Only manifest-recorded paths are candidates",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "only paths inside the target are ever touched",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "the person what it will do before it does it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "No part is overwritten that a person changed, unless the person says so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "can be taken out again",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "never removes a file it cannot prove the installer placed",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "there is nothing to remove",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "print what would be removed and change nothing",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "Prefer `--dry-run` when unsure.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "issues, specs, and evidence a person produced",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "install did not put it there, and other projects use it.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/scripts/uninstall.py",
+      "quote": "never deletes work",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/uninstall-garura/scripts/uninstall.py",
+      "quote": "Deleting it on one project's uninstall would yank it from the others.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "The install never changes a product model the project already has (#813).",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "GitHub #369",
+      "quote": "Uninstall removes everything but asks the user first",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "GitHub #369",
+      "quote": "An install manifest records every installed file with an MD5 hash",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "GitHub #945",
+      "quote": "what the project's people changed since;",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "issues, specs, and evidence a person produced",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "other projects use",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "can take it out again",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "never removes a file it cannot prove the installer placed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "print what would be removed and change nothing",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Prefer `--dry-run` when unsure.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "there is nothing to remove",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "never removes a file it cannot prove the installer placed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "never deletes work",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The install never changes a product model the project already has (#813).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Prefer `--dry-run` when unsure.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Uninstall removes everything but asks the user first",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Deleting it on one project's uninstall would yank it from the others.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "the install did not put it there, and other projects use it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "what the project's people changed since",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "offers a choice of parts",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "every component except the meta harness plays and the harness-only skills",
+      "status": "found across lines"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "The meta harness plays are garura's own build tooling",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "must not carry the other product plays",
+      "status": "found across lines"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "kept play gains a new worker, add it there in the same change.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "over a previously full install retires the out-of-scope components",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/common.py",
+      "quote": "neither ships to a project",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "GitHub #478",
+      "quote": "Play recompiled from its ICE, not hand-edited.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "GitHub #843",
+      "quote": "plus the plays a person names for testing, with each play's own skills and agents found and added",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "GitHub #843",
+      "quote": "The installer finds each named play's skills and agents itself; the person does not list them.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "GitHub #843",
+      "quote": "The extra plays are named",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "GitHub #513",
+      "quote": "Let the receiving project choose what it takes rather than accepting everything.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "GitHub #513",
+      "quote": "choose a subset of components while doing so",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Build your own harness: You can keep building your harness with your own plays, loops and sub-agents, in a consistent way.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "must not carry the other product plays",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "plus the plays a person names for testing, with each play's own skills and agents found and added",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "chooses what it gets",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "every component except the meta harness plays and the harness-only skills",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Play recompiled from its ICE, not hand-edited.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "kept play gains a new worker, add it there in the same change.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Let the receiving project choose what it takes rather than accepting everything.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The installer finds each named play's skills and agents itself; the person does not list them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The meta harness plays are garura's own build tooling",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "re-running with",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "over a previously full install retires the out-of-scope components",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The extra plays are named",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "choose a subset of components while doing so",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "neither ships to a project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "a subset",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "It is an engine thing, like installation, not a play.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "one install engine behind both the one-line command and the install play",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "a first install never writes over a project's own files",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "A first install takes one step.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "install the latest published release",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "This release has no memory system; skipped.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "README.md",
+      "quote": "A version that does not exist stops the install with a message; it never falls back to `main`.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "which would put how Garura is built into every agent of the project",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/common.py",
+      "quote": "Replace dest with a fresh copy of src",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "core/components/plays/uninstall-garura/SKILL.md",
+      "quote": "never removes a file it cannot prove the installer placed",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "docs/adr/038-install-brings-no-memory.md",
+      "quote": "install finishes without any memory.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "The install lays them in the installed `_shared/` folder, beside the plays' shared files.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md",
+      "quote": "the parts that ask a person follow the play's floor in place of the rule",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "GitHub #513",
+      "quote": "Someone with no prior exposure to Garura can install it into their project in one step, and choose a subset of components while doing so.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "GitHub #568",
+      "quote": "The installed project records which Garura version it has, so a later upgrade and a bug report can name it.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "The release facts: git tag v3.0.0 of 2026-10-07, and `git rev-list --count v3.0.",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A team installs Garura",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A first install takes one step.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "install the latest published release",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "This release has no memory system; skipped.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The install lays them in the installed `_shared/` folder, beside the plays' shared files.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Replace dest with a fresh copy of src",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "an engine thing, like installation, not a play",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A first install takes one step.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Someone with no prior exposure to Garura can install it into their project in one step",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "a first install never writes over a project's own files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The installed project records which Garura version it has, so a later upgrade and a bug report can name it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "it never falls back to `main`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "never removes a file it cannot prove the installer placed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "the parts that ask a person follow the play's floor in place of the rule",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "install finishes without any memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "would put how Garura is built into every agent of the project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "GitHub #893",
+      "quote": "The guardrails are laid by the Garura install, so every project that uses Garura gets them, not only Garura's own repo.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "GitHub #893",
+      "quote": "can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "GitHub #893",
+      "quote": "to shape, not decided",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "GitHub #893",
+      "quote": "a script Claude Code runs before each tool call",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "GitHub #893",
+      "quote": "Which paths and which plays the hook covers, and how a person overrides it on purpose.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "GitHub #945",
+      "quote": "nothing the install needs there can arrive (the guardrail hooks of #893 will need it)",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "GitHub #775",
+      "quote": "Garura's guardrails ship with the harness and can be turned on or off",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md",
+      "quote": "Blocking a read with a hook is left to the guardrails the install will lay (#893), which the install does not lay today.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "to shape, not decided",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "a script Claude Code runs before each tool call",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The guardrails are laid by the Garura install, so every project that uses Garura gets them",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "nothing the install needs there can arrive (the guardrail hooks of #893 will need it)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Blocking a read with a hook is left to the guardrails the install will lay (#893), which the install does not lay today.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "so every project that uses Garura gets them, not only Garura's own repo.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Which paths and which plays the hook covers, and how a person overrides it on purpose.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+      "quote": "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "Both install paths call this",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "The check runs the tool's health command the way an agent runs it",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "Phoenix memory not downloaded yet is reported, not failed",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "core/components/plays/install-garura/scripts/tools_system.py",
+      "quote": "A tool that does not load stops the install with a message that names it.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "installer/install.sh",
+      "quote": "This release has no memory system; skipped.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "installer/install.sh",
+      "quote": "check leaves an install the next run can see and lay again",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "docs/adr/038-install-brings-no-memory.md",
+      "quote": "The install does not fail when Phoenix memory is not on the machine yet.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "docs/adr/038-install-brings-no-memory.md",
+      "quote": "install finishes without any memory.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A laid tool must pass its smoke check.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "the check asks its source whether it answers, and notes it when it does not.",
+      "status": "found on one line"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "The release facts: git tag v3.0.0 of 2026-10-07; the v3.0.0 tree holds no `memor",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "the way an agent runs it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A tool that does not load stops the install with a message that names it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A team installs Garura",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "Both install paths call this",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "This release has no memory system; skipped.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "the way an agent runs it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "The install does not fail when Phoenix memory is not on the machine yet.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "A laid tool must pass its smoke check.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "leaves an install the next run can see and lay again",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "source": "(body quote, any source of the page)",
+      "quote": "install finishes without any memory.",
+      "status": "found"
+    }
+  ]
+}

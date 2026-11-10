@@ -1,0 +1,63 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/install-into-project/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-choose-parts/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-check-install/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-take-out/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}
