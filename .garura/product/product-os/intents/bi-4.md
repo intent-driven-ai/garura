@@ -35,5 +35,10 @@
 - [Walk the running build with a keyboard alone and with a screen reader, in the testing environment](../software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md) (feature) — adds
 - [Give the accessibility verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md) (feature) — adds
 - [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds
+- [Test the user experience on each surface](../software-delivery-planning/test-user-experience/capability.md) (capability) — adds
+- [Test the running build's user experience with tools, in the testing environment](../software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md) (feature) — adds
+- [Walk the running build against its surface and its screen design, in the testing environment](../software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md) (feature) — adds
+- [Give the user experience verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md) (feature) — adds
+- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
