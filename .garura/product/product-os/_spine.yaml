@@ -139,19 +139,6 @@ capabilities:
   - cap-739
   identified_by: ''
   issue: 742
-- id: cap-747
-  slug: cap-747
-  domain: ''
-  intents:
-  - bi-734
-  status: proposed
-  detail: directional
-  one_line: Installs follow the renames
-  doc: capabilities/cap-747/capability.md
-  depends_on:
-  - cap-739
-  identified_by: ''
-  issue: 747
 - id: cap-shape-slice
   slug: shape-slice
   domain: dom-software-delivery-planning
@@ -605,6 +592,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-upgrade-project
+  slug: upgrade-project
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-7
+  status: proposed
+  detail: directional
+  one_line: 'Upgrade a project: A project moves to a new version knowing what changes,
+    including its model, without losing its own work.'
+  doc: software-delivery-planning/upgrade-project/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -847,16 +850,21 @@ features:
   issue: 746
 - id: fn-748
   slug: fn-748
-  capability: cap-747
+  capability: cap-upgrade-project
   intents:
-  - bi-734
+  - bi-7
   status: proposed
-  one_line: An install removes old names and lays the new ones
+  one_line: On an upgrade, a part under an old name goes once its new name is laid,
+    and a part the new version no longer has goes, each only when the record or the
+    part's own file proves Garura laid it, even in a project installed before the
+    record existed.
   doc: features/fn-748/feature.md
   depends_on:
   - fn-741
   identified_by: ''
   issue: 748
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-795
   slug: fn-795
   capability: cap-shape-slice
@@ -2478,6 +2486,86 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-upgrade-in-one-step
+  slug: fn-upgrade-in-one-step
+  capability: cap-upgrade-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: One run of the install engine over the earlier install shows the two versions,
+    the notes of each release between them and the list of what changes in this project,
+    and on the person's yes moves the project, records the new version and reports
+    what changed.
+  doc: software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-cut-release
+  slug: fn-cut-release
+  capability: cap-upgrade-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: The product owner of Garura cuts a fixed, named version from Garura's
+    newest work, with notes in plain words, so an upgrade has a version to move to
+    and a team can read what it changes.
+  doc: software-delivery-planning/upgrade-project/fn-cut-release/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-keep-edits
+  slug: fn-keep-edits
+  capability: cap-upgrade-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: The upgrade finds each installed part a person changed since it was laid,
+    shows the change, and asks before replacing it.
+  doc: software-delivery-planning/upgrade-project/fn-keep-edits/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-bring-new-settings
+  slug: fn-bring-new-settings
+  capability: cap-upgrade-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: New settings and settings files arrive, every value the team set stays,
+    settings that name a renamed part follow its new name, and Garura's instructions
+    go beside the team's own file only when a rule is missing.
+  doc: software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-move-model
+  slug: fn-move-model
+  capability: cap-upgrade-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: The upgrade shows each key, file name, folder and heading of the model
+    that the new version reads differently, and on the person's yes moves them, never
+    what they say.
+  doc: software-delivery-planning/upgrade-project/fn-move-model/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -3254,5 +3342,48 @@ ices:
   for: fn-take-out
   for_kind: feature
   doc: software-delivery-planning/install-into-project/fn-take-out/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-upgrade-project
+  for: cap-upgrade-project
+  for_kind: capability
+  doc: software-delivery-planning/upgrade-project/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-upgrade-in-one-step
+  for: fn-upgrade-in-one-step
+  for_kind: feature
+  doc: software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-cut-release
+  for: fn-cut-release
+  for_kind: feature
+  doc: software-delivery-planning/upgrade-project/fn-cut-release/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-748
+  for: fn-748
+  for_kind: feature
+  doc: features/fn-748/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-keep-edits
+  for: fn-keep-edits
+  for_kind: feature
+  doc: software-delivery-planning/upgrade-project/fn-keep-edits/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-bring-new-settings
+  for: fn-bring-new-settings
+  for_kind: feature
+  doc: software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-move-model
+  for: fn-move-model
+  for_kind: feature
+  doc: software-delivery-planning/upgrade-project/fn-move-model/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'

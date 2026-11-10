@@ -47,7 +47,7 @@ A capability or a feature can need another capability or feature. It can also be
 - Given the spine schema at version 2 and a capability whose spine entry has `depends_on`, when the linter runs, then it warns, names the old field, and reads the values as needs.
 - Given the same entry with the spine schema at version 3, when the linter runs, then it fails with an error that names the old field.
 - Given the rename is done, when the repo is searched for `depends_on` on capability and feature entries, then none is left, and the ready check reads `needs`.
-- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then cap-742 and cap-747 still need cap-739, and fn-727 still needs fn-724, with no value lost.
+- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then cap-742 still needs cap-739, and fn-727 still needs fn-724, with no value lost.
 
 ## Out of scope
 - The ready answer itself. A capability or feature is ready without a domain (fn-724) owns how needs decide readiness.
