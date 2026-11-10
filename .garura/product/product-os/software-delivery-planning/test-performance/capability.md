@@ -86,7 +86,7 @@ What is not built yet:
 - The same file, the line moved here: "Performance testing (planned): The product is tested for how it performs."
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings."
 - The product owner's approval of Test security on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md: "the product owner as the one who gets a finding that changes the architecture"
-- .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Let a builder grade itself, weaken a check to pass, or merge without a person."
+- .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - .garura/product/product-os/_spine.yaml, Garura's own product profile: it holds reliability, maintainability and security, each "level: medium", and no performance level; no capability in the model has a performance need.
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "level scale: none < low < medium < high < xhigh", "speed/latency", "(the standard / how it's measured)", "handles 10x load", "The box moves ONLY by an approved decision."

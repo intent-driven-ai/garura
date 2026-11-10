@@ -96,7 +96,7 @@ Status: not built. What exists covers only parts of it:
 - Writing the tests. Write all the tests for the work, and show each one fails (fn-write-failing-tests) does it.
 - Updating the design, and changing a name or interface the design gave. Design the work does it, and Update the tests and the code as the work changes (fn-update-tests-and-code) follows it.
 - Fixing a bug under the chosen item. Fix defects test first does it.
-- Checking the code against the project's standards. Validate its own code, in Code → Validation, does it.
+- Checking the code against the project's standards. Check the code against its standards, in Code → Validation, does it.
 - Running the evals of the slice. Test with evals the builder never sees, in Code → Validation, does it.
 - Setting up the dev sandbox. Environment setup does it.
 - Keeping the test model setting, and which models and services there are to choose from. Settings and Intelligent model routing do them.
@@ -109,7 +109,7 @@ Status: not built. What exists covers only parts of it:
 - The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "then all the code until every test passes", "then the code is tidied while they stay passing", "The builder never sees the tests; a separate check runs them."
 - The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Settings: Everything that can be turned on or off lives in settings.", "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
 - .garura/product/product-os/intents/bi-3.md: "Tell the builder the steps, or show the builder the tests."
-- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or merge without a person."
+- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: "The builder's part holds the story's title, goals, limits and Context guidance"
 - .garura/product/product-os/software-delivery-planning/design-work/capability.md: "Out: writing the tests and the code, and building the application, in the order the developer chooses. Build the work test first owns them, and the developer does that work. The design is their input."
 - .garura/product/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md: "the developer, while building, finds the design wrong and builds it another way, with the reason written down;"

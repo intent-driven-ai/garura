@@ -73,7 +73,7 @@ Status: not built. What exists covers only parts of it:
 - Updating the declared surfaces as the project changes. Update the surfaces as the project changes (fn-update-surfaces) does it.
 - Choosing the one surface of a slice and the person who tests it there. Design slices owns it.
 - Designing a slice on its surface, such as its screens, its flows, its states and the look of each screen. Designing each slice (Design → Code) owns it, following what is declared here.
-- The step library of each kind of surface and the eval of each slice. Design for evaluation and testing owns them.
+- The step library of each kind of surface and the eval of each slice. Write the evals that check the work owns them.
 - The technology a surface and its design system are built with, such as a web framework or a component library and their versions. Design the technology and architecture owns it.
 - The first rough profile and the product's quality levels. Specify the product owns them.
 - Moving an approved memory update into Phoenix memory. A person does it on purpose, as a promotion, outside this work.

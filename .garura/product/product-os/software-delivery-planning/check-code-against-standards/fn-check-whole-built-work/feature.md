@@ -55,7 +55,7 @@ Status: not built. What exists covers only parts of it:
 ## Sources
 - The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence."
-- .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Out: checking the code against the project's standards. Validate its own code, in Code → Validation, owns it; the build follows the standards while it writes."
+- .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Out: checking the code against the project's standards. Check the code against its standards, in Code → Validation, owns it; the build follows the standards while it writes."
 - .garura/product/product-os/software-delivery-planning/test-security/fn-test-code-security/feature.md: "It tests the whole of the built work, not only the lines a change added."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "We are never touching production."
 - .garura/product/product-os/_spine.yaml, Garura's own product profile: "lint_grounding.py --spine link check + check_ice_workable.py tests", "ready-check and linter tests; spine before/after diff on the rename"

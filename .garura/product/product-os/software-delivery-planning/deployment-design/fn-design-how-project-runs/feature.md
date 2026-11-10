@@ -94,7 +94,7 @@ Status: not built. What exists covers only parts of it:
 - Declaring which environments exist and how many, and building and setting up each one when a deployment to it is needed. Environment setup owns it, from the design made here.
 - The parts of the system and what each is built with. Design the technology and architecture owns it.
 - Carrying out the pipeline. Continuous integration and Continuous delivery do it, from this design.
-- Writing and running the tests. The testing capabilities, Test with evals the builder never sees, and Design for evaluation and testing own them.
+- Writing and running the tests. The testing capabilities of Code → Validation and Validation → Run own them, and Write the evals that check the work writes each slice's eval.
 - Making the container, Kubernetes, pipeline and infrastructure files. Build the work makes them, from work items.
 - Anything in production. The project never touches it.
 - The product profile and its quality levels. Specify the product owns them.

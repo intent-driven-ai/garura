@@ -72,7 +72,7 @@ Status: not built. What exists covers only part of it:
 - The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline.", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "A person confirms each surface, property and guideline"
 - .garura/product/product-os/software-delivery-planning/design-work/capability.md: "the technical lead confirms or changes each choice"
-- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or merge without a person."
+- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - standards/rules/expectation-generation.md, in Phoenix memory: "Can the builder fix this from information it already has, deterministically?", "any irreversible / outward-facing decision", "the inverse of the failure, as guidance, never code"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The handoff plan never names the failure condition, its id or the check."
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "level scale: none < low < medium < high < xhigh", "The box moves ONLY by an approved decision."

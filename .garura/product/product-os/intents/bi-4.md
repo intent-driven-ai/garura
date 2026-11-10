@@ -1,6 +1,6 @@
 # Code → Validation
 
-**Outcome:** Code is proven to do what the spec asked, by evals its builder never sees, and every change lands the same way.
+**Outcome:** Built code is proven from outside before it moves on: what the product does is tested by evals its builder never sees; its security, performance, accessibility and user experience on each surface are tested in the testing environment against the levels and designs set before the build; and every change and the whole built work are checked against the project's standards.
 
 **Why:** A builder believes its own work, so its opinion isn't evidence. "Intent in, quality out" depends on an outside check.
 
@@ -8,9 +8,10 @@
 
 **Proof it is met:**
 - Every expected result has a pass or fail from an eval the builder never saw.
-- Every change lands reviewed, and a person approves the merge.
+- Every level the product profile sets, and each surface and screen design, has a pass, a fail or a reason it was not tested, from tests run in the testing environment, never in production.
+- Every change is checked against the project's standards, by a part that is not its builder, before it is merged.
 
-**Must not:** Let a builder grade itself, weaken a check to pass, or merge without a person.
+**Must not:** Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
 **Tracker:** #4

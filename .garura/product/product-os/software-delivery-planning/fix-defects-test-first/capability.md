@@ -65,7 +65,7 @@ What is not built yet:
 - Out: designing the work. Design the work owns it; a fix never goes through it.
 - Out: building stories, chores and spikes, and a failure the eval finds before the work is accepted. Build the work test first owns them.
 - Out: writing the evals and the hidden file of failure conditions. Write the evals that check the work owns them.
-- Out: running the evals, giving the verdict, writing the handoff plan, and checking the code against the project's standards. Code → Validation owns them, through Test with evals the builder never sees and Validate its own code.
+- Out: running the evals, giving the verdict, writing the handoff plan, and checking the code against the project's standards. Code → Validation owns them, through Test with evals the builder never sees and Check the code against its standards.
 - Out: choosing which defect is fixed next, the status of each item, and tracking the work in the tracker. Orchestrate agent work through planning owns them.
 - Out: opening the branch, committing, reviewing and landing the change. Ship every change the same way, in Developer tooling, owns them.
 - Out: setting up the place where the code runs while it is fixed. Environment setup owns it, through its dev sandbox.
@@ -104,7 +104,7 @@ What is not built yet:
 - The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "then you refactor if needed", "the code, when being written, should not get to see what tests there were", "make sure they are failing", "This can be grouped so that all the tests are written, and then all the code is written to make sure all the tests are passing.", "The coding will be done by the developer, including the TDD."
 - The product owner on 2026-11-09, on the first overlap brief, in the same file, quoted with "differnet" tidied to "different": "i need a config that would send test building and running to a different model, like a codex or another service.", "test running can be done via a tool."
 - .garura/product/product-os/intents/bi-3.md: "Tell the builder the steps, or show the builder the tests."
-- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or merge without a person."
+- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "Out: fixing a defect. Fix defects test first owns it; a bug gathered here is handed on to it."
 - .garura/product/product-os/software-delivery-planning/design-work/capability.md: "Out: the root cause and the fix design of a bug gathered under the chosen item. Fix defects test first owns them; the design names the bug and leaves its fix there."

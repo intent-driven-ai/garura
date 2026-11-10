@@ -69,8 +69,8 @@ Status: built in part. The review of each change, /check-change, runs on every c
 
 ## Sources
 - The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
-- .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Let a builder grade itself, weaken a check to pass, or merge without a person."
-- .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Out: checking the code against the project's standards. Validate its own code, in Code → Validation, owns it; the build follows the standards while it writes."
+- .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
+- .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Out: checking the code against the project's standards. Check the code against its standards, in Code → Validation, owns it; the build follows the standards while it writes."
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "Each slice is then designed and built on the project's architecture, and does not choose its own."
 - .garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md: "a group skipped by mistake hides real findings", "Changing the review play (/check-change) to read this record, run no rule of a skipped group and name the skipped groups in its own record"
 - core/components/plays/check-change/reference/ice.md: "The guiding rule: the change under review is never its own standard.", "what categories of work the diff actually contains"

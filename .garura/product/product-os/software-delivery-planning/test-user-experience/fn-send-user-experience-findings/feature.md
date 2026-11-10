@@ -68,7 +68,7 @@ Status: not built. What exists covers only part of it:
 - The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md: "a finding about the design system's colours or the screen design goes to the product owner"
 - The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md: "with the verdict saying so plainly, neither a pass nor a fail, when no performance level is set"
 - The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
-- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or merge without a person."
+- .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "A person confirms each surface, property and guideline"
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md: "A person confirms each update."
 - .garura/product/product-os/software-delivery-planning/design-work/capability.md: "the technical lead confirms or changes each choice"
