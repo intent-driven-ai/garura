@@ -20,7 +20,7 @@ This capability does six jobs:
 
 It uses what Install into a project keeps: the engine, the install record and the version. A dropped part goes through the same step that Update what the project gets as the project changes uses. Laying each part in each coding tool's own shape on an upgrade is Support each coding tool's, the third capability of Install and distribute. The project's own memory, its review rules and its tracker's work-item types are set up by Set a project up after the install (Initialize), the fourth; an upgrade never writes them.
 The upgrade works only in the project's folder and in the machine's own Garura folders, and production is never touched.
-It matters because a team "only keeps using it if upgrades are safe": a team that can see what a version changes, and knows that nothing its people changed is lost, takes each new version instead of staying on an old one. For now it sits in software delivery planning, beside Install into a project and Initialize; the domain of Install and distribute is settled once all its capabilities are drafted.
+It matters because a team "only keeps using it if upgrades are safe": a team that can see what a version changes, and knows that nothing its people changed is lost, takes each new version instead of staying on an old one. It sits in software delivery planning with the other three capabilities of Install and distribute, and the domain's first paragraph says so.
 
 Features:
 - Move the project to a new version, seeing first what it changes (fn-upgrade-in-one-step): one run of the install engine over the earlier install shows the two versions, the notes of each release between them and the list of what changes in this project, and on the person's yes moves the project, records the new version and reports what changed.
@@ -107,3 +107,4 @@ What is not built yet:
 - The stock-take of Install and distribute, .garura/project/issues/1021/context/bi-7-inventory/inventory.md, sections 3, 5 and 8.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers upgrading, versioning or releasing a harness.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in."

@@ -20,7 +20,7 @@ This capability does six jobs:
 
 Each job is one tool's adapter behind the one engine of Install into a project, which "names no coding tool in its own steps", so a new tool needs no change to the engine. Upgrade a project, the second capability, lays parts through the same adapters on an upgrade. Set a project up after the install (Initialize), the fourth capability, starts where the install stops, whichever tool the team uses. Which model and effort each part runs on belongs to Intelligent model routing, in Standards, structure, settings and memory; this capability carries only the tier a part already names. What Garura's parts are and how they are built stays with Standards, and what each guardrail guards stays with Orchestration.
 The install works only in the project's folder and in the machine's own Garura folders, and production is never touched.
-It matters because Install and distribute promises that a team "uses it on whichever coding tool it has", and its third proof is "Each tool gets what it supports.": today one of the five tools gets an install, so a team on any other tool cannot use Garura at all. For now it sits in software delivery planning, beside Install into a project, Upgrade a project and Initialize; the domain of Install and distribute is settled once all its capabilities are drafted.
+It matters because Install and distribute promises that a team "uses it on whichever coding tool it has", and its third proof is "Each tool gets what it supports.": today one of the five tools gets an install, so a team on any other tool cannot use Garura at all. It sits in software delivery planning with the other three capabilities of Install and distribute, and the domain's first paragraph says so.
 
 Features:
 - Install Garura for Claude Code (fn-install-for-claude-code): every sub-agent, play, loop and skill is laid where Claude Code reads it, each sub-agent with its tier, with the shared files, the memory guide every agent reads, and Garura's instructions beside the team's own. Built.
@@ -113,3 +113,4 @@ What is not built yet:
 - The stock-take of Install and distribute, .garura/project/issues/1021/context/bi-7-inventory/inventory.md, sections 4, 9, 10 and 12.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers what a coding tool loads from a project.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in."

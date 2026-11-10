@@ -21,7 +21,7 @@ This capability does six jobs:
 Through the one engine, both front doors do all six. In the words the product owner agreed, the one-step install "also keeps a record of what it laid, removes what Garura dropped, offers a choice of parts and can be taken out again; a first install never writes over a project's own files".
 It lays the pieces and stops. The install brings no memory: in the product owner's words, "install finishes without any memory." Set a project up after the install (Initialize), the fourth capability of Install and distribute, starts where the install stops: it asks the set-up questions that give the project its own memory, its review rules and its tracker's work-item types, and "the two never write the same files". Moving a project to a new version, knowing what it changes, is Upgrade a project, the second capability.
 The install works only in the project's folder and in the machine's own Garura folders, and production is never touched.
-It matters because a team "can only use Garura once it's in their project": the install is the first thing a team meets, and a team that can put Garura in with one step and take it out again can try it at little cost. For now it sits in software delivery planning, beside Initialize; the domain of Install and distribute is settled once all its capabilities are drafted.
+It matters because a team "can only use Garura once it's in their project": the install is the first thing a team meets, and a team that can put Garura in with one step and take it out again can try it at little cost. It sits in software delivery planning with the other three capabilities of Install and distribute, and the domain's first paragraph says so.
 
 Features:
 - Install Garura in one step, with a record of what it laid (fn-install-in-one-step): one command in the project's folder, with no copy of Garura's source, lays Garura for the team's coding tool from the version named or the default, keeps the version and every part laid in the install record, and writes over no file of the project's own.
@@ -109,3 +109,4 @@ What is not built yet:
 - The stock-take of Install and distribute, .garura/project/issues/1021/context/bi-7-inventory/inventory.md, sections 1, 2 and 8.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers installing, distributing or taking out a harness.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in."

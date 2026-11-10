@@ -1,6 +1,6 @@
 # Install and distribute
 
-**Outcome:** A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.
+**Outcome:** A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has. Once Garura is in, the project is set up from the team's own answers, with its own memory, its review rules and its tracker's work-item types, and the team can take Garura out again, keeping its work and its own files.
 
 **Why:** A team can only use Garura once it's in their project, and only keeps using it if upgrades are safe.
 
@@ -10,6 +10,7 @@
 - A first install takes one step.
 - An upgrade loses nothing the team changed.
 - Each tool gets what it supports.
+- After the set-up, the project's own memory and its review hold only what the team's answers call for.
 
 **Must not:** Change what a project's people changed without asking them.
 
