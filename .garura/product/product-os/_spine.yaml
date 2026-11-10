@@ -568,6 +568,27 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-build-or-update-product
+  slug: build-or-update-product
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-6
+  status: proposed
+  detail: directional
+  one_line: 'Build features or update the product model, on its own or at least as
+    recommendations: from the findings the second capability of Run → Product hands
+    on, the change each one calls for is worked out, each change is recommended to
+    the product owner or, where he allows that kind, goes ahead on its own, and each
+    change he approves or allows is started down the path that specifies, plans, designs
+    and builds it, through the part that owns each step, so that what the product
+    becomes next follows what its consumers want.'
+  doc: software-delivery-planning/build-or-update-product/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -2261,6 +2282,88 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-propose-changes
+  slug: fn-propose-changes
+  capability: cap-build-or-update-product
+  intents:
+  - bi-6
+  status: proposed
+  one_line: For each finding handed on, works out the change it calls for, a new feature,
+    new words on a page, a new business intent, a part retired, or none yet, each
+    with the findings and items it rests on, why, how sure, who decides and which
+    part would make it.
+  doc: software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-recommend-changes
+  slug: fn-recommend-changes
+  capability: cap-build-or-update-product
+  intents:
+  - bi-6
+  status: proposed
+  one_line: Shows each change that may not go ahead on its own as a recommendation,
+    and keeps his answer, approve, change or turn down, word for word, with who, when
+    and where; a turned-down one is kept and raised again only when its findings move.
+  doc: software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-act-on-its-own
+  slug: fn-act-on-its-own
+  capability: cap-build-or-update-product
+  intents:
+  - bi-6
+  status: proposed
+  one_line: Reads the project's setting for which kinds of change may go ahead on
+    their own, lets a change of such a kind go ahead when it rests on a clear want
+    of the product's own consumers, and shows it to him at once, waiting for his review,
+    with a way back.
+  doc: software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-start-changes
+  slug: fn-start-changes
+  capability: cap-build-or-update-product
+  intents:
+  - bi-6
+  status: proposed
+  one_line: Hands each approved or allowed change to the part that owns its first
+    step, with its findings and the words approved, and follows it until its owner
+    lands it or turns it down, writing nothing itself.
+  doc: software-delivery-planning/build-or-update-product/fn-start-changes/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-update-recommendations
+  slug: fn-update-recommendations
+  capability: cap-build-or-update-product
+  intents:
+  - bi-6
+  status: proposed
+  one_line: As findings move, the model changes or the setting changes, updates or
+    withdraws each recommendation and each change in flight, with why, and keeps what
+    held before readable.
+  doc: software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -2951,6 +3054,48 @@ ices:
   for: fn-update-understanding
   for_kind: feature
   doc: software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-build-or-update-product
+  for: cap-build-or-update-product
+  for_kind: capability
+  doc: software-delivery-planning/build-or-update-product/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-propose-changes
+  for: fn-propose-changes
+  for_kind: feature
+  doc: software-delivery-planning/build-or-update-product/fn-propose-changes/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-recommend-changes
+  for: fn-recommend-changes
+  for_kind: feature
+  doc: software-delivery-planning/build-or-update-product/fn-recommend-changes/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-act-on-its-own
+  for: fn-act-on-its-own
+  for_kind: feature
+  doc: software-delivery-planning/build-or-update-product/fn-act-on-its-own/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-start-changes
+  for: fn-start-changes
+  for_kind: feature
+  doc: software-delivery-planning/build-or-update-product/fn-start-changes/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-update-recommendations
+  for: fn-update-recommendations
+  for_kind: feature
+  doc: software-delivery-planning/build-or-update-product/fn-update-recommendations/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true

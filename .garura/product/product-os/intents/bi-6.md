@@ -27,5 +27,11 @@
 - [Place each finding on the intents, capabilities and features it bears on](../software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md) (feature) — adds
 - [Show the findings to the product owner, and hand them to the next capability](../software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md) (feature) — adds
 - [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds
+- [Build features or update the product model, on its own or at least as recommendations](../software-delivery-planning/build-or-update-product/capability.md) (capability) — adds
+- [Work out the change each finding calls for, with why and how sure](../software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md) (feature) — adds
+- [Recommend each change to the product owner, and keep his answer](../software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md) (feature) — adds
+- [Let the changes the product owner allows go ahead on their own, and show each one with a way back](../software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md) (feature) — adds
+- [Start each change down the path that builds it, through the part that owns each step](../software-delivery-planning/build-or-update-product/fn-start-changes/feature.md) (feature) — adds
+- [Update the recommendations as the findings and the product change](../software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
