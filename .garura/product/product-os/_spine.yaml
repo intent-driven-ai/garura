@@ -528,6 +528,25 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-connect-use-and-market
+  slug: connect-use-and-market
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-6
+  status: proposed
+  detail: directional
+  one_line: 'Connect to what happens in use and in the market: the project connects
+    to the tools that hold how its product is used and what people say about it (web
+    analytics, product analytics, user feedback and forums such as Reddit), and takes
+    in what they hold, as given, so that what consumers want and what the competition
+    is doing can be understood from what really happened.'
+  doc: software-delivery-planning/connect-use-and-market/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -2070,6 +2089,74 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-connect-tools
+  slug: fn-connect-tools
+  capability: cap-connect-use-and-market
+  intents:
+  - bi-6
+  status: proposed
+  one_line: Proposes the connections the project should have from what the project
+    already holds, records each one the product owner says yes to in the project's
+    settings by name, with what it is read for and where its key is kept, and proves
+    each with a first read that changes nothing.
+  doc: software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-take-in-use
+  slug: fn-take-in-use
+  capability: cap-connect-use-and-market
+  intents:
+  - bi-6
+  status: proposed
+  one_line: Reads from each connected analytics tool what it reports about how people
+    reach and use the product, and keeps each figure as the tool gave it, with the
+    connection, the time it covers and when it was read, and never the record of one
+    person.
+  doc: software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-take-in-what-people-say
+  slug: fn-take-in-what-people-say
+  capability: cap-connect-use-and-market
+  intents:
+  - bi-6
+  status: proposed
+  one_line: Reads what users write to the team and what people say in the forums the
+    project connects to, and keeps each message or post in its own words, with where
+    and when it was written, and with every person's name and personal details taken
+    out.
+  doc: software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-update-connections
+  slug: fn-update-connections
+  capability: cap-connect-use-and-market
+  intents:
+  - bi-6
+  status: proposed
+  one_line: Proposes a new, changed or dropped connection when the product gains a
+    surface, its code starts or stops using a tool, or a connection keeps failing,
+    and keeps what held before and why it changed, with the product owner's yes for
+    each.
+  doc: software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -2686,3 +2773,38 @@ ices:
   doc: software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-connect-use-and-market
+  for: cap-connect-use-and-market
+  for_kind: capability
+  doc: software-delivery-planning/connect-use-and-market/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-connect-tools
+  for: fn-connect-tools
+  for_kind: feature
+  doc: software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-take-in-use
+  for: fn-take-in-use
+  for_kind: feature
+  doc: software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-take-in-what-people-say
+  for: fn-take-in-what-people-say
+  for_kind: feature
+  doc: software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-update-connections
+  for: fn-update-connections
+  for_kind: feature
+  doc: software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
