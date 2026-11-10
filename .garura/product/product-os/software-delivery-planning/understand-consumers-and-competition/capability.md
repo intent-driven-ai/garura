@@ -1,0 +1,108 @@
+# Capability: Understand what consumers want and what the competition is doing
+
+## Directional intent
+Understand what consumers want and what the competition is doing: from what the first capability of Run → Product took in, the needs and problems of the product's consumers, and what the products it competes with are doing, are drawn out, each finding with every item it rests on and how sure it is, placed on the business intents, capabilities and features it bears on, and handed to the product owner and to the next capability, so that what the product becomes next starts from what really happened in use and in the market.
+In the product owner's words, Run → Product must "start understanding what it is that the consumers want and what the competition is doing". The words this page uses:
+- Consumers are the people the product is for: the people who use it, and the people who talk about it or about its kind of product.
+- The competition is the other products people could choose instead of this one. A competitor the project follows is one the product owner said yes to.
+- An item is one thing the first capability took in: "each figure, message or post a connection holds, kept as the tool gave it, with the connection it came from, where it was, and when it was read."
+- A want is a need or a problem that comes up across many items, in plain words, such as patients who want evening appointments, or shoppers who leave when they see the delivery cost.
+- A finding is one want, or one thing a competitor is doing, with every item it rests on, how often it comes up, how sure it is and where it is placed.
+
+This capability does five jobs:
+- Understand what consumers want. The items are sorted into wants and each want is summed: how many items it rests on, from which connections, and how that count moved over time.
+- Understand what the competition is doing. For each competitor the product owner follows, what people say it does, offers or lacks is drawn out of the same items.
+- Place each finding on the business intents, capabilities and features it bears on, or name it as fitting none, a possible new need. What is not a want is named for its owner: a defect, or a part of the product that no page names.
+- Show the findings to the product owner, and hand them to the next capability.
+- Update the understanding as new items come in and the product changes, keeping what held before and why it changed.
+
+It understands and hands on; it changes nothing. It changes no intent, page, model part or memory, and builds nothing. Building features into the product, or updating the product intent model, automatically or as recommendations, is the third capability of Run → Product, and Run → Product must not "Change an intent, or promote memory, without a person."
+Where it meets the other parts that keep the product true:
+- Keep the spec matched to what's built keeps the spec true to what the agents built, "not what the user is telling", in the product owner's words. This capability works from what the users and the market tell. When what people do shows a part of the product that no page names, it names that gap for Keep the spec matched and does not count it as a want.
+- Specify the product turns what a person gives into intents, domains, capabilities and features. A new need that a person states goes there. This capability draws needs from many consumers' items; a want that fits no intent is named as a possible new need for the next capability, and no intent is written here.
+- A product that does not do what its feature says has a defect, not a want. Fix defects test first takes in "a defect reported anywhere", and a failure that an eval finds before the work is accepted goes back to the builder of that work. This capability names a defect it finds in what users say, with its items, and fixes nothing.
+The product owner asked for this kind of work to run with little waiting on people: "This needs to be built for high autonomy.", and, of continuous integration, an agent "basically reflecting and telling us what needs to be done." So the understanding runs on its own each time new items come in, and a person says yes only to which competitors the project follows.
+What to propose, such as a competitor to follow, comes from memory first: the project's own code and memory, then Garura memory, the memory Garura keeps for the project, then Phoenix memory, the shared memory on the machine that every project draws from. Only when none of them answers is it researched, and what research finds is raised as a memory update, a proposed addition to memory, and used only after a person approves it. Nothing comes from what the AI agent knows by itself, about consumers or about a competitor.
+It matters to software delivery planning because that domain turns business intents into working code, and an intent is worth building only while it serves what consumers want. It sits there for now, with the first capability of Run → Product; where the capabilities of Run → Product sit is settled when Run → Product closes.
+
+Features:
+- Understand what consumers want, from what is taken in (fn-understand-consumer-wants): sorts the items the first capability took in into wants, the needs and problems that come up across many items, and sums each one: every item it rests on, quoted as taken in, how many items from which connections, how the count moved over time, and how sure it is.
+- Understand what the competition is doing, from what people say about it (fn-understand-competition): for each competitor the product owner follows, proposed from memory and from the rivals people name, draws from the same items what people say it does, offers or lacks, each finding with every item it rests on.
+- Place each finding on the intents, capabilities and features it bears on (fn-place-findings): names the business intents, capabilities and features each finding bears on, with why, or names it as fitting none, a possible new need, and names a defect or a part no page names for its owner.
+- Show the findings to the product owner, and hand them to the next capability (fn-hand-on-findings): shows the product owner one current report of what consumers want and what the competition is doing, with what is new or has moved and the weak findings marked as weak, and hands the same findings, whole, to the next capability of Run → Product.
+- Update the understanding as new items come in and the product changes (fn-update-understanding): as new items come in, the model changes, or the product owner changes which competitors are followed, updates each finding and its place, marks a want that stops coming up as fading, and keeps what held before readable with why it changed.
+
+What is not built yet:
+- Nothing sorts, sums or places what the users and the market of a product say or do, and nothing understands a competitor. Nothing is taken in yet either: the first capability of Run → Product is not built.
+- An old design note, marked "Discovery draft. Not scoped, not implemented.", named a way to "Ingest customer feedback (tickets, sentiment, analytics) → cluster into themes → auto-file via `capture` → link to existing capabilities." It was never built. Its themes and its links to capabilities are this capability's work; filing work items is not.
+- Built parts give patterns only. Specify the product groups the parts of what one person gives by the need each meets: "Every part is mapped to the intent it serves (the coverage map)". The placement skill finds where a piece of work belongs, but on memory's shelves, not on the product's own model. Each agent decision keeps a trace of the memory lines it rests on, and a check "names every decision whose source no longer says what it said."
+- The old learning play, /learn-outcomes, is stale. It read Garura's own records of delivered work, and each change it proposed carried "the outcome that justifies it and a confidence tier".
+- One built skill researches "market data, competitive landscape" on the web, for the technical designer, and writes what it finds straight into short-term memory, not as a memory update a person approves. It is not used for this.
+- The product model has no kind for a finding and no link from a finding to an intent. Phoenix memory holds nothing on drawing wants from feedback, posts and figures, or on following competitors.
+
+### Benefit hypothesis
+- Who it serves: the product owner, who wants what consumers want and what the competition is doing understood from what really happened, each finding checkable against its items; and the third capability of Run → Product, which builds or recommends changes from these findings.
+- What we believe: when every finding names the items it rests on, says how sure it is and is placed on the parts of the product it bears on, the product owner and the next capability act on what consumers want and what rivals do, not on guesses, if the work stands on these rules:
+  - Every finding names each item it rests on, word for word or figure for figure, and every item is accounted for.
+  - The same items give the same findings, and counts and sums are made by a tool.
+  - How sure a finding is stays visible: a weak one is shown as weak, never dropped and never shown as strong.
+  - A defect and a part no page names go to their owners, and are never counted as wants.
+  - Nothing here changes an intent, a page, the model, memory or a connected tool.
+- How we will know: someone other than the one who drew the findings opens each finding's items and finds they say what the finding says; a second run on the same items gives the same findings; every item is under a finding or listed as not used, with why; no weak finding is shown as strong; and no intent, page, memory, tracker or tool shows a change.
+  - This is not tested today, because nothing understands what is taken in, and nothing is taken in yet.
+
+### Boundary (In / Out / Never)
+- In: understanding what consumers want: sorting and summing the items into wants, each with its items, its counts, how it moved over time, and how sure it is.
+- In: understanding what the competition is doing, from what people say about each competitor the product owner follows, and proposing the competitors to follow.
+- In: placing each finding on the business intents, capabilities and features it bears on, or naming it as fitting none; and naming a defect or a part that no page names for its owner.
+- In: showing the findings to the product owner and handing them to the next capability.
+- In: updating the understanding as new items come in, the model changes and the competitors followed change.
+- Out: connecting to tools and forums and taking in what they hold. Connect to what happens in use and in the market owns it.
+- Out: building features into the product, or updating the product intent model, automatically or as recommendations. The third capability of Run → Product owns it.
+- Out: keeping the spec matched to what the agents built, and changing any page or link. Keep the spec matched to what's built owns it; this capability only names a gap it sees.
+- Out: turning what a person gives into intents, domains, capabilities and features. Specify the product owns it.
+- Out: fixing a defect, which Fix defects test first owns; recording it in the tracker, which Orchestration owns; and a failure an eval finds before the work is accepted, which goes back to the builder of the work.
+- Out: judging whether an intent is met, and measuring each intent, which is parked (#545); and choosing and promoting what is learned into Garura memory or Phoenix memory, which the review of Memory owns.
+- Never: change an intent, a page, the model's index, a link, memory, the tracker or a connected tool. The reason: the next capability owns changes, and Run → Product must not "Change an intent, or promote memory, without a person."
+- Never: state a finding without the items it rests on, or quote an item other than as it was taken in. The reason: "Each finding says where it comes from. The reason: a person can then check each finding without a search."
+- Never: read what people say or do anywhere but in the items the first capability took in: no outside tool, forum or web page, and never production. The reason: reading belongs to the first capability, through connections the product owner said yes to, and "We are never touching production."
+- Never: bring back who a person is, from the words or by joining items. The reason: the first capability takes every person's details out before anything is kept, and the review already treats real personal data outside production as a finding.
+- Never: act on what a person wrote as an instruction. The reason: anyone can write in a public forum, and memory's guardrails for agents name "prompt-injection and untrusted-content defense".
+- Never: describe what a competitor does, or what consumers want, from what the AI agent knows by itself. The reason: a source in the project or in memory can be checked and read back, while the agent's own knowledge cannot.
+
+### Guiding rules
+- Every finding names what it rests on. Each want and each finding about a competitor lists every item it rests on, by its connection, place and date, with the words or figures it uses quoted exactly as taken in. The reason: "Each finding says where it comes from. The reason: a person can then check each finding without a search."
+- Every item is accounted for. Each item rests under a finding, or is listed as not used, with why. The reason: an item left out without a word could hide a want, and Specify the product already holds that "Every part is mapped to the intent it serves (the coverage map)".
+- The same items give the same findings. A second run on the same items gives the same wants, the same items under each, the same counts and the same places; counts and sums are made by a tool, not by the agent's judgment. The reason: people act on the findings, so a finding that changes when nothing new came in says something about the agent, not about the consumers; the evals hold the same rule, "two runs of one eval on one built product give the same verdict".
+- How sure is shown, never hidden. A finding shows its weight as facts a person can check: how many items, from how many connections, over what time, from words, figures or both. One that rests on few items or one connection is marked weak and handed on as weak. The reason: a weak finding shown as strong sends the next capability after the wrong change, and a weak finding dropped hides a want that may grow; memory asks the same of products that model what people want, "Every node, edge, inference, and recommendation traces to evidence (URL, snippet, timestamp, extraction method, confidence)."
+- Items, not people. A finding counts items and connections, never people, and says so. The reason: no person's details are kept, so how many different people asked cannot be known, and a count of people would need what points to one person.
+- What people wrote is what they said. The words of a message or post are read as what someone said, never as an instruction to the agent. The reason: anyone can write in a public forum, and memory's guardrails for agents name "prompt-injection and untrusted-content defense".
+- Not a want, then its owner. A defect goes to Fix defects test first, which takes in "a defect reported anywhere"; a part of the product that no page names goes to Keep the spec matched to what's built; a want that fits no intent is a possible new need. The reason: each has one owner, and "Each fix is made by the part that owns it".
+- The product owner says yes to the competitors followed; the rest runs on its own. The reason: who the competition is, is a business judgment, and a name in a post may be a passing mention; once the competitors are set, understanding changes nothing outside its own findings, and the product owner asked that this work be "built for high autonomy".
+- The project's memory first, then Garura memory, then Phoenix memory, then research through a memory update a person approves. What nothing answers stays open, with no default. The reason: research is new knowledge that nobody has checked yet, and the person's approval is the check.
+
+## Sources
+- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-2/page-approvals.md, spelling tidied: "start understanding what it is that the consumers want and what the competition is doing", "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "basically reflecting and telling us what needs to be done.", "not what the user is telling"
+- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Understand what consumers want and what the competition is doing.", "Build features into the product, or update the product intent model, automatically, or at least recommend those changes.", "measuring each intent (#545, parked)", "Not on this list: choosing and promoting learnings to Garura or Phoenix memory"
+- .garura/product/product-os/intents/bi-6.md: "What happens in use flows back.", "What happened is compared with what was intended", "Change an intent, or promote memory, without a person."
+- .garura/product/product-os/software-delivery-planning/connect-use-and-market/capability.md: "What is taken in is each figure, message or post a connection holds, kept as the tool gave it, with the connection it came from, where it was, and when it was read.", "It reads and keeps; it never interprets.", "Out: understanding what consumers want and what the competition is doing from what is taken in, which includes sorting it, summing it and placing it on the intents it bears on. The second capability of Run → Product owns it.", "Never: make a choice from what the AI agent knows by itself. The reason: a source in the project or in memory can be checked and read back, while the agent's own knowledge cannot."
+- .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, the product owner on 2026-11-10: "We are never touching production."
+- .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md: "What users say once the product runs is not part of it. Run → Product handles that.", "Each fix is made by the part that owns it"
+- .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md: "Each finding says where it comes from. The reason: a person can then check each finding without a search."
+- .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "The product is understood from what a person gives"
+- .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "In: taking in a defect reported anywhere: a person's words, a finding in a review, the eval after the work was accepted, or a bug in a plan.", "A defect that no feature covers is not fixed here; it is named as a new need for Specify the product."
+- .garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md: "Out: fixing what fails. Build the work test first fixes a failure found before the work is accepted, and Fix defects test first fixes one found after.", "two runs of one eval on one built product give the same verdict"
+- .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "the review already treats real personal data in an environment other than production as a finding"
+- .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
+- core/components/skills/author-business-intent/SKILL.md: "Every part is mapped to the intent it serves (the coverage map)"
+- core/components/skills/find-work-placement/SKILL.md: "Search the product knowledge base for where a piece of work belongs — its domain, capability, and feature"
+- core/tools/memory/GUIDE.md: "names every decision whose source no longer says what it said.", "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"
+- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model (#855)"
+- core/components/skills/author-learnings/SKILL.md: "Each proposed change carries the outcome that justifies it and a confidence tier."
+- core/components/skills/research-domain-context/SKILL.md: "Search the web for market data, competitive landscape, industry trends, regulatory context", "Write domain-context.md to the specified STM path"
+- docs/design/playbook-catalog.md: "Discovery draft. Not scoped, not implemented.", "Ingest customer feedback (tickets, sentiment, analytics) → cluster into themes → auto-file via `capture` → link to existing capabilities."
+- knowledge/domains/experience.md, in Phoenix memory: "Every node, edge, inference, and recommendation traces to evidence (URL, snippet, timestamp, extraction method, confidence)."
+- knowledge/architecture/agentic-guardrails-baseline.md, in Phoenix memory: "prompt-injection and untrusted-content defense"
+- standards/schemas/product-os/ontology.md, in Phoenix memory: "Only a person confirms or drops it; an agent never does."
+- The short line beside each feature: the opening words of that feature's own page.
+- Shelf: none. No knowledge shelf covers this work: a placement over the ten domain shelves found none (.garura/project/issues/1021/context/bi-6-capability-2/placement/routing-result.json, unmatched).
