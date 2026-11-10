@@ -62,7 +62,7 @@ What is not built yet:
 - Out: checking the code against the project's standards. Check the code against its standards, in Code → Validation, owns it; the build follows the standards while it writes.
 - Out: tracing a defect to its cause and fixing it. Fix defects test first owns it; a bug gathered under the chosen item is handed on to it.
 - Out: choosing what is built next, the status of each item, the loops that run plays, and tracking the work in the tracker. Orchestrate agent work through planning owns them.
-- Out: opening the branch, committing, reviewing and landing the change. Ship every change the same way, in Developer tooling, owns them.
+- Out: opening the branch, committing and landing the change, and reviewing it. Ship every change the same way, in Developer tooling, owns the first three, and Check the code against its standards, in Code → Validation, reviews the change.
 - Out: setting up the place where the builder runs the code while building it. Environment setup owns it, through its dev sandbox.
 - Out: keeping the test model setting, and which model each part runs on. Settings, where everything that can be turned on or off lives, and Intelligent model routing own them; this capability reads the setting.
 - Out: putting what was built into the product model. Keep the spec matched to what's built owns it.

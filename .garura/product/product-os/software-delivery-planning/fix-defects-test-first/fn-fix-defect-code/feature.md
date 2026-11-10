@@ -74,7 +74,7 @@ Status: built in part, in the bug fix play, /fix-bug, live only in a full instal
 - Understanding the defect, and understanding it again when the fix goes back. Understand the defect: its feature in the product model, its tests and why they pass, and its root cause (fn-understand-defect) does it.
 - Writing and updating the tests that prove the defect. Write the tests that prove the defect, and show each one fails (fn-write-defect-tests) does it.
 - Checking the code against the project's standards, and running the slice's evals. Code → Validation does them.
-- Committing, reviewing and landing the change. Ship every change the same way does them.
+- Committing, reviewing and landing the change. Ship every change the same way commits and lands it, and Check the code against its standards reviews it.
 - Setting up the dev sandbox. Environment setup does it.
 - Keeping the test model setting, and which models and services there are to choose from. Settings and Intelligent model routing do them.
 

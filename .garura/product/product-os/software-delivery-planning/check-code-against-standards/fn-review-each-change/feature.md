@@ -60,7 +60,7 @@ Status: built in part. The review of each change, /check-change, runs on every c
 - Given no tier holding the review's rules, when the review starts, then it stops and names what is missing.
 
 ## Out of scope
-- Raising the change, its self-review, and merging it with a person's yes. Ship every change the same way, in Developer tooling, does them.
+- Raising the change and merging it with a person's yes. Ship every change the same way, in Developer tooling, does them.
 - Giving the verdict and sending each finding back. Give the verdict on the code, and send each finding to the developer or to a person (fn-send-code-findings) does it.
 - Checking the whole built work rather than one change. Check the whole built work against its standards and the profile's levels (fn-check-whole-built-work) does it.
 - Choosing which rule groups fit the project. Initialize records it, and this feature reads the record.

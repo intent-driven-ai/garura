@@ -67,7 +67,7 @@ What is not built yet:
 - Out: writing the evals and the hidden file of failure conditions. Write the evals that check the work owns them.
 - Out: running the evals, giving the verdict, writing the handoff plan, and checking the code against the project's standards. Code → Validation owns them, through Test with evals the builder never sees and Check the code against its standards.
 - Out: choosing which defect is fixed next, the status of each item, and tracking the work in the tracker. Orchestrate agent work through planning owns them.
-- Out: opening the branch, committing, reviewing and landing the change. Ship every change the same way, in Developer tooling, owns them.
+- Out: opening the branch, committing and landing the change, and reviewing it. Ship every change the same way, in Developer tooling, owns the first three, and Check the code against its standards, in Code → Validation, reviews the change.
 - Out: setting up the place where the code runs while it is fixed. Environment setup owns it, through its dev sandbox.
 - Out: keeping the settings, and which model each part runs on. Settings and Intelligent model routing own them; this capability reads them.
 - Never: send a fix through a full design: no design document, no fix design for review, no steps for the builder. The reason, in the product owner's words: "We don't want it to go through the full-blown design and all these and stuff and things like that. It just takes too much time".

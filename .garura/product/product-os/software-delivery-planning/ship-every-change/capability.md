@@ -24,7 +24,7 @@ The path is the same whoever starts it: a person by hand, a play at its end, or 
 The review between the raise and the merge is one step of this path, and it is not this capability's. Check the code against its standards, in Code → Validation, reviews each change and gives the verdict: "reviewing a change against its standards" is that capability's. This capability runs the review and its merge reads the verdict; it never judges a change.
 The merge always waits for a person's typed yes. Reviewing what agents made, at the level of the outcome, is the second capability of Developer tooling, Review what agents make (Argus): a loop's run ends with that review, and the person's answers are applied before the change lands here. In the decision on that review: "The pull request only lands it. The merge stays pinned to the person."
 The path works only in the project's repository and on its code host, and production is never touched.
-It matters because every change that lands the same way can be traced from its issue to its merge, nothing lands without the review and a person's yes, and nothing sensitive reaches the repository. It sits in software delivery planning for now; where Developer tooling sits is settled when its two capabilities are drafted.
+It matters because every change that lands the same way can be traced from its issue to its merge, nothing lands without the review and a person's yes, and nothing sensitive reaches the repository. It sits in software delivery planning with Review what agents make (Argus), and the domain's first paragraph says so.
 
 Features:
 - Open each change where it will land (fn-731): a person names the change, and its issue is found or filed, its branch is cut from the branch it will land on, and its working folder is made.
@@ -125,3 +125,4 @@ What is not built yet:
 - The stock-take of Developer tooling, .garura/project/issues/1021/context/bi-8-inventory/inventory.md, sections 1, 3, 4, 6 and 7.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers how a team lands a change.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made."

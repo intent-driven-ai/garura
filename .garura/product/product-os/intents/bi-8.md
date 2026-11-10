@@ -1,14 +1,15 @@
 # Developer tooling
 
-**Outcome:** People judge what agents made at the level of the outcome, reviewing ADRs, memories, domains, capabilities and ICE in tools that ship with Garura. Argus comes first.
+**Outcome:** People judge what agents made at the level of the outcome, reviewing business intents, ADRs, memories, domains, capabilities, ICE and agent decisions in tools that ship with Garura. Argus comes first. Every change goes from opening to merge through the same steps, with an outside review and a person's yes.
 
-**Why:** Agents now make more in one run than a pull request can show.
+**Why:** Agents now make more in one run than a pull request can show. Every change must also land the same way, so each one can be traced from its issue to its merge.
 
 **Asked by:** the product owner
 
 **Proof it is met:**
 - A person reviews a whole run in the tool.
 - Their answers become part of the work.
+- Every change that lands went through the same steps, and none merged without the outside review's approval and a person's yes.
 
 **Must not:** Make people read raw files to know what was made.
 

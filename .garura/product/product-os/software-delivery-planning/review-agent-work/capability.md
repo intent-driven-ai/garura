@@ -41,7 +41,7 @@ Until Argus exists, a person's answers reach the work in other ways, and each st
 - The review of each change posts its verdict on the pull request, and "the comment ALWAYS names its decider".
 - A page is written from "text a person approved, word for word".
 - At the end of the Discovery loop, the person types confirm or drop for each intent, and the intents stay proposed: the loop "ends at the pull request".
-It matters because "Agents now make more in one run than a pull request can show.", and because, in the product owner's words, "agents can only work on things which are approved." It sits in software delivery planning for now; its domain is settled at BI-8's close. It works in the project, on the run's branch and in Argus, and production is never touched.
+It matters because "Agents now make more in one run than a pull request can show.", and because, in the product owner's words, "agents can only work on things which are approved." It sits in software delivery planning with Ship every change the same way, and the domain's first paragraph says so. It works in the project, on the run's branch and in Argus, and production is never touched.
 
 Features:
 - Open a review on what a run changed, and keep every answer on the run's branch (fn-open-review): at a loop's end, Garura works out by meaning what the run changed, sends it to Argus as a review pack, opens the review for the person, and keeps each action as a file on the run's branch as it happens, so no agent reads the web page.
@@ -139,3 +139,4 @@ What is not built yet:
 - The stock-take of Developer tooling, .garura/project/issues/1021/context/bi-8-inventory/inventory.md, sections 2, 3, 6 and 8.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none covers reviewing what agents made. The experience shelf in Phoenix memory, knowledge/domains/experience.md, names "HITL queues & approvals" among the parts that govern the agents built into a product, a loose match only.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made."
