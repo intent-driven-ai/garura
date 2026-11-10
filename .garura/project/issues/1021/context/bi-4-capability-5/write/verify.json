@@ -1,0 +1,523 @@
+{
+ "pages": {
+  "software-delivery-planning/test-user-experience/capability.md": {
+   "equals_draft": true,
+   "bytes": 33865,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-user-experience/ice.md": {
+   "equals_draft": true,
+   "bytes": 5960,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md": {
+   "equals_draft": true,
+   "bytes": 13958,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/ice.md": {
+   "equals_draft": true,
+   "bytes": 4350,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md": {
+   "equals_draft": true,
+   "bytes": 14085,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/ice.md": {
+   "equals_draft": true,
+   "bytes": 4103,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md": {
+   "equals_draft": true,
+   "bytes": 13124,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/ice.md": {
+   "equals_draft": true,
+   "bytes": 4662,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md": {
+   "equals_draft": true,
+   "bytes": 8697,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-user-experience/fn-retest-user-experience/ice.md": {
+   "equals_draft": true,
+   "bytes": 3867,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  }
+ },
+ "pages_all_equal": true,
+ "page_count": 10,
+ "thin_lines_only_on_the_five_ice_pages": true,
+ "new_folder_files": [
+  "software-delivery-planning/test-user-experience/capability.md",
+  "software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+  "software-delivery-planning/test-user-experience/fn-retest-user-experience/ice.md",
+  "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+  "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/ice.md",
+  "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+  "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/ice.md",
+  "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+  "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/ice.md",
+  "software-delivery-planning/test-user-experience/ice.md"
+ ],
+ "new_folder_holds_only_the_10_pages": true,
+ "spine": {
+  "domains": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "old_unchanged_order_kept": true
+  },
+  "capabilities": {
+   "before": 28,
+   "after": 29,
+   "new": [
+    "cap-test-user-experience"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "features": {
+   "before": 95,
+   "after": 99,
+   "new": [
+    "fn-test-user-experience-with-tools",
+    "fn-walk-against-screen-design",
+    "fn-send-user-experience-findings",
+    "fn-retest-user-experience"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "slices": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "old_unchanged_order_kept": true
+  },
+  "ices": {
+   "before": 78,
+   "after": 83,
+   "new": [
+    "ice-test-user-experience",
+    "ice-test-user-experience-with-tools",
+    "ice-walk-against-screen-design",
+    "ice-send-user-experience-findings",
+    "ice-retest-user-experience"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "other_top_keys": [
+   "profile"
+  ],
+  "other_top_keys_unchanged": true,
+  "top_key_order_kept": true,
+  "new_entries": {
+   "cap-test-user-experience": {
+    "slug": "test-user-experience",
+    "domain": "dom-software-delivery-planning",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work: the running build is tested in the testing environment, by tools and by a person who walks it on each declared surface, against what Manage surfaces declares that surface offers and what every design on it must handle, and against the screen design the work was built to, and each finding goes back to the developer or to a person.",
+    "doc": "software-delivery-planning/test-user-experience/capability.md",
+    "thin": false
+   },
+   "fn-test-user-experience-with-tools": {
+    "slug": "fn-test-user-experience-with-tools",
+    "capability": "cap-test-user-experience",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Once the built work runs in the testing environment, opens on each declared surface, by a part that is not the builder, each screen the screen design shows at each screen size the surface names, keeps a picture of it with the text and the controls it shows, checks what a tool can check, and records each result with what was checked and where.",
+    "doc": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+    "thin": false
+   },
+   "fn-walk-against-screen-design": {
+    "slug": "fn-walk-against-screen-design",
+    "capability": "cap-test-user-experience",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Once the built work runs in the testing environment, a person who is not the builder, named by the product owner, uses the slice end to end on its surface at each screen size the surface names, and judges each screen against the surface's properties, its guidelines and the screen design, recording what they found, where, and how they walked.",
+    "doc": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+    "thin": false
+   },
+   "fn-send-user-experience-findings": {
+    "slug": "fn-send-user-experience-findings",
+    "capability": "cap-test-user-experience",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Gives one verdict for the built work against each surface's properties and guidelines and the screen design, with a pass or a fail for every part, and sends each finding back as a handoff plan to the developer when the builder can fix it alone, or to the product owner when a person must decide.",
+    "doc": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+    "thin": false
+   },
+   "fn-retest-user-experience": {
+    "slug": "fn-retest-user-experience",
+    "capability": "cap-test-user-experience",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Runs the tools and the walk again after a fix, when more work is built, when a surface's properties or guidelines are updated and when the screen design is updated, keeps each verdict, names what passed before and fails now, and sends a finding that keeps coming back to a person once the rounds the project allows are used up.",
+    "doc": "software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+    "thin": false
+   },
+   "ice-test-user-experience": {
+    "for": "cap-test-user-experience",
+    "for_kind": "capability",
+    "doc": "software-delivery-planning/test-user-experience/ice.md",
+    "thin": true
+   },
+   "ice-test-user-experience-with-tools": {
+    "for": "fn-test-user-experience-with-tools",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/ice.md",
+    "thin": true
+   },
+   "ice-walk-against-screen-design": {
+    "for": "fn-walk-against-screen-design",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/ice.md",
+    "thin": true
+   },
+   "ice-send-user-experience-findings": {
+    "for": "fn-send-user-experience-findings",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/ice.md",
+    "thin": true
+   },
+   "ice-retest-user-experience": {
+    "for": "fn-retest-user-experience",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-user-experience/fn-retest-user-experience/ice.md",
+    "thin": true
+   }
+  },
+  "text_lines_removed_or_replaced": 0,
+  "text_lines_added": 127,
+  "insert_blocks": 3,
+  "only_insertions": true,
+  "comment_lines_before": 0,
+  "comment_lines_after": 0
+ },
+ "bi_4": {
+  "lines_before": 39,
+  "lines_after": 44,
+  "only_insertions": true,
+  "insert_blocks": 1,
+  "lines_added": 5,
+  "added": [
+   "- [Test the user experience on each surface](../software-delivery-planning/test-user-experience/capability.md) (capability) \u2014 adds",
+   "- [Test the running build's user experience with tools, in the testing environment](../software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md) (feature) \u2014 adds",
+   "- [Walk the running build against its surface and its screen design, in the testing environment](../software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md) (feature) \u2014 adds",
+   "- [Give the user experience verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md) (feature) \u2014 adds",
+   "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) \u2014 adds"
+  ],
+  "added_as_asked_in_order": true,
+  "inserted_after_line": "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) \u2014 adds",
+  "inserted_after_last_touches_line": true,
+  "no_blank_line_added": true,
+  "byte_check_other_lines": true,
+  "outcome_proof_must_not_lines_unchanged": true,
+  "stage_line": "**Stage:** confirmed \u2014 by the product owner, 2026-11-02",
+  "touches_lines": 24,
+  "every_touches_line_in_form": true,
+  "links": [
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-test-code-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-test-running-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-retest-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-test-running-speed/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-test-under-load/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-send-performance-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-retest-performance/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+    "leads_to_a_file": true
+   }
+  ],
+  "every_link_leads_to_a_file": true,
+  "titles_match_page_titles": true,
+  "spine_entries_naming_bi_4": 24,
+  "spine_entry_ids_naming_bi_4": [
+   "cap-test-product-with-evals",
+   "cap-test-security",
+   "cap-test-performance",
+   "cap-test-accessibility",
+   "cap-test-user-experience",
+   "fn-run-slice-eval",
+   "fn-send-handoff-plan",
+   "fn-rerun-evals",
+   "fn-test-code-security",
+   "fn-test-running-security",
+   "fn-send-security-findings",
+   "fn-retest-security",
+   "fn-test-running-speed",
+   "fn-test-under-load",
+   "fn-send-performance-findings",
+   "fn-retest-performance",
+   "fn-test-accessibility-with-tools",
+   "fn-walk-with-keyboard-and-screen-reader",
+   "fn-send-accessibility-findings",
+   "fn-retest-accessibility",
+   "fn-test-user-experience-with-tools",
+   "fn-walk-against-screen-design",
+   "fn-send-user-experience-findings",
+   "fn-retest-user-experience"
+  ],
+  "in_spine_not_in_touches": [],
+  "in_touches_not_in_spine": [],
+  "kinds_agree_with_spine": true,
+  "new_touches_order_matches_capability_then_feature_list": true
+ },
+ "git_status_product": [
+  " M .garura/product/product-os/_spine.yaml",
+  " M .garura/product/product-os/intents/bi-4.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/capability.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-retest-user-experience/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/fn-walk-against-screen-design/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-user-experience/ice.md"
+ ],
+ "git_status_only_expected": true,
+ "structure_check": {
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+  "before": {
+   "errors": 87,
+   "warnings": 131,
+   "counts": {
+    "domain": 1,
+    "capability": 28,
+    "feature": 95,
+    "ice": 78
+   }
+  },
+  "after": {
+   "errors": 87,
+   "warnings": 136,
+   "counts": {
+    "domain": 1,
+    "capability": 29,
+    "feature": 99,
+    "ice": 83
+   }
+  },
+  "new_errors": [],
+  "errors_gone": [],
+  "new_warnings": [
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "warnings_gone": [],
+  "errors_naming_a_new_page": [],
+  "warnings_naming_a_new_page": [
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md: no '## Agent intent (ICE)' yet \u2014 its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "note": "The 5 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021."
+ },
+ "failed_checks": [],
+ "checks_run": 72,
+ "checks_passed": 72,
+ "all_checks_pass": true,
+ "checks": {
+  "page capability.md equals draft": true,
+  "page capability.md no thin line": true,
+  "page ice.md equals draft": true,
+  "page ice.md thin line back on top, rest = approved copy": true,
+  "page fn-test-user-experience-with-tools/feature.md equals draft": true,
+  "page fn-test-user-experience-with-tools/feature.md no thin line": true,
+  "page fn-test-user-experience-with-tools/ice.md equals draft": true,
+  "page fn-test-user-experience-with-tools/ice.md thin line back on top, rest = approved copy": true,
+  "page fn-walk-against-screen-design/feature.md equals draft": true,
+  "page fn-walk-against-screen-design/feature.md no thin line": true,
+  "page fn-walk-against-screen-design/ice.md equals draft": true,
+  "page fn-walk-against-screen-design/ice.md thin line back on top, rest = approved copy": true,
+  "page fn-send-user-experience-findings/feature.md equals draft": true,
+  "page fn-send-user-experience-findings/feature.md no thin line": true,
+  "page fn-send-user-experience-findings/ice.md equals draft": true,
+  "page fn-send-user-experience-findings/ice.md thin line back on top, rest = approved copy": true,
+  "page fn-retest-user-experience/feature.md equals draft": true,
+  "page fn-retest-user-experience/feature.md no thin line": true,
+  "page fn-retest-user-experience/ice.md equals draft": true,
+  "page fn-retest-user-experience/ice.md thin line back on top, rest = approved copy": true,
+  "new folder holds only the 10 pages": true,
+  "feature list order on the capability page = the four features in order": true,
+  "spine domains: nothing removed or changed, order kept": true,
+  "spine domains: new entries are exactly the ones asked": true,
+  "spine capabilities: nothing removed or changed, order kept": true,
+  "spine capabilities: new entries are exactly the ones asked": true,
+  "spine features: nothing removed or changed, order kept": true,
+  "spine features: new entries are exactly the ones asked": true,
+  "spine slices: nothing removed or changed, order kept": true,
+  "spine slices: new entries are exactly the ones asked": true,
+  "spine ices: nothing removed or changed, order kept": true,
+  "spine ices: new entries are exactly the ones asked": true,
+  "spine other top keys unchanged": true,
+  "spine top key order kept": true,
+  "spine entry cap-test-user-experience as asked": true,
+  "capability one_line = first line of Directional intent, word for word": true,
+  "spine entry fn-test-user-experience-with-tools as asked": true,
+  "feature fn-test-user-experience-with-tools one_line = list text, first letter capitalised": true,
+  "spine entry fn-walk-against-screen-design as asked": true,
+  "feature fn-walk-against-screen-design one_line = list text, first letter capitalised": true,
+  "spine entry fn-send-user-experience-findings as asked": true,
+  "feature fn-send-user-experience-findings one_line = list text, first letter capitalised": true,
+  "spine entry fn-retest-user-experience as asked": true,
+  "feature fn-retest-user-experience one_line = list text, first letter capitalised": true,
+  "spine entry ice-test-user-experience as asked": true,
+  "spine entry ice-test-user-experience-with-tools as asked": true,
+  "spine entry ice-walk-against-screen-design as asked": true,
+  "spine entry ice-send-user-experience-findings as asked": true,
+  "spine entry ice-retest-user-experience as asked": true,
+  "all five new ICE thin": true,
+  "capability and features not thin themselves": true,
+  "ICE ids unique in the spine": true,
+  "all ids unique in the spine": true,
+  "each part at most one ICE": true,
+  "spine only gained lines": true,
+  "spine comments kept": true,
+  "bi-4 only_insertions": true,
+  "bi-4 added_as_asked_in_order": true,
+  "bi-4 inserted_after_last_touches_line": true,
+  "bi-4 no_blank_line_added": true,
+  "bi-4 byte_check_other_lines": true,
+  "bi-4 outcome_proof_must_not_lines_unchanged": true,
+  "bi-4 every_touches_line_in_form": true,
+  "bi-4 every_link_leads_to_a_file": true,
+  "bi-4 titles_match_page_titles": true,
+  "bi-4 kinds_agree_with_spine": true,
+  "bi-4 new_touches_order_matches_capability_then_feature_list": true,
+  "bi-4 gained exactly the 5 Touches lines, one block": true,
+  "the 24 index entries naming bi-4 match the 24 Touches lines": true,
+  "under .garura/product only the spine, bi-4.md and the new folder changed": true,
+  "structure check: no error names a new page": true,
+  "structure check: no new error": true
+ },
+ "before_state": "git HEAD 01386004: the spine and intents/bi-4.md as committed (the model had no uncommitted change before this write)"
+}

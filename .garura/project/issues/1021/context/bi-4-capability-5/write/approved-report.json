@@ -1,0 +1,47 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/test-user-experience/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-retest-user-experience/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

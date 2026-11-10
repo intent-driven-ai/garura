@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-4.md",
+      "changes": [
+        {
+          "after": "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds",
+          "add": "- [Test the user experience on each surface](../software-delivery-planning/test-user-experience/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds",
+          "add": "- [Test the running build's user experience with tools, in the testing environment](../software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds",
+          "add": "- [Walk the running build against its surface and its screen design, in the testing environment](../software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds",
+          "add": "- [Give the user experience verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds",
+          "add": "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds"
+        }
+      ]
+    }
+  ]
+}

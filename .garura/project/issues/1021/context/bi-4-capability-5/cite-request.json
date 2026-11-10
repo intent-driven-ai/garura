@@ -1,0 +1,241 @@
+[
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 5 (Test the user experience on each surface)",
+  "question": "What is a user experience test measured against?",
+  "answer": "Each declared surface's properties (such as the screen sizes it serves and whether one layout reflows or each device gets its own) and guidelines (such as working within the design system), and the screen design in force for the work, as wireframes in Markdown files or a prototype, as the screen design setting says; read, never set. The drafts state it as the capability's first guiding rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what a declared surface holds",
+    "found": "properties, such as one layout that reflows or a layout for each device and the screen sizes it serves, and guidelines, such as working within the design system",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "start": 8,
+     "end": 9,
+     "fingerprint": "sha256:b59500c48d38c5f1b41e76500ea84afec8a54dcff53b1745906326b841ce2fdf"
+    }
+   },
+   {
+    "asked": "how each screen of the work is shown",
+    "found": "the screen design setting picks wireframes in Markdown files or a prototype built with the project's design system",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/design-work/capability.md",
+     "start": 14,
+     "end": 14,
+     "fingerprint": "sha256:f7682ccdb4b0c256e07b07afdfe2e84ac6670b7499207df9450f2f0523769ff8"
+    }
+   },
+   {
+    "asked": "which design counts after an update or a departure",
+    "found": "the updated design is in force from its confirmation; a departure is brought into the design once the technical lead confirms it",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md",
+     "start": 13,
+     "end": 14,
+     "fingerprint": "sha256:9678825602dde3f27f6b197938ff7dc188f041bb7c9fca20a1cb5479c63f7f9d"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 5 (Test the user experience on each surface)",
+  "question": "Where does this capability end and Test accessibility and the eval begin?",
+  "answer": "By the yardstick: what the accessibility level, its pass bar, a capability's accessibility need or a surface's accessibility guideline names is Test accessibility's, even layout; what the product does against each story is the eval's; the surface's other properties and guidelines and the screen design are this capability's. One tool run or one walk may serve more than one; each reads only its own yardstick.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the line Test accessibility drew",
+    "found": "the surface's other properties and guidelines and the screen design are Test the user experience on each surface's; one run or one walk may serve both",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/test-accessibility/capability.md",
+     "start": 12,
+     "end": 12,
+     "fingerprint": "sha256:88f428797b798b91e81a16b87da510b947a63cc06658ea3ad8bb704cc1dc01d3"
+    }
+   },
+   {
+    "asked": "the line the eval drew",
+    "found": "the user experience on each surface is out of Test what the product does",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+     "start": 50,
+     "end": 50,
+     "fingerprint": "sha256:e7d5005fb6dd5308fc02682445e8cda9351575edbe4c6084d6d6f195050d5ca4"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 5 (Test the user experience on each surface)",
+  "question": "What can a tool check of the user experience, and what only a person can judge?",
+  "answer": "Lean, followed by the drafts: a tool opens each screen at each size the surface names, keeps its picture, text and controls, and checks only what needs no judgment (that each screen opens and shows, a command or play runs) and what a guideline says a tool checks; whether a screen lays out as its surface says, keeps to the design system and matches its screen design is the named person's judgment. Memory's schema keeps design and UX judgment off the runner; the pages cite the built runner, not memory, as the reason.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "whether a runner may judge design or UX",
+    "found": "design, UX and security judgment are never runner-owned; they carry owner human and the runner skips them in view",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/lens/quality-gates.yaml",
+     "start": 20,
+     "end": 22,
+     "fingerprint": "sha256:6108148a28bcee2583e48a72a9dd3e1c2030676cf8a025c7065503a644bda8a8"
+    }
+   },
+   {
+    "asked": "memory's example of such a check",
+    "found": "visual design: layout matches the approved direction, owner human, judged by a person's walk and a fresh-context reviewer",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/lens/quality-gates.yaml",
+     "start": 78,
+     "end": 82,
+     "fingerprint": "sha256:5ddc4242442e7e13e0ec2068d82da9a40c01dc635e16d6e531ef87a3435cf0dc"
+    }
+   },
+   {
+    "asked": "what a check of a browser page must at least do",
+    "found": "a real browser check that opens each page and observes it render; for a command line, a run that asserts its output",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/surface-contract.md",
+     "start": 52,
+     "end": 54,
+     "fingerprint": "sha256:5ccb0ef91733c08f83afc4137c29b3090847912ab4ba7e74db152a27b357f671"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 5 (Test the user experience on each surface)",
+  "question": "At which screen sizes is a browser page tested?",
+  "answer": "Only the sizes the surface's declaration names; a surface that names none is not tested for its layout and goes to the product owner. Memory's learnings recommend one layout that reflows and, for one stack, three breakpoints; that is memory's current answer, read by Manage surfaces to propose a property, and not written on the pages as a rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "where the screen sizes are declared",
+    "found": "a browser surface's properties include which screen sizes it serves",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "start": 8,
+     "end": 9,
+     "fingerprint": "sha256:b59500c48d38c5f1b41e76500ea84afec8a54dcff53b1745906326b841ce2fdf"
+    }
+   },
+   {
+    "asked": "what memory recommends for layout across sizes",
+    "found": "responsive is the default: one mobile-first layout that reflows",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/ux-responsive-default-adaptive-on-evidence.md",
+     "start": 21,
+     "end": 24,
+     "fingerprint": "sha256:a5490369e1ad8303f044cadb5a56dfafffd24354ffb6db1fd01f341fc45c0049"
+    }
+   },
+   {
+    "asked": "whether memory names screen sizes",
+    "found": "only for one stack: breakpoints 320px+, 768px+, 1200px+",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/frontend-component-orchestration.md",
+     "start": 127,
+     "end": 128,
+     "fingerprint": "sha256:93d99c21041d693ec5703dcbf552f41779a76c9aca3271b5721cbca5c5777d80"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 5 (Test the user experience on each surface)",
+  "question": "How is a command line or a coding agent's surface tested for its user experience?",
+  "answer": "Lean, followed by the drafts: a tool runs the command or the play in a test project in the testing environment with set answers and keeps what it printed and asked; the named person judges it against the surface's declared characteristics and guidelines (such as how it asks a person and reports back) and the surface part of the design (the command, what it prints and how a person answers).",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how a play is run as a surface",
+    "found": "the runner starts the play as a command in the test project and gives it the scripted answers",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/eval/steps-command-line.yaml",
+     "start": 5,
+     "end": 6,
+     "fingerprint": "sha256:2f6737de15c50dc496c9be37f59d17c0475ccf773e7fa2e31b77a08a3743c9bb"
+    }
+   },
+   {
+    "asked": "what the design shows for a command line",
+    "found": "the command, what it prints and how a person answers",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/design-work/fn-design-chosen-work/feature.md",
+     "start": 17,
+     "end": 17,
+     "fingerprint": "sha256:30198e7ef976c4ce94c8e790bd6499a1f7c32ae9c36022525b419831b8a332ec"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 5 (Test the user experience on each surface)",
+  "question": "Who gets a user experience finding?",
+  "answer": "The developer only when its way back is a change of the code the builder controls; the product owner when it changes the design system, the screen design, a part the builder does not control, a surface's declaration, property or guideline, or a departure with no confirmed update; a person when in doubt. The handoff plan names what a person meets, where, at which size and the way back, never the test, its rule, its id, its tool, a figure or a picture.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the test for who fixes",
+    "found": "can the builder fix this from information it already has, deterministically; an outward-facing decision needs a person",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 55,
+     "end": 59,
+     "fingerprint": "sha256:020c7bd794c3aed9da3c328dbbb3e0e5577ac972c66b8c0a6c1ca201ed71c3e4"
+    }
+   },
+   {
+    "asked": "what a handoff plan may name",
+    "found": "the symptom and the way back, never the failure condition, its id or the check",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 466,
+     "end": 466,
+     "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 5 (Test the user experience on each surface)",
+  "question": "Is a design-system check on the code part of this capability?",
+  "answer": "No. The review's row that matches a colour, a padding or a margin written as a fixed value in the lines a change adds belongs to Check the code against its standards; this capability takes the review's record as evidence and tests the running build.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the review's row on fixed visual values",
+    "found": "FE-15 matches a colour, padding or margin written as a fixed value",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 264,
+     "end": 264,
+     "fingerprint": "sha256:595f958e227de775a1005835ab46c3da1fe6232676da61ff77f4d43a72550e90"
+    }
+   }
+  ]
+ }
+]
