@@ -1,0 +1,85 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-8 (Developer tooling) close",
+ "source": "The product owner's approval of 2026-11-10, reply \"Self-review is supposed to be a configuration. rest yes apply\", recorded in .garura/project/issues/1021/context/bi-8-close/approval.md, of sections 1, 2, 3 and 5 of the proposal in .garura/project/issues/1021/context/bi-8-close/proposal.md: BI-8's Outcome widened to the agreed capability line with one sentence added, one sentence added to its Why and one Proof line; one sentence added to the domain page's first paragraph, as both capabilities of Developer tooling stay in software delivery planning; the domain sentence on those two capability pages, each with one Sources line quoting the domain page; and the three lines of Build the work test first and Fix defects test first that gave the review of a change to Ship every change the same way. Section 4 is held.",
+ "pages": [
+  {
+   "page": "intents/bi-8.md",
+   "changes": [
+    {
+     "old": "**Outcome:** People judge what agents made at the level of the outcome, reviewing ADRs, memories, domains, capabilities and ICE in tools that ship with Garura. Argus comes first.",
+     "new": "**Outcome:** People judge what agents made at the level of the outcome, reviewing business intents, ADRs, memories, domains, capabilities, ICE and agent decisions in tools that ship with Garura. Argus comes first. Every change goes from opening to merge through the same steps, with an outside review and a person's yes."
+    },
+    {
+     "old": "**Why:** Agents now make more in one run than a pull request can show.",
+     "new": "**Why:** Agents now make more in one run than a pull request can show. Every change must also land the same way, so each one can be traced from its issue to its merge."
+    },
+    {
+     "after": "- Their answers become part of the work.",
+     "add": "- Every change that lands went through the same steps, and none merged without the outside review's approval and a person's yes."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/domain.md",
+   "changes": [
+    {
+     "old": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It does not release the work or run the product.",
+     "new": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made. It does not release the work or run the product."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/ship-every-change/capability.md",
+   "changes": [
+    {
+     "old": "It matters because every change that lands the same way can be traced from its issue to its merge, nothing lands without the review and a person's yes, and nothing sensitive reaches the repository. It sits in software delivery planning for now; where Developer tooling sits is settled when its two capabilities are drafted.",
+     "new": "It matters because every change that lands the same way can be traced from its issue to its merge, nothing lands without the review and a person's yes, and nothing sensitive reaches the repository. It sits in software delivery planning with Review what agents make (Argus), and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none. No knowledge shelf in any memory tier covers how a team lands a change.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/review-agent-work/capability.md",
+   "changes": [
+    {
+     "old": "It matters because \"Agents now make more in one run than a pull request can show.\", and because, in the product owner's words, \"agents can only work on things which are approved.\" It sits in software delivery planning for now; its domain is settled at BI-8's close. It works in the project, on the run's branch and in Argus, and production is never touched.",
+     "new": "It matters because \"Agents now make more in one run than a pull request can show.\", and because, in the product owner's words, \"agents can only work on things which are approved.\" It sits in software delivery planning with Ship every change the same way, and the domain's first paragraph says so. It works in the project, on the run's branch and in Argus, and production is never touched."
+    },
+    {
+     "after": "- Shelf: none covers reviewing what agents made. The experience shelf in Phoenix memory, knowledge/domains/experience.md, names \"HITL queues & approvals\" among the parts that govern the agents built into a product, a loose match only.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/build-work-test-first/capability.md",
+   "changes": [
+    {
+     "old": "- Out: opening the branch, committing, reviewing and landing the change. Ship every change the same way, in Developer tooling, owns them.",
+     "new": "- Out: opening the branch, committing and landing the change, and reviewing it. Ship every change the same way, in Developer tooling, owns the first three, and Check the code against its standards, in Code → Validation, reviews the change."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/fix-defects-test-first/capability.md",
+   "changes": [
+    {
+     "old": "- Out: opening the branch, committing, reviewing and landing the change. Ship every change the same way, in Developer tooling, owns them.",
+     "new": "- Out: opening the branch, committing and landing the change, and reviewing it. Ship every change the same way, in Developer tooling, owns the first three, and Check the code against its standards, in Code → Validation, reviews the change."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+   "changes": [
+    {
+     "old": "- Committing, reviewing and landing the change. Ship every change the same way does them.",
+     "new": "- Committing, reviewing and landing the change. Ship every change the same way commits and lands it, and Check the code against its standards reviews it."
+    }
+   ]
+  }
+ ]
+}
