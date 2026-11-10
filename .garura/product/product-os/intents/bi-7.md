@@ -38,5 +38,12 @@
 - [Install Garura for Antigravity](../software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md) (feature) — adds
 - [Install Garura for Factory](../software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md) (feature) — adds
 - [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds
+- [Set a project up after the install (Initialize)](../software-delivery-planning/initialize/capability.md) (capability) — changes
+- [Ask the setup questions](../software-delivery-planning/initialize/fn-setup-questions/feature.md) (feature) — changes
+- [Build the project's memory](../software-delivery-planning/initialize/fn-project-memory/feature.md) (feature) — changes
+- [Choose the review rule groups](../software-delivery-planning/initialize/fn-review-rule-groups/feature.md) (feature) — changes
+- [Set up the tracker's work-item types](../software-delivery-planning/initialize/fn-881/feature.md) (feature) — changes
+- [Update the setup as the project changes](../software-delivery-planning/initialize/fn-rerun-initialize/feature.md) (feature) — changes
+- [Update each project's own memory as Phoenix memory changes](../software-delivery-planning/initialize/fn-883/feature.md) (feature) — changes
 
 **What was done:** (nothing yet)

@@ -44,7 +44,7 @@ Status: built in part. Each intent page names its issue, and the page's id is ma
 ## Out of scope
 - Which tracker holds intents, and the setting that names it. Settings owns the project's settings.
 - Tracking the agent work's own status in the tracker. Track execution in the team's tracker owns it.
-- Making the issue types a tracker needs, such as Business Intent. Initialize a project for Garura does it.
+- Making the issue types a tracker needs, such as Business Intent. Set a project up after the install (Initialize) does it.
 - Choosing an intent's words. The person approves them, and Update the spec to match what's built (fn-update-spec-to-match-built) puts them on the page.
 - Changing an epic or a story that no longer matches the spec. Turn intents into agent work changes the work items.
 - Filing a new intent's issue. No play does it yet, and no capability owns it yet.

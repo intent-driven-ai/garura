@@ -175,7 +175,8 @@ capabilities:
 - id: cap-initialize
   slug: initialize
   domain: dom-software-delivery-planning
-  intents: []
+  intents:
+  - bi-7
   status: proposed
   detail: detailed
   one_line: 'After the install, set a project up for Garura: its memory, its review
@@ -208,6 +209,8 @@ capabilities:
   compliance_needs: []
   decisions:
   - dec-cap-initialize-security-none-medium
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: cap-specify-product
   slug: specify-product
   domain: dom-software-delivery-planning
@@ -929,54 +932,72 @@ features:
 - id: fn-setup-questions
   slug: fn-setup-questions
   capability: cap-initialize
-  intents: []
+  intents:
+  - bi-7
   status: proposed
   one_line: Ask the product owner the short set of setup questions built from Phoenix
     memory, each with choices and a proposed answer that names its source, and keep
     the confirmed answers for the other features.
   doc: software-delivery-planning/initialize/fn-setup-questions/feature.md
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-project-memory
   slug: fn-project-memory
   capability: cap-initialize
-  intents: []
+  intents:
+  - bi-7
   status: proposed
   one_line: Set up the project's Garura memory from only the memory blocks the answers
     call for, and record the answers in the product profile.
   doc: software-delivery-planning/initialize/fn-project-memory/feature.md
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-review-rule-groups
   slug: fn-review-rule-groups
   capability: cap-initialize
-  intents: []
+  intents:
+  - bi-7
   status: proposed
   one_line: Record which review rule groups fit the project, so a review runs only
     those and names the groups it skipped.
   doc: software-delivery-planning/initialize/fn-review-rule-groups/feature.md
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-881
   slug: fn-881
   capability: cap-initialize
-  intents: []
+  intents:
+  - bi-7
   status: proposed
   one_line: Find which of the issue types Garura files (Business Intent, Epic, Story,
     Bug, Chore, Spike) the tracker has, make each missing one after a typed yes, and
     record a stand-in, also after a typed yes, where one cannot be made.
   doc: software-delivery-planning/initialize/fn-881/feature.md
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-rerun-initialize
   slug: fn-rerun-initialize
   capability: cap-initialize
-  intents: []
+  intents:
+  - bi-7
   status: proposed
-  one_line: Run initialize again when the project changes, with the earlier answers
-    proposed, so the memory, rule groups and tracker set-up follow it.
+  one_line: Lets the product owner run initialize again when the project changes,
+    with the earlier answers proposed, so the set-up follows the project.
   doc: software-delivery-planning/initialize/fn-rerun-initialize/feature.md
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-883
   slug: fn-883
   capability: cap-initialize
-  intents: []
+  intents:
+  - bi-7
   status: proposed
-  one_line: Give each project its own memory blocks from the one Phoenix memory on
-    the machine, and on each run compare them with Phoenix memory so the project learns
-    when a block changed.
+  one_line: Keeps each project's blocks its own, taken from the one Phoenix memory
+    on the machine, and on each run compares them with Phoenix memory so the project
+    learns when a block changed.
   doc: software-delivery-planning/initialize/fn-883/feature.md
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-898
   slug: fn-898
   capability: cap-shape-eval
@@ -3539,5 +3560,47 @@ ices:
   for: fn-map-model-tier
   for_kind: feature
   doc: software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-initialize
+  for: cap-initialize
+  for_kind: capability
+  doc: software-delivery-planning/initialize/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-setup-questions
+  for: fn-setup-questions
+  for_kind: feature
+  doc: software-delivery-planning/initialize/fn-setup-questions/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-project-memory
+  for: fn-project-memory
+  for_kind: feature
+  doc: software-delivery-planning/initialize/fn-project-memory/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-review-rule-groups
+  for: fn-review-rule-groups
+  for_kind: feature
+  doc: software-delivery-planning/initialize/fn-review-rule-groups/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-881
+  for: fn-881
+  for_kind: feature
+  doc: software-delivery-planning/initialize/fn-881/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-rerun-initialize
+  for: fn-rerun-initialize
+  for_kind: feature
+  doc: software-delivery-planning/initialize/fn-rerun-initialize/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-883
+  for: fn-883
+  for_kind: feature
+  doc: software-delivery-planning/initialize/fn-883/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
