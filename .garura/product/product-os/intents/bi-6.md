@@ -1,14 +1,14 @@
 # Run → Product
 
-**Outcome:** What happens in use flows back. What happened is compared with what was intended, drift is found, and the intents, model and memory stay true.
+**Outcome:** What happens in use flows back. How the product is used, what people say about it and what its competitors do are taken in from the tools and forums the product owner connects; what consumers want and what the competition is doing are drawn from them, each finding resting on the items it came from; and the findings are turned into new features or changes to the product model, each one a recommendation to the product owner unless he allowed its kind to go ahead on its own.
 
-**Why:** Without this, what is built and what was intended pull apart without anyone noticing.
+**Why:** Without this, the product is built from what was intended at the start, while what its consumers want and what its competitors do move on unseen.
 
 **Asked by:** the product owner
 
 **Proof it is met:**
-- Drift between the model and the work gets named.
-- Each learning is promoted on purpose.
+- Every finding on what consumers want or what a competitor is doing names the items it rests on, and the same items give the same findings.
+- Every change drawn from the findings starts only from the product owner's yes, or from a kind he allowed to go ahead on its own, and each one that went ahead was shown to him at once with a way back.
 
 **Must not:** Change an intent, or promote memory, without a person.
 
