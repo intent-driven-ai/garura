@@ -1,0 +1,25 @@
+{
+  "checked_on": "2026-11-10",
+  "what": "The model-wide check (.claude/skills/discover-capabilities/scripts/lint_grounding.py --root --spine) run twice on a throwaway copy of .garura/product/product-os outside the repository: once as it is, once with Initialize's folder replaced by the drafts. The live model was not touched.",
+  "before": {
+    "errors": 83,
+    "warnings": 176
+  },
+  "after": {
+    "errors": 90,
+    "warnings": 176
+  },
+  "new_errors": [
+    "orphan ICE page 'software-delivery-planning/initialize/fn-881/ice.md' \u2014 no ices entry points at it",
+    "orphan ICE page 'software-delivery-planning/initialize/fn-883/ice.md' \u2014 no ices entry points at it",
+    "orphan ICE page 'software-delivery-planning/initialize/fn-project-memory/ice.md' \u2014 no ices entry points at it",
+    "orphan ICE page 'software-delivery-planning/initialize/fn-rerun-initialize/ice.md' \u2014 no ices entry points at it",
+    "orphan ICE page 'software-delivery-planning/initialize/fn-review-rule-groups/ice.md' \u2014 no ices entry points at it",
+    "orphan ICE page 'software-delivery-planning/initialize/fn-setup-questions/ice.md' \u2014 no ices entry points at it",
+    "orphan ICE page 'software-delivery-planning/initialize/ice.md' \u2014 no ices entry points at it"
+  ],
+  "errors_gone": [],
+  "what_the_write_must_do": [
+    "Give each of the seven ice.md pages its entry in the spine's ices list (link-model-part), so none is an orphan. cap-initialize keeps detail: detailed, and the capability page passes in that shape."
+  ]
+}

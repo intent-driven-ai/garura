@@ -1,0 +1,1201 @@
+{
+ "pages": {
+  "software-delivery-planning/initialize/capability.md": {
+   "equals_draft": true,
+   "bytes": 22821,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": true,
+   "old_page_had_ice_section": 1
+  },
+  "software-delivery-planning/initialize/ice.md": {
+   "equals_draft": true,
+   "bytes": 4193,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": false
+  },
+  "software-delivery-planning/initialize/fn-setup-questions/feature.md": {
+   "equals_draft": true,
+   "bytes": 10858,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": true,
+   "old_page_had_ice_section": 1
+  },
+  "software-delivery-planning/initialize/fn-setup-questions/ice.md": {
+   "equals_draft": true,
+   "bytes": 3309,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": false
+  },
+  "software-delivery-planning/initialize/fn-project-memory/feature.md": {
+   "equals_draft": true,
+   "bytes": 13018,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": true,
+   "old_page_had_ice_section": 1
+  },
+  "software-delivery-planning/initialize/fn-project-memory/ice.md": {
+   "equals_draft": true,
+   "bytes": 3002,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": false
+  },
+  "software-delivery-planning/initialize/fn-review-rule-groups/feature.md": {
+   "equals_draft": true,
+   "bytes": 8264,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": true,
+   "old_page_had_ice_section": 1
+  },
+  "software-delivery-planning/initialize/fn-review-rule-groups/ice.md": {
+   "equals_draft": true,
+   "bytes": 2426,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": false
+  },
+  "software-delivery-planning/initialize/fn-881/feature.md": {
+   "equals_draft": true,
+   "bytes": 14840,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": true,
+   "old_page_had_ice_section": 1
+  },
+  "software-delivery-planning/initialize/fn-881/ice.md": {
+   "equals_draft": true,
+   "bytes": 3283,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": false
+  },
+  "software-delivery-planning/initialize/fn-rerun-initialize/feature.md": {
+   "equals_draft": true,
+   "bytes": 11374,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": true,
+   "old_page_had_ice_section": 1
+  },
+  "software-delivery-planning/initialize/fn-rerun-initialize/ice.md": {
+   "equals_draft": true,
+   "bytes": 2927,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": false
+  },
+  "software-delivery-planning/initialize/fn-883/feature.md": {
+   "equals_draft": true,
+   "bytes": 15757,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": true,
+   "old_page_had_ice_section": 1
+  },
+  "software-delivery-planning/initialize/fn-883/ice.md": {
+   "equals_draft": true,
+   "bytes": 3190,
+   "ice_section_on_page": 0,
+   "thin_lines_on_page": 0,
+   "was_on_disk_before": false
+  }
+ },
+ "page_count": 14,
+ "initialize_folder_files": [
+  "software-delivery-planning/initialize/capability.md",
+  "software-delivery-planning/initialize/fn-881/feature.md",
+  "software-delivery-planning/initialize/fn-881/ice.md",
+  "software-delivery-planning/initialize/fn-883/feature.md",
+  "software-delivery-planning/initialize/fn-883/ice.md",
+  "software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "software-delivery-planning/initialize/fn-project-memory/ice.md",
+  "software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  "software-delivery-planning/initialize/fn-rerun-initialize/ice.md",
+  "software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  "software-delivery-planning/initialize/fn-review-rule-groups/ice.md",
+  "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+  "software-delivery-planning/initialize/fn-setup-questions/ice.md",
+  "software-delivery-planning/initialize/ice.md"
+ ],
+ "fn_keep_tracker_matched": {
+  "lines_before": 63,
+  "lines_after": 63,
+  "lines_that_differ": [
+   47
+  ],
+  "old_line_47": "- Making the issue types a tracker needs, such as Business Intent. Initialize a project for Garura does it.",
+  "new_line_47": "- Making the issue types a tracker needs, such as Business Intent. Set a project up after the install (Initialize) does it."
+ },
+ "spine": {
+  "domains": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "removed": [],
+   "entries_changed": [],
+   "old_order_kept": true
+  },
+  "capabilities": {
+   "before": 35,
+   "after": 35,
+   "new": [],
+   "removed": [],
+   "entries_changed": [
+    "cap-initialize"
+   ],
+   "old_order_kept": true
+  },
+  "features": {
+   "before": 134,
+   "after": 134,
+   "new": [],
+   "removed": [],
+   "entries_changed": [
+    "fn-setup-questions",
+    "fn-project-memory",
+    "fn-review-rule-groups",
+    "fn-881",
+    "fn-rerun-initialize",
+    "fn-883"
+   ],
+   "old_order_kept": true
+  },
+  "slices": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "removed": [],
+   "entries_changed": [],
+   "old_order_kept": true
+  },
+  "ices": {
+   "before": 126,
+   "after": 133,
+   "new": [
+    "ice-initialize",
+    "ice-setup-questions",
+    "ice-project-memory",
+    "ice-review-rule-groups",
+    "ice-881",
+    "ice-rerun-initialize",
+    "ice-883"
+   ],
+   "removed": [],
+   "entries_changed": [],
+   "old_order_kept": true
+  },
+  "top_keys_before": [
+   "domains",
+   "capabilities",
+   "features",
+   "profile",
+   "slices",
+   "ices"
+  ],
+  "top_keys_after": [
+   "domains",
+   "capabilities",
+   "features",
+   "profile",
+   "slices",
+   "ices"
+  ],
+  "entries": {
+   "cap-initialize": {
+    "intents_before": [],
+    "intents_after": [
+     "bi-7"
+    ],
+    "one_line_before": "After the install, set a project up for Garura: its memory, its review rules, and its tracker's work-item types.",
+    "one_line_after": "After the install, set a project up for Garura: its memory, its review rules, and its tracker's work-item types.",
+    "fields_changed": [
+     "intents",
+     "metadata"
+    ],
+    "metadata_after": {
+     "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+    },
+    "thin": false
+   },
+   "fn-setup-questions": {
+    "intents_before": [],
+    "intents_after": [
+     "bi-7"
+    ],
+    "one_line_before": "Ask the product owner the short set of setup questions built from Phoenix memory, each with choices and a proposed answer that names its source, and keep the confirmed answers for the other features.",
+    "one_line_after": "Ask the product owner the short set of setup questions built from Phoenix memory, each with choices and a proposed answer that names its source, and keep the confirmed answers for the other features.",
+    "fields_changed": [
+     "intents",
+     "metadata"
+    ],
+    "metadata_after": {
+     "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+    },
+    "thin": false
+   },
+   "fn-project-memory": {
+    "intents_before": [],
+    "intents_after": [
+     "bi-7"
+    ],
+    "one_line_before": "Set up the project's Garura memory from only the memory blocks the answers call for, and record the answers in the product profile.",
+    "one_line_after": "Set up the project's Garura memory from only the memory blocks the answers call for, and record the answers in the product profile.",
+    "fields_changed": [
+     "intents",
+     "metadata"
+    ],
+    "metadata_after": {
+     "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+    },
+    "thin": false
+   },
+   "fn-review-rule-groups": {
+    "intents_before": [],
+    "intents_after": [
+     "bi-7"
+    ],
+    "one_line_before": "Record which review rule groups fit the project, so a review runs only those and names the groups it skipped.",
+    "one_line_after": "Record which review rule groups fit the project, so a review runs only those and names the groups it skipped.",
+    "fields_changed": [
+     "intents",
+     "metadata"
+    ],
+    "metadata_after": {
+     "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+    },
+    "thin": false
+   },
+   "fn-881": {
+    "intents_before": [],
+    "intents_after": [
+     "bi-7"
+    ],
+    "one_line_before": "Find which of the issue types Garura files (Business Intent, Epic, Story, Bug, Chore, Spike) the tracker has, make each missing one after a typed yes, and record a stand-in, also after a typed yes, where one cannot be made.",
+    "one_line_after": "Find which of the issue types Garura files (Business Intent, Epic, Story, Bug, Chore, Spike) the tracker has, make each missing one after a typed yes, and record a stand-in, also after a typed yes, where one cannot be made.",
+    "fields_changed": [
+     "intents",
+     "metadata"
+    ],
+    "metadata_after": {
+     "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+    },
+    "thin": false
+   },
+   "fn-rerun-initialize": {
+    "intents_before": [],
+    "intents_after": [
+     "bi-7"
+    ],
+    "one_line_before": "Run initialize again when the project changes, with the earlier answers proposed, so the memory, rule groups and tracker set-up follow it.",
+    "one_line_after": "Lets the product owner run initialize again when the project changes, with the earlier answers proposed, so the set-up follows the project.",
+    "fields_changed": [
+     "intents",
+     "metadata",
+     "one_line"
+    ],
+    "metadata_after": {
+     "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+    },
+    "thin": false
+   },
+   "fn-883": {
+    "intents_before": [],
+    "intents_after": [
+     "bi-7"
+    ],
+    "one_line_before": "Give each project its own memory blocks from the one Phoenix memory on the machine, and on each run compare them with Phoenix memory so the project learns when a block changed.",
+    "one_line_after": "Keeps each project's blocks its own, taken from the one Phoenix memory on the machine, and on each run compares them with Phoenix memory so the project learns when a block changed.",
+    "fields_changed": [
+     "intents",
+     "metadata",
+     "one_line"
+    ],
+    "metadata_after": {
+     "updated_by": "product-os-keeper (reorganise business intents, #1021)"
+    },
+    "thin": false
+   }
+  },
+  "new_ice_entries": {
+   "ice-initialize": {
+    "id": "ice-initialize",
+    "for": "cap-initialize",
+    "for_kind": "capability",
+    "doc": "software-delivery-planning/initialize/ice.md",
+    "metadata": {
+     "created_by": "product-os-keeper (reorganise business intents, #1021)"
+    }
+   },
+   "ice-setup-questions": {
+    "id": "ice-setup-questions",
+    "for": "fn-setup-questions",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/initialize/fn-setup-questions/ice.md",
+    "metadata": {
+     "created_by": "product-os-keeper (reorganise business intents, #1021)"
+    }
+   },
+   "ice-project-memory": {
+    "id": "ice-project-memory",
+    "for": "fn-project-memory",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/initialize/fn-project-memory/ice.md",
+    "metadata": {
+     "created_by": "product-os-keeper (reorganise business intents, #1021)"
+    }
+   },
+   "ice-review-rule-groups": {
+    "id": "ice-review-rule-groups",
+    "for": "fn-review-rule-groups",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/initialize/fn-review-rule-groups/ice.md",
+    "metadata": {
+     "created_by": "product-os-keeper (reorganise business intents, #1021)"
+    }
+   },
+   "ice-881": {
+    "id": "ice-881",
+    "for": "fn-881",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/initialize/fn-881/ice.md",
+    "metadata": {
+     "created_by": "product-os-keeper (reorganise business intents, #1021)"
+    }
+   },
+   "ice-rerun-initialize": {
+    "id": "ice-rerun-initialize",
+    "for": "fn-rerun-initialize",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/initialize/fn-rerun-initialize/ice.md",
+    "metadata": {
+     "created_by": "product-os-keeper (reorganise business intents, #1021)"
+    }
+   },
+   "ice-883": {
+    "id": "ice-883",
+    "for": "fn-883",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/initialize/fn-883/ice.md",
+    "metadata": {
+     "created_by": "product-os-keeper (reorganise business intents, #1021)"
+    }
+   }
+  },
+  "line_diff": {
+   "lines_before": 3543,
+   "lines_after": 3606,
+   "lines_removed": 12,
+   "lines_added": 75,
+   "removed": [
+    "  intents: []",
+    "  intents: []",
+    "  intents: []",
+    "  intents: []",
+    "  intents: []",
+    "  intents: []",
+    "  one_line: Run initialize again when the project changes, with the earlier answers",
+    "    proposed, so the memory, rule groups and tracker set-up follow it.",
+    "  intents: []",
+    "  one_line: Give each project its own memory blocks from the one Phoenix memory on",
+    "    the machine, and on each run compare them with Phoenix memory so the project learns",
+    "    when a block changed."
+   ]
+  }
+ },
+ "bi_7": {
+  "lines_before": 42,
+  "lines_after": 49,
+  "lines_added": [
+   "- [Set a project up after the install (Initialize)](../software-delivery-planning/initialize/capability.md) (capability) — changes",
+   "- [Ask the setup questions](../software-delivery-planning/initialize/fn-setup-questions/feature.md) (feature) — changes",
+   "- [Build the project's memory](../software-delivery-planning/initialize/fn-project-memory/feature.md) (feature) — changes",
+   "- [Choose the review rule groups](../software-delivery-planning/initialize/fn-review-rule-groups/feature.md) (feature) — changes",
+   "- [Set up the tracker's work-item types](../software-delivery-planning/initialize/fn-881/feature.md) (feature) — changes",
+   "- [Update the setup as the project changes](../software-delivery-planning/initialize/fn-rerun-initialize/feature.md) (feature) — changes",
+   "- [Update each project's own memory as Phoenix memory changes](../software-delivery-planning/initialize/fn-883/feature.md) (feature) — changes"
+  ],
+  "touches_lines": 28,
+  "index_entries_naming_bi_7": 28,
+  "touches": [
+   {
+    "line": "- [Install into a project](../software-delivery-planning/install-into-project/capability.md) (capability) — adds",
+    "ok": true,
+    "title": "Install into a project",
+    "link": "../software-delivery-planning/install-into-project/capability.md",
+    "kind": "capability",
+    "mark": "adds",
+    "target": "software-delivery-planning/install-into-project/capability.md",
+    "exists": true,
+    "page_title": "Install into a project",
+    "title_matches": true
+   },
+   {
+    "line": "- [Install Garura in one step, with a record of what it laid](../software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Install Garura in one step, with a record of what it laid",
+    "link": "../software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+    "exists": true,
+    "page_title": "Install Garura in one step, with a record of what it laid",
+    "title_matches": true
+   },
+   {
+    "line": "- [Choose what the project gets](../software-delivery-planning/install-into-project/fn-choose-parts/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Choose what the project gets",
+    "link": "../software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+    "exists": true,
+    "page_title": "Choose what the project gets",
+    "title_matches": true
+   },
+   {
+    "line": "- [Check that the installed Garura runs before the team uses it](../software-delivery-planning/install-into-project/fn-check-install/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Check that the installed Garura runs before the team uses it",
+    "link": "../software-delivery-planning/install-into-project/fn-check-install/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/install-into-project/fn-check-install/feature.md",
+    "exists": true,
+    "page_title": "Check that the installed Garura runs before the team uses it",
+    "title_matches": true
+   },
+   {
+    "line": "- [Lay Garura's guardrails with the install](../software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Lay Garura's guardrails with the install",
+    "link": "../software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+    "exists": true,
+    "page_title": "Lay Garura's guardrails with the install",
+    "title_matches": true
+   },
+   {
+    "line": "- [Update what the project gets as the project changes](../software-delivery-planning/install-into-project/fn-update-parts/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Update what the project gets as the project changes",
+    "link": "../software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+    "exists": true,
+    "page_title": "Update what the project gets as the project changes",
+    "title_matches": true
+   },
+   {
+    "line": "- [Take Garura out of the project again](../software-delivery-planning/install-into-project/fn-take-out/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Take Garura out of the project again",
+    "link": "../software-delivery-planning/install-into-project/fn-take-out/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+    "exists": true,
+    "page_title": "Take Garura out of the project again",
+    "title_matches": true
+   },
+   {
+    "line": "- [Upgrade a project](../software-delivery-planning/upgrade-project/capability.md) (capability) — adds",
+    "ok": true,
+    "title": "Upgrade a project",
+    "link": "../software-delivery-planning/upgrade-project/capability.md",
+    "kind": "capability",
+    "mark": "adds",
+    "target": "software-delivery-planning/upgrade-project/capability.md",
+    "exists": true,
+    "page_title": "Upgrade a project",
+    "title_matches": true
+   },
+   {
+    "line": "- [Move the project to a new version, seeing first what it changes](../software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Move the project to a new version, seeing first what it changes",
+    "link": "../software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+    "exists": true,
+    "page_title": "Move the project to a new version, seeing first what it changes",
+    "title_matches": true
+   },
+   {
+    "line": "- [Cut a Garura release, with notes on what it changes](../software-delivery-planning/upgrade-project/fn-cut-release/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Cut a Garura release, with notes on what it changes",
+    "link": "../software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+    "exists": true,
+    "page_title": "Cut a Garura release, with notes on what it changes",
+    "title_matches": true
+   },
+   {
+    "line": "- [Take out the parts Garura renamed or dropped](../features/fn-748/feature.md) (feature) — changes",
+    "ok": true,
+    "title": "Take out the parts Garura renamed or dropped",
+    "link": "../features/fn-748/feature.md",
+    "kind": "feature",
+    "mark": "changes",
+    "target": "features/fn-748/feature.md",
+    "exists": true,
+    "page_title": "Take out the parts Garura renamed or dropped",
+    "title_matches": true
+   },
+   {
+    "line": "- [Keep a person's edits to an installed part](../software-delivery-planning/upgrade-project/fn-keep-edits/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Keep a person's edits to an installed part",
+    "link": "../software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+    "exists": true,
+    "page_title": "Keep a person's edits to an installed part",
+    "title_matches": true
+   },
+   {
+    "line": "- [Bring in new settings, keeping the team's values](../software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Bring in new settings, keeping the team's values",
+    "link": "../software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+    "exists": true,
+    "page_title": "Bring in new settings, keeping the team's values",
+    "title_matches": true
+   },
+   {
+    "line": "- [Move the product model to the new version's shape, on the person's yes](../software-delivery-planning/upgrade-project/fn-move-model/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Move the product model to the new version's shape, on the person's yes",
+    "link": "../software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+    "exists": true,
+    "page_title": "Move the product model to the new version's shape, on the person's yes",
+    "title_matches": true
+   },
+   {
+    "line": "- [Support each coding tool](../software-delivery-planning/support-coding-tools/capability.md) (capability) — adds",
+    "ok": true,
+    "title": "Support each coding tool",
+    "link": "../software-delivery-planning/support-coding-tools/capability.md",
+    "kind": "capability",
+    "mark": "adds",
+    "target": "software-delivery-planning/support-coding-tools/capability.md",
+    "exists": true,
+    "page_title": "Support each coding tool",
+    "title_matches": true
+   },
+   {
+    "line": "- [Install Garura for Claude Code](../software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Install Garura for Claude Code",
+    "link": "../software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+    "exists": true,
+    "page_title": "Install Garura for Claude Code",
+    "title_matches": true
+   },
+   {
+    "line": "- [Install Garura for Codex](../software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Install Garura for Codex",
+    "link": "../software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+    "exists": true,
+    "page_title": "Install Garura for Codex",
+    "title_matches": true
+   },
+   {
+    "line": "- [Install Garura for GitHub Copilot](../software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Install Garura for GitHub Copilot",
+    "link": "../software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+    "exists": true,
+    "page_title": "Install Garura for GitHub Copilot",
+    "title_matches": true
+   },
+   {
+    "line": "- [Install Garura for Antigravity](../software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Install Garura for Antigravity",
+    "link": "../software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+    "exists": true,
+    "page_title": "Install Garura for Antigravity",
+    "title_matches": true
+   },
+   {
+    "line": "- [Install Garura for Factory](../software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Install Garura for Factory",
+    "link": "../software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+    "exists": true,
+    "page_title": "Install Garura for Factory",
+    "title_matches": true
+   },
+   {
+    "line": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+    "ok": true,
+    "title": "Map each part's model tier onto each tool's own setting",
+    "link": "../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+    "kind": "feature",
+    "mark": "adds",
+    "target": "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+    "exists": true,
+    "page_title": "Map each part's model tier onto each tool's own setting",
+    "title_matches": true
+   },
+   {
+    "line": "- [Set a project up after the install (Initialize)](../software-delivery-planning/initialize/capability.md) (capability) — changes",
+    "ok": true,
+    "title": "Set a project up after the install (Initialize)",
+    "link": "../software-delivery-planning/initialize/capability.md",
+    "kind": "capability",
+    "mark": "changes",
+    "target": "software-delivery-planning/initialize/capability.md",
+    "exists": true,
+    "page_title": "Set a project up after the install (Initialize)",
+    "title_matches": true
+   },
+   {
+    "line": "- [Ask the setup questions](../software-delivery-planning/initialize/fn-setup-questions/feature.md) (feature) — changes",
+    "ok": true,
+    "title": "Ask the setup questions",
+    "link": "../software-delivery-planning/initialize/fn-setup-questions/feature.md",
+    "kind": "feature",
+    "mark": "changes",
+    "target": "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+    "exists": true,
+    "page_title": "Ask the setup questions",
+    "title_matches": true
+   },
+   {
+    "line": "- [Build the project's memory](../software-delivery-planning/initialize/fn-project-memory/feature.md) (feature) — changes",
+    "ok": true,
+    "title": "Build the project's memory",
+    "link": "../software-delivery-planning/initialize/fn-project-memory/feature.md",
+    "kind": "feature",
+    "mark": "changes",
+    "target": "software-delivery-planning/initialize/fn-project-memory/feature.md",
+    "exists": true,
+    "page_title": "Build the project's memory",
+    "title_matches": true
+   },
+   {
+    "line": "- [Choose the review rule groups](../software-delivery-planning/initialize/fn-review-rule-groups/feature.md) (feature) — changes",
+    "ok": true,
+    "title": "Choose the review rule groups",
+    "link": "../software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+    "kind": "feature",
+    "mark": "changes",
+    "target": "software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+    "exists": true,
+    "page_title": "Choose the review rule groups",
+    "title_matches": true
+   },
+   {
+    "line": "- [Set up the tracker's work-item types](../software-delivery-planning/initialize/fn-881/feature.md) (feature) — changes",
+    "ok": true,
+    "title": "Set up the tracker's work-item types",
+    "link": "../software-delivery-planning/initialize/fn-881/feature.md",
+    "kind": "feature",
+    "mark": "changes",
+    "target": "software-delivery-planning/initialize/fn-881/feature.md",
+    "exists": true,
+    "page_title": "Set up the tracker's work-item types",
+    "title_matches": true
+   },
+   {
+    "line": "- [Update the setup as the project changes](../software-delivery-planning/initialize/fn-rerun-initialize/feature.md) (feature) — changes",
+    "ok": true,
+    "title": "Update the setup as the project changes",
+    "link": "../software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+    "kind": "feature",
+    "mark": "changes",
+    "target": "software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+    "exists": true,
+    "page_title": "Update the setup as the project changes",
+    "title_matches": true
+   },
+   {
+    "line": "- [Update each project's own memory as Phoenix memory changes](../software-delivery-planning/initialize/fn-883/feature.md) (feature) — changes",
+    "ok": true,
+    "title": "Update each project's own memory as Phoenix memory changes",
+    "link": "../software-delivery-planning/initialize/fn-883/feature.md",
+    "kind": "feature",
+    "mark": "changes",
+    "target": "software-delivery-planning/initialize/fn-883/feature.md",
+    "exists": true,
+    "page_title": "Update each project's own memory as Phoenix memory changes",
+    "title_matches": true
+   }
+  ]
+ },
+ "quotes_other_intents_take": {
+  "source_of_list": ".garura/project/issues/1021/context/bi-7-capability-4/research.md, section 'Pages of other intents that name Initialize'",
+  "phrases": {
+   "A tracker is an outside system, and a write there is visible to the whole team.": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/capability.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/capability.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/connect-use-and-market/capability.md",
+     "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+     "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+     "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md"
+    ]
+   },
+   "A project changes (it gains a database, a web surface or a new tracker)": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/capability.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/capability.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+     "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md"
+    ]
+   },
+   "Initialize starts where that install stops, so a project has no Garura memory of its own until initialize runs, and the two never write the same files.": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/capability.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/capability.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/install-into-project/capability.md"
+    ]
+   },
+   "whether there is a database, personal data, permissions or a running service": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-project-memory/feature.md",
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+     "software-delivery-planning/initialize/fn-setup-questions/ice.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-project-memory/feature.md",
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+     "software-delivery-planning/initialize/fn-setup-questions/ice.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/environment-setup/capability.md",
+     "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+     "software-delivery-planning/deployment-design/capability.md",
+     "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md"
+    ]
+   },
+   "the technology standards, the tools and frameworks": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/design-technology-architecture/capability.md",
+     "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md"
+    ]
+   },
+   "the surfaces (web, mobile, command line, API)": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/manage-surfaces/capability.md",
+     "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md"
+    ]
+   },
+   "In: what the project already shows, for the proposed answers: its files and its config.": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md"
+    ]
+   },
+   "Where nothing backs a proposal, the question carries no proposed answer and the person answers it; there is never a default in place of a source": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-setup-questions/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+     "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+     "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+     "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md"
+    ]
+   },
+   "A rule group is a set of the review's rules that check one kind of thing": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/capability.md",
+     "software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/capability.md",
+     "software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/check-code-against-standards/capability.md"
+    ]
+   },
+   "a group skipped by mistake hides real findings": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/check-code-against-standards/capability.md",
+     "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md"
+    ]
+   },
+   "because nothing is deployed or kept running for its rules to check": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/deployment-design/capability.md"
+    ]
+   },
+   "Changing the review play (/check-change) to read this record, run no rule of a skipped group and name the skipped groups in its own record": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-review-rule-groups/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/check-code-against-standards/capability.md",
+     "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md"
+    ]
+   },
+   "It reads which tracker the project uses and the issue types that tracker already has": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-881/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-881/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md"
+    ]
+   },
+   "when the project changes: it gains a database, a web surface, personal data or a new tracker, or it drops one.": {
+    "found_word_for_word_on": [
+     "software-delivery-planning/initialize/fn-rerun-initialize/feature.md"
+    ],
+    "found_with_wrapped_spacing_ignored_on": [
+     "software-delivery-planning/initialize/fn-rerun-initialize/feature.md"
+    ],
+    "quoted_by": [
+     "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+     "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+     "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+     "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+     "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md"
+    ]
+   }
+  }
+ },
+ "git_status_product": [
+  " M .garura/product/product-os/_spine.yaml",
+  " M .garura/product/product-os/intents/bi-7.md",
+  " M .garura/product/product-os/software-delivery-planning/initialize/capability.md",
+  " M .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  " M .garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  " M .garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  " M .garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  " M .garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  " M .garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+  " M .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/initialize/fn-881/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/initialize/fn-883/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/initialize/ice.md"
+ ],
+ "structure_check": {
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+  "before": {
+   "errors": 83,
+   "warnings": 176,
+   "counts": {
+    "domain": 1,
+    "capability": 35,
+    "feature": 134,
+    "ice": 126
+   },
+   "file": ".garura/project/issues/1021/context/bi-7-capability-4/write/lint-before.json"
+  },
+  "after": {
+   "errors": 83,
+   "warnings": 176,
+   "counts": {
+    "domain": 1,
+    "capability": 35,
+    "feature": 134,
+    "ice": 133
+   },
+   "file": ".garura/project/issues/1021/context/bi-7-capability-4/write/lint-after.json"
+  },
+  "new_errors": [],
+  "errors_gone": [],
+  "new_warnings": [
+   ".garura/product/product-os/software-delivery-planning/initialize/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "warnings_gone": [
+   "spine capability 'cap-initialize': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-setup-questions': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-project-memory': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-review-rule-groups': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-881': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-rerun-initialize': no ICE yet — each capability and feature has one (#765)",
+   "spine feature 'fn-883': no ICE yet — each capability and feature has one (#765)"
+  ]
+ },
+ "write_folder_private_strings": [],
+ "failed_checks": [],
+ "checks_run": 178,
+ "checks_passed": 178,
+ "all_checks_pass": true,
+ "checks": {
+  "page capability.md equals draft byte for byte": true,
+  "page capability.md holds no ICE section": true,
+  "page capability.md has no Thin line": true,
+  "page capability.md replaced a page that was there": true,
+  "page ice.md equals draft byte for byte": true,
+  "page ice.md holds no ICE section": true,
+  "page ice.md has no Thin line": true,
+  "page ice.md is new": true,
+  "page fn-setup-questions/feature.md equals draft byte for byte": true,
+  "page fn-setup-questions/feature.md holds no ICE section": true,
+  "page fn-setup-questions/feature.md has no Thin line": true,
+  "page fn-setup-questions/feature.md replaced a page that was there": true,
+  "page fn-setup-questions/ice.md equals draft byte for byte": true,
+  "page fn-setup-questions/ice.md holds no ICE section": true,
+  "page fn-setup-questions/ice.md has no Thin line": true,
+  "page fn-setup-questions/ice.md is new": true,
+  "page fn-project-memory/feature.md equals draft byte for byte": true,
+  "page fn-project-memory/feature.md holds no ICE section": true,
+  "page fn-project-memory/feature.md has no Thin line": true,
+  "page fn-project-memory/feature.md replaced a page that was there": true,
+  "page fn-project-memory/ice.md equals draft byte for byte": true,
+  "page fn-project-memory/ice.md holds no ICE section": true,
+  "page fn-project-memory/ice.md has no Thin line": true,
+  "page fn-project-memory/ice.md is new": true,
+  "page fn-review-rule-groups/feature.md equals draft byte for byte": true,
+  "page fn-review-rule-groups/feature.md holds no ICE section": true,
+  "page fn-review-rule-groups/feature.md has no Thin line": true,
+  "page fn-review-rule-groups/feature.md replaced a page that was there": true,
+  "page fn-review-rule-groups/ice.md equals draft byte for byte": true,
+  "page fn-review-rule-groups/ice.md holds no ICE section": true,
+  "page fn-review-rule-groups/ice.md has no Thin line": true,
+  "page fn-review-rule-groups/ice.md is new": true,
+  "page fn-881/feature.md equals draft byte for byte": true,
+  "page fn-881/feature.md holds no ICE section": true,
+  "page fn-881/feature.md has no Thin line": true,
+  "page fn-881/feature.md replaced a page that was there": true,
+  "page fn-881/ice.md equals draft byte for byte": true,
+  "page fn-881/ice.md holds no ICE section": true,
+  "page fn-881/ice.md has no Thin line": true,
+  "page fn-881/ice.md is new": true,
+  "page fn-rerun-initialize/feature.md equals draft byte for byte": true,
+  "page fn-rerun-initialize/feature.md holds no ICE section": true,
+  "page fn-rerun-initialize/feature.md has no Thin line": true,
+  "page fn-rerun-initialize/feature.md replaced a page that was there": true,
+  "page fn-rerun-initialize/ice.md equals draft byte for byte": true,
+  "page fn-rerun-initialize/ice.md holds no ICE section": true,
+  "page fn-rerun-initialize/ice.md has no Thin line": true,
+  "page fn-rerun-initialize/ice.md is new": true,
+  "page fn-883/feature.md equals draft byte for byte": true,
+  "page fn-883/feature.md holds no ICE section": true,
+  "page fn-883/feature.md has no Thin line": true,
+  "page fn-883/feature.md replaced a page that was there": true,
+  "page fn-883/ice.md equals draft byte for byte": true,
+  "page fn-883/ice.md holds no ICE section": true,
+  "page fn-883/ice.md has no Thin line": true,
+  "page fn-883/ice.md is new": true,
+  "initialize folder holds only the 14 pages": true,
+  "no Initialize page holds an ICE section": true,
+  "fn-keep-tracker-matched: same line count": true,
+  "fn-keep-tracker-matched: only line 47 differs": true,
+  "fn-keep-tracker-matched: line 47 old as asked": true,
+  "fn-keep-tracker-matched: line 47 new as asked": true,
+  "spine top keys and their order kept": true,
+  "spine top key profile unchanged": true,
+  "spine: no entry removed anywhere": true,
+  "spine: order of every list kept": true,
+  "spine: no new domain, capability, feature or slice": true,
+  "spine: entries changed are exactly cap-initialize and its six features": true,
+  "spine ices: new entries are exactly the seven asked, in order": true,
+  "spine ices: count grew by 7": true,
+  "index cap-initialize: intents are exactly [bi-7]": true,
+  "index cap-initialize: not thin": true,
+  "index cap-initialize: only ['intents', 'metadata'] changed": true,
+  "index cap-initialize: metadata gained only updated_by": true,
+  "index cap-initialize: one-line unchanged": true,
+  "index fn-setup-questions: intents are exactly [bi-7]": true,
+  "index fn-setup-questions: not thin": true,
+  "index fn-setup-questions: only ['intents', 'metadata'] changed": true,
+  "index fn-setup-questions: metadata gained only updated_by": true,
+  "index fn-setup-questions: one-line unchanged": true,
+  "index fn-project-memory: intents are exactly [bi-7]": true,
+  "index fn-project-memory: not thin": true,
+  "index fn-project-memory: only ['intents', 'metadata'] changed": true,
+  "index fn-project-memory: metadata gained only updated_by": true,
+  "index fn-project-memory: one-line unchanged": true,
+  "index fn-review-rule-groups: intents are exactly [bi-7]": true,
+  "index fn-review-rule-groups: not thin": true,
+  "index fn-review-rule-groups: only ['intents', 'metadata'] changed": true,
+  "index fn-review-rule-groups: metadata gained only updated_by": true,
+  "index fn-review-rule-groups: one-line unchanged": true,
+  "index fn-881: intents are exactly [bi-7]": true,
+  "index fn-881: not thin": true,
+  "index fn-881: only ['intents', 'metadata'] changed": true,
+  "index fn-881: metadata gained only updated_by": true,
+  "index fn-881: one-line unchanged": true,
+  "index fn-rerun-initialize: intents are exactly [bi-7]": true,
+  "index fn-rerun-initialize: not thin": true,
+  "index fn-rerun-initialize: only ['intents', 'metadata', 'one_line'] changed": true,
+  "index fn-rerun-initialize: metadata gained only updated_by": true,
+  "index fn-rerun-initialize: new one-line as asked": true,
+  "index fn-rerun-initialize: one-line is the capability page's feature list line, first letter capitalised": true,
+  "index fn-883: intents are exactly [bi-7]": true,
+  "index fn-883: not thin": true,
+  "index fn-883: only ['intents', 'metadata', 'one_line'] changed": true,
+  "index fn-883: metadata gained only updated_by": true,
+  "index fn-883: new one-line as asked": true,
+  "index fn-883: one-line is the capability page's feature list line, first letter capitalised": true,
+  "index cap-initialize: detail stays detailed": true,
+  "index cap-initialize: nfr_needs unchanged": true,
+  "index cap-initialize: decisions unchanged, naming dec-cap-initialize-security-none-medium": true,
+  "index cap-initialize: compliance_needs unchanged": true,
+  "index cap-initialize: doc unchanged": true,
+  "index ice-initialize: for cap-initialize, kind capability, doc software-delivery-planning/initialize/ice.md": true,
+  "index ice-initialize: not thin": true,
+  "index ice-initialize: names no business intent": true,
+  "index ice-initialize: its page is on disk": true,
+  "index ice-initialize: the only ICE for cap-initialize": true,
+  "index ice-setup-questions: for fn-setup-questions, kind feature, doc software-delivery-planning/initialize/fn-setup-questions/ice.md": true,
+  "index ice-setup-questions: not thin": true,
+  "index ice-setup-questions: names no business intent": true,
+  "index ice-setup-questions: its page is on disk": true,
+  "index ice-setup-questions: the only ICE for fn-setup-questions": true,
+  "index ice-project-memory: for fn-project-memory, kind feature, doc software-delivery-planning/initialize/fn-project-memory/ice.md": true,
+  "index ice-project-memory: not thin": true,
+  "index ice-project-memory: names no business intent": true,
+  "index ice-project-memory: its page is on disk": true,
+  "index ice-project-memory: the only ICE for fn-project-memory": true,
+  "index ice-review-rule-groups: for fn-review-rule-groups, kind feature, doc software-delivery-planning/initialize/fn-review-rule-groups/ice.md": true,
+  "index ice-review-rule-groups: not thin": true,
+  "index ice-review-rule-groups: names no business intent": true,
+  "index ice-review-rule-groups: its page is on disk": true,
+  "index ice-review-rule-groups: the only ICE for fn-review-rule-groups": true,
+  "index ice-881: for fn-881, kind feature, doc software-delivery-planning/initialize/fn-881/ice.md": true,
+  "index ice-881: not thin": true,
+  "index ice-881: names no business intent": true,
+  "index ice-881: its page is on disk": true,
+  "index ice-881: the only ICE for fn-881": true,
+  "index ice-rerun-initialize: for fn-rerun-initialize, kind feature, doc software-delivery-planning/initialize/fn-rerun-initialize/ice.md": true,
+  "index ice-rerun-initialize: not thin": true,
+  "index ice-rerun-initialize: names no business intent": true,
+  "index ice-rerun-initialize: its page is on disk": true,
+  "index ice-rerun-initialize: the only ICE for fn-rerun-initialize": true,
+  "index ice-883: for fn-883, kind feature, doc software-delivery-planning/initialize/fn-883/ice.md": true,
+  "index ice-883: not thin": true,
+  "index ice-883: names no business intent": true,
+  "index ice-883: its page is on disk": true,
+  "index ice-883: the only ICE for fn-883": true,
+  "no part of Initialize is thin": true,
+  "spine: the only lines taken away are the seven empty intent lists ('intents: []', each now a list naming bi-7) and the two old one-lines": true,
+  "BI-7: only 7 lines added, right after the Map-model-tier Touches line; every other line byte for byte": true,
+  "BI-7: every Touches line in the one form": true,
+  "BI-7: the 7 new lines name the 7 parts in the order asked": true,
+  "BI-7: the 7 new lines are each marked changes": true,
+  "BI-7: the 7 new lines carry the right kind": true,
+  "BI-7: every Touches link leads to a file": true,
+  "BI-7: every Touches title is its page's title": true,
+  "BI-7: 28 Touches lines": true,
+  "BI-7: 28 index entries name bi-7": true,
+  "BI-7: index entries naming bi-7 match the Touches lines one for one": true,
+  "quote kept on Initialize's pages: A tracker is an outside system, and a write there is visible": true,
+  "quote kept on Initialize's pages: A project changes (it gains a database, a web surface or a n": true,
+  "quote kept on Initialize's pages: Initialize starts where that install stops, so a project has": true,
+  "quote kept on Initialize's pages: whether there is a database, personal data, permissions or a": true,
+  "quote kept on Initialize's pages: the technology standards, the tools and frameworks": true,
+  "quote kept on Initialize's pages: the surfaces (web, mobile, command line, API)": true,
+  "quote kept on Initialize's pages: In: what the project already shows, for the proposed answers": true,
+  "quote kept on Initialize's pages: Where nothing backs a proposal, the question carries no prop": true,
+  "quote kept on Initialize's pages: A rule group is a set of the review's rules that check one k": true,
+  "quote kept on Initialize's pages: a group skipped by mistake hides real findings": true,
+  "quote kept on Initialize's pages: because nothing is deployed or kept running for its rules to": true,
+  "quote kept on Initialize's pages: Changing the review play (/check-change) to read this record": true,
+  "quote kept on Initialize's pages: It reads which tracker the project uses and the issue types ": true,
+  "quote kept on Initialize's pages: when the project changes: it gains a database, a web surface": true,
+  "every phrase other intents quote is found word for word on Initialize's pages": true,
+  "under .garura/product/ only the spine, bi-7.md, fn-keep-tracker-matched's page and the initialize folder changed": true,
+  "decision dec-cap-initialize-security-none-medium left as it is": true,
+  "structure check: no new error": true,
+  "write folder holds no private path or user name": true
+ },
+ "before_state": "git HEAD 106e95a4: the spine, intents/bi-7.md, the Initialize pages and fn-keep-tracker-matched's page as committed (the product model had no uncommitted change before this write)"
+}

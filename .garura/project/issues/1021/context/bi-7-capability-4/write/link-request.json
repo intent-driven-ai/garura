@@ -1,0 +1,119 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-initialize",
+      "kind": "capability",
+      "mode": "update",
+      "add_intents": [
+        "bi-7"
+      ]
+    },
+    {
+      "id": "fn-setup-questions",
+      "kind": "feature",
+      "mode": "update",
+      "add_intents": [
+        "bi-7"
+      ]
+    },
+    {
+      "id": "fn-project-memory",
+      "kind": "feature",
+      "mode": "update",
+      "add_intents": [
+        "bi-7"
+      ]
+    },
+    {
+      "id": "fn-review-rule-groups",
+      "kind": "feature",
+      "mode": "update",
+      "add_intents": [
+        "bi-7"
+      ]
+    },
+    {
+      "id": "fn-881",
+      "kind": "feature",
+      "mode": "update",
+      "add_intents": [
+        "bi-7"
+      ]
+    },
+    {
+      "id": "fn-rerun-initialize",
+      "kind": "feature",
+      "mode": "update",
+      "add_intents": [
+        "bi-7"
+      ],
+      "one_line": "Lets the product owner run initialize again when the project changes, with the earlier answers proposed, so the set-up follows the project."
+    },
+    {
+      "id": "fn-883",
+      "kind": "feature",
+      "mode": "update",
+      "add_intents": [
+        "bi-7"
+      ],
+      "one_line": "Keeps each project's blocks its own, taken from the one Phoenix memory on the machine, and on each run compares them with Phoenix memory so the project learns when a block changed."
+    },
+    {
+      "id": "ice-initialize",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-initialize",
+      "doc": "software-delivery-planning/initialize/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-setup-questions",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-setup-questions",
+      "doc": "software-delivery-planning/initialize/fn-setup-questions/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-project-memory",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-project-memory",
+      "doc": "software-delivery-planning/initialize/fn-project-memory/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-review-rule-groups",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-review-rule-groups",
+      "doc": "software-delivery-planning/initialize/fn-review-rule-groups/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-881",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-881",
+      "doc": "software-delivery-planning/initialize/fn-881/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-rerun-initialize",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-rerun-initialize",
+      "doc": "software-delivery-planning/initialize/fn-rerun-initialize/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-883",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-883",
+      "doc": "software-delivery-planning/initialize/fn-883/ice.md",
+      "thin": false
+    }
+  ]
+}

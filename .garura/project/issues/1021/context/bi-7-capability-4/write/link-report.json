@@ -1,0 +1,25 @@
+{
+  "written": [
+    "ice-initialize",
+    "ice-setup-questions",
+    "ice-project-memory",
+    "ice-review-rule-groups",
+    "ice-881",
+    "ice-rerun-initialize",
+    "ice-883"
+  ],
+  "updated": [
+    "cap-initialize",
+    "fn-setup-questions",
+    "fn-project-memory",
+    "fn-review-rule-groups",
+    "fn-881",
+    "fn-rerun-initialize",
+    "fn-883"
+  ],
+  "thin": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "layout_kept": true
+}
