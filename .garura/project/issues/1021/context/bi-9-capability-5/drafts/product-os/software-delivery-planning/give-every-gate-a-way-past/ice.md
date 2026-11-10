@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: When a person meets any gate in the work, a checkpoint, a stop on a check or a guardrail in the coding tool, the gate shows its way past, and using it records who, when, what was skipped and what is still to be done in the issue folder of the work that made it, where a tool reads every issue's entries back as one list; every checkpoint the settings skip is recorded whatever the evidence setting says; each guardrail names what it guards and its way past; and each pinned yes is named with why it is pinned, so that no gate stops a person and nothing skipped is lost.
+- Limit: No gate is hidden or silent: its way past is shown where the person sees it, and each use and each skip is recorded in its issue's folder, never in a global file.
+- Limit: No setting, policy, ledger or agent turns a pinned yes off, and whether a typed yes is a way past or a stop kept on purpose waits for #992's ADR.
+- Limit: Laying the guardrails, the gate settings and the learned policy, the play checker's rules and the merge itself stay with their owners.
+- Fails if: A gate stops a person with no way past, and it is not on the list of today's gates with what its way past would record or why it keeps a person's yes.
+- Fails if: A way past was used or a checkpoint skipped with no record in its issue's folder, or an entry is missing from the one list.
+- Fails if: A pinned yes was skipped by a setting, a policy or an agent.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the gates each play declares and their kinds; the gate settings, the evidence setting and the learned policy; each issue's gate records and its owed entries; the guardrails the install lays, and what the coding tool can do before an agent acts; the pinned checkpoints and how each behaves inside a loop; the approved pages that name a way past or a stop; and #992's ADR once it is accepted.
+- Never read: any memory file by its path, and any ICE page.
+- Persona: the product owner or a developer, who meets a gate while running a play, wants to go on at their own speed, and later finds all that was left owed.
+- Scope: In: a way past for every gate a play declares and what using it records, the list of today's gates with none, what is owed kept with its work and read back as one list, the record of every skipped checkpoint, what each guardrail guards and its way past, and the pinned yeses. Out: the gate settings and the learned policy, the play checker's rules and adding a gate to a play, laying the guardrails and their form in each coding tool, the merge itself, confirming an intent, and the parts where each gate sits in running the plans, running loops, tracking the work and recording ADRs.
+
+## Expectation
+- Scenario: In a shop's checkout project with the evidence file off, a developer's /commit-change run skips its off checkpoint, and the issue's folder gains a skip record naming the setting that skipped it. In a plan session, the product owner passes a rule break on purpose; the change lands, and the issue's folder holds an owed entry naming the rule, who passed it, when and what is still to be done. An agent then runs a play's bundled script by hand; the guardrail names the play to run and its way past. A week later the one list shows the plan session's entry beside an entry from another issue, and at the merge onto main the product owner's typed yes is still asked.
+- Done means: Someone other than the one who built it walks every gate of today's plays and finds each one naming its way past and what using it records, or on the list with why it keeps a person's yes; finds each use and each skip recorded in its issue's folder and nothing in a global file; reads the one list and finds every open entry; and finds no pinned yes skipped.

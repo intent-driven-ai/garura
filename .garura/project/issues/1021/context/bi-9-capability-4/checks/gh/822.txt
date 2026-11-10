@@ -1,0 +1,13 @@
+/record-decision cannot join a change that is already open
+The /record-decision play cannot join a change that is already open.
+
+When a person runs it by hand, it opens its own branch from main. So an ADR that belongs to a change on a plan branch (for example #816, on `plan/788/816-shape-slice-ontology-and-tier`) cannot land in that same PR. The only other way is its loop-contract mode, and that is meant for loops, not for a play run inside a change.
+
+What it causes: the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816 (ADR 048 §2, the shaping loop).
+
+## Done when
+
+- /record-decision, run by hand on an open change's branch, can record the ADR on that branch, in that change.
+- It still opens its own change when no change is open.
+- A test or scenario shows both cases.
+

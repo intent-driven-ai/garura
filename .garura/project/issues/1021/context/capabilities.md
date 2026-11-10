@@ -97,6 +97,14 @@ None yet.
 - Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met.
 - Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog.
 - Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them. (unique)
+- Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it.
+  - Set by the product owner on 2026-11-10, after the research in .garura/project/issues/1021/context/bi-9-inventory/inventory.md and a proposed list of five: the agreed four, and this fifth one, which holds BI-9's Must not as work. His words: "This we are building. This, pretty much, we are building from what already exists. Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that. Just start composing the thin ice or whatnot. Is there anything new? If so, then do research for that."
+    1. Orchestrate agent work through planning, its line reworded for the 2026-11-06 narrowing and the choice of the slice: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs." Choosing the slice comes here, by his words of 2026-11-09 (line 26). Old parts merged into it: View plans (cap-719) with fn-729, fn-628 and fn-806; the status, direction and branch part of Manage a plan (cap-720) and its session (fn-730); Shape a slice (cap-shape-slice) with fn-795's choice of the slice.
+    2. Run plays as loops, 3. Track execution in the team's tracker and 4. Manage ADRs, their lines as above, drafted from what is built.
+    5. Give every gate a way past, new; approved pages already hand it to Orchestration (install-into-project/fn-lay-guardrails/feature.md line 39). Whether the merge's typed yes is a way past or a stop kept on purpose stays open (#992, every gate has a key).
+    - What is new, and researched before it is drafted: most of capability 5, and the features of the other four that are not built (bi-9-inventory/inventory.md, section 11, leans 3 to 6).
+    - Left to #1021's clean-up of old parts: Build a plan (cap-718) and fn-931 to BI-1, the hidden eval (cap-shape-eval, fn-798, fn-898) to BI-3, Link the product model (cap-723) and its features to BI-11, and deleting sl-intent-to-design.
+  - Owed at BI-9's close: BI-9's page against the five; the domain (lean: software delivery planning, its opening widened, as for BI-6, BI-7 and BI-8).
 
 ## Standards, structure, settings and memory
 - Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them. (unique)

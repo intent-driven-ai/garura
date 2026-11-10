@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261110-008",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "How a Claude Code hook can guard an action and still give the person a way past it. No memory tier holds it; BI-9's guardrail feature (#893) rests on it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/answers/bi9-guardrail-hooks.md",
+    "draft": "Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.\n\n# A Claude Code hook as a guardrail with a way past\n\nAll from https://code.claude.com/docs/en/hooks :\n- A PreToolUse hook runs before each tool call and may answer allow, deny, ask or defer.\n- deny stops the call; its reason is shown to Claude, not to the person.\n- ask shows the person a permission prompt with the hook's reason; the person confirms or refuses.\n- allow skips the prompt (deny and ask rules still apply); defer ends the turn so the call can be resumed later, in non-interactive mode only.\n- A hook that exits with code 2 blocks the call, with its error text as the reason. Any other failure, or a time-out, does not block unless the hook is set to block on failure.\n\nSo a guardrail can answer ask instead of deny: the person sees what it guards and why, and can pass it on purpose; the hook can itself write a record of each pass.",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "general-purpose research agent (#1021, BI-9 research)",
+    "requested_at": "2026-11-10T15:57:47Z",
+    "decided_by": "the product owner",
+    "reply": "approved memory updates",
+    "decided_at": "2026-11-10T16:07:25Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

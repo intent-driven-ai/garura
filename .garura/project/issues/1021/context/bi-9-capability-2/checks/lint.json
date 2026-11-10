@@ -1,0 +1,136 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "first_run": "fn-show-run-status failed once on one short label bullet ('What it holds:'); it was written out and the check run again",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "detailed"
+      ],
+      "ok": false,
+      "errors": [
+        ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/capability.md: missing required section '## Benefit hypothesis'",
+        ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/capability.md: missing required section '## Boundary (In / Out / Never)'",
+        ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/capability.md: missing required section '## Guiding rules'",
+        ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/capability.md: missing required section '## Features'",
+        ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/capability.md: unknown section '## Directional intent' \u2014 not in the capability contract (drift)"
+      ],
+      "warnings": [],
+      "note": ""
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "note": ""
+    },
+    {
+      "doc": ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "detailed"
+      ],
+      "ok": false,
+      "errors": [
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Benefit hypothesis'",
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Boundary (In / Out / Never)'",
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Guiding rules'",
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Features'",
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: unknown section '## Directional intent' \u2014 not in the capability contract (drift)"
+      ],
+      "warnings": [],
+      "note": "the approved shape page, for comparison"
+    },
+    {
+      "doc": ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "note": "the approved shape page, for comparison"
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-run-loop/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "note": ""
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "note": ""
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-brief-open-points/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "note": ""
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-show-run-status/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "note": ""
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "note": ""
+    }
+  ]
+}

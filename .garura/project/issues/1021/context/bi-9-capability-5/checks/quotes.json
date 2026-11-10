@@ -1,0 +1,2000 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 265,
+  "not_found": 0,
+  "problems": [],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "This we are building.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "the domain (lean: software delivery planning, its opening widened, as for BI-6, BI-7 and BI-8)",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "A person can see where everything stands.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "you always have a key to bypass it, and that key will keep track of what needs to be learned later.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "The whole principle of the harness is we're not limiting or stopping people. We're giving them choices.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "There are repercussions later on, but the choice is on them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "They can move at the speed at which they want to go.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "who used it, when, what was skipped, and where the debt is kept so a later play finds it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "the not-yet-learned list of #990",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "The gates in today's plays that stop a person with no key are listed in the ADR, each with what its key would record or why it keeps a human beat.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/990.txt",
+      "quote": "Only the evidence is enforced.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/943.txt",
+      "quote": "Nothing is written to a global file.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/943.txt",
+      "quote": "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Always fires. No config value, policy, or ledger can turn it off.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "the machine's walls, not human courtesies",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Everything a piece of work writes goes under its issue",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Pre-flight halts, sensitive-file blocks, stop-condition gates, and eval failures are never gated by this block",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Skips are always visible in evidence \u2014 a silent gate is not a gate.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "declares its risk class inline",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "The person may override it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "do it anyway",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "the override is recorded.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "its story goes where the person names and the slice is recorded as owed",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "it stops, names the files and changes nothing; the person cleans up.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+      "quote": "It never sends the person back, and nothing stops.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/merge-change/SKILL.md",
+      "quote": "no config value, policy, or ledger turns it off",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "quote": "Each question has a way past it. A no keeps that part or the model as it was, and the report records it as owed.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "quote": "What each guardrail guards, and the way past it. Orchestration owns it.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md",
+      "quote": "the plays that make plans must not run",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "quote": "stop with a plain message that points to initialize",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "docs/standards/harness-standard.md",
+      "quote": "missing links are warnings to fix later, not stops",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": "core/config.yaml",
+      "quote": "record: false",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+      "quote": "The pinned list names gone plays.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-way-past.md",
+      "quote": "the way past is offered, never hidden; using it records who, when, why and what was skipped",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-way-past.md",
+      "quote": "the way past is offered, never hidden",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/knowledge/domains/experience.md",
+      "quote": "HITL queues & approvals \u2014 human review gates for agent actions.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/knowledge/domains/experience.md",
+      "quote": "Guardrail & memory policy \u2014 scope what agents may do/remember.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "This we are building.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "you always have a key to bypass it, and that key will keep track of what needs to be learned later.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Always fires. No config value, policy, or ledger can turn it off.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "the machine's walls, not human courtesies",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Everything a piece of work writes goes under its issue",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "The whole principle of the harness is we're not limiting or stopping people. We're giving them choices.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "There are repercussions later on, but the choice is on them.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Only the evidence is enforced.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "The person may override it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "do it anyway",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "the override is recorded.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "It never sends the person back, and nothing stops.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "its story goes where the person names and the slice is recorded as owed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Each question has a way past it. A no keeps that part or the model as it was, and the report records it as owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "What each guardrail guards, and the way past it. Orchestration owns it.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "no config value, policy, or ledger turns it off",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Pre-flight halts, sensitive-file blocks, stop-condition gates, and eval failures are never gated by this block",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "it stops, names the files and changes nothing; the person cleans up.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "the plays that make plans must not run",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "stop with a plain message that points to initialize",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "the way past is offered, never hidden; using it records who, when, why and what was skipped",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "declares its risk class inline",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "missing links are warnings to fix later, not stops",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "the not-yet-learned list of #990",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "record: false",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "The pinned list names gone plays.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "The gates in today's plays that stop a person with no key are listed in the ADR, each with what its key would record or why it keeps a human beat.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "A person can see where everything stands.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Skips are always visible in evidence \u2014 a silent gate is not a gate.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Always fires. No config value, policy, or ledger can turn it off.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Nothing is written to a global file.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "the way past is offered, never hidden",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "who used it, when, what was skipped, and where the debt is kept so a later play finds it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Everything a piece of work writes goes under its issue",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "They can move at the speed at which they want to go.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "where": "body",
+      "quote": "Only the evidence is enforced.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/893.txt",
+      "quote": "can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/893.txt",
+      "quote": "to shape, not decided",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/893.txt",
+      "quote": "Which paths and which plays the hook covers, and how a person overrides it on purpose.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "quote": "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "quote": "the guardrails Orchestration defines, each with what it guards and its way past.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "quote": "Every guardrail has a way past it.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "quote": "No install touches the coding tool's own settings today",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "quote": "Blocking a read with a hook is left to the guardrails the install will lay (#893), which the install does not lay today.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-guardrail-hooks.md",
+      "quote": "may answer allow, deny, ask or defer",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-guardrail-hooks.md",
+      "quote": "its reason is shown to Claude, not to the person",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-guardrail-hooks.md",
+      "quote": "shows the person a permission prompt with the hook's reason; the person confirms or refuses",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-guardrail-hooks.md",
+      "quote": "the hook can itself write a record of each pass",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-guardrail-hooks.md",
+      "quote": "does not block unless the hook is set to block on failure",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-way-past.md",
+      "quote": "the way past is offered, never hidden",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "to shape, not decided",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "Blocking a read with a hook is left to the guardrails the install will lay (#893), which the install does not lay today.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "may answer allow, deny, ask or defer",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "its reason is shown to Claude, not to the person",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "shows the person a permission prompt with the hook's reason; the person confirms or refuses",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "the hook can itself write a record of each pass",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "No gate stops a person; each has a way past it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "No install touches the coding tool's own settings today",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "Every guardrail has a way past it.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "the guardrails Orchestration defines, each with what it guards and its way past.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "the way past is offered, never hidden",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "is shown to Claude, not to the person",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "the hook can itself write a record of each pass",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "records what is owed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "Which paths and which plays the hook covers, and how a person overrides it on purpose.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "where": "body",
+      "quote": "does not block unless the hook is set to block on failure",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "the not-yet-learned list of #990",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "who used it, when, what was skipped, and where the debt is kept so a later play finds it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/990.txt",
+      "quote": "issue, branch, what was left, who chose, when",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/990.txt",
+      "quote": "exactly that list later and never hunts through every issue's short-term memory",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/943.txt",
+      "quote": "Nothing is written to a global file.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/943.txt",
+      "quote": "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/969.txt",
+      "quote": "Every run's records are kept in the evidence folder of its issue",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Everything a piece of work writes goes under its issue",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Each issue keeps its own history",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "The learner reads every issue's history",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "counts once it is on the branch the learner runs on (in practice, once merged)",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/scripts/commit_plan.py",
+      "quote": "what a new feature still needs",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "quote": "what is owed",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "quote": "a later run and a person both find where the plays read the mapping",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-owed-register.md",
+      "quote": "one list that both a person and a later step read, in the place the normal work is read",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-owed-register.md",
+      "quote": "an entry is closed only when the debt is paid",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "Everything a piece of work writes goes under its issue",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "Each issue keeps its own history",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "The learner reads every issue's history",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "the not-yet-learned list of #990",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "issue, branch, what was left, who chose, when",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "what a new feature still needs",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "what is owed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "a later run and a person both find where the plays read the mapping",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "one list that both a person and a later step read, in the place the normal work is read",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "an entry is closed only when the debt is paid",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "records what is owed where a later play finds it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "Nothing is written to a global file.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "counts once it is on the branch the learner runs on (in practice, once merged)",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "The learner reads every issue's history",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "exactly that list later and never hunts through every issue's short-term memory",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "who used it, when, what was skipped, and where the debt is kept so a later play finds it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "where": "body",
+      "quote": "an entry is closed only when the debt is paid",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Always fires. No config value, policy, or ledger can turn it off.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Unpinning is an intent change to that play (edit-play), never a config edit.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "merging to main is the one irreversible action in the chain",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "only a person confirms a business intent",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "only a person accepts a decision record",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "is asked up front or becomes the loop's question",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "never deferred to the loop's review",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/merge-change/SKILL.md",
+      "quote": "no config value, policy, or ledger turns it off",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/merge-change/SKILL.md",
+      "quote": "These three are the guard against breaking main",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/merge-change/SKILL.md",
+      "quote": "there is nothing to approve, so the human is not asked.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "run by hand: never skipped by config or policy.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/shape-plan/SKILL.md",
+      "quote": "the product owner decides; never skipped by config",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/edit-ontology/SKILL.md",
+      "quote": "three pinned human checkpoints \u2014 the product owner decides",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "nothing is written to an outside system without the person asking",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "The ADR says whether these are keys of their own kind",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "or exceptions to the principle.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+      "quote": "Not decided: whether the merge's typed yes is the way past the merge's checkpoint that Orchestration's Must not asks for, or a stop kept on purpose (#992).",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/features/fn-673/feature.md",
+      "quote": "Not decided: whether the typed yes is the way past this checkpoint that Orchestration's Must not asks for, or a stop kept on purpose (#992).",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Whether the merge's typed yes is a way past or a stop kept on purpose stays open (#992, every gate has a key).",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+      "quote": "The pinned list names gone plays.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "merging to main is the one irreversible action in the chain",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "no config value, policy, or ledger turns it off",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "only a person confirms a business intent",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "only a person accepts a decision record",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "run by hand: never skipped by config or policy.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "the product owner decides; never skipped by config",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "three pinned human checkpoints \u2014 the product owner decides",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "nothing is written to an outside system without the person asking",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "is asked up front or becomes the loop's question",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "These three are the guard against breaking main",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "there is nothing to approve, so the human is not asked.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "The ADR says whether these are keys of their own kind",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "or exceptions to the principle.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "The pinned list names gone plays.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "Always fires. No config value, policy, or ledger can turn it off.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "Unpinning is an intent change to that play (edit-play), never a config edit.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "only a person confirms a business intent",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "only a person accepts a decision record",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "never deferred to the loop's review",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "where": "body",
+      "quote": "The pinned list names gone plays.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions row in the evidence file and proceeds. Skips are always visible in evidence \u2014 a silent gate is not a gate.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "the human's real action is the verdict that teaches the policy.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "pinned \u2014 config bypass refused",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "A pinned gate NEVER resolves off",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/_shared/play-close.md",
+      "quote": "Gated by `evidence.record`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": "core/config.yaml",
+      "quote": "record: false",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": "core/config.yaml",
+      "quote": "a loop always records its evidence",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/create-play/references/gate_eval.py",
+      "quote": "the learner skips it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/check-change/SKILL.md",
+      "quote": "the computed recommendation is recorded and posted as a clearly marked harness verdict",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/943.txt",
+      "quote": "A gate record goes in the evidence folder of the issue whose run made it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/969.txt",
+      "quote": "Every run's records are kept in the evidence folder of its issue",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-way-past.md",
+      "quote": "every action where someone bypassed a ruleset",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-way-past.md",
+      "quote": "an alert, an audit log entry and an email",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions row in the evidence file and proceeds. Skips are always visible in evidence \u2014 a silent gate is not a gate.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "Gated by `evidence.record`",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "record: false",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "a loop always records its evidence",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "the computed recommendation is recorded and posted as a clearly marked harness verdict",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "pinned \u2014 config bypass refused",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "the human's real action is the verdict that teaches the policy.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "every action where someone bypassed a ruleset",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "an alert, an audit log entry and an email",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "Skips are always visible in evidence \u2014 a silent gate is not a gate.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "A gate record goes in the evidence folder of the issue whose run made it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "gate skipped by config (<resolution path>)",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "the human's real action is the verdict that teaches the policy.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "A pinned gate NEVER resolves off",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "where": "body",
+      "quote": "Gated by `evidence.record`",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "who used it, when, what was skipped, and where the debt is kept so a later play finds it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "They can move at the speed at which they want to go. If they want to go really fast, they can. There are repercussions later on, but the choice is on them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/992.txt",
+      "quote": "each with what its key would record or why it keeps a human beat",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/checks/gh/990.txt",
+      "quote": "Only the evidence is enforced.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "declares its risk class inline (e.g. `Checkpoint (class: one-way-door)`)",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/standards/rules/gate-config.md",
+      "quote": "Pre-flight halts, sensitive-file blocks, stop-condition gates, and eval failures are never gated by this block",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "The person may override it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "do it anyway",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "the override is recorded.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "its story goes where the person names and the slice is recorded as owed",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/update-plan/reference/ice.md",
+      "quote": "it stops, names the files and changes nothing; the person cleans up.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+      "quote": "nothing stops",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+      "quote": "it stops at pre-flight, before it opens a change or writes anything, and points to `/update-plan`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/show-plan/SKILL.md",
+      "quote": "a plan file with a status the template does not know stops the play with the file named",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md",
+      "quote": "the plays that make plans must not run",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "quote": "stop with a plain message that points to initialize",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+      "quote": "A missing choice is a gap, not a stop.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "quote": "A no keeps that part or the model as it was, and the report records it as owed.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "quote": "leaves that part and its block-list entry as they were, so the next run names it again",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": "docs/standards/harness-standard.md",
+      "quote": "missing links are warnings to fix later, not stops",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-5/memory/answers/bi9-way-past.md",
+      "quote": "the way past is offered, never hidden",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "declares its risk class inline (e.g. `Checkpoint (class: one-way-door)`)",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "do it anyway",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "The person may override it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "the override is recorded.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "nothing stops",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "its story goes where the person names and the slice is recorded as owed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "A missing choice is a gap, not a stop.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "A no keeps that part or the model as it was, and the report records it as owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "leaves that part and its block-list entry as they were, so the next run names it again",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "Pre-flight halts, sensitive-file blocks, stop-condition gates, and eval failures are never gated by this block",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "it stops, names the files and changes nothing; the person cleans up.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "it stops at pre-flight, before it opens a change or writes anything, and points to `/update-plan`",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "the plays that make plans must not run",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "a plan file with a status the template does not know stops the play with the file named",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "stop with a plain message that points to initialize",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "No gate stops a person; each has a way past it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "missing links are warnings to fix later, not stops",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "the way past is offered, never hidden",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "who used it, when, what was skipped, and where the debt is kept so a later play finds it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "They can move at the speed at which they want to go. If they want to go really fast, they can. There are repercussions later on, but the choice is on them.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "Only the evidence is enforced.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "the override is recorded.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "the slice is recorded as owed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "where": "body",
+      "quote": "each with what its key would record or why it keeps a human beat",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    }
+  ]
+}

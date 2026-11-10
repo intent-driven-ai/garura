@@ -1,0 +1,27 @@
+{
+  "checked_on": "2026-11-10",
+  "files_checked": 12,
+  "checks": [
+    "home folder",
+    "temp folder",
+    "user name",
+    "a pronoun for a person"
+  ],
+  "hits": [],
+  "capability_feature_list": [
+    "fn-guardrail-way-past",
+    "fn-keep-what-is-owed",
+    "fn-pinned-yes",
+    "fn-record-every-skip",
+    "fn-way-past-every-gate"
+  ],
+  "drafted_features": [
+    "fn-guardrail-way-past",
+    "fn-keep-what-is-owed",
+    "fn-pinned-yes",
+    "fn-record-every-skip",
+    "fn-way-past-every-gate"
+  ],
+  "listed_with_no_page": [],
+  "drafted_not_listed": []
+}

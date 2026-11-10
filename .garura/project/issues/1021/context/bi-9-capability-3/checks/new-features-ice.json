@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/ice.md",
+      "thin_first_line": true,
+      "blank_after_thin": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read": 1,
+      "read_opening_exact": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "feature_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/ice.md",
+      "thin_first_line": true,
+      "blank_after_thin": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read": 1,
+      "read_opening_exact": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "feature_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/ice.md",
+      "thin_first_line": true,
+      "blank_after_thin": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read": 1,
+      "read_opening_exact": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "feature_page_has_no_ice_section": true,
+      "problems": []
+    }
+  ],
+  "problems": 0
+}

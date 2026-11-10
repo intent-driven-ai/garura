@@ -1,0 +1,8 @@
+[BUG] record-decision: apply_adr.py reports linked:true but writes no forward pointer when the context has no amends list
+In the ADR 052 run (#846), adr-keeper wrote the judged older ADRs under `overlaps` in adr-context.yaml. `apply_adr.py` reads only `supersedes` and `amends`, so it found no older ADRs, wrote no pointer, and still reported `linked: true` with `olders: []`, while the record's own Amends line named ADR 049 and ADR 047.
+
+Fix: apply_adr.py checks the record's Supersedes/Amends line against the context (or reads the line, as `--accept-existing` does) and stops when they disagree; `linked` is true only when every named older ADR got its pointer. The adr-keeper contract names the `amends`/`supersedes` keys.
+
+Also: apply writes the git user's full name in **Decided by**; the repo is public and recent ADRs use 'the product owner'.
+
+Found in: #846 (PR #849).

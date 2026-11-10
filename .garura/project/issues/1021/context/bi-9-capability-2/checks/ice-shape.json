@@ -1,0 +1,137 @@
+{
+  "checked_on": "2026-11-10",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-brief-open-points/ice.md",
+      "thin": false,
+      "sections": [
+        "Intent",
+        "Context",
+        "Expectation"
+      ],
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read_names_what": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-check-loop-result/ice.md",
+      "thin": false,
+      "sections": [
+        "Intent",
+        "Context",
+        "Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read_names_what": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/ice.md",
+      "thin": false,
+      "sections": [
+        "Intent",
+        "Context",
+        "Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read_names_what": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-run-loop/ice.md",
+      "thin": false,
+      "sections": [
+        "Intent",
+        "Context",
+        "Expectation"
+      ],
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read_names_what": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/fn-show-run-status/ice.md",
+      "thin": false,
+      "sections": [
+        "Intent",
+        "Context",
+        "Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read_names_what": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-2/drafts/product-os/software-delivery-planning/run-plays-as-loops/ice.md",
+      "thin": false,
+      "sections": [
+        "Intent",
+        "Context",
+        "Expectation"
+      ],
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read_names_what": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    }
+  ]
+}

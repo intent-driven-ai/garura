@@ -1,0 +1,85 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "note": "The capability page copies the approved shape of review-agent-work/capability.md: '## Directional intent' with the detailed parts as '###' sections, so it is checked with --stage directional, as the BI-8 Argus page was. Each feature page is checked with --stage detailed.",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

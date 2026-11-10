@@ -1,0 +1,7 @@
+#969 Every run's records are kept in the evidence folder of its issue (OPEN)
+
+What a run did and decided is kept with the issue that made it, not in a global file.
+
+A Feature of business intent #944.
+
+_Made in the tracker clean-up of 2026-10-29 (the product owner)._

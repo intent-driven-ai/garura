@@ -1,0 +1,145 @@
+{
+  "checked_on": "2026-11-10",
+  "lean_words_checked": "\\b(lean|leans|leaning|likely|probably|should|ought|recommend\\w*|prefer\\w*|better|best|suggest\\w*|propos\\w*|favou?r\\w*|default|we think|for now|most|research)\\b",
+  "lines": [
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "line": 85,
+      "text": "- Not decided: whether the person's typed yes at a pinned checkpoint is a way past of its own kind, or a stop kept on purpose (#992).",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "line": 86,
+      "text": "- Not decided: whether each machine wall, such as a pre-flight halt or a stop condition, is a gate that needs a way past, or evidence that stays enforced.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "line": 41,
+      "text": "- Not decided: which shortcuts are guarded first; #893 leaves open \"Which paths and which plays the hook covers, and how a person overrides it on purpose.\"",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "line": 42,
+      "text": "- Not decided: whether the way past is the coding tool's own prompt, a word typed in the session, or a line in the pull request that the review reads.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "line": 43,
+      "text": "- Not decided: in a run with no person present, such as a scheduled run, whether a guardrail's refusal counts as stopping a person, and whether the run may pass it on its own.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "line": 44,
+      "text": "- Not decided: whether a guardrail that fails or times out lets the action through, or is set to block on failure; a hook that fails or times out \"does not block unless the hook is set to block on failure\".",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "line": 45,
+      "text": "- Not decided: whether the guard on the evals folder, which keeps a builder agent from the evals, has a way past.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "line": 41,
+      "text": "- Not decided: who reads the list: every play at its start, the plan views, or only Learn.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "line": 42,
+      "text": "- Not decided: whether an entry is also an issue in the team's tracker, under the work that made it.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "line": 43,
+      "text": "- Not decided: who closes an entry: only a person, the play that does the owed work, or either.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "line": 44,
+      "text": "- Not decided: whether the places that name what is owed today, such as a plan session's commit, the thin marks, an upgrade's report and initialize's record, also write an entry, or stay as they are.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "line": 38,
+      "text": "- Not decided: whether the person's typed yes at a pinned checkpoint is a way past of its own kind, or a stop kept on purpose (#992).",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "line": 39,
+      "text": "- Not decided: whether a person may give a pinned yes with something still to be done, kept as an owed entry.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "line": 40,
+      "text": "- Not decided: whether some pinned yeses need a second person's yes.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "line": 62,
+      "text": "- .garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: \"Not decided: whether the merge's typed yes is the way past the merge's checkpoint that Orchestration's Must not asks for, or a stop kept on purpose (#992).\"",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "line": 63,
+      "text": "- .garura/product/product-os/features/fn-673/feature.md: \"Not decided: whether the typed yes is the way past this checkpoint that Orchestration's Must not asks for, or a stop kept on purpose (#992).\"",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "line": 38,
+      "text": "- Not decided: whether the skip's record is a line in the issue's gate ledger, which the learner reads, or a record of its own beside it.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "line": 39,
+      "text": "- Not decided: whether a skip by the settings is also owed, kept by Keep what is owed with the work that made it (fn-keep-what-is-owed), or only a record.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "line": 40,
+      "text": "- Not decided: whether the record also names the machine checks that carried the checkpoint, and their results.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "line": 46,
+      "text": "- Not decided: whether each machine wall, such as a pre-flight halt, a sensitive-file block or a stop condition, is a gate that needs a way past, or evidence that stays enforced.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "line": 47,
+      "text": "- Not decided: whether every way past must carry the person's reason, or who and when are enough.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "line": 48,
+      "text": "- Not decided: whether a way past expires after a time, or stays owed until it is paid.",
+      "lean_words": []
+    },
+    {
+      "file": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "line": 49,
+      "text": "- Not decided: the way past of each gate on today's list; #992 leaves it to its ADR, \"each with what its key would record or why it keeps a human beat\".",
+      "lean_words": []
+    }
+  ],
+  "with_a_lean": []
+}

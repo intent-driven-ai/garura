@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261110-007",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "Where teams keep what is still owed after a check was skipped, so that later work finds it. No memory tier holds it; BI-9's capability 5 rests on it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/answers/bi9-owed-register.md",
+    "draft": "Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.\n\n# Where what is owed is kept\n\n- Atlassian: keep technical debt in the same backlog as new features, because teams lose product-wide priorities when it is kept apart; mark it with an issue type, or with custom fields and labels that share one workflow. https://www.atlassian.com/blog/jira/3-steps-taming-technical-debt\n- GitHub push protection: 'I'll fix it later' becomes an open alert in the repository's security list, which stays until someone closes it. https://docs.github.com/en/code-security/concepts/secret-security/about-push-protection\n- Azure Policy: each exemption is its own record beside the resource; the compliance report shows the resource as Exempt; an expired exemption is kept for the record; Microsoft advises revisiting exemptions regularly. https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure\n\nWhat they share: one list that both a person and a later step read, in the place the normal work is read; each entry names what was skipped, who skipped it, when and why; an entry is closed only when the debt is paid.",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "general-purpose research agent (#1021, BI-9 research)",
+    "requested_at": "2026-11-10T15:57:47Z",
+    "decided_by": "the product owner",
+    "reply": "approved memory updates",
+    "decided_at": "2026-11-10T16:07:25Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

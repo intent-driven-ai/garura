@@ -1,0 +1,120 @@
+{
+  "checked_on": "2026-11-10",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "part_status": "capability",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_ice_section": false,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "part_status": "built",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_ice_section": false,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "part_status": "built",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_ice_section": false,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "part_status": "built in part",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_ice_section": false,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "part_status": "built",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "part_page_has_ice_section": false,
+      "problems": []
+    }
+  ]
+}

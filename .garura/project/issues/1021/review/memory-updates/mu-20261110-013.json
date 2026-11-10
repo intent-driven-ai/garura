@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261110-013",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "How teams keep an ADR in the same change as the work it decides. No memory tier holds it; BI-9's Manage ADRs (record the ADR in its change, #822) rests on it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/answers/bi9-adr-in-change.md",
+    "draft": "Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.\n\n# An ADR in the same change as its work\n\n- Shopware's own rule: every code change needed to carry out the decision is added to the same merge request as the ADR, and the merge request is labelled ADR. https://developer.shopware.com/docs/resources/references/adr/2020-06-25-implement-architecture-decision-records.html\n- UK Government Digital Service: decisions are kept in version control beside the application; on GitHub a proposed ADR can be a draft pull request, and the pull request's status stands for the decision's status until it is accepted. https://gds-way.digital.cabinet-office.gov.uk/standards/architecture-decisions.html\n- AWS Prescriptive Guidance: an ADR starts Proposed, is reviewed and becomes Accepted or Rejected; an accepted ADR is not changed, and a new ADR supersedes it; a code reviewer checks a change against the ADRs and links the one it breaks. https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "general-purpose research agent (#1021, BI-9 research)",
+    "requested_at": "2026-11-10T15:57:48Z",
+    "decided_by": "the product owner",
+    "reply": "approved memory updates",
+    "decided_at": "2026-11-10T16:07:26Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

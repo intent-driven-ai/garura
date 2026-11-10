@@ -1,0 +1,34 @@
+#943 Gate records live in the evidence folder of the issue that made them, not in a global file (OPEN)
+
+> Found while deciding what in `.garura/` the reviews must read (#939), 2026-10-28. Non-blocking. No parent; its model part is owed. Serves #944 (a person can see what every run did and decided, kept with the work that made it). The gate policy these records teach is a project setting, not memory (ADR 036, section 5).
+
+## The problem in plain words
+
+When a person answers a checkpoint (approves, edits or rejects), the play writes one line about it: which play, which kind of change, what it predicted and what the person did. A learner reads these lines and writes the gate policy, which decides which checkpoints can be skipped later. These lines are the record of a run, so they belong with that run.
+
+Today they are in two places, and the two do not agree:
+
+- **The rule and the source config say per issue.** `standards/rules/gate-config.md` (line 48) and `core/config.yaml` line 206 put each issue's lines in `.garura/project/issues/<issue>/review/gate-evals.jsonl`. Line 59 of the rule says the old file is no longer read.
+- **This repository still has the old global file.** `.garura/core/config.yaml` line 180 still says `ledger: .garura/core/gate-evals.jsonl`, and that file is tracked in git with 4 lines (#723, #882), last written by `e6b4fcc3`. Nothing reads it now, so those 4 answers no longer teach the policy.
+- `.garura/defect-report/evidence/report-issue/` is a second global evidence folder (3 tracked files) with no issue around it.
+
+## What is wanted
+
+The product owner, 2026-10-28: "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure".
+
+- A gate record goes in the evidence folder of the issue whose run made it (today the rule names the issue's `review/` folder). Nothing is written to a global file.
+- The 4 old lines move into the issues they belong to (#723, #882), or are dropped, as the rule's upgrade note says; the old file and its config line go.
+- `.garura/defect-report/evidence/` moves under its issue, or is dropped.
+- If a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule.
+
+## Impact if not done
+
+The policy learns from fewer answers than people gave. A reader of `.garura/core/` sees a ledger that looks live and is not. The review sees global files that belong to no change (#939).
+
+## Where
+
+- `.garura/core/config.yaml` line 180 (the installed config; changed only by an install)
+- `.garura/core/gate-evals.jsonl`
+- `.garura/defect-report/evidence/report-issue/`
+- `core/components/memory/standards/rules/gate-config.md`, "Where the history and the policy live"
+

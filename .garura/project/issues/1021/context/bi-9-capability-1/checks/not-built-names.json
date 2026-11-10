@@ -1,0 +1,97 @@
+{
+  "checked_on": "2026-11-10",
+  "files_checked": 6,
+  "checks": [
+    "removed id cap-719",
+    "removed id cap-720",
+    "removed id cap-shape-slice",
+    "removed page path",
+    "home folder",
+    "temp folder",
+    "user name",
+    "a particular plan"
+  ],
+  "lean_words": "\\b(lean|leans|likely|probably|prefer|preferred|should|best|recommend\\w*|default|propose\\w*|suggest\\w*|ideally|better|for now|we think)\\b",
+  "hits": [],
+  "pages": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": "Status: not built. No issue is filed for it. Approved pages ",
+      "issues_named": [],
+      "acceptance": 5,
+      "acceptance_gwt": true,
+      "acceptance_marked_not_built": true,
+      "out_of_scope": 6,
+      "out_of_scope_owner": true,
+      "sources": 13,
+      "not_decided": [
+        "- Not decided: once agents build the work, who chooses which item is worked next: a person, the plan's direction, or a loop.",
+        "- Not decided: whether Now is one item for each plan, one for each session, or one for the whole project."
+      ],
+      "not_decided_lean_free": true,
+      "not_decided_same_as_twin": {
+        "- Not decided: once agents build the work, who chooses which item is worked next: a person, the plan's direction, or a loop.": true
+      },
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": "Status: not built. No issue is filed for it. The plan file's",
+      "issues_named": [
+        "#725 (",
+        "#725 ("
+      ],
+      "acceptance": 5,
+      "acceptance_gwt": true,
+      "acceptance_marked_not_built": true,
+      "out_of_scope": 6,
+      "out_of_scope_owner": true,
+      "sources": 10,
+      "not_decided": [
+        "- Not decided: whether a plan's Waits on is worked out from its parts' needs, set by a person, or dropped.",
+        "- Not decided: when it is worked out: at each landing that changes a plan's items, each time a plan is shown, or on request.",
+        "- Not decided: whether a feature's own needs count too, as the page of fn-725 says, or only the needs of its capability, as the ontology says.",
+        "- Not decided: when two plans need each other, whether the two plans are merged into one or one need is dropped, and who does it.",
+        "- Not decided: whether the tracker also shows the list, as a blocked-by link between the plans' epics."
+      ],
+      "not_decided_lean_free": true,
+      "not_decided_same_as_twin": {
+        "- Not decided: whether a plan's Waits on is worked out from its parts' needs, set by a person, or dropped.": true
+      },
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": "Status: not built. Writing the branch field as none is built",
+      "issues_named": [
+        "#730 (",
+        "#989 (",
+        "#730 (",
+        "#989 ("
+      ],
+      "acceptance": 6,
+      "acceptance_gwt": true,
+      "acceptance_marked_not_built": true,
+      "out_of_scope": 5,
+      "out_of_scope_owner": true,
+      "sources": 11,
+      "not_decided": [
+        "- Not decided: whether writing the plan's branch field as none when the plan pauses stays owed on #730 (the /update-plan session) or becomes its own issue.",
+        "- Not decided: when the branch field is written as none: by the merge as the paused plan's branch lands, or by the next session that reads the plan.",
+        "- Not decided: whether a session that sets a plan to Paused also starts the landing of its branch on main, or a person starts it with the change plays.",
+        "- Not decided: whether pausing a plan also asks the person for its Direction."
+      ],
+      "not_decided_lean_free": true,
+      "not_decided_same_as_twin": {
+        "- Not decided: whether writing the plan's branch field as none when the plan pauses stays owed on #730 (the /update-plan session) or becomes its own issue.": true
+      },
+      "problems": []
+    }
+  ]
+}

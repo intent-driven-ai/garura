@@ -1,0 +1,219 @@
+{
+  "checked_on": "2026-11-10",
+  "files_checked": 23,
+  "checks": {
+    "every file": [
+      "home folder",
+      "temp folder",
+      "user name"
+    ],
+    "draft files also": [
+      "removed id cap-719",
+      "removed id cap-720",
+      "removed id cap-shape-slice",
+      "removed page path",
+      "an old intent",
+      "a particular plan"
+    ]
+  },
+  "hits": [],
+  "pages": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-628/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [
+        "#628 (",
+        "#719 (",
+        "#1005 (",
+        "#1000 ("
+      ],
+      "acceptance": 6,
+      "acceptance_gwt": true,
+      "out_of_scope": 6,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [],
+      "not_decided_lean_free": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-729/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [
+        "#729 (",
+        "#719 (",
+        "#983 ("
+      ],
+      "acceptance": 6,
+      "acceptance_gwt": true,
+      "out_of_scope": 7,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [
+        "- Not decided: whether a plan's Waits on is worked out from its parts' needs, set by a person, or dropped."
+      ],
+      "not_decided_lean_free": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-730/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [
+        "#730 (",
+        "#720 (",
+        "#1007 ("
+      ],
+      "acceptance": 6,
+      "acceptance_gwt": true,
+      "out_of_scope": 6,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [
+        "- Not decided: whether writing the plan's branch field as none when the plan pauses stays owed on #730 (the /update-plan session) or becomes its own issue."
+      ],
+      "not_decided_lean_free": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-806/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [
+        "#806 (",
+        "#719 ("
+      ],
+      "acceptance": 4,
+      "acceptance_gwt": true,
+      "out_of_scope": 4,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [],
+      "not_decided_lean_free": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [
+        "#720 (",
+        "#730 (",
+        "#953 ("
+      ],
+      "acceptance": 7,
+      "acceptance_gwt": true,
+      "out_of_scope": 4,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [
+        "- Not decided: whether the stop on uncommitted work is a gate that needs a way past under Orchestration's Must not, or a stop kept on purpose (#992)."
+      ],
+      "not_decided_lean_free": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [],
+      "acceptance": 5,
+      "acceptance_gwt": true,
+      "out_of_scope": 4,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [],
+      "not_decided_lean_free": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [
+        "#1019 ("
+      ],
+      "acceptance": 6,
+      "acceptance_gwt": true,
+      "out_of_scope": 5,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [],
+      "not_decided_lean_free": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_line": true,
+      "issues_named": [
+        "#795 ("
+      ],
+      "acceptance": 7,
+      "acceptance_gwt": true,
+      "out_of_scope": 6,
+      "out_of_scope_owner": true,
+      "sources": true,
+      "no_ice_section": true,
+      "not_decided": [
+        "- Not decided: whether the pinned yes of this checkpoint is a way past of its own kind, or an exception to Orchestration's Must not (#992)."
+      ],
+      "not_decided_lean_free": true,
+      "problems": []
+    }
+  ],
+  "capability_feature_list": [
+    "fn-795",
+    "fn-729",
+    "fn-806",
+    "fn-628",
+    "fn-730",
+    "fn-go-to-plan-branch",
+    "fn-know-what-next",
+    "fn-remove-plan",
+    "fn-choose-next-item",
+    "fn-work-out-waits-on",
+    "fn-pause-plan"
+  ],
+  "not_built_listed": [
+    "fn-choose-next-item",
+    "fn-work-out-waits-on",
+    "fn-pause-plan"
+  ],
+  "drafted_features": [
+    "fn-628",
+    "fn-729",
+    "fn-730",
+    "fn-795",
+    "fn-806",
+    "fn-go-to-plan-branch",
+    "fn-know-what-next",
+    "fn-remove-plan"
+  ],
+  "list_matches_drafts": true,
+  "not_built_without_page": true,
+  "capability_not_decided": [
+    "- Not decided: once agents build the work, who chooses which item is worked next: a person, the plan's direction, or a loop.",
+    "- Not decided: whether a plan's Waits on is worked out from its parts' needs, set by a person, or dropped.",
+    "- Not decided: how the plan of a business intent is named now that intents live in their own tracker, where an intent's number can also be a work issue's number.",
+    "- Not decided: whether the pinned yes of /shape-slice and the session's \"approved\" are ways past of their own kind, or exceptions to Orchestration's Must not (#992)."
+  ],
+  "capability_not_decided_lean_free": true
+}

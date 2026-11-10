@@ -1,0 +1,8 @@
+{
+  "checked_on": "2026-11-10",
+  "how": "each quote on a Sources line is looked for in the file that line names (a Phoenix memory file in this run's memory copy, read through the memory tool), and inside the lines it names; each quote in the page text in any source its page lists (for an ICE page, its part page's sources); whitespace and bold marks are ignored",
+  "pages": 12,
+  "quotes_checked": 285,
+  "not_found": 0,
+  "problems": []
+}

@@ -1,0 +1,123 @@
+{
+  "words_looked_for": [
+    "lean",
+    "leans",
+    "likely",
+    "probably",
+    "should",
+    "prefer",
+    "preferred",
+    "recommend",
+    "recommended",
+    "best",
+    "better",
+    "simplest",
+    "ideally",
+    "suggest",
+    "suggested",
+    "default",
+    "we think",
+    "the way to go",
+    "most fitting",
+    "obvious"
+  ],
+  "lines": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "line": 42,
+      "text": "- Not decided: what the tool does when the tracker lacks a type that a play must file. Initialize's approved page has the filing play \"stop with a plain message that points to initialize\", and the Must not of Orchestration is \"Stop a person. Every gate has a way past it that records what's owed.\"",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "line": 43,
+      "text": "- Not decided: whether the pull requests are reached through this tool, or through a second tool for the code host.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "line": 44,
+      "text": "- Not decided: whether the tool gives back each tracker's own fields, as the adapter does today (\"the adapter does not normalize output across platforms\"), or the same fields for every tracker.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "line": 45,
+      "text": "- Not decided: where the tool lives: with Garura's tools, where ADR 065 records \"the Agent-work tool, recorded as a feature\", or in a component of its own for tools, as the direction of #620 (tools become a first-class Garura component) puts it.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "line": 46,
+      "text": "- Not decided: how GitLab, Jira and Linear each hold a work item's type, its parent and its close reason. Today the adapter sets no type on GitLab (\"GitLab has no issue types here.\"), links a parent there only as a related link, and drops the close reason there; it does not reach Jira or Linear. No approved source says what these trackers offer.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "line": 45,
+      "text": "- Not decided: what the link is when the intents and the work are on two platforms, such as intents in Jira and work on GitHub.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "line": 46,
+      "text": "- Not decided: which plays make the link: the plan plays for each epic, /start-change for an issue it files, the filing of a bug, or more than one of them.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "line": 47,
+      "text": "- Not decided: which pieces of work hang straight under an intent: only an epic, as the way of working says, or also a piece of work that no epic holds, as Garura's own open work was moved in #1021.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "line": 48,
+      "text": "- Not decided: how an epic that serves more than one intent hangs under each of them, since \"an issue has only one parent.\"",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "line": 49,
+      "text": "- Not decided: whether a GitHub sub-issue may sit in a repository of another organization. The approved research says: \"The docs do not say whether the other repository may be in another organization.\"",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "line": 50,
+      "text": "- Not decided: how GitLab, Jira and Linear each hold a parent link across projects. No approved source gives it; the approved research names only Jira's key written in the work.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "line": 44,
+      "text": "- Not decided: where the list lives: on a memory shelf, as the direction of #620 puts the meanings, in a project setting, as #952 sorts the issue types, or inside the tool that knows the tracker.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "line": 45,
+      "text": "- Not decided: which meaning of a Spike the list gives: a question to answer before a story can be built, as the way of working says, or a proof on something already built, as the ontology says.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "line": 46,
+      "text": "- Not decided: how the list says a Business Intent, a Spike, a Chore and a Bug are marked: by their type with no label, as the way of working says, or with the label `product` on a Business Intent and the label `work-item` on a Spike, a Chore or a Bug, as the ontology says.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "line": 47,
+      "text": "- Not decided: whether the list holds the type Feature, for a feature item in a plan, which Initialize's six types do not name.",
+      "lean_words": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "line": 48,
+      "text": "- Not decided: what may stand in for an Epic or a Story in a tracker that cannot make them, since an Epic and a Story are marked by their type and \"Neither has a label.\"",
+      "lean_words": []
+    }
+  ],
+  "with_a_lean": 0
+}

@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261110-006",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "How other tools let a person past a check on purpose, and what using that way past records. No memory tier holds it; BI-9's capability 5 (Give every gate a way past) rests on it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/answers/bi9-way-past.md",
+    "draft": "Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.\n\n# Ways past a check, in other tools\n\n- GitHub push protection: a person may push a blocked secret by picking one of three reasons: it is used in tests, it is a false positive, or I'll fix it later. Every bypass adds an alert, an audit log entry and an email to the repository's admins that names the reason. 'I'll fix it later' leaves the alert open; the other two close it. Who may bypass can be limited, and others then ask for a bypass that someone approves. https://docs.github.com/en/code-security/concepts/secret-security/about-push-protection\n- GitHub rulesets: a ruleset names who may bypass it, by role, team or app. https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets . Its insights list every action where someone bypassed a ruleset, and the top bypassers. https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository\n- Azure Policy exemptions: a waiver says the non-compliance is accepted for now; 'mitigated' says the intent is met another way. It carries free metadata (the docs' example: who asked, who approved, when, a ticket) and may carry an expiry. An expired exemption is kept for record-keeping and no longer honoured. The resource shows as Exempt in compliance, with what its state would be without the exemption. https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure\n- Break-glass accounts (Microsoft Entra): an emergency way in is kept on purpose; every use raises an alert and is reviewed afterwards to decide whether it was a drill, a real emergency or misuse. https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access\n- Snyk: ignoring a finding writes it to a policy file in the repository, with a reason and an expiry (30 days by default). https://docs.snyk.io/developer-tools/snyk-cli/commands/ignore\n\nWhat they share: the way past is offered, never hidden; using it records who, when, why and what was skipped; most ways past expire or stay open until someone closes them; the record outlives the bypass.",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "general-purpose research agent (#1021, BI-9 research)",
+    "requested_at": "2026-11-10T15:57:47Z",
+    "decided_by": "the product owner",
+    "reply": "approved memory updates",
+    "decided_at": "2026-11-10T16:07:25Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

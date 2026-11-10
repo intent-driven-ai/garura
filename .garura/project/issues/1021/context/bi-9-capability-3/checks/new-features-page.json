@@ -1,0 +1,60 @@
+{
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_not_built": true,
+      "status_issue_numbers": [
+        "#1023",
+        "#1023"
+      ],
+      "acceptance": 5,
+      "acceptance_not_built_marked": true,
+      "acceptance_given_when_then": true,
+      "rules_without_reason": [],
+      "rule_reasons_quoted": true,
+      "out_of_scope": 6,
+      "sources": 18,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_not_built": true,
+      "status_issue_numbers": [
+        "#1021",
+        "#1021"
+      ],
+      "acceptance": 4,
+      "acceptance_not_built_marked": true,
+      "acceptance_given_when_then": true,
+      "rules_without_reason": [],
+      "rule_reasons_quoted": true,
+      "out_of_scope": 5,
+      "sources": 12,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "examples": 3,
+      "how_it_meets": true,
+      "status_not_built": true,
+      "status_issue_numbers": [
+        "#881",
+        "#620",
+        "#952"
+      ],
+      "acceptance": 4,
+      "acceptance_not_built_marked": true,
+      "acceptance_given_when_then": true,
+      "rules_without_reason": [],
+      "rule_reasons_quoted": true,
+      "out_of_scope": 5,
+      "sources": 12,
+      "problems": []
+    }
+  ],
+  "problems": 0
+}

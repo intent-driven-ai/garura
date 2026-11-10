@@ -1,0 +1,19 @@
+/record-decision checks that the points for the person who accepts a decision are gathered and whole
+Found in the review of PR #932 (issue #920). A change, not a defect (the product owner, 2026-10-28). Non-blocking. Filed with no parent; its model part is owed.
+
+## Why
+
+Since #930, a decision record (ADR) has a section "For the Person Who Accepts This": each thing found along the way that the person did not ask about, with five parts — what and where, what is wrong, why it matters, what the decision does, what the person decides. The `adr-keeper` agent gathers these points and the ADR template holds the section.
+
+The `/record-decision` play itself does not know about it. Its step check SE-3 confirms only that the gathered context lists the older ADRs the decision replaces. So if the agent gathers no points, or a point misses one of its five parts in the gathered context, the play still passes. The ADR linter (`adr.py lint`) catches a broken point only when the section is in the record at all. A record can reach the person who accepts it with nothing explained.
+
+## What a person can do
+
+A person asked to accept a decision always sees what was found along the way, each point whole, because the play checks it before it asks them.
+
+## Scope
+
+- `/record-decision` (`core/components/plays/record-decision/`): its ICE gains the guarantee; its step check confirms the context's points (or an explicit "none found") and their five parts; recompiled with `/edit-play`.
+
+Not in scope: rewriting older ADRs.
+

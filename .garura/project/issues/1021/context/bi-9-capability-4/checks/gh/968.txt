@@ -1,0 +1,6 @@
+A person records a decision as an ADR, in the change it belongs to, and sees every point found on the way
+/record-decision joins the change a decision belongs to, links what it says it links, and gives the person who accepts it every point found on the way.
+
+A Feature of business intent #680.
+
+_Made in the tracker clean-up of 2026-10-29 (the product owner)._

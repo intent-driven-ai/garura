@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261110-009",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "How Claude Code can show what a long run is doing now, from a status file the run writes. No memory tier holds it; BI-9's Run plays as loops (the status display) rests on it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/answers/bi9-status-display.md",
+    "draft": "Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.\n\n# Showing a long run in Claude Code\n\n- The status line is a command set in settings (statusLine). It gets the session's data as JSON on its input and shows whatever it prints, so it can read any file, such as a run's status file. https://code.claude.com/docs/en/statusline\n- It runs when a new assistant message arrives and on a few other events, batched every 300 ms. Those events can go quiet while the main session waits on sub-agents; refreshInterval re-runs it every N seconds (at least 1). https://code.claude.com/docs/en/statusline\n- subagentStatusLine draws each sub-agent's row in the agent panel from a command. https://code.claude.com/docs/en/statusline\n- A plugin cannot set the main status line: a plugin's settings take effect only for agent and subagentStatusLine. A plugin can ship monitors, background commands whose changes are shown as notifications. https://code.claude.com/docs/en/plugins-reference",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "general-purpose research agent (#1021, BI-9 research)",
+    "requested_at": "2026-11-10T15:57:47Z",
+    "decided_by": "the product owner",
+    "reply": "approved memory updates",
+    "decided_at": "2026-11-10T16:07:25Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

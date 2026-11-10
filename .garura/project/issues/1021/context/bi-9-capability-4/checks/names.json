@@ -1,0 +1,32 @@
+{
+  "checked_on": "2026-11-10",
+  "files_checked": 10,
+  "checks": [
+    "home folder",
+    "temp folder",
+    "user name",
+    "a pronoun for a person"
+  ],
+  "hits": [],
+  "capability_feature_list": [
+    "fn-accept-adr",
+    "fn-adr-in-its-change",
+    "fn-keep-adrs-linked",
+    "fn-keep-adrs-to-build",
+    "fn-record-adr",
+    "fn-show-accepter-findings",
+    "fn-take-design-choices"
+  ],
+  "drafted_features": [
+    "fn-accept-adr",
+    "fn-keep-adrs-linked",
+    "fn-record-adr",
+    "fn-show-accepter-findings"
+  ],
+  "listed_with_no_page": [
+    "fn-adr-in-its-change",
+    "fn-keep-adrs-to-build",
+    "fn-take-design-choices"
+  ],
+  "drafted_not_listed": []
+}

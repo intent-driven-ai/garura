@@ -1,0 +1,6 @@
+Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.
+
+# Starting a run from a schedule or an event
+
+- GitHub Actions starts a workflow on a schedule (POSIX cron, at most once every 5 minutes, only on the default branch, and it may be delayed under load), on an event such as a pull request opened or updated, or by hand (workflow_dispatch). https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+- Claude Code runs in GitHub Actions through anthropics/claude-code-action. Given a prompt, it runs with no person present, on any GitHub event including a cron schedule, and the prompt may be a skill such as /skill-name from the repository's .claude/skills/. A scheduled run is attributed to the user who last changed the schedule. In a public repository GitHub turns a schedule off after 60 days with no activity. Runs can be capped with --max-turns and workflow time-outs. https://code.claude.com/docs/en/github-actions

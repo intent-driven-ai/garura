@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261110-010",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "How an agent run can be started by a schedule or an event instead of a person. No memory tier holds it; BI-9's Run plays as loops (start a loop from a schedule or a hook, #699) rests on it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/answers/bi9-loop-triggers.md",
+    "draft": "Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.\n\n# Starting a run from a schedule or an event\n\n- GitHub Actions starts a workflow on a schedule (POSIX cron, at most once every 5 minutes, only on the default branch, and it may be delayed under load), on an event such as a pull request opened or updated, or by hand (workflow_dispatch). https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows\n- Claude Code runs in GitHub Actions through anthropics/claude-code-action. Given a prompt, it runs with no person present, on any GitHub event including a cron schedule, and the prompt may be a skill such as /skill-name from the repository's .claude/skills/. A scheduled run is attributed to the user who last changed the schedule. In a public repository GitHub turns a schedule off after 60 days with no activity. Runs can be capped with --max-turns and workflow time-outs. https://code.claude.com/docs/en/github-actions",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "general-purpose research agent (#1021, BI-9 research)",
+    "requested_at": "2026-11-10T15:57:47Z",
+    "decided_by": "the product owner",
+    "reply": "approved memory updates",
+    "decided_at": "2026-11-10T16:07:25Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

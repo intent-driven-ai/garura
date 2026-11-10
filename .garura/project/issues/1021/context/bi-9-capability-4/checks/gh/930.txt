@@ -1,0 +1,18 @@
+A decision record tells the person accepting it what was found on the way
+Part of the unplanned epic #922. Found while recording ADR 059; asked for by the product owner, 2026-10-28: "update the ADR template so that things that I should know should be properly explained."
+
+## What a person can do
+
+When a person is asked to accept a decision record, they see, in its own section, each thing found along the way that they did not ask about, explained for someone who was not in the work: what it is and where, the detail of what is wrong, why it matters, what the decision does about it, and what they decide.
+
+## Scope
+
+- The ADR template (`standards/templates/adr.md`): the field `for_the_accepter`, its rule, and the section "For the Person Who Accepts This" in both shapes.
+- `author-decision` writes the section; `adr-keeper` gathers its points.
+
+Not in scope: rewriting older ADRs.
+
+## Done when
+
+A record drafted by `/record-decision` carries the section when its context lists any point, each point with its five parts. ADR 059 is the first such record. Built and committed on the #920 branch (2a53cf41).
+
