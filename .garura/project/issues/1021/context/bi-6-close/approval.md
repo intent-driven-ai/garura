@@ -1,0 +1,3 @@
+# Approval, BI-6's close
+
+- 2026-11-10, the product owner saw the proposal in .garura/project/issues/1021/context/bi-6-close/proposal.md: BI-6's page (Outcome after its kept first sentence, Why, both Proof it is met lines; Must not, stage, tracker and Touches kept), the decision that the three capabilities of Run → Product stay in software delivery planning with one sentence added to the domain's first paragraph, and the domain lines on the three capability pages with their quotes of the domain page, with BI-1's 6 lines and the three open points left as they are. He replied: "yes, apply and commit and cp".
