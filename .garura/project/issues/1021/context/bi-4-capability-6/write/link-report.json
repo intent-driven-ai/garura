@@ -1,0 +1,23 @@
+{
+  "written": [
+    "cap-check-code-against-standards",
+    "fn-review-each-change",
+    "fn-check-whole-built-work",
+    "fn-send-code-findings",
+    "fn-recheck-code",
+    "ice-check-code-against-standards",
+    "ice-review-each-change",
+    "ice-check-whole-built-work",
+    "ice-send-code-findings",
+    "ice-recheck-code"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-check-whole-built-work"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md"
+  ],
+  "layout_kept": true
+}

@@ -1,0 +1,197 @@
+[
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 6 (Check the code against its standards)",
+  "question": "What does the review of each change match a change against today, and with how much judgment?",
+  "answer": "A table of rules matched by a tool against the lines a change adds and the names of the files it changes, with no judgment; the most serious rank blocks and the others highlight without blocking. The drafts name this as built, read the rank table in force, and do not write its ranks as rules.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how the review's rule table is matched and ranked",
+    "found": "every row is a match rule with no LLM judgment; P1 halts, P2 and P3 highlight without blocking",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 5,
+     "end": 10,
+     "fingerprint": "sha256:ee4736ebeb7c23d434e1adfdd50b97942fd9174aa22f7db012aaa0a7365e2667"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 6 (Check the code against its standards)",
+  "question": "What standard does the review hold a project's code to today?",
+  "answer": "Industry best practice, through the rule table and whatever linter the project commits; no design check for code. The drafts name it as a gap against the approved hand-over of the project's standards.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the review's treatment of executable code",
+    "found": "the tool reviews against industry best practice, with the language linter the repository commits; design-grounding: no",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/review/code.md",
+     "start": 22,
+     "end": 29,
+     "fingerprint": "sha256:dd9411f905ca7a2561176b57990ed148b1f46686d00d3103135030888f7cd8ee"
+    }
+   },
+   {
+    "asked": "what BI-3 hands to this capability",
+    "found": "checking the code against the project's standards; the build follows the standards while it writes",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "start": 62,
+     "end": 62,
+     "fingerprint": "sha256:9817bb5facdd7c2c1e9226db166cf15e38e7234f053b0d0f2f9d5453bba90d33"
+    }
+   },
+   {
+    "asked": "what the project's standards are",
+    "found": "the design is made against the project's standards, which Spec → Design sets for the whole project, and never changes them",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/design-work/capability.md",
+     "start": 16,
+     "end": 16,
+     "fingerprint": "sha256:ace760332bf662553ceb83c77129c50c9d44f58dfbce417abe569e304e99117c"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 6 (Check the code against its standards)",
+  "question": "Does the review run the tests inside the code?",
+  "answer": "Today it runs the suite when a change touches tests, and treats not run as never passed. Under the approved list it takes the build's separate test-run record where it covers the change's code; where no record is there, the tests run once through a tool (the drafts' lean).",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how the review treats tests",
+    "found": "run, don't just read: execute the suite; a red suite is a blocker; do not treat not run as passed",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/review/tests.md",
+     "start": 22,
+     "end": 29,
+     "fingerprint": "sha256:1278f9c62dce2885eccfdd2033ffd30652b2e7f6cc21d25efbdc5e18dde3b678"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 6 (Check the code against its standards)",
+  "question": "What counts when a bar has no measured result, and where do the numbers come from?",
+  "answer": "An unmeasured bar is not a passed bar; the numbers live in the product profile, per product. The drafts check maintainability, and reliability where its pass bar names a check of the code, against the profile, and name a part not checked.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what passing means for a check of built code",
+    "found": "green is the entry; below the profile floor is a finding; a benchmark with no captured result is a finding; numbers live in the profile",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+     "start": 28,
+     "end": 36,
+     "fingerprint": "sha256:c5d3dd8c3a3f5b2d46e67438385c5e9537a4472a83652e15054a9a20444e077f"
+    }
+   },
+   {
+    "asked": "Garura's own maintainability and reliability levels",
+    "found": "both medium, with pass bars naming tests and linters",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/_spine.yaml",
+     "start": 1984,
+     "end": 1996,
+     "fingerprint": "sha256:0984230e76ef1836420572931f7002464000f4cebbc97e7eb81992f90bddc4c3"
+    }
+   },
+   {
+    "asked": "who moves a level",
+    "found": "the box moves only by an approved decision",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/product-profile.yaml",
+     "start": 50,
+     "end": 50,
+     "fingerprint": "sha256:4f8eb879d53ee1b4e8c526808ef68144f89e207a903e090c326069d03bc84321"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 6 (Check the code against its standards)",
+  "question": "Who decides the review's verdict?",
+  "answer": "A project setting: off, the rule's verdict stands, recorded as the harness's; on, a person decides. Only a pinned checkpoint always waits, and the merge's is pinned. The drafts keep it as built and leave the merge to Developer tooling.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the kinds of checkpoint and who decides each",
+    "found": "pinned always fires; conditional is learned; off never waits and the skip is recorded",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/gate-config.md",
+     "start": 10,
+     "end": 14,
+     "fingerprint": "sha256:e002ec13ef71b15be12a267b7b8c61fe469157a6f6e45f283bfed3d2f110bce2"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 6 (Check the code against its standards)",
+  "question": "What may a finding sent to the builder say, and who gets it?",
+  "answer": "What is wrong, where and the way back, never the check, its id or the failure condition; the builder only when it can fix it from what it already has, a person otherwise.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what a handoff plan may name",
+    "found": "the handoff plan never names the failure condition, its id or the check",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 466,
+     "end": 466,
+     "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"
+    }
+   },
+   {
+    "asked": "who fixes a failure",
+    "found": "the test: can the builder fix this from information it already has, deterministically?",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 58,
+     "end": 59,
+     "fingerprint": "sha256:1fe32195b1c7ad16d9b45190086d5725c3b33a26feb97dd5d6cd36fa1924e4e6"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 6 (Check the code against its standards)",
+  "question": "Which of the review's rules run on a project?",
+  "answer": "Only the rule groups the project's record keeps (planned, #862); changing the review to read the record is a later story. The drafts put it in the review of each change as not built.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "who changes the review to read the rule-group record",
+    "found": "changing the review play to read this record is a later story of the business intent, not Initialize's feature",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+     "start": 38,
+     "end": 38,
+     "fingerprint": "sha256:9a3efdb305a705ea1e3ee4a4c1142eaa2b8c56cd8d59ff4f782ee6e6cd52dc9e"
+    }
+   }
+  ]
+ }
+]

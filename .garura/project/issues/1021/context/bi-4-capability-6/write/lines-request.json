@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-6/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-4.md",
+      "changes": [
+        {
+          "after": "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds",
+          "add": "- [Check the code against its standards](../software-delivery-planning/check-code-against-standards/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds",
+          "add": "- [Review each change against the standards for what it holds](../software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds",
+          "add": "- [Check the whole built work against its standards and the profile's levels](../software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds",
+          "add": "- [Give the verdict on the code, and send each finding to the developer or to a person](../software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds",
+          "add": "- [Check the code again as the product and its standards change](../software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md) (feature) — adds"
+        }
+      ]
+    }
+  ]
+}
