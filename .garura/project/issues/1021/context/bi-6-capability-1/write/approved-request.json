@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/connect-use-and-market/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/drafts/product-os/software-delivery-planning/connect-use-and-market/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/write/approved/connect-use-and-market/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/drafts/product-os/software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/write/approved/fn-connect-tools/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/drafts/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/write/approved/fn-take-in-use/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/drafts/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/write/approved/fn-take-in-what-people-say/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/drafts/product-os/software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-1/write/approved/fn-update-connections/ice.md"
+    }
+  ]
+}

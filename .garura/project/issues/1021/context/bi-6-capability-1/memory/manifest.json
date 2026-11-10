@@ -1,0 +1,109 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/analytics.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/analytics.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/collaboration.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/collaboration.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/content-management.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/content-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/ecommerce.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/experience.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/marketing.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/marketing.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/notifications.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/payments.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/personalization.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/personalization.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/domains/user-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-profile.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:415600b717c5a8bde1bbaeab1724e701b066f28ca3be67fce795bc4fe82aa153",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/standards/schemas/product-os/product-profile.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pr.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e3065a238b5c5019907b729200bb2752298d8389f8ef9982ac3d27e8fa7a0392",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/standards/rules/pr.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/run-environments-canary-migrations.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:2bb0925b2fbd2a54a92b81f1ef2bf5e5729e999e08539daa7f67c6e3a4c7747d",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/knowledge/technology/run-environments-canary-migrations.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:3e6146ffc55060ae284a1bf02735442e0569c42c3fad9a26467c907f0b86170f",
+      "copy": ".garura/project/issues/1021/context/bi-6-capability-1/memory/standards/rules/gate-config.md"
+    }
+  ]
+}

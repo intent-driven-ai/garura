@@ -1,0 +1,250 @@
+[
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "Which domain shelf covers a harness that reads a product's web analytics, product analytics, user feedback and forums?",
+  "answer": "None. The placement over the ten domain shelves is unmatched: each shelf is a field a product is built for, and the analytics shelf is about building analytics into a product. The domain stays an open point for the product owner; the drafts sit in software delivery planning, the lean, and say the domain is not decided.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the analytics shelf's trigger",
+    "found": "the product needs to measure behaviour and outcomes; the shelf says how such a product is built",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/domains/analytics.md",
+     "start": 2,
+     "end": 6,
+     "fingerprint": "sha256:1cc4e7b68c5e1e61439108676ae747b4f637c56de021e69014966ea544ba584e"
+    }
+   },
+   {
+    "asked": "any shelf that takes in user feedback",
+    "found": "ecommerce learns from behaviour and reviews inside a shop, a feature of selling goods",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/domains/ecommerce.md",
+     "start": 41,
+     "end": 41,
+     "fingerprint": "sha256:34ed8414af7aee2120468430737f7cb2529a29600273527807a8e1b27e349796"
+    }
+   },
+   {
+    "asked": "what the model's one domain covers",
+    "found": "turns a business intent into working code that a check from the outside can prove; does not release the work or run the product",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/domain.md",
+     "start": 4,
+     "end": 4,
+     "fingerprint": "sha256:78aaf6f782ff672cd68045eacc0f8f62b540d99e526553e5638e5d52e4c3e627"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "What do web analytics and product analytics mean on these pages?",
+  "answer": "Web analytics count how people reach and move through the product's web pages; product analytics count how people use its features over time. The pages explain the words with memory's line and write none of the shelf's building advice as a rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "product analytics",
+    "found": "feature usage, adoption, retention, cohorts, paths",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/domains/analytics.md",
+     "start": 66,
+     "end": 66,
+     "fingerprint": "sha256:e7cf333b7e27febf64bd5b16064487ff2b05b67d710ae94049d5d02dfc1b2ab3"
+    }
+   },
+   {
+    "asked": "web analytics",
+    "found": "the existing page-load/CTA layer",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/domains/analytics.md",
+     "start": 71,
+     "end": 71,
+     "fingerprint": "sha256:8777e31ff787f98d2cf97ab82020a4c2e77ba81b2a26ffe58ab2b44b57c380ce"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "How is a connection's access key handled?",
+  "answer": "The settings name each connection and where its key is kept, never the key; the key is taken where it is kept at the moment of reading. Where keys are kept is not decided.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the approved rule for secrets",
+    "found": "the design names only where each secret is kept",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/deployment-design/capability.md",
+     "start": 69,
+     "end": 69,
+     "fingerprint": "sha256:0a816e69c630831d88e4bc54a05c64b9b6313fb272682ec2bd1a69245de2a46c"
+    }
+   },
+   {
+    "asked": "memory's learning on keys",
+    "found": "credentials and provider keys live only in secrets management, never in the repo or the config files",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/run-environments-canary-migrations.md",
+     "start": 63,
+     "end": 66,
+     "fingerprint": "sha256:0ec2e62985042a75d1b197cddb418c8569986c266bb641c4cf70de1742d56c6c"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "What of people's data is kept from what is taken in?",
+  "answer": "Words and figures as given, with where and when; never a person's name, handle, contact details or anything that points to one person, and from analytics only figures about many people. The profile's privacy level and compliance needs are read; how they bound it further is not decided.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the approved stance on real personal data outside production",
+    "found": "the review already treats real personal data in an environment other than production as a finding",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/environment-setup/capability.md",
+     "start": 77,
+     "end": 77,
+     "fingerprint": "sha256:631867782529705fc7cd5e7759b5857c7de8f0f50d6970b95bf5eaa080a67bb3"
+    }
+   },
+   {
+    "asked": "memory's consumer stake in analytics",
+    "found": "measure me without abusing my data",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/domains/analytics.md",
+     "start": 53,
+     "end": 53,
+     "fingerprint": "sha256:7bd52237eb3c8cbf3992161c3f1f1e1ca8ca20250f0b3bbce985b9384ad44708"
+    }
+   },
+   {
+    "asked": "where a product's privacy commitment is held",
+    "found": "the profile holds a privacy level and the compliance regimes the box admits",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/product-profile.yaml",
+     "start": 35,
+     "end": 39,
+     "fingerprint": "sha256:95db953e5c94f4d64030a951393533538822b501ea3cb80b471f2d8576a48012"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "How is what is taken in kept?",
+  "answer": "As given, with its connection, where it was and when it was read, and never changed afterwards, the way a Source is kept. Whether it is a Source or a kind of its own is not decided (an ontology change).",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what a Source is",
+    "found": "what a business intent was drawn from, kept exactly as it was when read",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 254,
+     "end": 254,
+     "fingerprint": "sha256:0d97f9d52570e693bedd2880dc5e7802b906527889b02b319ad012b41bef9d45"
+    }
+   },
+   {
+    "asked": "the Source's rule",
+    "found": "it is kept as it was when read; the snapshot never changes afterwards",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 278,
+     "end": 278,
+     "fingerprint": "sha256:97d0eae79d9edc4f7c927d2ac9ad1b9b5718f75d7522cf95747e13118de433ae"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "Do the reads need a person's yes each time?",
+  "answer": "No. A person says yes to each connection and each change of one; the reads then run on their own, because a read changes no intent, model or memory. The pinned learn checkpoint is about a learning that changes the model, which this capability never makes.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what Run → Product must not do without a person",
+    "found": "change an intent, or promote memory",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/intents/bi-6.md",
+     "start": 13,
+     "end": 13,
+     "fingerprint": "sha256:f70c543736bc47e315b7932b83d95b2a67d24b91a8de3924c309a14257b641b7"
+    }
+   },
+   {
+    "asked": "the pinned learn checkpoint",
+    "found": "learn is pinned because a wrong model learning bends the product model",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/gate-config.md",
+     "start": 98,
+     "end": 101,
+     "fingerprint": "sha256:4fc78d81b00a7ec9a575a7777c0db697426781239b3893af22383b49c3be9c37"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "Where is the line with Keep the spec matched to what's built?",
+  "answer": "That capability keeps the spec true to what the agents built; what users and the market say comes in here.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what Keep the spec matched leaves to Run → Product",
+    "found": "what users say once the product runs is not part of it; Run → Product handles that",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/keep-spec-matched/capability.md",
+     "start": 5,
+     "end": 5,
+     "fingerprint": "sha256:0d920010c70110efc50303b8901127a6174914da2a9a60426e3531b1745fc60e"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-6 capability 1 (Connect to what happens in use and in the market)",
+  "question": "Who knows how to reach each connection?",
+  "answer": "One tool that reads the project's settings; plays, skills and sub-agents never name a tool or forum, as for the tracker.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the confirmed must-not on naming a tracker",
+    "found": "never name a tracker in a play, skill or sub-agent, because they only know the tool",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/intents/bi-10.md",
+     "start": 14,
+     "end": 14,
+     "fingerprint": "sha256:a1092078b5c821d89fb9bc4185944b6cd718c66dedc4ea8d5a936027d87a1f9a"
+    }
+   }
+  ]
+ }
+]

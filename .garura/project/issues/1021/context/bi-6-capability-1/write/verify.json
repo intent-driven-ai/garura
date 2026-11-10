@@ -1,0 +1,442 @@
+{
+  "pages": {
+    "software-delivery-planning/connect-use-and-market/capability.md": {
+      "equals_draft": true,
+      "bytes": 18782,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/connect-use-and-market/ice.md": {
+      "equals_draft": true,
+      "bytes": 4458,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md": {
+      "equals_draft": true,
+      "bytes": 9695,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md": {
+      "equals_draft": true,
+      "bytes": 3507,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md": {
+      "equals_draft": true,
+      "bytes": 8950,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md": {
+      "equals_draft": true,
+      "bytes": 3216,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md": {
+      "equals_draft": true,
+      "bytes": 9070,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md": {
+      "equals_draft": true,
+      "bytes": 3764,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md": {
+      "equals_draft": true,
+      "bytes": 7019,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md": {
+      "equals_draft": true,
+      "bytes": 3278,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 10,
+  "thin_lines_only_on_the_five_ice_pages": true,
+  "new_folder_files": [
+    "software-delivery-planning/connect-use-and-market/capability.md",
+    "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+    "software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md",
+    "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+    "software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md",
+    "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+    "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md",
+    "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+    "software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md",
+    "software-delivery-planning/connect-use-and-market/ice.md"
+  ],
+  "new_folder_holds_only_the_10_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 30,
+      "after": 31,
+      "new": [
+        "cap-connect-use-and-market"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 103,
+      "after": 107,
+      "new": [
+        "fn-connect-tools",
+        "fn-take-in-use",
+        "fn-take-in-what-people-say",
+        "fn-update-connections"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 88,
+      "after": 93,
+      "new": [
+        "ice-connect-use-and-market",
+        "ice-connect-tools",
+        "ice-take-in-use",
+        "ice-take-in-what-people-say",
+        "ice-update-connections"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-connect-use-and-market": {
+        "slug": "connect-use-and-market",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Connect to what happens in use and in the market: the project connects to the tools that hold how its product is used and what people say about it (web analytics, product analytics, user feedback and forums such as Reddit), and takes in what they hold, as given, so that what consumers want and what the competition is doing can be understood from what really happened.",
+        "doc": "software-delivery-planning/connect-use-and-market/capability.md",
+        "thin": false
+      },
+      "fn-connect-tools": {
+        "slug": "fn-connect-tools",
+        "capability": "cap-connect-use-and-market",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Proposes the connections the project should have from what the project already holds, records each one the product owner says yes to in the project's settings by name, with what it is read for and where its key is kept, and proves each with a first read that changes nothing.",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+        "thin": false
+      },
+      "fn-take-in-use": {
+        "slug": "fn-take-in-use",
+        "capability": "cap-connect-use-and-market",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Reads from each connected analytics tool what it reports about how people reach and use the product, and keeps each figure as the tool gave it, with the connection, the time it covers and when it was read, and never the record of one person.",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+        "thin": false
+      },
+      "fn-take-in-what-people-say": {
+        "slug": "fn-take-in-what-people-say",
+        "capability": "cap-connect-use-and-market",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Reads what users write to the team and what people say in the forums the project connects to, and keeps each message or post in its own words, with where and when it was written, and with every person's name and personal details taken out.",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+        "thin": false
+      },
+      "fn-update-connections": {
+        "slug": "fn-update-connections",
+        "capability": "cap-connect-use-and-market",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Proposes a new, changed or dropped connection when the product gains a surface, its code starts or stops using a tool, or a connection keeps failing, and keeps what held before and why it changed, with the product owner's yes for each.",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+        "thin": false
+      },
+      "ice-connect-use-and-market": {
+        "for": "cap-connect-use-and-market",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/connect-use-and-market/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-connect-tools": {
+        "for": "fn-connect-tools",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-take-in-use": {
+        "for": "fn-take-in-use",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-take-in-what-people-say": {
+        "for": "fn-take-in-what-people-say",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-update-connections": {
+        "for": "fn-update-connections",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      }
+    },
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 122,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_6": {
+    "lines_before": 19,
+    "lines_after": 26,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 7,
+    "added": [
+      "**Touches:**",
+      "- [Connect to what happens in use and in the market](../software-delivery-planning/connect-use-and-market/capability.md) (capability) — adds",
+      "- [Choose the tools and forums a project reads, and connect to them](../software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md) (feature) — adds",
+      "- [Take in how the product is used, from its web analytics and product analytics](../software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md) (feature) — adds",
+      "- [Take in what people say about the product and its market, from feedback tools and forums](../software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md) (feature) — adds",
+      "- [Update the connections as the product and its tools change](../software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md) (feature) — adds",
+      ""
+    ],
+    "added_as_asked_in_order": true,
+    "line_before_block": "",
+    "line_two_before_block": "**Tracker:** #6",
+    "line_after_block": "**What was done:** (nothing yet)",
+    "byte_check_other_lines": true,
+    "byte_check_whole_page": true,
+    "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "stage_line_unchanged": true,
+    "title_outcome_why_askedby_proof_mustnot_stage_tracker_whatwasdone_unchanged": true,
+    "touches_lines": 5,
+    "every_touches_line_in_form": true,
+    "form_matches_bi_4": true,
+    "links": {
+      "../software-delivery-planning/connect-use-and-market/capability.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md": true,
+      "../software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md": true
+    },
+    "every_link_leads_to_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_6_before": [],
+    "spine_entries_naming_bi_6": 5,
+    "spine_entry_ids_naming_bi_6": [
+      "cap-connect-use-and-market",
+      "fn-connect-tools",
+      "fn-take-in-use",
+      "fn-take-in-what-people-say",
+      "fn-update-connections"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "touches_order_matches_capability_then_feature_list": true,
+    "kinds_agree_with_spine": true
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-6.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/connect-use-and-market/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 141,
+      "counts": {
+        "domain": 1,
+        "capability": 30,
+        "feature": 103,
+        "ice": 88
+      },
+      "file": ".garura/project/issues/1021/context/bi-6-capability-1/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 146,
+      "counts": {
+        "domain": 1,
+        "capability": 31,
+        "feature": 107,
+        "ice": 93
+      },
+      "file": ".garura/project/issues/1021/context/bi-6-capability-1/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 5 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021."
+  },
+  "failed_checks": [],
+  "checks_run": 73,
+  "checks_passed": 73,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md equals draft": true,
+    "page capability.md no thin line": true,
+    "page ice.md equals draft": true,
+    "page ice.md thin line back on top, rest = approved copy": true,
+    "page fn-connect-tools/feature.md equals draft": true,
+    "page fn-connect-tools/feature.md no thin line": true,
+    "page fn-connect-tools/ice.md equals draft": true,
+    "page fn-connect-tools/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-take-in-use/feature.md equals draft": true,
+    "page fn-take-in-use/feature.md no thin line": true,
+    "page fn-take-in-use/ice.md equals draft": true,
+    "page fn-take-in-use/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-take-in-what-people-say/feature.md equals draft": true,
+    "page fn-take-in-what-people-say/feature.md no thin line": true,
+    "page fn-take-in-what-people-say/ice.md equals draft": true,
+    "page fn-take-in-what-people-say/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-update-connections/feature.md equals draft": true,
+    "page fn-update-connections/feature.md no thin line": true,
+    "page fn-update-connections/ice.md equals draft": true,
+    "page fn-update-connections/ice.md thin line back on top, rest = approved copy": true,
+    "new folder holds only the 10 pages": true,
+    "spine domains: nothing removed or changed, order kept": true,
+    "spine domains: new entries are exactly the ones asked": true,
+    "spine capabilities: nothing removed or changed, order kept": true,
+    "spine capabilities: new entries are exactly the ones asked": true,
+    "spine features: nothing removed or changed, order kept": true,
+    "spine features: new entries are exactly the ones asked": true,
+    "spine slices: nothing removed or changed, order kept": true,
+    "spine slices: new entries are exactly the ones asked": true,
+    "spine ices: nothing removed or changed, order kept": true,
+    "spine ices: new entries are exactly the ones asked": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "spine entry cap-connect-use-and-market as asked": true,
+    "spine entry fn-connect-tools as asked": true,
+    "spine entry fn-take-in-use as asked": true,
+    "spine entry fn-take-in-what-people-say as asked": true,
+    "spine entry fn-update-connections as asked": true,
+    "spine entry ice-connect-use-and-market as asked": true,
+    "spine entry ice-connect-tools as asked": true,
+    "spine entry ice-take-in-use as asked": true,
+    "spine entry ice-take-in-what-people-say as asked": true,
+    "spine entry ice-update-connections as asked": true,
+    "capability one_line = first line of Directional intent, word for word": true,
+    "feature fn-connect-tools one_line = list text, first letter capitalised": true,
+    "feature fn-take-in-use one_line = list text, first letter capitalised": true,
+    "feature fn-take-in-what-people-say one_line = list text, first letter capitalised": true,
+    "feature fn-update-connections one_line = list text, first letter capitalised": true,
+    "feature list order on the capability page = the four features in order": true,
+    "all five new ICE thin": true,
+    "capability and features not thin themselves": true,
+    "ICE ids unique in the spine": true,
+    "all ids unique in the spine": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-6 only_insertions": true,
+    "bi-6 added_as_asked_in_order": true,
+    "bi-6 byte_check_other_lines": true,
+    "bi-6 byte_check_whole_page": true,
+    "bi-6 stage_line_unchanged": true,
+    "bi-6 title_outcome_why_askedby_proof_mustnot_stage_tracker_whatwasdone_unchanged": true,
+    "bi-6 every_touches_line_in_form": true,
+    "bi-6 every_link_leads_to_a_file": true,
+    "bi-6 titles_match_page_titles": true,
+    "bi-6 kinds_agree_with_spine": true,
+    "bi-6 touches_order_matches_capability_then_feature_list": true,
+    "bi-6 form_matches_bi_4": true,
+    "bi-6 gained exactly the Touches block (7 lines, one block) between Tracker and What was done": true,
+    "the 5 index entries naming bi-6 match the 5 Touches lines": true,
+    "under .garura/product only the spine, bi-6.md and the new folder changed": true,
+    "structure check: no error names a new page": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD 097eda2c: the spine and intents/bi-6.md as committed (the model had no uncommitted change before this write)"
+}

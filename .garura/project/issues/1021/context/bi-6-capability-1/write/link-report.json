@@ -1,0 +1,31 @@
+{
+  "written": [
+    "cap-connect-use-and-market",
+    "fn-connect-tools",
+    "fn-take-in-use",
+    "fn-take-in-what-people-say",
+    "fn-update-connections",
+    "ice-connect-use-and-market",
+    "ice-connect-tools",
+    "ice-take-in-use",
+    "ice-take-in-what-people-say",
+    "ice-update-connections"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-connect-use-and-market",
+    "ice-connect-tools",
+    "ice-take-in-use",
+    "ice-take-in-what-people-say",
+    "ice-update-connections"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/connect-use-and-market/ice.md",
+    "product-os/software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md",
+    "product-os/software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md",
+    "product-os/software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md",
+    "product-os/software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md"
+  ],
+  "layout_kept": true
+}
