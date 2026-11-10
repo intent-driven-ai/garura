@@ -630,6 +630,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-review-agent-work
+  slug: review-agent-work
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-8
+  status: proposed
+  detail: directional
+  one_line: 'Review what agents make (Argus): People review business intents, ADRs,
+    memories, domains, capabilities, ICE and agent decisions in one tool.'
+  doc: software-delivery-planning/review-agent-work/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -2793,6 +2809,150 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-open-review
+  slug: fn-open-review
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: At a loop's end, Garura works out by meaning what the run changed, sends
+    it to Argus as a review pack, opens the review for the person, and keeps each
+    action as a file on the run's branch as it happens, so no agent reads the web
+    page.
+  doc: software-delivery-planning/review-agent-work/fn-open-review/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-read-outcome
+  slug: fn-read-outcome
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: One calm page shows the whole model's approval state first, then each
+    changed intent with its ICE and each changed domain, capability, feature, limit
+    and decision, in plain words with why it changed, never as files.
+  doc: software-delivery-planning/review-agent-work/fn-read-outcome/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-answer-pieces
+  slug: fn-answer-pieces
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: The person accepts, sends back with a comment or drops each changed piece,
+    and may comment on, edit or remove words, in the page or on Catch up cards, where
+    a swipe right accepts and any change is typed.
+  doc: software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-review-adrs
+  slug: fn-review-adrs
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: The ADRs section lists the ADRs that wait and those accepted, and a person's
+    accept is carried out as Manage ADRs says.
+  doc: software-delivery-planning/review-agent-work/fn-review-adrs/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-review-memory
+  slug: fn-review-memory
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: The Memory section shows Garura memory and a picked issue's short-term
+    memory, and each waiting update gets its own approve or reject, in the person's
+    words; Ask memory, a question box in plain words, is mocked only.
+  doc: software-delivery-planning/review-agent-work/fn-review-memory/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-check-agent-decisions
+  slug: fn-check-agent-decisions
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: The Agent decisions section shows each decision with its trace, each step's
+    source in its place and checked again, and the person marks it as looking right
+    or sends it back so the agent decides again.
+  doc: software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-send-back
+  slug: fn-send-back
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: The play that writes that kind of piece reworks that one piece on the
+    run's branch, from the person's comment, and the new version comes back with a
+    reply while the review goes on.
+  doc: software-delivery-planning/review-agent-work/fn-send-back/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-apply-answers
+  slug: fn-apply-answers
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: The review step applies all the answers in one commit on the run's branch,
+    writes approval from them, and hands the change to Ship every change the same
+    way.
+  doc: software-delivery-planning/review-agent-work/fn-apply-answers/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-run-tool-apart
+  slug: fn-run-tool-apart
+  capability: cap-review-agent-work
+  intents:
+  - bi-8
+  status: proposed
+  one_line: Argus runs as a small server that a person starts once, holds no Garura
+    code, and meets Garura only through the written contract, at the one address Garura's
+    settings name, so it can move later.
+  doc: software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -3756,6 +3916,76 @@ ices:
   for: fn-keep-docs-in-step
   for_kind: feature
   doc: software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-review-agent-work
+  for: cap-review-agent-work
+  for_kind: capability
+  doc: software-delivery-planning/review-agent-work/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-open-review
+  for: fn-open-review
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-open-review/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-read-outcome
+  for: fn-read-outcome
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-read-outcome/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-answer-pieces
+  for: fn-answer-pieces
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-review-adrs
+  for: fn-review-adrs
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-review-adrs/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-review-memory
+  for: fn-review-memory
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-review-memory/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-check-agent-decisions
+  for: fn-check-agent-decisions
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-send-back
+  for: fn-send-back
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-send-back/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-apply-answers
+  for: fn-apply-answers
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-apply-answers/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-run-tool-apart
+  for: fn-run-tool-apart
+  for_kind: feature
+  doc: software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true
