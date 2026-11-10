@@ -1,0 +1,813 @@
+{
+ "what": "BI-4 (Code → Validation) close for #1021: the checks after change_lines.py wrote the request",
+ "request": ".garura/project/issues/1021/context/bi-4-close/write/lines-request.json",
+ "report": ".garura/project/issues/1021/context/bi-4-close/write/lines-report.json",
+ "approval": ".garura/project/issues/1021/context/bi-4-close/approval.md",
+ "proposal": ".garura/project/issues/1021/context/bi-4-close/proposal.md",
+ "request_scope": {
+  "pages": 32,
+  "line_changes": 42,
+  "adds": 1,
+  "covered": "Every change is in the proposal (sections 1, 2, 3a, 3b, 3c) except one, the addition below.",
+  "addition_of_the_same_kind": {
+   "page": "software-delivery-planning/fix-defects-test-first/capability.md",
+   "old": "- Out: running the evals, giving the verdict, writing the handoff plan, and checking the code against the project's standards. Code → Validation owns them, through Test with evals the builder never sees and Validate its own code.",
+   "new": "- Out: running the evals, giving the verdict, writing the handoff plan, and checking the code against the project's standards. Code → Validation owns them, through Test with evals the builder never sees and Check the code against its standards.",
+   "why": "Added after the proposal was shown: the page still named \"Validate its own code\", the name the product owner replaced; the same kind of change as the 2 BI-3 lines of proposal section 3b. \"Test with evals the builder never sees\" on the same line is left as it is, as proposal section 4 says."
+  },
+  "note": "Proposal section 3a calls the 22 pages that quote BI-4's Must not \"the six BI-4 capabilities and their features\"; 17 are BI-4 pages and 5 are BI-3 pages (Build the work test first, its 2 features, Fix defects test first and its feature) that quote the same line. The count, 22, is the one the product owner approved.",
+  "pass": true
+ },
+ "byte_for_byte": {
+  "pages_equal_to_test_copy": 32,
+  "pages_differ": [],
+  "whole_model_folder_equal_to_test_copy": true,
+  "git_diff_names": 32,
+  "git_names_are_the_32_pages": true,
+  "git_untracked_under_product": [],
+  "report_changed": 32,
+  "report_changed_are_the_32_pages": true,
+  "pass": true
+ },
+ "bi_4_page": {
+  "outcome_is_approved": true,
+  "proof_is_approved_three_lines": true,
+  "must_not_is_approved": true,
+  "why_unchanged": true,
+  "asked_by_unchanged": true,
+  "stage_unchanged": true,
+  "tracker_unchanged": true,
+  "touches_lines": 29,
+  "touches_unchanged": true,
+  "lines_before": 50,
+  "lines_after": 51,
+  "pass": true
+ },
+ "old_wordings": {
+  "searched": [
+   "merge without a person",
+   "Validate its own code, in",
+   "Design for evaluation and testing owns",
+   "does not run the evals"
+  ],
+  "files_searched": "every file under .garura/product",
+  "still_found": {},
+  "pass": true
+ },
+ "quotes": {
+  "on_the_32_changed_pages": {
+   "quotes_checked": 1087,
+   "found_word_for_word": 1018,
+   "found_only_across_a_line_break_or_bold": [
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "file": "core/components/plays/fix-bug/SKILL.md",
+     "quote": "If the test is missing or already passing, re-invoke tech-designer — never proceed."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "file": "core/components/plays/fix-bug/SKILL.md",
+     "quote": "any builder self-report of pass/fail is not a valid signal"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "file": "core/components/plays/build-epic/reference/ice.md",
+     "quote": "the test author and the implementer work from the same specs and never see each other's output. The implementer never sees test content."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "file": "core/components/plays/_shared/play-close.md",
+     "quote": "not because its step list ran out."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "file": "core/components/plays/build-epic/scripts/run_gates.py",
+     "quote": "no agent burns inference executing test commands."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "file": "core/components/loops/_shared/loop-run.md",
+     "quote": "dispatch the `result-checker` agent on `checker.model` (required: a model that is not the session's)"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": "core/components/plays/fix-bug/SKILL.md",
+     "quote": "any builder self-report of pass/fail is not a valid signal"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": "core/components/plays/fix-bug/SKILL.md",
+     "quote": "never the test's assertion content (C9)"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": "core/components/plays/build-epic/SKILL.md",
+     "quote": "The builder's pass/fail self-report is never a verdict (C9) — it is bookkeeping only."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": "core/components/plays/build-epic/scripts/run_gates.py",
+     "quote": "This script RUNS the project's verification mechanics and captures results to a file; no agent burns inference executing test commands."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": "core/components/loops/_shared/loop-run.md",
+     "quote": "dispatch the `result-checker` agent on `checker.model` (required: a model that is not the session's)"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": "core/components/plays/refactor-code/scripts/check_behavior_preserved.py",
+     "quote": "No test file may be removed and no file's assertion count may drop"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": "standards/rules/builder-isolation.md (Phoenix memory, read through the memory tool)",
+     "quote": "it optimizes toward the test rather than toward the goal."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md",
+     "file": "core/components/plays/build-epic/reference/ice.md",
+     "quote": "the /validate-epic fix report is the exact work list"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "file": ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+     "quote": "A capability need above the box stops for the product owner, and the box moves only by an approved decision."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "file": "core/components/plays/validate-epic/SKILL.md",
+     "quote": "static analysis, lint, dependency scans — never penetration-style probing."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "file": "core/components/plays/release-increment/reference/ice.md",
+     "quote": "secrets are read from the manager and no secret literal appears in the logs, the deploy record, or the repo."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "any irreversible / outward-facing decision"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "any irreversible / outward-facing decision"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/fn-retest-security/feature.md",
+     "file": "core/components/plays/validate-epic/SKILL.md",
+     "quote": "the escalation record lists each round's findings and fixes."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-accessibility/capability.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "any irreversible / outward-facing decision"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+     "file": "core/components/plays/validate-epic/SKILL.md",
+     "quote": "the escalation record lists each round's findings and fixes."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-performance/capability.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-performance/fn-send-performance-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-performance/fn-send-performance-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "any irreversible / outward-facing decision"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-performance/fn-retest-performance/feature.md",
+     "file": "core/components/plays/validate-epic/SKILL.md",
+     "quote": "the escalation record lists each round's findings and fixes."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+     "file": "core/components/plays/fix-bug/SKILL.md",
+     "quote": "any builder self-report of pass/fail is not a valid signal"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+     "file": "core/components/plays/fix-bug/SKILL.md",
+     "quote": "any builder self-report of pass/fail is not a valid signal"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+     "file": "core/components/plays/fix-bug/SKILL.md",
+     "quote": "the regression-test file path in `read_only_files`"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+     "file": "core/components/plays/check-change/SKILL.md",
+     "quote": "Where a category has a **runnable** check (a test suite, a language linter), the play executes it"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+     "file": "standards/rules/builder-isolation.md (Phoenix memory, read through the memory tool)",
+     "quote": "it optimizes toward the test rather than toward the goal."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+     "file": "core/components/plays/validate-epic/reference/ice.md",
+     "quote": "C10 — Loop cap: after 3 rejections on the same epic, halt to a human instead of looping again."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+     "file": "standards/rules/surface-contract.md (Phoenix memory, read through the memory tool)",
+     "quote": "does not waive a check the surface requires — it fails it."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "file": ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+     "quote": "the box moves only by an approved decision."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "file": "core/components/plays/check-change/reference/ice.md",
+     "quote": "so the decision to merge rests on something outside the change itself"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "file": ".garura/project/issues/1031/review/quality-findings.yaml",
+     "quote": "rubric_findings - defects found by reading the code against the playbooks' rubric and by running it."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "file": "knowledge/review/code.md (Phoenix memory, read through the memory tool)",
+     "quote": "the standard is industry best practice, not a garura-internal design."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "file": ".garura/project/issues/1031/review/quality-findings.yaml",
+     "quote": "rubric_findings - defects found by reading the code against the playbooks' rubric and by running it."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "file": "knowledge/review/code.md (Phoenix memory, read through the memory tool)",
+     "quote": "the standard is industry best practice, not a garura-internal design."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+     "file": "core/components/plays/check-change/SKILL.md",
+     "quote": "re-posts the current decision rather than adding a conflicting second one"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+     "file": "core/components/plays/validate-epic/SKILL.md",
+     "quote": "the escalation record lists each round's findings and fixes."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+     "file": "core/components/plays/shape-eval/reference/ice.md",
+     "quote": "It reads only the epic, its stories and the hidden file. It never runs the eval. An eval is a fixed yardstick: a later run never"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+     "file": "core/components/plays/shape-eval/reference/ice.md",
+     "quote": "When the surface is a play, the scenario runs the play on a test project."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+     "file": "core/components/plays/shape-eval/reference/ice.md",
+     "quote": "The person sees a short summary, never the eval itself"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md",
+     "file": "standards/schemas/eval/_index.md (Phoenix memory, read through the memory tool)",
+     "quote": "One step library for each surface kind of a slice's eval (ADR 057): every sentence an eval step may use, each one exact action or check that a runner does with no agent."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md",
+     "file": "core/tools/rebuild-eval/prompts/compare.md",
+     "quote": "Words, layout and design may differ; judge whether a person can do the same thing and see the same result."
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "Can the builder fix this from information it already has, deterministically?"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+     "file": "standards/rules/expectation-generation.md (Phoenix memory, read through the memory tool)",
+     "quote": "any irreversible / outward-facing decision"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+     "file": "core/components/plays/validate-epic/SKILL.md",
+     "quote": "the escalation record lists each round's findings and fixes."
+    }
+   ],
+   "not_found": [],
+   "lines_whose_quotes_name_no_file": [
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/domain.md",
+     "line": "- Shape Up: Stop Running in Circles and Ship Work that Matters (Basecamp, 2019, https://basecamp.com/shapeup): its glossary defines \"Shape\" as \"Make an abstract...",
+     "quotes": 2
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "line": "- GitHub #179 (closed): \"The implement-epic recipe has the same agent writing tests and code (context bias)\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "line": "- GitHub #898 (open): \"It does not block; it makes the shortcut visible.\", \"Nothing is hidden: the eval is simply not part of the brief.\"",
+     "quotes": 2
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "line": "- GitHub #438 (open): \"review-change rejects planning docs and skill prose as P1 security defects\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "line": "- GitHub #890 (open): \"the review's path table treats scripts in plays and skills as prose, so code rules never check them\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "line": "- GitHub #535 (open): \"has no model of what the project is, so Garura's own scripts are never code-checked\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+     "line": "- GitHub #934 (open): \"Findings and defects get one severity, P1 to P4\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+     "line": "- GitHub #934 (open): \"Findings and defects get one severity, P1 to P4\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+     "line": "- The one line the product owner agreed on 2026-11-03: \"Which environments exist, how many, and how each is set up.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+     "line": "- The product owner on 2026-11-08, on the first drafts of Deployment design: \"The environment setups: yes, minimum 3: dev, testing, and then pre-production.\", \"...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+     "line": "- The product owner on 2026-11-08, on the second drafts of Deployment design: \"each env can be built separately and managed separately, the underlying tech and ...",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+     "line": "- The product owner on 2026-11-08, on the first drafts of Environment setup: \"local machine is dev sandbox and not an environment - but we do need this.\", \"we d...",
+     "quotes": 2
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+     "line": "- The capability list the product owner locked on 2026-11-03: \"Environment setup (planned): Which environments exist, how many, and how each is set up.\", \"Deplo...",
+     "quotes": 9
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-performance/fn-send-performance-findings/feature.md",
+     "line": "- GitHub #934 (open): \"Findings and defects get one severity, P1 to P4\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+     "line": "- GitHub #179 (closed): \"The implement-epic recipe has the same agent writing tests and code (context bias)\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+     "line": "- GitHub #800 (open): \"after the build, an independent step runs the hidden evals and the checks and gives the verdict.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+     "line": "- GitHub #801 (open): \"It gives a verdict: validated, or fix required with each failure named.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+     "line": "- GitHub #898 (open): \"A check flags any build that read the evals folder.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+     "line": "- The one line the product owner agreed on 2026-11-03: \"How the product gets deployed is designed.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+     "line": "- The product owner on 2026-11-08, on the first drafts: \"this is not a single design play or a single slice play. This is how the entire project is to be run.\",...",
+     "quotes": 11
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+     "line": "- The product owner on 2026-11-08, on the second drafts: \"each env can be built separately and managed separately, the underlying tech and reusability is import...",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+     "line": "- The capability list the product owner locked on 2026-11-03: \"Environment setup (planned): Which environments exist, how many, and how each is set up.\", \"Conti...",
+     "quotes": 12
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+     "line": "- GitHub #435 (closed): \"TCO is a core run decision.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+     "line": "- GitHub #608 (open): \"How a skipped design area is recorded, so a later loop knows it was skipped and not forgotten.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+     "line": "- The one line the product owner agreed on 2026-11-03: \"How the product gets deployed is designed.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+     "line": "- The product owner on 2026-11-08, on the first drafts: \"This is how the entire project is to be run.\", \"The environment setups: yes, minimum 3: dev, testing, a...",
+     "quotes": 10
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+     "line": "- The product owner on 2026-11-08, on the second drafts: \"each env can be built separately and managed separately, the underlying tech and reusability is import...",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+     "line": "- The capability list the product owner locked on 2026-11-03: \"Continuous integration (planned): Changes are built and tested together automatically.\", \"Continu...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+     "line": "- GitHub #435 (closed): \"TCO is a core run decision.\", \"hyperscaler decision with region and rejected alternatives\", \"If exact pricing is unavailable, /run stil...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- The product owner on a defect, 2026-10-27, quoted in GitHub #902 (open): \"A defect needs to have a problem statement clearly defined.\", \"Where is the problem ...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #862 (open): \"a review in that project runs only the rule groups that fit it\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #974 (open): \"It should stop and say the rules are missing.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #870 (open): \"check-change has no review playbook for two kinds of change that plays make all the time\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #939 (open): \"The product model and the project's memory are outputs of the change and must be reviewed.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #890 (open): \"so code rules never check them\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #535 (open): \"has no model of what the project is, so Garura's own scripts are never code-checked\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #934 (open): \"Findings and defects get one severity, P1 to P4\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+     "line": "- GitHub #772 (open): \"The install keeps old play names in the project config, so the check-change gate is on\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+     "line": "- The product owner on a defect, 2026-10-27, quoted in GitHub #902 (open): \"A defect needs to have a problem statement clearly defined.\", \"Where is the problem ...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+     "line": "- GitHub #934 (open): \"Findings and defects get one severity, P1 to P4\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+     "line": "- GitHub #772 (open): \"The install keeps old play names in the project config, so the check-change gate is on\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "line": "- GitHub #862 (open): \"a review in that project runs only the rule groups that fit it\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "line": "- GitHub #933 (open): \"a review tests a change against it.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "line": "- GitHub #890 (open): \"so code rules never check them\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "line": "- GitHub #535 (open): \"has no model of what the project is, so Garura's own scripts are never code-checked\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "line": "- GitHub #870 (open): \"check-change has no review playbook for two kinds of change that plays make all the time\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "line": "- GitHub #939 (open): \"The product model and the project's memory are outputs of the change and must be reviewed.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+     "line": "- GitHub #974 (open): \"It should stop and say the rules are missing.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+     "line": "- GitHub #898 (open): \"I just want to make sure that when the agents are building, they don't only think through the evals, but they look at the intent and buil...",
+     "quotes": 2
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+     "line": "- GitHub #1023 (open): \"Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and n...",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+     "line": "- GitHub #1033 (open): \"Plays read the whole model by one rule once its index has ICE entries, so older parts break\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+     "line": "- GitHub #934 (open): \"Findings and defects get one severity, P1 to P4\", \"mobile (a misalignment can be P2 on a phone)\", \"a coding agent (output a person cannot...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- The one line the product owner agreed on 2026-11-03: \"The project's surfaces are declared: CLI, browser, mobile or other.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- The product owner on 2026-11-07, on the first drafts: \"the surface needs to be designed based on what they offer for example web would be responsive, adaptive...",
+     "quotes": 4
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- The capability list the product owner locked on 2026-11-03: \"Seed the memory for the lenses: The memory each design lens needs is seeded, ready for slices to ...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- The names agreed with the product owner on 2026-11-03: \"/design-surface (was /shape-ux-lens)\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- GitHub #553 (open, under the Spec → Design business intent in the tracker): \"an API can be a surface\", \"terminal CUI types, full blown browser CX, mobile app ...",
+     "quotes": 2
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- GitHub #559 (open): \"Every surface record carries a medium and a reason for it.\", \"it has to read tool logs on that laptop, which a browser cannot, and has to...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- GitHub #560 (open): \"CVS downloads are integration points. we will never expose that as a surface.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "line": "- GitHub #562 (open): \"The profile's surface list contains only surfaces, and contains every surface the capability needs.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+     "line": "- The one line the product owner agreed on 2026-11-03: \"The project's surfaces are declared: CLI, browser, mobile or other.\"",
+     "quotes": 1
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+     "line": "- The product owner on 2026-11-07, on the first drafts: \"the surface needs to be designed based on what they offer for example web would be responsive, adaptive...",
+     "quotes": 3
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+     "line": "- GitHub #553 (open, under the Spec → Design business intent in the tracker): \"an API can be a surface\", \"Nobody ever asked what kind of screen this is.\"",
+     "quotes": 2
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+     "line": "- GitHub #559 (open): \"Every surface record carries a medium and a reason for it.\", \"It had reasons that belong on the record\", \"it has to read tool logs on tha...",
+     "quotes": 4
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+     "line": "- GitHub #560 (open): \"CVS downloads are integration points. we will never expose that as a surface.\", \"A person downloading a file does not make the file a sur...",
+     "quotes": 2
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+     "line": "- GitHub #562 (open): \"The profile's surface list contains only surfaces, and contains every surface the capability needs.\"",
+     "quotes": 1
+    }
+   ],
+   "explained": [
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md",
+     "quote": "i need a config that would send test building and running to a different model, like a codex or another service.",
+     "why": "the Sources line itself says the quote is tidied (quoted with \"differnet\" tidied to \"different\"); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+     "file": ".garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md",
+     "quote": "i need a config that would send test building and running to a different model, like a codex or another service. test running can be done via a tool.",
+     "why": "the Sources line itself says the quote is tidied (quoted with \"differnet\" tidied to \"different\"); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md",
+     "quote": "this is code to validate hence this is about testing and it needs to test functionality which are product evals, but it also needs to handle other forms of testing i.e. security and performance and accessibility, ux (responsive) hence all 5 needs to be handled",
+     "why": "the Sources line itself says the quote is tidied (spelling tidied); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-security/fn-retest-security/feature.md",
+     "file": ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+     "quote": "a later capability's security need is compared against medium, not none",
+     "why": "found word for word once the file is read as YAML (its doubled apostrophe and its line wrap)"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-accessibility/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md",
+     "quote": "this is code to validate hence this is about testing and it needs to test functionality which are product evals, but it also needs to handle other forms of testing i.e. security and performance and accessibility, ux (responsive) hence all 5 needs to be handled",
+     "why": "the Sources line itself says the quote is tidied (spelling tidied); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-performance/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md",
+     "quote": "this is code to validate hence this is about testing and it needs to test functionality which are product evals, but it also needs to handle other forms of testing i.e. security and performance and accessibility, ux (responsive) hence all 5 needs to be handled",
+     "why": "the Sources line itself says the quote is tidied (spelling tidied); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md",
+     "quote": "i need a config that would send test building and running to a different model, like a codex or another service.",
+     "why": "the Sources line itself says the quote is tidied (quoted with \"differnet\" tidied to \"different\"); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+     "file": ".garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md",
+     "quote": "i need a config that would send test building and running to a different model, like a codex or another service. test running can be done via a tool.",
+     "why": "the Sources line itself says the quote is tidied (quoted with \"differnet\" tidied to \"different\"); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md",
+     "quote": "this is code to validate hence this is about testing and it needs to test functionality which are product evals, but it also needs to handle other forms of testing i.e. security and performance and accessibility, ux (responsive) hence all 5 needs to be handled",
+     "why": "the Sources line itself says the quote is tidied (spelling tidied); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md",
+     "quote": "the ux design should show wireframes in MD files as to how screens will look or build prototypes using the project's design system.",
+     "why": "the Sources line itself says the quote is tidied (spelling tidied); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md",
+     "file": ".garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md",
+     "quote": "same for agentic like claude-code we need to use the characteristics.",
+     "why": "the Sources line itself says the quote is tidied (spelling tidied); the person's own words, untidied, are in the file it names"
+    },
+    {
+     "page": ".garura/product/product-os/software-delivery-planning/test-user-experience/capability.md",
+     "file": "standards/schemas/eval/steps-command-line.yaml (Phoenix memory, read through the memory tool)",
+     "quote": "the runner starts the play as a command in the test project and gives it the scripted answers",
+     "why": "found word for word once the comment marks at the start of its two lines are read as one sentence"
+    }
+   ],
+   "found_only_across_a_line_break_or_bold_note": "found once a line break or a bold mark in the source is read as a space; each is on a line this close did not change",
+   "lines_whose_quotes_name_no_file_note": "GitHub issues, outside books and web pages, and the product owner's words given with a date but no file: not checked against a file; none is on a line this close changed",
+   "note": "No quote on a changed line fails: every quote of a changed page is in the second count, and each is found word for word. The explained quotes are on lines this close did not change."
+  },
+  "of_the_10_changed_pages_anywhere_in_the_model": {
+   "quotes_checked": 221,
+   "found_word_for_word": 221,
+   "found_only_across_a_line_break_or_bold": [],
+   "not_found": [],
+   "pages_quoted": [
+    "intents/bi-4.md",
+    "software-delivery-planning/domain.md",
+    "software-delivery-planning/build-work-test-first/capability.md",
+    "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+    "software-delivery-planning/fix-defects-test-first/capability.md",
+    "software-delivery-planning/deployment-design/capability.md",
+    "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+    "software-delivery-planning/environment-setup/capability.md",
+    "software-delivery-planning/manage-surfaces/capability.md",
+    "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md"
+   ],
+   "quoting_lines_outside_a_sources_list": []
+  },
+  "pass": true
+ },
+ "structure_check": {
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+  "before": {
+   "errors": 87,
+   "warnings": 141,
+   "counts": {
+    "domain": 1,
+    "capability": 30,
+    "feature": 103,
+    "ice": 88
+   },
+   "record": ".garura/project/issues/1021/context/bi-4-close/write/lint-before.json"
+  },
+  "after": {
+   "errors": 87,
+   "warnings": 141,
+   "counts": {
+    "domain": 1,
+    "capability": 30,
+    "feature": 103,
+    "ice": 88
+   },
+   "record": ".garura/project/issues/1021/context/bi-4-close/write/lint-after.json"
+  },
+  "new_errors": [],
+  "new_warnings": [],
+  "errors_gone": [],
+  "warnings_gone": [],
+  "new_error_names_a_changed_page": [],
+  "pass": true
+ },
+ "test_copy": "the test copy of the whole product-os folder that the request's build script wrote in the session's scratch folder (path not recorded here: the repo is public)",
+ "pass": true
+}
