@@ -1,0 +1,14 @@
+{
+  "routing_result": {
+    "work": "A software delivery harness turns what a product's consumers want and what its competitors do (findings drawn from the product's own analytics, user feedback and forums) into changes to that product: it proposes a new feature under an existing capability, a change to a capability or feature page, a new or changed business intent, or retiring a part; it recommends each to the product owner and records the answer; where the project's setting allows, it sets a change in motion on its own; and it starts each approved change down the path that specifies, plans, designs and builds it, without writing code itself.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "software delivery planning (product change management inside a delivery harness)",
+        "why": "The field is building software and the job is deciding and setting in motion changes to a product's intents, model and work. Each of the ten shelves is a field a product is built for (selling goods, taking money, accounts, content, collaboration, notifications, personalization, reach, guided experience, measuring behaviour); none lists deciding product changes from findings. Analytics measures behaviour inside a product and stops at measuring; experience is a front-end that guides a product's own visitors. Neither lists this work, so it is not folded into either."
+      }
+    ]
+  }
+}

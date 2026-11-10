@@ -1,0 +1,666 @@
+{
+  "pages": {
+    "software-delivery-planning/build-or-update-product/capability.md": {
+      "equals_draft": true,
+      "bytes": 24657,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-or-update-product/ice.md": {
+      "equals_draft": true,
+      "bytes": 4290,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md": {
+      "equals_draft": true,
+      "bytes": 9760,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-or-update-product/fn-propose-changes/ice.md": {
+      "equals_draft": true,
+      "bytes": 3296,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md": {
+      "equals_draft": true,
+      "bytes": 7943,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-or-update-product/fn-recommend-changes/ice.md": {
+      "equals_draft": true,
+      "bytes": 3068,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md": {
+      "equals_draft": true,
+      "bytes": 11771,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-or-update-product/fn-act-on-its-own/ice.md": {
+      "equals_draft": true,
+      "bytes": 3588,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-or-update-product/fn-start-changes/feature.md": {
+      "equals_draft": true,
+      "bytes": 9644,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-or-update-product/fn-start-changes/ice.md": {
+      "equals_draft": true,
+      "bytes": 3265,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md": {
+      "equals_draft": true,
+      "bytes": 6783,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/build-or-update-product/fn-update-recommendations/ice.md": {
+      "equals_draft": true,
+      "bytes": 3211,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 12,
+  "thin_lines_only_on_the_six_ice_pages": true,
+  "new_folder_files": [
+    "capability.md",
+    "fn-act-on-its-own/feature.md",
+    "fn-act-on-its-own/ice.md",
+    "fn-propose-changes/feature.md",
+    "fn-propose-changes/ice.md",
+    "fn-recommend-changes/feature.md",
+    "fn-recommend-changes/ice.md",
+    "fn-start-changes/feature.md",
+    "fn-start-changes/ice.md",
+    "fn-update-recommendations/feature.md",
+    "fn-update-recommendations/ice.md",
+    "ice.md"
+  ],
+  "new_folder_holds_only_the_12_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 32,
+      "after": 33,
+      "new": [
+        "cap-build-or-update-product"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 112,
+      "after": 117,
+      "new": [
+        "fn-propose-changes",
+        "fn-recommend-changes",
+        "fn-act-on-its-own",
+        "fn-start-changes",
+        "fn-update-recommendations"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 99,
+      "after": 105,
+      "new": [
+        "ice-build-or-update-product",
+        "ice-propose-changes",
+        "ice-recommend-changes",
+        "ice-act-on-its-own",
+        "ice-start-changes",
+        "ice-update-recommendations"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-build-or-update-product": {
+        "id": "cap-build-or-update-product",
+        "slug": "build-or-update-product",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "detail": "directional",
+        "one_line": "Build features or update the product model, on its own or at least as recommendations: from the findings the second capability of Run → Product hands on, the change each one calls for is worked out, each change is recommended to the product owner or, where he allows that kind, goes ahead on its own, and each change he approves or allows is started down the path that specifies, plans, designs and builds it, through the part that owns each step, so that what the product becomes next follows what its consumers want.",
+        "doc": "software-delivery-planning/build-or-update-product/capability.md",
+        "depends_on": [],
+        "identified_by": "",
+        "decisions": [],
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-propose-changes": {
+        "id": "fn-propose-changes",
+        "slug": "fn-propose-changes",
+        "capability": "cap-build-or-update-product",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "For each finding handed on, works out the change it calls for, a new feature, new words on a page, a new business intent, a part retired, or none yet, each with the findings and items it rests on, why, how sure, who decides and which part would make it.",
+        "doc": "software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md",
+        "depends_on": [],
+        "identified_by": "",
+        "decisions": [],
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-recommend-changes": {
+        "id": "fn-recommend-changes",
+        "slug": "fn-recommend-changes",
+        "capability": "cap-build-or-update-product",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Shows each change that may not go ahead on its own as a recommendation, and keeps his answer, approve, change or turn down, word for word, with who, when and where; a turned-down one is kept and raised again only when its findings move.",
+        "doc": "software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md",
+        "depends_on": [],
+        "identified_by": "",
+        "decisions": [],
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-act-on-its-own": {
+        "id": "fn-act-on-its-own",
+        "slug": "fn-act-on-its-own",
+        "capability": "cap-build-or-update-product",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Reads the project's setting for which kinds of change may go ahead on their own, lets a change of such a kind go ahead when it rests on a clear want of the product's own consumers, and shows it to him at once, waiting for his review, with a way back.",
+        "doc": "software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md",
+        "depends_on": [],
+        "identified_by": "",
+        "decisions": [],
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-start-changes": {
+        "id": "fn-start-changes",
+        "slug": "fn-start-changes",
+        "capability": "cap-build-or-update-product",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "Hands each approved or allowed change to the part that owns its first step, with its findings and the words approved, and follows it until its owner lands it or turns it down, writing nothing itself.",
+        "doc": "software-delivery-planning/build-or-update-product/fn-start-changes/feature.md",
+        "depends_on": [],
+        "identified_by": "",
+        "decisions": [],
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-update-recommendations": {
+        "id": "fn-update-recommendations",
+        "slug": "fn-update-recommendations",
+        "capability": "cap-build-or-update-product",
+        "intents": [
+          "bi-6"
+        ],
+        "status": "proposed",
+        "one_line": "As findings move, the model changes or the setting changes, updates or withdraws each recommendation and each change in flight, with why, and keeps what held before readable.",
+        "doc": "software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md",
+        "depends_on": [],
+        "identified_by": "",
+        "decisions": [],
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "ice-build-or-update-product": {
+        "id": "ice-build-or-update-product",
+        "for": "cap-build-or-update-product",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/build-or-update-product/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-propose-changes": {
+        "id": "ice-propose-changes",
+        "for": "fn-propose-changes",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-or-update-product/fn-propose-changes/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-recommend-changes": {
+        "id": "ice-recommend-changes",
+        "for": "fn-recommend-changes",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-or-update-product/fn-recommend-changes/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-act-on-its-own": {
+        "id": "ice-act-on-its-own",
+        "for": "fn-act-on-its-own",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-or-update-product/fn-act-on-its-own/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-start-changes": {
+        "id": "ice-start-changes",
+        "for": "fn-start-changes",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-or-update-product/fn-start-changes/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-update-recommendations": {
+        "id": "ice-update-recommendations",
+        "for": "fn-update-recommendations",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/build-or-update-product/fn-update-recommendations/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      }
+    },
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 145,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_6": {
+    "lines_before": 31,
+    "lines_after": 37,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 6,
+    "added": [
+      "- [Build features or update the product model, on its own or at least as recommendations](../software-delivery-planning/build-or-update-product/capability.md) (capability) — adds",
+      "- [Work out the change each finding calls for, with why and how sure](../software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md) (feature) — adds",
+      "- [Recommend each change to the product owner, and keep his answer](../software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md) (feature) — adds",
+      "- [Let the changes the product owner allows go ahead on their own, and show each one with a way back](../software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md) (feature) — adds",
+      "- [Start each change down the path that builds it, through the part that owns each step](../software-delivery-planning/build-or-update-product/fn-start-changes/feature.md) (feature) — adds",
+      "- [Update the recommendations as the findings and the product change](../software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "outcome_proof_must_not_lines_unchanged": true,
+    "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "touches_lines": [
+      "- [Connect to what happens in use and in the market](../software-delivery-planning/connect-use-and-market/capability.md) (capability) — adds",
+      "- [Choose the tools and forums a project reads, and connect to them](../software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md) (feature) — adds",
+      "- [Take in how the product is used, from its web analytics and product analytics](../software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md) (feature) — adds",
+      "- [Take in what people say about the product and its market, from feedback tools and forums](../software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md) (feature) — adds",
+      "- [Update the connections as the product and its tools change](../software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md) (feature) — adds",
+      "- [Understand what consumers want and what the competition is doing](../software-delivery-planning/understand-consumers-and-competition/capability.md) (capability) — adds",
+      "- [Understand what consumers want, from what is taken in](../software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md) (feature) — adds",
+      "- [Understand what the competition is doing, from what people say about it](../software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md) (feature) — adds",
+      "- [Place each finding on the intents, capabilities and features it bears on](../software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md) (feature) — adds",
+      "- [Show the findings to the product owner, and hand them to the next capability](../software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md) (feature) — adds",
+      "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+      "- [Build features or update the product model, on its own or at least as recommendations](../software-delivery-planning/build-or-update-product/capability.md) (capability) — adds",
+      "- [Work out the change each finding calls for, with why and how sure](../software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md) (feature) — adds",
+      "- [Recommend each change to the product owner, and keep his answer](../software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md) (feature) — adds",
+      "- [Let the changes the product owner allows go ahead on their own, and show each one with a way back](../software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md) (feature) — adds",
+      "- [Start each change down the path that builds it, through the part that owns each step](../software-delivery-planning/build-or-update-product/fn-start-changes/feature.md) (feature) — adds",
+      "- [Update the recommendations as the findings and the product change](../software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md) (feature) — adds"
+    ],
+    "every_touches_line_in_form": true,
+    "links": [
+      {
+        "title": "Connect to what happens in use and in the market",
+        "link": "software-delivery-planning/connect-use-and-market/capability.md",
+        "kind": "capability",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Choose the tools and forums a project reads, and connect to them",
+        "link": "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Take in how the product is used, from its web analytics and product analytics",
+        "link": "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Take in what people say about the product and its market, from feedback tools and forums",
+        "link": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Update the connections as the product and its tools change",
+        "link": "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Understand what consumers want and what the competition is doing",
+        "link": "software-delivery-planning/understand-consumers-and-competition/capability.md",
+        "kind": "capability",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Understand what consumers want, from what is taken in",
+        "link": "software-delivery-planning/understand-consumers-and-competition/fn-understand-consumer-wants/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Understand what the competition is doing, from what people say about it",
+        "link": "software-delivery-planning/understand-consumers-and-competition/fn-understand-competition/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Place each finding on the intents, capabilities and features it bears on",
+        "link": "software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Show the findings to the product owner, and hand them to the next capability",
+        "link": "software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Update the understanding as new items come in and the product changes",
+        "link": "software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Build features or update the product model, on its own or at least as recommendations",
+        "link": "software-delivery-planning/build-or-update-product/capability.md",
+        "kind": "capability",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Work out the change each finding calls for, with why and how sure",
+        "link": "software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Recommend each change to the product owner, and keep his answer",
+        "link": "software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Let the changes the product owner allows go ahead on their own, and show each one with a way back",
+        "link": "software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Start each change down the path that builds it, through the part that owns each step",
+        "link": "software-delivery-planning/build-or-update-product/fn-start-changes/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      },
+      {
+        "title": "Update the recommendations as the findings and the product change",
+        "link": "software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md",
+        "kind": "feature",
+        "leads_to_a_file": true
+      }
+    ],
+    "every_link_leads_to_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_6": 17,
+    "spine_entry_ids_naming_bi_6": [
+      "cap-connect-use-and-market",
+      "cap-understand-consumers-and-competition",
+      "cap-build-or-update-product",
+      "fn-connect-tools",
+      "fn-take-in-use",
+      "fn-take-in-what-people-say",
+      "fn-update-connections",
+      "fn-understand-consumer-wants",
+      "fn-understand-competition",
+      "fn-place-findings",
+      "fn-hand-on-findings",
+      "fn-update-understanding",
+      "fn-propose-changes",
+      "fn-recommend-changes",
+      "fn-act-on-its-own",
+      "fn-start-changes",
+      "fn-update-recommendations"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kinds_agree_with_spine": true,
+    "new_touches_order_matches_capability_then_feature_list": true
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-6.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-act-on-its-own/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-propose-changes/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-recommend-changes/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-start-changes/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-start-changes/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-update-recommendations/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/build-or-update-product/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 152,
+      "counts": {
+        "domain": 1,
+        "capability": 32,
+        "feature": 112,
+        "ice": 99
+      },
+      "file": ".garura/project/issues/1021/context/bi-6-capability-3/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 158,
+      "counts": {
+        "domain": 1,
+        "capability": 33,
+        "feature": 117,
+        "ice": 105
+      },
+      "file": ".garura/project/issues/1021/context/bi-6-capability-3/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-start-changes/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-start-changes/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 6 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page, so these warnings are expected, as in the BI-6 capability 2 write."
+  },
+  "failed_checks": [],
+  "checks_run": 79,
+  "checks_passed": 79,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md equals draft": true,
+    "page capability.md no thin line": true,
+    "page ice.md equals draft": true,
+    "page ice.md thin line back on top, rest = approved copy": true,
+    "page fn-propose-changes/feature.md equals draft": true,
+    "page fn-propose-changes/feature.md no thin line": true,
+    "page fn-propose-changes/ice.md equals draft": true,
+    "page fn-propose-changes/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-recommend-changes/feature.md equals draft": true,
+    "page fn-recommend-changes/feature.md no thin line": true,
+    "page fn-recommend-changes/ice.md equals draft": true,
+    "page fn-recommend-changes/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-act-on-its-own/feature.md equals draft": true,
+    "page fn-act-on-its-own/feature.md no thin line": true,
+    "page fn-act-on-its-own/ice.md equals draft": true,
+    "page fn-act-on-its-own/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-start-changes/feature.md equals draft": true,
+    "page fn-start-changes/feature.md no thin line": true,
+    "page fn-start-changes/ice.md equals draft": true,
+    "page fn-start-changes/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-update-recommendations/feature.md equals draft": true,
+    "page fn-update-recommendations/feature.md no thin line": true,
+    "page fn-update-recommendations/ice.md equals draft": true,
+    "page fn-update-recommendations/ice.md thin line back on top, rest = approved copy": true,
+    "new folder holds only the 12 pages": true,
+    "spine domains: nothing removed or changed, order kept": true,
+    "spine domains: new entries are exactly the ones asked": true,
+    "spine capabilities: nothing removed or changed, order kept": true,
+    "spine capabilities: new entries are exactly the ones asked": true,
+    "spine features: nothing removed or changed, order kept": true,
+    "spine features: new entries are exactly the ones asked": true,
+    "spine slices: nothing removed or changed, order kept": true,
+    "spine slices: new entries are exactly the ones asked": true,
+    "spine ices: nothing removed or changed, order kept": true,
+    "spine ices: new entries are exactly the ones asked": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "spine entry cap-build-or-update-product as asked": true,
+    "spine entry fn-propose-changes as asked": true,
+    "spine entry fn-recommend-changes as asked": true,
+    "spine entry fn-act-on-its-own as asked": true,
+    "spine entry fn-start-changes as asked": true,
+    "spine entry fn-update-recommendations as asked": true,
+    "spine entry ice-build-or-update-product as asked": true,
+    "spine entry ice-propose-changes as asked": true,
+    "spine entry ice-recommend-changes as asked": true,
+    "spine entry ice-act-on-its-own as asked": true,
+    "spine entry ice-start-changes as asked": true,
+    "spine entry ice-update-recommendations as asked": true,
+    "capability one_line = first line of Directional intent, word for word": true,
+    "feature fn-propose-changes one_line = list text, first letter capitalised": true,
+    "feature fn-recommend-changes one_line = list text, first letter capitalised": true,
+    "feature fn-act-on-its-own one_line = list text, first letter capitalised": true,
+    "feature fn-start-changes one_line = list text, first letter capitalised": true,
+    "feature fn-update-recommendations one_line = list text, first letter capitalised": true,
+    "feature list order on the capability page = the five features in order": true,
+    "all six new ICE thin": true,
+    "capability and features not thin themselves": true,
+    "ICE ids unique in the spine": true,
+    "all ids unique in the spine": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-6 only_insertions": true,
+    "bi-6 added_as_asked_in_order": true,
+    "bi-6 inserted_after_last_touches_line": true,
+    "bi-6 no_blank_line_added": true,
+    "bi-6 byte_check_other_lines": true,
+    "bi-6 outcome_proof_must_not_lines_unchanged": true,
+    "bi-6 every_touches_line_in_form": true,
+    "bi-6 every_link_leads_to_a_file": true,
+    "bi-6 titles_match_page_titles": true,
+    "bi-6 kinds_agree_with_spine": true,
+    "bi-6 new_touches_order_matches_capability_then_feature_list": true,
+    "bi-6 gained exactly the 6 Touches lines, one block": true,
+    "the 17 index entries naming bi-6 match the 17 Touches lines": true,
+    "under .garura/product only the spine, bi-6.md and the new folder changed": true,
+    "structure check: no error names a new page": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD 246f601b: the spine and intents/bi-6.md as committed (the model had no uncommitted change before this write)"
+}

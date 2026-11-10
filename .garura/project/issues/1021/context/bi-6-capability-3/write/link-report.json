@@ -1,0 +1,35 @@
+{
+  "written": [
+    "cap-build-or-update-product",
+    "fn-propose-changes",
+    "fn-recommend-changes",
+    "fn-act-on-its-own",
+    "fn-start-changes",
+    "fn-update-recommendations",
+    "ice-build-or-update-product",
+    "ice-propose-changes",
+    "ice-recommend-changes",
+    "ice-act-on-its-own",
+    "ice-start-changes",
+    "ice-update-recommendations"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-build-or-update-product",
+    "ice-propose-changes",
+    "ice-recommend-changes",
+    "ice-act-on-its-own",
+    "ice-start-changes",
+    "ice-update-recommendations"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/build-or-update-product/ice.md",
+    "product-os/software-delivery-planning/build-or-update-product/fn-propose-changes/ice.md",
+    "product-os/software-delivery-planning/build-or-update-product/fn-recommend-changes/ice.md",
+    "product-os/software-delivery-planning/build-or-update-product/fn-act-on-its-own/ice.md",
+    "product-os/software-delivery-planning/build-or-update-product/fn-start-changes/ice.md",
+    "product-os/software-delivery-planning/build-or-update-product/fn-update-recommendations/ice.md"
+  ],
+  "layout_kept": true
+}

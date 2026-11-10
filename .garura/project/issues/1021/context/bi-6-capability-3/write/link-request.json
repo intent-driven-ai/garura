@@ -1,0 +1,131 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-build-or-update-product",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "build-or-update-product",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Build features or update the product model, on its own or at least as recommendations: from the findings the second capability of Run → Product hands on, the change each one calls for is worked out, each change is recommended to the product owner or, where he allows that kind, goes ahead on its own, and each change he approves or allows is started down the path that specifies, plans, designs and builds it, through the part that owns each step, so that what the product becomes next follows what its consumers want.",
+      "doc": "software-delivery-planning/build-or-update-product/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-propose-changes",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-propose-changes",
+      "capability": "cap-build-or-update-product",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "For each finding handed on, works out the change it calls for, a new feature, new words on a page, a new business intent, a part retired, or none yet, each with the findings and items it rests on, why, how sure, who decides and which part would make it.",
+      "doc": "software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-recommend-changes",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-recommend-changes",
+      "capability": "cap-build-or-update-product",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Shows each change that may not go ahead on its own as a recommendation, and keeps his answer, approve, change or turn down, word for word, with who, when and where; a turned-down one is kept and raised again only when its findings move.",
+      "doc": "software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-act-on-its-own",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-act-on-its-own",
+      "capability": "cap-build-or-update-product",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Reads the project's setting for which kinds of change may go ahead on their own, lets a change of such a kind go ahead when it rests on a clear want of the product's own consumers, and shows it to him at once, waiting for his review, with a way back.",
+      "doc": "software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-start-changes",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-start-changes",
+      "capability": "cap-build-or-update-product",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Hands each approved or allowed change to the part that owns its first step, with its findings and the words approved, and follows it until its owner lands it or turns it down, writing nothing itself.",
+      "doc": "software-delivery-planning/build-or-update-product/fn-start-changes/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-recommendations",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-recommendations",
+      "capability": "cap-build-or-update-product",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "As findings move, the model changes or the setting changes, updates or withdraws each recommendation and each change in flight, with why, and keeps what held before readable.",
+      "doc": "software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-build-or-update-product",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-build-or-update-product",
+      "doc": "software-delivery-planning/build-or-update-product/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-propose-changes",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-propose-changes",
+      "doc": "software-delivery-planning/build-or-update-product/fn-propose-changes/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-recommend-changes",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-recommend-changes",
+      "doc": "software-delivery-planning/build-or-update-product/fn-recommend-changes/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-act-on-its-own",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-act-on-its-own",
+      "doc": "software-delivery-planning/build-or-update-product/fn-act-on-its-own/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-start-changes",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-start-changes",
+      "doc": "software-delivery-planning/build-or-update-product/fn-start-changes/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-recommendations",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-recommendations",
+      "doc": "software-delivery-planning/build-or-update-product/fn-update-recommendations/ice.md",
+      "thin": true
+    }
+  ]
+}
