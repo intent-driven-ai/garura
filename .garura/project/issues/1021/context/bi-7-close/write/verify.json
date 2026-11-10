@@ -1,0 +1,13 @@
+{
+ "checked_on": "2026-11-10",
+ "request": ".garura/project/issues/1021/context/bi-7-close/write/lines-request.json",
+ "pages_changed": 6,
+ "changes": 11,
+ "pages_equal_tested_copy": true,
+ "spine_unchanged": true,
+ "structure_check": {"errors_before": 83, "errors_after": 83, "warnings_before": 176, "warnings_after": 176, "new_errors": 0, "new_warnings": 0},
+ "bi7_lines_kept_word_for_word": ["Outcome", "Why", "the three Proof lines", "Must not"],
+ "domain_quotes_kept": ["It does not release the work or run the product."],
+ "open_domain_lines_left": 0,
+ "personal_paths": 0
+}
