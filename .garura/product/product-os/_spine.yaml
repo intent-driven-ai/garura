@@ -589,6 +589,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-install-into-project
+  slug: install-into-project
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-7
+  status: proposed
+  detail: directional
+  one_line: 'Install into a project: A team installs Garura, chooses what it gets,
+    and can take it out again.'
+  doc: software-delivery-planning/install-into-project/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -2364,6 +2380,104 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-install-in-one-step
+  slug: fn-install-in-one-step
+  capability: cap-install-into-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: One command in the project's folder, with no copy of Garura's source,
+    lays Garura for the team's coding tool from the version named or the default,
+    keeps the version and every part laid in the install record, and writes over no
+    file of the project's own.
+  doc: software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-choose-parts
+  slug: fn-choose-parts
+  capability: cap-install-into-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: The team chooses a kind of install, the full set for a product project
+    or the harness set for a team that builds its own harness, and, once built, named
+    plays, so the project carries the parts it uses and every chosen play arrives
+    with the workers it calls.
+  doc: software-delivery-planning/install-into-project/fn-choose-parts/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-check-install
+  slug: fn-check-install
+  capability: cap-install-into-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Checks that the memory tool runs and reaches the project's short-term
+    memory and Garura memory and that every tool loads, and names whatever does not,
+    so no team starts work on a Garura that cannot run.
+  doc: software-delivery-planning/install-into-project/fn-check-install/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-lay-guardrails
+  slug: fn-lay-guardrails
+  capability: cap-install-into-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Lays the guardrails that keep an agent from doing a play's work without
+    the play, in every project, records them, and changes the team's own coding tool
+    settings only on the person's yes.
+  doc: software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-update-parts
+  slug: fn-update-parts
+  capability: cap-install-into-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: A new run with a new choice shows what it will add and take out, lays
+    what is newly chosen, and takes out from the record what is no longer chosen and
+    what Garura dropped, with nothing else in the project changed.
+  doc: software-delivery-planning/install-into-project/fn-update-parts/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-take-out
+  slug: fn-take-out
+  capability: cap-install-into-project
+  intents:
+  - bi-7
+  status: proposed
+  one_line: Shows the list of what goes and what stays, and on the person's yes removes
+    exactly what the record names, keeping the team's work, its product model and
+    its own files.
+  doc: software-delivery-planning/install-into-project/fn-take-out/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -3099,3 +3213,46 @@ ices:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true
+- id: ice-install-into-project
+  for: cap-install-into-project
+  for_kind: capability
+  doc: software-delivery-planning/install-into-project/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-install-in-one-step
+  for: fn-install-in-one-step
+  for_kind: feature
+  doc: software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-choose-parts
+  for: fn-choose-parts
+  for_kind: feature
+  doc: software-delivery-planning/install-into-project/fn-choose-parts/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-check-install
+  for: fn-check-install
+  for_kind: feature
+  doc: software-delivery-planning/install-into-project/fn-check-install/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-lay-guardrails
+  for: fn-lay-guardrails
+  for_kind: feature
+  doc: software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-update-parts
+  for: fn-update-parts
+  for_kind: feature
+  doc: software-delivery-planning/install-into-project/fn-update-parts/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-take-out
+  for: fn-take-out
+  for_kind: feature
+  doc: software-delivery-planning/install-into-project/fn-take-out/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
