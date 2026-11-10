@@ -40,5 +40,10 @@
 - [Walk the running build against its surface and its screen design, in the testing environment](../software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md) (feature) — adds
 - [Give the user experience verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md) (feature) — adds
 - [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds
+- [Check the code against its standards](../software-delivery-planning/check-code-against-standards/capability.md) (capability) — adds
+- [Review each change against the standards for what it holds](../software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md) (feature) — adds
+- [Check the whole built work against its standards and the profile's levels](../software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md) (feature) — adds
+- [Give the verdict on the code, and send each finding to the developer or to a person](../software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md) (feature) — adds
+- [Check the code again as the product and its standards change](../software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
