@@ -1,0 +1,776 @@
+{
+ "before_state": "git HEAD 93040c51: the model as committed",
+ "page_count": 20,
+ "pages": {
+  "software-delivery-planning/review-agent-work/capability.md": {
+   "equals_draft": true,
+   "bytes": 20960,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/ice.md": {
+   "equals_draft": true,
+   "bytes": 4201,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-open-review/feature.md": {
+   "equals_draft": true,
+   "bytes": 7777,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-open-review/ice.md": {
+   "equals_draft": true,
+   "bytes": 3014,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-read-outcome/feature.md": {
+   "equals_draft": true,
+   "bytes": 6788,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-read-outcome/ice.md": {
+   "equals_draft": true,
+   "bytes": 2562,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md": {
+   "equals_draft": true,
+   "bytes": 6519,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md": {
+   "equals_draft": true,
+   "bytes": 2553,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-review-adrs/feature.md": {
+   "equals_draft": true,
+   "bytes": 5355,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-review-adrs/ice.md": {
+   "equals_draft": true,
+   "bytes": 2429,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-review-memory/feature.md": {
+   "equals_draft": true,
+   "bytes": 6515,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-review-memory/ice.md": {
+   "equals_draft": true,
+   "bytes": 3182,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md": {
+   "equals_draft": true,
+   "bytes": 6543,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md": {
+   "equals_draft": true,
+   "bytes": 2769,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-send-back/feature.md": {
+   "equals_draft": true,
+   "bytes": 5263,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-send-back/ice.md": {
+   "equals_draft": true,
+   "bytes": 2521,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-apply-answers/feature.md": {
+   "equals_draft": true,
+   "bytes": 7660,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-apply-answers/ice.md": {
+   "equals_draft": true,
+   "bytes": 3401,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md": {
+   "equals_draft": true,
+   "bytes": 7190,
+   "thin_lines_on_page": 0,
+   "ice_section_on_page": false
+  },
+  "software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md": {
+   "equals_draft": true,
+   "bytes": 2738,
+   "thin_lines_on_page": 1,
+   "ice_section_on_page": false,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  }
+ },
+ "new_folder_files": [
+  "software-delivery-planning/review-agent-work/capability.md",
+  "software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+  "software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md",
+  "software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+  "software-delivery-planning/review-agent-work/fn-apply-answers/ice.md",
+  "software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+  "software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md",
+  "software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+  "software-delivery-planning/review-agent-work/fn-open-review/ice.md",
+  "software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+  "software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+  "software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+  "software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+  "software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+  "software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+  "software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+  "software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md",
+  "software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+  "software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+  "software-delivery-planning/review-agent-work/ice.md"
+ ],
+ "spine": {
+  "domains": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  },
+  "capabilities": {
+   "before": 35,
+   "after": 36,
+   "new": [
+    "cap-review-agent-work"
+   ],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  },
+  "features": {
+   "before": 140,
+   "after": 149,
+   "new": [
+    "fn-open-review",
+    "fn-read-outcome",
+    "fn-answer-pieces",
+    "fn-review-adrs",
+    "fn-review-memory",
+    "fn-check-agent-decisions",
+    "fn-send-back",
+    "fn-apply-answers",
+    "fn-run-tool-apart"
+   ],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  },
+  "slices": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  },
+  "ices": {
+   "before": 142,
+   "after": 152,
+   "new": [
+    "ice-review-agent-work",
+    "ice-open-review",
+    "ice-read-outcome",
+    "ice-answer-pieces",
+    "ice-review-adrs",
+    "ice-review-memory",
+    "ice-check-agent-decisions",
+    "ice-send-back",
+    "ice-apply-answers",
+    "ice-run-tool-apart"
+   ],
+   "removed": [],
+   "old_entries_changed": [],
+   "old_order_kept": true
+  }
+ },
+ "entries": {
+  "cap-review-agent-work": {
+   "id": "cap-review-agent-work",
+   "slug": "review-agent-work",
+   "domain": "dom-software-delivery-planning",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "detail": "directional",
+   "one_line": "Review what agents make (Argus): People review business intents, ADRs, memories, domains, capabilities, ICE and agent decisions in one tool.",
+   "doc": "software-delivery-planning/review-agent-work/capability.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-open-review": {
+   "id": "fn-open-review",
+   "slug": "fn-open-review",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "At a loop's end, Garura works out by meaning what the run changed, sends it to Argus as a review pack, opens the review for the person, and keeps each action as a file on the run's branch as it happens, so no agent reads the web page.",
+   "doc": "software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-read-outcome": {
+   "id": "fn-read-outcome",
+   "slug": "fn-read-outcome",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "One calm page shows the whole model's approval state first, then each changed intent with its ICE and each changed domain, capability, feature, limit and decision, in plain words with why it changed, never as files.",
+   "doc": "software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-answer-pieces": {
+   "id": "fn-answer-pieces",
+   "slug": "fn-answer-pieces",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "The person accepts, sends back with a comment or drops each changed piece, and may comment on, edit or remove words, in the page or on Catch up cards, where a swipe right accepts and any change is typed.",
+   "doc": "software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-review-adrs": {
+   "id": "fn-review-adrs",
+   "slug": "fn-review-adrs",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "The ADRs section lists the ADRs that wait and those accepted, and a person's accept is carried out as Manage ADRs says.",
+   "doc": "software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-review-memory": {
+   "id": "fn-review-memory",
+   "slug": "fn-review-memory",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "The Memory section shows Garura memory and a picked issue's short-term memory, and each waiting update gets its own approve or reject, in the person's words; Ask memory, a question box in plain words, is mocked only.",
+   "doc": "software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-check-agent-decisions": {
+   "id": "fn-check-agent-decisions",
+   "slug": "fn-check-agent-decisions",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "The Agent decisions section shows each decision with its trace, each step's source in its place and checked again, and the person marks it as looking right or sends it back so the agent decides again.",
+   "doc": "software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-send-back": {
+   "id": "fn-send-back",
+   "slug": "fn-send-back",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "The play that writes that kind of piece reworks that one piece on the run's branch, from the person's comment, and the new version comes back with a reply while the review goes on.",
+   "doc": "software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-apply-answers": {
+   "id": "fn-apply-answers",
+   "slug": "fn-apply-answers",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "The review step applies all the answers in one commit on the run's branch, writes approval from them, and hands the change to Ship every change the same way.",
+   "doc": "software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  },
+  "fn-run-tool-apart": {
+   "id": "fn-run-tool-apart",
+   "slug": "fn-run-tool-apart",
+   "capability": "cap-review-agent-work",
+   "intents": [
+    "bi-8"
+   ],
+   "status": "proposed",
+   "one_line": "Argus runs as a small server that a person starts once, holds no Garura code, and meets Garura only through the written contract, at the one address Garura's settings name, so it can move later.",
+   "doc": "software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+   "depends_on": [],
+   "identified_by": "",
+   "decisions": [],
+   "metadata": {
+    "created_by": "product-os-keeper (reorganise business intents, #1021)",
+    "deepen": true
+   }
+  }
+ },
+ "ice_entries": {
+  "ice-review-agent-work": {
+   "for": "cap-review-agent-work",
+   "for_kind": "capability",
+   "doc": "software-delivery-planning/review-agent-work/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-open-review": {
+   "for": "fn-open-review",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-open-review/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-read-outcome": {
+   "for": "fn-read-outcome",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-answer-pieces": {
+   "for": "fn-answer-pieces",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-review-adrs": {
+   "for": "fn-review-adrs",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-review-memory": {
+   "for": "fn-review-memory",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-check-agent-decisions": {
+   "for": "fn-check-agent-decisions",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-send-back": {
+   "for": "fn-send-back",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-apply-answers": {
+   "for": "fn-apply-answers",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-apply-answers/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  },
+  "ice-run-tool-apart": {
+   "for": "fn-run-tool-apart",
+   "for_kind": "feature",
+   "doc": "software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md",
+   "thin": true,
+   "doc_leads_to_file": true
+  }
+ },
+ "spine_text": {
+  "lines_removed_or_replaced": [],
+  "lines_added": 230,
+  "comment_lines_before": 0,
+  "comment_lines_after": 0
+ },
+ "bi_8": {
+  "lines_before": 30,
+  "lines_after": 40,
+  "added": [
+   "- [Review what agents make (Argus)](../software-delivery-planning/review-agent-work/capability.md) (capability) — adds",
+   "- [Open a review on what a run changed, and keep every answer on the run's branch](../software-delivery-planning/review-agent-work/fn-open-review/feature.md) (feature) — adds",
+   "- [Read what a run made, as business intents with their ICE and as the product](../software-delivery-planning/review-agent-work/fn-read-outcome/feature.md) (feature) — adds",
+   "- [Answer each piece, in the page or one card at a time](../software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md) (feature) — adds",
+   "- [Accept or send back each ADR that waits for a person](../software-delivery-planning/review-agent-work/fn-review-adrs/feature.md) (feature) — adds",
+   "- [See what memory holds, and approve or reject each memory update that waits for a person](../software-delivery-planning/review-agent-work/fn-review-memory/feature.md) (feature) — adds",
+   "- [Check each agent decision against the memory it rested on](../software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md) (feature) — adds",
+   "- [Send a piece back and get it reworked](../software-delivery-planning/review-agent-work/fn-send-back/feature.md) (feature) — adds",
+   "- [Finish the review and have every answer applied in one commit](../software-delivery-planning/review-agent-work/fn-apply-answers/feature.md) (feature) — adds",
+   "- [Run Argus apart from Garura, and point Garura at it](../software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md) (feature) — adds"
+  ],
+  "touches_lines": 19,
+  "index_entries_naming_bi_8": [
+   "cap-ship-every-change",
+   "cap-review-agent-work",
+   "fn-731",
+   "fn-673",
+   "fn-commit-by-concern",
+   "fn-raise-change",
+   "fn-land-plan-with-evidence",
+   "fn-land-several-issues",
+   "fn-scan-every-push",
+   "fn-keep-docs-in-step",
+   "fn-open-review",
+   "fn-read-outcome",
+   "fn-answer-pieces",
+   "fn-review-adrs",
+   "fn-review-memory",
+   "fn-check-agent-decisions",
+   "fn-send-back",
+   "fn-apply-answers",
+   "fn-run-tool-apart"
+  ]
+ },
+ "git_status_product": [
+  " M .garura/product/product-os/_spine.yaml",
+  " M .garura/product/product-os/intents/bi-8.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/capability.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-open-review/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/review-agent-work/ice.md"
+ ],
+ "structure_check": {
+  "before": {
+   "errors": 75,
+   "warnings": 181
+  },
+  "after": {
+   "errors": 75,
+   "warnings": 191
+  },
+  "new_errors": [],
+  "errors_gone": [],
+  "new_warnings": [
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "warnings_gone": []
+ },
+ "write_folder_files_naming_local_paths": [],
+ "failed_checks": [],
+ "checks_run": 168,
+ "checks_passed": 168,
+ "all_checks_pass": true,
+ "checks": {
+  "page software-delivery-planning/review-agent-work/capability.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/capability.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/capability.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-open-review/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-open-review/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-open-review/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-open-review/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-open-review/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-open-review/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-read-outcome/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-read-outcome/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-read-outcome/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-read-outcome/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-read-outcome/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-read-outcome/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-review-adrs/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-review-adrs/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-review-adrs/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-review-adrs/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-review-adrs/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-review-adrs/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-review-memory/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-review-memory/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-review-memory/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-review-memory/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-review-memory/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-review-memory/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-send-back/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-send-back/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-send-back/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-send-back/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-send-back/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-send-back/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-apply-answers/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-apply-answers/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-apply-answers/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-apply-answers/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-apply-answers/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-apply-answers/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "page software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md holds no ICE section": true,
+  "page software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md carries no Thin line": true,
+  "page software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md equals draft byte for byte": true,
+  "page software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md holds no ICE section": true,
+  "software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+  "new folder holds only the 20 pages": true,
+  "spine domains: new entries are exactly the ones asked, in order": true,
+  "spine domains: nothing removed": true,
+  "spine domains: no old entry changed": true,
+  "spine domains: order of the old entries kept": true,
+  "spine capabilities: new entries are exactly the ones asked, in order": true,
+  "spine capabilities: nothing removed": true,
+  "spine capabilities: no old entry changed": true,
+  "spine capabilities: order of the old entries kept": true,
+  "spine features: new entries are exactly the ones asked, in order": true,
+  "spine features: nothing removed": true,
+  "spine features: no old entry changed": true,
+  "spine features: order of the old entries kept": true,
+  "spine slices: new entries are exactly the ones asked, in order": true,
+  "spine slices: nothing removed": true,
+  "spine slices: no old entry changed": true,
+  "spine slices: order of the old entries kept": true,
+  "spine ices: new entries are exactly the ones asked, in order": true,
+  "spine ices: nothing removed": true,
+  "spine ices: no old entry changed": true,
+  "spine ices: order of the old entries kept": true,
+  "every new id was unused before the write": true,
+  "spine: other top keys unchanged": true,
+  "spine: top key order kept": true,
+  "feature list order on the capability page = the nine features in order": true,
+  "capability entry as asked": true,
+  "capability one_line = the line under its Directional intent, word for word": true,
+  "feature fn-open-review as asked": true,
+  "fn-open-review one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-read-outcome as asked": true,
+  "fn-read-outcome one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-answer-pieces as asked": true,
+  "fn-answer-pieces one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-review-adrs as asked": true,
+  "fn-review-adrs one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-review-memory as asked": true,
+  "fn-review-memory one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-check-agent-decisions as asked": true,
+  "fn-check-agent-decisions one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-send-back as asked": true,
+  "fn-send-back one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-apply-answers as asked": true,
+  "fn-apply-answers one_line = its feature-list text, first letter capitalised": true,
+  "feature fn-run-tool-apart as asked": true,
+  "fn-run-tool-apart one_line = its feature-list text, first letter capitalised": true,
+  "ICE ice-review-agent-work as asked, thin": true,
+  "ICE ice-review-agent-work: the only ICE for cap-review-agent-work": true,
+  "ICE ice-review-agent-work: thin mark on entry and page agree": true,
+  "ICE ice-open-review as asked, thin": true,
+  "ICE ice-open-review: the only ICE for fn-open-review": true,
+  "ICE ice-open-review: thin mark on entry and page agree": true,
+  "ICE ice-read-outcome as asked, thin": true,
+  "ICE ice-read-outcome: the only ICE for fn-read-outcome": true,
+  "ICE ice-read-outcome: thin mark on entry and page agree": true,
+  "ICE ice-answer-pieces as asked, thin": true,
+  "ICE ice-answer-pieces: the only ICE for fn-answer-pieces": true,
+  "ICE ice-answer-pieces: thin mark on entry and page agree": true,
+  "ICE ice-review-adrs as asked, thin": true,
+  "ICE ice-review-adrs: the only ICE for fn-review-adrs": true,
+  "ICE ice-review-adrs: thin mark on entry and page agree": true,
+  "ICE ice-review-memory as asked, thin": true,
+  "ICE ice-review-memory: the only ICE for fn-review-memory": true,
+  "ICE ice-review-memory: thin mark on entry and page agree": true,
+  "ICE ice-check-agent-decisions as asked, thin": true,
+  "ICE ice-check-agent-decisions: the only ICE for fn-check-agent-decisions": true,
+  "ICE ice-check-agent-decisions: thin mark on entry and page agree": true,
+  "ICE ice-send-back as asked, thin": true,
+  "ICE ice-send-back: the only ICE for fn-send-back": true,
+  "ICE ice-send-back: thin mark on entry and page agree": true,
+  "ICE ice-apply-answers as asked, thin": true,
+  "ICE ice-apply-answers: the only ICE for fn-apply-answers": true,
+  "ICE ice-apply-answers: thin mark on entry and page agree": true,
+  "ICE ice-run-tool-apart as asked, thin": true,
+  "ICE ice-run-tool-apart: the only ICE for fn-run-tool-apart": true,
+  "ICE ice-run-tool-apart: thin mark on entry and page agree": true,
+  "no part of this write is thin itself": true,
+  "spine only gained lines": true,
+  "spine comments kept": true,
+  "BI-8's page gained only the ten lines, in one place, right after the docs line": true,
+  "BI-8's page: every other line byte for byte": true,
+  "Touches line form: - [Ship every change the same way](../software-delivery-plan": true,
+  "Touches line form: - [Open each change where it will land](../features/fn-731/f": true,
+  "Touches line form: - [Commit each change by concern, with its issue named and n": true,
+  "Touches line form: - [Raise each change for review against where it lands](../s": true,
+  "Touches line form: - [Merge each change where it lands, on the review's approva": true,
+  "Touches line form: - [Land a plan's branch on main with evidence that every com": true,
+  "Touches line form: - [Land several ready issues in one change](../software-deli": true,
+  "Touches line form: - [Scan every push for client, company and personal referenc": true,
+  "Touches line form: - [Keep the docs and command pages in step with each change]": true,
+  "Touches line form: - [Review what agents make (Argus)](../software-delivery-pla": true,
+  "Touches line form: - [Open a review on what a run changed, and keep every answe": true,
+  "Touches line form: - [Read what a run made, as business intents with their ICE ": true,
+  "Touches line form: - [Answer each piece, in the page or one card at a time](../": true,
+  "Touches line form: - [Accept or send back each ADR that waits for a person](../": true,
+  "Touches line form: - [See what memory holds, and approve or reject each memory ": true,
+  "Touches line form: - [Check each agent decision against the memory it rested on": true,
+  "Touches line form: - [Send a piece back and get it reworked](../software-delive": true,
+  "Touches line form: - [Finish the review and have every answer applied in one co": true,
+  "Touches line form: - [Run Argus apart from Garura, and point Garura at it](../s": true,
+  "BI-8's Touches: 19 lines": true,
+  "BI-8's Touches: each link leads to a file": true,
+  "BI-8's Touches: each title is its page's title": true,
+  "BI-8's Touches: marks (fn-731 and fn-673 changes, all else adds)": true,
+  "the 19 index entries that name bi-8 match the 19 Touches lines one for one": true,
+  "under .garura/product/ only the spine, bi-8.md and the new folder changed": true,
+  "structure check: no new error": true,
+  "structure check: each new warning is on one of the ten new part pages": true,
+  "no file in the write folder names a home folder, a temp or working folder, or a user name": true
+ }
+}

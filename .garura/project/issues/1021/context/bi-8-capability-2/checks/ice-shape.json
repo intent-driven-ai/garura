@@ -1,0 +1,215 @@
+{
+  "checked_on": "2026-11-10",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    }
+  ]
+}

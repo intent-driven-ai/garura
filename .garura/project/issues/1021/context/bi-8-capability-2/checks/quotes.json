@@ -1,0 +1,3032 @@
+{
+  "checked_on": "2026-11-10",
+  "how": "each quote in Sources is looked for in its own file, issue (gh issue view: title and body) or memory copy; each quote in the page text in any source its page lists (for an ICE page, its part's page); whitespace, blockquote marks and bold marks are ignored",
+  "total": 365,
+  "not_found": 0,
+  "problems": [],
+  "example_words": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 19",
+      "quote": "the proof must count missed visits as well",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 12",
+      "quote": "name what happens when that region is down",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+      "where": "text line 19",
+      "quote": "name what happens when that region is down",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 12",
+      "quote": "yes, thirty days, as our policy says",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 13",
+      "quote": "ask our security lead first",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+      "where": "text line 19",
+      "quote": "yes, thirty days, as our policy says",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+      "where": "text line 19",
+      "quote": "ask our security lead first",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 11",
+      "quote": "guest checkout must not need an account",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 12",
+      "quote": "count missed visits too",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 13",
+      "quote": "could not, because the region rule is set by the bank's own standard",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+      "where": "text line 19",
+      "quote": "guest checkout must not need an account",
+      "status": "example words",
+      "in": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/ice.md",
+      "where": "text line 19",
+      "quote": "guest checkout must not need an account",
+      "status": "example words",
+      "in": []
+    }
+  ],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md",
+      "quote": "Review what agents make (Argus): People review ADRs, memories, domains, capabilities and ICE in one tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md",
+      "quote": "yes, record it with self-review dropped",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "its line is widened to name business intents and agent decisions, which the design shows.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Ship every change the same way",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Manage ADRs",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Run plays as loops",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-8.md",
+      "quote": "Agents now make more in one run than a pull request can show.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-8.md",
+      "quote": "Make people read raw files to know what was made.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-8.md",
+      "quote": "ship with Garura",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-11.md",
+      "quote": "let an agent confirm an intent",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "The way I want you to build the tool is that it is easily extractable and movable out of Garura.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every time a change is made, it should have a direct connection back to Garura for listening.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "We don't want it to be a massive PR and add complex cognition load on the user.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Any changes have to be entered.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "One server, one link, one review.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every event has a number and is kept in a log.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Nothing is approved in bulk, and an agent never answers one",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "because the person must check it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Claude still never reads the web page: the answers are files on the branch",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Moving memory up is not done here",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Not in version 1.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "made-up shop data",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "That is what we need to review. That's what the outcome is.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "Reviewing the play itself does nothing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The play that writes that kind of piece re-runs for that one piece, on the same branch.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The pull request is not where the person reviews.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The plan is not reviewed here.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The merge stays pinned to the person.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "Run by hand, a play's review is unchanged.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "agents can only work on things which are approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "Plays write the model. The review tool writes nothing to the model.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+      "quote": "Only a person accepts an ADR. Only where the person does it moves.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "Intents | Product | ADRs | Memory | Agent decisions.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "docs/adr/045-a-drive-is-now-called-a-loop.md",
+      "quote": "A Drive Is Now Called a Loop",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #680",
+      "quote": "It is a Phoenix tool, built separately from Garura",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #680",
+      "quote": "it imports no Garura code, so it can move into Griffin later",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #680",
+      "quote": "After a drive, a person reviews everything it made in Argus — not in a pull request — and every answer is recorded.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #680",
+      "quote": "A person can go through a big review one card at a time on a laptop or a phone.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #680",
+      "quote": "Argus runs on its own, without Garura's code.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #681",
+      "quote": "Argus, the review tool: a person reads a drive's outcome and answers each piece",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #664",
+      "quote": "Memory and ADRs",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #664",
+      "quote": "Garura or Phoenix memory for a promotion",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "GitHub #964",
+      "quote": "Each piece of the product model carries its approval state, and agents build only from approved pieces",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "Only a person decides, one update at a time.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "the person types the decision in a Claude Code session that records their exact reply",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-8-capability-2/memory/standards/rules/gate-config.md",
+      "quote": "for the typed response",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/check-change/SKILL.md",
+      "quote": "the comment ALWAYS names its decider",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "core/components/skills/enrich-grounding/scripts/write_approved.py",
+      "quote": "text a person approved, word for word",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/create-play/references/write_loop_review.py",
+      "quote": "decided: false",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+      "quote": "ends at the pull request",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+      "quote": "applied_to_model: false",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+      "quote": "We are never touching production.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "source": "The short line beside each feature: the opening words of that feature's own page.",
+      "status": "a note, no quote"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-8-capability-2/memory/knowledge/domains/experience.md",
+      "quote": "HITL queues & approvals",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "a swipe right would mean approve. A swipe left would mean leave it as is, as unread. Any changes have to be entered.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Garura cannot tell them apart and nothing changes on its side.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every action is saved the moment it happens.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "a gap in both prototypes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Not in version 1.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "All caught up",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "Finish review",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "Go through them now",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": "GitHub #644",
+      "quote": "A person can answer a review in the page or one card at a time: comment, edit, remove, accept, send back, drop",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": "GitHub #644",
+      "quote": "Finish review",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": "GitHub #644",
+      "quote": "Comments are pinned by their words, and are open, answered or resolved; resolving never deletes.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": "GitHub #681",
+      "quote": "any change is entered (comment, edit, send back with a reason, drop), never swiped.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": "GitHub #649",
+      "quote": "with the comment as its answer",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "send it back",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-8.md",
+      "quote": "Their answers become part of the work.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "GitHub #650",
+      "quote": "The drive's last step applies the review's answers in one commit and writes approval",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "GitHub #650",
+      "quote": "(fingerprint, who, when, which review)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "GitHub #650",
+      "quote": "a dropped business intent sends the ICE built from it back to changed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "GitHub #650",
+      "quote": "Approval written outside the review step",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The review step applies them as one commit",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The merge stays pinned to the person.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "A failed drive gets the same review, plus where it stopped and why.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "the pull request is closed, the branch is deleted, and nothing merges",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "the highest level the accepted needs still ask for",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "learned-checkpoint answers are appended",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "The review step writes approved or in progress, from the person's answers.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "The review tool writes nothing to the model.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+      "quote": "Only a person accepts an ADR. Only where the person does it moves.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "Only a person decides, one update at a time.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "for example, an intent with no proof",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "stays open",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+      "quote": "ends at the pull request",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "Sources",
+      "source": "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+      "quote": "applied_to_model: false   # Argus's review step writes the approval (#650)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "the source should show a few lines before and after",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "The check names the step whose source changed or is gone.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "A decision with no trace is flagged.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "How do shoppers sign in?",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "Nothing from the model or the web is used without a memory update a person approved",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "because the person must check it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "they are for the check, not for the person's judgement",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Grouped by play, problems first.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "would put the memory tool's words and contract inside the review tool, across the extraction line",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "The decision stands as it is.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "The agent decides again, from memory as it is now.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "Records a decision and its trace in the issue's short-term memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "reads every step's source again",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/create-play/references/write_loop_review.py",
+      "quote": "the record then carries every decision the play made, each with its trace",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": "GitHub #664",
+      "quote": "A person sees, for a decision, the tier, file and lines it rested on.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "its line is widened to name business intents and agent decisions",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-8.md",
+      "quote": "Their answers become part of the work.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-8.md",
+      "quote": "Make people read raw files to know what was made.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every time a change is made, it should have a direct connection back to Garura for listening.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "The pack is outcome-shaped, not file-shaped.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "The tool never sees a file path as something to open.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Garura keeps a test that checks the packs it builds against that schema, so a break shows up on the Garura side first.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Claude still never reads the web page: the answers are files on the branch",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every event has a number and is kept in a log.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Claude only checks `/v1/health` and never starts it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "the plays are never shown.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": "GitHub #648",
+      "quote": "Garura opens a review on what a drive changed and records every answer on the drive's branch",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": "GitHub #648",
+      "quote": "it never starts the server itself",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": "GitHub #648",
+      "quote": "An action in the tool lands as a file on the branch.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/create-play/references/write_loop_review.py",
+      "quote": "so the loop's end review can read every play's record in one place",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/create-play/references/write_loop_review.py",
+      "quote": "decided: false",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-8-capability-2/memory/standards/rules/loop-contract.md",
+      "quote": "The loop's end review reads the record.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+      "quote": "ends at the pull request",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+      "quote": "Until Argus exists, a drive ends at the pull request",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "the full model, the full set of intents, the final version, the changes to the version. The user can swap between the two.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "We don't want it to be a massive PR and add complex cognition load on the user.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Kickoff changed 3 intents and 14 parts of the product.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "so nothing is answered twice",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "because that is the review",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "No file paths, no field names, no YAML.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "made-up shop data",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "Needs you",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "Waiting for you",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "GitHub #643",
+      "quote": "A person can read a review: the whole model's approval state, each intent with its ICE, and the product",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "GitHub #643",
+      "quote": "Section headings come from the page templates and cannot be edited.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "in the business intents",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "in the product model",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The plan is not reviewed here.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "Only changed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "everything not approved",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+      "quote": "after Kickoff runs 1–5 on the Argus mockup",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "the decisions a person records",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "the ones waiting to be accepted",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Accept, or send back with a comment.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "The ADR is accepted, and older ones get a pointer.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "reworks it from your comment",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+      "quote": "Only a person accepts an ADR. Only where the person does it moves.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "the ADRs a person records with `/adr`, waiting for a person",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "at the loop's final review with `/record-decision accept <file>`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "You never accept an ADR yourself",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": "GitHub #664",
+      "quote": "A person accepts a proposed ADR on a card.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": "GitHub #664",
+      "quote": "Memory and ADRs",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "the answer comes with the memory it came from",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "no need to build this whole this now",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "the same tool under both, just that the interface for tool should be nlp",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "STM - always STM",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Nothing is approved in bulk, and an agent never answers one",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Moving memory up is not done here",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "Garura writes it to the issue's short-term memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "Nothing is written. Work that waits on it stays stopped.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "`review-tool`, or `session`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "Only a person decides, one update at a time.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": "core/tools/memory/README.md",
+      "quote": "the person types the decision in a Claude Code session that records their exact reply",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "quote": "It is mocked only for now.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": "GitHub #664",
+      "quote": "Garura or Phoenix memory for a promotion",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "people control what enters them",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": "GitHub #641",
+      "quote": "The review tool has a written contract for what Garura sends it and what comes back",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": "GitHub #641",
+      "quote": "No file path appears in a pack: pieces are by meaning, not by file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": "GitHub #641",
+      "quote": "The tool lives in `core/tools/outcome-review/`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": "GitHub #642",
+      "quote": "The review tool runs as a server that keeps every review action as a numbered event",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": "GitHub #642",
+      "quote": "Storage sits behind one small store interface; today it is files on disk.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": "GitHub #680",
+      "quote": "built separately from Garura and tracked in the Phoenix project under Garura tools",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": "GitHub #680",
+      "quote": "imports no Garura code, so it can move into Griffin later",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "The way I want you to build the tool is that it is easily extractable and movable out of Garura.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "The line between the tool and Garura is the contract",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Garura words are data, not code.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "A product other than Garura could send its own kinds.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Moving the tool to Griffin means moving one folder and changing one address in Garura's config.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Every event has a number and is kept in a log.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Claude only checks `/v1/health` and never starts it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "On a laptop it listens only on 127.0.0.1 with a token.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "It works offline on a laptop",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "the review tool needs to be built separately",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/user-provided/managing-work.md",
+      "quote": "Tools built beside Garura",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/user-provided/managing-work.md",
+      "quote": "are Phoenix tools",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-8.md",
+      "quote": "ship with Garura",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md",
+      "quote": "in one tool",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "GitHub #649",
+      "quote": "A sent-back piece comes back reworked, with Garura's reply on the comment",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "GitHub #649",
+      "quote": "with the comment as its answer",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "GitHub #649",
+      "quote": "Re-running the whole drive (never: ADR 032)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "GitHub #649",
+      "quote": "Comments stay pinned across revisions; a comment whose words were removed stays on the piece, marked so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "The play that writes that kind of piece re-runs for that one piece, on the same branch.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/032-drive-review-of-outcomes.md",
+      "quote": "Each play that writes a reviewed kind must be able to do that on the drive's branch.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "In progress",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "a person sent it back, and it is being reworked",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/033-approval-in-the-product-model.md",
+      "quote": "Plays write the model.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "changed as asked",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "could not, because …",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool.md",
+      "quote": "Claude may start fixing that piece at once, while the person keeps reviewing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/617/specs/review-tool-mockup.html",
+      "quote": "The agent decides again, from memory as it is now.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 5",
+      "quote": "yes, record it with self-review dropped",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md",
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 5",
+      "quote": "Review what agents make (Argus): People review ADRs, memories, domains, capabilities and ICE in one tool.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md",
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 5",
+      "quote": "which the design shows",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 6",
+      "quote": "A Drive Is Now Called a Loop",
+      "status": "found",
+      "in": [
+        "docs/adr/045-a-drive-is-now-called-a-loop.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 31",
+      "quote": "That is what we need to review. That's what the outcome is.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 31",
+      "quote": "Reviewing the play itself does nothing.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 31",
+      "quote": "The pull request is not where the person reviews.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 33",
+      "quote": "let an agent confirm an intent",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-11.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 34",
+      "quote": "Only a person decides, one update at a time.",
+      "status": "found",
+      "in": [
+        "core/tools/memory/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 35",
+      "quote": "Only a person accepts an ADR. Only where the person does it moves.",
+      "status": "found",
+      "in": [
+        "docs/adr/036-approved-answer-lands-in-short-term-memory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 36",
+      "quote": "The review tool writes nothing to the model.",
+      "status": "found",
+      "in": [
+        "docs/adr/033-approval-in-the-product-model.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 39",
+      "quote": "the person types the decision in a Claude Code session that records their exact reply",
+      "status": "found",
+      "in": [
+        "core/tools/memory/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 40",
+      "quote": "for the typed response",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/bi-8-capability-2/memory/standards/rules/gate-config.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 41",
+      "quote": "the comment ALWAYS names its decider",
+      "status": "found",
+      "in": [
+        "core/components/plays/check-change/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 42",
+      "quote": "text a person approved, word for word",
+      "status": "found",
+      "in": [
+        "core/components/skills/enrich-grounding/scripts/write_approved.py",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 43",
+      "quote": "ends at the pull request",
+      "status": "found",
+      "in": [
+        "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 44",
+      "quote": "Agents now make more in one run than a pull request can show.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-8.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 44",
+      "quote": "agents can only work on things which are approved.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/033-approval-in-the-product-model.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 58",
+      "quote": "made-up shop data",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 61",
+      "quote": "decided: false",
+      "status": "found",
+      "in": [
+        "core/components/plays/create-play/references/write_loop_review.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 63",
+      "quote": "ends at the pull request",
+      "status": "found",
+      "in": [
+        "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 63",
+      "quote": "applied_to_model: false",
+      "status": "found",
+      "in": [
+        "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 65",
+      "quote": "Memory and ADRs",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/032-drive-review-of-outcomes.md",
+        "docs/adr/036-approved-answer-lands-in-short-term-memory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 65",
+      "quote": "Garura or Phoenix memory for a promotion",
+      "status": "found",
+      "in": [
+        "GitHub #664",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 65",
+      "quote": "Moving memory up is not done here",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 76",
+      "quote": "After a drive, a person reviews everything it made in Argus — not in a pull request — and every answer is recorded.",
+      "status": "found",
+      "in": [
+        "GitHub #680"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 76",
+      "quote": "A person can go through a big review one card at a time on a laptop or a phone.",
+      "status": "found",
+      "in": [
+        "GitHub #680"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 76",
+      "quote": "Argus runs on its own, without Garura's code.",
+      "status": "found",
+      "in": [
+        "GitHub #680"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 94",
+      "quote": "Plays write the model. The review tool writes nothing to the model.",
+      "status": "found",
+      "in": [
+        "docs/adr/033-approval-in-the-product-model.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 95",
+      "quote": "let an agent confirm an intent",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-11.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 95",
+      "quote": "Nothing is approved in bulk, and an agent never answers one",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 96",
+      "quote": "Any changes have to be entered.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 97",
+      "quote": "because the person must check it",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 97",
+      "quote": "Make people read raw files to know what was made.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-8.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 98",
+      "quote": "it imports no Garura code, so it can move into Griffin later",
+      "status": "found",
+      "in": [
+        "GitHub #680",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 99",
+      "quote": "Claude still never reads the web page: the answers are files on the branch",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 100",
+      "quote": "Moving memory up is not done here",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 101",
+      "quote": "We are never touching production.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 104",
+      "quote": "Reviewing the play itself does nothing.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 104",
+      "quote": "The plan is not reviewed here.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 105",
+      "quote": "Intents | Product | ADRs | Memory | Agent decisions.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 105",
+      "quote": "One server, one link, one review.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 106",
+      "quote": "We don't want it to be a massive PR and add complex cognition load on the user.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 107",
+      "quote": "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/033-approval-in-the-product-model.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 108",
+      "quote": "Every time a change is made, it should have a direct connection back to Garura for listening.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 108",
+      "quote": "Every event has a number and is kept in a log.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 109",
+      "quote": "The play that writes that kind of piece re-runs for that one piece, on the same branch.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 110",
+      "quote": "The merge stays pinned to the person.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 111",
+      "quote": "The way I want you to build the tool is that it is easily extractable and movable out of Garura.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 112",
+      "quote": "Not in version 1.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 113",
+      "quote": "Run by hand, a play's review is unchanged.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "where": "text line 114",
+      "quote": "ship with Garura",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-8.md",
+        ".garura/project/issues/1021/context/bi-8-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 12",
+      "quote": "All caught up",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "GitHub #644"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 33",
+      "quote": "a swipe right would mean approve. A swipe left would mean leave it as is, as unread. Any changes have to be entered.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 34",
+      "quote": "with the comment as its answer",
+      "status": "found",
+      "in": [
+        "GitHub #649"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 35",
+      "quote": "Garura cannot tell them apart and nothing changes on its side.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 36",
+      "quote": "a gap in both prototypes",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 37",
+      "quote": "Every action is saved the moment it happens.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "where": "text line 38",
+      "quote": "Not in version 1.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 9",
+      "quote": "for example, an intent with no proof",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 13",
+      "quote": "the pull request is closed, the branch is deleted, and nothing merges",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 14",
+      "quote": "the highest level the accepted needs still ask for",
+      "status": "found",
+      "in": [
+        "GitHub #650",
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 19",
+      "quote": "Their answers become part of the work.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-8.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 21",
+      "quote": "ends at the pull request",
+      "status": "found",
+      "in": [
+        "core/components/loops/complete-discovery/scripts/record_confirmation.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 21",
+      "quote": "applied_to_model: false   # Argus's review step writes the approval (#650)",
+      "status": "found",
+      "in": [
+        "core/components/loops/complete-discovery/scripts/record_confirmation.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 31",
+      "quote": "The review step applies them as one commit",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 32",
+      "quote": "The review step writes approved or in progress, from the person's answers.",
+      "status": "found",
+      "in": [
+        "docs/adr/033-approval-in-the-product-model.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 32",
+      "quote": "The review tool writes nothing to the model.",
+      "status": "found",
+      "in": [
+        "docs/adr/033-approval-in-the-product-model.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 33",
+      "quote": "Only a person accepts an ADR. Only where the person does it moves.",
+      "status": "found",
+      "in": [
+        "docs/adr/036-approved-answer-lands-in-short-term-memory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 33",
+      "quote": "Only a person decides, one update at a time.",
+      "status": "found",
+      "in": [
+        "core/tools/memory/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 34",
+      "quote": "The merge stays pinned to the person.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 35",
+      "quote": "stays open",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "where": "text line 36",
+      "quote": "A failed drive gets the same review, plus where it stopped and why.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 8",
+      "quote": "because the person must check it",
+      "status": "found",
+      "in": [
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 8",
+      "quote": "they are for the check, not for the person's judgement",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 11",
+      "quote": "The decision stands as it is.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 12",
+      "quote": "The agent decides again, from memory as it is now.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 17",
+      "quote": "agent decisions",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 29",
+      "quote": "the source should show a few lines before and after",
+      "status": "found",
+      "in": [
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 30",
+      "quote": "The check names the step whose source changed or is gone.",
+      "status": "found",
+      "in": [
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 30",
+      "quote": "Grouped by play, problems first.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 31",
+      "quote": "would put the memory tool's words and contract inside the review tool, across the extraction line",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "where": "text line 32",
+      "quote": "Nothing from the model or the web is used without a memory update a person approved",
+      "status": "found",
+      "in": [
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 7",
+      "quote": "The pack is outcome-shaped, not file-shaped.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 14",
+      "quote": "Their answers become part of the work.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-8.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 17",
+      "quote": "so the loop's end review can read every play's record in one place",
+      "status": "found",
+      "in": [
+        "core/components/plays/create-play/references/write_loop_review.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 17",
+      "quote": "decided: false",
+      "status": "found",
+      "in": [
+        "core/components/plays/create-play/references/write_loop_review.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 18",
+      "quote": "ends at the pull request",
+      "status": "found",
+      "in": [
+        "core/components/loops/complete-discovery/scripts/record_confirmation.py",
+        "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 30",
+      "quote": "The tool never sees a file path as something to open.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 30",
+      "quote": "Make people read raw files to know what was made.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-8.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 31",
+      "quote": "Garura keeps a test that checks the packs it builds against that schema, so a break shows up on the Garura side first.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 32",
+      "quote": "Every time a change is made, it should have a direct connection back to Garura for listening.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 32",
+      "quote": "Claude still never reads the web page: the answers are files on the branch",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 33",
+      "quote": "Every event has a number and is kept in a log.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 34",
+      "quote": "Claude only checks `/v1/health` and never starts it.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "where": "text line 35",
+      "quote": "the plays are never shown.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 5",
+      "quote": "Kickoff changed 3 intents and 14 parts of the product.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 5",
+      "quote": "Needs you",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "GitHub #643"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 6",
+      "quote": "so nothing is answered twice",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 8",
+      "quote": "Only changed",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "GitHub #643"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 8",
+      "quote": "because that is the review",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 17",
+      "quote": "made-up shop data",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 22",
+      "quote": "Needs you",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "GitHub #643"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 26",
+      "quote": "in the business intents",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 26",
+      "quote": "in the product model",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 26",
+      "quote": "The plan is not reviewed here.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 27",
+      "quote": "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/033-approval-in-the-product-model.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 28",
+      "quote": "the full model, the full set of intents, the final version, the changes to the version. The user can swap between the two.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 29",
+      "quote": "No file paths, no field names, no YAML.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 30",
+      "quote": "so nothing is answered twice",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 31",
+      "quote": "We don't want it to be a massive PR and add complex cognition load on the user.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "where": "text line 32",
+      "quote": "Section headings come from the page templates and cannot be edited.",
+      "status": "found",
+      "in": [
+        "GitHub #643"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+      "where": "text line 19",
+      "quote": "Needs you",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "GitHub #643"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 6",
+      "quote": "the decisions a person records",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 6",
+      "quote": "the ones waiting to be accepted",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 8",
+      "quote": "The ADR is accepted, and older ones get a pointer.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 9",
+      "quote": "reworks it from your comment",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 14",
+      "quote": "ADRs",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "docs/adr/036-approved-answer-lands-in-short-term-memory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 16",
+      "quote": "at the loop's final review with `/record-decision accept <file>`",
+      "status": "found",
+      "in": [
+        "core/components/plays/record-decision/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 16",
+      "quote": "Memory and ADRs",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 25",
+      "quote": "Only a person accepts an ADR. Only where the person does it moves.",
+      "status": "found",
+      "in": [
+        "docs/adr/036-approved-answer-lands-in-short-term-memory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 26",
+      "quote": "Accept, or send back with a comment.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "where": "text line 27",
+      "quote": "You never accept an ADR yourself",
+      "status": "found",
+      "in": [
+        "core/components/plays/record-decision/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 8",
+      "quote": "Garura writes it to the issue's short-term memory.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 9",
+      "quote": "Nothing is written. Work that waits on it stays stopped.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool-mockup.html"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 10",
+      "quote": "the answer comes with the memory it came from",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 10",
+      "quote": "no need to build this whole this now",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 15",
+      "quote": "memories",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 15",
+      "quote": "people control what enters them",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 17",
+      "quote": "`review-tool`, or `session`",
+      "status": "found",
+      "in": [
+        "core/tools/memory/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 17",
+      "quote": "the person types the decision in a Claude Code session that records their exact reply",
+      "status": "found",
+      "in": [
+        "core/tools/memory/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 17",
+      "quote": "Garura or Phoenix memory for a promotion",
+      "status": "found",
+      "in": [
+        "GitHub #664"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 17",
+      "quote": "Moving memory up is not done here",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 28",
+      "quote": "Only a person decides, one update at a time.",
+      "status": "found",
+      "in": [
+        "core/tools/memory/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 28",
+      "quote": "Nothing is approved in bulk, and an agent never answers one",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 29",
+      "quote": "people control what enters them",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 30",
+      "quote": "STM - always STM",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        ".garura/project/issues/617/specs/review-tool-mockup.html",
+        "core/tools/memory/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 31",
+      "quote": "Moving memory up is not done here",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "where": "text line 32",
+      "quote": "the same tool under both, just that the interface for tool should be nlp",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md",
+        "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 9",
+      "quote": "A product other than Garura could send its own kinds.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 19",
+      "quote": "one tool",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 21",
+      "quote": "the review tool needs to be built separately",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 31",
+      "quote": "The line between the tool and Garura is the contract",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 32",
+      "quote": "The way I want you to build the tool is that it is easily extractable and movable out of Garura.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 32",
+      "quote": "imports no Garura code, so it can move into Griffin later",
+      "status": "found",
+      "in": [
+        "GitHub #680"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 33",
+      "quote": "Garura words are data, not code.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 34",
+      "quote": "Moving the tool to Griffin means moving one folder and changing one address in Garura's config.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 35",
+      "quote": "Every event has a number and is kept in a log.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 36",
+      "quote": "Claude only checks `/v1/health` and never starts it.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 37",
+      "quote": "On a laptop it listens only on 127.0.0.1 with a token.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "where": "text line 38",
+      "quote": "ship with Garura",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-8.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 7",
+      "quote": "changed as asked",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 7",
+      "quote": "could not, because …",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 8",
+      "quote": "a person sent it back, and it is being reworked",
+      "status": "found",
+      "in": [
+        "docs/adr/033-approval-in-the-product-model.md",
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 11",
+      "quote": "changed as asked",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 16",
+      "quote": "Each play that writes a reviewed kind must be able to do that on the drive's branch.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 26",
+      "quote": "Re-running the whole drive (never: ADR 032)",
+      "status": "found",
+      "in": [
+        "GitHub #649"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 27",
+      "quote": "The play that writes that kind of piece re-runs for that one piece, on the same branch.",
+      "status": "found",
+      "in": [
+        "docs/adr/032-drive-review-of-outcomes.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 27",
+      "quote": "Plays write the model.",
+      "status": "found",
+      "in": [
+        "docs/adr/033-approval-in-the-product-model.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 28",
+      "quote": "In progress — a person sent it back, and it is being reworked.",
+      "status": "found",
+      "in": [
+        "docs/adr/033-approval-in-the-product-model.md",
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 29",
+      "quote": "Claude may start fixing that piece at once, while the person keeps reviewing.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 30",
+      "quote": "changed as asked",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "where": "text line 30",
+      "quote": "could not, because …",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+      "where": "text line 19",
+      "quote": "changed as asked",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/617/specs/review-tool.md"
+      ]
+    }
+  ]
+}

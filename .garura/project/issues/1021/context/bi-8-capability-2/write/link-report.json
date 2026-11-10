@@ -1,0 +1,51 @@
+{
+  "written": [
+    "cap-review-agent-work",
+    "fn-open-review",
+    "fn-read-outcome",
+    "fn-answer-pieces",
+    "fn-review-adrs",
+    "fn-review-memory",
+    "fn-check-agent-decisions",
+    "fn-send-back",
+    "fn-apply-answers",
+    "fn-run-tool-apart",
+    "ice-review-agent-work",
+    "ice-open-review",
+    "ice-read-outcome",
+    "ice-answer-pieces",
+    "ice-review-adrs",
+    "ice-review-memory",
+    "ice-check-agent-decisions",
+    "ice-send-back",
+    "ice-apply-answers",
+    "ice-run-tool-apart"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-review-agent-work",
+    "ice-open-review",
+    "ice-read-outcome",
+    "ice-answer-pieces",
+    "ice-review-adrs",
+    "ice-review-memory",
+    "ice-check-agent-decisions",
+    "ice-send-back",
+    "ice-apply-answers",
+    "ice-run-tool-apart"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/review-agent-work/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-open-review/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-apply-answers/ice.md",
+    "product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md"
+  ],
+  "layout_kept": true
+}

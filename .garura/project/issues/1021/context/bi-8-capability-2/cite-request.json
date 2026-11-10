@@ -1,0 +1,58 @@
+{
+  "issue": 1021,
+  "play": "issue-1021 (reorganise business intents), BI-8 capability 2 drafts",
+  "decided_by": "product-os-keeper",
+  "decisions": [
+    {
+      "question": "Who may give the answers Argus takes on a business intent and on an ADR?",
+      "answer": "Only a person: only a person confirms a business intent, and only a person accepts a decision record; Argus moves only where the person answers.",
+      "trace": [
+        {
+          "asked": "who confirms an intent and who accepts an ADR",
+          "found": "both are pinned to a person when run by hand, and inside a loop are confirmed or accepted at the loop's end review",
+          "source": {
+            "tier": "phoenix",
+            "path": "standards/rules/gate-config.md",
+            "start": 104,
+            "end": 108,
+            "fingerprint": "sha256:38fbf373823f694f7d6beaf47601e8e2e30456dfff99586f5eb24e28700c5e59"
+          }
+        }
+      ]
+    },
+    {
+      "question": "What does a review opened at a loop's end read to say why each piece changed?",
+      "answer": "The review records each play writes into the loop's review folder when its checkpoint would have waited; the loop's end review reads them.",
+      "trace": [
+        {
+          "asked": "what a play leaves for the loop's end review",
+          "found": "rule 4: the play writes what the checkpoint would have shown as a review record into review_dir, and the loop's end review reads the record",
+          "source": {
+            "tier": "phoenix",
+            "path": "standards/rules/loop-contract.md",
+            "start": 69,
+            "end": 75,
+            "fingerprint": "sha256:93a49ab84348cda7b300771a322bb6500f422aeffd241e11e7e05b9ffdc35e84"
+          }
+        }
+      ]
+    },
+    {
+      "question": "Does a knowledge shelf cover reviewing what agents made?",
+      "answer": "No shelf covers it; the experience shelf names HITL queues and approvals for the agents built into a product, a loose match quoted as a shelf only.",
+      "trace": [
+        {
+          "asked": "review tool, Argus, human review, approve each, in Phoenix memory",
+          "found": "only the experience shelf's agent ops plane, with HITL queues & approvals and audit",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/experience.md",
+            "start": 162,
+            "end": 172,
+            "fingerprint": "sha256:e21cdb801f7541704d91ddcb41c142ef08162477c6fe5c8196db75f0b9efa2fa"
+          }
+        }
+      ]
+    }
+  ]
+}
