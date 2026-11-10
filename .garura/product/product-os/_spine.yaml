@@ -44,19 +44,6 @@ capabilities:
       gate: test_check_ice_workable.py and test_lint_grounding.py pass; a before/after
         diff of Garura's spine shows every need kept
   compliance_needs: []
-- id: cap-721
-  slug: cap-721
-  domain: ''
-  intents:
-  - bi-717
-  status: proposed
-  detail: directional
-  one_line: 'Start and land work against a plan: plan branches in start-change and
-    merge-change'
-  doc: capabilities/cap-721/capability.md
-  depends_on: []
-  identified_by: cap-720
-  issue: 721
 - id: cap-718
   slug: cap-718
   domain: dom-software-delivery-planning
@@ -627,6 +614,22 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-ship-every-change
+  slug: ship-every-change
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-8
+  status: proposed
+  detail: directional
+  one_line: 'Ship every change the same way: Every change goes from opening to merge
+    through the same steps, with an outside review and a person''s yes.'
+  doc: software-delivery-planning/ship-every-change/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -674,29 +677,33 @@ features:
   issue: 726
 - id: fn-731
   slug: fn-731
-  capability: cap-721
+  capability: cap-ship-every-change
   intents:
-  - bi-717
+  - bi-8
   status: proposed
-  one_line: start-change cuts a plan's branch, and each issue's branch from it
+  one_line: A person names the change, and its issue is found or filed, its branch
+    is cut from the branch it will land on, and its working folder is made.
   doc: features/fn-731/feature.md
   depends_on: []
   identified_by: ''
   issue: 731
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-673
   slug: fn-673
-  capability: cap-721
+  capability: cap-ship-every-change
   intents:
-  - bi-717
+  - bi-8
   status: proposed
-  one_line: merge-change lands an issue on its plan branch, and a plan on main whenever
-    it pauses
+  one_line: Once the review approved the change and a person typed yes, it is merged
+    where its branch lands, its branch is deleted, and an issue in a plan is closed
+    with its item set Done.
   doc: features/fn-673/feature.md
   depends_on: []
   identified_by: ''
   issue: 673
   metadata:
-    updated_by: 'product-os-keeper (#779, review finding DM-1 of PR #1010)'
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-727
   slug: fn-727
   capability: cap-718
@@ -2696,6 +2703,96 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-commit-by-concern
+  slug: fn-commit-by-concern
+  capability: cap-ship-every-change
+  intents:
+  - bi-8
+  status: proposed
+  one_line: Every changed file is committed on the change's branch in commits of one
+    concern each, each naming its issue, and a sensitive file stops the commit.
+  doc: software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-raise-change
+  slug: fn-raise-change
+  capability: cap-ship-every-change
+  intents:
+  - bi-8
+  status: proposed
+  one_line: After the machine checks, the branch is pushed and one pull request is
+    opened against the branch the change will land on, naming its issue.
+  doc: software-delivery-planning/ship-every-change/fn-raise-change/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-land-plan-with-evidence
+  slug: fn-land-plan-with-evidence
+  capability: cap-ship-every-change
+  intents:
+  - bi-8
+  status: proposed
+  one_line: When a plan pauses, its landing shows that every commit on its branch
+    was reviewed and that the plan, its epics and the commits agree.
+  doc: software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-land-several-issues
+  slug: fn-land-several-issues
+  capability: cap-ship-every-change
+  intents:
+  - bi-8
+  status: proposed
+  one_line: A person groups several ready issues, and one run of the path lands them
+    all and closes each.
+  doc: software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-scan-every-push
+  slug: fn-scan-every-push
+  capability: cap-ship-every-change
+  intents:
+  - bi-8
+  status: proposed
+  one_line: Every push a change play makes is scanned first, and a reference stops
+    it.
+  doc: software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-keep-docs-in-step
+  slug: fn-keep-docs-in-step
+  capability: cap-ship-every-change
+  intents:
+  - bi-8
+  status: proposed
+  one_line: A change that adds, renames, retires or changes a command brings the docs
+    and command pages it alters, and a check fails it while they disagree.
+  doc: software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -3604,3 +3701,61 @@ ices:
   doc: software-delivery-planning/initialize/fn-883/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-ship-every-change
+  for: cap-ship-every-change
+  for_kind: capability
+  doc: software-delivery-planning/ship-every-change/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-731
+  for: fn-731
+  for_kind: feature
+  doc: features/fn-731/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-commit-by-concern
+  for: fn-commit-by-concern
+  for_kind: feature
+  doc: software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-raise-change
+  for: fn-raise-change
+  for_kind: feature
+  doc: software-delivery-planning/ship-every-change/fn-raise-change/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-673
+  for: fn-673
+  for_kind: feature
+  doc: features/fn-673/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-land-plan-with-evidence
+  for: fn-land-plan-with-evidence
+  for_kind: feature
+  doc: software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-land-several-issues
+  for: fn-land-several-issues
+  for_kind: feature
+  doc: software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-scan-every-push
+  for: fn-scan-every-push
+  for_kind: feature
+  doc: software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-keep-docs-in-step
+  for: fn-keep-docs-in-step
+  for_kind: feature
+  doc: software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
