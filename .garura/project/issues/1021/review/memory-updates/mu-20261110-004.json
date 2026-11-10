@@ -1,0 +1,30 @@
+{
+  "update": {
+    "id": "mu-20261110-004",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "What Antigravity is and what it loads from a project (its instructions file, sub-agents, skills, commands, hooks and settings) and whether a model can be chosen for each part, for Support each coding tool (BI-7 capability 3). No memory tier holds it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+    "draft": "Read on the tool's own documentation on 2026-11-10. Each fact names the page it came from.\n\n# What Antigravity loads from a project\n\n- What it is: Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK. https://antigravity.google/llms.txt\n- Instructions and rules: in the workspace folder and each parent up to the repository root, AGENTS.md or GEMINI.md, .agents/AGENTS.md or .agents/GEMINI.md, and .agents/rules/*.md (and the older .agent/rules/); AGENTS.md and GEMINI.md are always on; each rules/*.md must start with frontmatter naming a valid trigger, or it is silently discarded. https://antigravity.google/docs/rules\n- Skills: .agents/skills/<folder>/SKILL.md, description required, name optional; a person can type /<skill-name>. No model field is listed. https://antigravity.google/docs/skills\n- Custom sub-agents: .agents/agents/<name>.md or .agents/agents/<name>/agent.md, name and description required, `model` is a tier: inherit, flash or pro; available in the App and the CLI, not the IDE. https://antigravity.google/docs/subagents\n- Hooks: .agents/hooks.json in the App, the CLI and the IDE; a PreToolUse decision of deny hard-blocks the tool call. https://antigravity.google/docs/hooks\n- Everything sits in the project's .agents/ folder plus AGENTS.md and GEMINI.md; MCP servers in mcp_config.json. https://antigravity.google/docs/customization-discovery\n- Model choice: a person picks the model for a conversation; a custom sub-agent names a tier. https://antigravity.google/docs/models\n- Built-in commands include /plan, /goal, /learn, /schedule, /browser, /boost and /teamwork. https://antigravity.google/docs/slash-commands\n",
+    "draft_source": "web",
+    "sources": [
+      {
+        "tier": "short-term",
+        "path": "1021/context/bi-7-capability-3/research.md",
+        "start": 48,
+        "end": 57,
+        "fingerprint": "sha256:2ecb93cbb8f9b6463cfa35a42ea2a10a7de61da8f5fde1ffd4a7a942fcb2287a"
+      }
+    ],
+    "requested_by": "product-os-keeper (BI-7 capability 3 draft, #1021)",
+    "requested_at": "2026-11-10T10:36:39Z",
+    "decided_by": "the product owner",
+    "reply": "approved",
+    "decided_at": "2026-11-10T10:53:36Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

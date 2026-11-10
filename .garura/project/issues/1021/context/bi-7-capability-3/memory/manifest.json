@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/_content-standard.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:a87ad8b9c992bb6524ea5f995693615241d5368b49df75eb0c9851b924b4025d",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/standards/schemas/product-os/grounding/_content-standard.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/capability.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:57bcd198b8344c9cba9e84739714f44d6c85eac5dcde9e67d88629c698a3609f",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/standards/schemas/product-os/grounding/capability.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/feature.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:8056d0c66a9ef96f306504087fa19aafaa16989e160c424cc497b2b073d3cd20",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/standards/schemas/product-os/grounding/feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/naming.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:6d011521460976f6dbb3aa0d6a5dc063356e263bbf09e7dcf8b42fd9cedb1ed0",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/standards/rules/naming.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/run-status.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:0deb695c3fcccc9594394003eb3f079a382ed87e56e20734697c58cd68b37553",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/standards/rules/run-status.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/harness.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9f09bac58b9f46d900c54296fad0dd9fbfa23d9b42c72eebb036440e47f49ccd",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/knowledge/review/harness.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/config-maps.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:95e283ea6c36541dd63428c57edaa95fca913e4814ceb5bb6453cca60d009d40",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/knowledge/review/config-maps.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/user-provided/project-brief.md",
+      "version": null,
+      "fingerprint": "sha256:286d86896bc146a0018e02953d85f58c8ae795000a8f374e1e439e0c9991f20c",
+      "copy": ".garura/project/issues/1021/context/bi-7-capability-3/memory/product/user-provided/project-brief.md"
+    }
+  ]
+}

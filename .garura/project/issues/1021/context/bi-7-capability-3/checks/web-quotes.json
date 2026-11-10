@@ -1,0 +1,308 @@
+{
+  "checked_on": "2026-11-10",
+  "what": "each quote of a tool's documentation in research.md, looked for in that tool's pages as downloaded on 2026-11-10",
+  "total": 50,
+  "not_found": 0,
+  "results": [
+    {
+      "line": 14,
+      "tool": "claude",
+      "quote": "Claude reads them at the start of every session",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 15,
+      "tool": "claude",
+      "quote": "By default, Claude reads `AGENTS.md` only when you have no `CLAUDE.md` in your working directory or above it.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 15,
+      "tool": "claude",
+      "quote": "requires Claude Code v2.1.277 or later",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 16,
+      "tool": "claude",
+      "quote": "Rules without `paths` frontmatter are loaded at launch with the same priority as `.claude/CLAUDE.md`.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 17,
+      "tool": "claude",
+      "quote": "`sonnet`, `opus`, `haiku`, `fable`, a full model ID such as `claude-opus-5-5`, or `inherit`",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 18,
+      "tool": "claude",
+      "quote": "Custom commands have been merged into skills.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 18,
+      "tool": "claude",
+      "quote": "is the older format and still works",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 19,
+      "tool": "claude",
+      "quote": "Model to use when this skill is active. The override applies for the rest of the current turn",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 19,
+      "tool": "claude",
+      "quote": "A Claude skill has no model field",
+      "status": "found in Garura's own adapter code (a quote of Garura, not of the tool)"
+    },
+    {
+      "line": 20,
+      "tool": "claude",
+      "quote": "Team permissions, hooks, plugins, and the environment variables the project needs",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 20,
+      "tool": "claude",
+      "quote": "Before a tool call executes. Can block it",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 21,
+      "tool": "claude",
+      "quote": "A Claude Code plugin is a directory of skills, agents, hooks, MCP servers, or other components that Claude Code installs and loads as one unit",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 27,
+      "tool": "codex",
+      "quote": "Build with the Codex CLI, IDE extension, and cloud automation to speed up development.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 28,
+      "tool": "codex",
+      "quote": "Codex reads `AGENTS.md` files before doing any work.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 28,
+      "tool": "codex",
+      "quote": "32 KiB by default",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 29,
+      "tool": "codex",
+      "quote": "For repositories, Codex scans `.agents/skills` in every directory from your current working directory up to the repository root.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 29,
+      "tool": "codex",
+      "quote": "The `SKILL.md` file must include `name` and `description`.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 30,
+      "tool": "codex",
+      "quote": "add standalone TOML files under `~/.codex/agents/` for personal agents or `.codex/agents/` for project-scoped agents",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 30,
+      "tool": "codex",
+      "quote": "If a custom agent file sets `model` or `model_reasoning_effort`, the value in the file takes precedence.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 30,
+      "tool": "codex",
+      "quote": "There is no named-subagent file",
+      "status": "found in Garura's own adapter code (a quote of Garura, not of the tool)"
+    },
+    {
+      "line": 31,
+      "tool": "codex",
+      "quote": "Custom prompts are deprecated. Use skills",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 31,
+      "tool": "codex",
+      "quote": "so they're not shared through your repository",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 32,
+      "tool": "codex",
+      "quote": "A supported hook can block an action by returning an explicit denial.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 32,
+      "tool": "codex",
+      "quote": "Project-local hooks load only when the project `.codex/` layer is trusted.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 32,
+      "tool": "codex",
+      "quote": "A `PreToolUse` error, timeout, or malformed response can let the tool run.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 33,
+      "tool": "codex",
+      "quote": "trusted projects only",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 34,
+      "tool": "codex",
+      "quote": "Skills inherit from the parent",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 39,
+      "tool": "copilot",
+      "quote": "the nearest `AGENTS.md` file in the directory tree will take precedence",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 39,
+      "tool": "copilot",
+      "quote": "Alternatively, you can use a single `CLAUDE.md` or `GEMINI.md` file stored in the root of the repository.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 40,
+      "tool": "copilot",
+      "quote": "Model to use when this custom agent executes. If unset, inherits the default model.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 40,
+      "tool": "copilot",
+      "quote": "VS Code, JetBrains IDEs, Eclipse, or Xcode",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 41,
+      "tool": "copilot",
+      "quote": "N/A (runtime process, not a user-configured file)",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 42,
+      "tool": "copilot",
+      "quote": "Project skills, stored in your repository (`.github/skills`, `.claude/skills`, or `.agents/skills`)",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 43,
+      "tool": "copilot",
+      "quote": "The language model used when running the prompt.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 44,
+      "tool": "copilot",
+      "quote": "Programmatically approve or deny tool executions.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 50,
+      "tool": "antigravity",
+      "quote": "Google Antigravity is an advanced agentic coding platform and CLI designed for orchestrating autonomous subagents, scheduled tasks, and interactive code verification.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 51,
+      "tool": "antigravity",
+      "quote": "must start with YAML frontmatter declaring a valid trigger",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 51,
+      "tool": "antigravity",
+      "quote": "Antigravity silently discards the rule",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 53,
+      "tool": "antigravity",
+      "quote": "Model tier used when invoked ( inherit , flash , or pro )",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 53,
+      "tool": "antigravity",
+      "quote": "Available on: Antigravity App Antigravity CLI",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 54,
+      "tool": "antigravity",
+      "quote": "Hard blocks execution immediately.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 55,
+      "tool": "antigravity",
+      "quote": "Workspace : the .agents/ folder in your project, plus AGENTS.md and GEMINI.md files.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 61,
+      "tool": "factory",
+      "quote": "Factory, the agent-native software development platform",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 62,
+      "tool": "factory",
+      "quote": "also reads compatible filenames",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 62,
+      "tool": "factory",
+      "quote": "Compatibility with existing Claude-oriented instructions.",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 63,
+      "tool": "factory",
+      "quote": "Project droids sit in `<repo>/.factory/droids/`",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 63,
+      "tool": "factory",
+      "quote": "scans both `<repo>/.claude/agents/` (project scope) and `~/.claude/agents/`",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 63,
+      "tool": "factory",
+      "quote": "`sonnet`, `haiku`, or `opus` map to the first available model in that family",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 65,
+      "tool": "factory",
+      "quote": "For new reusable workflows, prefer Skills",
+      "status": "found in the downloaded page"
+    },
+    {
+      "line": 66,
+      "tool": "factory",
+      "quote": "blocks the tool call",
+      "status": "found in the downloaded page"
+    }
+  ]
+}

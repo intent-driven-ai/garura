@@ -1,0 +1,37 @@
+{
+  "update": {
+    "id": "mu-20261110-002",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "What Codex is and what it loads from a project (its instructions file, sub-agents, skills, commands, hooks and settings) and whether a model can be chosen for each part, for Support each coding tool (BI-7 capability 3). No memory tier holds it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+    "draft": "Read on the tool's own documentation on 2026-11-10. Each fact names the page it came from.\n\n# What Codex loads from a project\n\n- What it is: OpenAI's Codex CLI, IDE extension and cloud automation. Its docs moved from developers.openai.com/codex/ to learn.chatgpt.com/docs/. https://learn.chatgpt.com/docs/llms.txt\n- Instructions: AGENTS.md, read before any work, from ~/.codex and from each folder from the project root down to the working folder; AGENTS.override.md takes a folder's place; the joined files stop at project_doc_max_bytes, 32 KiB by default. https://learn.chatgpt.com/docs/agent-configuration/agents-md.md\n- Skills: .agents/skills in every folder from the working folder up to the repository root; SKILL.md must include name and description. A 1,024-character cap on a description is not stated on the page read. https://learn.chatgpt.com/docs/build-skills.md\n- Custom agents (sub-agents): standalone TOML files in .codex/agents/ (project) or ~/.codex/agents/; each defines name, description and developer_instructions, and may set model and model_reasoning_effort. https://learn.chatgpt.com/docs/agent-configuration/subagents.md\n- Commands: custom prompts are deprecated in favour of skills; they live in the Codex home and are not shared through the repository. https://learn.chatgpt.com/docs/custom-prompts.md\n- Hooks: <repo>/.codex/hooks.json or [hooks] in <repo>/.codex/config.toml, with a PreToolUse event that can block an action by an explicit denial; project hooks load only when the project's .codex/ layer is trusted; a PreToolUse error, timeout or malformed answer can let the tool run. https://learn.chatgpt.com/docs/hooks.md\n- Settings: ~/.codex/config.toml, a project's .codex/config.toml for trusted projects only, and profile files ~/.codex/<name>.config.toml chosen with --profile. https://learn.chatgpt.com/docs/config-file/config-basic.md\n- Model for each part: yes for a custom agent; skills inherit from the parent. https://learn.chatgpt.com/docs/agent-configuration/subagents.md\n- Differs from Garura's adapter, which says \"There is no named-subagent file\" and lays each agent as a skill.\n",
+    "draft_source": "web",
+    "sources": [
+      {
+        "tier": "short-term",
+        "path": "1021/context/bi-7-capability-3/research.md",
+        "start": 24,
+        "end": 34,
+        "fingerprint": "sha256:1ef960dc102ea3186885f7cd6be16b61bd73caca46d69aaa35f36bb4996b9c2f"
+      },
+      {
+        "tier": "short-term",
+        "path": "1021/context/bi-7-capability-3/research.md",
+        "start": 70,
+        "end": 74,
+        "fingerprint": "sha256:1001923d2df228e7ea2b7dab58e110dd9ef29733fc68e8bd067af9c194b5d736"
+      }
+    ],
+    "requested_by": "product-os-keeper (BI-7 capability 3 draft, #1021)",
+    "requested_at": "2026-11-10T10:36:38Z",
+    "decided_by": "the product owner",
+    "reply": "approved",
+    "decided_at": "2026-11-10T10:53:36Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

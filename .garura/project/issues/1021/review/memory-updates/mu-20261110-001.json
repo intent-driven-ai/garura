@@ -1,0 +1,37 @@
+{
+  "update": {
+    "id": "mu-20261110-001",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "What Claude Code is and what it loads from a project (its instructions file, sub-agents, skills, commands, hooks and settings) and whether a model can be chosen for each part, for Support each coding tool (BI-7 capability 3). No memory tier holds it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+    "draft": "Read on the tool's own documentation on 2026-11-10. Each fact names the page it came from.\n\n# What Claude Code loads from a project\n\n- Instructions: ./CLAUDE.md or ./.claude/CLAUDE.md, read at the start of every session. AGENTS.md is read only when there is no CLAUDE.md (Claude Code v2.1.277 or later). https://code.claude.com/docs/en/memory.md\n- Rules: .claude/rules/*.md; a rule with no `paths` frontmatter loads at launch with the same priority as .claude/CLAUDE.md. https://code.claude.com/docs/en/memory.md\n- Sub-agents: .claude/agents/<name>.md, with name and description required; `model` takes sonnet, opus, haiku, fable, a full model id or inherit; `effort` sets the effort level. https://code.claude.com/docs/en/sub-agents.md\n- Skills and commands: .claude/skills/<name>/SKILL.md; custom commands are merged into skills, and .claude/commands/ still works. https://code.claude.com/docs/en/skills.md\n- A skill can name its model: the skill frontmatter has `model` (for the rest of the current turn) and `effort`. https://code.claude.com/docs/en/skills.md\n- Hooks: in the settings files; .claude/settings.json is the shared project file for team permissions, hooks and plugins; a PreToolUse hook runs before a tool call and can block it. https://code.claude.com/docs/en/settings.md and https://code.claude.com/docs/en/hooks.md\n- Plugins: a directory of skills, agents, hooks and MCP servers that Claude Code installs and loads as one unit, with a manifest at .claude-plugin/plugin.json. https://code.claude.com/docs/en/plugins.md\n- Model for each part: yes, for a sub-agent and for a skill.\n- Differs from Garura's adapter, which drops the model line on every skill because \"A Claude skill has no model field\".\n",
+    "draft_source": "web",
+    "sources": [
+      {
+        "tier": "short-term",
+        "path": "1021/context/bi-7-capability-3/research.md",
+        "start": 11,
+        "end": 22,
+        "fingerprint": "sha256:a20b56fd1a5274bf8a281bc528983d128bee080ed5f7019431a928e2db374a2d"
+      },
+      {
+        "tier": "short-term",
+        "path": "1021/context/bi-7-capability-3/research.md",
+        "start": 70,
+        "end": 74,
+        "fingerprint": "sha256:1001923d2df228e7ea2b7dab58e110dd9ef29733fc68e8bd067af9c194b5d736"
+      }
+    ],
+    "requested_by": "product-os-keeper (BI-7 capability 3 draft, #1021)",
+    "requested_at": "2026-11-10T10:36:38Z",
+    "decided_by": "the product owner",
+    "reply": "approved",
+    "decided_at": "2026-11-10T10:53:26Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

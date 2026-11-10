@@ -1,0 +1,63 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/support-coding-tools/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

@@ -1,0 +1,63 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/support-coding-tools/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/write/approved/fn-install-for-copilot/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/write/approved/fn-install-for-antigravity/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/write/approved/fn-install-for-factory/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md"
+    }
+  ]
+}
