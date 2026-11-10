@@ -1,0 +1,22 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md (the product owner, 2026-11-10: the write shown with fn-move-model, one line on features/fn-725/feature.md changed from \"cap-742 and cap-747 still need cap-739\" to \"cap-742 still needs cap-739\")",
+  "pages": [
+    {
+      "page": "features/fn-725/feature.md",
+      "changes": [
+        {
+          "old": "- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then cap-742 and cap-747 still need cap-739, and fn-727 still needs fn-724, with no value lost.",
+          "new": "- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then cap-742 still needs cap-739, and fn-727 still needs fn-724, with no value lost."
+        }
+      ],
+      "lines_before": 77,
+      "lines_after": 77,
+      "lines_added": 0,
+      "lines_kept": 76
+    }
+  ],
+  "changed": [
+    "features/fn-725/feature.md"
+  ]
+}

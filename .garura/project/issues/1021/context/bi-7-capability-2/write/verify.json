@@ -1,0 +1,654 @@
+{
+  "status": "done: steps 1 to 5 written, step 4 on its second run after the fn-748 Sources line was changed",
+  "steps": [
+    {
+      "step": "lint-before",
+      "file": ".garura/project/issues/1021/context/bi-7-capability-2/write/lint-before.json"
+    },
+    {
+      "step": "1 pages",
+      "skill": "enrich-grounding (write_approved.py)",
+      "exit": 0,
+      "report": ".garura/project/issues/1021/context/bi-7-capability-2/write/approved-report.json"
+    },
+    {
+      "step": "2 fn-725 line",
+      "skill": "enrich-grounding (change_lines.py)",
+      "exit": 0,
+      "report": ".garura/project/issues/1021/context/bi-7-capability-2/write/lines-report-fn-725.json"
+    },
+    {
+      "step": "3 index",
+      "skill": "link-model-part (link_part.py)",
+      "exit": 0,
+      "report": ".garura/project/issues/1021/context/bi-7-capability-2/write/link-report.json"
+    },
+    {
+      "step": "4 merge, first run",
+      "skill": "remove-model-part (remove_part.py)",
+      "exit": 2,
+      "nothing_written": true,
+      "message": "remove_part.py: refused, nothing written: pages still name a part being removed; have the page skill fix these words first: features/fn-748/feature.md:59 names cap-747"
+    },
+    {
+      "step": "A fn-748 Sources line (line 59)",
+      "skill": "enrich-grounding (change_lines.py)",
+      "exit": 0,
+      "report": ".garura/project/issues/1021/context/bi-7-capability-2/write/lines-report-fn-748.json"
+    },
+    {
+      "step": "4 merge, second run, same request",
+      "skill": "remove-model-part (remove_part.py)",
+      "exit": 0,
+      "report": ".garura/project/issues/1021/context/bi-7-capability-2/write/remove-report.json"
+    },
+    {
+      "step": "5 BI-7 Touches lines",
+      "skill": "enrich-grounding (change_lines.py)",
+      "exit": 0,
+      "report": ".garura/project/issues/1021/context/bi-7-capability-2/write/lines-report-bi-7.json"
+    }
+  ],
+  "pages": {
+    "software-delivery-planning/upgrade-project/capability.md": {
+      "equals_draft": true,
+      "bytes": 18082,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/ice.md": {
+      "equals_draft": true,
+      "bytes": 4592,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md": {
+      "equals_draft": true,
+      "bytes": 9363,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md": {
+      "equals_draft": true,
+      "bytes": 3099,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-cut-release/feature.md": {
+      "equals_draft": true,
+      "bytes": 7308,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-cut-release/ice.md": {
+      "equals_draft": true,
+      "bytes": 2734,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md": {
+      "equals_draft": true,
+      "bytes": 6989,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-keep-edits/ice.md": {
+      "equals_draft": true,
+      "bytes": 2779,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md": {
+      "equals_draft": true,
+      "bytes": 8810,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md": {
+      "equals_draft": true,
+      "bytes": 3199,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-move-model/feature.md": {
+      "equals_draft": true,
+      "bytes": 8191,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/upgrade-project/fn-move-model/ice.md": {
+      "equals_draft": true,
+      "bytes": 2735,
+      "thin_lines_on_page": 0
+    },
+    "features/fn-748/feature.md": {
+      "equals_draft": true,
+      "bytes": 9205,
+      "thin_lines_on_page": 0
+    },
+    "features/fn-748/ice.md": {
+      "equals_draft": true,
+      "bytes": 3116,
+      "thin_lines_on_page": 0
+    }
+  },
+  "page_count": 14,
+  "fn_748_lines_naming_cap_747": [],
+  "model_lines_naming_cap_747": [],
+  "fn_725_changed_lines": [
+    {
+      "line": 50,
+      "old": "- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then cap-742 and cap-747 still need cap-739, and fn-727 still needs fn-724, with no value lost.",
+      "new": "- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then cap-742 still needs cap-739, and fn-727 still needs fn-724, with no value lost."
+    }
+  ],
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 34,
+      "after": 34,
+      "new": [
+        "cap-upgrade-project"
+      ],
+      "removed": [
+        "cap-747"
+      ],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 123,
+      "after": 128,
+      "new": [
+        "fn-upgrade-in-one-step",
+        "fn-cut-release",
+        "fn-keep-edits",
+        "fn-bring-new-settings",
+        "fn-move-model"
+      ],
+      "removed": [],
+      "old_entries_changed": [
+        "fn-748"
+      ],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 112,
+      "after": 119,
+      "new": [
+        "ice-upgrade-project",
+        "ice-upgrade-in-one-step",
+        "ice-cut-release",
+        "ice-748",
+        "ice-keep-edits",
+        "ice-bring-new-settings",
+        "ice-move-model"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    }
+  },
+  "entries": {
+    "cap-upgrade-project": {
+      "slug": "upgrade-project",
+      "domain": "dom-software-delivery-planning",
+      "capability": null,
+      "intents": [
+        "bi-7"
+      ],
+      "status": "proposed",
+      "one_line": "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.",
+      "doc": "software-delivery-planning/upgrade-project/capability.md",
+      "depends_on": [],
+      "issue": null,
+      "thin": false
+    },
+    "fn-upgrade-in-one-step": {
+      "slug": "fn-upgrade-in-one-step",
+      "domain": null,
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "status": "proposed",
+      "one_line": "One run of the install engine over the earlier install shows the two versions, the notes of each release between them and the list of what changes in this project, and on the person's yes moves the project, records the new version and reports what changed.",
+      "doc": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "depends_on": [],
+      "issue": null,
+      "thin": false
+    },
+    "fn-cut-release": {
+      "slug": "fn-cut-release",
+      "domain": null,
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "status": "proposed",
+      "one_line": "The product owner of Garura cuts a fixed, named version from Garura's newest work, with notes in plain words, so an upgrade has a version to move to and a team can read what it changes.",
+      "doc": "software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "depends_on": [],
+      "issue": null,
+      "thin": false
+    },
+    "fn-keep-edits": {
+      "slug": "fn-keep-edits",
+      "domain": null,
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "status": "proposed",
+      "one_line": "The upgrade finds each installed part a person changed since it was laid, shows the change, and asks before replacing it.",
+      "doc": "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "depends_on": [],
+      "issue": null,
+      "thin": false
+    },
+    "fn-bring-new-settings": {
+      "slug": "fn-bring-new-settings",
+      "domain": null,
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "status": "proposed",
+      "one_line": "New settings and settings files arrive, every value the team set stays, settings that name a renamed part follow its new name, and Garura's instructions go beside the team's own file only when a rule is missing.",
+      "doc": "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "depends_on": [],
+      "issue": null,
+      "thin": false
+    },
+    "fn-move-model": {
+      "slug": "fn-move-model",
+      "domain": null,
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "status": "proposed",
+      "one_line": "The upgrade shows each key, file name, folder and heading of the model that the new version reads differently, and on the person's yes moves them, never what they say.",
+      "doc": "software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "depends_on": [],
+      "issue": null,
+      "thin": false
+    },
+    "fn-748": {
+      "slug": "fn-748",
+      "domain": null,
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "status": "proposed",
+      "one_line": "On an upgrade, a part under an old name goes once its new name is laid, and a part the new version no longer has goes, each only when the record or the part's own file proves Garura laid it, even in a project installed before the record existed.",
+      "doc": "features/fn-748/feature.md",
+      "depends_on": [
+        "fn-741"
+      ],
+      "issue": 748,
+      "thin": false
+    },
+    "ice-upgrade-project": {
+      "for": "cap-upgrade-project",
+      "for_kind": "capability",
+      "doc": "software-delivery-planning/upgrade-project/ice.md",
+      "thin": false,
+      "doc_leads_to_file": true
+    },
+    "ice-upgrade-in-one-step": {
+      "for": "fn-upgrade-in-one-step",
+      "for_kind": "feature",
+      "doc": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md",
+      "thin": false,
+      "doc_leads_to_file": true
+    },
+    "ice-cut-release": {
+      "for": "fn-cut-release",
+      "for_kind": "feature",
+      "doc": "software-delivery-planning/upgrade-project/fn-cut-release/ice.md",
+      "thin": false,
+      "doc_leads_to_file": true
+    },
+    "ice-748": {
+      "for": "fn-748",
+      "for_kind": "feature",
+      "doc": "features/fn-748/ice.md",
+      "thin": false,
+      "doc_leads_to_file": true
+    },
+    "ice-keep-edits": {
+      "for": "fn-keep-edits",
+      "for_kind": "feature",
+      "doc": "software-delivery-planning/upgrade-project/fn-keep-edits/ice.md",
+      "thin": true,
+      "doc_leads_to_file": true
+    },
+    "ice-bring-new-settings": {
+      "for": "fn-bring-new-settings",
+      "for_kind": "feature",
+      "doc": "software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md",
+      "thin": false,
+      "doc_leads_to_file": true
+    },
+    "ice-move-model": {
+      "for": "fn-move-model",
+      "for_kind": "feature",
+      "doc": "software-delivery-planning/upgrade-project/fn-move-model/ice.md",
+      "thin": false,
+      "doc_leads_to_file": true
+    }
+  },
+  "fn_748": {
+    "changed_keys": [
+      "capability",
+      "intents",
+      "metadata",
+      "one_line"
+    ],
+    "capability_before": "cap-747",
+    "capability_after": "cap-upgrade-project",
+    "intents_before": [
+      "bi-734"
+    ],
+    "intents_after": [
+      "bi-7"
+    ],
+    "depends_on": [
+      "fn-741"
+    ],
+    "one_line_before": "An install removes old names and lays the new ones",
+    "one_line_after": "On an upgrade, a part under an old name goes once its new name is laid, and a part the new version no longer has goes, each only when the record or the part's own file proves Garura laid it, even in a project installed before the record existed.",
+    "issue": 748
+  },
+  "merge": {
+    "merged": [
+      {
+        "id": "cap-747",
+        "into": "cap-upgrade-project"
+      }
+    ],
+    "moved_features": [
+      "fn-748"
+    ],
+    "needs_to_review": [],
+    "deleted": [
+      "product-os/capabilities/cap-747/capability.md",
+      "product-os/capabilities/cap-747"
+    ],
+    "cap_747_depends_on_before": [
+      "cap-739"
+    ],
+    "cap_upgrade_project_depends_on_after": []
+  },
+  "cap_upgrade_project": {
+    "intents": [
+      "bi-7"
+    ],
+    "domain": "dom-software-delivery-planning",
+    "status": "proposed",
+    "one_line": "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.",
+    "doc": "software-delivery-planning/upgrade-project/capability.md",
+    "depends_on": []
+  },
+  "parts_naming_bi_734_before": [
+    "cap-735",
+    "cap-739",
+    "cap-742",
+    "cap-747",
+    "fn-736",
+    "fn-737",
+    "fn-738",
+    "fn-740",
+    "fn-741",
+    "fn-743",
+    "fn-744",
+    "fn-745",
+    "fn-746",
+    "fn-748"
+  ],
+  "parts_naming_bi_734_after": [
+    "cap-735",
+    "cap-739",
+    "cap-742",
+    "fn-736",
+    "fn-737",
+    "fn-738",
+    "fn-740",
+    "fn-741",
+    "fn-743",
+    "fn-744",
+    "fn-745",
+    "fn-746"
+  ],
+  "spine_text": {
+    "lines_removed_or_replaced": 16,
+    "removed_or_replaced": [
+      "-- id: cap-747",
+      "-  slug: cap-747",
+      "-  domain: ''",
+      "-  intents:",
+      "-  - bi-734",
+      "-  status: proposed",
+      "-  detail: directional",
+      "-  one_line: Installs follow the renames",
+      "-  doc: capabilities/cap-747/capability.md",
+      "-  depends_on:",
+      "-  - cap-739",
+      "-  identified_by: ''",
+      "-  issue: 747",
+      "-  capability: cap-747",
+      "-  - bi-734",
+      "-  one_line: An install removes old names and lays the new ones"
+    ],
+    "lines_added": 147,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_7": {
+    "lines_before": 29,
+    "lines_after": 36,
+    "added": [
+      "- [Upgrade a project](../software-delivery-planning/upgrade-project/capability.md) (capability) — adds",
+      "- [Move the project to a new version, seeing first what it changes](../software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md) (feature) — adds",
+      "- [Cut a Garura release, with notes on what it changes](../software-delivery-planning/upgrade-project/fn-cut-release/feature.md) (feature) — adds",
+      "- [Take out the parts Garura renamed or dropped](../features/fn-748/feature.md) (feature) — changes",
+      "- [Keep a person's edits to an installed part](../software-delivery-planning/upgrade-project/fn-keep-edits/feature.md) (feature) — adds",
+      "- [Bring in new settings, keeping the team's values](../software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md) (feature) — adds",
+      "- [Move the product model to the new version's shape, on the person's yes](../software-delivery-planning/upgrade-project/fn-move-model/feature.md) (feature) — adds"
+    ],
+    "touches_lines": 14,
+    "links": {
+      "software-delivery-planning/install-into-project/capability.md": true,
+      "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-choose-parts/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-check-install/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-update-parts/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-take-out/feature.md": true,
+      "software-delivery-planning/upgrade-project/capability.md": true,
+      "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-cut-release/feature.md": true,
+      "features/fn-748/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-move-model/feature.md": true
+    },
+    "index_entries_naming_bi_7": [
+      "cap-install-into-project",
+      "cap-upgrade-project",
+      "fn-748",
+      "fn-install-in-one-step",
+      "fn-choose-parts",
+      "fn-check-install",
+      "fn-lay-guardrails",
+      "fn-update-parts",
+      "fn-take-out",
+      "fn-upgrade-in-one-step",
+      "fn-cut-release",
+      "fn-keep-edits",
+      "fn-bring-new-settings",
+      "fn-move-model"
+    ]
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " D .garura/product/product-os/capabilities/cap-747/capability.md",
+    " M .garura/product/product-os/features/fn-725/feature.md",
+    " M .garura/product/product-os/features/fn-748/feature.md",
+    " M .garura/product/product-os/intents/bi-7.md",
+    "?? .garura/product/product-os/features/fn-748/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-cut-release/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-move-model/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/upgrade-project/ice.md"
+  ],
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 165,
+      "counts": {
+        "domain": 1,
+        "capability": 34,
+        "feature": 123,
+        "ice": 112
+      },
+      "file": ".garura/project/issues/1021/context/bi-7-capability-2/write/lint-before.json"
+    },
+    "after": {
+      "errors": 83,
+      "warnings": 169,
+      "counts": {
+        "domain": 1,
+        "capability": 34,
+        "feature": 128,
+        "ice": 119
+      },
+      "file": ".garura/project/issues/1021/context/bi-7-capability-2/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [
+      ".garura/product/product-os/features/fn-748/feature.md: missing required section '## Inputs / Outputs'",
+      ".garura/product/product-os/features/fn-748/feature.md: missing required section '## Rules & behavior'",
+      ".garura/product/product-os/features/fn-748/feature.md: missing required section '## Acceptance criteria'",
+      ".garura/product/product-os/features/fn-748/feature.md: missing required section '## Out of scope'"
+    ],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/upgrade-project/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/features/fn-748/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [
+      "spine capability 'cap-747': no domain yet — not ready until it is attributed (ADR 043)",
+      "spine capability 'cap-747': no ICE yet — each capability and feature has one (#765)",
+      "spine feature 'fn-748': no ICE yet — each capability and feature has one (#765)"
+    ],
+    "note": "The 7 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each part page of this write; under ontology v15 each ICE has its own page and write_approved.py refuses an ICE section on a part's page. The BI-7 capability 1 write met the same warning on its 7 pages."
+  },
+  "failed_checks": [],
+  "checks_run": 77,
+  "checks_passed": 77,
+  "all_checks_pass": true,
+  "checks": {
+    "page software-delivery-planning/upgrade-project/capability.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/ice.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-cut-release/feature.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-cut-release/ice.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-keep-edits/feature.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-keep-edits/ice.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-move-model/feature.md equals draft byte for byte": true,
+    "page software-delivery-planning/upgrade-project/fn-move-model/ice.md equals draft byte for byte": true,
+    "page features/fn-748/feature.md equals draft byte for byte": true,
+    "page features/fn-748/ice.md equals draft byte for byte": true,
+    "fn-keep-edits/ice.md: one Thin line, first, blank after, rest = approved copy": true,
+    "Thin line only on fn-keep-edits/ice.md": true,
+    "new folder holds only the 12 pages": true,
+    "fn-748 folder holds only feature.md and ice.md": true,
+    "fn-748's page names cap-747 nowhere": true,
+    "no file in the model names cap-747 (pages and spine)": true,
+    "fn-725's page changed in line 50 only, to the approved words": true,
+    "spine: only cap-747 removed": true,
+    "spine: of the old entries only fn-748 changed": true,
+    "spine: order of the kept entries kept": true,
+    "spine: other top keys unchanged": true,
+    "spine: top key order kept": true,
+    "spine: new entries are exactly the ones asked": true,
+    "capability cap-upgrade-project as asked": true,
+    "feature fn-upgrade-in-one-step as asked": true,
+    "feature fn-cut-release as asked": true,
+    "feature fn-keep-edits as asked": true,
+    "feature fn-bring-new-settings as asked": true,
+    "feature fn-move-model as asked": true,
+    "feature fn-748 as asked": true,
+    "ICE ice-upgrade-project as asked": true,
+    "ICE ice-upgrade-in-one-step as asked": true,
+    "ICE ice-cut-release as asked": true,
+    "ICE ice-748 as asked": true,
+    "ICE ice-keep-edits as asked": true,
+    "ICE ice-bring-new-settings as asked": true,
+    "ICE ice-move-model as asked": true,
+    "capability one_line = first line of its Directional intent, word for word": true,
+    "fn-upgrade-in-one-step one_line = its feature-list text, first letter capitalised": true,
+    "fn-cut-release one_line = its feature-list text, first letter capitalised": true,
+    "fn-748 one_line = its feature-list text, first letter capitalised": true,
+    "fn-keep-edits one_line = its feature-list text, first letter capitalised": true,
+    "fn-bring-new-settings one_line = its feature-list text, first letter capitalised": true,
+    "fn-move-model one_line = its feature-list text, first letter capitalised": true,
+    "only ice-keep-edits thin": true,
+    "no part of this write thin itself": true,
+    "thin marks elsewhere in the model unchanged": true,
+    "fn-748 under cap-upgrade-project, intents [bi-7], new one_line, depends_on [fn-741] kept, nothing else changed": true,
+    "cap-upgrade-project's intents are [bi-7] only": true,
+    "cap-upgrade-project gained no depends_on (cap-747's need on cap-739 not carried over)": true,
+    "cap-747 gone from the spine": true,
+    "cap-747's page gone": true,
+    "cap-747's folder gone": true,
+    "features under cap-upgrade-project = the six, in the feature-list order": true,
+    "nothing depends on or is identified by cap-747 before": true,
+    "cap-upgrade-project and fn-748 do not name bi-734": true,
+    "parts naming bi-734 = those before less cap-747 and fn-748, their entries unchanged": true,
+    "all ids unique in the spine": true,
+    "each part at most one ICE": true,
+    "every ICE is for a part in the spine": true,
+    "spine comments kept": true,
+    "BI-7 gained only 7 lines, straight after the old last Touches line": true,
+    "BI-7's 7 new lines as asked, in the feature-list order, titles = page titles": true,
+    "fn-748's line reads 'Take out the parts Garura renamed or dropped' with link ../features/fn-748/feature.md, changes": true,
+    "every Touches line in form": true,
+    "every Touches link leads to a file": true,
+    "14 index entries name bi-7": true,
+    "14 Touches lines": true,
+    "index entries naming bi-7 match the Touches lines one for one (page, kind)": true,
+    "other domains/slices do not name bi-7": true,
+    "BI-7 stage line unchanged": true,
+    "under .garura/product only the spine, bi-7.md, fn-725's page, the fn-748 folder, the cap-747 folder and the new folder changed": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD fc775bc4: the model as committed (no uncommitted model change before this write)"
+}

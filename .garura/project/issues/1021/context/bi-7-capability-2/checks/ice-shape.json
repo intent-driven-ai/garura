@@ -1,0 +1,145 @@
+{
+  "checked_on": "2026-11-10",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    }
+  ]
+}
