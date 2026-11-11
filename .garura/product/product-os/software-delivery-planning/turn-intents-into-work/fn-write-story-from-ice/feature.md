@@ -49,6 +49,6 @@ Status: built.
 - core/components/plays/update-plan/scripts/feature_ice.py: "`body` checks the story the writer drafted, the same way /shape-plan checks its drafts"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The builder reads the story and that collected context, and never an ICE page."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "When the build play runs, its context sub-agent reads the story's Context guidance, collects the context, and puts it in the issue's short-term memory"
-- .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md: "A story never names the eval, the hidden file or the plan's evals folder."
+- .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md: "A story never names the eval, the hidden file or the plan's evals folder."
 - core/components/plays/shape-plan/reference/ice.md: "No story, no epic and no plan file holds a failure condition or a recovery condition."
 - GitHub #1002 (closed): a story added in a plan session is drafted from the feature's ICE.

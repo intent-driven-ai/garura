@@ -3,7 +3,7 @@
 ## What it does
 When agents build a slice, the build is given the business intent through the slice's stories, and never the eval, the hidden file or the plan's evals folder. Two checks make this visible. A lint check reads the inputs of each build play (its contracts and context files) and fails a play whose inputs name the evals folder, the eval or the hidden file. After a build, a ledger check reads that build session's ledger and flags each read of `.garura/project/plans/<plan-id>/evals/`. The ledger check does not stop the build: it records the flag in that build run's evidence, so the shortcut is visible. Nothing is hidden: the eval stays in plain text in the repo, and it is simply not part of the build's brief. Not built yet (#898).
 
-> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
+> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
 ## Inputs / Outputs
 - In (lint check): the inputs of each build play, its contracts and its context files, as its play, skill and agent files write them.

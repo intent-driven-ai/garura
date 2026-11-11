@@ -42,5 +42,8 @@
 - [Replace or retire an intent](../software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md) (feature) — adds
 - [Keep the tracker's words matched to the model](../software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md) (feature) — adds
 - [Find where the spec and what's built no longer match](../software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md) (feature) — adds
+- [Build the plan tree from a business intent](../software-delivery-planning/turn-intents-into-work/fn-727/feature.md) (feature) — changes
+- [Create or link the epic and the story issues of a plan](../software-delivery-planning/turn-intents-into-work/fn-728/feature.md) (feature) — changes
+- [/shape-plan writes the plan, the epic and the stories](../software-delivery-planning/turn-intents-into-work/fn-818/feature.md) (feature) — changes
 
 **What was done:** (nothing yet)

@@ -3,7 +3,7 @@
 ## What it does
 /shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).
 
-> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
+> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
 ## Inputs / Outputs
 - In: the slice that serves the intent, from the spine.
@@ -57,4 +57,4 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything, or stops without naming /update-plan.
 - Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.
 - Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818).
-- Checked by: the product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.
+- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.

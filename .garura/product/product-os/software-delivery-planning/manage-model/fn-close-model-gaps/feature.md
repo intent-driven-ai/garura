@@ -6,7 +6,7 @@ The gap finder lists what is loose, written twice or missing inside the model, a
 - Its script counts the candidates, and the skill judges them: "Its script counts the candidates; the judgment (is this really a gap, where does this node belong, which play owns the work) is the skill's." It writes its list only, and never the model.
 - What the gap closer makes, in order: it merges each duplicate marked agreed, keeping one and moving the other's intents and children onto it; it files each loose part under its parent, moving a page in a holding folder under its parent's folder, byte for byte; and it writes each intent link on both sides. What needs a play is handed back as the work list for the loop.
 - Both run after each round of the Discovery loop, through the keeper.
-- Their run on Garura's own model on 2026-11-11: one loose part, the old capability Link the product model, which has no domain; four intents nothing serves (bi-11, bi-5, bi-734 and bi-756); 21 links kept on one side only; no duplicates and no link to nothing.
+- Their run on Garura's own model on 2026-11-11: one loose part, the old capability Link the product model, which has no domain; four intents nothing served then (bi-11, bi-5, and two older intents since removed); 21 links kept on one side only; no duplicates and no link to nothing.
 - Handed here by Keep the spec matched to what's built: "Drift inside the model with no work in it, such as two ICE for one part, a thin mark kept in one place only, or the same part written twice. Manage the model owns it."
 - Examples, in different kinds of project:
   - In a shop's checkout service, the Saved cards capability has no domain yet. The gap finder proposes the Payments domain, with why, and the gap closer files it there.

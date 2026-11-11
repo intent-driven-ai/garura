@@ -37,5 +37,7 @@
 - [Understand the defect: its feature in the product model, its tests and why they pass, and its root cause](../software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md) (feature) — adds
 - [Write the tests that prove the defect, and show each one fails](../software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md) (feature) — adds
 - [Fix the code and run every test, then tidy it, without seeing the tests](../software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md) (feature) — adds
+- [/shape-eval writes the hidden eval](../software-delivery-planning/write-work-evals/fn-798/feature.md) (feature) — changes
+- [The build is given the business intent, never the eval](../software-delivery-planning/write-work-evals/fn-898/feature.md) (feature) — changes
 
 **What was done:** (nothing yet)

@@ -3,7 +3,7 @@
 ## What it does
 /shape-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the eval for the business intent in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).
 
-> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
+> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
 ## Inputs / Outputs
 - In: the epic of the slice, with its feature-to-story map, and its stories. The map joins each hidden-file entry (by its feature) to its story (ontology v11, Q36).
@@ -45,4 +45,4 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.
 - Fails if: a handoff plan that the eval writes names a failure condition, its id or the check.
 - Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).
-- Checked by: the product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/.
+- Checked by: the product owner runs /shape-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder.

@@ -71,7 +71,7 @@ What is not built yet:
 - .garura/product/product-os/intents/bi-3.md: "its evals are written before it is built"
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "Out: writing the evals that check the work. Write the evals that check the work owns it, and it reads the work items itself.", "The test writer's part holds each story's expectations."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "Write the evals that check the work owns the eval of each slice and the step library of each kind of surface, and Test the user experience on each surface tests each surface against its properties and guidelines."
-- .garura/product/product-os/software-delivery-planning/shape-eval/capability.md: "Write the eval that checks, from the outside, that a business intent is met on its slice's surface.", "It matters because a builder that sees the test can build to the test, and then a pass proves nothing."
+- .garura/project/issues/1021/context/cleanup/old-pages/write-the-hidden-eval.md, which keeps the page of Write the hidden eval as it was before the merge: "Write the eval that checks, from the outside, that a business intent is met on its slice's surface.", "It matters because a builder that sees the test can build to the test, and then a pass proves nothing."
 - core/components/plays/shape-eval/reference/ice.md: "It reads only the epic, its stories and the hidden file. It never runs the eval. An eval is a fixed yardstick: a later run never", "When the surface is a play, the scenario runs the play on a test project.", "The person sees a short summary, never the eval itself"
 - core/components/plays/shape-eval/reference/ice.md: "Every goal and every expectation of each story, and every failure condition in the hidden file, has at least one", "The eval holds no handoff text, and no recovery"
 - core/components/skills/author-slice-eval/SKILL.md: "Every step is a library sentence; every Then is exact; there is no score."
@@ -88,6 +88,6 @@ What is not built yet:
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "A builder agent, any skill that builds the software, or the build play's context sub-agent never reads its eval or its hidden file, and never reads a plan's evals folder."
 - standards/schemas/eval/_index.md, in Phoenix memory: "A library for the browser page, the mobile app and the backend endpoint is added when a slice first needs it."
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:", "An update always goes to the issue's short-term memory, and it is used only after a person"
-- The old model parts this capability takes over: Write the hidden eval (cap-shape-eval) with its features fn-798 and fn-898. Its hidden file part comes from the slice play, /shape-slice (fn-795).
+- The old model parts this capability takes over: Write the hidden eval with its features fn-798 and fn-898. Its hidden file part comes from the slice play, /shape-slice (fn-795).
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf covers software delivery planning.
