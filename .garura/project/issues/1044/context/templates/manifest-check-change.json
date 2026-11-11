@@ -1,0 +1,20 @@
+{
+  "task_id": "load-next-map",
+  "status": "completed",
+  "issue": 1044,
+  "out_dir": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/1044/context/templates/",
+  "templates": [
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/1044/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "4209021c6456",
+        "fingerprint": "sha256:b76c52d6e15aaa17e5ea20d161ccb76b0f3b784bfde3b721cb5285cd5e4a3c65"
+      }
+    }
+  ],
+  "missing": [],
+  "error": null
+}
