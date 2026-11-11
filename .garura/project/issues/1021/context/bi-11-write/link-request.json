@@ -1,0 +1,482 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021); pages and one-lines taken as approved by the product owner",
+  "parts": [
+    {
+      "id": "cap-define-product",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "define-product",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "Define what a product is made of: People and agents share one agreed map of what a product is made of, changed only on purpose.",
+      "doc": "software-delivery-planning/define-product/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-597",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "The map, at version 15, defines thirteen kinds in two layers, each with its properties, links, rules and a real example, answers 45 of its 47 questions, and logs each version.",
+      "capability": "cap-define-product"
+    },
+    {
+      "id": "fn-change-ontology",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-change-ontology",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "/edit-ontology changes only the kinds one need touches, with the product owner's typed yes at three points, ends only when the map reads valid, and lands through the change plays.",
+      "doc": "software-delivery-planning/define-product/fn-change-ontology/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-ontology-in-every-project",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-ontology-in-every-project",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "The settings name the map by its place in memory, Phoenix memory holds version 15, the same as Garura's source, and each play's agent reads it through the memory tool.",
+      "doc": "software-delivery-planning/define-product/fn-ontology-in-every-project/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-readers-in-step",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-readers-in-step",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "Each part that describes or checks the model's shape follows the map's current version.",
+      "doc": "software-delivery-planning/define-product/fn-readers-in-step/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-check-model-on-change",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-model-on-change",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "Each change to the map shows the product owner what it breaks in the model, recorded as owed.",
+      "doc": "software-delivery-planning/define-product/fn-check-model-on-change/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-model-shape-version",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-model-shape-version",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "The model says which version it is built to, so Move the product model to the new version's shape (fn-move-model) knows which moves it needs.",
+      "doc": "software-delivery-planning/define-product/fn-model-shape-version/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-extend-ontology",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-extend-ontology",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "A team adds its own kinds or rules to the map Garura provides, and changes the plays that read them with it.",
+      "doc": "software-delivery-planning/define-product/fn-extend-ontology/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-profile-decision-kinds",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-profile-decision-kinds",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "The profile and the product decision that the model already holds get their kinds, properties, links and rules in the map.",
+      "doc": "software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-approval-state-kind",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-approval-state-kind",
+      "capability": "cap-define-product",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "The map names one approval state for every kind, and maps the states of today onto it.",
+      "doc": "software-delivery-planning/define-product/fn-approval-state-kind/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "cap-manage-model",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "manage-model",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "Manage the model: A living map, added to, changed and pruned as work is done, and the source of what to try next.",
+      "doc": "software-delivery-planning/manage-model/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-add-found-part",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-add-found-part",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "The keeper writes the page of a domain, capability or feature found while other work goes on, then its index entry, thin when it is thin, all or nothing.",
+      "doc": "software-delivery-planning/manage-model/fn-add-found-part/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-change-part",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-change-part",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "A part changes only from words a person approved: named lines, a whole page, an intent page, its one-line, its intents or its parent, by one edit standard.",
+      "doc": "software-delivery-planning/manage-model/fn-change-part/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-take-part-out",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-take-part-out",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "A part is taken out only on a person's named approval: an old intent repointed, an intent page removed, a capability merged or a slice removed.",
+      "doc": "software-delivery-planning/manage-model/fn-take-part-out/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-725",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "Each link follows the ontology's rules, is kept on both sides, and points at a part that exists."
+    },
+    {
+      "id": "fn-724",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "The ready check says for each part whether work can start, ready, partly ready or not ready, with its gaps, and the same model always gives the same answer."
+    },
+    {
+      "id": "fn-check-model",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-model",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "The structure check reads the model's pages and index for their shape and links on every change, as findings, never a stop.",
+      "doc": "software-delivery-planning/manage-model/fn-check-model/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-close-model-gaps",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-close-model-gaps",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "Loose parts, links on one side only, intents nothing serves and the same part written twice are found, and what the model can take is closed.",
+      "doc": "software-delivery-planning/manage-model/fn-close-model-gaps/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-726",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "From any intent, a person lists the parts and slices that serve it; from a domain, its intents and capabilities."
+    },
+    {
+      "id": "fn-part-approval",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-part-approval",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "Each part says whether a person approved it, it changed, or it is in progress.",
+      "doc": "software-delivery-planning/manage-model/fn-part-approval/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-model-moves-with-work",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-model-moves-with-work",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "A design approval updates the model, and a change left for later is listed for Learn.",
+      "doc": "software-delivery-planning/manage-model/fn-model-moves-with-work/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-index-through-skills",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-index-through-skills",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "Every play adds, changes and takes out parts through the two index skills, not its own script.",
+      "doc": "software-delivery-planning/manage-model/fn-index-through-skills/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-model-tool",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-model-tool",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "One tool writes the model's pages and entries in the shape the ontology sets, with the plays and templates it lacks.",
+      "doc": "software-delivery-planning/manage-model/fn-model-tool/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-try-next",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-try-next",
+      "capability": "cap-manage-model",
+      "intents": [
+        "bi-11"
+      ],
+      "one_line": "The model proposes an idea with its evidence, a person confirms or drops it, and an experiment records what was tried and its result.",
+      "doc": "software-delivery-planning/manage-model/fn-try-next/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-define-product",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-define-product",
+      "doc": "software-delivery-planning/define-product/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-597",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-597",
+      "doc": "features/fn-597/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-change-ontology",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-change-ontology",
+      "doc": "software-delivery-planning/define-product/fn-change-ontology/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-ontology-in-every-project",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-ontology-in-every-project",
+      "doc": "software-delivery-planning/define-product/fn-ontology-in-every-project/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-readers-in-step",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-readers-in-step",
+      "doc": "software-delivery-planning/define-product/fn-readers-in-step/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-check-model-on-change",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-model-on-change",
+      "doc": "software-delivery-planning/define-product/fn-check-model-on-change/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-model-shape-version",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-model-shape-version",
+      "doc": "software-delivery-planning/define-product/fn-model-shape-version/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-extend-ontology",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-extend-ontology",
+      "doc": "software-delivery-planning/define-product/fn-extend-ontology/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-profile-decision-kinds",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-profile-decision-kinds",
+      "doc": "software-delivery-planning/define-product/fn-profile-decision-kinds/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-approval-state-kind",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-approval-state-kind",
+      "doc": "software-delivery-planning/define-product/fn-approval-state-kind/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-manage-model",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-manage-model",
+      "doc": "software-delivery-planning/manage-model/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-add-found-part",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-add-found-part",
+      "doc": "software-delivery-planning/manage-model/fn-add-found-part/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-change-part",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-change-part",
+      "doc": "software-delivery-planning/manage-model/fn-change-part/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-take-part-out",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-take-part-out",
+      "doc": "software-delivery-planning/manage-model/fn-take-part-out/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-725",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-725",
+      "doc": "features/fn-725/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-724",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-724",
+      "doc": "features/fn-724/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-check-model",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-model",
+      "doc": "software-delivery-planning/manage-model/fn-check-model/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-close-model-gaps",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-close-model-gaps",
+      "doc": "software-delivery-planning/manage-model/fn-close-model-gaps/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-726",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-726",
+      "doc": "features/fn-726/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-part-approval",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-part-approval",
+      "doc": "software-delivery-planning/manage-model/fn-part-approval/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-model-moves-with-work",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-model-moves-with-work",
+      "doc": "software-delivery-planning/manage-model/fn-model-moves-with-work/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-index-through-skills",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-index-through-skills",
+      "doc": "software-delivery-planning/manage-model/fn-index-through-skills/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-model-tool",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-model-tool",
+      "doc": "software-delivery-planning/manage-model/fn-model-tool/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-try-next",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-try-next",
+      "doc": "software-delivery-planning/manage-model/fn-try-next/ice.md",
+      "thin": true
+    }
+  ]
+}

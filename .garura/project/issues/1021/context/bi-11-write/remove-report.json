@@ -1,0 +1,50 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "repointed": [
+    "cap-723",
+    "fn-597",
+    "fn-724",
+    "fn-725",
+    "fn-726"
+  ],
+  "removed": [
+    "cap-723"
+  ],
+  "merged": [
+    {
+      "id": "cap-723",
+      "into": "cap-manage-model"
+    }
+  ],
+  "moved_features": [
+    "fn-724",
+    "fn-725",
+    "fn-726"
+  ],
+  "needs_to_review": [
+    {
+      "id": "cap-723",
+      "nfr_needs": {
+        "reliability": {
+          "level": "medium",
+          "target": "0 need or identified-by links that point at nothing or at work across Garura's own model (plans 717, 722, 734); the same spine and intent pages always give the same ready answer",
+          "gate": "lint_grounding.py --spine on .garura/product/product-os exits 0 once the link check (#725) lands; check_ice_workable.py fixture tests pass"
+        },
+        "maintainability": {
+          "level": "medium",
+          "target": "0 new errors on any model page that passed before ontology v5 \u2014 a missing domain, ICE or link is a warning, never an error; no capability or feature value lost in the depends_on -> needs rename",
+          "gate": "test_check_ice_workable.py and test_lint_grounding.py pass; a before/after diff of Garura's spine shows every need kept"
+        }
+      }
+    }
+  ],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "deleted": [
+    "product-os/capabilities/cap-723/capability.md",
+    "product-os/capabilities/cap-723"
+  ],
+  "layout_kept": true
+}
