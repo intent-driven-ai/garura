@@ -1,0 +1,7 @@
+{
+  "branch": "feature/1021-reorganise-business-intents",
+  "kind": "one-off",
+  "plan_id": null,
+  "issue": "1021",
+  "base": "main"
+}
