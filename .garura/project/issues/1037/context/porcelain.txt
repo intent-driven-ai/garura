@@ -1,6 +1,2 @@
- M core/components/agents/product-os-keeper.md
- M core/components/skills/link-model-part/SKILL.md
- M core/components/skills/link-model-part/scripts/link_part.py
- M core/components/skills/link-model-part/scripts/test_link_part.py
-?? .garura/project/issues/1037/context/porcelain.txt
-?? .garura/project/issues/1037/context/templates/
+ M .garura/project/issues/1037/context/porcelain.txt
+?? .garura/project/issues/1037/context/analysis-2.yaml

@@ -1,0 +1,53 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by the assess-changes skill
+# issue: 1037
+needs_judgment: false
+branch: feature/1037-index-tool-thin-and-moves
+issue: 1037
+
+change_groups:
+  - id: fix-link-model-part-review
+    issue: 1037
+    commit_type: fix
+    scope: skills
+    subject: "refuse moves into a shared folder; name undo gaps"
+    confidence: high
+    files:
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/agents/product-os-keeper.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: >-
+      Fixes the review findings on PR #1038. R-1: plan_move refuses a move when two parts would
+      share a folder. R-2: write_all's undo is best-effort and UndoFailed names every path that
+      is not back. R-3: tests for the delete, folder-removal and undo path. H-L2-1 to H-L2-4:
+      the keeper agent's and the skill's docs. One issue, one concern: the tests and docs travel
+      with the code they describe, so the dominant type is fix. The new refusal exits 2 like the
+      other checks; no function signature or export changed.
+  - id: chore-stm-fix-pass-records
+    issue: 1037
+    commit_type: chore
+    scope: stm
+    subject: "record the fix pass run artifacts"
+    confidence: high
+    files:
+      - .garura/project/issues/1037/context/porcelain.txt
+      - .garura/project/issues/1037/context/analysis-2.yaml
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational run records of the commit-change fix pass, not part of the feature."
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "2 groups, 6 of 6 changed files placed once: 4 in the fix group, 2 in the chore group; no exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched (filenames and diff content scanned against reference/risks.md)"}
