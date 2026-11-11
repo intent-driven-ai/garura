@@ -1,0 +1,79 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/track-execution/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-mark-item-type/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-land-tracker-writes-once/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-see-issues-worth-attention/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-record-defect-under-story/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/write/approved/fn-one-tool-knows-tracker/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-link-work-across-trackers/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/write/approved/fn-link-work-across-trackers/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-say-what-each-type-means/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-3/write/approved/fn-say-what-each-type-means/ice.md"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021); the write plan and one-lines approved by the product owner",
+  "parts": [
+    {
+      "id": "cap-track-execution",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "track-execution",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog.",
+      "doc": "software-delivery-planning/track-execution/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-mark-item-type",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-mark-item-type",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Every work item a play files or takes into a plan gets its kind's type and a parent of the right kind by a real link, with no label and no type in its title.",
+      "doc": "software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-status-follows-issue",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-status-follows-issue",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "When a work item's own issue closes, its item in the plan file reads Done or Dropped, and nothing is worked out from the items under it.",
+      "doc": "software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-land-tracker-writes-once",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-land-tracker-writes-once",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "The tracker writes of an approved session are made one by one and recorded as made, so a run after a stop goes on from its record and never makes an issue twice.",
+      "doc": "software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-see-issues-worth-attention",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-see-issues-worth-attention",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "One of three fixed modes cuts the work tracker's issues to at most ten, each with a reason, its kind and a play only where a fixed table names one.",
+      "doc": "software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-record-defect-under-story",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-record-defect-under-story",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "A defect is recorded as an issue of type Bug under the story whose work brought it in, with its severity as its first line and a text that never names the test.",
+      "doc": "software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-one-tool-knows-tracker",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-one-tool-knows-tracker",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "One tool reads the settings and reaches the trackers they name, so no play, skill or sub-agent names a tracker, and a team changes its tracker by a setting.",
+      "doc": "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-link-work-across-trackers",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-link-work-across-trackers",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Each piece of work hangs under the business intent it serves by the tracker's own parent and child link, also when the intents live in another tracker.",
+      "doc": "software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-say-what-each-type-means",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-say-what-each-type-means",
+      "capability": "cap-track-execution",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "One agreed list gives each type Garura files its one-line meaning, its tracker and how it is marked, and Initialize's brief shows it word for word.",
+      "doc": "software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-track-execution",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-track-execution",
+      "doc": "software-delivery-planning/track-execution/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-mark-item-type",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-mark-item-type",
+      "doc": "software-delivery-planning/track-execution/fn-mark-item-type/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-status-follows-issue",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-status-follows-issue",
+      "doc": "software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-land-tracker-writes-once",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-land-tracker-writes-once",
+      "doc": "software-delivery-planning/track-execution/fn-land-tracker-writes-once/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-see-issues-worth-attention",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-see-issues-worth-attention",
+      "doc": "software-delivery-planning/track-execution/fn-see-issues-worth-attention/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-record-defect-under-story",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-record-defect-under-story",
+      "doc": "software-delivery-planning/track-execution/fn-record-defect-under-story/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-one-tool-knows-tracker",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-one-tool-knows-tracker",
+      "doc": "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-link-work-across-trackers",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-link-work-across-trackers",
+      "doc": "software-delivery-planning/track-execution/fn-link-work-across-trackers/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-say-what-each-type-means",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-say-what-each-type-means",
+      "doc": "software-delivery-planning/track-execution/fn-say-what-each-type-means/ice.md",
+      "thin": true
+    }
+  ]
+}
