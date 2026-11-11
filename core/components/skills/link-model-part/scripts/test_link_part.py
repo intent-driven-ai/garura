@@ -414,5 +414,172 @@ class IceEntryTest(unittest.TestCase):
         self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}, self.ice()],
                      "thin mark")
 
+
+class TakeInOldPartsTest(unittest.TestCase):
+    """Taking in old parts (#1037): thin: false, capability: <id> and doc: <new path> on update."""
+
+    write, read, run_request = LinkPartTest.write, LinkPartTest.read, LinkPartTest.run_request
+    tearDown = LinkPartTest.tearDown
+    assert_refused_parts = LinkPartTest.assert_refused_parts
+
+    def setUp(self):
+        LinkPartTest.setUp(self)
+
+    def exists(self, rel):
+        return os.path.exists(os.path.join(self.root, rel))
+
+    def entry(self, kind, pid):
+        return next(e for e in yaml.safe_load(self.read("_spine.yaml"))[kind] if e["id"] == pid)
+
+    def update(self, **kw):
+        return dict({"id": "fn-1", "kind": "feature", "mode": "update"}, **kw)
+
+    def test_thin_false_takes_the_mark_off_the_entry_and_the_page(self):
+        r, _ = self.run_request(parts=[self.update(thin=True)])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn(THIN, self.read("features/fn-1/feature.md"))
+        r, report = self.run_request(parts=[self.update(thin=False)])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertNotIn(THIN, self.read("features/fn-1/feature.md"))
+        self.assertEqual(self.read("features/fn-1/feature.md"), PAGE.format(title="Send one message"))
+        self.assertFalse((self.entry("features", "fn-1").get("metadata") or {}).get("thin"))
+        self.assertEqual(report["unthin"], ["fn-1"])
+
+    def test_thin_false_lets_the_part_take_its_ice_in_the_same_request(self):
+        self.run_request(parts=[self.update(thin=True)])
+        self.write("features/fn-1/ice.md", ICE)
+        r, report = self.run_request(parts=[self.update(thin=False), {
+            "id": "ice-1", "kind": "ice", "mode": "new", "for": "fn-1", "doc": "features/fn-1/ice.md"}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(report["written"], ["ice-1"])
+
+    def test_a_feature_is_filed_under_a_capability_the_same_request_adds(self):
+        self.write("capabilities/cap-2/capability.md", "# Capability: Read mail\n")
+        r, _ = self.run_request(parts=[
+            {"id": "cap-2", "kind": "capability", "mode": "new", "slug": "cap-2", "intents": ["bi-1"],
+             "one_line": "Read mail", "doc": "capabilities/cap-2/capability.md"},
+            self.update(capability="cap-2")])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.entry("features", "fn-1")["capability"], "cap-2")
+        self.assertEqual(self.entry("features", "fn-1")["doc"], "features/fn-1/feature.md")
+
+    def test_a_capability_not_in_the_spine_or_on_a_capability_is_refused(self):
+        self.assert_refused_parts([self.update(capability="cap-9")], "not in the spine")
+        self.assert_refused_parts([{"id": "cap-1", "kind": "capability", "mode": "update",
+                                    "capability": "cap-1"}], "only a feature")
+
+    def test_a_page_and_its_ice_move_to_a_new_folder(self):
+        self.write("features/fn-1/ice.md", ICE)
+        r, _ = self.run_request(parts=[{"id": "ice-1", "kind": "ice", "mode": "new", "for": "fn-1",
+                                        "doc": "features/fn-1/ice.md"}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        r, report = self.run_request(parts=[self.update(doc="capabilities/cap-1/fn-1/feature.md")])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.read("capabilities/cap-1/fn-1/feature.md"), PAGE.format(title="Send one message"))
+        self.assertEqual(self.read("capabilities/cap-1/fn-1/ice.md"), ICE)
+        self.assertFalse(self.exists("features/fn-1"))
+        self.assertEqual(self.entry("features", "fn-1")["doc"], "capabilities/cap-1/fn-1/feature.md")
+        self.assertEqual(self.entry("ices", "ice-1")["doc"], "capabilities/cap-1/fn-1/ice.md")
+        self.assertEqual([m["to"] for m in report["moved"]],
+                         ["capabilities/cap-1/fn-1/feature.md", "capabilities/cap-1/fn-1/ice.md"])
+        self.assertTrue(self.read("_spine.yaml").startswith("# The spine"))
+
+    def assert_move_refused(self, words, doc="capabilities/cap-1/fn-1/feature.md"):
+        before = {p: self.read(p) for p in ("_spine.yaml", "features/fn-1/feature.md")}
+        self.assert_refused_parts([self.update(doc=doc)], words)
+        self.assertEqual({p: self.read(p) for p in before}, before)
+        self.assertFalse(self.exists("capabilities/cap-1/fn-1"))
+
+    def test_a_move_that_would_break_a_link_is_refused(self):
+        self.write("intents/bi-1.md", "# People get their mail\n\n- [Send one message]"
+                                      "(../features/fn-1/feature.md) (feature) — adds\n")
+        self.assert_move_refused("still name its old page")
+
+    def test_a_move_from_a_folder_that_holds_another_file_is_refused(self):
+        self.write("features/fn-1/notes.md", "notes\n")
+        self.assert_move_refused("also holds notes.md")
+
+    def test_a_move_outside_the_part_s_folders_is_refused(self):
+        self.assert_move_refused("outside its folder", doc="elsewhere/fn-1/feature.md")
+
+    def test_two_moves_to_one_folder_in_one_request_are_refused(self):
+        r, _ = self.run_request(parts=[{"id": "fn-2", "kind": "feature", "mode": "new", "slug": "fn-2",
+                                        "capability": "cap-1", "intents": ["bi-1"], "one_line": "Send a reset link",
+                                        "doc": "features/fn-2/feature.md"}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        before = {p: self.read(p) for p in ("_spine.yaml", "features/fn-1/feature.md", "features/fn-2/feature.md")}
+        self.assert_refused_parts([self.update(doc="capabilities/cap-1/shared/feature.md"),
+                                   dict(self.update(doc="capabilities/cap-1/shared/feature.md"), id="fn-2")],
+                                  "never share a folder")
+        self.assertEqual({p: self.read(p) for p in before}, before)
+        self.assertFalse(self.exists("capabilities/cap-1/shared"))
+
+    def write_all_module(self):
+        sys.path.insert(0, HERE)
+        import link_part
+        import safe_write
+        return link_part, safe_write
+
+    def move_parts(self):
+        """The writes, deletes and folder removal of moving fn-1's page under cap-1, as plan would hand them."""
+        old = os.path.join(self.root, "features/fn-1/feature.md")
+        new = os.path.join(self.root, "capabilities/cap-1/fn-1/feature.md")
+        return old, new, [(new, self.read("features/fn-1/feature.md"))], [old], [os.path.dirname(old)]
+
+    def assert_tree_as_before(self, old_text):
+        self.assertEqual(self.read("features/fn-1/feature.md"), old_text)
+        self.assertFalse(self.exists("capabilities/cap-1/fn-1"))
+
+    def test_a_failed_delete_puts_every_file_and_folder_back(self):
+        link_part, _ = self.write_all_module()
+        old, new, writes, deletes, rmdirs = self.move_parts()
+        old_text = self.read("features/fn-1/feature.md")
+        with self.assertRaises(OSError):
+            link_part.write_all(writes, deletes + [os.path.join(self.root, "features/fn-9/feature.md")], rmdirs)
+        self.assert_tree_as_before(old_text)
+
+    def test_a_failed_folder_removal_puts_the_files_back(self):
+        link_part, _ = self.write_all_module()
+        old, new, writes, deletes, rmdirs = self.move_parts()
+        old_text = self.read("features/fn-1/feature.md")
+        real, calls = link_part.os.rmdir, []
+
+        def flaky(d):
+            calls.append(d)
+            if len(calls) == 1:
+                raise OSError("folder busy")
+            real(d)
+
+        link_part.os.rmdir = flaky
+        try:
+            with self.assertRaises(OSError):
+                link_part.write_all(writes, deletes, rmdirs)
+        finally:
+            link_part.os.rmdir = real
+        self.assert_tree_as_before(old_text)
+
+    def test_an_undo_that_cannot_finish_names_what_is_not_back(self):
+        link_part, safe_write = self.write_all_module()
+        spine_path = os.path.join(self.root, "_spine.yaml")
+        page = os.path.join(self.root, "features/fn-1/feature.md")
+        real, calls = safe_write.atomic_write, []
+
+        def flaky(path, text):
+            calls.append(path)
+            if len(calls) in (2, 3):
+                raise OSError("disk full")
+            real(path, text)
+
+        safe_write.atomic_write = flaky
+        try:
+            with self.assertRaises(link_part.UndoFailed) as caught:
+                link_part.write_all([(spine_path, "changed\n"), (page, "changed\n")])
+        finally:
+            safe_write.atomic_write = real
+        self.assertEqual(len(caught.exception.left), 1)
+        self.assertIn(spine_path, caught.exception.left[0])
+        self.assertEqual(self.read("features/fn-1/feature.md"), PAGE.format(title="Send one message"))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "approved"
+recommended: approve
+recommended_reason: no P1 findings; confidence acceptable
+note: Second review, after the first review's reject on R-1. The reviewer was shown the play's recommendation (approve), the one remaining P2 (R-1's case-only residual on a case-insensitive disk) and the assistant's view (approve; the residual needs one request naming two folders that differ only in case). The reviewer typed approved.
+citing_findings: []
+fixed_since_round_1: [R-2, H-L2-1, H-L2-3, H-L2-4]
+open_findings: [R-1, R-3, R-4, R-5, R-6, R-7, R-8, R-9, R-10, R-11, R-12, N-1, N-2, N-3, H-L2-2, H-L2-5, H-L2-6, H-L2-7, H-L2-8, H-L2-9, H-L2-10, H-L2-11, H-L2-12, H-L2-13, H-L2-14]

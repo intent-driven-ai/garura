@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/self-review.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:d630c3f6149122ae56b190e7041379f8efef63ff399e85a349dc946fff976eba",
+      "copy": ".garura/project/issues/1037/context/memory/standards/rules/self-review.md"
+    }
+  ]
+}

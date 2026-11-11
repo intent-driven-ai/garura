@@ -1,0 +1,352 @@
+pr: 1038
+issue: 1037
+review_round: 2
+layer1:
+  lint-components: 'installed tool, source layout: 0 findings in changed paths, 37 there before'
+  lint-play: 'did not run: no play SKILL.md changed'
+  language-linter: not configured (no Python linter config committed)
+  check-pr-quality scan: '0 findings; core/components/** is typed garura-prose, so no code rule could fire: not
+    evidence'
+  suites: 'all green: test_link_part 48 of 48; acceptance check eval_1037 30 of 30'
+  run-records: 'no review playbook (playbook missing): no checks run, not a pass'
+findings:
+- id: R-1
+  severity: P2
+  status: partly_fixed
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 275-280 (the new refusal); 314-323 (allowed_docs takes any final folder name); 273 (the disk check, which
+    sees neither folder yet)
+  title: Two moves into one folder are refused when the folder is spelled the same; a folder spelled with different
+    letter case still loses a page on a case-insensitive file system
+  basis:
+    rule: pr.md severity bucket P1 ("data-loss") lowered one step to P2 by the preconditions below; playbook review/code
+      Treatment ("review the data-safety ... paths hard") and Rubric ("safe handling of destructive/irreversible
+      operations"); the script's own contract, link_part.py lines 73-74 ("Every check runs before the first write;
+      any failure refuses the whole request") and the claim in the fix commit that plan_move refuses a move when
+      another part already uses the new folder. No taxonomy row fires (garura-prose).
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-3
+  severity: P3
+  status: partly_fixed
+  category: tests
+  file: core/components/skills/link-model-part/scripts/test_link_part.py
+  line: 533-539 (failed delete); 541-559 (failed folder removal); 561-581 (undo that cannot finish); helper 529-531
+  title: The delete, folder-removal and undo branches are now reached by tests, but the assertions do not pin what
+    the fix claims
+  basis:
+    rule: pr.md P2 bucket ("missing tests for new code") lowered to P3 because the branches are reached and each
+      behaved correctly when I ran it by hand; playbook review/tests Treatment ("clear assertions ... no test that
+      asserts nothing") and T-3; nearest row TEST-03 (P3, assert-count). No row fires (garura-prose).
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-4
+  severity: P3
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 230-254 (skip at 240); caller 296
+  title: names_of never reads the moved pages themselves, so links going out of a moved page break unchecked
+  basis:
+    rule: playbook review/code Rubric ("safe handling of destructive/irreversible operations"); contract lines 50-54
+      ("so no link breaks")
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-5
+  severity: P3
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 111 (MD_LINK), 248-253
+  title: names_of recognises only inline [text](path) links and the full old path as text; other forms break unseen
+  basis:
+    rule: playbook review/code Rubric ("safe handling of destructive/irreversible operations"); contract lines 50-54
+      ("a link relative to the page")
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-6
+  severity: P3
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: plan 346-485; plan_move 257-311; write_all 505-558; main 561-598; names_of 230-254
+  title: The fix grew plan_move, write_all and main, which were already large
+  basis:
+    rule: playbook review/code Rubric ("function size"); pr.md rows CODE-09 (complexity), CODE-10 (function line
+      count), CODE-11 (depth), all P3. Those are path rules that do not fire on core/components/**; they are the
+      nearest rows. The figures are my own count with Python's ast (branch points = if, for, while, except, conditional
+      expression, comprehension, each extra and/or operand, plus 1; nesting = deepest if/for/while/try/with), not
+      a committed tool. No committed Python linter holds a limit, so this is a judgement against the rubric, not
+      a rule breach.
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-7
+  severity: P3
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 217-227 (without_thin_line), OLD_THIN at 104
+  title: 'thin: false removes every line that starts "Thin:" anywhere on the page, and reports nothing about it'
+  basis:
+    rule: playbook review/code Rubric ("safe handling of destructive/irreversible operations")
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-8
+  severity: P3
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 445 (`is False`), 462 (`if p.get("thin")`)
+  title: 'The new thin: false is not type-checked: the string "false" marks the part thin'
+  basis:
+    rule: playbook review/code Rubric ("error handling"); contract line 81 ("2 refused or bad input")
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-9
+  severity: P3
+  status: partly_fixed
+  category: tests
+  file: core/components/skills/link-model-part/scripts/test_link_part.py
+  line: class TakeInOldPartsTest, 418-581
+  title: Some new branches have still no assertion in the unit suite; the relative-link branch of names_of is reached
+    only by the acceptance check
+  basis:
+    rule: playbook review/tests T-3 (state which branches no suite reaches). The pr.md P2 bucket ("missing tests
+      for new code") would put it at P2; kept at P3 because each branch below was run by hand and behaved correctly.
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-10
+  severity: P4
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 261 (new_doc), 439-444 (capability), 457-458 and 462-466 (doc with thin)
+  title: Bad-typed doc or capability crashes with a traceback (exit 1); thin and doc in one item is refused with
+    a misleading message
+  basis:
+    rule: playbook review/code Rubric ("error handling"); contract line 81 ("Exit 0 written, 2 refused or bad input")
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-11
+  severity: P4
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 234 (os.walk)
+  title: names_of lists hits in directory order (not stable) and skips an unreadable folder without a word
+  basis:
+    rule: playbook review/code Rubric ("deterministic where it claims to be")
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: R-12
+  severity: P4
+  status: open
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 227 (trailing newline), 299-307 (move by read then write), 520-523 (the delete step) and 547-548 (its restore)
+  title: A moved page is rewritten, not renamed; the undo restores it the same way, so "every file is back as it
+    was" is not byte-exact
+  basis:
+    rule: 'playbook review/code Rubric ("safe handling of destructive/irreversible operations"); the claims now
+      stand in three places: link_part.py lines 74-76 ("put back as it was"), the keeper''s new "word for word",
+      and the CLI sentence at 589 ("every file is back as it was").'
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: N-1
+  severity: P3
+  status: new
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 76-77 and 584-587 (the script); SKILL.md lines 40-41 and 49-50 (the contract the caller reads)
+  title: Exit 2 now also means "files may not be back", but SKILL.md still says exit 2 means nothing was written
+  basis:
+    rule: pr.md P3 bucket ("missing docs"); playbook review/code Rubric ("error handling", "safe handling of destructive/irreversible
+      operations"). The harness category owns the SKILL.md half; it is named here because the behaviour is the script's.
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: N-2
+  severity: P4
+  status: new
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 520-523 (removed.append before os.remove), 547-548 (the restore), 585 (the message)
+  title: The undo names a page as not back when the page never left
+  basis:
+    rule: playbook review/code Rubric ("error handling"); contract lines 76-77 ("names every path that is not back").
+      The reverse of the first review's R-2 false claim, with no data at risk.
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: N-3
+  severity: P4
+  status: new
+  category: executable-code
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 497-502 (UndoFailed)
+  title: 'UndoFailed cannot be copied or pickled: its constructor takes two arguments but OSError passes one to
+    it'
+  basis:
+    rule: playbook review/code Rubric ("error handling"); pr.md P4 bucket (nit). The categories asked for the changed
+      constructor to be looked at.
+    source: .garura/project/issues/1037/context/memory/knowledge/review/code.md and standards/rules/pr.md
+  source: quality-findings.yaml
+- id: H-L2-2
+  severity: P3
+  status: first review H-L2-2, partly fixed
+  category: harness
+  file: core/components/agents/product-os-keeper.md
+  line: Intent to Skill Mapping, the new row (line 109), 'Skill' cell against its last cell; skill-table row (line
+    74), 'Used By' cell
+  title: 'The row does not order its steps so that a move is never run while a page still names the old path. Its
+    Skill cell runs `link-model-part` (thin: false), then `e'
+  basis:
+    rule: grounded principle G7, G13, G10
+    source: main:core/components/skills/remove-model-part/SKILL.md Process step 1 (line 39, 'Have the words fixed
+      first'); main:core/components/agents/product-os-keeper.md line 107 (named lines, then the removal); line 108
+      (the order a refusal enforces is named in the row); 5497c9c3 (the 'Used By' entry of a new use)
+  source: design-findings-harness.yaml
+- id: H-L2-10
+  severity: P3
+  status: new
+  category: harness
+  file: core/components/agents/product-os-keeper.md
+  line: 'Intent to Skill Mapping, the new row (line 109): ''then one `link-model-part` run (each feature''s `capability`
+    with its `doc`, each ICE `new`)'' after ''enrich-grounding (mode `approved`, for the new pages and ICE pages)'''
+  title: 'The one `link-model-part` run is not order-neutral, and the row does not say where the approved pages
+    go. I ran it on a scratch model (outside the repository), '
+  basis:
+    rule: grounded principle G13, G10
+    source: main:core/components/agents/product-os-keeper.md line 108 (a row names what must come first when a script
+      refuses otherwise); main:core/components/skills/enrich-grounding/scripts/write_approved.py (an ICE page needs
+      its part's page beside it, 'on disk or in the same request')
+  source: design-findings-harness.yaml
+- id: H-L2-11
+  severity: P3
+  status: new
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: 'Process step 2 (line 40, ''Exit 2: nothing was written'') and Output (last sentence, ''Nothing is written
+    when the script exits 2'')'
+  title: The fix made the script exit 2 for a second case that the contract does not name. When a write fails and
+    the undo cannot finish too, main() now returns 2 with '
+  basis:
+    rule: grounded principle G1
+    source: main:core/components/skills/link-model-part/SKILL.md (base version of both sentences); main:core/components/skills/remove-model-part/SKILL.md
+      line 79; main:docs/standards/harness-standard.md principles 2 and 3
+  source: design-findings-harness.yaml
+- id: H-L2-12
+  severity: P4
+  status: new
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: 'Rules, ''Re-file only what a person approved'' (line 71 to 73): ''as the `/shape-slice` brief and a reviewed
+    take-in do'''
+  title: The phrase names a caller that records a person's approval, and no committed source on the base ref, in
+    memory or in ADR 065 describes a 'reviewed take-in'. A r
+  basis:
+    rule: grounded principle G6
+    source: 'none found: git grep on main for ''reviewed take-in'', ''take-in'' and ''take in an old'' in core/,
+      docs/ and core/grounding finds nothing about it (the hits are update-plan''s ''Take instructions'', ADR 058
+      and an unrelated feature page); ADR 065 at d6ccf160 has no such phrase'
+  source: design-findings-harness.yaml
+- id: H-L2-13
+  severity: P4
+  status: new
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: 'Rules, ''A re-file moves the page too'' (line 74 to 77): ''`capability` alone files the entry and leaves
+    the page where it is, which suits only a page in the holding folder `features/<id>/`'''
+  title: 'The clause says that filing a feature under another capability and leaving its page in the holding folder
+    ''suits'' that case. By the ontology the holding folder '
+  basis:
+    rule: grounded principle G8, G9
+    source: 'memory tool: phoenix standards/schemas/product-os/ontology.md (b2e40bff2131), Feature, line 385 (''under
+      its capability''s folder, or the holding folder `features/<id>/` until it names a capability'') and line 407;
+      main:core/components/skills/link-model-gaps/SKILL.md lines 34 to 35 (a holding-folder page moves under its
+      parent''s folder when its parent is set)'
+  source: design-findings-harness.yaml
+- id: H-L2-14
+  severity: P4
+  status: new
+  category: harness
+  file: core/components/agents/product-os-keeper.md
+  line: 'Boundaries, NEVER, ''Remove a node, or lose what an existing node holds'' (lines 185 to 191): ''only when
+    it moves them, word for word, to a new folder (#1037)'''
+  title: 'Tested against the script, on a scratch model (outside the repository): a moved page keeps its words and,
+    in a plain move, a missing last newline or two trailin'
+  basis:
+    rule: grounded principle G1, G9
+    source: main:core/components/skills/link-model-gaps/SKILL.md lines 35 and 59 ('byte for byte', 'A page moves
+      unchanged'); main:core/components/skills/enrich-grounding/scripts/change_lines.py docstring ('every other
+      line word for word, with its own line ending')
+  source: design-findings-harness.yaml
+- id: H-L2-5
+  severity: P4
+  status: first review H-L2-5, open
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: Rules, 'Re-file only what a person approved' (line 68 to 73)
+  title: 'A re-filed feature keeps the `intents` it had, which are the old capability''s. The skill can add an intent
+    and never take one away, and the rule, which the fix '
+  basis:
+    rule: grounded principle G8
+    source: 'memory tool: phoenix standards/schemas/product-os/ontology.md, Feature Rules, line 410 (''Its business
+      intents are the ones its parent capability serves'')'
+  source: design-findings-harness.yaml
+- id: H-L2-6
+  severity: P4
+  status: first review H-L2-6, open; grew
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: Rules, 'A move breaks no link' (line 78 to 81)
+  title: The heading says a move breaks no link, with no condition. names_of still skips the moved files themselves
+    (`rel in old_rels`), so a relative link inside the mo
+  basis:
+    rule: grounded principle G5 (ADR 065 rule 1, 'the links that would otherwise point at nothing'), G1
+    source: ADR 065 at d6ccf160 (another branch), rule 1; main:core/components/skills/remove-model-part/SKILL.md,
+      Rules
+  source: design-findings-harness.yaml
+- id: H-L2-7
+  severity: P4
+  status: first review H-L2-7, open
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: frontmatter `description` (line 3)
+  title: The description was not touched by the fix. It grew from 1,623 characters on main to 1,973, one sentence,
+    where the standard calls for a short summary. Its last
+  basis:
+    rule: grounded principle G12
+    source: 'main:docs/components/skills.md line 206 (`description`: ''Short summary for CLI/tooling discovery'')'
+  source: design-findings-harness.yaml
+- id: H-L2-8
+  severity: P4
+  status: first review H-L2-8, open
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: Rules, 'The thin mark is two marks that agree' (line 60) and 'The thin mark comes off as it went on' (line
+    82); Process step 2 (line 40)
+  title: 'Two bullets answer ''who takes the thin mark off'' in two ways: ''The play that deepens the part removes
+    both'' and ''thin: false takes both off''. Both are true, sin'
+  basis:
+    rule: grounded principle G8
+    source: 'memory tool: phoenix standards/schemas/product-os/ontology.md, ICE ''Thin mark'' and the ready rule;
+      spine.yaml, `thin` comment (''the play that deepens it removes it'')'
+  source: design-findings-harness.yaml
+- id: H-L2-9
+  severity: P4
+  status: first review H-L2-9, open
+  category: harness
+  file: core/components/skills/link-model-part/SKILL.md
+  line: the skill's name against its job (frontmatter `name`; Rules); and the keeper's third exception (line 190)
+  title: The verb `link` means making links in the model. Taking a thin mark off and moving and deleting a page
+    are not links. The drift was there on the base ref (one-l
+  basis:
+    rule: grounded principle G4
+    source: 'memory tool: phoenix standards/rules/naming.yaml, line 42, verb `link` ''Make links in the model'';
+      main:docs/standards/harness-standard.md principle 10'
+  source: design-findings-harness.yaml
+fixed_since_round_1:
+- R-2
+- H-L2-1
+- H-L2-3
+- H-L2-4
