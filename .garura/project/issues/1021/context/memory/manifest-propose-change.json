@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "short-term",
+      "path": "1021/context/bi-4-capability-2/memory/standards/rules/self-review.md",
+      "version": null,
+      "fingerprint": "sha256:d630c3f6149122ae56b190e7041379f8efef63ff399e85a349dc946fff976eba",
+      "copy": ".garura/project/issues/1021/context/memory/standards/rules/self-review.md"
+    }
+  ]
+}
