@@ -1,12 +1,12 @@
 ---
 name: author-ux-lens
-description: Author a shaped slice's UX lens as an MD grounding doc — the screens (with low-fidelity layouts), the flows that EXPAND the slice's journey records onto those screens (one flow per journey, never an invented one), the states each holds, and the product's visual core (the semantic state vocabulary, its tone map, and the design-system reference the look comes from — never a chosen palette or typography) — from the slice's hub (its features' grounding docs + the spine profile + the slice's persona and journey records) and KB pattern grounding. Also draws the slice as a wireframe record, `lens/screens.yaml` (personas, surfaces, journeys, screens with moments/regions/states/invariants, vocabulary, color rule, open questions), written straight to the live model beside ux.md; a bundled script renders `lens/wireframes.html` from it afterwards — this skill never writes the HTML. Writes both per-node artifacts STRAIGHT TO THE LIVE MODEL and emits the visual-core decision, any design-directive decisions, plus the grounding map as structured data in a manifest; it NEVER writes a shared model file (the spine _spine.yaml, the profile, or a decisions/*.yaml). Reads the feature.md docs for the hub, never another lens. Generative artifact production for the /shape-ux-lens play under direct-model-write (ADR 026).
+description: Author a shaped slice's UX lens as an MD grounding doc — the screens (with low-fidelity layouts), the flows that EXPAND the slice's journey records onto those screens (one flow per journey, never an invented one), the states each holds, and the product's visual core (the semantic state vocabulary, its tone map, and the design-system reference the look comes from — never a chosen palette or typography) — from the slice's hub (its features' grounding docs + the spine profile + the slice's persona and journey records) and KB pattern grounding. Also draws the slice as a wireframe record, `lens/screens.yaml` (personas, surfaces, journeys, screens with moments/regions/states/invariants, vocabulary, color rule, open questions), written straight to the live model beside ux.md; a bundled script renders `lens/wireframes.html` from it afterwards — this skill never writes the HTML. Writes both per-node artifacts STRAIGHT TO THE LIVE MODEL and emits the visual-core decision, any design-directive decisions, plus the grounding map as structured data in a manifest; it NEVER writes a shared model file (the spine _spine.yaml, the profile, or a decisions/*.yaml). Reads the feature.md docs for the hub, never another lens. Generative artifact production for the /design-surface play under direct-model-write (ADR 026).
 version: 0.5.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
 stale: true
-stale_note: 'waits for the rebuild of /shape-ux-lens (#855)'
+stale_note: 'waits for the rebuild of /design-surface (#855)'
 ---
 
 # author-ux-lens

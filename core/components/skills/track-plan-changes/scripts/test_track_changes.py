@@ -117,7 +117,7 @@ class TrackChangesTest(unittest.TestCase):
         self.assertEqual(self.apply(ops), 0)
         made = [i for i in self.load(self.tracker)["issues"] if i["title"] == "Undo"]
         self.assertEqual(len(made), 1)
-        self.assertIn("Made by /update-plan", made[0]["body"])
+        self.assertIn("Made by /reshape-plan", made[0]["body"])
         self.assertEqual(self.load(self.out)["done"]["e1"]["how"], "found")
 
     def test_a_record_from_another_list_is_refused(self):
@@ -181,7 +181,7 @@ class FakeAdapter:
 
 
 class FindMarkedTest(unittest.TestCase):
-    MARK = "Made by /update-plan (list abcdef123456, op 3-create)."
+    MARK = "Made by /reshape-plan (list abcdef123456, op 3-create)."
 
     def host(self, issues, hits):
         h = tracker.HostTracker.__new__(tracker.HostTracker)

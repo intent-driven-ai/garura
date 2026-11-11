@@ -1,7 +1,7 @@
 # learn — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-edit-play; never hand-edit the compiled SKILL.md.
+fix-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -29,10 +29,10 @@ or feature, never rewrites a slice or epic entry, and never edits an accepted de
 place.
 
 Pipeline position: **both**. The product model is the source of truth on main, so a model update
-rides the change pipeline like any other. The D2 rule prepends `start-change` (opens the learn
+rides the change pipeline like any other. The D2 rule prepends `start-work` (opens the learn
 issue, cuts a fresh branch off main, inits STM) and, after the updates are persisted and
-verified, appends the close sequence `commit-change → propose-change → check-change →
-merge-change`, merging the refreshed model to main. (#434 ProductOS command model)
+verified, appends the close sequence `commit-work → review-work → validate-work →
+merge-work`, merging the refreshed model to main. (#434 ProductOS command model)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill
 (author-learnings) writes ONLY the per-node grounding docs (`capability.md`, `feature.md`,
@@ -101,11 +101,11 @@ this run's delta. Review is the branch git diff and the pipeline's end PR.
   reads `ok: true` (the allowlist held). A close whose Done means does not hold reads HALTED,
   never COMPLETED.
 - C14 — Clean tree in, committed delta out (ADR 026): the product-os tree is asserted clean at
-  entry (pre-flight halts on a dirty model tree, so the injected `start-change` cuts a fresh
+  entry (pre-flight halts on a dirty model tree, so the injected `start-work` cuts a fresh
   branch off main against a clean base and the branch base is a correct reference for the guard
   and the diff). After the approved checkpoint the play commits its own model delta on the branch
   (`feat(model): … (#<issue>)`), scoped to the product-os paths it wrote, BEFORE the injected
-  close sequence runs — the subsequent `commit-change` then handles only what remains uncommitted
+  close sequence runs — the subsequent `commit-work` then handles only what remains uncommitted
   (STM evidence, ADRs), not the model delta this play already committed. On cancel the tree was
   already reverted (C11), so nothing is committed.
 
@@ -184,7 +184,7 @@ write scope (the allowlist held).
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the unit is absent or nothing has delivered. direction: halt and route to
-  the delivery plays (/build-epic → /validate-epic → /shape-measure-lens) before /learn-outcomes runs. handoff: human.
+  the delivery plays (/build-work → /validate-slice → /shape-measure-lens) before /learn-outcomes runs. handoff: human.
 - REC2 (F2) — trigger: a write touched the skeleton, a slice/epic entry, or an accepted decision.
   direction: revert it; /learn-outcomes writes only meaning fields, grounding sections, and new decisions.
   handoff: human.

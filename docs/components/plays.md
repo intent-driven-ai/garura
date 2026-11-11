@@ -22,7 +22,7 @@ Per ADR 017 (2026-04-14), play levels (L1/L2) and agent-count budgets are retire
 Plays still distinguish themselves along two axes:
 
 - **Invocability**: some plays are human-only (they stop at checkpoints waiting for a typed yes, change or stop); others can be model-invoked for automated sequencing.
-- **Chaining**: some plays chain other plays — the pipeline end sequence chains `commit-change` → `propose-change` → `check-change` → `merge-change` (injected per `standards/rules/pipeline-position.md`); most are standalone.
+- **Chaining**: some plays chain other plays — the pipeline end sequence chains `commit-work` → `review-work` → `validate-work` → `merge-work` (injected per `standards/rules/pipeline-position.md`); most are standalone.
 
 Neither of these requires a level label.
 
@@ -31,8 +31,8 @@ Neither of these requires a level label.
 A **loop** is a higher-order play: it runs other plays in rounds, in any order, on one issue and
 one branch, until its intent is met or it fails (ADR 029, ADR 043, ADR 045). The full page is
 [Loops](loops.md). It does no work of its own. Loops live
-in `core/components/loops/<loop>/`, are built by `/create-loop` and changed by
-`/edit-loop` (the companions of `/create-play` and `/edit-play`), and are checked by
+in `core/components/loops/<loop>/`, are built by `/build-loop` and changed by
+`/fix-loop` (the companions of `/build-play` and `/fix-play`), and are checked by
 `lint_loop.py`. Every loop points to one shared run, `core/components/loops/_shared/loop-run.md`
 (questions first, one contract, each play run and checked and its run files committed, the
 checker, the end), as every play points to the shared close. The install lays loops as skills
@@ -68,7 +68,7 @@ Play context:
 
 **Conditional step skipping** is valid in plays — a play may skip a step when its outcome already holds (e.g., skipping the commit step on a clean tree).
 
-**Plays can delegate to other plays** via the Skill tool (e.g., the pipeline-position rule prepends `start-change` to plays that open work).
+**Plays can delegate to other plays** via the Skill tool (e.g., the pipeline-position rule prepends `start-work` to plays that open work).
 
 ### Pattern B — Task-Driven DAG Plays
 
@@ -173,13 +173,13 @@ Every play is a self-contained directory:
 
 ```
 {play-name}/
-├── SKILL.md              # Compiled play execution blueprint (emitted by create-play)
+├── SKILL.md              # Compiled play execution blueprint (emitted by build-play)
 ├── reference/
 │   └── ice.md            # The play's ICE source (intent / context / expectation)
 └── scripts/              # Bundled scripts for the play's mechanical steps
 ```
 
-Plays are compiled artifacts: `create-play` compiles `reference/ice.md` into `SKILL.md` plus the bundled scripts, and `edit-play` recompiles after the ICE changes. Compiled `SKILL.md` files are not hand-edited for intent changes.
+Plays are compiled artifacts: `build-play` compiles `reference/ice.md` into `SKILL.md` plus the bundled scripts, and `fix-play` recompiles after the ICE changes. Compiled `SKILL.md` files are not hand-edited for intent changes.
 
 ## Intent and System Constraints: Where They Live
 
@@ -342,7 +342,7 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `adr` | Record a decision as an ADR from the one template — what it supersedes or amends, what it affects, its ICE impact, and a business-intent guard; accepted only on a person's word (proposed inside a loop); older ADRs gain only a forward pointer; the ADR index is rebuilt |
 | `intent` | Turn what a person shares — a prototype, a project folder, a site, a document or a statement — into their business intents and, under each, the ICE the source shows, written into the product model (under its domain when something shows it, else in the holding folder); the person confirms each intent; keeps the source as a snapshot and links all three |
 | `vision` | Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — domain grounding, directional capability grounding, spine entries; places capabilities waiting for a domain and links every part to its intents both ways; never waits for another play |
-| `understand` | Detail one capability that `/discover-domains` seeded — promote its grounding to detailed, create its features |
+| `understand` | Detail one capability that `/specify-domains` seeded — promote its grounding to detailed, create its features |
 | `quality` | Write a slice's quality lens grounding doc — checkable pass/fail gates |
 | `ux` | Write a slice's UX lens grounding doc — screens, states, visual core |
 | `agentic` | Write a slice's agentic lens grounding doc — the is-it-an-agent gate, load weights, controls |
@@ -356,16 +356,16 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `validate` | Independently verify one built epic — the deep gate of the execute pipeline |
 | `launch` | Land one validated epic on a human's evidenced acceptance (HITL gate) |
 | `deploy` | Deploy a delivered increment to a cloud environment the run lens defined |
-| `fix-bug` | RCA-driven defect resolution — trace root cause, design fix, single checkpoint, implement |
+| `fix-work` | RCA-driven defect resolution — trace root cause, design fix, single checkpoint, implement |
 | `refactor` | Behavior-preserving improvement of a named code target |
 | `learn` | Close the loop after work ships — harvest what happened into durable learnings |
-| `start-change` | Open a unit of work — issue, branch off main, optional worktree, STM init |
-| `commit-change` | Commit work grouped by concern with conventional messages (end sequence step 1) |
-| `propose-change` | Self-review, push, and open the pull request (end sequence step 2) |
-| `check-change` | Review an open change against standards; explicit approve/reject verdict (end sequence gate) |
-| `merge-change` | Merge the approved PR, return to main, delete the branch (end sequence final step) |
-| `create-play` | Compile a play from an ICE — interview, expectation, evals, emitted SKILL.md + scripts |
-| `edit-play` | Modify an existing play by editing its ICE source and recompiling |
+| `start-work` | Open a unit of work — issue, branch off main, optional worktree, STM init |
+| `commit-work` | Commit work grouped by concern with conventional messages (end sequence step 1) |
+| `review-work` | Self-review, push, and open the pull request (end sequence step 2) |
+| `validate-work` | Review an open change against standards; explicit approve/reject verdict (end sequence gate) |
+| `merge-work` | Merge the approved PR, return to main, delete the branch (end sequence final step) |
+| `build-play` | Compile a play from an ICE — interview, expectation, evals, emitted SKILL.md + scripts |
+| `fix-play` | Modify an existing play by editing its ICE source and recompiling |
 | `install-garura` | Install Garura components into a target project for a host tool (Claude Code or Codex) |
 | `uninstall-garura` | Remove Garura from a target using its install manifest |
 

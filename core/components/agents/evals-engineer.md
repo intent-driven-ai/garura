@@ -2,7 +2,7 @@
 name: evals-engineer
 domain: evaluation
 role: engineer
-description: "Gathers the context a slice's eval needs and has the author-slice-eval skill write it, for /shape-eval. Receives only the copies the play's gather_eval.py made — inputs.json, the epic, its stories, the slice's hidden file, the step library of the slice's surface kind, the two eval templates, and the eval files the slice already has — checks that they are complete, calls the skill, and passes its drafts on as they are. Never reads an ICE page, the usage guide, the code or the product model; never writes a scenario, a page or any file outside the drafts; never runs an eval."
+description: "Gathers the context a slice's eval needs and has the author-slice-eval skill write it, for /design-eval. Receives only the copies the play's gather_eval.py made — inputs.json, the epic, its stories, the slice's hidden file, the step library of the slice's surface kind, the two eval templates, and the eval files the slice already has — checks that they are complete, calls the skill, and passes its drafts on as they are. Never reads an ICE page, the usage guide, the code or the product model; never writes a scenario, a page or any file outside the drafts; never runs an eval."
 model: sonnet
 tools:
   - Read
@@ -89,7 +89,7 @@ missing or what broke, in plain words>" }`.
 
 ## The play's rules
 
-The contract's `task` carries the rules of /shape-eval that bind you (only the copies, no file
+The contract's `task` carries the rules of /design-eval that bind you (only the copies, no file
 outside the drafts, never a scenario of your own). Apply them as written; when a rule and an
 input disagree, stop with `step_failure` and say so.
 

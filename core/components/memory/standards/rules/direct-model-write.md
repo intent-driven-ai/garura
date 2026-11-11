@@ -3,7 +3,7 @@
 Canonical contract for how a model-writing play changes the product model. It is the
 single source of truth for all thirteen model-writing plays (vision, understand, shape,
 grill, measure, roadmap, arch, ux, quality, agentic, run, marketing, learn) and for the
-`/edit-play` compiler, so a hand edit and a recompile converge on the same shape.
+`/fix-play` compiler, so a hand edit and a recompile converge on the same shape.
 
 Authority: ADR 026, amended by ADR 043 (inside a loop, the loop commits the round) and
 ADR 044 (inside a loop, the gap closer's script also writes shared files). This rule is the
@@ -100,13 +100,13 @@ git diff and the end-sequence PR.
      it wrote. This is a lightweight persist step, NOT the Standard Play Close ceremony: a
      middle play (understand, shape) that injects no close still makes this commit. The
      writes were already on disk; the commit makes them durable and advances `HEAD` so the
-     next play in the pipeline sees a clean tree and a correct base. (Mirrors start-change
+     next play in the pipeline sees a clean tree and a correct base. (Mirrors start-work
      committing its own STM context, C7.) A rejected checkpoint commits nothing — the tree
      was already restored in step 6.
 
    This makes the strategy pipeline (vision → understand → shape … on one branch) safe:
    each play enters clean, writes its delta, and commits it, so no play ever sees or
-   reverts another play's work. `commit-change` at the end of the pipeline handles only
+   reverts another play's work. `commit-work` at the end of the pipeline handles only
    what remains uncommitted (STM evidence, ADRs), not the model deltas the plays already
    committed.
 
@@ -139,22 +139,22 @@ auto-approve out-of-box moves as low-impact — a safety regression. Writing bef
 and gating the COMMIT (not the disk write) keeps every guarantee: nothing out-of-box is
 *committed* without approval, and cancel reverts the uncommitted writes.
 
-**Declared exception — `/discover-intent` run by hand (ADR 031).** A business intent becomes confirmed
-only on the person's typed confirmation, which a written file cannot carry, so `/discover-intent` run by
+**Declared exception — `/specify-intent` run by hand (ADR 031).** A business intent becomes confirmed
+only on the person's typed confirmation, which a written file cannot carry, so `/specify-intent` run by
 hand confirms first and writes after; a cancel writes nothing, so there is nothing to revert.
 Inside a loop it writes the intents as `proposed` with no checkpoint, and the loop's end
 review confirms them. Its writes still run through the scoped-write guard.
 
-**Declared exception — `/record-decision` run by hand (#632).** A decision record becomes accepted only on
-the person's typed word, so `/record-decision` run by hand checks everything and asks first, then writes —
+**Declared exception — `/design-adr` run by hand (#632).** A decision record becomes accepted only on
+the person's typed word, so `/design-adr` run by hand checks everything and asks first, then writes —
 a reject writes nothing, so there is nothing to revert. Inside a loop it writes the record as
 `proposed` with no checkpoint, and the loop's end review accepts it. Because it also writes
 outside the product model (`docs/adr/`), its containment check is its own `check_adr_scope.py`
 over the whole repository, not the shared scoped-write guard; run by hand it starts from a clean
 record tree (`docs/adr/` and `product-os/`).
 
-**Declared exception — `/update-plan` (ADR 062).** A session lands nothing before the person
-types the plain word "approved" for the whole list, so `/update-plan` writes the model only after
+**Declared exception — `/reshape-plan` (ADR 062).** A session lands nothing before the person
+types the plain word "approved" for the whole list, so `/reshape-plan` writes the model only after
 that word, and only the parts the list names (a new feature's page, its spine entry, its place in
 a slice). A "rejected" or an "abort" writes nothing in the model, so there is nothing to revert.
 Its containment still holds: uncommitted work anywhere stops the session when it gets onto the
@@ -165,11 +165,11 @@ one commit on the plan's branch, with the plan file, not in a separate `feat(mod
 
 ## The shared scoped-write guard
 
-Canonical script: `create-play/references/scoped_write_guard.py`, stamped into each
+Canonical script: `build-play/references/scoped_write_guard.py`, stamped into each
 model-writing play's `scripts/` (same convention as `preflight.py`, `session_stamp.py`,
-`classify_change.py`). `/create-play` emits it so direct edits and rebuilds converge.
+`classify_change.py`). `/build-play` emits it so direct edits and rebuilds converge.
 
-Interface (ratified by the /discover-capabilities reference implementation, issue #498):
+Interface (ratified by the /specify-capabilities reference implementation, issue #498):
 
 ```
 python3 scripts/scoped_write_guard.py \
@@ -247,7 +247,7 @@ pattern cannot survive a rebuild or a hand edit:
   checkpoint step does not run the guard before the gate and a restore on cancel.
 - L-DMW-4: the play does not assert a clean product-os tree at pre-flight, or has no
   model-delta commit at close. Not a finding: the play skips both only when it runs with a
-  loop contract — the loop checks the tree and commits the round (ADR 043); and `/update-plan`,
+  loop contract — the loop checks the tree and commits the round (ADR 043); and `/reshape-plan`,
   whose clean check covers the whole tree and whose model change rides in the session's one
   commit (ADR 062).
 - L-DMW-5: the play's enrichment/build skill is described as writing a shared model file
@@ -263,5 +263,5 @@ pattern cannot survive a rebuild or a hand edit:
 Removing the draft alters the write path, the containment guarantee, and the
 checkpoint's cancel semantics — all things a play *decides or guarantees*. Per the play
 pipeline boundary rule this is an intent change: edit each play's `reference/ice.md` and
-recompile with `/edit-play`. The shared close/guard scaffolding (this rule, the guard
+recompile with `/fix-play`. The shared close/guard scaffolding (this rule, the guard
 script) is the converge-and-lint layer beneath that, mirroring `_shared/play-close.md` (beside the plays).

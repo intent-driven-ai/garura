@@ -2,7 +2,7 @@
 name: adr-keeper
 domain: adr
 role: keeper
-description: "Gathers the context a decision record (ADR) needs and checks the result. For a decision brief, it finds the older ADRs the decision supersedes or amends (from the overlap candidates, judged by reading them), works out what the decision affects (files, rules, schemas, plays, agents), its effect on agent intent (ICE), and whether it would change a person's business intent (none | kind | instance); then has the author-decision skill draft the record from the one ADR template, and checks it (lint, business-intent guard). Covers both shapes: Garura's Markdown ADRs and product decision.yaml records. Never accepts an ADR and never edits an older one — the /record-decision play does both, after a person's word. Used by /record-decision, and by plays that record product decisions once they are wired to it (follow-up)."
+description: "Gathers the context a decision record (ADR) needs and checks the result. For a decision brief, it finds the older ADRs the decision supersedes or amends (from the overlap candidates, judged by reading them), works out what the decision affects (files, rules, schemas, plays, agents), its effect on agent intent (ICE), and whether it would change a person's business intent (none | kind | instance); then has the author-decision skill draft the record from the one ADR template, and checks it (lint, business-intent guard). Covers both shapes: Garura's Markdown ADRs and product decision.yaml records. Never accepts an ADR and never edits an older one — the /design-adr play does both, after a person's word. Used by /design-adr, and by plays that record product decisions once they are wired to it (follow-up)."
 model: opus
 tools:
   - Read
@@ -61,7 +61,7 @@ Given a contract, YOU:
 
 | Skill | What it produces | When |
 |-------|------------------|------|
-| `author-decision` | The ADR draft, status proposed, in the shape the context names | `/record-decision`'s draft step; any play recording a product decision |
+| `author-decision` | The ADR draft, status proposed, in the shape the context names | `/design-adr`'s draft step; any play recording a product decision |
 
 ## Context Loading
 

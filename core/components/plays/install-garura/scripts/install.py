@@ -20,7 +20,7 @@ host coding tool can discover them in the target.
   --scope         which component set to install: full (default, every
                   component except the meta harness plays and the harness-only
                   skills) or harness (meta plays + harness-only skills + change
-                  chain + discover-capabilities + their workers only)
+                  chain + specify-capabilities + their workers only)
   --source        the garura checkout to install FROM (auto-derived if omitted)
   --memory-dest   where shared memory goes (default ~/.garura/core/memory)
   --force-config  overwrite an existing target .garura/core/config.yaml
@@ -211,9 +211,9 @@ def portable(path):
 # garura itself. A product project's ADLC has no use for them, so no target ever
 # receives them under `full`. (`harness` is an explicit allow-list and names the
 # two it does want.)
-META_PLAYS = {"create-play", "edit-play", "create-loop", "edit-loop",
-              "install-garura", "uninstall-garura", "edit-ontology"}
-# Harness-only skills are the workers of the meta plays (edit-ontology runs
+META_PLAYS = {"build-play", "fix-play", "build-loop", "fix-loop",
+              "install-garura", "uninstall-garura", "specify-ontology"}
+# Harness-only skills are the workers of the meta plays (specify-ontology runs
 # author-product-ontology, #777). Plays run them; no person does (#778). Never installed under `full`.
 META_SKILLS = {"author-product-ontology"}
 
@@ -221,46 +221,46 @@ SCOPES = {
     "full": None,  # marker only — resolved at run time by resolve_scope()
     "harness": {
         "plays": {
-            "create-play", "edit-play",
+            "build-play", "fix-play",
             # loops are built and changed the same way as plays (#613)
-            "create-loop", "edit-loop",
-            "start-change", "commit-change", "propose-change",
-            "check-change", "merge-change",
-            # list-focus-issues is harness-class: it reads the HOST REPO's issue tracker, so it
+            "build-loop", "fix-loop",
+            "start-work", "commit-work", "review-work",
+            "validate-work", "merge-work",
+            # list-issues is harness-class: it reads the HOST REPO's issue tracker, so it
             # works in a harness repo exactly as it does in a product one. Its only
             # workers are platform-adapter + project-orchestrator, both already kept.
-            "list-focus-issues",
-            # record-decision manages a repo's decision records — a harness repo's own ADRs too (#632).
+            "list-issues",
+            # design-adr manages a repo's decision records — a harness repo's own ADRs too (#632).
             # Its workers: adr-keeper + author-decision, and the change chain already kept.
-            "record-decision",
-            # discover-capabilities writes the full ICE for Garura's own capabilities and
+            "design-adr",
+            # specify-capabilities writes the full ICE for Garura's own capabilities and
             # features, now that Garura plans its work with its product model (#753).
             # Its workers: product-os-keeper + find-work-placement, enrich-capability-ice,
             # judge-grounding; template-manager is already kept.
-            "discover-capabilities",
-            # edit-ontology changes the product ontology with the product owner (#777).
+            "specify-capabilities",
+            # specify-ontology changes the product ontology with the product owner (#777).
             # Its workers: product-os-keeper + author-product-ontology, both already kept.
-            "edit-ontology",
-            # shape-slice shapes the slice for each of Garura's own business intents (plan 788).
+            "specify-ontology",
+            # design-slice shapes the slice for each of Garura's own business intents (plan 788).
             # Its workers: product-os-keeper + the skills listed below; template-manager is kept.
-            "shape-slice",
+            "design-slice",
             # shape-plan makes the plan, and its work items, for each of Garura's own business
             # intents (#818). Its workers: product-os-keeper + author-work-items; template-manager is kept.
             "shape-plan",
-            # shape-eval writes each slice's eval for Garura's own business intents (#798).
+            # design-eval writes each slice's eval for Garura's own business intents (#798).
             # Its workers: evals-engineer + author-slice-eval; template-manager is kept.
-            "shape-eval",
-            # discover-intent writes and changes Garura's own business intents (plan 788, #798).
+            "design-eval",
+            # specify-intent writes and changes Garura's own business intents (plan 788, #798).
             # Its workers: business-intent-keeper + author-business-intent, prototype-reader +
             # walk-prototype; template-manager is kept.
-            "discover-intent",
-            # list-plans and show-plan show Garura's own plans from its plan files (#719);
+            "specify-intent",
+            # list-plans and view-plan show Garura's own plans from its plan files (#719);
             # their only worker is template-manager, already kept; the plan tool is laid for every scope.
-            "list-plans", "show-plan",
-            # update-plan manages one of Garura's own plans in a session (#730, #931). Its workers:
+            "list-plans", "view-plan",
+            # reshape-plan manages one of Garura's own plans in a session (#730, #931). Its workers:
             # project-orchestrator + author-plan-changes, track-plan-changes; product-os-keeper +
             # find-work-placement, enrich-grounding, link-model-part; template-manager is kept.
-            "update-plan",
+            "reshape-plan",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -270,18 +270,18 @@ SCOPES = {
             "find-matching-issues", "cut-branch", "open-pr",
             "author-product-ontology", "author-decision",
             "find-work-placement", "enrich-capability-ice", "judge-grounding",
-            # the skills shape-slice calls (#842)
+            # the skills design-slice calls (#842)
             "author-business-intent", "author-domains", "propose-answers", "author-slice",
             "find-slice-gaps", "author-slice-brief", "enrich-grounding", "author-failure-recovery",
             # the skill shape-plan calls (#818)
             "author-work-items",
-            # the skill shape-eval calls (#798)
+            # the skill design-eval calls (#798)
             "author-slice-eval",
-            # the skill discover-intent's prototype walk calls
+            # the skill specify-intent's prototype walk calls
             "walk-prototype",
             # product-os-keeper puts a part found during work into the spine (#979)
             "link-model-part",
-            # the skills update-plan's sub-agents call (#730)
+            # the skills reshape-plan's sub-agents call (#730)
             "author-plan-changes", "track-plan-changes",
             # product-os-keeper and project-orchestrator carry out an approved reorganisation of
             # business intents (#1019)
@@ -293,9 +293,9 @@ SCOPES = {
             # every play's close asks template-manager for its templates (ADR 039 §8–9)
             "template-manager",
             "product-os-keeper",
-            # the agent shape-eval dispatches (#798)
+            # the agent design-eval dispatches (#798)
             "evals-engineer",
-            # the agents discover-intent dispatches
+            # the agents specify-intent dispatches
             "business-intent-keeper", "prototype-reader",
         },
     },
@@ -483,7 +483,7 @@ def retire_renamed(source, target, new_paths, quiet):
     import yaml
     with open(map_path, encoding="utf-8") as fh:
         data = yaml.safe_load(fh) or {}
-    new_to_old = {}  # one new name can have several old ones (two old play names lead to shape-slice)
+    new_to_old = {}  # one new name can have several old ones (two old play names lead to design-slice)
     for kind in ("plays", "loops", "skills", "agents"):
         for old, new in (data.get(kind) or {}).items():
             new_to_old.setdefault(new, []).append(old)

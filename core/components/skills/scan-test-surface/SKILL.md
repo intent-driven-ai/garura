@@ -5,7 +5,7 @@ user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Grep, Glob, Bash
 stale: true
-stale_note: 'waits for the rebuild of /refactor-code (#855)'
+stale_note: 'waits for the rebuild of /refactor-work (#855)'
 ---
 
 # scan-test-surface

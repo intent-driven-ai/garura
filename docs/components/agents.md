@@ -59,22 +59,22 @@ Garura avoids both extremes:
 
 | Agent | Domain | Role | Model | Description |
 |-------|--------|------|-------|-------------|
-| `adr-keeper` | adr | keeper | opus | Gathers the context a decision record needs — what it supersedes or amends, what it affects, its ICE impact, its business-intent check — has `author-decision` draft it from the one ADR template, and checks it; never accepts an ADR or edits an older one — used by `/record-decision` and plays that record product decisions |
-| `business-intent-keeper` | business-intent | keeper | opus | Drafts both levels a source holds — the person's Business Intents and, under each, the ICE goals the source shows — through `author-business-intent`, and checks the draft: nothing merged or left out, every ICE under an intent; never confirms an intent, never writes the model — used by `/discover-intent` |
+| `adr-keeper` | adr | keeper | opus | Gathers the context a decision record needs — what it supersedes or amends, what it affects, its ICE impact, its business-intent check — has `author-decision` draft it from the one ADR template, and checks it; never accepts an ADR or edits an older one — used by `/design-adr` and plays that record product decisions |
+| `business-intent-keeper` | business-intent | keeper | opus | Drafts both levels a source holds — the person's Business Intents and, under each, the ICE goals the source shows — through `author-business-intent`, and checks the draft: nothing merged or left out, every ICE under an intent; never confirms an intent, never writes the model — used by `/specify-intent` |
 | `change-reviewer` | review | reviewer | sonnet | Categorizes a PR diff agentically and design-grounds the design-bearing categories against committed/external sources — the branch under review is never its own standard |
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
 | `result-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
-| `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-epic`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
-| `evals-engineer` | evaluation | engineer | sonnet | Gathers the context a slice's eval needs for `/shape-eval` — checks that the copies of the epic, its stories and the hidden file are complete, calls `author-slice-eval`, and passes its drafts on as they are (#798, ADR 057) |
+| `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/validate-uat`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
+| `evals-engineer` | evaluation | engineer | sonnet | Gathers the context a slice's eval needs for `/design-eval` — checks that the copies of the epic, its stories and the hidden file are complete, calls `author-slice-eval`, and passes its drafts on as they are (#798, ADR 057) |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
 | `knowledge-builder` | knowledge | builder | sonnet | Runs a loop's knowledge step (R5c, ADR 059): answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`; the only one of them to call the memory tool; never decides or promotes an update — used by every loop's knowledge step |
-| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Feature, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-slice` |
+| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Feature, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/design-slice` |
 | `project-orchestrator` | project | orchestrator | sonnet | Autonomous decision-maker for project management operations (issues, tracking, planning) |
-| `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/discover-intent` |
+| `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/specify-intent` |
 | `quality-auditor` | quality | auditor | sonnet | Independently verifies code quality standards (linting, unit tests, type checking, build, quality gates) — context-isolated from evals and builder output |
 | `repo-orchestrator` | repo | orchestrator | sonnet | Autonomous decision-maker for repository operations (commits, branches, PRs, git state) |
 | `tech-designer` | design | designer | sonnet | Technical analysis, RCA, and solution design for features and bugs |
-| `test-engineer` | testing | engineer | opus | Authors `/build-epic`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
+| `test-engineer` | testing | engineer | opus | Authors `/build-work`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
 
 ## Agent Behavior
 
@@ -152,9 +152,9 @@ Each agent owns a set of skills. Agents invoke skills via the **Skill tool** pro
 | `research-domain-context` | Research vertical domain knowledge via web when LTM is insufficient |
 | `author-implementation-plan` | Produce execution plan with scope items, file paths, and exit gates |
 | `enrich-quality-profile` | Refine the quality profile against architectural reality, with a delta_log per adjustment |
-| `author-rca` | fix-bug — trace symptom to specific root cause; writes rca.yaml (+ resolution-trace.yaml when `ltm_context` is provided) |
-| `author-fix-design` | fix-bug — design the fix with at least one alternative considered; writes design.yaml |
-| `author-regression-test` | fix-bug — author a failing YAML eval-spec regression test, verified red before returning |
+| `author-rca` | fix-work — trace symptom to specific root cause; writes rca.yaml (+ resolution-trace.yaml when `ltm_context` is provided) |
+| `author-fix-design` | fix-work — design the fix with at least one alternative considered; writes design.yaml |
+| `author-regression-test` | fix-work — author a failing YAML eval-spec regression test, verified red before returning |
 | `author-build-plan` | implement — break one ready epic into the test-first build plan (stories/tasks/tests/docs as a grounded DAG) |
 | `scan-test-harness` | implement — capture the project's runnable test/lint/build commands for the harness file |
 
@@ -187,9 +187,9 @@ code-builder has no skills — it implements code directly using its tools (Bash
 
 | Skill | Purpose |
 |-------|---------|
-| `author-slice-eval` | `/shape-eval` — write a slice's eval: one Gherkin story file for each story and one slice file, every step from the surface kind's step library (ADR 057) |
+| `author-slice-eval` | `/design-eval` — write a slice's eval: one Gherkin story file for each story and one slice file, every step from the surface kind's step library (ADR 057) |
 
-The two eval skills of the old `/build-epic` (`author-steelman-evals`, `author-encrypted-evals`) are stale: no agent dispatches them now. The rebuild of the build stage (#855, #819) gives them a new owner or retires them.
+The two eval skills of the old `/build-work` (`author-steelman-evals`, `author-encrypted-evals`) are stale: no agent dispatches them now. The rebuild of the build stage (#855, #819) gives them a new owner or retires them.
 
 ### intent-resolver Skill Pool
 
@@ -202,13 +202,13 @@ intent-resolver has no skill pool — it reads the play's intent (clean triple),
 | `find-work-placement` | Route a piece of work to its place in the KB tree (domain → capability → feature) |
 | `propose-kb-node` | The nothing-fits path — research the gap and draft a new KB node as a proposal for human review |
 | `find-architecture-learnings` | Search the empirical KB shelves for condition-matched learnings — the grounding engine for KB-grounded lenses |
-| `author-domains` | Draft the `/discover-domains` seed — domain node, candidate capabilities, goals-only ICE, directional profile |
-| `enrich-capability-ice` | `/discover-capabilities` — deepen one capability's seed ICE into a rich ICE grounded in its KB shelf |
-| `author-business-intent` | `/shape-slice` — draft the intent page from the issue when the model has none |
-| `find-model-gaps` | the loops and `/shape-slice` — list what the model lacks |
-| `propose-answers` | `/shape-slice` — draft a proposed answer, with its basis, for each question only the person can confirm |
+| `author-domains` | Draft the `/specify-domains` seed — domain node, candidate capabilities, goals-only ICE, directional profile |
+| `enrich-capability-ice` | `/specify-capabilities` — deepen one capability's seed ICE into a rich ICE grounded in its KB shelf |
+| `author-business-intent` | `/design-slice` — draft the intent page from the issue when the model has none |
+| `find-model-gaps` | the loops and `/design-slice` — list what the model lacks |
+| `propose-answers` | `/design-slice` — draft a proposed answer, with its basis, for each question only the person can confirm |
 | `author-quality-lens` / `author-ux-lens` / `author-agentic-lens` / `author-architecture-lens` / `author-run-lens` / `author-measure-lens` / `author-marketing-lens` | Draft the per-slice lens grounding docs for the lens plays |
-| `author-acceptance-scenarios` | `/release-epic` — build HITL testing scenarios for one validated epic |
+| `author-acceptance-scenarios` | `/validate-uat` — build HITL testing scenarios for one validated epic |
 
 ### adr-keeper Skill Pool
 
@@ -220,7 +220,7 @@ intent-resolver has no skill pool — it reads the play's intent (clean triple),
 
 | Skill | Purpose |
 |-------|---------|
-| `author-business-intent` | `/discover-intent` — draft the business intents and, under each, one ICE per separate thing the Sources show, with provenance, a coverage map, and questions with example answers |
+| `author-business-intent` | `/specify-intent` — draft the business intents and, under each, one ICE per separate thing the Sources show, with provenance, a coverage map, and questions with example answers |
 
 ### quality-auditor Skill Pool
 
@@ -237,7 +237,7 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 
 | Skill | Purpose |
 |-------|---------|
-| `deploy-local-environment` | Bring up the live LOCAL environment for `/release-epic` with its deploy record; teardown after sign-off or abort |
+| `deploy-local-environment` | Bring up the live LOCAL environment for `/validate-uat` with its deploy record; teardown after sign-off or abort |
 | `deploy-cloud-environment` | Deploy the increment to a CLOUD environment for `/release-increment` with deploy record and health proof |
 
 ### test-engineer Skill Pool

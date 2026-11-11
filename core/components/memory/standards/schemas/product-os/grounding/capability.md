@@ -8,17 +8,17 @@
 > **This doc is STAGE-AWARE — it has two valid shapes, and the spine records which
 > one applies via the capability entry's `detail:` field (`directional | detailed`):**
 >
-> - **directional** — written by `/discover-intent` (from a source) or `/discover-domains` (from the KB and
+> - **directional** — written by `/specify-intent` (from a source) or `/specify-domains` (from the KB and
 >   the intents). It NAMES the capability and gives it directionality only; it does not
 >   detail it and never touches features. Any play may add to it later, keeping
 >   what is there (ontology v3: no play owns a kind).
-> - **detailed** — written by `/discover-capabilities`. Understand is the last detailing step: it
+> - **detailed** — written by `/specify-capabilities`. Understand is the last detailing step: it
 >   fills the full capability and creates its feature nodes + docs.
 >
 > The linter validates the doc against the shape its `detail:` field names; the eval
 > scores depth and self-explanation against `_content-standard.md`.
 
-## Heading contract — DIRECTIONAL stage (required, in order) · usually /discover-intent or /discover-domains
+## Heading contract — DIRECTIONAL stage (required, in order) · usually /specify-intent or /specify-domains
 
 ```
 # Capability: <Capability Name>
@@ -28,9 +28,9 @@
 - **Directional intent** — what this capability is about, the rough direction of its
   scope (what it will broadly own), and why it matters to the domain. A substantive
   paragraph a stranger understands at a directional level — not the full detail, which
-  is /discover-capabilities's job. It must still self-explain (the *why*), not just name the area.
+  is /specify-capabilities's job. It must still self-explain (the *why*), not just name the area.
 
-## Heading contract — DETAILED stage (required, in order) · usually /discover-capabilities
+## Heading contract — DETAILED stage (required, in order) · usually /specify-capabilities
 
 ```
 # Capability: <Capability Name>
@@ -90,7 +90,7 @@ agent works from. Each line explains itself (at least five words), like every ot
   explained line, linked to its spine node. The detailed spec lives in each
   feature's own doc.
 
-## Gold example — DIRECTIONAL stage (/discover-domains)
+## Gold example — DIRECTIONAL stage (/specify-domains)
 
 ```markdown
 # Capability: Data Gathering
@@ -112,7 +112,7 @@ that trust is won or lost.
 - Fails if: a source is missing or partial and no view shows that it is.
 ```
 
-## Gold example — DETAILED stage (/discover-capabilities)
+## Gold example — DETAILED stage (/specify-capabilities)
 
 ```markdown
 # Capability: Data Gathering

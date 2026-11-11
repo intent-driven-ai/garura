@@ -1,6 +1,6 @@
 ---
 name: enrich-capability-ice
-description: Find the capabilities a prototype's screens show (find mode, ADR 043), or detail one capability — already in the model, seeded from the person's recorded answers, or read off the screens — promote its capability.md from the directional stage to the detailed stage (benefit hypothesis, boundary, guiding rules, features), author a detailed feature.md grounding doc for each feature it identifies, set the capability's structured nfr_needs + compliance_needs, and emit the implied per-dimension levels. Grounded in the capability's KB shelf. Generative artifact production for the /discover-capabilities play. Under direct-model-write (ADR 026) it writes ONLY the per-node docs (capability.md, feature.md) straight to the live model, and emits every shared-file delta (the spine entry fields, the new feature entries) as structured data in the enrich-manifest — it NEVER writes _spine.yaml, profile.yaml, or decisions. Also used by /shape-slice (through product-os-keeper) for a capability a slice needs and the model lacks, seeded from the person's answers, with depth set to directional — the page stays at the directional stage, marked to be deepened. A gap it cannot fill is returned as data in the manifest's gaps, never as a question. Use when /discover-capabilities needs a seeded capability detailed and its features created, or /shape-slice needs a new capability, its features and their ICE written.
+description: Find the capabilities a prototype's screens show (find mode, ADR 043), or detail one capability — already in the model, seeded from the person's recorded answers, or read off the screens — promote its capability.md from the directional stage to the detailed stage (benefit hypothesis, boundary, guiding rules, features), author a detailed feature.md grounding doc for each feature it identifies, set the capability's structured nfr_needs + compliance_needs, and emit the implied per-dimension levels. Grounded in the capability's KB shelf. Generative artifact production for the /specify-capabilities play. Under direct-model-write (ADR 026) it writes ONLY the per-node docs (capability.md, feature.md) straight to the live model, and emits every shared-file delta (the spine entry fields, the new feature entries) as structured data in the enrich-manifest — it NEVER writes _spine.yaml, profile.yaml, or decisions. Also used by /design-slice (through product-os-keeper) for a capability a slice needs and the model lacks, seeded from the person's answers, with depth set to directional — the page stays at the directional stage, marked to be deepened. A gap it cannot fill is returned as data in the manifest's gaps, never as a question. Use when /specify-capabilities needs a seeded capability detailed and its features created, or /design-slice needs a new capability, its features and their ICE written.
 version: 0.3.0
 user-invocable: false
 model: opus
@@ -12,18 +12,18 @@ allowed-tools: Read, Write, Bash, Glob
 Takes a capability — one already in the model, one the person named, or one this skill
 reads off a prototype's screens (ADR 043) — and **details it**: it deepens the capability's grounding from the directional stage to the
 detailed stage, **identifies and authors its features**, and sets the capability's
-own NFR needs. This is /discover-capabilities's generative worker — the **product-manager** step,
+own NFR needs. This is /specify-capabilities's generative worker — the **product-manager** step,
 where the product is understood in full down to the feature. Under direct-model-write
 (ADR 026) it writes the per-node docs straight to the live model and emits the shared-file
-delta as structured manifest data; /discover-capabilities's checkpoint, roll-up, and keyed persist
+delta as structured manifest data; /specify-capabilities's checkpoint, roll-up, and keyed persist
 script turn that manifest into the spine/profile/decision writes.
 
 ## Altitude — write at product-manager level
 
-/discover-domains was the CXO conversation (directional). /discover-capabilities is the **product manager**
+/specify-domains was the CXO conversation (directional). /specify-capabilities is the **product manager**
 detailing the product. So the writing here is concrete and complete — the full capability
 and its features, the detail a build needs — but still product language, not code.
-Shaping the work into slices a person can test end to end is the **product owner's** job (/shape-slice); do
+Shaping the work into slices a person can test end to end is the **product owner's** job (/design-slice); do
 none of that here.
 
 ## Write discipline — direct-model-write containment split (ADR 026)
@@ -36,14 +36,14 @@ mandatory:
   `feature.md` per feature — **straight to the live model** under
   `{product_base}product-os/`, each its own file. There is no `draft/` tree.
 - It **NEVER** writes any shared model file: not `_spine.yaml`, not `profile.yaml`, not
-  `decisions/`. The spine/profile/decision mutations are the job of /discover-capabilities's
+  `decisions/`. The spine/profile/decision mutations are the job of /specify-capabilities's
   deterministic keyed persist script, which reads this skill's manifest.
 - The spine-delta it used to write into a draft `_spine.yaml` — the target capability's
   `detail`/`nfr_needs`/`compliance_needs` and the new `features` entries — is now
   emitted as **structured data in `enrich-manifest.yaml`** (a non-model STM artifact). The
   keyed persist script applies those fields to the live spine in place, node-keyed.
 
-Because the LLM only ever writes separate doc files, /discover-capabilities's file-level scoped guard
+Because the LLM only ever writes separate doc files, /specify-capabilities's file-level scoped guard
 is sufficient for this skill's blast radius, and node-level containment inside the shared
 spine/profile is preserved by the keyed script.
 
@@ -71,7 +71,7 @@ Everything conforms to its template (`standards/schemas/product-os/grounding/`, 
 |-------|----------|-------------|
 | `mode` | no | `find` to list the capabilities a capture's screens show (Find mode, below); absent to detail one capability. |
 | `out_found` | for `find` | Where to write `found.yaml`. |
-| `capability` | yes, to detail | The target capability: its id, slug, and the path to its directional `capability.md` in the live model — **or**, for a capability /discover-capabilities is seeding, the path to `<working>/seed.yaml` with the person's recorded answers (`one_line`, `why`, `domain`, `doc`, `answered_by: human`) — or, for /shape-slice, the capability's entry in the caller's `fills.json` (the path of the file and the id), with the question record as the person's answers. |
+| `capability` | yes, to detail | The target capability: its id, slug, and the path to its directional `capability.md` in the live model — **or**, for a capability /specify-capabilities is seeding, the path to `<working>/seed.yaml` with the person's recorded answers (`one_line`, `why`, `domain`, `doc`, `answered_by: human`) — or, for /design-slice, the capability's entry in the caller's `fills.json` (the path of the file and the id), with the question record as the person's answers. |
 | `kb_domain` | yes | The domain the capability belongs to. |
 | `shelf_path` | yes | That domain's shelf (`knowledge/domains/<kb_domain>.md`), copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
 | `schemas_dir` | yes | The grounding templates, the content standard and the spine schema, copied into short-term memory the same way. |
@@ -79,7 +79,7 @@ Everything conforms to its template (`standards/schemas/product-os/grounding/`, 
 | `product_base` | yes | From config. The live model root: read the existing spine + the capability's current directional doc, and WRITE the detailed `capability.md` and the new `feature.md` docs in place under `{product_base}product-os/`. Only the target node's docs — never a shared file, never a sibling node's doc. |
 | `manifest_path` | yes | Where to write `enrich-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
 | `stm_base` | yes | From config. |
-| `depth` | no | `detailed` (the default) or `directional`. With `directional` (/shape-slice), the capability's page stays at the directional stage and is marked to be deepened: the manifest's `capability.detail` is `directional` and `capability.deepen` is `true`, and the page says it is to be deepened with `/discover-capabilities`. Its features get pages at the depth the person's answers give. |
+| `depth` | no | `detailed` (the default) or `directional`. With `directional` (/design-slice), the capability's page stays at the directional stage and is marked to be deepened: the manifest's `capability.detail` is `directional` and `capability.deepen` is `true`, and the page says it is to be deepened with `/specify-capabilities`. Its features get pages at the depth the person's answers give. |
 | `features` | with `depth: directional` | The features the caller already chose for this capability (their ids, slugs and doc paths, from the caller's needs list). Write a page for each of these, and identify no other feature. |
 
 ## Find mode — the capabilities a prototype's screens show (ADR 043)
@@ -121,7 +121,7 @@ conformance and the content bar are non-negotiable.
    With `depth: directional`, steps 2 and 3 write at the directional stage: the capability's
    page holds its intent, its one line, why it is needed, its Features index and its agent
    intent, from the person's answers and the shelf, and says just under its title "To be
-   deepened with `/discover-capabilities`." Step 3 writes a page only for each feature in
+   deepened with `/specify-capabilities`." Step 3 writes a page only for each feature in
    `features`, at its doc path, and holds what the answers give; nothing is stretched past
    them.
 
@@ -221,7 +221,7 @@ path — paths, never inline content.
   (`{about, missing, why}`); the calling play's question skill writes the question.
 
 - **Product-manager altitude.** Detail the capability and its features fully — no
-  delivery sequencing, no slices, no epics (slices are /shape-slice's).
+  delivery sequencing, no slices, no epics (slices are /design-slice's).
 - **Promote, don't reseed.** The capability doc moves directional → detailed; the manifest's
   `capability.detail` is `detailed`. Never leave it directional, unless the caller gives
   `depth: directional`: then the page stays directional, `capability.detail` is

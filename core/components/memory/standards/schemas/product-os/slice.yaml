@@ -2,7 +2,7 @@
 #
 # A SLICE is an ordered group of features, taken from any capabilities, that together
 # give one vertical outcome a person can test end to end, on one surface (ontology v10).
-# It serves one or more business intents. /shape-slice shapes it and writes it, with a
+# It serves one or more business intents. /design-slice shapes it and writes it, with a
 # thin ICE for each part it needs that has no ICE and its hidden file (one entry for each
 # feature, ontology v11); it writes no plan, no epic, no story, no eval (ADR 049).
 #
@@ -27,12 +27,12 @@ schema:
 
 # ---- The slice record ------------------------------------------------------
 # product-os/slices/<id>.yaml holds exactly two top-level keys: `slice` and `surface`.
-# /shape-slice (persist_slice.py) writes every field below, and slice_check.py checks each
+# /design-slice (persist_slice.py) writes every field below, and slice_check.py checks each
 # spine slice's record against them: every field is REQUIRED and must not be empty.
 # slice_check.py fails the run for its own slice; another slice's defect is a warning.
 #
 # A record written before v2 (no name or outcome, the surface kept under `slice`) is brought
-# to v2 by persist_slice.py the next time a /shape-slice run reuses that slice: its own facts
+# to v2 by persist_slice.py the next time a /design-slice run reuses that slice: its own facts
 # come from its spine entry, a missing name or outcome from the shaped slice, the surface
 # moves to the top level, and a missing surface part comes from the shaped slice's surface
 # when that surface is the slice's own. When a part is still missing, the run stops and
@@ -52,7 +52,7 @@ slice:
 
 # the ONE user-facing SURFACE a person opens to test the slice end to end — REQUIRED,
 # top level (not under `slice`). A slice with no surface is not a slice — it is a backend
-# layer, and /shape-slice does not shape it. The surface is NAMED here, not designed: no
+# layer, and /design-slice does not shape it. The surface is NAMED here, not designed: no
 # wireframe, component, layout or visual content lives here. Journeys reference it by id.
 surface:
   id: string                # stable surface id (journeys point at it via surface_refs)
@@ -74,7 +74,7 @@ deferred:                   # older chain — not part of the slice record
   reason: string            # one line on why deferred
 
 # ---- Storage ----------------------------------------------------------------
-#   product-os/slices/{slice-id}.yaml            # one file per slice (/shape-slice owns it)
+#   product-os/slices/{slice-id}.yaml            # one file per slice (/design-slice owns it)
 #   product-os/{domain}/slices/_deferred.yaml    # older chain: the deferred bucket, if any
 # A feature may appear in MORE THAN ONE slice (deepened over time).
 # The slice's eval, its hidden file and its usage guide are not here: they are in the
@@ -82,7 +82,7 @@ deferred:                   # older chain — not part of the slice record
 
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
-  - play: "/shape-slice"
+  - play: "/design-slice"
     writes: "the slice record and its spine entry — slice: id, slug, name, outcome, its
              features in build order (feature_refs, referencing their ICE), its vertical and
              the business intents it serves (intents); surface: id, name, persona_ref (the

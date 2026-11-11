@@ -4,7 +4,7 @@
 Not run on its own. `open_tracker(config, tracker_file)` gives one of two trackers with the same
 methods:
 
-  - the file tracker (`--tracker-file <json>`), for tests and the test run of /update-plan: a JSON
+  - the file tracker (`--tracker-file <json>`), for tests and the test run of /reshape-plan: a JSON
     file {"issues": [{"number", "title", "type", "labels": [], "state": "OPEN"|"CLOSED",
     "state_reason": null|"COMPLETED"|"NOT_PLANNED", "body", "parent": null|number,
     "sub_issues": [numbers]}]}. Each write is kept at once (the file is written after every

@@ -13,7 +13,7 @@ core/components/           # Source of truth (edit here)
 ├── agents/                # Agent definitions
 ├── skills/                # Skills (model-invocable only)
 ├── plays/                 # plays
-├── loops/                 # loops: higher-order plays that run plays (ADR 029, ADR 045); built by /create-loop
+├── loops/                 # loops: higher-order plays that run plays (ADR 029, ADR 045); built by /build-loop
 └── memory/                # LTM: standards, formats, knowledge
 
 {target}/.claude/          # Deployment into a target project (via install-garura; Claude Code only:
@@ -43,8 +43,8 @@ installed play, loop, agent, skill, script, reference file, shared file or tool 
 only installed files (`.claude/skills/`, `.claude/agents/`, the installed `_shared/`,
 `.garura/core/tools/<name>/`), never points to Garura's own `docs/` (the install never copies
 it), and reads memory only through the memory tool. Notes of origin are
-deleted. The source-only parts (create-play, edit-play, create-loop, edit-loop, install-garura,
-uninstall-garura, edit-ontology, author-product-ontology), dev tests and the repo-layout globs of the
+deleted. The source-only parts (build-play, fix-play, build-loop, fix-loop, install-garura,
+uninstall-garura, specify-ontology, author-product-ontology), dev tests and the repo-layout globs of the
 review are the exceptions. The linter rule `installed-paths/source-path` checks it
 (`docs/standards/harness-standard.md`, principle 11).
 
@@ -105,24 +105,24 @@ A play change is one of two kinds, and the kind decides the path:
 - **Intent change** — anything touching what the play *decides or guarantees*:
   the intent statement, constraints (C-), failure conditions (F-), scenarios
   (S-), the agent/skill flow, or evals. This MUST go through the play's ICE
-  source (`reference/ice.md`) → recompile with `/edit-play`. Never hand-edit
+  source (`reference/ice.md`) → recompile with `/fix-play`. Never hand-edit
   a compiled `SKILL.md` for an intent change.
 
 - **Non-intent change** — output format, close/report scaffolding, template
   wiring, surface prose: nothing that alters a guarantee, decision, or eval.
   This is a **direct edit** to the compiled `SKILL.md`. Do NOT run
-  `/create-play`; rebuilding when intent is unchanged wastes the pipeline.
+  `/build-play`; rebuilding when intent is unchanged wastes the pipeline.
   Record why in the commit message and the issue, not in the `SKILL.md`:
   Claude reads the whole file on every run, and nothing reads edit history
   there. Add no deviation notes or change logs to skill files.
 
-`create-play` itself has no ICE source (it is the compiler bootstrap) — all
+`build-play` itself has no ICE source (it is the compiler bootstrap) — all
 changes to it are direct edits to its `SKILL.md` by definition.
 
 **When a play's job is gone, build a new play.** If a decision removes what a play was for
-(for example, the old `/shape-slice` cut realized slices into epics), do not refactor it with
-`/edit-play`. Read the old play only for the parts worth keeping, and build the new one with
-`/create-play`. A play that served only a flow that is gone is dropped, with an ADR (ADR 051,
+(for example, an earlier slice play that cut realized slices into epics), do not refactor it with
+`/fix-play`. Read the old play only for the parts worth keeping, and build the new one with
+`/build-play`. A play that served only a flow that is gone is dropped, with an ADR (ADR 051,
 `/next`).
 
 **Durability rule for non-intent edits:** a hand edit to a generated file is
@@ -130,7 +130,7 @@ clobbered by the next intent-driven rebuild unless the compiler reproduces it.
 The canonical example is the **Standard Play Close** — every play's Evidence &
 Close section. It lives once, in `core/components/plays/_shared/play-close.md`,
 laid beside the installed plays (ADR 039 §9). A play carries only its anchor pair,
-its own values and its own close steps, and points there; `/create-play` emits
+its own values and its own close steps, and points there; `/build-play` emits
 that pointer so direct-edit and rebuild converge; `core/tools/lint-components` fails any
 play missing its exact anchor pair. Any new shared scaffolding follows the same
 pattern: one common file the plays point to, emitted by the compiler and linted.
@@ -149,7 +149,7 @@ that serves the intent and makes one **Epic** for each → one **Story** per fea
 `.garura/project/plans/<plan-id>/evals/`. No agent or skill that builds the software reads that
 folder; only the eval play and the eval itself do. The usage guide the build delivers goes in
 `.garura/project/plans/<plan-id>/guides/`, outside the evals folder. A business intent's issue number is its plan's ID; plans live at
-`.garura/project/plans/`. When work on a plan starts, `start-change` cuts `plan/<id>/base`, and each
+`.garura/project/plans/`. When work on a plan starts, `start-work` cuts `plan/<id>/base`, and each
 issue's branch `plan/<id>/<issue>-<slug>` under it.
 
 Before filing, decomposing, or working an issue, read
@@ -159,7 +159,8 @@ one-session / one-branch rule, the scope boundary, and the tracker traps.
 ## Naming
 
 Every play, loop, skill and agent follows the harness standard (`docs/standards/harness-standard.md`,
-ADR 046): verb first, one meaning per verb, loops `complete-<phase>`, no Claude Code or Codex built-in.
+ADR 046, ADR 066): verb first, one meaning per verb, five roles own the play verbs, loops
+`loop-<from>-<to>`, no name that is exactly a Claude Code or Codex built-in.
 The rules are `core/components/memory/standards/rules/naming.md`; the linter enforces them — run
 `node core/tools/lint-components/index.js --target core/components` from the repo root.
 

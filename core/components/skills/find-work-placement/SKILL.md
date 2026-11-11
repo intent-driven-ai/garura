@@ -50,7 +50,7 @@ Reasoning is yours (the skill); the agent only retrieves.
    capability and the feature(ies) the work maps to. Note their profile
    conditions as metadata — do not evaluate them (that is selection, not placement).
    Placement records where the work fits on the shelf; it writes nothing. A caller that
-   writes domains only (/discover-domains, ADR 043) uses the capability and feature placements
+   writes domains only (/specify-domains, ADR 043) uses the capability and feature placements
    as research notes for the domain page, never as capability entries.
 3. **Emit the routing result** (schema below) with `why` for each placement.
 

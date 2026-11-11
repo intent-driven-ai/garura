@@ -1,6 +1,6 @@
 ---
 name: author-plan-changes
-description: Turn one instruction a person gives in an /update-plan session, in their own words, into the list entries it means for the plan — a status set, an item added (an issue that exists, or a new one), moved, renamed, given a new text or a new kind, a new feature found while the plan is in progress, or the plan's own Status or Direction — read against the plan file, the issues as the tracker holds them now and the list so far. Asks a question instead of guessing when the words fit two readings or name no item. Writes draft-entries.json only; the play's check script tests each entry against the plan's rules, and nothing reaches the plan file, the tracker or the model before the person approves the whole list. Generative artifact production for /update-plan (#730), through project-orchestrator.
+description: Turn one instruction a person gives in an /reshape-plan session, in their own words, into the list entries it means for the plan — a status set, an item added (an issue that exists, or a new one), moved, renamed, given a new text or a new kind, a new feature found while the plan is in progress, or the plan's own Status or Direction — read against the plan file, the issues as the tracker holds them now and the list so far. Asks a question instead of guessing when the words fit two readings or name no item. Writes draft-entries.json only; the play's check script tests each entry against the plan's rules, and nothing reaches the plan file, the tracker or the model before the person approves the whole list. Generative artifact production for /reshape-plan (#730), through project-orchestrator.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write
@@ -8,7 +8,7 @@ allowed-tools: Read, Write
 
 # author-plan-changes
 
-A person talks to `/update-plan` in their own words: "#730 is done", "drop #909", "put #1001
+A person talks to `/reshape-plan` in their own words: "#730 is done", "drop #909", "put #1001
 under #730", "change the scope of #730 to …", "set the plan to Paused, direction 2", "we found
 a new feature: a person can undo the last update". This skill turns one such instruction into
 the list entries it means. It decides what the words mean; it does not check the rules (the

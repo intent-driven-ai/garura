@@ -5,7 +5,7 @@ user-invocable: false
 model: sonnet
 allowed-tools: Bash, Read, Write
 stale: true
-stale_note: 'waits for the rebuild of /refactor-code (#855)'
+stale_note: 'waits for the rebuild of /refactor-work (#855)'
 ---
 
 # check-generated-tests

@@ -14,7 +14,7 @@ the old intent-epic pipeline (ADR 050). The meaning did not change.
 `{stm_base}<issue>/context/grounding-questions.md`. Each question has a unique ID, a place
 for the person's answer, and it stays there for all the runs of that issue.**
 
-A play always runs inside an issue (`/discover-domains`, `/discover-capabilities` or any
+A play always runs inside an issue (`/specify-domains`, `/specify-capabilities` or any
 other play). So its questions and answers go to that issue (ADR 039 §1). They are memory in
 short-term memory. Another issue finds them only after a person promotes them.
 
@@ -50,7 +50,7 @@ but that the run guessed), it adds one entry to the file:
   user_answer: null | "<free text>"
   resolved_at: null | <ISO-8601>
   resolved_by_run: null | <play run id>
-  # Optional fields a play may add (/shape-slice writes all four):
+  # Optional fields a play may add (/design-slice writes all four):
   kind: asked | assumption               # asked = shown to the person; assumption = a gap
                                          #   not asked (over the question budget), with the
                                          #   run's written assumption in pipeline_guess

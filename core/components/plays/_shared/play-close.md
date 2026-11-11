@@ -7,7 +7,7 @@ This is a **shared block** (ADR 039 §9): it lives once, here, as `_shared/play-
 beside the plays. A play does not carry this text. Its
 close section holds only the two anchor lines, its own values (where its evidence goes, its
 session stamp marker, its stop-condition paths) and any close step of its own, and points
-here. `/create-play` emits exactly that, so a direct edit and a rebuild converge.
+here. `/build-play` emits exactly that, so a direct edit and a rebuild converge.
 
 ## Why this is a non-intent change
 

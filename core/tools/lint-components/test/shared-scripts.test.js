@@ -1,6 +1,6 @@
 'use strict';
 // #821, #813: every play's and skill's copy of a shared script (lint_grounding.py, model_names.py)
-// must match the main copy in create-play/references.
+// must match the main copy in build-play/references.
 const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
@@ -11,8 +11,8 @@ function t(label, got, want) { assert.deepStrictEqual(got, want, label); passed+
 function target(copyText, withMain = true, script = 'lint_grounding.py', home = 'plays/shape-thing') {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'shared-'));
   if (withMain) {
-    fs.mkdirSync(path.join(dir, 'plays', 'create-play', 'references'), { recursive: true });
-    fs.writeFileSync(path.join(dir, 'plays', 'create-play', 'references', script), 'print("main")\n');
+    fs.mkdirSync(path.join(dir, 'plays', 'build-play', 'references'), { recursive: true });
+    fs.writeFileSync(path.join(dir, 'plays', 'build-play', 'references', script), 'print("main")\n');
   }
   fs.mkdirSync(path.join(dir, home, 'scripts'), { recursive: true });
   fs.writeFileSync(path.join(dir, home, 'scripts', script), copyText);
@@ -26,7 +26,7 @@ t('a play copy of model_names.py that differs fails', target('x\n', true, 'model
 t('a skill copy that matches passes', target('print("main")\n', true, 'model_names.py', 'skills/find-thing'), []);
 t('a skill copy that differs fails', target('x\n', true, 'model_names.py', 'skills/find-thing'), ['structural/model_names-drift']);
 // #860: every copy of lint_play.py matches the tool's copy (core/tools/lint-play/lint_play.py).
-function toolTarget(copyText, { layout = 'source', withTool = true, home = 'plays/create-play' } = {}) {
+function toolTarget(copyText, { layout = 'source', withTool = true, home = 'plays/build-play' } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tool-'));
   const comps = path.join(root, layout === 'source' ? 'components' : '.claude');
   const toolDir = layout === 'source' ? path.join(root, 'tools', 'lint-play') : path.join(root, '.garura', 'core', 'tools', 'lint-play');
@@ -40,10 +40,10 @@ function toolTarget(copyText, { layout = 'source', withTool = true, home = 'play
 }
 t('a lint_play.py copy that matches the tool passes', toolTarget('print("tool")\n'), []);
 t('a lint_play.py copy that differs from the tool fails', toolTarget('print("drifted")\n'), ['structural/lint_play-drift']);
-t('an edit-play copy that differs fails too', toolTarget('x\n', { home: 'plays/edit-play' }), ['structural/lint_play-drift']);
+t('an fix-play copy that differs fails too', toolTarget('x\n', { home: 'plays/fix-play' }), ['structural/lint_play-drift']);
 t('installed layout: a copy that differs from the installed tool fails',
-  toolTarget('x\n', { layout: 'installed', home: 'skills/create-play' }), ['structural/lint_play-drift']);
+  toolTarget('x\n', { layout: 'installed', home: 'skills/build-play' }), ['structural/lint_play-drift']);
 t('installed layout: a copy that matches the installed tool passes',
-  toolTarget('print("tool")\n', { layout: 'installed', home: 'skills/edit-play' }), []);
+  toolTarget('print("tool")\n', { layout: 'installed', home: 'skills/fix-play' }), []);
 t('with no tool the check is skipped', toolTarget('x\n', { withTool: false }), []);
 console.log(`\n${passed} passed, 0 failed`);

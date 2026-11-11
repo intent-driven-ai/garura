@@ -3,7 +3,7 @@
 The rules of a slice's eval (ADR 057): its story files (`templates/eval-story.feature.md`) and its slice file
 (`templates/eval-slice.md`), kept in the slice's evals folder in its home plan
 (`.garura/project/plans/<plan-id>/evals/<slug>/`), and the step library of each surface kind
-(`schemas/eval/steps-<kind>.yaml`). `/shape-eval` writes the eval by these rules, and its `check_eval.py` checks them.
+(`schemas/eval/steps-<kind>.yaml`). `/design-eval` writes the eval by these rules, and its `check_eval.py` checks them.
 
 ## A story file
 
@@ -33,7 +33,7 @@ The rules of a slice's eval (ADR 057): its story files (`templates/eval-story.fe
 
 ## A fixed yardstick (ADR 057)
 
-- A later run of `/shape-eval` never changes or deletes a scenario that is there, and never changes a line of a
+- A later run of `/design-eval` never changes or deletes a scenario that is there, and never changes a line of a
   story file's "Lines covered" list. It only adds scenarios, Untestable lines and Lines covered lines for what is not
   covered yet.
 - A tag `@goal-<k>` or `@expectation-<k>` points at the story's k-th line by its place. When a story's lists change

@@ -1,7 +1,7 @@
 # measure — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-edit-play; never hand-edit the compiled SKILL.md.
+fix-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -14,14 +14,14 @@ capabilities) plus the product profile, both read from the spine. /shape-measure
 the last of the three realize pipes. It grounds every metric in what the slice actually delivers, and
 it is the play that flips a slice to `realized`: when all seven lens docs are present (quality, ux,
 agentic, marketing, architecture, run, measure), it stamps the slice's `status` to `realized` on the
-spine — the single marker /shape-slice checks before cutting delivery work. One slice per run; one human
+spine — the single marker /design-slice checks before cutting delivery work. One slice per run; one human
 checkpoint approves the lens and the stamp before anything is COMMITTED.
 
 Pipeline position: **both**. /shape-measure-lens is the DELIVER pipe — a single-play pipe that runs last (after
-the functional and non-functional pipes have merged). It injects `start-change` (opens the deliver
+the functional and non-functional pipes have merged). It injects `start-work` (opens the deliver
 issue, cuts a fresh branch off main, inits STM) and, after the lens is persisted, the stamp is made,
-and both are verified, injects the close sequence `commit-change → propose-change → check-change →
-merge-change`, merging the realized slice to main. (#437; 3-pipe realize 2026-06-26)
+and both are verified, injects the close sequence `commit-work → review-work → validate-work →
+merge-work`, merging the realized slice to main. (#437; 3-pipe realize 2026-06-26)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill
 (author-measure-lens) writes ONLY the per-node grounding doc (the slice's `lens/measure.md`) straight
@@ -95,11 +95,11 @@ pipeline's end PR.
   not-stamped-with-the-missing-lenses-recorded BOTH count as done. A close whose Done means does not
   hold reads HALTED, never COMPLETED.
 - C14 — Clean tree in, committed delta out (ADR 026): the product-os tree is asserted clean at entry
-  (pre-flight halts on a dirty model tree, so the injected `start-change` cuts a fresh branch off main
+  (pre-flight halts on a dirty model tree, so the injected `start-work` cuts a fresh branch off main
   against a clean base and the branch base is a correct reference for the guard and the diff). After
   the approved checkpoint the play commits its own model delta on the branch (`feat(model): … (#<issue>)`),
   scoped to the product-os paths it wrote, BEFORE the injected close sequence runs — the subsequent
-  `commit-change` then handles only what remains uncommitted (STM evidence, ADRs), not the model delta
+  `commit-work` then handles only what remains uncommitted (STM evidence, ADRs), not the model delta
   this play already committed. On cancel the tree was already reverted (C11), so nothing is committed.
 
 ### Failure conditions
@@ -185,7 +185,7 @@ as done.
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
-  firmed. direction: halt and route to /discover-capabilities before /shape-measure-lens runs. handoff: human.
+  firmed. direction: halt and route to /specify-capabilities before /shape-measure-lens runs. handoff: human.
 - REC2 (F2) — trigger: a write touched something out of scope. direction: revert it; /shape-measure-lens writes
   only this slice's measure.md, a decision, and the one realized status field. handoff: autonomous.
 - REC3 (F3) — trigger: measure.md fails the template/shape. direction: re-emit to the Measure lens

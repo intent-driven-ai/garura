@@ -16,7 +16,7 @@ gate policy and ledger keep working. Untracked additions (git ls-files --others)
 unioned with tracked changes, because a direct-write play creates new docs/decisions as
 untracked files that `git diff` alone does not list.
 
-    python3 classify_change.py --play discover-capabilities \
+    python3 classify_change.py --play specify-capabilities \
         --product-base <product_base> --base-ref HEAD [--out shape.json]
 
 Axes (fixed; the shape key is `<play>:<sorted non-zero axes joined by '+'>`):

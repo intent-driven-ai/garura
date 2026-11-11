@@ -41,7 +41,7 @@ lens:
 
 ## Fill rules
 
-- the realize lenses (`/shape-quality-lens`, `/shape-ux-lens`, `/shape-agentic-lens`, `/shape-architecture-lens`, `/shape-measure-lens`, `/shape-run-lens`) —
+- the realize lenses (`/design-quality`, `/design-surface`, `/design-agentic`, `/design-architecture`, `/shape-measure-lens`, `/design-env`) —
   each creates/updates its one lens for a slice
 - `/learn-outcomes` — may update a lens from real-world outcomes
 

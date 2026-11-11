@@ -1,12 +1,12 @@
 ---
 name: author-steelman-evals
-description: 'Author /build-epic''s steelman evals for ONE epic — adversarial refutation checks the independent verifier runs against a build that claims "done". Reads the epic''s acceptance criteria, user_check, the feature ICE (failures especially), the quality lens gates, and the build plan''s test pieces; writes refutation-style evals — each one a concrete attempt to PROVE THE CLAIM FALSE (probe an edge, violate a constraint, exercise a failure condition, game-check a test) with a binary pass rule. Compartmentalized by design: runs in a sub-agent the implementer never talks to, its output path is never placed in any builder or test-author contract, and it never reads implementer output. The anti-reward-hacking work for the /build-epic play.'
+description: 'Author /build-work''s steelman evals for ONE epic — adversarial refutation checks the independent verifier runs against a build that claims "done". Reads the epic''s acceptance criteria, user_check, the feature ICE (failures especially), the quality lens gates, and the build plan''s test pieces; writes refutation-style evals — each one a concrete attempt to PROVE THE CLAIM FALSE (probe an edge, violate a constraint, exercise a failure condition, game-check a test) with a binary pass rule. Compartmentalized by design: runs in a sub-agent the implementer never talks to, its output path is never placed in any builder or test-author contract, and it never reads implementer output. The anti-reward-hacking work for the /build-work play.'
 version: 0.1.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
 stale: true
-stale_note: 'waits for the rebuild of /build-epic (#855); evals-engineer no longer dispatches it (#798, ADR 057) — the rebuild picks a new owner or retires it'
+stale_note: 'waits for the rebuild of /build-work (#855); evals-engineer no longer dispatches it (#798, ADR 057) — the rebuild picks a new owner or retires it'
 ---
 
 # author-steelman-evals

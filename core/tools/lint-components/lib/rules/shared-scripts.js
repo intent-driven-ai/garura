@@ -1,7 +1,7 @@
 'use strict';
 
-// Shared scripts that create-play stamps into plays and that must stay byte-identical to
-// their main copy in plays/create-play/references/. Copies are checked wherever they sit under
+// Shared scripts that build-play stamps into plays and that must stay byte-identical to
+// their main copy in plays/build-play/references/. Copies are checked wherever they sit under
 // plays/*/scripts/ or skills/*/scripts/. Kept short on purpose: only scripts listed here are
 // checked, so other stamped scripts are not flagged.
 const fs = require('fs');
@@ -10,7 +10,7 @@ const path = require('path');
 const SHARED_SCRIPTS = ['lint_grounding.py', 'model_names.py',
   // the plan-aware change scripts and the branch-name issue reader (#731, #673)
   'preflight.py', 'resolve_plan.py', 'resolve_target.py', 'setup_branch.py', 'submit_pr.py', 'merge_pr.py',
-  // the ICE helpers /shape-plan and /update-plan share (#1002)
+  // the ICE helpers /shape-plan and /reshape-plan share (#1002)
   'plan_common.py', 'check_ice_workable.py'];
 
 // Every <targetDir>/{plays,skills}/<name>/scripts/<script> that exists.
@@ -38,7 +38,7 @@ function check(targetDir) {
   const hasPlays = fs.existsSync(playsDir);
 
   for (const script of hasPlays ? SHARED_SCRIPTS : []) {
-    const mainCopy = path.join(playsDir, 'create-play', 'references', script);
+    const mainCopy = path.join(playsDir, 'build-play', 'references', script);
     if (!fs.existsSync(mainCopy)) continue;
     const mainBytes = fs.readFileSync(mainCopy);
     const ruleName = script.replace(/\.py$/, '');
@@ -49,7 +49,7 @@ function check(targetDir) {
           file: copy,
           rule: `structural/${ruleName}-drift`,
           severity: 'error',
-          message: `This copy of ${script} differs from the main copy at plays/create-play/references/${script}. Copy the main copy over it unchanged (change the main copy first if the change is wanted).`,
+          message: `This copy of ${script} differs from the main copy at plays/build-play/references/${script}. Copy the main copy over it unchanged (change the main copy first if the change is wanted).`,
           line: 1,
         });
       }
@@ -61,7 +61,7 @@ function check(targetDir) {
 }
 
 // Scripts whose main copy is a tool (#860): lint_play.py lives in core/tools/lint-play/, and
-// create-play and edit-play keep stamped copies. Every copy must match the tool byte for byte.
+// build-play and fix-play keep stamped copies. Every copy must match the tool byte for byte.
 // The tool is found beside the components folder (source layout: core/tools/) or in the
 // project's install folder (installed layout: .garura/core/tools/ beside .claude).
 const TOOL_SCRIPTS = [{ script: 'lint_play.py', tool: 'lint-play' }];

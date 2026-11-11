@@ -14,7 +14,7 @@ FEATURE = "# Feature: Book a slot\n\n## What it does\nA patient picks a free slo
 ICE = ("## Intent\n- Goal: A patient books a free slot.\n- Limit: No slot is booked twice.\n"
        "- Fails if: Two patients get one slot.\n\n## Context\n- Read: the clinic's booking rules.\n\n"
        "## Expectation\n- Done means: A tester books a slot and sees it taken.\n")
-THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
+THIN = "Thin: proposed from the person's words; deepen with `/specify-capabilities`."
 
 
 class WriteApprovedTest(unittest.TestCase):

@@ -92,7 +92,7 @@ What each skill needs from memory:
 |-------|-----------------------------------------------|
 | `check-pr-quality` | the PR severity taxonomy (`**/standards/rules/pr.md`), copied to `<issue folder>/context/memory/standards/rules/pr.md` — `severity_taxonomy_path`; and the quality standards (`**/knowledge/quality/**`) when a tier holds them, copied to `<issue folder>/context/memory/knowledge/quality/` — `standards_order` is the list of the short-term copies you made (the taxonomy copy first, then the quality standards in the tier order of config `review-pr.standards_order`) |
 
-For a PR review (check-change), you run `check-pr-quality`. When the contract hands you
+For a PR review (validate-work), you run `check-pr-quality`. When the contract hands you
 `severity_taxonomy_path`, it is a short-term copy that an earlier step made: pass it unchanged
 and fetch nothing; pass `standards_order` as that copy (plus any quality standards copies). Else fetch the taxonomy as above **before** the scan, record its source in
 the manifest, and pass the short-term copy. When no tier holds `pr.md`, return a structured

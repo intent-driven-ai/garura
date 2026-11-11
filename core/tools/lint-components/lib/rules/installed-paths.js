@@ -16,13 +16,13 @@ const path = require('path');
 const RULE_ID = 'installed-paths/source-path';
 
 const SOURCE_ONLY_PARTS = new Set([
-  'create-play', 'edit-play', 'create-loop', 'edit-loop',
-  'install-garura', 'uninstall-garura', 'edit-ontology', 'author-product-ontology',
+  'build-play', 'fix-play', 'build-loop', 'fix-loop',
+  'install-garura', 'uninstall-garura', 'specify-ontology', 'author-product-ontology',
 ]);
 
 // Files, by their path inside a part's folder, that sort the paths of the repo under review.
 const REPO_LAYOUT_FILES = new Set([
-  'commit-change/scripts/analyze_changeset.py',
+  'commit-work/scripts/analyze_changeset.py',
   'assess-pr/reference/quality-rules.md',
   // the component linter's own rules: this rule's patterns, and where the source layout keeps
   // the lint_play.py tool (the linter checks Garura's source layout too)

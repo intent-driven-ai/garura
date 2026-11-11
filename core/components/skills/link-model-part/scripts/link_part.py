@@ -52,7 +52,7 @@ link-request.json:
                          removed. It is refused when the old folder holds any other file, or when
                          any page or record in the model names an old path (written from the model
                          root, or as a link relative to the page), so no link breaks.
-- kind `slice`, mode `update` only (a slice is shaped by /shape-slice): `add_features` are added
+- kind `slice`, mode `update` only (a slice is shaped by /design-slice): `add_features` are added
   to its `feature_refs`, in their order, at the end or right after the feature named by `after`;
   a feature already there is not added twice, and each must be in the spine (#931).
 - kind `ice` (ontology v15, #1031): an ICE is its own node, with its own page and its own entry
@@ -118,7 +118,7 @@ class Refused(Exception):
 
 # The one Thin line the ontology fixes (ontology v14); any line that starts "Thin:" just before
 # the ICE counts as the mark, and marking a page again replaces an older line with this one.
-THIN_LINE = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
+THIN_LINE = "Thin: proposed from the person's words; deepen with `/specify-capabilities`."
 
 
 def inside(root, rel):
@@ -383,7 +383,7 @@ def plan(root, spine, request):
             raise Refused(f"{pid} is already in the spine as an ICE")
         if kind == "slice":
             if mode != "update" or p.get("thin"):
-                raise Refused(f"{pid}: a slice is only updated here (add_features); /shape-slice shapes a slice")
+                raise Refused(f"{pid}: a slice is only updated here (add_features); /design-slice shapes a slice")
             if pid not in before["slice"]:
                 raise Refused(f"{pid} is not in the spine as a slice")
             entry = index["slice"][pid]

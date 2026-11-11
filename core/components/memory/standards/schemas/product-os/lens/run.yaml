@@ -1,18 +1,18 @@
 # Lens: run  (LOCKED #434; per-environment reshape #434) — envelope in lens/_index.md
 #
-# How the SLICE is deployed and runs. A foundation-trinity realize lens. /shape-run-lens reads the
+# How the SLICE is deployed and runs. A foundation-trinity realize lens. /design-env reads the
 # slice's hub + the ARCHITECTURE lens (it deploys arch's parts) + the KB, and grounds every
-# operational choice in a best-fit architecture/technology learning. /shape-run-lens authors this lens and
+# operational choice in a best-fit architecture/technology learning. /design-env authors this lens and
 # closes the non-functional pipe; it does NOT stamp the slice `realized` — that belongs to
 # /shape-measure-lens (the deliver pipe). (realized-stamp ownership reconciled #434)
 #
 # PER-ENVIRONMENT MODEL (#434). The slice-level operational design (rollout, migrations,
-# CI/CD) is written ONCE. Each environment is defined INCREMENTALLY — one /shape-run-lens call per
+# CI/CD) is written ONCE. Each environment is defined INCREMENTALLY — one /design-env call per
 # environment, re-run to add or edit an environment — and every environment carries a full,
 # MACHINE-READABLE definition the delivery plays execute against:
-#   - /release-epic  reads the LOCAL environment (the lightweight bring-up for human testing).
+#   - /validate-uat  reads the LOCAL environment (the lightweight bring-up for human testing).
 #   - /release-increment  reads a CLOUD environment, defaulting to the lowest cloud tier (dev).
-# Higher cloud tiers (qa, stage, prod) use the same shape — added later by re-running /shape-run-lens.
+# Higher cloud tiers (qa, stage, prod) use the same shape — added later by re-running /design-env.
 
 schema:
   name: lens
@@ -26,17 +26,17 @@ content:
   migrations: string       # data-change strategy — gated, reversible
   cicd: string             # pipeline: build -> quality gates -> deploy on green
 
-  # --- Environments — built ONE PER /shape-run-lens CALL, incremental; ordered by tier. Each entry is a ---
+  # --- Environments — built ONE PER /design-env CALL, incremental; ordered by tier. Each entry is a ---
   # --- full machine-readable definition. The delivery plays read exactly one env each. ---
   environments:
     - name: string         # unique — local | dev | qa | stage | prod
       tier: integer        # order: 0 local, 1 dev, 2 qa, 3 stage, 4 prod.
                            # the lowest CLOUD tier present (dev) is /release-increment's default target.
       type: string         # local | cloud
-      status: string       # defined  (present once /shape-run-lens has built this environment)
+      status: string       # defined  (present once /design-env has built this environment)
       config_secrets: string  # per-env config; secrets via secrets-manager, NEVER in repo
 
-      # present iff type == local — the lightweight bring-up /release-epic stands up for HITL testing
+      # present iff type == local — the lightweight bring-up /validate-uat stands up for HITL testing
       local:
         run: string        # how to bring it up locally (command / compose file)
         seed: string       # optional — test-data seed step

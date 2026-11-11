@@ -28,7 +28,7 @@ KINDS = ("domain", "capability", "feature")
 MARKS = ("adds", "changes", "removes")
 LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\) "
                   r"\((?P<kind>domain|capability|feature)\) — (?P<mark>adds|changes|removes)$")
-# The list /discover-intent wrote before ontology v4: capabilities only, all of them new.
+# The list /specify-intent wrote before ontology v4: capabilities only, all of them new.
 OLD_HEADER = re.compile(r"^\*\*ICE built from it[^*]*:\*\*")
 OLD_LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\)$")
 NEXT_ANCHOR = "**What was done:**"

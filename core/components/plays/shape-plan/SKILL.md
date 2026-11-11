@@ -2,19 +2,19 @@
 name: shape-plan
 position: both
 argument-hint: "<business intent issue number>"
-description: 'Make the one plan of a business intent that /shape-slice has served with a slice, once — the second play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. When the intent already has a plan file, it stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists. Within its one run it never makes an epic or a story twice; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has one.'
+description: 'Make the one plan of a business intent that /design-slice has served with a slice, once — the second play of the shaping loop (ADR 049: /design-slice, then /shape-plan, then /design-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. When the intent already has a plan file, it stops at pre-flight, before it opens a change or writes anything, and points to /reshape-plan, which changes a plan that exists. Within its one run it never makes an epic or a story twice; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-work, review-work, validate-work and merge-work, on the plan''s branch when the intent has one.'
 user-invocable: true
 ---
 
 # shape-plan
 
-A person names a business intent that `/shape-slice` has served with a slice. /shape-plan
+A person names a business intent that `/design-slice` has served with a slice. /shape-plan
 makes the intent's **one plan**, once: the plan file
 (`.garura/project/plans/<intent-issue>.yaml`), one **epic** for each slice the plan holds, and
 one **story** for each feature of that slice. Each story is written from its feature's ICE and
 that feature's capability's ICE, and holds no failure condition and no recovery condition:
-those stay in the slice's hidden file, which `/shape-slice` wrote. When the intent already has a
-plan, the play stops at pre-flight and points to `/update-plan`, which changes a plan that
+those stay in the slice's hidden file, which `/design-slice` wrote. When the intent already has a
+plan, the play stops at pre-flight and points to `/reshape-plan`, which changes a plan that
 exists. The eval play (#798) comes next, once it is built.
 
 The run reads the slices from the spine (the link "slice serves business intent"); it never
@@ -23,17 +23,17 @@ and it knows a work item by the plan file's `represents` marks, never by a title
 shows the product owner one brief with every tracker write and the plan-file change, and
 writes nothing before the typed yes.
 
-**Pipeline position: both.** start-change opens the change at the head (on the plan's
-sub-branch when the intent has a plan); the end sequence commit-change → propose-change →
-check-change → merge-change lands it.
+**Pipeline position: both.** start-work opens the change at the head (on the plan's
+sub-branch when the intent has a plan); the end sequence commit-work → review-work →
+validate-work → merge-work lands it.
 
 ## Compiled From
 
-This play was compiled from the shape-plan ICE (`reference/ice.md`) by create-play. Intent
+This play was compiled from the shape-plan ICE (`reference/ice.md`) by build-play. Intent
 defines constraints (C1–C3, C5–C11, C13–C14) and failure conditions (F1–F5, F7–F13); the
 expectation defines success scenarios (S1, S6–S9), a Done means (D1–D5, baked to `stop-condition.yaml`), and one recovery entry
 per failure condition. To modify this play, update `reference/ice.md` and recompile with
-edit-play.
+fix-play.
 Do NOT edit this file manually — it is a compiled artifact.
 
 ## Role
@@ -82,8 +82,8 @@ injected sub-plays; everything else is a script.
 |-------|-----------|-------------------|
 | Resolve config, `stm_base`, `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | A business intent issue number was given (`/shape-plan <intent-issue>`, digits only); the plan's ID is that number | C1 | Hard halt — ask for the intent's issue number |
-| **The intent has no plan yet** — `check_plan_absent.py`: no `.garura/project/plans/<intent-issue>.yaml` in the checked-out tree or on main. Runs first, before start-change and before any read of the model | C14 | Stop (exit 3): show its message — the plan exists, and `/update-plan <intent-issue>` changes it — and end the run there. No Standard Play Close runs: its records would be files left behind, so the message is the run's whole report. Nothing was opened or written |
-| The product model's spine exists (`<product_base>product-os/_spine.yaml`) | C2 | Hard halt — run `/shape-slice <intent-issue>` first |
+| **The intent has no plan yet** — `check_plan_absent.py`: no `.garura/project/plans/<intent-issue>.yaml` in the checked-out tree or on main. Runs first, before start-work and before any read of the model | C14 | Stop (exit 3): show its message — the plan exists, and `/reshape-plan <intent-issue>` changes it — and end the run there. No Standard Play Close runs: its records would be files left behind, so the message is the run's whole report. Nothing was opened or written |
+| The product model's spine exists (`<product_base>product-os/_spine.yaml`) | C2 | Hard halt — run `/design-slice <intent-issue>` first |
 | **Clean model tree** — after Step 0: `git status --porcelain -- <product_base>product-os` is empty | C7 | Hard halt (REC7) |
 | **Clean plans tree** — after Step 0: `git status --porcelain -- .garura/project/plans` is empty, so the write guard sees only this run's change and a restore never takes back a person's own plan edits | C7, C8 | Hard halt (REC7) |
 
@@ -95,7 +95,7 @@ python3 scripts/check_plan_absent.py --plans-dir .garura/project/plans --plan <i
 ```
 
 Exit 3: show its `message` as it is, remove `${stm_base}_plans/shape-plan/` so nothing is left
-behind, and stop — no start-change, no model read, no write, no task list and no close (C14). Exit 2: the number is not an
+behind, and stop — no start-work, no model read, no write, no task list and no close (C14). Exit 2: the number is not an
 intent issue; ask for it. Exit 0: go on; after Step 0, move `plan-absent.json` into `<working>`.
 
 Then resolve the facts with the bundled resolver, not by inference:
@@ -107,7 +107,7 @@ python3 scripts/preflight.py --play shape-plan --config .garura/core/config.yaml
 ```
 
 `preflight.py` gives `stm_base`, `product_base` and `evidence_record`. The change's own issue
-comes from start-change (Step 0), not from the branch name: the intent issue and the change
+comes from start-work (Step 0), not from the branch name: the intent issue and the change
 issue are two issues. After Step 0, with `<issue>` = the change issue:
 
 ```
@@ -132,7 +132,7 @@ completed steps, reset an in-progress step to pending, continue from the first i
 Create ALL tasks right after pre-flight, before any domain work. The play owns this DAG.
 
 ```
-[T0]  start-change (injected — start)                          blockedBy: []
+[T0]  start-work (injected — start)                          blockedBy: []
 [T1]  Gather the slices and the clean ICE copies                blockedBy: [T0]
 [T2]  Find the epics and stories that exist                     blockedBy: [T1]
 [T3]  Draft the epics and stories                               blockedBy: [T2]
@@ -142,10 +142,10 @@ Create ALL tasks right after pre-flight, before any domain work. The play owns t
 [T7]  Write the plan file                                       blockedBy: [T6]
 [T8]  Check the plan, the tracker and the writes                blockedBy: [T7]
 [T9]  Commit the plan file                                      blockedBy: [T8]
-[E1]  commit-change (injected — end)                            blockedBy: [T9]
-[E2]  propose-change (injected — end)                           blockedBy: [E1]
-[E3]  check-change (injected — end)                             blockedBy: [E2]
-[E4]  merge-change (injected — end)                             blockedBy: [E3]
+[E1]  commit-work (injected — end)                            blockedBy: [T9]
+[E2]  review-work (injected — end)                           blockedBy: [E1]
+[E3]  validate-work (injected — end)                             blockedBy: [E2]
+[E4]  merge-work (injected — end)                             blockedBy: [E3]
 [T10] Scenario Validation                                       blockedBy: [E4]
 [T11] Close                                                     blockedBy: [T10]
 ```
@@ -158,20 +158,20 @@ in order.
 
 ### Phase: Start (injected — D2 position: both, head)
 
-**Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
+**Step 0 — start-work** · Owner: `start-work` (sub-play) · Depends on: pre-flight
 Run the start-of-pipeline member as a sub-play with `parent_run_id`. It resolves or creates
 the change issue, cuts its branch (the plan's sub-branch when the intent has a plan file,
 `<plans>/<id>.yaml`), and inits short-term memory. Then assert the clean model tree and the
 clean plans tree (hard halt if dirty — REC7).
 
-    { "play": "start-change", "parent_run_id": "<this run id>",
+    { "play": "start-work", "parent_run_id": "<this run id>",
       "inputs":  { "title": "[TASK] shape-plan: make the plan for business intent #<intent-issue>" },
-      "outputs": { "result": "<working>start-change.json" } }
+      "outputs": { "result": "<working>start-work.json" } }
 
 Step 0 runs only after the plan-exists check (pre-flight) read `exists: false`.
-**SE-20 (F13/C14):** `<working>plan-absent.json` reads `exists: false`, and start-change's record
+**SE-20 (F13/C14):** `<working>plan-absent.json` reads `exists: false`, and start-work's record
 was made after it; on a stop, the check's printed record read `exists: true`, its message named
-`/update-plan <intent-issue>` and was shown, and the run made no change issue, no branch, no
+`/reshape-plan <intent-issue>` and was shown, and the run made no change issue, no branch, no
 short-term folder and no tracker write, and left no file behind.
 
 ### Phase: Gather
@@ -192,7 +192,7 @@ taken out — the line and every line under it, nested bullets and wrapped text 
 It also writes `<working>skill-input.json`: each slice's id, name and outcome, and each ready
 feature's id, name, one line and clean copy's path — no ICE page path. The skill reads only
 `skill-input.json` and the clean copies, never `gather.json` or an ICE page. Exit 2
-means no slice serves the intent: tell the person to run `/shape-slice <intent-issue>` first,
+means no slice serves the intent: tell the person to run `/design-slice <intent-issue>` first,
 and close HALTED.
 **SE-1 (F2/C1/C2):** `gather.json` `plan_id` equals `<intent-issue>` and `plan_file` is
 `<plans>/<id>.yaml`, the one plan file for the intent; its `slices` are every spine slice whose
@@ -226,7 +226,7 @@ the person in plain words and stop (REC2); the run goes on only after the person
 plan file. `misplaced` lists each sub-issue of an epic that is not a story of its slice (nor a
 moved-out story), with its title (C13): exit 1 too. Show each as "not this slice's work" and
 stop before any tracker write (REC12); the person files it in its own place (its own story, bug
-or chore, which `/shape-slice` and `/shape-plan` place when they run) and takes it off the epic,
+or chore, which `/design-slice` and `/shape-plan` place when they run) and takes it off the epic,
 then runs the play again.
 **SE-19 (F12/C13):** `work-items.json` `misplaced` names every sub-issue of each used epic that
 is neither the issue of a story item of its slice nor a `move_out` story, each with its title;
@@ -337,7 +337,7 @@ after every write. Exit 1 means the tracker failed part way: the record reads `o
 names the `failed` step and keeps every issue made before it. Still run Step 7, so the plan
 file marks those issues; then show the record to the person and close HALTED (REC5). The plan
 file now exists, so a new /shape-plan run stops at pre-flight (C14): the person finishes the
-plan with `/update-plan <id>`, or removes the plan file and the issues made and runs
+plan with `/reshape-plan <id>`, or removes the plan file and the issues made and runs
 /shape-plan again.
 **SE-12 (F5/C8):** `tracker-record.json` `approval_at` equals `approval.json` `at`; the sha256 of
 `brief.md`, `work-items.json` and `drafts.json` still equals what `approval.json` recorded; each
@@ -409,25 +409,25 @@ git commit -m "feat(plan): make or update plan <id> for business intent #<id> (#
 Each member runs as a sub-play with `parent_run_id`; each resolves its own context from the
 branch and config.
 
-**Step E1 — commit-change** · blockedBy: Step 9 — commits the run records under `{stm_base}<issue>/`.
+**Step E1 — commit-work** · blockedBy: Step 9 — commits the run records under `{stm_base}<issue>/`.
 
-    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/commit-change.json" } }
+    { "play": "commit-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/commit-work.json" } }
 
-**Step E2 — propose-change** · blockedBy: E1
+**Step E2 — review-work** · blockedBy: E1
 
-    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/propose-change.json" } }
+    { "play": "review-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/review-work.json" } }
 
-**Step E3 — check-change** · blockedBy: E2 — a reject stops the chain before merge.
+**Step E3 — validate-work** · blockedBy: E2 — a reject stops the chain before merge.
 
-    { "play": "check-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/check-change.json" } }
+    { "play": "validate-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/validate-work.json" } }
 
-**Step E4 — merge-change** · blockedBy: E3 — lands on the plan's branch when the change sits in a plan.
+**Step E4 — merge-work** · blockedBy: E3 — lands on the plan's branch when the change sits in a plan.
 
-    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/merge-change.json" } }
+    { "play": "merge-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/merge-work.json" } }
 
-**SE-18 (F9/C10):** `start-change.json` shows the change opened by start-change; the
+**SE-18 (F9/C10):** `start-work.json` shows the change opened by start-work; the
 `<working>end/` results are present in order; the PR's base is the plan's branch when the
-intent has a plan (else main), and `merge-change.json` reports it merged.
+intent has a plan (else main), and `merge-work.json` reports it merged.
 
 ### Phase: Scenario Validation
 
@@ -446,7 +446,7 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
   story of the epic's slice in `misplaced` with its title, there is no `tracker-record.json`, and
   the plan file's `shasum -a 256` equals `plan-before.txt`.
 - **SCE-9 (S9 — product owner, a plan that exists):** the check's printed record reads
-  `exists: true` and its message names `/update-plan <intent-issue>`; there is no start-change
+  `exists: true` and its message names `/reshape-plan <intent-issue>`; there is no start-work
   record, no change branch, no tracker write and no file left behind, and the plan file is as it
   was.
 
@@ -532,11 +532,11 @@ gated.
 | F10 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
 | F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story | take the label off, and set the issue type to Epic on an epic and to Story on a story | autonomous |
 | F12 | an epic holds a sub-issue that is not a story of its slice, and the run wrote to the tracker or did not name it | stop before any tracker write and name each misplaced item with its title; a person files it in its own place and takes it off the epic, then runs the play again | human |
-| F13 | the intent already had a plan file and the run went on past pre-flight (opened a change, read the model, wrote anything), or stopped without naming /update-plan | stop the run, undo what it opened or wrote after pre-flight (the change branch and short-term folder, any tracker write), and show that the plan exists and `/update-plan <id>` changes it | human |
+| F13 | the intent already had a plan file and the run went on past pre-flight (opened a change, read the model, wrote anything), or stopped without naming /reshape-plan | stop the run, undo what it opened or wrote after pre-flight (the change branch and short-term folder, any tracker write), and show that the plan exists and `/reshape-plan <id>` changes it | human |
 
 ## Pause and Resume
 
-Steps run top to bottom. On entry, resolve the change issue from start-change's result, check
+Steps run top to bottom. On entry, resolve the change issue from start-work's result, check
 the status marker, skip completed steps, reset an in-progress step to pending, and continue.
 Nothing reaches the tracker before Step 6, so a resume before it needs no undo. A resume after
 Step 6 started reads `tracker-record.json` first. It is written after every tracker write, so
@@ -550,9 +550,9 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:1bd5350cf7d9815047f7593e788d324d0e55bca7ee20307033c3e75e630d05ce (of `reference/ice.md`) |
-| compiled_by | create-play (#818); edit-play (#896) |
-| pipeline_position | both (start-change head; commit → propose → review → merge close) |
+| fingerprint | sha256:feff765664d710d737c0c83fbad0bf7a8d1f7f81ced9055ee4f2497a4a327ed6 (of `reference/ice.md`) |
+| compiled_by | build-play (#818); fix-play (#896) |
+| pipeline_position | both (start-work head; commit → propose → review → merge close) |
 | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
@@ -560,7 +560,7 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 | skills_used | author-work-items (built for this play) |
 | skills_missing | none |
 | tracker_verbs | view-issue, create-issue-typed (type and parent in one call), set-issue-type, edit-issue-body, remove-label, attach-sub-issue, remove-sub-issue — all through platform_adapter.py |
-| scripts | check_plan_absent.py (the plan-exists check), preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from create-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
+| scripts | check_plan_absent.py (the plan-exists check), preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from build-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
 | tests | test_check_plan_absent.py, test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py |
 | step_evals | 17 (SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-20) |
 | scenario_evals | 5 (SCE-1, SCE-6…SCE-9) |

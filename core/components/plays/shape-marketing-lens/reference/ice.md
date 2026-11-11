@@ -1,7 +1,7 @@
 # marketing — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-edit-play; never hand-edit the compiled SKILL.md.
+fix-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -25,8 +25,8 @@ before anything is committed. The lens is gated by the structural linter (shape)
 content-quality eval (a judge).
 
 Pipeline position: **end**. /shape-marketing-lens is the END of the FUNCTIONAL realize pipe (ux → agentic →
-marketing): it expects to run on the branch /shape-ux-lens already started, injects no `start-change` head, and
-injects the close sequence (commit-change → propose-change → check-change → merge-change) that
+marketing): it expects to run on the branch /design-surface already started, injects no `start-work` head, and
+injects the close sequence (commit-work → review-work → validate-work → merge-work) that
 commits the functional pipe's lenses, opens the PR, takes the verdict, and merges to main. It writes
 the persistent product model **directly, in place** (the slice's marketing lens) on the
 already-started branch, and reads the hub only — never another lens. There is no draft copy and no
@@ -43,7 +43,7 @@ artifact); the keyed persist reads the manifest and writes the decision file. Be
 ever writes the one lens doc, containment is a post-write scoped guard over the full delta
 (`scoped_write_guard.py`), not a draft. Clean tree in, committed delta out: the product-os tree is
 asserted clean at entry, and after the approved checkpoint the play commits its own model delta on
-the branch (a `feat(model)` commit distinct from the injected `commit-change`), so the working-tree
+the branch (a `feat(model)` commit distinct from the injected `commit-work`), so the working-tree
 diff vs HEAD is exactly this run's delta and the injected end sequence carries a committed model
 change.
 
@@ -113,7 +113,7 @@ change.
   (a dirty model tree halts at pre-flight), so HEAD is a correct base for the scoped guard and the
   change-shape; and after the approved checkpoint the play commits its model delta on the branch
   (`feat(model): … (#<issue>)`). This model-delta commit is a lightweight persist step distinct from
-  the injected `commit-change` (which then commits only what remains — STM evidence) and from the
+  the injected `commit-work` (which then commits only what remains — STM evidence) and from the
   per-play Standard Play Close (evidence + delivery report) that /shape-marketing-lens still runs.
 
 ### Failure conditions
@@ -202,7 +202,7 @@ by the content-quality eval before the gate.
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
-  firmed. direction: halt and route to /discover-capabilities (detail + firm) before
+  firmed. direction: halt and route to /specify-capabilities (detail + firm) before
   /shape-marketing-lens runs. handoff: human.
 - REC2 (F2) — trigger: a model path outside the run's write scope changed (the scoped-guard report is
   not ok). direction: the guard's `--restore` already reverted the offending paths; re-run writing

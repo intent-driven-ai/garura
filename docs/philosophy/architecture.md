@@ -63,12 +63,12 @@ High-order plays represent **user intent** and chain atomic plays around their o
 ```
 measure
     │
-    ├── start-change      (head: resolve the issue, cut the branch, initialize STM)
+    ├── start-work      (head: resolve the issue, cut the branch, initialize STM)
     ├── … measure's own steps …
-    ├── commit-change     ┐
-    ├── propose-change    │ end sequence — injected by create-play
-    ├── check-change     │ into any play declared position: end or both
-    └── merge-change      ┘
+    ├── commit-work     ┐
+    ├── review-work    │ end sequence — injected by build-play
+    ├── validate-work     │ into any play declared position: end or both
+    └── merge-work      ┘
 ```
 
 ### Atomic Plays
@@ -80,11 +80,11 @@ Atomic plays are **atomic units** that perform one bounded operation and never c
 - One bounded outcome per run
 - Close by proving a machine-checkable stop condition (see Level 3 below), not by running out of steps
 
-**Examples:** `start-change`, `commit-change`, `propose-change`, `merge-change`
+**Examples:** `start-work`, `commit-work`, `review-work`, `merge-work`
 
 **Flow:**
 ```
-Play: commit-change
+Play: commit-work
     │
     ├── Script: analyze_changeset.py — scan and classify the changeset
     │
@@ -104,7 +104,7 @@ Every human checkpoint is a configuration switch (`standards/rules/gate-config.m
 
 | Kind | Meaning |
 |------|---------|
-| **pinned** | Always fires. The play's own intent mandates it; no config value can turn it off. Today: `grill`, `launch`, `learn`, `deploy`, the land-on-main step of `merge-change`, and — run by hand only — `intent`'s confirm and `adr`'s accept (inside a loop they wait for the loop's end review; ADR 031, #632). |
+| **pinned** | Always fires. The play's own intent mandates it; no config value can turn it off. Today: `grill`, `launch`, `learn`, `deploy`, the land-on-main step of `merge-work`, and — run by hand only — `intent`'s confirm and `adr`'s accept (inside a loop they wait for the loop's end review; ADR 031, #632). |
 | **conditional** | Fires unless the project's learned gate policy says this change *shape* has earned auto-pass. Every crossing is recorded; the human's real action teaches the policy. The eleven document plays (vision, understand, shape, roadmap, and the seven realize lenses) are conditional. |
 | **off** | Never waits. The judgment the human was making has been replaced by named deterministic checks inside the play; the skip is recorded in evidence. |
 
@@ -160,11 +160,11 @@ See [ADR 009: Skill LTM Reads](../adr/009-skill-ltm-organizational-knowledge.md)
 
 Every handoff in a compiled play — play → agent → skill and back — is a JSON contract. The real outputs live in **files on disk**; the contract carries the *paths*, never the contents. A hop says "your inputs are these files, write your output here", and returns "done — the output is at this path". That is what lets any step be resumed, re-run, or handed off without re-deriving anything.
 
-`/create-play` bakes every contract into the compiled play at compile time; `/edit-play` keeps them intact when a play changes. Scripts a step calls directly follow the same discipline — paths in, files out.
+`/build-play` bakes every contract into the compiled play at compile time; `/fix-play` keeps them intact when a play changes. Scripts a step calls directly follow the same discipline — paths in, files out.
 
 ### Contract Structure
 
-The shape compiled plays emit today, taken from `commit-change`'s grouping step (dispatched to `repo-orchestrator` → `assess-changes` only when the changeset needs judgment):
+The shape compiled plays emit today, taken from `commit-work`'s grouping step (dispatched to `repo-orchestrator` → `assess-changes` only when the changeset needs judgment):
 
 ```json
 {
@@ -182,7 +182,7 @@ The shape compiled plays emit today, taken from `commit-change`'s grouping step 
 
 The play does not pass its ICE source to agents. The intent is compiled *into* the play — its constraints and failure conditions become the play's step evals, scenario evals, recovery entries, and stop condition — so what an agent needs is the task and the files.
 
-> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/create-play` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/release-epic` keeps a `task_id`.
+> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/build-play` emit the leaner shape above; a step may add a field it needs — `/fix-work`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/validate-uat` keeps a `task_id`.
 
 ### How It Flows
 
@@ -211,30 +211,30 @@ The Four Crafts Architecture describes the four distinct authoring concerns that
 
 | Craft | Owner | Artifact | Purpose |
 |-------|-------|----------|---------|
-| **Intent Crafting** | Framework author, via `/create-play` (new play) or `/edit-play` (existing play) | The play's ICE source, `reference/ice.md` | Declares the goal, constraints, and failure conditions (the Intent triple), plus the generated-and-vetted Expectation the play is compiled from |
+| **Intent Crafting** | Framework author, via `/build-play` (new play) or `/fix-play` (existing play) | The play's ICE source, `reference/ice.md` | Declares the goal, constraints, and failure conditions (the Intent triple), plus the generated-and-vetted Expectation the play is compiled from |
 | **Prompt Crafting** | Play | JSON contract | Play passes ONLY the JSON contract to agents — no inline instructions |
 | **Context Crafting** | Agent | Skill inputs | Agent reads the files the contract names, picks the LTM standards the skill needs |
 | **Spec Crafting** | Skill | Output files on disk | Skill reads templates and standards from LTM, fills them, writes the artifact at the contract's output path |
 
 ### Intent Crafting
 
-Intent Crafting produces a play's **ICE source**, `core/components/plays/<play>/reference/ice.md`. Every play built through the compiler carries one. Four plays have none: `create-play` (the compiler bootstrap, edited directly by definition), `edit-play`, and the `install-garura` / `uninstall-garura` meta-plays.
+Intent Crafting produces a play's **ICE source**, `core/components/plays/<play>/reference/ice.md`. Every play built through the compiler carries one. Four plays have none: `build-play` (the compiler bootstrap, edited directly by definition), `fix-play`, and the `install-garura` / `uninstall-garura` meta-plays.
 
 The ICE source has two parts:
 
 - **Intent** — authored: a goal, constraints (`C1`, `C2`, …), and failure conditions (`F1`, `F2`, …). Implementation-agnostic — no tools, file paths, or step-by-step how.
 - **Expectation** — generated from the Intent by the compiler and vetted by the author, never hand-written: success scenarios (`S1`, …, each persona / given / then / measure), **Done means** (the machine-checkable stop condition, `D1`, …), and exactly one recovery entry per failure condition (`REC1`, …).
 
-Worked example — `core/components/plays/commit-change/reference/ice.md`, abridged:
+Worked example — `core/components/plays/commit-work/reference/ice.md`, abridged:
 
 ```markdown
-# commit-change — ICE source
+# commit-work — ICE source
 
 ## Intent
 
 Commit all uncommitted work on the feature branch, grouped by concern, with conventional
 messages that reference the tracked issue — leaving a clean tree ready to raise. The play
-commits only; it does not push (propose-change pushes when it opens the PR).
+commits only; it does not push (review-work pushes when it opens the PR).
 
 ### Constraints
 
@@ -242,21 +242,21 @@ commits only; it does not push (propose-change pushes when it opens the PR).
 - C2 — Changes are grouped by concern; each commit holds one coherent concern.
 - C6 — Sensitive files (secrets, credentials, keys) are never committed; their presence
   blocks the commit.
-- C7 — The play commits only; it never pushes (pushing is propose-change's job).
+- C7 — The play commits only; it never pushes (pushing is review-work's job).
   …
 
 ### Failure conditions
 
 - F1 — A commit mixes unrelated concerns.
 - F5 — A secret or sensitive file gets committed.
-- F6 — The play pushes, overstepping into propose-change.
+- F6 — The play pushes, overstepping into review-work.
   …
 
 ## Expectation
 
 ### Success scenarios
 
-- S2 — (developer, nothing to commit) Given a clean working tree, when commit-change runs,
+- S2 — (developer, nothing to commit) Given a clean working tree, when commit-work runs,
   then it exits cleanly without creating a commit. Measure: no commit is created; the run
   exits gracefully.
   …
@@ -280,8 +280,8 @@ From this source the compiler emits the play's `SKILL.md`, its bundled `scripts/
 
 **The authoring path:**
 
-- **New play** — `/create-play` interviews for the Intent triple, generates the Expectation, and compiles.
-- **Intent change** to an existing play (goal, a constraint, a failure condition, a scenario, the agent/skill flow, evals) — edit the ICE source and recompile with `/edit-play`. Never hand-edit the compiled `SKILL.md` for an intent change.
+- **New play** — `/build-play` interviews for the Intent triple, generates the Expectation, and compiles.
+- **Intent change** to an existing play (goal, a constraint, a failure condition, a scenario, the agent/skill flow, evals) — edit the ICE source and recompile with `/fix-play`. Never hand-edit the compiled `SKILL.md` for an intent change.
 - **Non-intent change** (output format, report scaffolding, surface prose) — edit the compiled `SKILL.md` directly and record a `Direct-edit deviation note`.
 
 The ICE source is design-time only: agents never modify it, and plays never pass it to agents at runtime.
@@ -352,7 +352,7 @@ Plays are orchestrators. They coordinate workflow by delegating to agents — th
 
 **Forbidden in plays:** ad-hoc git commands, ad-hoc gh commands, or inline execution of any domain operation an agent owns.
 
-**What plays own directly:** checkpoint writes, approval logic, STM initialization, artifact writes, evidence reports, final user-facing output, and their own bundled `scripts/` for mechanical steps (create-play compiles a play as a SKILL.md plus scripts for its mechanical work).
+**What plays own directly:** checkpoint writes, approval logic, STM initialization, artifact writes, evidence reports, final user-facing output, and their own bundled `scripts/` for mechanical steps (build-play compiles a play as a SKILL.md plus scripts for its mechanical work).
 
 **What plays delegate to agents:**
 - Git operations (branch, commit, push, status) → `repo-orchestrator`
@@ -372,7 +372,7 @@ When an agent's sole purpose is to resolve a value that is already deterministic
 
 **Requirement:** The synthesized artifact must be contract-compatible with what the agent would have produced — downstream steps must not know or care whether resolution was real or synthetic.
 
-**Example (`commit-change`, issue #343):**
+**Example (`commit-work`, issue #343):**
 - `project-orchestrator` is normally dispatched to resolve which open issue the changes belong to (`track-issue` + `find-matching-issues`, writing `issue-mappings.yaml`).
 - When the branch name encodes the issue number (e.g. `feature/95-slug`), the pre-flight script returns it as a fact, the play sets `auto_issue_resolved = true`, and the issue-resolution step is skipped entirely.
 - This removes one tracker API call and one model scoring step from the hot path without any change to downstream contracts.
@@ -406,7 +406,7 @@ Garura uses a **dual memory system**:
 
 **Lifecycle:** Persists forever (version controlled audit trail)
 
-**Principle:** NWWI (No Work Without an Issue) — all checkpoint-producing work must be associated with an issue. Enforcement point is `commit-change`: commit messages must reference the issue.
+**Principle:** NWWI (No Work Without an Issue) — all checkpoint-producing work must be associated with an issue. Enforcement point is `commit-work`: commit messages must reference the issue.
 
 ### STM Folder Structure
 
@@ -422,7 +422,7 @@ Garura uses a **dual memory system**:
     ├── checkpoint/          # Per-play checkpoints
     │   └── {play-name}/
     │       └── {YYYYMMDD-HHMMSS}.md
-    ├── context/             # Step outputs (e.g. commit-change's commits.yaml)
+    ├── context/             # Step outputs (e.g. commit-work's commits.yaml)
     ├── review/              # Review artifacts
     └── status/              # Run state: resume markers, stop-condition verdicts,
                              #   session identity stamps
@@ -500,7 +500,7 @@ The shape and lifecycle are defined in `standards/templates/checkpoint.md`. Play
 | **Agent produces** | Artifacts | Agent does work, play orchestrates |
 | **Learned capabilities** | Skills | Technology/methodology specific knowledge |
 | **Never forked** | Plays & Skills | Plays are steps; skills share context |
-| **NWWI** | Plays | No Work Without an Issue — commit-change is the hard gate |
+| **NWWI** | Plays | No Work Without an Issue — commit-work is the hard gate |
 
 ## Why This Architecture?
 
@@ -588,7 +588,7 @@ The migration from structural to declarative depends on three capabilities matur
 
 The architectural decisions being made today — externalizing intent to the play's ICE source, making constraint references dynamic, keeping play structure declarative — are not just cleanup. They are **preparing the system for the point where plays become optional**. An intent file that fully describes the objective, constraints, and failure conditions is already 80% of what a system needs to derive its own execution plan. The remaining 20% is trust — and that is built through the deterministic play executions happening now.
 
-The lighter plays were piloted on a mechanical operation — `commit-change` was the first play recompiled as a goal-loop (#465) — because its workflow is predictable and its failure modes are well-understood, before the model was rolled out to every play (#466), including creative operations such as `implement` and `shape` where the workflow is more variable.
+The lighter plays were piloted on a mechanical operation — `commit-work` was the first play recompiled as a goal-loop (#465) — because its workflow is predictable and its failure modes are well-understood, before the model was rolled out to every play (#466), including creative operations such as `implement` and `shape` where the workflow is more variable.
 
 ## Related Documentation
 

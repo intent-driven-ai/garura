@@ -5,7 +5,7 @@
 # (| Dimension | Bar | How checked |); THIS file binds each gate to what a machine needs
 # to execute it: the tooling it demands, the command, the measure, the pass rule.
 #
-# Authored ONCE at lens time (by /shape-quality-lens via author-quality-lens) — the prose-gate →
+# Authored ONCE at lens time (by /design-quality via author-quality-lens) — the prose-gate →
 # tool-command mapping is a judgment call made when the lens is written, never re-inferred
 # at run time. Executed by the check-quality-gates skill on every build/review; verdicts land
 # in the run's evidence file (Gate Outcomes).
@@ -79,4 +79,4 @@ content:
 #       dimension: Visual design
 #       bar: Layout matches the UX lens's approved direction
 #       owner: human
-#       review: "HITL walk at /release-epic; fresh-context reviewer on the PR"
+#       review: "HITL walk at /validate-uat; fresh-context reviewer on the PR"

@@ -10,7 +10,7 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 
 > **Not yet wired.** Rules 1–4 and 17 take effect when plan mode is wired in (Feature #621): `plan-change` and `approve-change` are built in #622, and the plan clause enters every play's done check in #623. Until then, `author-plan-file` writes and checks plans when an agent calls it, and nothing enforces the opening.
 
-1. **Every change works from a plan.** A change opens with `start-change` → `plan-change` → `approve-change`; no work starts before the plan is approved.
+1. **Every change works from a plan.** A change opens with `start-work` → `plan-change` → `approve-change`; no work starts before the plan is approved.
 2. **Only when needed.** Each of the three runs only if its result does not exist yet: an open change, a plan, an approved plan.
 3. **One plan per issue.** A plan is never written twice for the same issue.
 4. **Inside a loop, one plan.** The loop opens the change once; its plays skip the opening and add their items to the loop's plan.
@@ -44,4 +44,4 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 
 ## How status is shown
 
-19. **As a tree, never bare numbers:** `/show-plan <id>` prints the plan as a tree, one node per line: its status mark, its issue number and its plain-words title, so a reader coming back after two days knows where things stand from the tree alone. Every node has one of six statuses: Not Started, In Progress, Now, Done, Blocked, Dropped. The tree hides Done and Dropped and counts them on its last line. The marks and the layout are in `templates/plan-view.md`.
+19. **As a tree, never bare numbers:** `/view-plan <id>` prints the plan as a tree, one node per line: its status mark, its issue number and its plain-words title, so a reader coming back after two days knows where things stand from the tree alone. Every node has one of six statuses: Not Started, In Progress, Now, Done, Blocked, Dropped. The tree hides Done and Dropped and counts them on its last line. The marks and the layout are in `templates/plan-view.md`.

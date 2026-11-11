@@ -13,7 +13,7 @@
 
 ## Resolution
 
-The caller (check-change Step 3 via `quality-auditor`) reads memory only through the memory tool: it copies `standards/rules/pr.md` into the issue's short-term memory and passes that copy. No path in this contract points into memory or into Garura's source. Pre-flight validates that `severity_taxonomy_path` exists, and that at least one entry of `standards_order` resolves to a short-term copy, before the scan runs; else it halts.
+The caller (validate-work Step 3 via `quality-auditor`) reads memory only through the memory tool: it copies `standards/rules/pr.md` into the issue's short-term memory and passes that copy. No path in this contract points into memory or into Garura's source. Pre-flight validates that `severity_taxonomy_path` exists, and that at least one entry of `standards_order` resolves to a short-term copy, before the scan runs; else it halts.
 
 ## Optional fields
 

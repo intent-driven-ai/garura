@@ -41,12 +41,12 @@ t('the rule id is installed-paths/source-path, an error',
   [...new Set(check(dir, 'source').map((v) => `${v.rule}/${v.severity}`))], [`${RULE_ID}/error`]);
 
 dir = tmp('ip-exc-');
-for (const part of ['create-play', 'edit-play', 'create-loop', 'edit-loop', 'install-garura', 'uninstall-garura', 'edit-ontology']) {
+for (const part of ['build-play', 'fix-play', 'build-loop', 'fix-loop', 'install-garura', 'uninstall-garura', 'specify-ontology']) {
   write(dir, `plays/${part}/SKILL.md`, 'Edit `core/components/plays/` and run `core/tools/lint-components`.\n');
 }
 write(dir, 'skills/author-product-ontology/SKILL.md', 'Read `core/components/memory/`.\n');
-write(dir, 'plays/commit-change/SKILL.md', 'clean\n');
-write(dir, 'plays/commit-change/scripts/analyze_changeset.py', 'R = r"^core/components/"\n');
+write(dir, 'plays/commit-work/SKILL.md', 'clean\n');
+write(dir, 'plays/commit-work/scripts/analyze_changeset.py', 'R = r"^core/components/"\n');
 write(dir, 'skills/assess-pr/SKILL.md', 'clean\n');
 write(dir, 'skills/assess-pr/reference/quality-rules.md', '**Triggers:** `core/components/**` changed\n');
 write(dir, 'loops/complete-thing/SKILL.md', 'clean\n');
@@ -59,17 +59,17 @@ dir = tmp('ip-inst-');
 write(dir, 'skills/do-thing/SKILL.md', `---\nname: do-thing\n---\n${PLAY_CLOSE}\n# --- end Standard Play Close ---\nSee \`core/components/plays/_shared/play-close.md\`.\n`);
 write(dir, 'skills/complete-thing/SKILL.md', '---\nname: complete-thing\nkind: loop\n---\nclean\n');
 write(dir, 'skills/find-thing/SKILL.md', '---\nname: find-thing\n---\nUse `.garura/core/tools/lint-play/lint_play.py`.\n');
-write(dir, 'skills/create-play/SKILL.md', 'Edit `core/components/`.\n');
+write(dir, 'skills/build-play/SKILL.md', 'Edit `core/components/`.\n');
 write(dir, 'skills/_shared/play-close.md', 'Checked by `core/tools/lint-components`.\n');
 write(dir, 'agents/thing-keeper.md', '---\nname: thing-keeper\n---\nLoad from `~/.garura/core/memory/`.\n');
-t('installed layout: the play, the shared file and the agent fail; the installed tool and create-play pass',
+t('installed layout: the play, the shared file and the agent fail; the installed tool and build-play pass',
   lines(dir, 'installed'), ['agents/thing-keeper.md:4', 'skills/_shared/play-close.md:1', 'skills/do-thing/SKILL.md:6']);
 
 const found = discover(dir, 'installed');
 t('installed layout: a SKILL.md with the close anchor is a play',
   found.plays.map((c) => c.name), ['do-thing']);
 t('installed layout: a SKILL.md with kind: loop is a loop', found.loops.map((c) => c.name), ['complete-thing']);
-t('installed layout: the rest are skills', found.skills.map((c) => c.name).sort(), ['create-play', 'find-thing']);
+t('installed layout: the rest are skills', found.skills.map((c) => c.name).sort(), ['build-play', 'find-thing']);
 t('installed layout: agents are .claude/agents/*.md', found.agents.map((c) => c.name), ['thing-keeper']);
 t('installed layout: a loop finds the shared close in skills/_shared',
   found.loops[0].playsShared, path.join(dir, 'skills', '_shared'));
@@ -77,8 +77,8 @@ t('installed layout: a loop finds the shared close in skills/_shared',
 // --- each installed part judged by its real kind (round 3) ------------------
 const { kindFromText } = require('../lib/discover');
 const structural = require('../lib/rules/structural');
-t('front matter: a user-invocable SKILL.md with no close anchor is a play (create-play, edit-play)',
-  kindFromText('---\nname: create-play\nuser-invocable: true\n---\n# create-play\n'), 'play');
+t('front matter: a user-invocable SKILL.md with no close anchor is a play (build-play, fix-play)',
+  kindFromText('---\nname: build-play\nuser-invocable: true\n---\n# build-play\n'), 'play');
 t('front matter: a pipeline position or a Compiled From section makes a play',
   [kindFromText('---\nname: p\nposition: end\n---\n'), kindFromText('---\nname: p\n---\n## Compiled From\n')],
   ['play', 'play']);
@@ -86,13 +86,13 @@ t('front matter: user-invocable false and no play mark is a skill',
   kindFromText('---\nname: find-thing\nuser-invocable: false\n---\n## Input\n'), 'skill');
 const proj = tmp('ip-kinds-');
 const claudeDir = path.join(proj, '.claude');
-write(claudeDir, 'skills/edit-loop/SKILL.md', '---\nname: edit-loop\ndescription: x\n---\n# edit-loop\n');
+write(claudeDir, 'skills/fix-loop/SKILL.md', '---\nname: fix-loop\ndescription: x\n---\n# fix-loop\n');
 write(claudeDir, 'skills/find-thing/SKILL.md', '---\nname: find-thing\ndescription: x\nuser-invocable: false\nallowed-tools: Read\n---\n## Input\n## Process\n## Output\n');
 write(proj, '.garura/install-manifest.json', JSON.stringify({ record: { kinds: {
-  '.claude/skills/edit-loop': 'play', '.claude/skills/find-thing': 'skill' } } }));
+  '.claude/skills/fix-loop': 'play', '.claude/skills/find-thing': 'skill' } } }));
 const kinds = discover(claudeDir, 'installed');
-t('the install manifest decides the kind: edit-loop is a play though its text has no play mark',
-  [kinds.plays.map((c) => c.name), kinds.skills.map((c) => c.name)], [['edit-loop'], ['find-thing']]);
+t('the install manifest decides the kind: fix-loop is a play though its text has no play mark',
+  [kinds.plays.map((c) => c.name), kinds.skills.map((c) => c.name)], [['fix-loop'], ['find-thing']]);
 t('an installed skill with no model line is not an error (the install sets the host model)',
   structural.check(kinds).filter((v) => v.file.includes('find-thing')).map((v) => v.message), []);
 t('a source skill with no model line is still an error',
@@ -113,7 +113,7 @@ const docsDir = tmp('ip-docs-');
 write(docsDir, 'agents/thing-keeper.md', '---\nname: thing-keeper\n---\nLoad framework protocols from `docs/framework/` as needed.\n');
 write(docsDir, 'skills/find-thing/SKILL.md', '---\nname: find-thing\n---\nThe ADRs live in `docs/adr/`; ground on `docs/philosophy/**`.\n');
 write(docsDir, 'skills/find-thing/reference/notes.md', 'Background: `docs/philosophy/idsd.md`.\n');
-write(docsDir, 'skills/edit-play/SKILL.md', 'See `docs/standards/harness-standard.md`.\n');
+write(docsDir, 'skills/fix-play/SKILL.md', 'See `docs/standards/harness-standard.md`.\n');
 t('installed layout: a docs pointer fails in an agent and a reference file; repo layout and a source-only part pass',
   lines(docsDir, 'installed'), ['agents/thing-keeper.md:4', 'skills/find-thing/reference/notes.md:1']);
 t('a docs pointer is reported under installed-paths/source-path with its own message',

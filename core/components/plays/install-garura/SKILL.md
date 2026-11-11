@@ -1,6 +1,6 @@
 ---
 name: install-garura
-description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by Claude Code (the Codex installer is deprecated, #863: --tool codex stops with a plain message and changes nothing). Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo — "install garura into X", "set up garura in this repo", "bootstrap garura". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays and the harness-only skills, the default; harness = meta plays + harness-only skills + change chain + discover-capabilities + their workers only). For the reverse, see uninstall-garura.'
+description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by Claude Code (the Codex installer is deprecated, #863: --tool codex stops with a plain message and changes nothing). Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo — "install garura into X", "set up garura in this repo", "bootstrap garura". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays and the harness-only skills, the default; harness = meta plays + harness-only skills + change chain + specify-capabilities + their workers only). For the reverse, see uninstall-garura.'
 user-invocable: true
 ---
 
@@ -19,7 +19,7 @@ machine-global `~/.garura`.
 
 ## How this play is built (read this first)
 
-This is a **bootstrap meta-play** — like create-play, it is hand-authored, not compiled from
+This is a **bootstrap meta-play** — like build-play, it is hand-authored, not compiled from
 an ICE source, and it is **harness-led**: the play decides and reports, a bundled script does
 the deterministic file work. The orchestrator [`scripts/install.py`](scripts/install.py)
 walks the source, handles the tool-agnostic work (shared memory, garura's own config, the STM
@@ -142,8 +142,8 @@ Options:
   and stops with a plain message.
 - `--scope full|harness` — which component set the target receives (default `full`, every
   component except the meta harness plays and the harness-only skills). `harness` installs
-  only the meta plays (create-play, edit-play), the harness-only skills
-  (author-product-ontology), the five *change plays, `/discover-capabilities` (it writes the
+  only the meta plays (build-play, fix-play), the harness-only skills
+  (author-product-ontology), the five *change plays, `/specify-capabilities` (it writes the
   full ICE for a harness repo's own capabilities and features, #753), and the worker
   skills/agents those plays dispatch — for harness-type repos (garura itself) that must not
   carry the other product plays. The scope filters **components only**;
@@ -212,13 +212,13 @@ source exists to recompile. Uninstall needs no change: it reverses what the mani
 and a scoped manifest records exactly what was placed.
 
 **Direct-edit deviation note (#546):** `full` no longer means *everything*. The four meta
-harness plays (create-play, edit-play, install-garura, uninstall-garura) are garura's own
+harness plays (build-play, fix-play, install-garura, uninstall-garura) are garura's own
 build tooling and are excluded from every target install; `full` is now resolved against the
 source tree at run time (`META_PLAYS` + `resolve_scope` in `scripts/install.py`), and both
 adapters' `allow` filter learned a per-kind `None` ("install all of this kind"). `harness` is
-unchanged — it is an explicit allow-list and still names create-play and edit-play, which
+unchanged — it is an explicit allow-list and still names build-play and fix-play, which
 is how garura installs its own build tooling into itself.
 
 Level 3 note (#466): bootstrap meta-play — exempt from the goal-loop recompile (no ICE
-source, like create-play); runs are session-stamped by the host play when invoked through
+source, like build-play); runs are session-stamped by the host play when invoked through
 the pipeline.

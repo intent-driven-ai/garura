@@ -1,6 +1,6 @@
 ---
 name: enrich-grounding
-description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing; approved mode writes a domain, capability, feature or ICE page (ice.md, beside its part's page, with Intent, Context and Expectation) from text a person approved, word for word, through its write_approved.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change, or when a page a person approved must be written as it is.
+description: Write on the pages of the product-model parts a slice needs, for /design-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing; approved mode writes a domain, capability, feature or ICE page (ice.md, beside its part's page, with Intent, Context and Expectation) from text a person approved, word for word, through its write_approved.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /design-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change, or when a page a person approved must be written as it is.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash
@@ -8,7 +8,7 @@ allowed-tools: Read, Write, Bash
 
 # enrich-grounding
 
-A slice uses pages that other plays wrote, at other times, under older rules. /shape-slice
+A slice uses pages that other plays wrote, at other times, under older rules. /design-slice
 brings each page it moves or uses up to the current rules in the same run, and adds what the
 slice needs and the page lacks. This skill writes that page content. It works on one page at
 a time and keeps everything the page had. The play's scripts write the spine, the thin marks
@@ -75,7 +75,7 @@ and every move of a page.
    names the page and the line (not on the page, on it twice, named twice, a Thin line, a path
    outside the model, a line that cannot be written, or no source). Return the error to the
    agent, which corrects the request; never work around it. The meaning comes from the
-   request's source, never from this skill: a new intent page is /discover-intent's, and a
+   request's source, never from this skill: a new intent page is /specify-intent's, and a
    change of meaning is the person's or an approved design's.
 6. **Approved mode — write a page a person approved, word for word.** When a person reviewed a
    page's text before it reaches the model, the page is copied as it is: nothing is composed.

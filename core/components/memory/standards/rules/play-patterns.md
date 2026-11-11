@@ -21,8 +21,8 @@ commits (`test:` prefix) precede refactor commits (`refactor:` prefix) when
 baseline coverage is thin — this ordering is enforced as a constraint, not a
 convention.
 
-Evidence: core/components/plays/refactor-code/SKILL.md — Step 2 SE-11 eval, C5 and C11;
-core/components/plays/refactor-code/reference/ice.md (then intent.yaml) — constraints C4, C5, C11,
+Evidence: core/components/plays/refactor-work/SKILL.md — Step 2 SE-11 eval, C5 and C11;
+core/components/plays/refactor-work/reference/ice.md (then intent.yaml) — constraints C4, C5, C11,
 failure conditions F7, F11.
 
 ---

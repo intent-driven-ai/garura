@@ -2,7 +2,7 @@
 
 The shape of a slice's eval file: `eval.<slice-id>.md`, in the slice's evals folder
 (`.garura/project/plans/<plan-id>/evals/<slug>/`). It puts the slice's story files (`eval-story.feature.md`) together
-in the slice's build order. It holds no scenario of its own. Written by `/shape-eval`; checked by its `check_eval.py`.
+in the slice's build order. It holds no scenario of its own. Written by `/design-eval`; checked by its `check_eval.py`.
 
 ## Shape
 
@@ -13,7 +13,7 @@ Plan <plan id>, business intent "<intent title>" (#<intent issue>).
 Surface: <the hidden file's Surface line>
 Surface kind: <kind of the step library, for example command-line>
 Time limit for each scenario: <n> seconds
-Written by /shape-eval from epic #<epic issue>, its stories and the slice's hidden file.
+Written by /design-eval from epic #<epic issue>, its stories and the slice's hidden file.
 
 ## Pass rule
 

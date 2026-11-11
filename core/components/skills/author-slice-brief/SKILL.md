@@ -1,6 +1,6 @@
 ---
 name: author-slice-brief
-description: Write the opening of a /shape-slice brief — the early brief (the questions asked before the slice is shaped) or the confirmation brief (the slice shown for the person's yes) — in two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person, or by the play's floor when gather.json has rule_missing. Writes the opening only; the play's render_brief.py builds the rest of the brief from the run's records. Generative artifact production for /shape-slice. Use when /shape-slice needs the opening of its early or confirmation brief.
+description: Write the opening of a /design-slice brief — the early brief (the questions asked before the slice is shaped) or the confirmation brief (the slice shown for the person's yes) — in two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person, or by the play's floor when gather.json has rule_missing. Writes the opening only; the play's render_brief.py builds the rest of the brief from the run's records. Generative artifact production for /design-slice. Use when /design-slice needs the opening of its early or confirmation brief.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write

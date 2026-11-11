@@ -1,6 +1,6 @@
 ---
 name: find-slice-gaps
-description: List each thing a slice needs that neither the product model nor memory answers, for /shape-slice, and write each as one question by the rule for asking a person — id, topic, question (one thing), why, examples from several domains, blocking, assume, and settled with its basis when the context answers it after all. The surface and the tester are never a question (author-slice proposes them). Rewrite mode rewrites only the questions that record_questions.py proposals refuses. Reads only what its agent put in short-term memory; writes questions.json only. Generative artifact production for /shape-slice. Use when /shape-slice needs the gaps of a slice written as questions, or some of them rewritten.
+description: List each thing a slice needs that neither the product model nor memory answers, for /design-slice, and write each as one question by the rule for asking a person — id, topic, question (one thing), why, examples from several domains, blocking, assume, and settled with its basis when the context answers it after all. The surface and the tester are never a question (author-slice proposes them). Rewrite mode rewrites only the questions that record_questions.py proposals refuses. Reads only what its agent put in short-term memory; writes questions.json only. Generative artifact production for /design-slice. Use when /design-slice needs the gaps of a slice written as questions, or some of them rewritten.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write
@@ -8,7 +8,7 @@ allowed-tools: Read, Write
 
 # find-slice-gaps
 
-/shape-slice asks a person only what the model and memory cannot answer. This skill finds
+/design-slice asks a person only what the model and memory cannot answer. This skill finds
 those gaps for one business intent and writes each as a question a person can answer with no
 other text open. It does not find the model's loose links (that is `find-model-gaps`, used by
 the loops); it finds what this one slice needs.

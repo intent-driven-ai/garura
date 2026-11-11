@@ -1,6 +1,6 @@
 ---
 name: author-failure-recovery
-description: Draft, for each feature of a slice, its entry in the slice's hidden file — one recovery for each "Fails if" line of the feature's ICE and of its capability's ICE (when it shows, the way back, and who fixes it, "the builder can fix this alone" or "a person must decide"), by standards/rules/expectation-generation.md, "A feature's recovery". It reads the lines its agent put in short-term memory (write_hidden_file.py lines), drafts only the entries that are not kept, and says when one of the two ICE is thin. Draft only — it never writes the hidden file; the play's write_hidden_file.py checks the draft and writes it. Generative artifact production for /shape-slice (ontology v11, ADR 052). Use when /shape-slice needs the recoveries of a slice's features drafted.
+description: Draft, for each feature of a slice, its entry in the slice's hidden file — one recovery for each "Fails if" line of the feature's ICE and of its capability's ICE (when it shows, the way back, and who fixes it, "the builder can fix this alone" or "a person must decide"), by standards/rules/expectation-generation.md, "A feature's recovery". It reads the lines its agent put in short-term memory (write_hidden_file.py lines), drafts only the entries that are not kept, and says when one of the two ICE is thin. Draft only — it never writes the hidden file; the play's write_hidden_file.py checks the draft and writes it. Generative artifact production for /design-slice (ontology v11, ADR 052). Use when /design-slice needs the recoveries of a slice's features drafted.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write
@@ -44,7 +44,7 @@ judgment: what the eval sees, the way back, and who can fix it.
    split one line into two.
 4. **Say when an ICE is thin.** When the entry's `thin` names the feature ICE or the
    capability ICE, write a short `thin_note` for the entry: which ICE is thin, and that its
-   recovery may be weak until `/discover-capabilities` deepens it. Do not stop, and do not
+   recovery may be weak until `/specify-capabilities` deepens it. Do not stop, and do not
    send the person anywhere.
 5. **A line you cannot judge** — a "Fails if" line too vague to say what the eval sees — still
    gets one recovery: write the symptom as plainly as the line allows, and mark who fixes as
@@ -56,7 +56,7 @@ judgment: what the eval sees, the way back, and who can fix it.
 
 ```json
 {"entries": [{"feature": "ft-pick-a-free-slot",
-              "thin_note": "The feature ICE is thin; its recovery may be weak until /discover-capabilities deepens it.",
+              "thin_note": "The feature ICE is thin; its recovery may be weak until /specify-capabilities deepens it.",
               "recoveries": [{"line": "F1",
                               "when": "two bookings are on one slot",
                               "way_back": "keep the first booking, free the second, and tell the second patient",
