@@ -1,0 +1,100 @@
+{
+  "by": "#1021 (reorganise the business intents): the last model work, step 7",
+  "approved_by": "the product owner",
+  "removed": [
+    {
+      "id": 606,
+      "title": "Garura's agentic lifecycle runs as five loops, starting from a working prototype",
+      "plan_status": "Paused",
+      "items": {
+        "Not Started": 41,
+        "Done": 32,
+        "Dropped": 3
+      },
+      "folder_files": 0,
+      "deleted": [
+        "plans/606.yaml"
+      ]
+    },
+    {
+      "id": 717,
+      "title": "People plan work toward a business intent, and pick it up across days and people",
+      "plan_status": "Done",
+      "items": {
+        "Done": 31,
+        "Dropped": 4
+      },
+      "folder_files": 0,
+      "deleted": [
+        "plans/717.yaml"
+      ]
+    },
+    {
+      "id": 722,
+      "title": "A product model can be managed, and grows as plans are built",
+      "plan_status": "Paused",
+      "items": {
+        "Not Started": 8,
+        "In Progress": 2,
+        "Done": 2
+      },
+      "folder_files": 0,
+      "deleted": [
+        "plans/722.yaml"
+      ]
+    },
+    {
+      "id": 734,
+      "title": "Garura publishes a standard for building agentic harnesses",
+      "plan_status": "Paused",
+      "items": {
+        "Not Started": 27,
+        "Done": 17
+      },
+      "folder_files": 0,
+      "deleted": [
+        "plans/734.yaml"
+      ]
+    },
+    {
+      "id": 756,
+      "title": "The agent intent (ICE) is its own part of the product model",
+      "plan_status": "Paused",
+      "items": {
+        "Not Started": 8,
+        "Done": 9
+      },
+      "folder_files": 0,
+      "deleted": [
+        "plans/756.yaml"
+      ]
+    },
+    {
+      "id": 767,
+      "title": "People and agents use Garura the right way in this repo",
+      "plan_status": "Paused",
+      "items": {
+        "Not Started": 1
+      },
+      "folder_files": 0,
+      "deleted": [
+        "plans/767.yaml"
+      ]
+    },
+    {
+      "id": 788,
+      "title": "Agents design the work, then build it through plays and a loop",
+      "plan_status": "Paused",
+      "items": {
+        "In Progress": 1,
+        "Not Started": 10,
+        "Done": 24
+      },
+      "folder_files": 6,
+      "deleted": [
+        "plans/788.yaml",
+        "plans/788"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work",
+ "approved_by": "the product owner",
+ "source": ".garura/project/issues/1021/context/cleanup/approval.md",
+ "remove": [
+  {
+   "kind": "intent",
+   "id": "bi-717"
+  },
+  {
+   "kind": "intent",
+   "id": "bi-722"
+  },
+  {
+   "kind": "intent",
+   "id": "bi-734"
+  },
+  {
+   "kind": "intent",
+   "id": "bi-756"
+  },
+  {
+   "kind": "intent",
+   "id": "bi-788"
+  }
+ ]
+}

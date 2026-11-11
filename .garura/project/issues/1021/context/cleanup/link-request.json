@@ -1,0 +1,40 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work; take-in approved by the product owner",
+ "parts": [
+  {
+   "id": "fn-727",
+   "kind": "feature",
+   "mode": "update",
+   "capability": "cap-turn-intents-into-work",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-727/feature.md"
+  },
+  {
+   "id": "fn-728",
+   "kind": "feature",
+   "mode": "update",
+   "capability": "cap-turn-intents-into-work",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-728/feature.md"
+  },
+  {
+   "id": "fn-818",
+   "kind": "feature",
+   "mode": "update",
+   "capability": "cap-turn-intents-into-work",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md"
+  },
+  {
+   "id": "fn-798",
+   "kind": "feature",
+   "mode": "update",
+   "capability": "cap-write-work-evals",
+   "doc": "software-delivery-planning/write-work-evals/fn-798/feature.md"
+  },
+  {
+   "id": "fn-898",
+   "kind": "feature",
+   "mode": "update",
+   "capability": "cap-write-work-evals",
+   "doc": "software-delivery-planning/write-work-evals/fn-898/feature.md"
+  }
+ ]
+}

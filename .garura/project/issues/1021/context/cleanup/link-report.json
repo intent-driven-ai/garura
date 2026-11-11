@@ -1,0 +1,48 @@
+{
+  "written": [],
+  "updated": [
+    "fn-727",
+    "fn-728",
+    "fn-818",
+    "fn-798",
+    "fn-898"
+  ],
+  "thin": [],
+  "unthin": [],
+  "moved": [
+    {
+      "from": "software-delivery-planning/cap-718/fn-727/feature.md",
+      "to": "software-delivery-planning/turn-intents-into-work/fn-727/feature.md"
+    },
+    {
+      "from": "software-delivery-planning/cap-718/fn-728/feature.md",
+      "to": "software-delivery-planning/turn-intents-into-work/fn-728/feature.md"
+    },
+    {
+      "from": "software-delivery-planning/cap-718/fn-818/feature.md",
+      "to": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md"
+    },
+    {
+      "from": "software-delivery-planning/shape-eval/fn-798/feature.md",
+      "to": "software-delivery-planning/write-work-evals/fn-798/feature.md"
+    },
+    {
+      "from": "software-delivery-planning/shape-eval/fn-898/feature.md",
+      "to": "software-delivery-planning/write-work-evals/fn-898/feature.md"
+    }
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/turn-intents-into-work/fn-727/feature.md",
+    "product-os/software-delivery-planning/turn-intents-into-work/fn-728/feature.md",
+    "product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
+    "product-os/software-delivery-planning/write-work-evals/fn-798/feature.md",
+    "product-os/software-delivery-planning/write-work-evals/fn-898/feature.md",
+    "product-os/software-delivery-planning/cap-718/fn-727/feature.md",
+    "product-os/software-delivery-planning/cap-718/fn-728/feature.md",
+    "product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+    "product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+    "product-os/software-delivery-planning/shape-eval/fn-898/feature.md"
+  ],
+  "layout_kept": true
+}

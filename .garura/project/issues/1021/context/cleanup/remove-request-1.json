@@ -1,0 +1,71 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work",
+ "approved_by": "the product owner",
+ "source": ".garura/project/issues/1021/context/cleanup/approval.md",
+ "repoint": [
+  {
+   "id": "cap-718",
+   "kind": "capability",
+   "intents": {
+    "bi-717": "bi-1",
+    "bi-788": "bi-1"
+   }
+  },
+  {
+   "id": "fn-727",
+   "kind": "feature",
+   "intents": {
+    "bi-717": "bi-1"
+   }
+  },
+  {
+   "id": "fn-728",
+   "kind": "feature",
+   "intents": {
+    "bi-717": "bi-1"
+   }
+  },
+  {
+   "id": "fn-818",
+   "kind": "feature",
+   "intents": {
+    "bi-788": "bi-1"
+   }
+  },
+  {
+   "id": "cap-shape-eval",
+   "kind": "capability",
+   "intents": {
+    "bi-788": "bi-3"
+   }
+  },
+  {
+   "id": "fn-798",
+   "kind": "feature",
+   "intents": {
+    "bi-788": "bi-3"
+   }
+  },
+  {
+   "id": "fn-898",
+   "kind": "feature",
+   "intents": {
+    "bi-788": "bi-3"
+   }
+  },
+  {
+   "id": "dom-software-delivery-planning",
+   "kind": "domain",
+   "intents": {
+    "bi-717": null,
+    "bi-788": null
+   }
+  }
+ ],
+ "remove": [
+  {
+   "kind": "slice",
+   "id": "sl-intent-to-design"
+  }
+ ]
+}

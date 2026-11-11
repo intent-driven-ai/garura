@@ -1,0 +1,58 @@
+{
+  "failed": [],
+  "run": 71,
+  "capabilities_changed": {},
+  "features_changed": [
+    "fn-727",
+    "fn-728",
+    "fn-798",
+    "fn-818",
+    "fn-898"
+  ],
+  "left_mentions": [],
+  "left_intents": [],
+  "stray_files": [],
+  "personal_paths": [],
+  "intent_pages": {
+    "bi-1": {
+      "touches_before": 24,
+      "touches_after": 27,
+      "added": [
+        "- [Build the plan tree from a business intent](../software-delivery-planning/turn-intents-into-work/fn-727/feature.md) (feature) — changes",
+        "- [Create or link the epic and the story issues of a plan](../software-delivery-planning/turn-intents-into-work/fn-728/feature.md) (feature) — changes",
+        "- [/shape-plan writes the plan, the epic and the stories](../software-delivery-planning/turn-intents-into-work/fn-818/feature.md) (feature) — changes"
+      ],
+      "missing_before": [
+        "features/fn-931/feature.md",
+        "software-delivery-planning/domain.md"
+      ],
+      "missing_after": [
+        "features/fn-931/feature.md",
+        "software-delivery-planning/domain.md"
+      ]
+    },
+    "bi-3": {
+      "touches_before": 20,
+      "touches_after": 22,
+      "added": [
+        "- [/shape-eval writes the hidden eval](../software-delivery-planning/write-work-evals/fn-798/feature.md) (feature) — changes",
+        "- [The build is given the business intent, never the eval](../software-delivery-planning/write-work-evals/fn-898/feature.md) (feature) — changes"
+      ],
+      "missing_before": [],
+      "missing_after": []
+    }
+  },
+  "structure": {
+    "before": [
+      21,
+      281
+    ],
+    "after": [
+      21,
+      279
+    ],
+    "new_errors": [],
+    "new_warnings": [],
+    "errors_gone": 0
+  }
+}

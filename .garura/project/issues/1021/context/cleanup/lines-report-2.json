@@ -1,0 +1,22 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work",
+  "source": ".garura/project/issues/1021/context/cleanup/approval.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/cap-718/capability.md",
+      "changes": [
+        {
+          "old": "> In the section below, the first four lines were there before; the lines from the second Goal on were added by /shape-slice for bi-788.",
+          "new": "> In the section below, the first four lines were there before; the lines from the second Goal on were added by /shape-slice."
+        }
+      ],
+      "lines_before": 31,
+      "lines_after": 31,
+      "lines_added": 0,
+      "lines_kept": 30
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/cap-718/capability.md"
+  ]
+}
