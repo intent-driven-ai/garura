@@ -620,6 +620,23 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-run-plays-as-loops
+  slug: run-plays-as-loops
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-9
+  status: proposed
+  detail: directional
+  one_line: 'Run plays as loops: A person gives one goal, and a loop runs its plays
+    until the goal is met.'
+  doc: software-delivery-planning/run-plays-as-loops/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -3019,6 +3036,120 @@ features:
     deepen: true
     updated_by: 'product-os-keeper (reorganise business intents, #1021; one-lines
       approved by the product owner)'
+- id: fn-run-loop
+  slug: fn-run-loop
+  capability: cap-run-plays-as-loops
+  intents:
+  - bi-9
+  status: proposed
+  one_line: 'Every loop takes the same steps: a check before anything opens, one change,
+    questions first, its plays in rounds decided done, again or ask, then the checker
+    and the landing.'
+  doc: software-delivery-planning/run-plays-as-loops/fn-run-loop/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-check-loop-result
+  slug: fn-check-loop-result
+  capability: cap-run-plays-as-loops
+  intents:
+  - bi-9
+  status: proposed
+  one_line: A model or coding agent that did not run the loop judges every criterion
+    from the loop's outputs only, and a reject halts the loop before any pull request.
+  doc: software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-brief-open-points
+  slug: fn-brief-open-points
+  capability: cap-run-plays-as-loops
+  intents:
+  - bi-9
+  status: proposed
+  one_line: When a round closes nothing new or the round limit is reached, the loop
+    closes what it can, then briefs the person once with proposed answers; they reply
+    or type stop.
+  doc: software-delivery-planning/run-plays-as-loops/fn-brief-open-points/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-show-run-status
+  slug: fn-show-run-status
+  capability: cap-run-plays-as-loops
+  intents:
+  - bi-9
+  status: proposed
+  one_line: While a loop runs, one status file always says its state, round, play
+    and step in plain words, so a person can see what a long run is doing.
+  doc: software-delivery-planning/run-plays-as-loops/fn-show-run-status/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-loop-per-transition
+  slug: fn-loop-per-transition
+  capability: cap-run-plays-as-loops
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Each of the six transitions between phases has one loop of its own, named
+    for the two phases it joins, that runs that transition's plays.
+  doc: software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-start-loop-on-trigger
+  slug: fn-start-loop-on-trigger
+  capability: cap-run-plays-as-loops
+  intents:
+  - bi-9
+  status: proposed
+  one_line: A loop is started by a person, a schedule or a hook, as the loop says,
+    and keeps one record across rounds that tells the next round what was tried.
+  doc: software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-run-plays-side-by-side
+  slug: fn-run-plays-side-by-side
+  capability: cap-run-plays-as-loops
+  intents:
+  - bi-9
+  status: proposed
+  one_line: A round's plays run at the same time when all five conditions of the scoped-write
+    rule hold, and in turn when they do not, with the same result.
+  doc: software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -4129,4 +4260,62 @@ ices:
   doc: software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-run-plays-as-loops
+  for: cap-run-plays-as-loops
+  for_kind: capability
+  doc: software-delivery-planning/run-plays-as-loops/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-run-loop
+  for: fn-run-loop
+  for_kind: feature
+  doc: software-delivery-planning/run-plays-as-loops/fn-run-loop/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-check-loop-result
+  for: fn-check-loop-result
+  for_kind: feature
+  doc: software-delivery-planning/run-plays-as-loops/fn-check-loop-result/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-brief-open-points
+  for: fn-brief-open-points
+  for_kind: feature
+  doc: software-delivery-planning/run-plays-as-loops/fn-brief-open-points/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-show-run-status
+  for: fn-show-run-status
+  for_kind: feature
+  doc: software-delivery-planning/run-plays-as-loops/fn-show-run-status/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-loop-per-transition
+  for: fn-loop-per-transition
+  for_kind: feature
+  doc: software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-start-loop-on-trigger
+  for: fn-start-loop-on-trigger
+  for_kind: feature
+  doc: software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-run-plays-side-by-side
+  for: fn-run-plays-side-by-side
+  for_kind: feature
+  doc: software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
     thin: true

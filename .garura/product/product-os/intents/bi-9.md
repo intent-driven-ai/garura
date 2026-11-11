@@ -28,5 +28,13 @@
 - [See every plan's branch against main](../features/fn-806/feature.md) (feature) — changes
 - [See one plan as a tree](../features/fn-628/feature.md) (feature) — changes
 - [Set each item's status and the plan's status and direction in one approved session](../features/fn-730/feature.md) (feature) — changes
+- [Run plays as loops](../software-delivery-planning/run-plays-as-loops/capability.md) (capability) — adds
+- [Run any loop the same way](../software-delivery-planning/run-plays-as-loops/fn-run-loop/feature.md) (feature) — adds
+- [Have a checker that did not run the loop judge its result](../software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md) (feature) — adds
+- [Brief the person only on what no play could close, and let them stop](../software-delivery-planning/run-plays-as-loops/fn-brief-open-points/feature.md) (feature) — adds
+- [Show what a long run is doing now](../software-delivery-planning/run-plays-as-loops/fn-show-run-status/feature.md) (feature) — adds
+- [Run each transition between phases as its own loop](../software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/feature.md) (feature) — adds
+- [Start a loop from a schedule or a hook, and keep a record across rounds](../software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/feature.md) (feature) — adds
+- [Run a round's plays side by side](../software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
