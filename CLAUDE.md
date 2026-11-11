@@ -98,6 +98,11 @@ Both registers can coexist in one reply — user-facing lead first, machine-faci
 
 The canonical long-form rule, lint anchors, and play scaffolding requirements live at `core/components/memory/standards/rules/user-facing-voice.md`. Defer to it on edge cases.
 
+### 6. Memory only through the memory tool
+
+Agents reach memory only through the memory tool (`.garura/core/tools/memory/`), as its guide
+(`.claude/rules/garura-memory.md`) says. Never read a memory file by its path.
+
 ## Play Pipeline Rules
 
 A play change is one of two kinds, and the kind decides the path:

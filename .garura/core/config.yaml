@@ -1,15 +1,19 @@
 # Garura Configuration
 
 project:
-  name: Garura
-  type: Agentic Framework
+  name: garura
+  type: Project
 
-platform: github
-
-github:
-  repo: https://github.com/intent-driven-ai/garura.git
-  owner: kapilvirenahuja   # GitHub account handle (from repo URL), not the display name
-  name: garura             # repo name (lowercase, as in the URL)
+# Which tracker holds what. Tools read this; plays, skills and sub-agents never name a tracker.
+trackers:
+  intents:                  # business intents
+    platform: github
+    owner: intent-driven-ai
+    name: garura
+  work:                     # agent work: epics, stories, bugs, chores, spikes
+    platform: github
+    owner: intent-driven-ai
+    name: garura
 
 # Schema documentation: uncomment and populate to switch to GitLab.
 # GitLab owner is a group path (may be nested, e.g. dx_innovations/phoenix).
@@ -21,9 +25,10 @@ github:
 
 # Source of truth locations
 components:
-  skills: ./core/components/skills/
-  plays: ./core/components/plays/
-  agents: ./core/components/agents/
+  skills: ./.claude/skills/
+  plays: ./.claude/skills/
+  loops: ./.claude/skills/
+  agents: ./.claude/agents/
 
 # Claude Code derived locations (populated by /sud:install)
 claude:
@@ -32,17 +37,17 @@ claude:
 
 # Global Claude Code locations (for /sud:install global mode)
 global-claude:
-  skills: ~/.claude/skills/
-  agents: ~/.claude/agents/
+  skills: ./.claude/skills/
+  agents: ./.claude/agents/
 
 # Factory Droid derived locations (populated by /sud:install factory adapter)
 factory:
-  skills: ./.factory/skills/
+  skills: ./.claude/skills/
   droids: ./.factory/droids/
 
 # Global Factory Droid locations (for /sud:install factory adapter, global mode)
 global-factory:
-  skills: ~/.factory/skills/
+  skills: ./.claude/skills/
   droids: ~/.factory/droids/
 
 # Long-Term Memory (LTM)
@@ -53,6 +58,11 @@ ltm:
 # Variables: {stm_base} = base-path, {stm_pending} = pending-path, {stm_archive} = archive-path
 # All agents, plays, and skills resolve these from config — never hardcode paths.
 # Per ADR 017, only 5 structure keys are permitted: specs, evidence, checkpoint, context, review.
+# Plans (ontology v5, #717): one file per plan, named by its business intent's issue number.
+# start-work reads them (resolve_plan.py) to cut an issue's branch under its plan's branch.
+plans:
+  base-path: .garura/project/plans/
+
 stm:
   base-path: .garura/project/issues/
   pending-path: .garura/project/issues/_pending/
@@ -64,18 +74,8 @@ stm:
     context: "{issue-number}/context/"
     review: "{issue-number}/review/"
 
-# Product model (ProductOS) — the persistent product structure, ICE, profile, and
-# decisions. The product-os tree lives at {product.base-path}product-os/; the
-# product profile at {product.base-path}product-os/profile.yaml.
-product:
-  base-path: .garura/product/
-
-# Standards resolution — first play-specific section; pattern for future plays
-standards:
-  pr-severity-taxonomy: ./.garura/core/memory/standards/rules/pr.md
-
-# start-change play configuration
-start-change:
+# start-work play configuration
+start-work:
   worktree: false   # set up a git worktree on start only when true (C3)
 
 # implement play configuration
@@ -103,12 +103,41 @@ review-pr:
 craft-ice:
   hitl: true
 
+# design-slice play configuration
+# grill-tier — how many questions /design-slice may ask: xs 5, s 12, m 25, l 45, xl 70.
+#   The questions only the person can answer are always asked, and count first.
+design-slice:
+  grill-tier: m
+
+# Loops (ADR 029, #613) — one block per loop, written by /build-loop. `runner` is how
+# each play runs (subagent | headless); `checker` is who checks the result (kind: subagent |
+# coding-agent). A subagent checker must name its model, one other than the session's (e.g.
+# sonnet when the session runs opus); a coding-agent checker is Codex — name a model your
+# Codex account allows (its own default may not be). A loop always records its evidence:
+# /build-loop also sets evidence.plays.<loop>: true below.
+#loops:
+#  <loop>:
+#    runner: subagent
+#    checker:
+#      kind: subagent         # or coding-agent
+#      model: sonnet          # coding-agent: a Codex model, e.g. gpt-5.6-terra
+
+loops:
+  loop-product-spec:
+    runner: subagent
+    max_rounds: 3           # the most rounds of intent -> vision -> understand before it asks
+    checker:
+      kind: subagent
+      model: sonnet
+
 # Evidence recording — when false, STM evidence writes are skipped across ship and all sub-plays
 evidence:
   record: false
+  plays:
+    loop-product-spec: true           # a loop always records its evidence (ADR 029)
 
 # Grounding eval — the content-quality judge over product-model grounding docs
-# (domain/capability/functionality/epic). The linter (lint_grounding.py) checks shape;
+# (domain/capability/feature/epic). The linter (lint_grounding.py) checks shape;
 # this judge checks whether each section is actually understandable, scored against
 # standards/schemas/product-os/grounding/_content-standard.md. Spec + rubric + judge
 # prompt + verdict shape live at standards/rules/grounding-eval.md.
@@ -125,25 +154,28 @@ grounding-eval:
 # Stage-centric sub-folders, one per SDLC stage. Operational artifacts
 # (checkpoints, status, evidence) for product-scoped plays live at the
 # product root using underscore-prefixed subfolders, orthogonal to the
-# stage layout. The 6 stage folders are all direct children of base-path.
+# stage layout. The stage folders are all direct children of base-path. The v1 `specification/` and
+# `scope/` folders were retired with the intent-epic pipeline (ADR 050).
 #
 # Layout (defect D1 fix 2026-04-14; D8/D9 updates 2026-04-14):
 #   .garura/product/
 #   ├── user-provided/     user inputs (brief + future notes / questions)
-#   ├── specification/     market-brief, project-profile, quality-profile, domain-selection, domain-grounding (opportunity + domain shape — what the product SPACE is)
-#   ├── scope/             mvp-recommendation, scope.yaml, enriched-capabilities, validation-intent-epics, epics/ (v1 scope contract — what we're BUILDING)
 #   ├── architecture/      build-architecture output
 #   ├── experience/        design-experience output
 #   ├── research/          product domain library — KB copies (with provenance header, origin: kb) + researched domains (origin: stm_research), both scoped to this product run (Defect 8 Pull-to-Product)
 #   ├── _checkpoints/      play-lifecycle (orthogonal to stages)
 #   ├── _evidence/         play-lifecycle (orthogonal to stages)
 #   └── _status/           play-lifecycle (orthogonal to stages)
+# Product model (ProductOS) — the persistent product structure, ICE, profile, and
+# decisions. The product-os tree lives at {product.base-path}product-os/; the
+# product profile at {product.base-path}product-os/profile.yaml.
 product:
   base-path: .garura/product/
+  # The ontology — the shape of the product model — by its place in memory. A play hands
+  # this to its agent; the agent reads it through the memory tool (ADR 039 §6).
+  ontology: standards/schemas/product-os/ontology.md
   directories:
     user-provided: user-provided/
-    specification: specification/
-    scope: scope/
     architecture: architecture/
     experience: experience/
     research: research/
@@ -162,20 +194,23 @@ gates:
   # replacement machine checks; skips are always recorded. Flip any back to on
   # to restore the human wait; the checkpoint machinery is kept, not removed.
   plays:
-    start-change: off
-    commit-change: off
-    propose-change: off
-    review-change: off
-    # merge-change: the land on main is PINNED (#467 re-pin correction) — the actual
+    start-work: off
+    commit-work: off
+    review-work: off
+    validate-work: off
+    # merge-work: the land on main is PINNED (#467 re-pin correction) — the actual
     # merge always keeps its human beat; no config switch here (pinned overrides config).
     # Execute-side gates off per the #467 ruling (Batch D) — replaced by machine
-    # preconditions in the same change. fix-bug and implement were pinned; the ruling
+    # preconditions in the same change. fix-work and implement were pinned; the ruling
     # unpins them (an intent change), so the config switch now governs them too.
-    validate: off
-    fix-bug: off
-    implement: off
-    refactor: off
+    validate-slice: off
+    fix-work: off
+    build-work: off
+    refactor-work: off
   conditional:
     streak: 3                                # clean approvals a shape needs to earn auto
-    ledger: .garura/core/gate-evals.jsonl    # live-eval ledger (append-only, committed)
+    # each issue keeps its own gate history; {issue} is the run's issue, filled by gate_eval.py
+    # (the issue ID governs — rules/loop-contract.md; ADR 039). The learner reads every issue's
+    # ledger to write the one project policy (gate-config.md, "Where the history and the policy live").
+    ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl  # live-eval ledger (append-only, committed)
     policy: .garura/core/gate-policy.yaml    # learned per-project policy (distilled)
