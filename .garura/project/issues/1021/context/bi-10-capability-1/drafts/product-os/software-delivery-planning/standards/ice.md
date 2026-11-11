@@ -1,0 +1,21 @@
+## Intent
+- Goal: Every part of the harness is held to one written standard: each play and loop is built from its ICE and its compiled part matches it; each sub-agent, skill, script, shared file and tool follows the written standard for its kind; every name follows one rule; each principle names the decision it comes from and changes only through an accepted ADR; and checks run on every part and fail what breaks a written rule, so this intent's proof holds: "The checks hold every part to the standard."
+- Limit: The standard says what and why, and each principle names its ADR; a change to it is an ADR first, and the rule files and the page change with it.
+- Limit: A play or loop changes what it guarantees only in its ICE, and is compiled again; no compiled part is edited by hand for an intent change.
+- Limit: A check reads the rule files and counts; it holds no rule of its own, and a new rule's check warns until the parts have moved, then fails.
+- Limit: A rename changes names and the words that name them, never what a part does; past records and accepted ADRs keep their old words.
+- Limit: No play, skill or sub-agent names a tracker; each knows only the tool.
+- Fails if: A rule exists only in code or in a person's head, or a principle names no decision it comes from.
+- Fails if: A compiled play or loop does not match its ICE, and no check says so.
+- Fails if: A part that breaks the naming rule, uses an old name or names a tracker passes the checks.
+- Fails if: The standard or a rule file changes with no ADR, or an accepted ADR changes them and they do not follow, with nothing named as owed.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the harness standard and its principles, the ADRs each principle names and the ADRs that change the standard, the naming rule files and the rename map, each play's and loop's ICE source and compiled part with its fingerprint, the written standard for each kind of part and the shared files, the checks and what they report on every part, the rules every part follows, and the open issues on the standard.
+- Never read: any memory file by its path, and any ICE page.
+- Persona: the developer, a person or an AI agent who builds the code, here a part of a harness; the technical lead, who keeps the standard and its checks; and the product owner, who decides the names and the rules.
+- Scope: In: the written harness standard and its changes as ADRs, the ICE of plays and loops and the match of each compiled part, the written standard for each kind of part, the naming rule, the rename map and each rename, the checks, the rules every part follows, and, not built yet, one severity for findings and the check that no part names a tracker. Out: building parts with the builders, where each part lives, the settings, how memory reaches an agent, which model each part runs on, the ICE kind of the product model, the decision play, the review of each change, the push scan, the Agent-work tool, the way past each gate, and taking out old names in a project.
+
+## Expectation
+- Scenario: In a bank's payments service that runs its own harness, the developer adds a play that checks refunds and a skill that drafts the refund letter: the play is compiled from its ICE, the skill follows the skill standard, both names follow the rule, and every check passes. Later the play's ICE gains a limit and the play is not compiled again; the check fails until it is. In a game studio's build harness, the technical lead changes the naming rule: an ADR records it with what it replaces, the rule files and the standard change with it, and the old-name check lists every old name until the rename lands.
+- Done means: Someone other than the one who built the parts runs every check on every part and reads the standard, the ADRs and the rule files, and finds every check passing or each failure named with an owner, every principle naming its ADR, each compiled play and loop matching its ICE, every name following the rule with no old name left outside past records, and no play, skill or sub-agent naming a tracker.

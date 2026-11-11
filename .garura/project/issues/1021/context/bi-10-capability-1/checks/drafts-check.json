@@ -1,0 +1,350 @@
+{
+  "checked_on": "2026-11-11",
+  "pages": 30,
+  "ice": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-736/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-737/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-738/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-740/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-741/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-743/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-744/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-745/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-746/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-build-from-ice/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-check-no-tracker-named/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-one-severity/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-rules-for-every-part/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-standard-per-kind/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/ice.md",
+      "thin": false,
+      "limits": 5,
+      "fails_if": 4,
+      "problems": []
+    }
+  ],
+  "rules": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-736/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-736/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-737/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-737/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-738/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-738/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-740/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "game studio's build harness"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-740/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-741/feature.md",
+      "problems": [],
+      "not_decided": 0,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-741/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-743/feature.md",
+      "problems": [],
+      "not_decided": 0,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-743/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-744/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-744/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-745/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-745/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-746/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-746/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/capability.md",
+      "problems": [],
+      "not_decided": 4,
+      "features_listed": [
+        "fn-737",
+        "fn-738",
+        "fn-build-from-ice",
+        "fn-standard-per-kind",
+        "fn-736",
+        "fn-741",
+        "fn-743",
+        "fn-744",
+        "fn-745",
+        "fn-746",
+        "fn-740",
+        "fn-rules-for-every-part",
+        "fn-one-severity",
+        "fn-check-no-tracker-named"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-build-from-ice/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-build-from-ice/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-check-no-tracker-named/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's payments service that uses Jira",
+        "clinic's booking app on GitLab",
+        "game studio's build harness that moves from GitHub to Linear"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-check-no-tracker-named/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-one-severity/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's payments service",
+        "mobile game",
+        "news site"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-one-severity/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "agency's client portal"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-rules-for-every-part/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-standard-per-kind/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "bank's payments service",
+        "clinic's booking app",
+        "game studio's build harness"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-standard-per-kind/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/ice.md",
+      "problems": [],
+      "not_decided": 0
+    }
+  ],
+  "missing_ice": []
+}

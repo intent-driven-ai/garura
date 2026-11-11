@@ -1,0 +1,185 @@
+{
+ "by": "product-os-keeper (reorganise business intents, #1021)",
+ "source": ".garura/project/issues/1021/context/bi-10-write/approval.md: the approved pages, with 21 short label bullets widened to full phrases of the same meaning, so the structure check finds no new error",
+ "pages": [
+  {
+   "page": "features/fn-738/feature.md",
+   "changes": [
+    {
+     "old": "- Two changes are recorded so far:",
+     "new": "- Two changes to the standard are recorded so far, each as an accepted ADR:"
+    }
+   ]
+  },
+  {
+   "page": "features/fn-741/feature.md",
+   "changes": [
+    {
+     "old": "- In: the rename map.",
+     "new": "- In: the rename map, which pairs every old name with its new name."
+    }
+   ]
+  },
+  {
+   "page": "features/fn-744/feature.md",
+   "changes": [
+    {
+     "old": "- Under ADR 046, built:",
+     "new": "- Built under ADR 046, these plays took their new names:"
+    }
+   ]
+  },
+  {
+   "page": "features/fn-745/feature.md",
+   "changes": [
+    {
+     "old": "- Under ADR 046, built:",
+     "new": "- Built under ADR 046, these plays took their new names:"
+    },
+    {
+     "old": "- Not decided: the name for /release-increment.",
+     "new": "- Not decided: the name that /release-increment takes under the standard."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md",
+   "changes": [
+    {
+     "old": "  - how it ends.",
+     "new": "  - how the loop ends: its end steps and its close."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md",
+   "changes": [
+    {
+     "old": "  - the checker or the runner: the loop's settings;",
+     "new": "  - the checker or the runner, which are the loop's settings;"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+   "changes": [
+    {
+     "old": "- In: the play's close.",
+     "new": "- In: the play's close, when the run ends."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md",
+   "changes": [
+    {
+     "old": "- What exists to build to:",
+     "new": "- What a team can already build a new part to, today:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/structure/fn-garura-folder-list/feature.md",
+   "changes": [
+    {
+     "old": "  - `product/`: the product model;",
+     "new": "  - `product/`: the product model, with its pages and its spine;"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+   "changes": [
+    {
+     "old": "- What exists today:",
+     "new": "- What exists today, for the records of a run:"
+    },
+    {
+     "old": "- What is open:",
+     "new": "- What is still open, for the records of a run:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/settings/fn-settings-folder/feature.md",
+   "changes": [
+    {
+     "old": "- What stays where it is:",
+     "new": "- What stays where it is, outside the settings folder:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/settings/fn-checkpoint-settings/feature.md",
+   "changes": [
+    {
+     "old": "- How the policy is learned:",
+     "new": "- How the policy is learned, from each crossing of a checkpoint:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/settings/fn-evidence-setting/feature.md",
+   "changes": [
+    {
+     "old": "- In: `evidence.record`, the default.",
+     "new": "- In: `evidence.record`, the setting for every play, which is the default."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/settings/fn-settings-others-need/feature.md",
+   "changes": [
+    {
+     "old": "- Built, and read today:",
+     "new": "- Built, and read by a play or a tool today:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/settings/fn-tools-read-settings/feature.md",
+   "changes": [
+    {
+     "old": "- What each tool does today:",
+     "new": "- What each tool does today, tool by tool:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+   "changes": [
+    {
+     "old": "- The protocol's steps:",
+     "new": "- The protocol's steps, in the order an agent takes them:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/memory/fn-promote-page/feature.md",
+   "changes": [
+    {
+     "old": "- What is planned around it:",
+     "new": "- What is planned around it, in open issues:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+   "changes": [
+    {
+     "old": "- What is planned:",
+     "new": "- What is planned, in an ADR and an open issue:"
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/model-routing/fn-step-on-set-model/feature.md",
+   "changes": [
+    {
+     "old": "- In: the session's own model.",
+     "new": "- In: the session's own model, to tell it apart from the named one."
+    }
+   ]
+  }
+ ]
+}

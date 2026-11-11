@@ -1,0 +1,340 @@
+{
+  "id": "bi-10",
+  "issue": 10,
+  "title": "Standards, structure, settings and memory",
+  "outcome": "A project runs on one foundation. Everything is built on the ICE model with written standards, the structure says where everything lives, settings hold what can be turned on or off, agents decide from three tiers of memory, and each part runs on the right model. Teams can build their own harness on it.",
+  "why": "Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.",
+  "asked_by": "the product owner",
+  "proof": [
+    "The checks hold every part to the standard.",
+    "Every tool reads its settings.",
+    "Nothing an agent decides from sits outside memory."
+  ],
+  "must_not": "Name a tracker in a play, skill or sub-agent, because they only know the tool.",
+  "touches": [
+    {
+      "title": "Standards",
+      "link": "../software-delivery-planning/standards/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep one written harness standard, with its parts, its principles and how it is kept",
+      "link": "../features/fn-737/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Record each change to the standard as a decision, with what it replaces",
+      "link": "../features/fn-738/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Build every play and loop from its ICE, and keep the compiled part matched to it",
+      "link": "../software-delivery-planning/standards/fn-build-from-ice/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Follow a written standard for each kind of part: play, loop, sub-agent, skill, script, shared file and tool",
+      "link": "../software-delivery-planning/standards/fn-standard-per-kind/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Name every part by one rule, with five roles owning the verbs",
+      "link": "../features/fn-736/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Map every old name to its new one, and check that no old name is left",
+      "link": "../features/fn-741/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Rename the harness plays and the loop to the standard",
+      "link": "../features/fn-743/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Rename the change, plan, knowledge and record plays to the standard",
+      "link": "../features/fn-744/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Rename the lifecycle and lens plays to the standard",
+      "link": "../features/fn-745/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Rename the skills to the standard",
+      "link": "../features/fn-746/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Check every part against the standard",
+      "link": "../features/fn-740/feature.md",
+      "kind": "feature",
+      "mark": "changes"
+    },
+    {
+      "title": "Hold every part to the rules all parts follow: asking a person, staying on scope, the way of working, and no client or personal reference",
+      "link": "../software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Give every finding and defect one severity, P1 to P4",
+      "link": "../software-delivery-planning/standards/fn-one-severity/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Check that no play, skill or sub-agent names a tracker",
+      "link": "../software-delivery-planning/standards/fn-check-no-tracker-named/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Build your own harness",
+      "link": "../software-delivery-planning/build-your-own-harness/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Build a play from its ICE",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-build-play/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Change a play through its ICE",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-change-play/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Build a loop from its ICE",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Change a loop through its ICE",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Check a loop against the loop principles, including what starts it",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-check-loop-principles/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Add a gate to a play with its way past, and pin or unpin one",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-add-gate/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Mark that a play is running, so a guardrail can tell a play's work from a shortcut",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Build a sub-agent and a skill to the standard",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Build a harness in a team's own repository, against a written architecture",
+      "link": "../software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Structure",
+      "link": "../software-delivery-planning/structure/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Lay out Garura's source: where each kind of part, tool, memory and setting lives",
+      "link": "../software-delivery-planning/structure/fn-source-layout/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Lay out an installed project: where each part lands, the shared files, the tools and the memory guide",
+      "link": "../software-delivery-planning/structure/fn-installed-layout/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep `.garura/` to its written list, and check it",
+      "link": "../software-delivery-planning/structure/fn-garura-folder-list/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep each run's records with its issue, with only repository paths in them",
+      "link": "../software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Settings",
+      "link": "../software-delivery-planning/settings/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep every setting in one settings file, laid as each project's copy",
+      "link": "../software-delivery-planning/settings/fn-one-settings-file/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Say what each setting means and who reads it, and fail a setting no one reads",
+      "link": "../software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep every other settings file in one folder",
+      "link": "../software-delivery-planning/settings/fn-settings-folder/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Turn each checkpoint on or off, and keep the policy learned from a person's answers",
+      "link": "../software-delivery-planning/settings/fn-checkpoint-settings/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Turn a run's evidence on or off",
+      "link": "../software-delivery-planning/settings/fn-evidence-setting/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Hold the settings other capabilities need: the test model, the design settings, the kinds of change that may go ahead on their own, the connections, the review rounds, the question tier, the loop settings and the trackers",
+      "link": "../software-delivery-planning/settings/fn-settings-others-need/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Make every tool read its settings",
+      "link": "../software-delivery-planning/settings/fn-tools-read-settings/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Memory",
+      "link": "../software-delivery-planning/memory/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Find memory across three tiers through one tool",
+      "link": "../software-delivery-planning/memory/fn-find-memory/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Let only a person decide a memory update, one at a time",
+      "link": "../software-delivery-planning/memory/fn-person-decides-update/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep each decision's trace and check its sources",
+      "link": "../software-delivery-planning/memory/fn-keep-decision-trace/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Make every agent read memory only through the tool, and fail a part that names a memory path",
+      "link": "../software-delivery-planning/memory/fn-read-through-tool/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep Phoenix memory in step with Garura's source, versioned per release with its notes",
+      "link": "../software-delivery-planning/memory/fn-phoenix-in-step/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Bring Phoenix memory to a machine and keep it current",
+      "link": "../software-delivery-planning/memory/fn-bring-phoenix/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Move a page up a tier on a person's yes, and choose what is learned",
+      "link": "../software-delivery-planning/memory/fn-promote-page/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Check what memory holds: pages out of date, sources that changed",
+      "link": "../software-delivery-planning/memory/fn-check-memory/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Keep what agents decide from inside memory: the machine-wide copy, Claude Code's own memory, and the rules",
+      "link": "../software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Intelligent model routing",
+      "link": "../software-delivery-planning/model-routing/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Give each part a model tier and an effort by a written rule",
+      "link": "../software-delivery-planning/model-routing/fn-tier-by-rule/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Send a step to the model a setting names, apart from the session's",
+      "link": "../software-delivery-planning/model-routing/fn-step-on-set-model/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Record each run's model, effort, time and cost for each part",
+      "link": "../software-delivery-planning/model-routing/fn-record-run-cost/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Move a part up or down a tier on that record, and check the move with an eval",
+      "link": "../software-delivery-planning/model-routing/fn-move-part-tier/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Choose the model and effort by the job at run time",
+      "link": "../software-delivery-planning/model-routing/fn-choose-model-at-run/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capabilities.md, section Standards, structure, settings and memory: the product owner's words of 2026-11-11, \"continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp\"",
+  "pages": [
+    {
+      "page": "software-delivery-planning/standards/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/ice.md"
+    },
+    {
+      "page": "features/fn-737/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-737/feature.md"
+    },
+    {
+      "page": "features/fn-737/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-737/ice.md"
+    },
+    {
+      "page": "features/fn-738/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-738/feature.md"
+    },
+    {
+      "page": "features/fn-738/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-738/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-build-from-ice/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-build-from-ice/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-build-from-ice/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-build-from-ice/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-standard-per-kind/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-standard-per-kind/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-standard-per-kind/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-standard-per-kind/ice.md"
+    },
+    {
+      "page": "features/fn-736/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-736/feature.md"
+    },
+    {
+      "page": "features/fn-736/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-736/ice.md"
+    },
+    {
+      "page": "features/fn-741/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-741/feature.md"
+    },
+    {
+      "page": "features/fn-741/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-741/ice.md"
+    },
+    {
+      "page": "features/fn-743/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-743/feature.md"
+    },
+    {
+      "page": "features/fn-743/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-743/ice.md"
+    },
+    {
+      "page": "features/fn-744/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-744/feature.md"
+    },
+    {
+      "page": "features/fn-744/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-744/ice.md"
+    },
+    {
+      "page": "features/fn-745/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-745/feature.md"
+    },
+    {
+      "page": "features/fn-745/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-745/ice.md"
+    },
+    {
+      "page": "features/fn-746/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-746/feature.md"
+    },
+    {
+      "page": "features/fn-746/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-746/ice.md"
+    },
+    {
+      "page": "features/fn-740/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-740/feature.md"
+    },
+    {
+      "page": "features/fn-740/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/features/fn-740/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-rules-for-every-part/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-rules-for-every-part/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-rules-for-every-part/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-one-severity/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-one-severity/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-one-severity/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/standards/fn-one-severity/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-check-no-tracker-named/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-1/drafts/product-os/software-delivery-planning/standards/fn-check-no-tracker-named/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-check-no-tracker-named/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/standards/fn-check-no-tracker-named/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-play/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-play/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-play/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-play/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-play/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-play/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-play/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-play/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-loop/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-loop/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-loop/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-loop/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-check-loop-principles/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-check-loop-principles/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-check-loop-principles/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/build-your-own-harness/fn-check-loop-principles/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-add-gate/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-add-gate/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-add-gate/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-add-gate/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/build-your-own-harness/fn-mark-play-running/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-agent-skill/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/build-your-own-harness/fn-build-agent-skill/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-source-layout/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/fn-source-layout/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-source-layout/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/fn-source-layout/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-installed-layout/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/fn-installed-layout/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-installed-layout/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/fn-installed-layout/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-garura-folder-list/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/fn-garura-folder-list/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-garura-folder-list/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/fn-garura-folder-list/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-3/drafts/product-os/software-delivery-planning/structure/fn-run-records-with-issue/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-run-records-with-issue/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/structure/fn-run-records-with-issue/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-one-settings-file/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-one-settings-file/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-one-settings-file/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-one-settings-file/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-setting-names-reader/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-setting-names-reader/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/settings/fn-setting-names-reader/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-folder/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-settings-folder/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-folder/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/settings/fn-settings-folder/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-checkpoint-settings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-checkpoint-settings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-checkpoint-settings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-checkpoint-settings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-evidence-setting/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-evidence-setting/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-evidence-setting/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-evidence-setting/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-others-need/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-settings-others-need/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-others-need/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-settings-others-need/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-tools-read-settings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-tools-read-settings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-tools-read-settings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-4/drafts/product-os/software-delivery-planning/settings/fn-tools-read-settings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-find-memory/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-find-memory/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-find-memory/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-find-memory/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-person-decides-update/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-person-decides-update/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-person-decides-update/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-person-decides-update/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-keep-decision-trace/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-keep-decision-trace/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-keep-decision-trace/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-keep-decision-trace/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-read-through-tool/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-read-through-tool/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-read-through-tool/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-phoenix-in-step/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-phoenix-in-step/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-phoenix-in-step/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/memory/fn-phoenix-in-step/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-bring-phoenix/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-bring-phoenix/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-bring-phoenix/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-bring-phoenix/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-promote-page/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-promote-page/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-promote-page/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/memory/fn-promote-page/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-check-memory/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-check-memory/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-check-memory/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/memory/fn-check-memory/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-5/drafts/product-os/software-delivery-planning/memory/fn-decide-inside-memory/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-decide-inside-memory/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/memory/fn-decide-inside-memory/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-tier-by-rule/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/fn-tier-by-rule/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-tier-by-rule/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/fn-tier-by-rule/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-step-on-set-model/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/fn-step-on-set-model/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-step-on-set-model/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/fn-step-on-set-model/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-record-run-cost/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/fn-record-run-cost/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-record-run-cost/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/model-routing/fn-record-run-cost/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-move-part-tier/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/fn-move-part-tier/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-move-part-tier/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/model-routing/fn-move-part-tier/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-choose-model-at-run/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-10-capability-6/drafts/product-os/software-delivery-planning/model-routing/fn-choose-model-at-run/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-choose-model-at-run/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-10-write/approved/software-delivery-planning/model-routing/fn-choose-model-at-run/ice.md"
+    }
+  ]
+}

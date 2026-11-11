@@ -1,0 +1,235 @@
+{
+  "checked_on": "2026-11-11",
+  "pages": 20,
+  "ice": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-add-gate/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-agent-skill/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-loop/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-play/ice.md",
+      "thin": false,
+      "limits": 4,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-loop/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-play/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-check-loop-principles/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-mark-play-running/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/ice.md",
+      "thin": false,
+      "limits": 5,
+      "fails_if": 4,
+      "problems": []
+    }
+  ],
+  "rules": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/capability.md",
+      "problems": [],
+      "not_decided": 3,
+      "features_listed": [
+        "fn-build-play",
+        "fn-change-play",
+        "fn-build-loop",
+        "fn-change-loop",
+        "fn-check-loop-principles",
+        "fn-add-gate",
+        "fn-mark-play-running",
+        "fn-build-agent-skill",
+        "fn-harness-in-own-repo"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-add-gate/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's harness repository",
+        "shop's harness",
+        "clinic's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-add-gate/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's harness repository",
+        "clinic's harness",
+        "game studio's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-agent-skill/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "shop's harness repository",
+        "hospital's harness",
+        "logistics firm's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-loop/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-play/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "bank's harness repository",
+        "clinic's booking team's harness",
+        "game studio's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-build-play/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md",
+      "problems": [],
+      "not_decided": 0,
+      "example_kinds": [
+        "shop's harness repository",
+        "clinic's harness",
+        "game studio's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-loop/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-play/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "insurer's harness repository",
+        "news site's harness",
+        "bank's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-change-play/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-check-loop-principles/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "shop's harness repository",
+        "hospital's harness",
+        "news site's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-check-loop-principles/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "retailer's own repository",
+        "insurer's repository",
+        "design agency's repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "shop's harness repository",
+        "bank's harness",
+        "game studio's harness repository"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/fn-mark-play-running/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-10-capability-2/drafts/product-os/software-delivery-planning/build-your-own-harness/ice.md",
+      "problems": [],
+      "not_decided": 0
+    }
+  ],
+  "missing_ice": []
+}
