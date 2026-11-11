@@ -1,0 +1,81 @@
+# design-findings-memory.yaml — /check-change Step 3 Layer 2, category: memory. PR #1045 / issue #1044.
+# Grounded only in committed sources: ADR 066 as on main (git show main:docs/adr/066-...), the committed
+# KB design (knowledge/_DESIGN.md, _TEMPLATE.md, _index.md, copied via the memory tool into
+# .garura/project/issues/1044/context/memory/grounding-memory/), and the review playbook review/memory.
+# naming.md, naming.yaml and rename-map.yaml (rewritten by this branch) are the artifacts under test, not grounding.
+category: memory
+base: main
+grounding:
+  - principle: "Five roles own the play verbs (specifier, designer, builder, validator, orchestrator); one verb belongs to one role; the verb says who does the work."
+    source: "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md §1 (on main)"
+  - principle: "The role verb lists replace the lifecycle, change, plan and harness verb lists for plays; skills and agents keep their verbs; remove stays undecided."
+    source: "ADR 066 §2 and 'For the Person Who Accepts This' (skill verbs) (on main)"
+  - principle: "Loops are their own category, named loop-<from>-<to> over the six phases; the plain names Discovery, Slice, Execute, Ship and Learn go; a loop's full name is its command; only a loop's name starts with loop; the change chain stays as commands, not a loop."
+    source: "ADR 066 §3 and 'What this changes in older ADRs' (ADR 045 §4, ADR 028 §4) (on main)"
+  - principle: "The work plays (start, commit, review, merge) and the product plays (install, uninstall) have no role; release has no role yet."
+    source: "ADR 066 §4, §5 (on main)"
+  - principle: "A name may not be exactly a tool's built-in command but may start with one; env, perf, uat join the allowed short words; ADR 046 §4 (object is a product-model word) goes in whole."
+    source: "ADR 066 §6 and 'What this changes in older ADRs' (ADR 046) (on main)"
+  - principle: "The second of the six phases is Spec; the rule files' phase wording moves from Intent to Spec."
+    source: "ADR 066 §8 and 'Work This Creates' (on main)"
+  - principle: "A shelf file follows _TEMPLATE.md (frontmatter id/title/conditions/evolve_when/provenance; sections Topic, Conditions, Recommendation, Rationale, Evolve when, Provenance); provenance names a source, never a person; the real risk is contradiction and duplication."
+    source: "knowledge/_TEMPLATE.md, knowledge/_DESIGN.md 'The real risk', knowledge/_index.md 'Structure' (Phoenix memory tier, copied under grounding-memory/)"
+  - principle: "Memory review checks template shape, cross-references that resolve, id against path, listing in the shelf _index (a known tool gap, done by hand)."
+    source: "knowledge/review/memory.md (short-term copy of the playbook)"
+
+conformance_summary:
+  naming_md: "conforms to ADR 066 §1-§3, §4, §5, §6, §8 (role table matches §1; loop table is loop-<from>-<to> with phases Product/Spec/Design/Code/Validation/Run; rule 4 allows a name that starts with a built-in; env/perf/uat added; rule 2 drops the product-model-word rule; skills keep their verbs)."
+  naming_yaml: "parses; play.verbs is exactly roles + no_role (no verb missing or extra); loop.verb=loop with the six phases; industry_terms gains env, perf, uat; reserved keeps loop/design/review as exact-match only; skill verbs unchanged, remove left as it was on main."
+  rename_map:
+    old_entries_point_at_final_name: "yes for every play and loop entry the branch rewrote (24 repointed entries); the only two that do not are `measure` and `marketing` (see finding MEM-2)."
+    no_chain: "yes. No value in any section is itself a key (checked by script over plays, loops, skills, agents, and across sections)."
+    adr_066_pairs: "30 of 30 present: 29 play pairs (4 specify, 8 design, 7 build/fix/refactor, 3 validate, 3 orchestrator, 4 work plays = 29, counting list-focus-issues and the four *-change pairs) plus complete-discovery -> loop-product-spec in loops."
+    old_entries_kept: "every entry present on main is kept or repointed to the final name; none dropped."
+  mechanical_renames: "All other changed memory files (11 shelves, 20 rules, schemas, templates; 69 files) were checked line by line: every changed line equals the old line with the rename map applied, except the three naming files (judged above) and two lines of pipeline-next.md and one line of rules/_index.md that were reworded on purpose."
+  integrity_checks_by_hand:
+    template_shape: "11 changed knowledge files: frontmatter id equals the path for all 11; the 10 technology shelves carry all six template sections; review/tests.md is a review playbook (its own three-section shape, unchanged by this branch)."
+    cross_references: "No [[...]] links and no evolve_when ids in the changed shelves; every /<play> name written in the changed memory files resolves to a play, loop, skill or agent that exists in the tree; every core/components/{plays,skills,loops}/... path resolves. The branch's pipeline-next.md map has a key for every play and loop except the seven in meta_exempt."
+    id_against_path: "pass (11 of 11)."
+    listed_in_index: "review/tests.md is listed in review/_index.md and the changed _index.md lists 066-era names correctly. The rules/_index.md lists naming.md (updated), naming.yaml and rename-map.yaml."
+
+findings:
+  - id: MEM-1
+    severity: P3
+    severity_basis: "pr.md severity buckets: 'P3 - Minor ... naming'. No Match Rule row ties a design finding; classed by bucket."
+    file: core/components/memory/standards/rules/pipeline-next.md
+    lines: "21, 28, 29, 30 (prose); 39, 57, 62, 68, 79 (map comments)"
+    also: "core/components/memory/standards/schemas/product-os/spine.yaml line 229 ('inside the Discovery loop')"
+    principle_violated: "Plain loop names Discovery, Execute, Learn go; a loop's full name is its command; the change chain is commands, not a loop."
+    source: "ADR 066 §3 and 'What this changes in older ADRs' (ADR 045 §4 name goes; ADR 028 §4 change chain stays as commands), on main"
+    finding: "The branch renames the first bullet's heading to `/loop-product-spec` but the same bullet still says 'The Discovery loop (`/loop-product-spec`)' (line 21). The rest of the file still labels groups 'Execute loop (per epic)', 'Change loop (git)', 'Learn loop' and, in map comments, 'Discovery loop' bits ('/loop-product-spec, then the Shaping loop', 'Execute loop', 'Learn loop', 'Change loop'). ADR 066 lists pipeline-next.md under Affects, so these words were in scope for the rename. 'Shaping loop (ADR 049)' is not named by ADR 066 and is left out of this finding (open point for the person). The Alignment-loop mentions in the model files are correct (ADR 066 keeps them as they are)."
+    suggested_fix: "Say 'the `/loop-product-spec` loop'; label the execute, change and learn groups by their plays or as the Execute/Change/Learn 'chain', not as a named loop; in spine.yaml line 229 say '/loop-product-spec'."
+
+  - id: MEM-2
+    severity: P4
+    severity_basis: "pr.md: 'P4 - Nit ... style-only'; the two lines are unchanged by the branch and the plays still exist."
+    file: core/components/memory/standards/rules/rename-map.yaml
+    lines: "plays: measure -> shape-measure-lens; marketing -> shape-marketing-lens"
+    principle_violated: "An old entry should point at a final name; a name mapped to null was removed with no successor."
+    source: "ADR 066 §7 (the two design plays get no new name and go), on main; the file's own header on main ('A name mapped to `null` was removed with no successor')"
+    finding: "Two entries still point at names ADR 066 §7 drops. They are not chains (the target is not a key), and ADR 066 says nothing is deleted by the decision and the plays still exist in the tree, so the check still resolves. When the two plays are deleted, these two entries should become `null`."
+    suggested_fix: "None needed now; record for the deletion change."
+
+  - id: MEM-3
+    severity: P4
+    severity_basis: "pr.md: 'P4 - Nit ... style-only'."
+    file: core/components/memory/standards/rules/naming.md
+    lines: "10"
+    principle_violated: "Names a reader is told to use must be the current ones."
+    source: "ADR 066 §2 and rename map (fix-bug and play-creator are old names), on main"
+    finding: "'Why one rule' still gives `fix-bug` and `play-creator` as examples of four name shapes. They are old names now (`fix-work`, `build-play`). It reads as history, so it is only a nit."
+    suggested_fix: "Optional: use current names or mark them 'before ADR 046'."
+
+pre_existing_not_findings:
+  - "No technology/_index.md exists and the 10 technology shelves are not listed in knowledge/_index.md by name (same on main). Not introduced by this branch."
+  - "rules/_index.md does not list builder-isolation, direct-model-write, expectation-generation, gate-config, grounding-eval, user-facing-voice; schemas/_index.md does not list expectation.yaml (zero hits on main for the first six). Not introduced by this branch."
+  - "work-plan.md names `plan-change` and `approve-change`, which are not plays or skills in the tree (same on main)."
+
+notes_for_the_play:
+  - "lint-play-next.txt GAP lines (e.g. build-work 'has no entry in pipeline-next.md') come from the play's copy under .garura/project/issues/1044/context/templates/standards/rules/pipeline-next.md, which is the pre-rename version. The branch's own pipeline-next.md has an entry for every play and loop except the seven in meta_exempt. Not a defect of the branch's memory change; the harness category owns the lint result."
+  - "No grounding was taken from the diff: the 3 grounding copies are Phoenix-tier KB files; ADR 066 was read from main."
+  - "memory-integrity linter is a known gap (playbook); checks were done by hand and by script over the changed files, all read-only."

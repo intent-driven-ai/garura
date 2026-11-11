@@ -1,0 +1,77 @@
+{
+ "build-work": [
+  "[GAP ] next-command (pipeline-next): build-work has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "commit-work": [
+  "[GAP ] next-command (pipeline-next): commit-work has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "design-adr": [
+  "[GAP ] next-command (pipeline-next): design-adr has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "design-agentic": [
+  "[GAP ] next-command (pipeline-next): design-agentic has no entry in pipeline-next.md (add one, or meta_exempt "
+ ],
+ "design-architecture": [
+  "[GAP ] next-command (pipeline-next): design-architecture has no entry in pipeline-next.md (add one, or meta_ex"
+ ],
+ "design-env": [
+  "[GAP ] next-command (pipeline-next): design-env has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "design-eval": [
+  "[GAP ] next-command (pipeline-next): design-eval has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "design-quality": [
+  "[GAP ] next-command (pipeline-next): design-quality has no entry in pipeline-next.md (add one, or meta_exempt "
+ ],
+ "design-slice": [
+  "[GAP ] next-command (pipeline-next): design-slice has no entry in pipeline-next.md (add one, or meta_exempt it"
+ ],
+ "design-surface": [
+  "[GAP ] next-command (pipeline-next): design-surface has no entry in pipeline-next.md (add one, or meta_exempt "
+ ],
+ "fix-work": [
+  "[GAP ] next-command (pipeline-next): fix-work has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "list-issues": [
+  "[GAP ] next-command (pipeline-next): list-issues has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "merge-work": [
+  "[GAP ] next-command (pipeline-next): merge-work has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "refactor-work": [
+  "[GAP ] next-command (pipeline-next): refactor-work has no entry in pipeline-next.md (add one, or meta_exempt i"
+ ],
+ "reshape-plan": [
+  "[GAP ] next-command (pipeline-next): reshape-plan has no entry in pipeline-next.md (add one, or meta_exempt it"
+ ],
+ "review-work": [
+  "[GAP ] next-command (pipeline-next): review-work has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "specify-capabilities": [
+  "[GAP ] next-command (pipeline-next): specify-capabilities has no entry in pipeline-next.md (add one, or meta_e"
+ ],
+ "specify-domains": [
+  "[GAP ] next-command (pipeline-next): specify-domains has no entry in pipeline-next.md (add one, or meta_exempt"
+ ],
+ "specify-intent": [
+  "[GAP ] next-command (pipeline-next): specify-intent has no entry in pipeline-next.md (add one, or meta_exempt "
+ ],
+ "specify-ontology": [
+  "[GAP ] next-command (pipeline-next): specify-ontology has no entry in pipeline-next.md (add one, or meta_exemp"
+ ],
+ "start-work": [
+  "[GAP ] next-command (pipeline-next): start-work has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ],
+ "validate-slice": [
+  "[GAP ] next-command (pipeline-next): validate-slice has no entry in pipeline-next.md (add one, or meta_exempt "
+ ],
+ "validate-uat": [
+  "[GAP ] next-command (pipeline-next): validate-uat has no entry in pipeline-next.md (add one, or meta_exempt it"
+ ],
+ "validate-work": [
+  "[GAP ] next-command (pipeline-next): validate-work has no entry in pipeline-next.md (add one, or meta_exempt i"
+ ],
+ "view-plan": [
+  "[GAP ] next-command (pipeline-next): view-plan has no entry in pipeline-next.md (add one, or meta_exempt it)"
+ ]
+}

@@ -1,0 +1,6 @@
+decision: approve
+decided_by: human
+reviewer_input: "approve and merge"
+recommended_verdict: reject
+recommended_reason: "1 P1 (blocker) finding(s): TEST-RED-1 — red the same way on main before this change"
+blocking_overridden: [TEST-RED-1]

@@ -1,0 +1,3601 @@
+meta:
+  generated_at: '2026-11-11T16:18:50Z'
+  diff_path: .garura/project/issues/1044/review/pr.diff
+  taxonomy_path: .garura/project/issues/1044/context/memory/standards/rules/pr.md
+  changed_paths_count: 844
+  scan_coverage: 1.0
+  standards_relevant: 35
+  catchall:
+    CODE-20: 825
+  check: check-pr-quality (scan_taxonomy.py) for PR 1045 / issue 1044
+  categories:
+  - executable-code
+  - tests
+  - config-maps
+  - documentation
+  - decision-records
+  note: 'Paths under core/components/** are garura-prose in the taxonomy and docs/adr/** gets no finding by rule (#851); STM paths are stm-evidence. So the scan emits findings only for core/tools/**, README.md,
+    core/tools/*/README.md and core/config.yaml. The hand-written changes under core/components/ (adr.py, test_adr.py) and docs/adr were read by hand: see observations.'
+findings:
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-01
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-01
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-09
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-09
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-10
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-10
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-11
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-11
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/apply.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/apply.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/apply.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/apply.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-other-issue.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-other-issue.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-other-issue.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-other-issue.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/decide-in-a-made-up-place.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/decide-in-a-made-up-place.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/decide-in-a-made-up-place.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/decide-in-a-made-up-place.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/citations-check.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/citations-check.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/citations-check.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/citations-check.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/citations.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/citations.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/citations.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/citations.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/cite.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/cite.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/cite.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/cite.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/decide-in-session.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/decide-in-session.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/decide-in-session.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/decide-in-session.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/decide.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/decide.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/decide.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/decide.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/propose.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/propose.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/propose.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/propose.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/samples/updates.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/updates.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/samples/updates.json
+  line: 1
+  evidence: core/tools/memory/contract/samples/updates.json
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 17
+  evidence: CHANGELOG. (docstring)
+  artifact_type: runtime-code
+  taxonomy_rule_id: OPS-09
+  category: executable-code
+  match_kind: 'grep (case-insensitive): "log." matched the end of "CHANGELOG." in the module docstring, not a log call'
+  disposition: false-positive
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-01
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-09
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-10
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-11
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-01
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-09
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-10
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-11
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-14
+  severity: P4
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-14
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-15
+  severity: P4
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-15
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-16
+  severity: P4
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-16
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: BE-23
+  severity: P4
+  file: core/config.yaml
+  line: 119
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  category: config-maps
+  match_kind: 'grep: substring "lock" matched the word "block" in a YAML comment'
+  disposition: false-positive
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/asking-a-person.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/asking-a-person.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 39
+  evidence: const phases =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: executable-code
+  match_kind: 'grep (case-insensitive): matched a lowercase identifier, not a violation of the camel-case shape'
+  disposition: false-positive
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 41
+  evidence: const mainCopy =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: executable-code
+  match_kind: 'grep (case-insensitive): matched a lowercase identifier, not a violation of the camel-case shape'
+  disposition: false-positive
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/asking-a-person.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/asking-a-person.test.js
+  line: 38
+  evidence: const name =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: tests
+  match_kind: 'grep (case-insensitive): matched a lowercase identifier, not a violation of the camel-case shape'
+  disposition: false-positive
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/dmw-declared-exception.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/naming.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/naming.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/naming/test_naming_tools.py
+  line: 1
+  evidence: core/tools/naming/test_naming_tools.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: tests
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-14
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-15
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-16
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  evidence: core/tools/plan/plan_branch.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-14
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-15
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-16
+  category: documentation
+  match_kind: 'path-only: the standard applies to this file type; the match is not a defect and its evidence (cycle trace, lint message, format diff, bundle size, link check) needs a tool run'
+  disposition: applicability
+counts:
+  P1: 0
+  P2: 64
+  P3: 226
+  P4: 65
+counts_excluding_noise:
+  P1: 0
+  P2: 64
+  P3: 225
+  P4: 61
+  note: excludes false-positive matches (BE-23, CODE-22, OPS-09)
+supplementary_checks:
+- tool: ruff check (defaults, no repo config) on the 6 changed core/tools py files + adr.py + test_adr.py
+  result: All checks passed
+- tool: node core/tools/lint-components/test/naming.test.js
+  result: 21 passed, 0 failed
+- tool: python3 core/tools/naming/test_naming_tools.py
+  result: 20 passed, 0 failed
+- tool: python3 core/components/skills/author-decision/scripts/test_adr.py
+  result: 50 passed, 0 failed
+- tool: eslint
+  result: not installed, no config in the repo; the .js rule files were not linted (not a pass)
+observations:
+- file: core/tools/lint-components/lib/rules/naming.js
+  text: The reserved-name rule now blocks only a name equal to a built-in; a name that starts with one passes (matches the ADR 066 wording in the diff). The loop rule requires loop-<from>-<to> with two
+    different known phases; the tests cover pass, unknown phase, same phase, and one phase.
+- file: core/tools/naming/check_old_names.py
+  text: The old-name check now skips every ADR numbered up to 66 through one constant LAST_PAST_ADR = 66, replacing three special lists. Its comment says a later rename moves the number; the test covers
+    ADR 066 (skipped) and 067 (searched), and the SUPERSEDED- variants. No error handling or path-escape risk added.
+- file: core/components/skills/author-decision/scripts/adr.py
+  text: 'index_status and pointers: the conditional return in the "Superseded by" branch parses as (a + b) if cond else c, which is the intended result; tests cover mixed amend/supersede, plain Accepted,
+    and a full supersede. The scan does not cover this file (garura-prose); read by hand.'
