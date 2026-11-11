@@ -1,0 +1,634 @@
+pr: 1039
+issue: 1021
+base: main
+layer1:
+  lint-components: 'installed tool, source layout: 0 findings in changed paths, 37 there before'
+  lint-play: 'did not run: no play SKILL.md changed'
+  check-pr-quality: 'not dispatched: no code, config, tests or docs-prose category in categories.yaml'
+  decision-records: 'hand checks: 3 of 4 pass; the status value check fails on ADR 005 (L1-ADR-1)'
+  memory: 'hand checks: all pass'
+  config-maps: 'hand checks: 74 of 74 paths resolve; the tracker setting names no path'
+  run-records: 'no review playbook (playbook missing): no checks run, not a pass'
+  runnable_checks: 'none: no category''s treatment names a runnable check'
+layer2:
+  design_bearing: &id001
+  - memory
+  - plan-records
+  - product-model
+  dispatches: 3
+  joined_before_consolidation: true
+  read_order: *id001
+counts:
+  P4: 11
+  P2: 4
+  P3: 17
+findings:
+- id: L1-ADR-1
+  severity: P4
+  category: decision-records
+  file: docs/adr/005-skills-as-capabilities.md
+  title: The new Status line reads '(not recorded)', which is not a status value; main had no Status line for ADR
+    005.
+  basis: 'DOC-05 (standards/rules/pr.md copy, line 238: the review layers read this row); knowledge/review/adrs.md,
+    the allowed status values'
+  source: layer1-findings.yaml
+- id: DG-MEM-01
+  severity: P2
+  category: memory
+  file: core/components/memory/standards/rules/intent-depth.md
+  lines: 10-11, 15-16
+  title: The rule lets a part of the source become no intent; the committed /discover-intent play and its checker
+    refuse exactly that
+  basis: 'On main the play that "specifies intents" (the rule''s own named consumer, in _index.md line 22) holds
+    the opposite contract. C12 (core/components/plays/discover-intent/reference/ice.md lines 92-96): "never leaving
+    out a part the source shows; every part of the source is mapped to the business intent it serves (the coverage
+    map)". F12 (lines 179-181): "a part of what the source shows is mapped to no business intent" is a failure.
+    S7 (lines 270-275) and SE-12 (core/components/plays/discover-intent/SKILL.md lines 335-339) test "every part
+    mapped". The checker, core/components/plays/discover-intent/scripts/check_intent.py lines 187-206, rejects a
+    coverage entry whose intent is missing: "maps to no business intent ... nothing may be left out". The rule also
+    has no home for a "considered" record: a coverage entry must name an intent, and the Business Intent and Source
+    kinds (ontology.md lines 173-250, 252-290) hold no such property. Line 11 also contradicts itself ("every part"
+    versus "each part that matters") and leaves the exempt parts unrecorded, which line 16 calls a fault. | GP-6'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-02
+  severity: P2
+  category: memory
+  file: core/components/memory/standards/rules/ice-rubric.md
+  lines: 9, 37
+  title: '"Exactly one goal, not negotiable" reverses the committed ICE design, which lets an ICE carry several
+    goals'
+  basis: 'The rubric says (line 5) the ontology''s ICE kind "holds the full shape". The ontology''s Intent property
+    is "The goals (what must be true), the limits, and what counts as failing" (ontology.md line 493; also line
+    482), and ADR 047 section 2 says "the goals" (lines 38-42). The committed ICE schema is explicit: "intent.goals
+    and expectations.outcomes may be many" and goals "share an ICE only if they share the context" (ice.yaml lines
+    58-65). The committed grounding template says "a label may repeat; at least one Goal" and its gold example has
+    two Goal lines (grounding/capability.md lines 69, 109-110); the linter enforces "at least one Goal" (lint_grounding.py
+    lines 220-237). The count test is context, not "one". The only committed source for a one-goal bar is docs/philosophy/idd-decision-checklist.md
+    lines 113-117 ("usually two goals"), which is advice with "usually", not "not negotiable". | GP-2 (with GP-1)'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-03
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/ice-rubric.md
+  lines: 3, 10-11
+  title: '"A thin ICE has up to three" caps what the thin mark defines as a floor, and the rubric never says it
+    is advisory'
+  basis: 'ADR 052 section 5 (lines 49-54) and ontology.md line 520 give a thin ICE "at least" a goal, a limit and
+    one Fails if. ADR 052 line 59 and ontology.md lines 518 and 520: "the check counts no lines ... An ICE is thin
+    because it carries the mark, not because it has few lines." The rubric''s own "Thin" section (line 33) says
+    the same, so lines 10-11 contradict the file they sit in. Line 3 says "a person, a play or a judge reads an
+    ICE against this table" and never says that failing it never blocks a write or work (ontology.md line 519; ADR
+    047 section 8 line 74; ADR 052 line 74; lint_grounding.py line 471 "never whether a part is thin or wrong").
+    Richness is "the product owner''s job" (ontology.md line 518). | GP-1'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-04
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/ice-rubric.md
+  lines: 22-27
+  title: The Read order names "the project's existing memory" and "Garura memory" as two steps and leaves out short-term
+    memory
+  basis: 'ADR 035 section 1 (lines 36-44): the tiers are Phoenix, Garura and short-term; the project tier "is called
+    Garura memory, not ''project memory''". Section 3 (lines 55-68): the lookup runs short-term, then Garura, then
+    Phoenix. Line 42: "Agents also read the project''s git repository, its product model and its intents." Rubric
+    step 1 uses the banned name, and if it means Garura memory then step 2 repeats it; if it means the issue''s
+    folder it omits the tier''s name. Step 4 ("research it and raise a memory update") is consistent with section
+    5 (lines 70-76) only if the research is read as drafting help, which the line does not say. | GP-7'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-05
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/_index.md
+  lines: 17-23
+  title: The new rows name no concrete consumer, and no play, skill or checker reads either rule
+  basis: '_index.md "When to Add Here" (lines 67-76): a rule "is enforced by at least one skill (validator, generator,
+    orchestrator)". Every existing row names who reads it (for example eval-format.md names /shape-eval and author-slice-eval;
+    work-plan.md names author-plan-file and project-orchestrator). The new rows say "Any play or skill that writes
+    or judges an ICE" and "Any play or skill that specifies intents". A search of core/, docs/ and installer/ on
+    this branch finds both file names only in _index.md. work-plan.md line 11 shows the base practice when a rule
+    lands ahead of its enforcer: a "Not yet wired" note. | GP-10'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-06
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/intent-depth.md
+  lines: '9'
+  title: '"They can also set a preference for smaller or bigger intents" names a setting that has no home'
+  basis: 'No committed place holds it: core/config.yaml on main has no depth or granularity key; the Business Intent
+    kind lists its properties (ontology.md lines 183-195) and none is a depth preference; the play reads no such
+    input (discover-intent SKILL.md, ice.md C12 and C17 set the level from the product''s own main areas). Sibling
+    rules that name a state say where it lives (work-plan.md "Where it lives", run-status.md "The file", user-questions.md
+    "How the file is kept"). The rule does not say where the preference is kept, who writes it, or which play reads
+    it. | GP-9'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-07
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/intent-depth.md
+  lines: whole file (also core/components/memory/standards/rules/ice-rubric.md, whole file)
+  title: Neither rule anchors to a decision, and no committed decision exists for its design points
+  basis: 'Sibling rules open by naming the decision that made them: eval-format.md line 3 (ADR 057), work-plan.md
+    line 3 (ADR 030), direct-model-write.md line 8 ("Authority: ADR 026"), user-questions.md lines 6-9 (ADR 050),
+    surface-contract.md line 7 (ADR 022). The two new files cite none. GAP-1: nothing on main decides the three
+    points DG-MEM-01, -02 and -06 report. The memory playbook''s rationale (knowledge/review/memory.md) warns that
+    "a wrong or self-justifying entry propagates silently". The only record the branch offers is ADR 065 and 066,
+    which are under review and name neither rule. | GP-10'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-08
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/ice-rubric.md
+  lines: '39'
+  title: '"Plans sit outside the model" is looser than the ontology'
+  basis: 'The ontology makes the Plan one of its thirteen kinds, "the thread between" the two layers (ontology.md
+    line 9, line 585), and forbids a plan''s operational data in "the product model''s index or on its pages" (line
+    629). It forbids operational data, not every mention. The conclusion for the ICE page (no plan named) holds:
+    the ICE has no link to a work item or a business intent (line 482). Only the reason is worded too wide. | GP-8'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-09
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/ice-rubric.md
+  lines: 9-11
+  title: The rubric gives no test that tells a Limit from a Fails if
+  basis: 'IDD principle 3 (idd-principles.md lines 75-81): a failure condition is observable and binary and can
+    be judged "from builder output alone"; one that needs the goal to judge "may be a constraint in disguise". Line
+    71: a requirement that shapes the builder''s design is a constraint. The rubric asks for "at least one, for
+    what matters most" and offers no test, so a judge cannot catch a limit written as a Fails if (or the reverse).
+    The examples are sound. | GP-5'
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DG-MEM-10
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/intent-depth.md
+  lines: '8'
+  title: '"The detail goes in its features" skips the capability'
+  basis: The Business Intent kind links to its capabilities and "does not name features; a feature is reached through
+    its parent capability" (ontology.md line 194). The rule's example also reads "with the discount as a feature".
+    The shape holds, but the sentence should say "its capabilities and their features". | GP-9
+  decision_recorded: null
+  source: design-findings-memory.yaml
+- id: DF-1
+  severity: P2
+  category: product-model
+  file:
+  - file: .garura/product/product-os/intents/bi-1.md
+    lines: 22-47
+    feature_lines: 24
+  - file: .garura/product/product-os/intents/bi-2.md
+    lines: 19-32
+    feature_lines: 11
+  - file: .garura/product/product-os/intents/bi-3.md
+    lines: 21-41
+    feature_lines: 17
+  - file: .garura/product/product-os/intents/bi-4.md
+    lines: 21-48
+    feature_lines: 23
+  - file: .garura/product/product-os/intents/bi-6.md
+    lines: 20-35
+    feature_lines: 14
+  - file: .garura/product/product-os/intents/bi-7.md
+    lines: 22-48
+    feature_lines: 24
+  - file: .garura/product/product-os/intents/bi-8.md
+    lines: 21-38
+    feature_lines: 17
+  - file: .garura/product/product-os/intents/bi-9.md
+    lines: 20-61
+    feature_lines: 38
+  - file: .garura/product/product-os/intents/bi-10.md
+    lines: 21-73
+    feature_lines: 48
+  - file: .garura/product/product-os/intents/bi-11.md
+    lines: 22-44
+    feature_lines: 22
+  lines: null
+  title: The Touches lists on ten intent pages name 238 features; the ontology says a Touches list never names a
+    feature
+  basis: "{} | A business intent's Touches list holds the domains and capabilities it reaches into, each marked\
+    \ adds, changes or removes. It does not name features; a feature is reached through its parent capability. A\
+    \ business intent points only at its capabilities, the intents it was identified by and, loosely, its domains.\n\
+    \ | [{\"path\": \"core/components/memory/standards/schemas/product-os/ontology.md\", \"ref\": \"main\", \"lines\"\
+    : \"194\", \"says\": \"Touches ... It does not name features; a feature is reached through its parent capability\"\
+    }, {\"path\": \"core/components/memory/standards/schemas/product-os/ontology.md\", \"ref\": \"main\","
+  decision_recorded: none found
+  source: design-findings-product-model.yaml
+- id: DF-2
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/_spine.yaml
+    lines: '62'
+    note: 'cap-specify-product detail: directional; same on the other 38'
+  - file: .garura/product/product-os/software-delivery-planning/specify-product/capability.md
+    lines: 3, 9-62
+    note: '## Directional intent holds a Features list (line 9) and ### Benefit hypothesis (31), ### Boundary (43),
+      ### Guiding rules (54)'
+  lines: null
+  title: 39 capability pages are marked directional in the index but carry a detailed body under third-level headings
+  basis: "{} | A capability page has two shapes and the index says which: a directional page names the capability\
+    \ and gives it direction, it does not detail it and never touches features; a detailed page has Benefit hypothesis,\
+    \ Boundary, Guiding rules and Features as second-level sections. The linter checks the page against the shape\
+    \ the entry's detail field names.\n | [{\"path\": \"core/components/memory/standards/schemas/product-os/grounding/capability.md\"\
+    , \"ref\": \"main\", \"lines\": \"8-19\", \"says\": \"two valid shapes ... directional NAMES the capability\
+    \ ... does not detail it and never touches features ... The linter validates the doc against the shape its detail:\
+    \ fie"
+  decision_recorded: none found
+  source: design-findings-product-model.yaml
+- id: DF-3
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/_spine.yaml
+    lines: 672-677
+    note: 'cap-model-routing intents: bi-10, bi-7'
+  - file: .garura/product/product-os/intents/bi-7.md
+    lines: 19-50
+    note: four capability lines (Install into a project, Upgrade a project, Support each coding tool, Initialize);
+      no Intelligent model routing line
+  lines: null
+  title: Intelligent model routing serves BI-7 in the index, but BI-7's Touches list does not name it
+  basis: "{} | Each capability a business intent has is linked both ways: the capability's index entry names the\
+    \ intent, and the intent's Touches list names the capability. A play that makes one side writes the other.\n\
+    \ | [{\"path\": \"core/components/memory/standards/schemas/product-os/ontology.md\", \"ref\": \"main\", \"lines\"\
+    : \"218\"}]"
+  decision_recorded: capabilities.md says Intelligent model routing serves bi-10 and bi-7 (the BI-10 close record),
+    so the index side is the intended one
+  source: design-findings-product-model.yaml
+- id: DF-4
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/_spine.yaml
+    lines: 2-5
+    note: 'dom-software-delivery-planning intents: [bi-1]'
+  - file: .garura/product/product-os/intents/bi-2.md
+    lines: 17-34
+    note: ten intent pages, none with a (domain) line
+  lines: null
+  title: The domain's intents list holds only bi-1, and no intent page names the domain
+  basis: "{} | A domain's intents are the business intents that touch it (for search only), and an intent's Touches\
+    \ list names every domain it reaches into, as a loose link.\n | [{\"path\": \"core/components/memory/standards/schemas/product-os/ontology.md\"\
+    , \"ref\": \"main\", \"lines\": \"194\", \"says\": \"Every domain and capability it reaches into\"}, {\"path\"\
+    : \"core/components/memory/standards/schemas/product-os/ontology.md\", \"ref\": \"main\", \"lines\": \"208\"\
+    , \"says\": \"a business intent to"
+  decision_recorded: none found
+  source: design-findings-product-model.yaml
+- id: DF-5
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/_spine.yaml
+    lines: 726-1400
+    note: for example fn-accept-adr, fn-act-on-its-own, fn-add-eval-steps; 206 new feature ids, none with ft-
+  lines: null
+  title: 206 new features take the retired id prefix fn-; the decision says new features use ft-
+  basis: '{} | Feature ids keep the fn- prefix for the features that exist; new features use ft-. | [{"path": "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "ref": "main", "lines": "51"}, {"path": "core/components/memory/standards/schemas/product-os/ontology.md", "ref":
+    "main", "lines": "474, 564", "says": "the worked examples use ft- ids (ft-pick-a-free-slot, ft-send-a-note-home'
+  decision_recorded: none found
+  source: design-findings-product-model.yaml
+- id: DF-6
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/_spine.yaml
+    lines: 1039-1040
+    note: fn-748 depends_on fn-741 (feature to feature)
+  - file: .garura/product/product-os/_spine.yaml
+    lines: '450'
+    note: 'cap-upgrade-project depends_on: [] (cap-747 needed cap-739 on main)'
+  - file: .garura/product/product-os/_spine.yaml
+    lines: 824-825
+    note: fn-727 depends_on fn-724; also fn-743, fn-744, fn-745, fn-746 on fn-741 (same 6 on main)
+  lines: null
+  title: The order of work is held on features, where the ontology does not allow it, and the capability-level need
+    that was on main is gone
+  basis: "{} | Needs and identified-by join capabilities only; a feature never needs anything, its order of work\
+    \ comes from its parent capability. The ontology names fn-727 to fn-724 as not allowed, to become a capability-to-capability\
+    \ need (the move is #765).\n | [{\"path\": \"core/components/memory/standards/schemas/product-os/ontology.md\"\
+    , \"ref\": \"main\", \"lines\": \"364, 409, 412\"}, {\"path\": \"docs/adr/047-the-ice-is-its-own-node.md\",\
+    \ \"ref\": \"main\", \"lines\": \"56\"}]"
+  decision_recorded: 'none found for the dropped capability need. The product owner''s answer of 2026-11-11 that
+    a feature does not need another feature (capabilities.md, the Manage the model entry) points the same way.
+
+    '
+  source: design-findings-product-model.yaml
+- id: DF-7
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-video/feature.md
+    lines: 1-5
+  - file: .garura/product/product-os/software-delivery-planning/specify-product/fn-validate-attribution/feature.md
+    lines: 1-5
+  - file: .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-against-existing/feature.md
+    lines: 1-5
+  lines: null
+  title: Three "to build" feature pages keep a short shape and add 12 structure errors
+  basis: "{} | A feature page has What it does, Inputs / Outputs, Rules & behavior, Acceptance criteria and Out\
+    \ of scope, each substantive; completeness is a rubric line.\n | [{\"path\": \"core/components/memory/standards/schemas/product-os/grounding/feature.md\"\
+    , \"ref\": \"main\", \"lines\": \"10-19\"}, {\"path\": \"core/components/memory/standards/schemas/product-os/grounding/_content-standard.md\"\
+    , \"ref\": \"main\", \"lines\": \"46\"}]"
+  decision_recorded: 'Known and decided by the product owner. The marker "Status: to build" with a thin ICE is at
+    .garura/project/issues/1021/context/capability-1/pages.md lines 54, 96 and 103 (page 1 line 1: approved by the
+    product owner on 2026-11-03), and .garura/project/issues/1021/context/pr-body.md line 122 says the ICE was approved
+    word for word. I did not find these three pages named in capabilities.md or cleanup/approval.md.
+
+    '
+  source: design-findings-product-model.yaml
+- id: DF-8
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md
+    lines: '73'
+    note: 'quotes specify-product/capability.md: ''Out: keeping intents up to date as the product changes.'' that
+      page now reads ''Out: keeping the spec matched to what''s built as the product changes.'' (line 50)'
+  - file: .garura/product/product-os/software-delivery-planning/define-product/capability.md
+    lines: 129-135
+    note: seven quotes of other capability pages' Out lines, for example standards/capability.md line 98 reads 'the
+      ICE as a kind of the product model, with its rules', not the quoted 'the ICE kind of the product model'
+  - file: .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md
+    lines: '65'
+    note: four quotes of features/fn-725/feature.md that fn-725 no longer holds; fn-725 line 73 cites this page
+      back
+  lines: null
+  title: Quoted source words no longer match the cited file in 25 places on 13 pages; 20 of them quote model pages
+    that were reworded later
+  basis: "{} | Sources hold where a part is seen and the exact words, in quotes; every cross-reference is real.\n\
+    \ | [{\"path\": \"core/components/memory/standards/schemas/product-os/grounding/feature.md\", \"ref\": \"main\"\
+    , \"lines\": \"34-45\"}, {\"path\": \"core/components/memory/standards/schemas/product-os/grounding/_content-standard.md\"\
+    , \"ref\": \"main\", \"lines\": \"36-38\", \"says\": \"Links are real\"}]"
+  decision_recorded: none found
+  source: design-findings-product-model.yaml
+- id: DF-9
+  severity: P3
+  category: product-model
+  file:
+  - file: .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md
+    lines: 13-17
+    note: lists 4 of 8 features; fn-727, fn-728, fn-818 appear only in a Sources line (72), fn-931 nowhere
+  - file: .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md
+    lines: 11-17
+    note: lists 4 of 6 features; fn-798 and fn-898 appear only in line 91
+  lines: null
+  title: Two capability pages leave out six features that the index puts under them
+  basis: '{} | A capability''s Features section lists each feature the capability contains, with one line, linked
+    to its index node. | [{"path": "core/components/memory/standards/schemas/product-os/grounding/capability.md",
+    "ref": "main", "lines": "89-91"}]'
+  decision_recorded: 'The five moved features keep their pages as they are (.garura/project/issues/1021/context/cleanup/plan.md
+    line 17), which is about the pages, not the listing; fn-931 is not named there.
+
+    '
+  source: design-findings-product-model.yaml
+- id: DF-10
+  severity: P4
+  category: product-model
+  file:
+  - file: .garura/product/product-os/_spine.yaml
+    lines: 816, 831, 1059, 1074, 1158, 1190
+    note: fn-727, fn-728, fn-818, fn-798, fn-898, fn-931 have no ices entry; 273 ICE entries for 279 parts
+  lines: null
+  title: Six features have no ICE page, so the ready check reads them not ready (known, decided)
+  basis: '{} | Each capability and feature has exactly one ICE on its own page. A page that still holds its ICE
+    as a last section is drift for the Alignment loop, not an error. | [{"path": "core/components/memory/standards/schemas/product-os/ontology.md",
+    "ref": "main", "lines": "362, 408, 524"}, {"path": "docs/adr/047-the-ice-is-its-own-node.md", "ref": "main",
+    "lines": "32-36"}]'
+  decision_recorded: 'Five moved features: .garura/project/issues/1021/context/cleanup/plan.md line 17 (each gets
+    its own ICE page under #765). fn-931: not in that plan (.garura/project/issues/1021/context/pr-body.md line
+    122); carried as known by the product owner''s relay.
+
+    '
+  source: design-findings-product-model.yaml
+- id: DF-11
+  severity: P4
+  category: product-model
+  file:
+  - file: .garura/product/product-os/intents/bi-5.md
+    lines: 15-18
+  lines: null
+  title: BI-5 is confirmed with no capability and no marker that it is parked (known, decided)
+  basis: '{} | Stage is proposed, confirmed, met or dropped; Touches is empty until a part is linked. | [{"path":
+    "core/components/memory/standards/schemas/product-os/ontology.md", "ref": "main", "lines": "192, 194, 229"}]'
+  decision_recorded: .garura/project/issues/1021/context/capabilities.md line 59 (parked by the product owner on
+    2026-11-10)
+  source: design-findings-product-model.yaml
+- id: DF-12
+  severity: P4
+  category: product-model
+  file:
+  - file: .garura/product/product-os/intents/bi-2.md
+    lines: 3-15
+  - file: .garura/product/product-os/intents/bi-3.md
+    lines: 3-16
+  - file: .garura/product/product-os/intents/bi-4.md
+    lines: 3-16
+  - file: .garura/product/product-os/intents/bi-6.md
+    lines: 3-15
+  - file: .garura/product/product-os/intents/bi-7.md
+    lines: 3-17
+  - file: .garura/product/product-os/intents/bi-8.md
+    lines: 3-16
+  lines: null
+  title: Six confirmed intent pages were reworded after their confirmation date and still read "confirmed, 2026-11-02"
+  basis: '{} | Confirmed by and when records who agreed the words say the right thing, and when. Only a person confirms.
+    | [{"path": "core/components/memory/standards/schemas/product-os/ontology.md", "ref": "main", "lines": "193,
+    223"}]'
+  decision_recorded: the rewordings are approved in the per-intent close records under .garura/project/issues/1021/context/bi-N-close/
+  source: design-findings-product-model.yaml
+- id: DF-13
+  severity: P4
+  category: product-model
+  file:
+  - file: .garura/product/product-os/intents/bi-717.md
+    lines: deleted
+  - file: .garura/product/product-os/intents/bi-722.md
+    lines: deleted
+  - file: .garura/product/product-os/intents/bi-734.md
+    lines: deleted
+  - file: .garura/product/product-os/intents/bi-756.md
+    lines: deleted
+  - file: .garura/product/product-os/intents/bi-788.md
+    lines: deleted
+  lines: null
+  title: The five old intents were retired by deleting their pages, not by a dropped stage with a reason
+  basis: '{} | A confirmed intent can be dropped by a person, with a reason (stage dropped). | [{"path": "core/components/memory/standards/schemas/product-os/ontology.md",
+    "ref": "main", "lines": "229"}]'
+  decision_recorded: .garura/project/issues/1021/context/cleanup/approval.md lines 3-4 (the product owner saw the
+    plan with the five removals and replied "approved")
+  source: design-findings-product-model.yaml
+- id: DF-14
+  severity: P4
+  category: product-model
+  file:
+  - file: .garura/product/product-os/
+    lines: '46 pages cite ADR 065 or 066 (21 and 26); 2 pages cite the two new rules; 220 pages cite short-term
+      files of #1021 as sources'
+  lines: null
+  title: Grounding unavailable for what ADR 065, ADR 066, ice-rubric and intent-depth decide
+  basis: '{} | n/a'
+  decision_recorded: n/a
+  source: design-findings-product-model.yaml
+- id: PLAN-1
+  severity: P2
+  category: plan-records
+  file:
+  - .garura/project/plans/606.yaml
+  - .garura/project/plans/722.yaml
+  - .garura/project/plans/734.yaml
+  - .garura/project/plans/756.yaml
+  - .garura/project/plans/788.yaml
+  lines: null
+  title: 90 of the 162 issues open in the tracker lose their plan, and the approval record does not name them
+  basis: 'Six of the seven plans were Paused, not Dropped (read from main:.garura/project/plans/<id>.yaml; branch
+    null for all seven). The design''s rule for a plan that is not running is that its open issues stay in the plan.
+    The removal does the opposite: the issues stay open in the tracker and leave every plan. Counted from the seven
+    base-ref plan trees against the open issues of the repository (read-only gh list): 606 has 39 still open, 722
+    has 9, 734 has 26, 756 has 7, 788 has 9. That is 90 issues (26 stories, 24 bugs, 19 chores, 16 feature items,
+    5 spikes) out of 162 open issues in the repository (about 56 percent). Plans 717 and 767 have none still open.
+    The plan files themselves count 98 items not Done or Dropped (41, 0, 10, 27, 8, 1, 11); 8 of them are already
+    closed in the tracker, so the plan files were behind the tracker. The approval record (.garura/project/issues/1021/context/cleanup/approval.md
+    and plan.md, step 7) says "Every plan is Paused or Done with no branch. Git keeps them." It names neither the
+    open items nor their count, though the skill''s report carried them (items by status per plan). So the product
+    owner approved the deletion without being shown what it leaves on no plan. | G3 (open issues of a plan that
+    is not running stay in the plan), supported by G4 (the plan is the work list) and G5 (the plan shows what is
+    still to do) | [{"docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (main) lines 101-103":
+    "even with issues of the plan still open. Those issues stay open and stay in the plan."}, "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+    (main) line 18 and line 48", "docs/philosophy/i'
+  decision_recorded: null
+  source: design-findings-plan-records.yaml
+- id: PLAN-2
+  severity: P3
+  category: plan-records
+  file:
+  - .garura/project/plans/606.yaml
+  - .garura/project/plans/722.yaml
+  - .garura/project/plans/734.yaml
+  - .garura/project/plans/756.yaml
+  - .garura/project/plans/767.yaml
+  - .garura/project/plans/788.yaml
+  lines: null
+  title: Grounding unavailable - no decision record on the base ref allows deleting a plan, and six Paused plans
+    were deleted instead of marked Dropped
+  basis: 'The base design says one thing about the end of a plan: its Status becomes Dropped, and the file stays.
+    It says one thing about changing a plan that exists: /update-plan. It says one thing about a Paused plan: work
+    starts again from a new branch. No ADR, ontology line or guide on the base ref says a plan file may be deleted,
+    when, or who decides. The only base-ref authority is the skill remove-plan (commit faf8a2ef, #1019, 2026-11-02)
+    and its routing line in project-orchestrator.md (lines 147 and 164). A skill is a tool, not a decision. The
+    record that does allow it, ADR 065, is added by this branch and is not used as grounding here. This is a grounding
+    gap, not a proven violation: ADR 063 is about plays that change the content of a plan, and it neither forbids
+    nor sanctions a deletion. | G1 and G2 (a plan that exists is changed only by /update-plan; a plan ends by Status
+    Dropped), with G3 (Paused means a restart is planned) | ["docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md
+    (main) lines 27-29 and 44", "ontology Plan kind, States (memory copy line 636), and Q46 (lines 164-165)", "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+    (main) lines 105-107"]'
+  decision_recorded: null
+  source: design-findings-plan-records.yaml
+- id: PLAN-3
+  severity: P3
+  category: plan-records
+  file:
+  - .garura/project/plans/717.yaml
+  lines: null
+  title: The one Done plan (717) is deleted although the design keeps a Done plan as the finished record and the
+    home for later bugs
+  basis: 'Plan 717 is Done (35 items: 31 Done, 4 Dropped, none open; its business intent #717 is CLOSED as completed).
+    The ontology says a Done plan is not reopened and that a bug found after it sits under the story that introduced
+    it, with no new plan. That rule assumes the Done plan stays. With the file gone, a late bug in the work delivered
+    under #717 (/update-plan, /show-plan, plan branches) has no plan file to sit in, and /update-plan, which "finds
+    the plan", finds none. The other six deleted plans were Paused, so G6 does not reach them. | G6 | ["ontology
+    Plan kind, \"What it is\" (line 583), rule on line 631, States (line 636) of the memory copy"]'
+  decision_recorded: null
+  source: design-findings-plan-records.yaml
+- id: PLAN-4
+  severity: P3
+  category: plan-records
+  file:
+  - .garura/project/plans/606.yaml
+  - .garura/project/plans/717.yaml
+  - .garura/project/plans/722.yaml
+  - .garura/project/plans/734.yaml
+  - .garura/project/plans/756.yaml
+  - .garura/project/plans/767.yaml
+  - .garura/project/plans/788.yaml
+  lines: null
+  title: The only test that reads this repository's real plan files now has no plan to read; it fails on a tree
+    where the emptied folder remains and is skipped on a clean checkout
+  basis: 'Run on this working tree (python3 -B core/tools/plan/test_plan.py RepoPlansTest): FAILED, "AssertionError:
+    [] is not true", because remove-plan leaves the emptied .garura/project/plans/ folder on disk. In a clean checkout
+    of the branch the tree holds only .garura/project/issues under .garura/project (git ls-tree HEAD .garura/project/),
+    so the folder is absent and the test is skipped. Either way the repository has no real plan file left that is
+    checked against the plan-view template. Other plan tests write their own temporary plans (test_check_plan_absent.py,
+    test_merge_plan.py, test_resolve_plan.py, test_setup_branch.py), so they are not affected. The plan tools themselves
+    tolerate an empty folder (plan.py list prints "No plans in <dir>."). | a committed check still has what it checks
+    (core/tools/plan/test_plan.py, class RepoPlansTest, is on main and is not changed by this branch) | core/tools/plan/test_plan.py
+    (main), lines 309-315 - "test_every_plan_of_this_repository_reads_with_the_template" skips when there is no
+    plans folder and otherwise asserts that at least one plan loads'
+  decision_recorded: null
+  source: design-findings-plan-records.yaml
+- id: PLAN-5
+  severity: P3
+  category: plan-records
+  file:
+  - .garura/project/plans/788.yaml
+  - .garura/project/plans/788/evals/intent-to-design/ (6 deleted files, counted by name only)
+  lines: null
+  title: /shape-eval's first success scenario (S1) is pinned on plan 788, its epic and its eval, which no longer
+    exist in the repository
+  basis: 'shape-eval''s ICE is not changed by this branch and still gives plan 788 as the case of its first scenario.
+    Plan 788, its eval folder (the first evals Garura made, ADR 057 lines 13-15) and, in the model, the slice sl-intent-to-design
+    are all removed in this PR, so /shape-eval 788 cannot be run as written. The four features whose stories the
+    deleted eval files were named for (fn-795, fn-798, fn-818, fn-898) are still in the model on this branch, moved
+    to new capabilities, with no slice and no eval; the design allows that (an eval belongs to a slice), so that
+    part is not a finding. The scenario is an intent line, so its fix is an intent change through the play''s ICE
+    and /edit-play, not a hand edit. | G9 (a play''s scenario is a guarantee that can be run; the eval and the hidden
+    file live in the home plan''s folder) | [{"core/components/plays/shape-eval/reference/ice.md (main) line 117":
+    "S1 - (product owner, first eval) Given plan 788 with epic #794, its four stories and the slice''s hidden file,
+    and no eval yet, when the product owner runs /shape-eval 788 ..."}, "docs/adr/049-a-slice-is-shaped-then-planned-then-'
+  decision_recorded: null
+  source: design-findings-plan-records.yaml
+- id: PLAN-6
+  severity: P4
+  category: plan-records
+  file:
+  - .garura/project/plans/717.yaml
+  - .garura/project/plans/788.yaml
+  - .garura/project/plans/606.yaml
+  - .garura/project/plans/722.yaml
+  - .garura/project/plans/734.yaml
+  - .garura/project/plans/756.yaml
+  - .garura/project/plans/767.yaml
+  lines: null
+  title: Two template samples show the removed plans as if they were live
+  basis: 'Both are format samples; the plan tool reads only the Settings block of plan-view.md, so nothing breaks.
+    The names are real, the plans are gone, and plan 717''s branch was deleted on 2026-10-31 (plan 717 file, branch
+    comment), so the samples were already stale. | the plan view is printed from the plan files alone, so a sample
+    that names real plans reads as the current state | ["core/components/memory/standards/templates/plan-view.md
+    (main) lines 99-103 (the graph sample: plan/717/base, plan/788/base, and \"on main: #606, #722, #734, #756,
+    #767\" - exactly the removed set)", "core/components/memory/standards/templates/plan-update.md (main) line 48
+    (a sample screen headed'
+  decision_recorded: null
+  source: design-findings-plan-records.yaml
+- id: PLAN-7
+  severity: P4
+  category: plan-records
+  file:
+  - .garura/project/plans/606.yaml
+  lines: null
+  title: The work guide still points at plan 606 as the live case of the unplanned-epic rule
+  basis: 'Plan 606 (planned: false) was the only plan file of that kind. The rule stays valid for any later unplanned
+    epic; only its first and only worked case is gone, and epic #922 is CLOSED as completed. The guide is not changed
+    by this branch. | the guide read before every issue should match the plan files it describes | .garura/user-provided/managing-work.md
+    (main) lines 83-106 ("An unplanned epic gathers defects being fixed together": "Its plan is the business intent''s
+    plan file, plans/<intent>.yaml, with planned: false", "The first is #922, under business intent #606")'
+  decision_recorded: null
+  source: design-findings-plan-records.yaml

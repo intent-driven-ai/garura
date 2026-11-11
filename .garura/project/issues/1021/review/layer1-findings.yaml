@@ -1,0 +1,63 @@
+# check-change Step 3, Layer 1, PR #1039 (#1021, the reorganisation of the business intents).
+# Each category's treatment was read from categories.yaml only.
+pr: 1039
+layer: 1
+runs:
+  - category: memory
+    tool: "node .garura/core/tools/lint-components/index.js --layout source --target core/components --json"
+    why: "changed_paths holds paths under core/components (three memory rules)"
+    installed: true
+    exit_code: 1
+    output: .garura/project/issues/1021/review/lint-components.json
+    violations_total: 37
+    violations_in_changed_paths: 0
+    there_before: 37
+  - category: memory
+    tool: "python3 .garura/core/tools/lint-play/lint_play.py"
+    result: "not run: the diff changes no play (no plays/<play>/SKILL.md in changed_paths)"
+  - category: "(standards-driven categories)"
+    tool: "quality-auditor -> check-pr-quality"
+    result: "not dispatched: categories.yaml holds no code, config, tests or docs-prose category"
+checks_by_hand:
+  - category: decision-records
+    basis: "knowledge/review/adrs.md (review shelf copy), the playbook's objective checks"
+    checks:
+      - check: "the required sections are present (status, context, decision, consequences)"
+        result: pass
+        evidence: "ADR 065: Status line 3, Context 14, Decision 125, Consequences 167; ADR 066: Status 3, Context 15, Decision 57, Consequences 119"
+      - check: "the status field is one of the allowed values"
+        result: fail
+        evidence: "docs/adr/005-skills-as-capabilities.md gains '**Status:** (not recorded) — amended in part by ADR 065'; '(not recorded)' is not a status value the index uses (Accepted, Superseded)"
+      - check: "the markdown is well-formed"
+        result: pass
+      - check: "the ADR is numbered and linked from the index"
+        result: pass
+        evidence: "docs/adr/_index.md lines 73 and 74 link 065 and 066, status Accepted"
+  - category: memory
+    basis: "knowledge/review/memory.md (review shelf copy); shape taken from the sibling rules on main"
+    checks:
+      - check: "each file follows its siblings' shape"
+        result: pass
+        evidence: "no frontmatter, as the sibling rules on main (for example standards/rules/self-review.md) have none"
+      - check: "evolve_when and [[...]] references resolve"
+        result: pass
+        evidence: "neither file holds a [[...]] reference or an evolve_when line"
+      - check: "the file is listed in the index"
+        result: pass
+        evidence: "core/components/memory/standards/rules/_index.md lines 21 and 22"
+  - category: config-maps
+    basis: "knowledge/review/config-maps.md (review shelf copy): every referenced path resolves"
+    checks:
+      - check: "every path .garura/install-manifest.json names resolves"
+        result: pass
+        evidence: "74 paths named, 0 missing"
+      - check: "every path the core/config.yaml change names resolves"
+        result: pass
+        evidence: "the new trackers block names two repositories (intent-driven-ai/garura-intents, intent-driven-ai/garura) and no path"
+findings:
+  - id: L1-ADR-1
+    category: decision-records
+    severity: P4
+    basis: "DOC-05 (standards/rules/pr.md copy, line 238: the review layers read this row); knowledge/review/adrs.md, the allowed status values"
+    file: docs/adr/005-skills-as-capabilities.md
+    what: "The new Status line reads '(not recorded)', which is not a status value; main had no Status line for ADR 005."

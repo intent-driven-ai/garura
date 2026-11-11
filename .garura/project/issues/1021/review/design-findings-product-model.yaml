@@ -1,0 +1,322 @@
+# Layer 2 design-grounding, category: product-model (#1021, PR #1039)
+# Read-only review. Grounded only in committed sources on the base ref (main) and in the product
+# ontology / product-os schemas read through the memory tool (Phoenix memory b2e40bff2131).
+# Not used as grounding: docs/adr/065-*, docs/adr/066-*, core/components/memory/standards/rules/ice-rubric.md,
+# core/components/memory/standards/rules/intent-depth.md (this branch adds them).
+issue: 1021
+pr: 1039
+category: product-model
+base: main
+reviewed_paths: "577 changed paths under .garura/product/product-os/ (the whole model on the branch is 566 files: 273 ice.md, 40 capability.md, 239 feature.md, 1 domain.md, 11 intent pages, _spine.yaml, 1 decision record)"
+sampling: >
+  Structure checks ran over the whole model (every index entry, every page). Content checks ran over
+  all 11 intent pages and all 273 ICE pages by script; a hand read covered a sample of capability,
+  feature and ICE pages (specify-product, turn-intents-into-work, build-work-test-first, model-routing,
+  fn-724, fn-931 and the three short-shape features).
+grounding_memory:
+  folder: .garura/project/issues/1021/context/memory/grounding-product-model/
+  manifest: .garura/project/issues/1021/context/memory/grounding-product-model/manifest.json
+  note: >
+    The ontology (version 15), spine.yaml, grounding/capability.md and grounding/feature.md read through the
+    memory tool are the same text as core/components/memory/standards/schemas/product-os/ on main (only a
+    trailing newline differs). The memory-tool copies of grounding/_content-standard.md and ice.yaml are older
+    than main's source (6 and 23 lines differ); no finding rests on those differing lines.
+counts:
+  P1: 0
+  P2: 1
+  P3: 8
+  P4: 5
+findings:
+- id: DF-1
+  class: P2
+  title: The Touches lists on ten intent pages name 238 features; the ontology says a Touches list never names a feature
+  files:
+    - {file: .garura/product/product-os/intents/bi-1.md, lines: "22-47", feature_lines: 24}
+    - {file: .garura/product/product-os/intents/bi-2.md, lines: "19-32", feature_lines: 11}
+    - {file: .garura/product/product-os/intents/bi-3.md, lines: "21-41", feature_lines: 17}
+    - {file: .garura/product/product-os/intents/bi-4.md, lines: "21-48", feature_lines: 23}
+    - {file: .garura/product/product-os/intents/bi-6.md, lines: "20-35", feature_lines: 14}
+    - {file: .garura/product/product-os/intents/bi-7.md, lines: "22-48", feature_lines: 24}
+    - {file: .garura/product/product-os/intents/bi-8.md, lines: "21-38", feature_lines: 17}
+    - {file: .garura/product/product-os/intents/bi-9.md, lines: "20-61", feature_lines: 38}
+    - {file: .garura/product/product-os/intents/bi-10.md, lines: "21-73", feature_lines: 48}
+    - {file: .garura/product/product-os/intents/bi-11.md, lines: "22-44", feature_lines: 22}
+  principle: >
+    A business intent's Touches list holds the domains and capabilities it reaches into, each marked adds,
+    changes or removes. It does not name features; a feature is reached through its parent capability. A
+    business intent points only at its capabilities, the intents it was identified by and, loosely, its domains.
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "194", says: "Touches ... It does not name features; a feature is reached through its parent capability"}
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "214", says: "It points only at its capabilities, the business intents it was identified by and, loosely, its domains"}
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "243-246", says: "the worked example lists one domain line and one capability line, no feature line"}
+  evidence: >
+    Of 278 Touches lines on the ten pages, 40 are capability lines and 238 are feature lines (86 percent).
+    No page has a domain line. The pages were written through author-intent-page, whose base-ref script accepts
+    the kind "feature" (core/components/skills/author-intent-page/scripts/write_page.py on main, line 62
+    TOUCH_KINDS = domain, capability, feature), so the skill and the ontology disagree on main. The pages
+    follow the skill; the ontology is the committed design. Added by this branch (the five old pages had no
+    Touches list). The lists also make bi-10 a 48-line list, against "written for a business reader, in plain
+    words" (ontology line 222).
+  decision_recorded: none found
+  action_hint: either take the feature lines off the pages (the capability lines stay), or amend the ontology and the skill together through the ontology play; the choice is the product owner's
+
+- id: DF-2
+  class: P3
+  title: 39 capability pages are marked directional in the index but carry a detailed body under third-level headings
+  files:
+    - {file: .garura/product/product-os/_spine.yaml, lines: "62", note: "cap-specify-product detail: directional; same on the other 38"}
+    - {file: .garura/product/product-os/software-delivery-planning/specify-product/capability.md, lines: "3, 9-62", note: "## Directional intent holds a Features list (line 9) and ### Benefit hypothesis (31), ### Boundary (43), ### Guiding rules (54)"}
+  principle: >
+    A capability page has two shapes and the index says which: a directional page names the capability and gives
+    it direction, it does not detail it and never touches features; a detailed page has Benefit hypothesis,
+    Boundary, Guiding rules and Features as second-level sections. The linter checks the page against the shape
+    the entry's detail field names.
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/grounding/capability.md, ref: main, lines: "8-19", says: "two valid shapes ... directional NAMES the capability ... does not detail it and never touches features ... The linter validates the doc against the shape its detail: field names"}
+    - {path: core/components/memory/standards/schemas/product-os/grounding/capability.md, ref: main, lines: "21-41", says: "the directional heading contract (one section) and the detailed heading contract (four sections)"}
+    - {path: core/components/memory/standards/schemas/product-os/spine.yaml, ref: main, lines: "75-77", says: "detail drives which capability.md shape the linter requires"}
+  evidence: >
+    39 of 40 capability pages (all but cap-initialize) have exactly two second-level sections, Directional intent
+    and Sources, and three third-level sections with the detailed bodies. The installed structure check reads
+    second-level headings only, so it passes them. The page matches neither contract. Median page length is
+    3,741 words against 1,576 for a feature page, so the depth gradient (a feature is never leaner than its
+    capability, _content-standard.md lines 32-34) is not met by word count; the content-quality eval is the
+    right judge of that and was not run. On main the directional pages were one paragraph (cap-718, cap-719).
+  decision_recorded: none found
+  action_hint: mark them detailed and raise the headings to second level, or cut them back to directional
+
+- id: DF-3
+  class: P3
+  title: Intelligent model routing serves BI-7 in the index, but BI-7's Touches list does not name it
+  files:
+    - {file: .garura/product/product-os/_spine.yaml, lines: "672-677", note: "cap-model-routing intents: bi-10, bi-7"}
+    - {file: .garura/product/product-os/intents/bi-7.md, lines: "19-50", note: "four capability lines (Install into a project, Upgrade a project, Support each coding tool, Initialize); no Intelligent model routing line"}
+  principle: >
+    Each capability a business intent has is linked both ways: the capability's index entry names the intent, and
+    the intent's Touches list names the capability. A play that makes one side writes the other.
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "218"}
+  evidence: >
+    The other ten intent pages agree with the index on their capability lines (checked by script, 40 of 41
+    pairs). bi-10.md lines 68-69 name the capability; bi-7.md does not. The five model-routing features are
+    also missing from bi-7.md (a consequence of DF-1 if the feature lines go).
+  decision_recorded: capabilities.md says Intelligent model routing serves bi-10 and bi-7 (the BI-10 close record), so the index side is the intended one
+
+- id: DF-4
+  class: P3
+  title: The domain's intents list holds only bi-1, and no intent page names the domain
+  files:
+    - {file: .garura/product/product-os/_spine.yaml, lines: "2-5", note: "dom-software-delivery-planning intents: [bi-1]"}
+    - {file: .garura/product/product-os/intents/bi-2.md, lines: "17-34", note: "ten intent pages, none with a (domain) line"}
+  principle: >
+    A domain's intents are the business intents that touch it (for search only), and an intent's Touches list names
+    every domain it reaches into, as a loose link.
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "194", says: "Every domain and capability it reaches into"}
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "208", says: "a business intent touches a domain, the domain's spine intents holds the other side"}
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "305"}
+  evidence: >
+    All 40 capabilities sit in this one domain and serve bi-1 to bi-4 and bi-6 to bi-11, so ten intents reach it,
+    yet the domain entry names one (it named two on main: bi-717, bi-788) and zero pages carry a domain line. The
+    link is loose and never a stop, so this is a gap, not a block.
+  decision_recorded: none found
+
+- id: DF-5
+  class: P3
+  title: 206 new features take the retired id prefix fn-; the decision says new features use ft-
+  files:
+    - {file: .garura/product/product-os/_spine.yaml, lines: "726-1400", note: "for example fn-accept-adr, fn-act-on-its-own, fn-add-eval-steps; 206 new feature ids, none with ft-"}
+  principle: "Feature ids keep the fn- prefix for the features that exist; new features use ft-."
+  source:
+    - {path: docs/adr/048-the-product-model-and-the-work-are-two-layers.md, ref: main, lines: "51"}
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "474, 564", says: "the worked examples use ft- ids (ft-pick-a-free-slot, ft-send-a-note-home)"}
+  evidence: >
+    On main 33 features carry fn- ids, of which 4 are slug ids already against the rule (fn-setup-questions,
+    fn-project-memory, fn-review-rule-groups, fn-rerun-initialize); the other 29 predate it or are issue numbers.
+    This branch adds 206 more fn- ids, in slug form. Names are a P3 class in the taxonomy.
+  decision_recorded: none found
+  action_hint: either change the ids, or record the exception in a decision (ADR 048 line 51 is the rule today)
+
+- id: DF-6
+  class: P3
+  title: The order of work is held on features, where the ontology does not allow it, and the capability-level need that was on main is gone
+  files:
+    - {file: .garura/product/product-os/_spine.yaml, lines: "1039-1040", note: "fn-748 depends_on fn-741 (feature to feature)"}
+    - {file: .garura/product/product-os/_spine.yaml, lines: "450", note: "cap-upgrade-project depends_on: [] (cap-747 needed cap-739 on main)"}
+    - {file: .garura/product/product-os/_spine.yaml, lines: "824-825", note: "fn-727 depends_on fn-724; also fn-743, fn-744, fn-745, fn-746 on fn-741 (same 6 on main)"}
+  principle: >
+    Needs and identified-by join capabilities only; a feature never needs anything, its order of work comes from
+    its parent capability. The ontology names fn-727 to fn-724 as not allowed, to become a capability-to-capability
+    need (the move is #765).
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "364, 409, 412"}
+    - {path: docs/adr/047-the-ice-is-its-own-node.md, ref: main, lines: "56"}
+  evidence: >
+    Pre-existing and not counted as a finding: the six feature-level needs (identical on main). New: on main cap-747
+    (Installs follow the renames) needed cap-739 (The naming checks, built before any rename). Both now sit in
+    Standards (cap-739) and Upgrade a project (cap-747), but cap-upgrade-project carries no need while fn-748 keeps
+    the same need on fn-741. The ready check reads capability needs, not feature needs, so this order no longer
+    reaches it. cap-718 and cap-723, the pair the ontology names, were merged into cap-turn-intents-into-work and
+    cap-manage-model by this branch, so the capability-level need could now be written and was not. All 40
+    capabilities have needs [] and identified_by ''.
+  decision_recorded: >
+    none found for the dropped capability need. The product owner's answer of 2026-11-11 that a feature does not
+    need another feature (capabilities.md, the Manage the model entry) points the same way.
+
+- id: DF-7
+  class: P3
+  title: Three "to build" feature pages keep a short shape and add 12 structure errors
+  files:
+    - {file: .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-video/feature.md, lines: "1-5"}
+    - {file: .garura/product/product-os/software-delivery-planning/specify-product/fn-validate-attribution/feature.md, lines: "1-5"}
+    - {file: .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-against-existing/feature.md, lines: "1-5"}
+  principle: >
+    A feature page has What it does, Inputs / Outputs, Rules & behavior, Acceptance criteria and Out of scope, each
+    substantive; completeness is a rubric line.
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/grounding/feature.md, ref: main, lines: "10-19"}
+    - {path: core/components/memory/standards/schemas/product-os/grounding/_content-standard.md, ref: main, lines: "46"}
+  evidence: >
+    The installed structure check names 4 missing sections on each page (12 errors, all new against main); the
+    ICE of fn-specify-from-video ends "Done means: Validate the attribution.", a feature name in place of a done
+    test. Class P3 (missing documentation) rather than P2 (lint error): the product owner decided it, and the same
+    check already fails on main with 75 errors, so it is not a gate.
+  decision_recorded: >
+    Known and decided by the product owner. The marker "Status: to build" with a thin ICE is at
+    .garura/project/issues/1021/context/capability-1/pages.md lines 54, 96 and 103 (page 1 line 1: approved by the
+    product owner on 2026-11-03), and .garura/project/issues/1021/context/pr-body.md line 122 says the ICE was
+    approved word for word. I did not find these three pages named in capabilities.md or cleanup/approval.md.
+
+- id: DF-8
+  class: P3
+  title: Quoted source words no longer match the cited file in 25 places on 13 pages; 20 of them quote model pages that were reworded later
+  files:
+    - {file: .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md, lines: "73", note: "quotes specify-product/capability.md: 'Out: keeping intents up to date as the product changes.' that page now reads 'Out: keeping the spec matched to what's built as the product changes.' (line 50)"}
+    - {file: .garura/product/product-os/software-delivery-planning/define-product/capability.md, lines: "129-135", note: "seven quotes of other capability pages' Out lines, for example standards/capability.md line 98 reads 'the ICE as a kind of the product model, with its rules', not the quoted 'the ICE kind of the product model'"}
+    - {file: .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md, lines: "65", note: "four quotes of features/fn-725/feature.md that fn-725 no longer holds; fn-725 line 73 cites this page back"}
+  principle: >
+    Sources hold where a part is seen and the exact words, in quotes; every cross-reference is real.
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/grounding/feature.md, ref: main, lines: "34-45"}
+    - {path: core/components/memory/standards/schemas/product-os/grounding/_content-standard.md, ref: main, lines: "36-38", says: "Links are real"}
+  evidence: >
+    A script normalised case, spacing and quotes and checked 3,475 quoted phrases (of 12 characters or more) in
+    Sources lines against the cited file as it stands on the branch: 3,424 match. 51 failed the strict check; 25
+    still fail a looser check that ignores punctuation. Spot-checked by hand: the keep-spec-matched and
+    define-product quotes above are real mismatches. A few of the 25 (install-manifest.json, _spine.yaml,
+    config.yaml) may be line-wrap effects.
+  decision_recorded: none found
+
+- id: DF-9
+  class: P3
+  title: Two capability pages leave out six features that the index puts under them
+  files:
+    - {file: .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md, lines: "13-17", note: "lists 4 of 8 features; fn-727, fn-728, fn-818 appear only in a Sources line (72), fn-931 nowhere"}
+    - {file: .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md, lines: "11-17", note: "lists 4 of 6 features; fn-798 and fn-898 appear only in line 91"}
+  principle: "A capability's Features section lists each feature the capability contains, with one line, linked to its index node."
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/grounding/capability.md, ref: main, lines: "89-91"}
+  evidence: "The other 38 capability pages list exactly the features the index gives them (checked by script on the feature ids)."
+  decision_recorded: >
+    The five moved features keep their pages as they are (.garura/project/issues/1021/context/cleanup/plan.md line 17), which is about the pages, not the listing; fn-931 is not named there.
+
+- id: DF-10
+  class: P4
+  title: Six features have no ICE page, so the ready check reads them not ready (known, decided)
+  files:
+    - {file: .garura/product/product-os/_spine.yaml, lines: "816, 831, 1059, 1074, 1158, 1190", note: "fn-727, fn-728, fn-818, fn-798, fn-898, fn-931 have no ices entry; 273 ICE entries for 279 parts"}
+  principle: "Each capability and feature has exactly one ICE on its own page. A page that still holds its ICE as a last section is drift for the Alignment loop, not an error."
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "362, 408, 524"}
+    - {path: docs/adr/047-the-ice-is-its-own-node.md, ref: main, lines: "32-36"}
+  evidence: >
+    Installed ready check on the branch, read-only: 0 ready, 273 partly ready, 6 not ready (the six). Three of the
+    six are the plan-building features. The not-ready answer follows from the ready check reading the ices list;
+    fn-724's own page names this (the page lines 24-26 on the branch). The ontology sanctions the inline ICE as
+    drift, so the design does not say otherwise.
+  decision_recorded: >
+    Five moved features: .garura/project/issues/1021/context/cleanup/plan.md line 17 (each gets its own ICE page
+    under #765). fn-931: not in that plan (.garura/project/issues/1021/context/pr-body.md line 122); carried as
+    known by the product owner's relay.
+
+- id: DF-11
+  class: P4
+  title: BI-5 is confirmed with no capability and no marker that it is parked (known, decided)
+  files:
+    - {file: .garura/product/product-os/intents/bi-5.md, lines: "15-18"}
+  principle: "Stage is proposed, confirmed, met or dropped; Touches is empty until a part is linked."
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "192, 194, 229"}
+  evidence: "The page says nothing of the parking; the ontology has no parked stage and does not forbid a confirmed intent with no capability, so this is not a violation."
+  decision_recorded: .garura/project/issues/1021/context/capabilities.md line 59 (parked by the product owner on 2026-11-10)
+
+- id: DF-12
+  class: P4
+  title: Six confirmed intent pages were reworded after their confirmation date and still read "confirmed, 2026-11-02"
+  files:
+    - {file: .garura/product/product-os/intents/bi-2.md, lines: "3-15"}
+    - {file: .garura/product/product-os/intents/bi-3.md, lines: "3-16"}
+    - {file: .garura/product/product-os/intents/bi-4.md, lines: "3-16"}
+    - {file: .garura/product/product-os/intents/bi-6.md, lines: "3-15"}
+    - {file: .garura/product/product-os/intents/bi-7.md, lines: "3-17"}
+    - {file: .garura/product/product-os/intents/bi-8.md, lines: "3-16"}
+  principle: "Confirmed by and when records who agreed the words say the right thing, and when. Only a person confirms."
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "193, 223"}
+  evidence: >
+    Outcome, Why, Proof or Must not changed after the pages were created on 2026-11-06 (compared with commit
+    9f9d9954); bi-1, bi-5, bi-9, bi-10 and bi-11 did not change outside Touches. The product owner approved each
+    rewording (for example .garura/project/issues/1021/context/bi-3-close/approval.md line 3, 2026-11-09), so no
+    agent confirmed anything; only the stamp date is older than the words.
+  decision_recorded: the rewordings are approved in the per-intent close records under .garura/project/issues/1021/context/bi-N-close/
+
+- id: DF-13
+  class: P4
+  title: The five old intents were retired by deleting their pages, not by a dropped stage with a reason
+  files:
+    - {file: .garura/product/product-os/intents/bi-717.md, lines: "deleted"}
+    - {file: .garura/product/product-os/intents/bi-722.md, lines: "deleted"}
+    - {file: .garura/product/product-os/intents/bi-734.md, lines: "deleted"}
+    - {file: .garura/product/product-os/intents/bi-756.md, lines: "deleted"}
+    - {file: .garura/product/product-os/intents/bi-788.md, lines: "deleted"}
+  principle: "A confirmed intent can be dropped by a person, with a reason (stage dropped)."
+  source:
+    - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: main, lines: "229"}
+  evidence: "The ontology and the base-ref ADRs do not say a dropped intent keeps its page, so this is not a violation; it means the reason lives in the issue's records, not in the model."
+  decision_recorded: .garura/project/issues/1021/context/cleanup/approval.md lines 3-4 (the product owner saw the plan with the five removals and replied "approved")
+
+- id: DF-14
+  class: P4
+  title: Grounding unavailable for what ADR 065, ADR 066, ice-rubric and intent-depth decide
+  files:
+    - {file: .garura/product/product-os/, lines: "46 pages cite ADR 065 or 066 (21 and 26); 2 pages cite the two new rules; 220 pages cite short-term files of #1021 as sources"}
+  principle: n/a
+  source: []
+  evidence: >
+    Those decisions are added by this branch, so the model pages that apply them cannot be tested against the base
+    ref. That covers the intent ids bi-1 to bi-11 with a "Tracker: #N" line, the rule that the model names no plan,
+    and the ICE depth the pages were written to. Conformance there is left to the decision-records and memory
+    categories. A page cites a short-term file of one issue as its source in 220 places; the quoted words stay on
+    the page, so this is only a durability note.
+  decision_recorded: n/a
+
+pre_existing_not_findings:
+  - "9 structure errors on fn-727 (4), fn-728 (4) and fn-931 (1), the same text on main (fn-727 and fn-728 moved with no change to the page)"
+  - "21 features keep their page in the holding folder features/<id>/ although they name a capability (the same 21 on main, ontology line 385); the 20 new ice.md pages sit beside them, as the ontology says"
+  - "6 feature-level needs (see DF-6)"
+  - "23 feature entries carry an issue field outside the schema (23 on main)"
+  - "The installed structure check says 'no ## Agent intent (ICE)' on 273 capability and feature pages; that check predates the ICE node (ontology line 524 treats the inline section as drift, not an error) and all 273 pages have an ice.md beside them"
+
+measured_and_clean:
+  - "Index to pages: every doc of 1 domain, 40 capabilities, 239 features and 273 ICE entries exists; no page on disk lacks an entry; no duplicate id; every parent reference resolves; every ICE entry is beside its part, for the right kind, one for each part that has one"
+  - "Thin marks: 138 index entries with thin: true, 138 pages with the Thin line, the same 138, the exact line text; on 4 feature entries the old part-level mark is on the 4 features that keep an inline ICE"
+  - "ICE pages: all 273 have Intent, Context, Expectation in order, only the ontology's line labels, and Goal, Limit and Fails if in Intent; no business intent id on an ICE entry"
+  - "Capabilities: one domain each; each serves one confirmed intent (cap-model-routing serves two); every feature's intents equal its capability's (239 of 239)"
+  - "Intent pages: all 11 hold Outcome, Why, Asked by, Proof, Stage with confirmed-by and date; all 278 Touches links resolve; the Touches capability lines match the index except DF-3"
+  - "Features: no story form; all 234 acceptance sections open every bullet with Given; no real name or home path on any page"
+  - "No page cites a plan's evals folder"
+measurements:
+  structure_check_head: "errors 21, warnings 279 (273 old-shape ICE, 6 no ICE)"
+  structure_check_main_copy: "errors 75, warnings 8 (taken with git archive into <scratchpad>/main-model)"
+  ready_check_head: "0 ready, 273 partly ready, 6 not ready"
+  ready_check_main_copy: "9 ready, 29 partly ready, 7 not ready (main has no ices list, so the older rule ran; not comparable)"
