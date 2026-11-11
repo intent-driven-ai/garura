@@ -33,8 +33,8 @@ Features:
 - Brief the person only on what no play could close, and let them stop (fn-brief-open-points): a question one play cannot answer is the loop's; when a round closes nothing new or the round limit is reached, one agent closes what it can, and the person gets one brief with our proposed answers, replies once, or types stop.
 - Show what a long run is doing now (fn-show-run-status): the loop keeps one status file current at every step, written whole, kept out of git, holding no secret; the display that would show it is not built.
 - Run each transition between phases as its own loop (fn-loop-per-transition): each of the six transitions is to have one loop named for the two phases it joins, holding only its own values and running that transition's plays; one is built, the Discovery loop.
-- Start a loop from a schedule or a hook, and keep a record across rounds (fn-start-loop-on-trigger): a loop started by a timer or by an event, such as a pull request opening, with one record that tells the next round what was tried and whether it worked. Not built (#699, the loop builders check the loop principles); it has no page yet.
-- Run a round's plays side by side (fn-run-plays-side-by-side): the plays of one round run at the same time, each writing its own kind, instead of one after another. Not built; it waits for a check that can tell two plays' writes apart, and it has no page yet.
+- Start a loop from a schedule or a hook, and keep a record across rounds (fn-start-loop-on-trigger): a loop started by a timer or by an event, such as a pull request opening, with one record that tells the next round what was tried and whether it worked. Not built (#699, the loop builders check the loop principles).
+- Run a round's plays side by side (fn-run-plays-side-by-side): the plays of one round run at the same time, each writing its own kind, instead of one after another. Not built; it waits for a check that can tell two plays' writes apart.
 
 What is not built yet:
 - Only one loop is built, the Discovery loop, still under its old name, /complete-discovery. The other five loops are names only, and nothing is renamed yet.
