@@ -1,0 +1,80 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-9 (Orchestration) close",
+ "source": "The product owner's approval of 2026-11-11, reply \"approved\", recorded in .garura/project/issues/1021/context/bi-9-close/approval.md, of the proposal in .garura/project/issues/1021/context/bi-9-close/proposal.md: one sentence added to the domain page's first paragraph, as the five capabilities of Orchestration stay in software delivery planning; and the domain sentence on those five capability pages, each with one Sources line quoting the domain page. BI-9's page is kept as it is.",
+ "pages": [
+  {
+   "page": "software-delivery-planning/domain.md",
+   "changes": [
+    {
+     "old": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made. It does not release the work or run the product.",
+     "new": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made. It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past. It does not release the work or run the product."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/orchestrate-agent-work/capability.md",
+   "changes": [
+    {
+     "old": "It matters because a person can then always say what is happening and what comes next: in the intent's words, \"A person always knows what's happening and what's next.\" It sits in software delivery planning for now. The domain's first paragraph does not yet say that the domain also runs the work; that is owed at the close of Orchestration.",
+     "new": "It matters because a person can then always say what is happening and what comes next: in the intent's words, \"A person always knows what's happening and what's next.\" It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none. No knowledge shelf in any memory tier covers software delivery planning.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/run-plays-as-loops/capability.md",
+   "changes": [
+    {
+     "old": "It matters because one goal is enough: the work between plays is done without the person, the person is asked only what nothing else could answer, and the result is judged by someone who did not make it. It sits in software delivery planning. The domain's opening does not say yet that the domain runs its work in loops; that line is owed at BI-9's close.",
+     "new": "It matters because one goal is enough: the work between plays is done without the person, the person is asked only what nothing else could answer, and the result is judged by someone who did not make it. It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none. No knowledge page in any memory tier covers how a team runs its work in loops; Phoenix memory's pages on agent orchestration are written for a product that has agents, not for running a team's plays.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/track-execution/capability.md",
+   "changes": [
+    {
+     "old": "It matters because a person and an agent can only read where the work stands from the tracker when each item says what it is, where it hangs and whether it is done, and when what the plays write there is exactly what a person approved. It sits in software delivery planning for now; the domain's first paragraph is widened at BI-9's close.",
+     "new": "It matters because a person and an agent can only read where the work stands from the tracker when each item says what it is, where it hangs and whether it is done, and when what the plays write there is exactly what a person approved. It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none. No knowledge shelf in any memory tier covers how a team tracks its work in a tracker.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/manage-adrs/capability.md",
+   "changes": [
+    {
+     "old": "It matters because a decision holds only when its reader can see what it replaces: \"A new decision is only safe when its reader can see what it replaces.\" Agents read the accepted ADRs to keep later work in step with them: the outside review reads \"the decision records (`docs/adr/**`)\" as part of the design a change must follow. It sits in software delivery planning with the other capabilities of Orchestration. The domain's first paragraph does not name Orchestration yet; widening it is owed at this intent's close.",
+     "new": "It matters because a decision holds only when its reader can see what it replaces: \"A new decision is only safe when its reader can see what it replaces.\" Agents read the accepted ADRs to keep later work in step with them: the outside review reads \"the decision records (`docs/adr/**`)\" as part of the design a change must follow. It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none. No knowledge shelf in any memory tier covers how a team keeps its ADRs; knowledge/review/adrs.md, in Phoenix memory, covers only how a change that adds or changes one is reviewed.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/give-every-gate-a-way-past/capability.md",
+   "changes": [
+    {
+     "old": "It matters because a person moves at the speed they choose only when no gate holds them, and because what they skip must stay in sight: in the outside tools a person approved as memory, \"the way past is offered, never hidden; using it records who, when, why and what was skipped\". It sits in software delivery planning with the other capabilities of Orchestration. The domain's first paragraph does not name Orchestration yet; widening it is owed at this intent's close.",
+     "new": "It matters because a person moves at the speed they choose only when no gate holds them, and because what they skip must stay in sight: in the outside tools a person approved as memory, \"the way past is offered, never hidden; using it records who, when, why and what was skipped\". It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none covers ways past a gate in an agent harness. The experience shelf in Phoenix memory, knowledge/domains/experience.md, names \"HITL queues & approvals — human review gates for agent actions.\" and \"Guardrail & memory policy — scope what agents may do/remember.\" among the parts that govern the agents built into a product, a loose match only.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past.\""
+    }
+   ]
+  }
+ ]
+}
