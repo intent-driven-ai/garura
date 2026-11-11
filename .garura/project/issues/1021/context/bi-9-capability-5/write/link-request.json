@@ -1,0 +1,131 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021); the write plan and one-lines approved by the product owner",
+  "parts": [
+    {
+      "id": "cap-give-every-gate-a-way-past",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "give-every-gate-a-way-past",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it.",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-way-past-every-gate",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-way-past-every-gate",
+      "capability": "cap-give-every-gate-a-way-past",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Every gate a play declares names its kind, its way past and what using it records, and the person sees the way past at the gate.",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-what-is-owed",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-what-is-owed",
+      "capability": "cap-give-every-gate-a-way-past",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Each use of a way past writes one owed entry in the issue folder of the work that made it, and a tool reads every issue's entries back as one list.",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-record-every-skip",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-record-every-skip",
+      "capability": "cap-give-every-gate-a-way-past",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "A checkpoint the settings turn off writes one record in its issue's folder, naming the setting that skipped it, whatever the evidence setting says.",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-guardrail-way-past",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-guardrail-way-past",
+      "capability": "cap-give-every-gate-a-way-past",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "One list of the guardrails names, for each, the shortcut it guards, the play that owns that work and its way past, and each pass is recorded as owed.",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-pinned-yes",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-pinned-yes",
+      "capability": "cap-give-every-gate-a-way-past",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "One list names every pinned yes, such as the merge onto main, with why it is pinned, where it is asked and what happens to it inside a loop.",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-give-every-gate-a-way-past",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-give-every-gate-a-way-past",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-way-past-every-gate",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-way-past-every-gate",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-keep-what-is-owed",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-what-is-owed",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-record-every-skip",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-record-every-skip",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-guardrail-way-past",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-guardrail-way-past",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-pinned-yes",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-pinned-yes",
+      "doc": "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/ice.md",
+      "thin": true
+    }
+  ]
+}
