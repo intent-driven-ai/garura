@@ -671,6 +671,23 @@ capabilities:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'
     deepen: true
+- id: cap-give-every-gate-a-way-past
+  slug: give-every-gate-a-way-past
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-9
+  status: proposed
+  detail: directional
+  one_line: 'Give every gate a way past: No gate stops a person; each has a way past
+    it, and using it records what is owed where a later play finds it.'
+  doc: software-delivery-planning/give-every-gate-a-way-past/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -3430,6 +3447,86 @@ features:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'
     deepen: true
+- id: fn-way-past-every-gate
+  slug: fn-way-past-every-gate
+  capability: cap-give-every-gate-a-way-past
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Every gate a play declares names its kind, its way past and what using
+    it records, and the person sees the way past at the gate.
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-keep-what-is-owed
+  slug: fn-keep-what-is-owed
+  capability: cap-give-every-gate-a-way-past
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Each use of a way past writes one owed entry in the issue folder of the
+    work that made it, and a tool reads every issue's entries back as one list.
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-record-every-skip
+  slug: fn-record-every-skip
+  capability: cap-give-every-gate-a-way-past
+  intents:
+  - bi-9
+  status: proposed
+  one_line: A checkpoint the settings turn off writes one record in its issue's folder,
+    naming the setting that skipped it, whatever the evidence setting says.
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-guardrail-way-past
+  slug: fn-guardrail-way-past
+  capability: cap-give-every-gate-a-way-past
+  intents:
+  - bi-9
+  status: proposed
+  one_line: One list of the guardrails names, for each, the shortcut it guards, the
+    play that owns that work and its way past, and each pass is recorded as owed.
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-pinned-yes
+  slug: fn-pinned-yes
+  capability: cap-give-every-gate-a-way-past
+  intents:
+  - bi-9
+  status: proposed
+  one_line: One list names every pinned yes, such as the merge onto main, with why
+    it is pinned, where it is asked and what happens to it inside a loop.
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -4720,6 +4817,54 @@ ices:
   for: fn-take-design-choices
   for_kind: feature
   doc: software-delivery-planning/manage-adrs/fn-take-design-choices/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-give-every-gate-a-way-past
+  for: cap-give-every-gate-a-way-past
+  for_kind: capability
+  doc: software-delivery-planning/give-every-gate-a-way-past/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-way-past-every-gate
+  for: fn-way-past-every-gate
+  for_kind: feature
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-keep-what-is-owed
+  for: fn-keep-what-is-owed
+  for_kind: feature
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-record-every-skip
+  for: fn-record-every-skip
+  for_kind: feature
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-guardrail-way-past
+  for: fn-guardrail-way-past
+  for_kind: feature
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-pinned-yes
+  for: fn-pinned-yes
+  for_kind: feature
+  doc: software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'

@@ -53,5 +53,11 @@
 - [Record the ADR in the change it belongs to](../software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md) (feature) — adds
 - [Keep ADRs to how the project is built, and move what the model holds into the model](../software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md) (feature) — adds
 - [Take in each design choice that Spec → Design hands over](../software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md) (feature) — adds
+- [Give every gate a way past](../software-delivery-planning/give-every-gate-a-way-past/capability.md) (capability) — adds
+- [Give every gate a way past, and name what using it records](../software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md) (feature) — adds
+- [Keep what is owed with the work that made it, and read it back as one list](../software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md) (feature) — adds
+- [Record every skipped checkpoint, even when the evidence file is off](../software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md) (feature) — adds
+- [Have each guardrail say what it guards and its way past](../software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md) (feature) — adds
+- [Name the pinned yeses, such as the merge, accepting an ADR and confirming an intent by hand](../software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
