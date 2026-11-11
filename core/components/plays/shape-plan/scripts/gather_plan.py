@@ -90,7 +90,7 @@ def gather(args):
     slices = [s for s in spine.get("slices") or []
               if isinstance(s, dict) and args.intent in (s.get("intents") or [])]
     if not slices:
-        raise pc.Refused(f"no slice in the spine serves {args.intent}; run /shape-slice {plan_id} first")
+        raise pc.Refused(f"no slice in the spine serves {args.intent}; run /design-slice {plan_id} first")
     out_slices, ready_ids = [], set()
     for sl in slices:
         record = {}

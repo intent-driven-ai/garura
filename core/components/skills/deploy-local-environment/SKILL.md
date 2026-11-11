@@ -1,18 +1,18 @@
 ---
 name: deploy-local-environment
-description: 'Bring one epic''s increment up LIVE on the slice''s LOCAL environment so a human can walk it — the deploy half of /release-epic''s HITL gate. Reads the slice''s structured run.yaml for the local environment''s declared bring-up (its `local.run` command and any seed) and the repository, brings the increment up there, verifies it is actually reachable, and writes a deploy record: environment, target, the reachable address, any seeded test credentials, and how to tear it down. NEVER stands up a cloud environment (dev/qa/stage/prod) — those belong to /release-increment and CD from main. Tears the environment down when asked (the reverse contract). Live-system work — this is the worker skill the environment-operator agent dispatches; scripts assert over its record afterwards. Use from /release-epic only.'
+description: 'Bring one epic''s increment up LIVE on the slice''s LOCAL environment so a human can walk it — the deploy half of /validate-uat''s HITL gate. Reads the slice''s structured run.yaml for the local environment''s declared bring-up (its `local.run` command and any seed) and the repository, brings the increment up there, verifies it is actually reachable, and writes a deploy record: environment, target, the reachable address, any seeded test credentials, and how to tear it down. NEVER stands up a cloud environment (dev/qa/stage/prod) — those belong to /release-increment and CD from main. Tears the environment down when asked (the reverse contract). Live-system work — this is the worker skill the environment-operator agent dispatches; scripts assert over its record afterwards. Use from /validate-uat only.'
 version: 0.1.0
 user-invocable: false
 model: best
 allowed-tools: Read, Write, Bash, Glob, Grep
 stale: true
-stale_note: 'waits for the rebuild of /release-epic (#855)'
+stale_note: 'waits for the rebuild of /validate-uat (#855)'
 ---
 
 # deploy-local-environment
 
 The increment is built and validated; now it has to be RUNNING somewhere a human can
-reach. This skill stands it up on the slice's **local environment** — the one /release-epic
+reach. This skill stands it up on the slice's **local environment** — the one /validate-uat
 uses — and nothing in the cloud, then proves it is reachable before reporting done.
 
 ## Input

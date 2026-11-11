@@ -1,6 +1,6 @@
 ---
 name: author-decision
-description: 'Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura''s own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /record-decision play or the calling play''s review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /record-decision, and for plays that record product decisions once they are wired to it (follow-up). Use when a decision needs to be written down as an ADR.'
+description: 'Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura''s own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /design-adr play or the calling play''s review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /design-adr, and for plays that record product decisions once they are wired to it (follow-up). Use when a decision needs to be written down as an ADR.'
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
@@ -15,7 +15,7 @@ Writes the **draft** of one decision record from the template at
 - **YAML** — a product decision, a `decision.yaml` record (with the #632 fields) in the product model.
 
 You draft; you never accept. Every record you write has status `proposed`. A person accepts it
-— by hand through the `/record-decision` play, or at the review of the play or loop that made the decision.
+— by hand through the `/design-adr` play, or at the review of the play or loop that made the decision.
 
 ## Input
 
@@ -67,7 +67,7 @@ shape: markdown | yaml
 ## Scripts
 
 `scripts/adr.py` (tests: `scripts/test_adr.py`) — deterministic, no git, no LLM. Run by the
-`adr-keeper` agent (number, overlaps, lint, guard) and by the `/record-decision` play (index, pointer,
+`adr-keeper` agent (number, overlaps, lint, guard) and by the `/design-adr` play (index, pointer,
 accept — only after a person's word); this skill does not run it:
 
 | Command | What it does |

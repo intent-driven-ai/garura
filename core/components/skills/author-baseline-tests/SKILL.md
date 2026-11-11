@@ -5,7 +5,7 @@ user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Grep, Glob
 stale: true
-stale_note: 'waits for the rebuild of the test skills of /build-epic (#855)'
+stale_note: 'waits for the rebuild of the test skills of /build-work (#855)'
 ---
 
 # author-baseline-tests

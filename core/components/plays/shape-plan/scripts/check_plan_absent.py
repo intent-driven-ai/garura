@@ -3,8 +3,8 @@
 check_plan_absent.py — the pre-flight check that a business intent has no plan yet (#896, C14).
 
 /shape-plan makes an intent's one plan, once. When the intent already has a plan file, the play
-stops before anything else — before start-change, before it reads the model, before any write —
-and points to /update-plan, which changes a plan that exists.
+stops before anything else — before start-work, before it reads the model, before any write —
+and points to /reshape-plan, which changes a plan that exists.
 
     python3 check_plan_absent.py --plans-dir <plans> --plan <intent-issue> [--repo .] [--main main] \
         [--out <record.json>]
@@ -40,7 +40,7 @@ def check(plans_dir, plan, repo=".", main="main"):
     rec = {"plan": str(plan), "path": path, "exists": bool(where), "where": where, "message": None}
     if where:
         rec["message"] = (f"Plan {plan} already exists for #{plan}. /shape-plan makes a plan once. "
-                          f"To change it (add an epic, a story, a feature, or a status), run /update-plan {plan}.")
+                          f"To change it (add an epic, a story, a feature, or a status), run /reshape-plan {plan}.")
     return rec
 
 

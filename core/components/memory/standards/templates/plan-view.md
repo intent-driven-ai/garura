@@ -5,7 +5,7 @@ plan as a graph against main. The plan tool (`.garura/core/tools/plan/plan.py`) 
 from the settings below, from the plan files alone (`.garura/project/plans/<id>.yaml`): no
 tracker read and no model call, so the same files print the same way every time.
 
-Consumers: `/list-plans` (the cards and `--graph`), `/show-plan` (the tree). Each play gets a copy
+Consumers: `/list-plans` (the cards and `--graph`), `/view-plan` (the tree). Each play gets a copy
 of this file from `template-manager` and passes its path to the plan tool.
 
 ## The statuses
@@ -21,7 +21,7 @@ Every node of a plan has one of six statuses. The order below is the order of th
 | Done | Finished. |
 | Dropped | Closed as not planned, or as a duplicate. Kept for the history. |
 
-## The tree (`/show-plan <id>`)
+## The tree (`/view-plan <id>`)
 
 - The legend comes first: the mark and name of every status. A hidden status still has its
   mark in the legend, because a hidden node is printed when a shown node sits under it.

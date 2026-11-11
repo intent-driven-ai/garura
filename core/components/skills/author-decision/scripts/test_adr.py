@@ -38,7 +38,7 @@ GOOD_MD = """# ADR 003 — Keep the cache in memory for now
 **Level:** framework
 **Decided by:** Kapil · **Decided in:** #632 (a test)
 **Amends:** ADR 001 — the storage section
-**Affects:** `core/cache.py`, `/discover-domains`
+**Affects:** `core/cache.py`, `/specify-domains`
 **ICE impact:** none — no agent intent changes
 **Business intent check:** none
 
@@ -79,7 +79,7 @@ LEGACY_MD = """# ADR 002: A record with no status line
 
 ## Context
 
-Old text about `/discover-domains`.
+Old text about `/specify-domains`.
 """
 
 GOOD_YAML = {"decision": {
@@ -88,7 +88,7 @@ GOOD_YAML = {"decision": {
     "alternatives": [{"name": "No cache", "why_not": "Too slow."}],
     "affects": ["capabilities/cap-sessions/capability.md"], "ice_impact": "none — no goal changes",
     "business_intent_check": "none", "consequences": {"positive": ["Faster reads."], "negative": ["Stale for an hour."]},
-    "metadata": {"decided_by": "/discover-capabilities", "date": "2026-10-15", "decided_in": "#632"}}}
+    "metadata": {"decided_by": "/specify-capabilities", "date": "2026-10-15", "decided_in": "#632"}}}
 
 
 def write(path, text):
@@ -132,6 +132,14 @@ def test_number_and_index():
         check("the index lists every ADR with its status",
               code == 0 and "| [001](001-cache-on-disk.md) | Store the cache on disk | Accepted |" in text
               and "(not recorded)" in text and "| Superseded |" in text)
+    status = ("Accepted — amended in part by [ADR 007](007-a.md): §2; and by [ADR 009](009-b.md): §3; "
+              "and superseded by [ADR 012](012-c.md): in part — §4")
+    check("the index names the newer ADRs that supersede or amend an accepted one",
+          adr.index_status(status, "005-x.md") == "Accepted; superseded in part by 012; amended in part by 007, 009")
+    check("an accepted ADR with no pointer stays plain",
+          adr.index_status("Accepted", "005-x.md") == "Accepted")
+    check("a full supersede names the newer ADR",
+          adr.index_status("Superseded by [ADR 012](012-c.md)", "005-x.md") == "Superseded by 012")
 
 
 def test_lint():
@@ -197,7 +205,7 @@ def test_overlaps():
         code, out = run(["overlaps", "--adr", os.path.join(d, "003-cache-in-memory.md"), "--dir", d])
         got = {c["adr"]: c for c in out["candidates"]}
         check("an ADR it names is a candidate", "001" in got and got["001"]["named_in_new"])
-        check("an ADR sharing a path or play is a candidate", "002" in got and got["002"]["shared_paths"] == ["/discover-domains"])
+        check("an ADR sharing a path or play is a candidate", "002" in got and got["002"]["shared_paths"] == ["/specify-domains"])
         check("the new ADR is not its own candidate", "003" not in got)
 
 
@@ -296,7 +304,7 @@ def test_accept():
         d = yaml.safe_load(open(y))["decision"]
         check("a proposed YAML decision is accepted with its accepter",
               d["status"] == "accepted" and d["metadata"]["accepted_by"] == "Kapil"
-              and d["metadata"]["decided_by"] == "/discover-capabilities")
+              and d["metadata"]["decided_by"] == "/specify-capabilities")
 
 
 def test_edges():

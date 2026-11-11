@@ -1,0 +1,105 @@
+# findings.yaml — /check-change Step 4, PR #1045 (issue #1044). Consolidated from
+# quality-findings.yaml (Layer 1, check-pr-quality), the installed Layer 1 linters and the
+# test suites (run by the play), and design-findings-harness.yaml + design-findings-memory.yaml
+# (Layer 2, joined, read in category order: harness, memory). Every finding: P-class + basis.
+pr: 1045
+issue: 1044
+base: main
+confidence: 0.9
+categories_reviewed: [harness, memory, executable-code, tests, config-maps, decision-records, documentation, issue-working-records]
+findings:
+  # --- tests (runnable check executed) ---
+  - id: TEST-RED-1
+    category: tests
+    severity: P1
+    file: core/components/plays/reshape-plan/scripts/test_feature_ice.py
+    finding: "The suite is red: test_a_ready_feature_gets_a_clean_copy_with_no_failure_lines fails ('feature fn-818 has no ICE')."
+    basis: "review/tests playbook (shelf copy knowledge/review/tests.md): a red suite is a blocker; run as `python3 <file>`, result in review/test-suites-branch.txt"
+    note: "Red the same way on main before this change (review/test-suites-main.txt: core/components/plays/update-plan/scripts/test_feature_ice.py exit 1, same test, same message). The branch only renamed the folder (update-plan -> reshape-plan). Not caused by this change. 92 of 93 suites pass."
+  # --- harness (Layer 2) ---
+  - id: F1
+    category: harness
+    severity: P3
+    file: core/components/loops/loop-product-spec/SKILL.md
+    finding: "Plain loop names left after the rename: the loop's SKILL.md says 'The Discovery loop', four plays' ICE/SKILL scenario lines say 'Discovery loop', pipeline-next.md groups plays under 'Shaping/Execute/Learn loop'."
+    basis: "main:docs/adr/066 §3 (line 77): the plain names Discovery, Slice, Execute, Ship and Learn go; Supersedes ADR 045 §4"
+  - id: F3
+    category: harness
+    severity: P3
+    file: core/components/loops/loop-product-spec/SKILL.md
+    finding: "Line 4 still says 'product to intent' while the loop's reference/ice.md now says 'product → spec'."
+    basis: "main:docs/adr/066 §8 (line 99): the second phase is Spec"
+  - id: F2
+    category: harness
+    severity: P4
+    file: core/components/plays/
+    finding: "About 46 internal identifiers still start with an old play name (session-stamp-<old>.json, run_id fix-bug-${ts}, shape-slice-* task_ids). Each is read by the same play under the same name."
+    basis: "main:docs/adr/066 line 11 (names and references only); old-name check skips a name followed by '-'"
+  - id: F4
+    category: harness
+    severity: P4
+    file: core/components/plays/list-issues/SKILL.md
+    finding: "Fingerprint does not match its ICE; it did not match on main either, and was left so the older drift stays visible."
+    basis: "main:CLAUDE.md Play Pipeline Rules; main:core/components/plays/create-play/SKILL.md lines 376-381 (fingerprint = sha256 of the ICE)"
+  - id: F5
+    category: harness
+    severity: P4
+    file: core/components/plays/design-adr/scripts/adr.py
+    finding: "The ADR index Status cell now names the newer ADRs that supersede or amend each record — a behaviour change in the decision play's index tool, by the product owner's design for #1044."
+    basis: "main:core/components/plays/record-decision/reference/ice.md S6 still holds for a newly accepted ADR"
+  - id: F6
+    category: harness
+    severity: P4
+    file: core/components/plays/
+    finding: "ICE wording changed by the rename tool in one pass, not one /edit-play or /edit-loop run each."
+    basis: "main:docs/adr/066 line 11; the product owner's choice for #1044 (issue text, 'What changes with the names')"
+  # --- memory (Layer 2) ---
+  - id: MEM-1
+    category: memory
+    severity: P3
+    file: core/components/memory/standards/rules/pipeline-next.md
+    finding: "Lines 21, 28-30 and the map comments at 39, 62, 68, 79 keep plain loop names (Discovery, Execute, Change, Learn); spine.yaml line 229 says 'inside the Discovery loop'."
+    basis: "main:docs/adr/066 §3 and Affects (pipeline-next.md); ADR 028 §4 superseded (the change chain is not a loop)"
+  - id: MEM-2
+    category: memory
+    severity: P4
+    file: core/components/memory/standards/rules/rename-map.yaml
+    finding: "measure -> shape-measure-lens and marketing -> shape-marketing-lens point at plays ADR 066 §7 drops; they become null when the plays are deleted."
+    basis: "main:docs/adr/066 §7 and Work This Creates (line 151)"
+  - id: MEM-3
+    category: memory
+    severity: P4
+    file: core/components/memory/standards/rules/naming.md
+    finding: "Line 10 uses fix-bug and play-creator as examples of the old four shapes; both are old names now."
+    basis: "main:docs/adr/066 §1-§2"
+  # --- Layer 1, installed linters (run from .garura/core/tools/, source layout) ---
+  - id: LINT-NEXTMAP-1
+    category: harness
+    severity: P3
+    file: core/components/plays/
+    finding: "lint_play next-command gap on 25 renamed plays: the Next-line map from Phoenix memory names the plays by their old names. The branch's own pipeline-next.md has every entry; Phoenix memory's copy does not, so after a reinstall each renamed play's closing Next line finds no entry until Phoenix's pipeline-next.md is promoted — and promoting it now would break projects still installed under the old names."
+    basis: "installed lint_play rule next-command (pipeline-next); review/lint-play-new-gaps.json; Phoenix copy from template-manager (phoenix 4209021c6456)"
+  - id: LINT-INSTALLED-1
+    category: harness
+    severity: P4
+    file: core/components/
+    finding: "42 violations from the installed lint-components that main does not have (naming-reserved on design-*, review-work, loop-product-spec; installed-paths/source-path on build-play, fix-play, build-loop, fix-loop, specify-ontology, commit-work; dmw rules on reshape-plan). The installed tool predates this change: it still bans a name that starts with a built-in and keys its exemptions to the old names. The branch's own linter on the branch reports none (37 structural, as main)."
+    basis: "installed lint-components rules naming-reserved, installed-paths/source-path, structural/dmw-*; review/lint-components.json vs review/lint-components-main-installed.json"
+  # --- decision records ---
+  - id: ADR-1
+    category: decision-records
+    severity: P4
+    file: docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md
+    finding: "One line of an accepted ADR edited (line 149 gains '(#1044)'), beyond the forward pointer an accepted ADR may get — by the product owner's word for #1044."
+    basis: "main:core/components/skills/author-decision/SKILL.md (pointer: the only edit an accepted ADR gets)"
+excluded:
+  - source: quality-findings.yaml
+    count: 355
+    reason: "check-pr-quality applicability markers (64 P2, 225 P3, 61 P4: the standard applies to this file type, evidence needs a tool run) and 3 false positives; no violation. ruff passed on the changed Python tools; eslint not installed (recorded, not a pass)."
+checks_run:
+  old_name_check: "0 old names left"
+  lint_components_branch_tool: "0 naming errors; 37 structural, same as main"
+  lint_play_branch_vs_main: "same verdict for all 37 plays (branch's own linter)"
+  test_suites: "92 of 93 pass; the red one is red on main the same way"
+  acceptance_check: "82 / 82"
+  config_keys: "every play key under plays/loops in core/config.yaml names a real play"

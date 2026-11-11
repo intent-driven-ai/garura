@@ -5,7 +5,7 @@ user-invocable: false
 model: sonnet
 allowed-tools: Bash, Read, Write, Grep, Glob
 stale: true
-stale_note: 'waits for the rebuild of /refactor-code and /build-epic (#855)'
+stale_note: 'waits for the rebuild of /refactor-work and /build-work (#855)'
 ---
 
 # scan-test-harness

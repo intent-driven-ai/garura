@@ -35,15 +35,15 @@ function part(kind, name, body, opts = {}) {
 }
 function rules(body, opts = {}) {
   const kind = opts.kind || 'play';
-  const name = opts.name || 'shape-slice';
+  const name = opts.name || 'design-slice';
   const { file } = part(kind, name, body, opts);
   return check({ [kind === 'play' ? 'plays' : 'skills']: [{ file, name, type: kind }] }).map((v) => v.rule);
 }
 
 // The five named parts.
-t('shape-slice with no pointer fails', rules(ASKS), [RULE_ID]);
-t('shape-slice with the pointer passes', rules(ASKS + POINTER), []);
-t('edit-ontology with no pointer fails', rules(ASKS, { name: 'edit-ontology' }), [RULE_ID]);
+t('design-slice with no pointer fails', rules(ASKS), [RULE_ID]);
+t('design-slice with the pointer passes', rules(ASKS + POINTER), []);
+t('specify-ontology with no pointer fails', rules(ASKS, { name: 'specify-ontology' }), [RULE_ID]);
 t('a named play fails even when no step signal is found', rules(SILENT), [RULE_ID]);
 t('the old memory path does not count', rules(ASKS + OLD_POINTER), [RULE_ID]);
 for (const name of ['author-product-ontology', 'find-slice-gaps', 'author-slice-brief']) {
@@ -54,7 +54,7 @@ for (const name of ['author-product-ontology', 'find-slice-gaps', 'author-slice-
 // Any other part is never an error.
 t('another play that asks and has no pointer passes', rules(ASKS, { name: 'shape-thing' }), []);
 t('another skill with no pointer passes', rules(ASKS, { kind: 'skill', name: 'author-thing' }), []);
-t('a skill named like a checked play passes', rules(ASKS, { kind: 'skill', name: 'shape-slice' }), []);
+t('a skill named like a checked play passes', rules(ASKS, { kind: 'skill', name: 'design-slice' }), []);
 
 // Where the pointer counts in a play: inside the workflow, never before it or in notes.
 t('pointer only under References fails',
@@ -81,9 +81,9 @@ function lint(build) {
   return JSON.parse(out).violations.filter((v) => v.rule === RULE_ID).length;
 }
 t('the linter names the named play with no pointer (--target)',
-  lint((dir) => part('play', 'shape-slice', ASKS, { dir })), 1);
+  lint((dir) => part('play', 'design-slice', ASKS, { dir })), 1);
 t('the linter passes the named play with the pointer (--target)',
-  lint((dir) => part('play', 'shape-slice', ASKS + POINTER, { dir })), 0);
+  lint((dir) => part('play', 'design-slice', ASKS + POINTER, { dir })), 0);
 t('the linter passes another play with no pointer (--target)',
   lint((dir) => part('play', 'shape-thing', ASKS, { dir })), 0);
 t('the linter names the named skill with no pointer (--target)',

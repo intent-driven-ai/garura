@@ -1,7 +1,7 @@
 # Self-Review Rules (base)
 
 The default scope-and-quality self-review a change runs before it is raised for
-review. The `propose-change` play resolves this file through the standards
+review. The `review-work` play resolves this file through the standards
 hierarchy (`standards_order`, most-specific wins) and hands it to the self-review
 skill — so the review is driven by these rules, never by logic hardcoded in the play.
 
@@ -13,7 +13,7 @@ base stays generic on purpose — project-specific and stack-specific judgment i
 at runtime by the analyzing skill on top of these rules.
 
 The output is an informational checklist that travels in the PR. It is **not** the
-approve/reject gate — that is `check-change`'s job. The self-review surfaces problems
+approve/reject gate — that is `validate-work`'s job. The self-review surfaces problems
 early; it does not block the raise on its own.
 
 ## Scope checks
@@ -36,7 +36,7 @@ early; it does not block the raise on its own.
 - **Nothing obviously broken.** No leftover TODOs blocking the change's own goal, no
   known-failing paths introduced.
 
-## Resolution (how `propose-change` picks the file)
+## Resolution (how `review-work` picks the file)
 
 1. Resolve `standards_order` from `.garura/core/config.yaml`.
 2. Take the most-specific level's `self-review.md` if it exists (the project override).

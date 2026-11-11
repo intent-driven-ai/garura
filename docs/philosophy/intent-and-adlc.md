@@ -59,8 +59,8 @@ Plus the **measurements** that sit on the intents (§6) — the reading of how i
 The *state values* ride the work items in the tracker (§7) — that is storage, not a
 statement that ADLC sits outside the product.
 
-The cheat sheet of plays (`/vision`, `/understand`, `/shape`, the realize lenses, `/grill`,
-`/implement`…) describes **how the shape evolves**. That is the PO/CPO view. It is not the
+The cheat sheet of plays (`/specify-domains`, `/specify-capabilities`, `/shape`, the realize lenses, `/design-slice`,
+`/build-work`…) describes **how the shape evolves**. That is the PO/CPO view. It is not the
 ADLC, and conflating the two is the mistake this document was written to prevent.
 
 ---
@@ -292,7 +292,7 @@ Off-ramps:
 
 - A play **declares** which states it may act on, and which state it leaves the intent in.
   Same shape as today's `position:` frontmatter, one axis over.
-- A play's pre-flight **halts** if the intent is not in an allowed state. `/implement`
+- A play's pre-flight **halts** if the intent is not in an allowed state. `/build-work`
   against a `shaped` intent refuses.
 - The intent moves **only when the play closes successfully.** A running play changes
   nothing; a HALTED one changes nothing. There is therefore no in-flight state and no need
@@ -306,7 +306,7 @@ kind→state table.
 > When an intent arrives, ask the **shape**: *what actually has to change?* The highest node
 > that must move sets the origin. From there the intent follows the chain, no skipping.
 
-A defect may need `/ux` re-realized, so it enters at the lens layer. But if the **shape**
+A defect may need `/design-surface` re-realized, so it enters at the lens layer. But if the **shape**
 does not change, it does not go back to `/shape`. **Go back exactly as far as the shape
 says, and not one step further.**
 
@@ -315,7 +315,7 @@ here. It is the only thing that can answer "how far back?" — a kind table neve
 the same kind of intent lands in different places depending on what already exists.
 
 Some work enters low, at grill/implement, and updates the shape afterwards. That lag is
-legitimate; `/learn` closes it.
+legitimate; `/learn-outcomes` closes it.
 
 ### 4.3 Backward motion is a first-class edge
 
@@ -437,7 +437,7 @@ served. It only exists in the graph.
    intent's reporter agreeing — `qualified` ("worth doing") or `planned` ("here is the spec
    and cost")? Or two approvals from two people? *Asked repeatedly, still open.*
 2. **What surfaces a signal.** A signal on an intent has to reach whoever owns its
-   resolution. Candidates: `/learn` raising it when it updates the shape, `/next` surfacing
+   resolution. Candidates: `/learn-outcomes` raising it when it updates the shape, `/next` surfacing
    it as a repair the way it handles surface debt today, or a standing watcher. Nothing
    does this today.
 3. **How agent maturity is declared and raised** (§5) — resolution ownership moves to
@@ -449,7 +449,7 @@ served. It only exists in the graph.
 ## Related
 
 - #534 — knowledge resolution ignores the layered LTM protocol (needs design)
-- #535 — `/review-change` has no model of what the project is (needs design)
+- #535 — `/validate-work` has no model of what the project is (needs design)
 - #538 — `/report-bug`; project LTM must define what a Bug, a priority and an approval are
 - #456 — `docs/philosophy/idsd.md` still describes the retired pipeline
 - `docs/philosophy/intent-driven-development.md` — the eight IDD elements and the

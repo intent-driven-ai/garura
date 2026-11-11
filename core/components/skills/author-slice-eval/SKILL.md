@@ -1,6 +1,6 @@
 ---
 name: author-slice-eval
-description: Write the eval of each ready slice of a business intent's plan, for /shape-eval — one story file for each story of the slice's epic (eval.<feature-id>.feature.md, Markdown with Gherkin, its Feature is the story) with a scenario for each goal and each expectation of the story and, for each failure condition of the story's feature in the slice's hidden file, a scenario that shows it does not happen; and one slice file (eval.<slice-id>.md) that lists the stories in build order with the surface kind, the time limit for each scenario, the pass rule, the names the usage guide will map, and the stories' Context guidance. Every step is a sentence of the surface kind's step library, so a runner does it with no agent; every Then is an exact result; what only the build will make is a [name]; what it cannot test yet goes under Untestable with the reason. Reads only the copies its agent gives it (inputs.json, the story, epic and hidden-file copies, the step library, the two templates, and the eval files the slice already has); never an ICE page, the usage guide, the code or the product model. Never runs an eval, never writes a recovery or handoff text, never changes a scenario that is there. Writes drafts only; the play's scripts place, check and show them, and commit after the product owner's yes. Generative artifact production for /shape-eval. Use when /shape-eval needs a slice's eval drafted, fixed or drafted again.
+description: Write the eval of each ready slice of a business intent's plan, for /design-eval — one story file for each story of the slice's epic (eval.<feature-id>.feature.md, Markdown with Gherkin, its Feature is the story) with a scenario for each goal and each expectation of the story and, for each failure condition of the story's feature in the slice's hidden file, a scenario that shows it does not happen; and one slice file (eval.<slice-id>.md) that lists the stories in build order with the surface kind, the time limit for each scenario, the pass rule, the names the usage guide will map, and the stories' Context guidance. Every step is a sentence of the surface kind's step library, so a runner does it with no agent; every Then is an exact result; what only the build will make is a [name]; what it cannot test yet goes under Untestable with the reason. Reads only the copies its agent gives it (inputs.json, the story, epic and hidden-file copies, the step library, the two templates, and the eval files the slice already has); never an ICE page, the usage guide, the code or the product model. Never runs an eval, never writes a recovery or handoff text, never changes a scenario that is there. Writes drafts only; the play's scripts place, check and show them, and commit after the product owner's yes. Generative artifact production for /design-eval. Use when /design-eval needs a slice's eval drafted, fixed or drafted again.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write
@@ -9,7 +9,7 @@ allowed-tools: Read, Write
 # author-slice-eval
 
 A slice's eval says, from the outside, if the slice's epic delivers what its stories promise.
-This skill writes it, before the build, from what /shape-plan and /shape-slice wrote: the
+This skill writes it, before the build, from what /shape-plan and /design-slice wrote: the
 stories (their goals and expectations) and the slice's hidden file (the failure conditions).
 The eval is written so that it runs with no agent and no judgment: every step is a fixed
 sentence that a runner does exactly, and every result is exact. This skill only writes; it never
@@ -50,13 +50,13 @@ drafts after it.
      A later run compares these lines with the story to find a line that moved or changed.
 3. **Write each step as a sentence of the library** of the slice's surface kind, with `* Given`,
    `* When`, `* Then`, `* And` or `* But`. Do not change a sentence's words. A value is a literal
-   in double quotes when the story names it ("/shape-slice 1", "plans/1.yaml"); what only the
+   in double quotes when the story names it ("/design-slice 1", "plans/1.yaml"); what only the
    build will make — a command, a page, a field the story does not name — is a name in square
    brackets (`[the booking page]`), never a guess. Each Then is an exact result a tester can see:
    an exit code, a text in the output, a file, a field, a count.
 4. **Test from the outside, on the surface.** A step never reads the code and never calls the
    product's parts directly. When the surface is a play, a scenario runs the play in a test project
-   and gives it its answers (`When I run "/shape-slice 1" and answer "yes"`), then checks the files
+   and gives it its answers (`When I run "/design-slice 1" and answer "yes"`), then checks the files
    and the output.
 5. **Write the slice file,** `eval.<slice-id>.md`, in the shape of `eval-slice.md`: its title
    with the slice id and the epic; the Surface line from the hidden file; `Surface kind:`; `Time

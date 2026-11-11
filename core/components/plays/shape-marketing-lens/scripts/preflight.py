@@ -12,8 +12,8 @@ Harness-led split:
     on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
     plan files, plans.base-path, default .garura/project/plans/; #951).
   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
-    which differs per play (commit-change halts when there are NO changes;
-    propose-change halts when the tree is NOT clean — same fact, opposite action).
+    which differs per play (commit-work halts when there are NO changes;
+    review-work halts when the tree is NOT clean — same fact, opposite action).
 
 Layer rule: this script does NOT shell out to git/gh. The orchestrator captures
 the two live reads it needs (current branch via `git branch --show-current`, and

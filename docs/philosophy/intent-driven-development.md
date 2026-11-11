@@ -114,7 +114,7 @@ Signals are the perception layer for system awareness.
 
 | Type | Source | Trigger | Example |
 |------|--------|---------|---------|
-| **User Prompt** | CLI, IDE | Manual command | `/fix-bug ISSUE-123` |
+| **User Prompt** | CLI, IDE | Manual command | `/fix-work ISSUE-123` |
 | **Schedule** | Cron/Timer | Time-based | Daily at 9:00 AM |
 | **Webhook** | External | HTTP callback | GitHub PR review submitted |
 | **File Change** | Git/Filesystem | Code push or modification | Push to `main` branch |

@@ -7,7 +7,7 @@ once (R4b), closing the model's gaps after each round (R5 step 7) and the knowle
 brief to the person (R5c, R5b; ADR 059) — and those live here (ADR 044). So the run is the
 same for every loop and lives once, here, in the `_shared/` folder beside the plays' shared
 close. A compiled loop holds only the two anchor lines, its own values — its plays in order, its
-questions, its config keys, its end — and points here. `/create-loop` emits exactly that, so
+questions, its config keys, its end — and points here. `/build-loop` emits exactly that, so
 a direct edit and a rebuild converge.
 
 ## The loop's own values
@@ -58,7 +58,7 @@ loop's own pre-flight rows (for example Discovery's prototype check).
 
 ### Step R2 — Open the change
 
-Run `start-change` as a sub-play (`parent_run_id`): one issue, one branch for the whole loop.
+Run `start-work` as a sub-play (`parent_run_id`): one issue, one branch for the whole loop.
 Everything the loop and its plays write goes under that issue (ADR 039 — the issue ID
 governs). The working folder is `{stm_base}<issue>/context/<loop>/<run-ts>/`.
 
@@ -105,7 +105,7 @@ One contract for every play (`standards/rules/loop-contract.md`). Exit 2 halts t
 
 A loop that names a `source` reads it once, before any play, and every play reads that one
 capture — none captures or walks the source again, and none reads another play's output.
-The tools are the ones `/discover-intent` uses run by hand, laid beside the loop at install
+The tools are the ones `/specify-intent` uses run by hand, laid beside the loop at install
 (`../intent/scripts/`).
 
 1. **Capture the source and the write-up**, each as a Source kept exactly as read:
@@ -153,8 +153,8 @@ The tools are the ones `/discover-intent` uses run by hand, laid beside the loop
 A loop runs its plays "repeatedly, until its intent is met" (glossary, Loop; ADR 029,
 ADR 043). A **round** runs every play in `plays` — round 1 all of them, a later round only the
 plays the gap skills gave work to. No play takes another play's output as its input: each reads
-the capture and the write-up, writes its own kind (for Discovery: `/discover-intent` business intents,
-`/discover-domains` domains, `/discover-capabilities` capabilities and features), and the loop connects them
+the capture and the write-up, writes its own kind (for Discovery: `/specify-intent` business intents,
+`/specify-domains` domains, `/specify-capabilities` capabilities and features), and the loop connects them
 after the round. The first build runs the plays one after another, in turn; side by side comes
 once the scoped-write guard can tell two plays' writes apart. A question one play cannot answer
 is the **loop's** question, not a stop: the play records it, does all the work it does not
@@ -171,7 +171,7 @@ For each play in `plays`:
      session ends its turn while a background sub-agent runs, and stops it 10 minutes
      later.) It runs
      `/<play> --contract <working>/contract.json [<argument>]` — `<argument>` is
-     `inputs.<play>.argument` when the contract sets it (for example the prototype `/discover-intent`
+     `inputs.<play>.argument` when the contract sets it (for example the prototype `/specify-intent`
      reads), handed on the play's command line as a person would type it — and returns only a compact result: its
      status, its stop-condition verdict path, its review record path, and any question it
      stopped on. The play dispatches its own agents and judges (layer 2).
@@ -360,7 +360,7 @@ its reasoning. Its rules, prompt and verdict shape are the `judge-loop-result` s
    ```bash
    python3 scripts/prepare_check.py --ice <loop-dir>/reference/ice.md --issue <issue> \
        --issue-dir "{stm_base}<issue>/" --working <working> \
-       --base <start-change's base_sha> --out-dir <working>/check/
+       --base <start-work's base_sha> --out-dir <working>/check/
    ```
 
 2. **Run the checker** the config names (`checker_key`, resolved in R1):
@@ -394,8 +394,8 @@ its reasoning. Its rules, prompt and verdict shape are the `judge-loop-result` s
 
 ### Step R7 — End
 
-Run the loop's `end`. The pieces it uses are the injected end sequence (`commit-change` →
-`propose-change` → `check-change` → `merge-change`, each a sub-play with `parent_run_id`),
+Run the loop's `end`. The pieces it uses are the injected end sequence (`commit-work` →
+`review-work` → `validate-work` → `merge-work`, each a sub-play with `parent_run_id`),
 the merge keeping its pinned human approval. A loop whose End section adds a step (Discovery:
 the person confirms each proposed intent by typing, before the review) runs it where the End
 section says.

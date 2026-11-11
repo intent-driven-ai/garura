@@ -1,0 +1,563 @@
+{
+  "violations": [
+    {
+      "file": "core/components/skills/check-quality/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/check-quality/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/check-quality/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/check-quality/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/check-quality/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/find-matching-issues/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/find-matching-issues/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/merge-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/merge-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/open-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/open-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-play/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-play/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-play/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/fix-play/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/reshape-plan/SKILL.md",
+      "rule": "structural/dmw-no-clean-tree-assert",
+      "severity": "error",
+      "message": "L-DMW-4: direct-model-write play must assert a clean product-os tree at pre-flight (git status --porcelain -- <product_base>product-os). See direct-model-write.md step 7.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/reshape-plan/SKILL.md",
+      "rule": "structural/dmw-no-model-commit",
+      "severity": "error",
+      "message": "L-DMW-4: direct-model-write play must commit its own model delta at close (feat(model): ... (#<issue>)). See direct-model-write.md step 7.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/list-issues/SKILL.md",
+      "rule": "structural/spelling-inconsistency",
+      "severity": "warning",
+      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-adr/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-adr\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-agentic/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-agentic\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-architecture/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-architecture\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-env/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-env\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-eval/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-eval\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-quality/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-quality\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-slice/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-slice\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/design-surface/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"design-surface\" is, or starts with, a Claude Code or Codex built-in command (\"design\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/review-work/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"review-work\" is, or starts with, a Claude Code or Codex built-in command (\"review\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/loops/loop-product-spec/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"loop-product-spec\" is, or starts with, a Claude Code or Codex built-in command (\"loop\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 8
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 32
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 44
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 140
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 171
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 172
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop names core/tools/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 182
+    },
+    {
+      "file": "core/components/plays/build-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-loop points to Garura's documentation (docs/components/loops.md), which the install never copies. Put the text the part needs in the part itself (or its reference/ folder), or delete the pointer when it is only background.",
+      "line": 203
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-play names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 354
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-play names core/tools/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 361
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-play names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 388
+    },
+    {
+      "file": "core/components/plays/build-play/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part build-play names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 411
+    },
+    {
+      "file": "core/components/plays/commit-work/scripts/analyze_changeset.py",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part commit-work names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 56
+    },
+    {
+      "file": "core/components/plays/commit-work/scripts/analyze_changeset.py",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part commit-work names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 76
+    },
+    {
+      "file": "core/components/plays/commit-work/scripts/analyze_changeset.py",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part commit-work names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 77
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part fix-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 77
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part fix-loop names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 78
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part fix-loop names core/tools/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 82
+    },
+    {
+      "file": "core/components/plays/fix-loop/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part fix-loop points to Garura's documentation (docs/components/loops.md), which the install never copies. Put the text the part needs in the part itself (or its reference/ folder), or delete the pointer when it is only background.",
+      "line": 97
+    },
+    {
+      "file": "core/components/plays/fix-play/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part fix-play names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 124
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 11
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 64
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 83
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 133
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 194
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 196
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 204
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 218
+    },
+    {
+      "file": "core/components/plays/specify-ontology/SKILL.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 236
+    },
+    {
+      "file": "core/components/plays/specify-ontology/reference/ice.md",
+      "rule": "installed-paths/source-path",
+      "severity": "error",
+      "message": "The part specify-ontology names core/components/. An installed part reads only installed files: name the installed place (.claude/skills/, .claude/agents/, .garura/core/tools/), or read memory through the memory tool. A note of origin is deleted.",
+      "line": 48
+    }
+  ],
+  "summary": {
+    "errors": 78,
+    "warnings": 1,
+    "infos": 0
+  },
+  "layout": "source"
+}

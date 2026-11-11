@@ -26,7 +26,7 @@ makes each op of github-ops.json, in order:
 
 An `issue` or `parent` written "@e7" is the number op e7 made. The record is written after every
 write, so a run that stops part way names what was done; run again, it skips each op the record
-has. Each issue a create makes carries a marker line, "Made by /update-plan (list <12 hex>, op
+has. Each issue a create makes carries a marker line, "Made by /reshape-plan (list <12 hex>, op
 <id>).", and before a create the tracker is searched for it: an issue an earlier run made (the
 run died before its record was written, or the host gave no number back) is found and used, never
 made twice. The record is tied to the approved list (`list_sha`): a record from another list is
@@ -107,7 +107,7 @@ def resolve(value, done):
 
 
 def marker(list_sha, op_id):
-    return f"Made by /update-plan (list {list_sha[:12]}, op {op_id})."
+    return f"Made by /reshape-plan (list {list_sha[:12]}, op {op_id})."
 
 
 def run_op(tr, op, done, list_sha):

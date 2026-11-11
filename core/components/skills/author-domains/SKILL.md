@@ -1,6 +1,6 @@
 ---
 name: author-domains
-description: Author or grow the domains of the product model for /discover-domains — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there), each ending with its sources — straight to the live model, starting from business intents, a typed goal, a prototype's capture, or any mix, and from whatever the model already holds; and emit the matching spine-delta (new domain entries, the named updates to existing ones, and the directional profile) as structured manifest data. Writes domains only (ADR 043) — never a capability or a feature, which are /discover-capabilities's. Writes per-node docs only; never a shared file. Generative artifact production for the /discover-domains play. Also used by /shape-slice (through product-os-keeper) for a domain a slice needs and the model lacks, with profile set to false — no profile block is written, because /shape-slice never writes the profile.
+description: Author or grow the domains of the product model for /specify-domains — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there), each ending with its sources — straight to the live model, starting from business intents, a typed goal, a prototype's capture, or any mix, and from whatever the model already holds; and emit the matching spine-delta (new domain entries, the named updates to existing ones, and the directional profile) as structured manifest data. Writes domains only (ADR 043) — never a capability or a feature, which are /specify-capabilities's. Writes per-node docs only; never a shared file. Generative artifact production for the /specify-domains play. Also used by /design-slice (through product-os-keeper) for a domain a slice needs and the model lacks, with profile set to false — no profile block is written, because /design-slice never writes the profile.
 version: 0.6.0
 user-invocable: false
 model: opus
@@ -10,19 +10,19 @@ allowed-tools: Read, Write, Bash, Glob
 # author-domains
 
 Turns a business goal, intents or a prototype's capture, plus their KB grounding, into the
-**domains** of the product model. This is /discover-domains's generative worker: it details each
+**domains** of the product model. This is /specify-domains's generative worker: it details each
 domain, sketches the directional profile, and lays down the domain spine entries. Under
 direct-model-write (ADR 026) it writes the domain grounding docs straight to the live model
-and emits the spine-delta as structured manifest data; /discover-domains's checkpoint and keyed persist
+and emits the spine-delta as structured manifest data; /specify-domains's checkpoint and keyed persist
 script turn that manifest into the spine/profile writes.
 
 ## Altitude — write at CXO level
 
-/discover-domains is the **CXO conversation**: what you take to a CXO and what they give back. So the
+/specify-domains is the **CXO conversation**: what you take to a CXO and what they give back. So the
 grounding here is strategic and outcome-led — the domain and the bet, the kinds of capability
 it covers, what "good" looks like at a strategic level. Writing and detailing the
-capabilities and their features is the **product manager's** job (/discover-capabilities);
-shaping them into slices a person can test end to end is the **product owner's** job (/shape-slice). Write
+capabilities and their features is the **product manager's** job (/specify-capabilities);
+shaping them into slices a person can test end to end is the **product owner's** job (/design-slice). Write
 nothing at those altitudes here.
 
 Each **domain** is named AND detailed — a full domain grounding doc a CXO would recognise as
@@ -32,7 +32,7 @@ one page for each.
 
 ## Every kind written on its own (ADR 043)
 
-Each kind has one writer: /discover-intent writes business intents, you write domains, /discover-capabilities
+Each kind has one writer: /specify-intent writes business intents, you write domains, /specify-capabilities
 writes capabilities and features. None waits for another, and the links between them
 are made later. So you start from whatever is there: business intents (proposed is fine —
 never check workability, never wait), light domain pages, and any capability already in the
@@ -54,7 +54,7 @@ mandatory:
   keeping its intent. It never removes or moves a doc.
 - It **NEVER** writes any shared model file: not `_spine.yaml`, not the profile block, not an
   intent page. The spine/profile changes and the intent pages' Touches lists are the job of
-  /discover-domains's deterministic keyed persist script, which reads this skill's manifest.
+  /specify-domains's deterministic keyed persist script, which reads this skill's manifest.
 - The spine-delta — the domain entries and the directional profile block — is emitted as
   **structured data in `seed-manifest.yaml`** (a non-model STM artifact). The keyed persist
   script merges those entries into the live spine additively (add-only by id; profile only if
@@ -88,8 +88,8 @@ Telegraphic labels ("Local fixtures only") fail the eval.
 | `manifest_path` | yes | Where to write `seed-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
 | `schemas_dir` | yes | The grounding templates, the content standard and the spine schema, copied into short-term memory by the agent through the memory tool. Read these copies — never memory itself (ADR 039). |
 | `stm_base` | yes | From config. |
-| `issue` | no | Issue/run id for provenance (often null for /discover-domains). |
-| `profile` | no | `true` (the default) or `false`. With `profile: false` (/shape-slice), the manifest holds no `profile` block at all, also when the spine has no profile yet. |
+| `issue` | no | Issue/run id for provenance (often null for /specify-domains). |
+| `profile` | no | `true` (the default) or `false`. With `profile: false` (/design-slice), the manifest holds no `profile` block at all, also when the spine has no profile yet. |
 
 ## Process
 

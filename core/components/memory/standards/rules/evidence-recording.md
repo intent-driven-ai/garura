@@ -2,7 +2,7 @@
 
 Single source of truth for **who** records run evidence, **when**, and **how it
 is switched on or off**. This is the D1 auto-build rule (#434): every play
-`/create-play` compiles emits evidence the same way, so the rule lives here
+`/build-play` compiles emits evidence the same way, so the rule lives here
 once instead of being re-decided per play.
 
 It governs the machine-readable evidence file (the `C1` slot of the Standard
@@ -56,7 +56,7 @@ global default for that play only:
 evidence:
   record: false        # global default
   plays:
-    check-change: true   # this play records even though the global is off
+    validate-work: true   # this play records even though the global is off
     status: false         # this play never records even if the global is on
 ```
 

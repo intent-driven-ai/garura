@@ -16,7 +16,7 @@ it; this grounding note only records what changed since the original prototype.
 
 - The **`evidence.record`** config key survives: a boolean under the
   `evidence:` section of `.garura/core/config.yaml`, default `true` when
-  absent. Plays resolve it in pre-flight (e.g. `commit-change`'s pre-flight
+  absent. Plays resolve it in pre-flight (e.g. `commit-work`'s pre-flight
   returns `evidence_record` among its facts) and gate the machine-readable
   evidence write (the `C1` slot of the Standard Play Close) on it.
 - The user-facing delivery report (`C2` of the Standard Play Close) is a UX
@@ -35,6 +35,6 @@ the `commit-code` play (#434):
   file, as the final step of its run via the Standard Play Close. Agents and
   skills never write evidence and never read the flag — a skill-level
   `skip_*` handshake like the old `commit-files` pattern no longer exists.
-- The rule is compiled into **every** play by `/create-play` (the D1
+- The rule is compiled into **every** play by `/build-play` (the D1
   auto-build rule), rather than being rolled out play by play from a
   prototype.

@@ -3,7 +3,7 @@
 # Intent / Context / Expectations attached to a ProductOS node. The second of
 # the three things ProductOS keeps forever: INTENT.
 #
-# ICE is the UNIT THAT GOES TO BUILD: feature-level ICE is what /build-epic
+# ICE is the UNIT THAT GOES TO BUILD: feature-level ICE is what /build-work
 # consumes. Light by design. Same shape at capability and feature level.
 
 schema:
@@ -28,7 +28,7 @@ ice:
                     # "must support enterprise SSO", "no remember-me on kiosks".
   expectations:
     outcomes: []
-  nfr_needs:               # CONCRETE NFR targets for THIS node (set by /discover-capabilities) —
+  nfr_needs:               # CONCRETE NFR targets for THIS node (set by /specify-capabilities) —
                            # the specifics that must sit UNDER the profile box.
                            # A target exceeding the box on any dimension is an
                            # out-of-box event: it halts for human approval, which
@@ -67,9 +67,9 @@ attaches_to: [capability, feature]   # same shape at both levels;
 
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
-  - play: "/discover-domains"
+  - play: "/specify-domains"
     writes: "seed intent (goals only), at capability level"
-  - play: "/discover-capabilities"
+  - play: "/specify-capabilities"
     writes: "full intent, context (persona/systems/scope), expectations, and the
              capability's nfr_needs + compliance_needs — which roll up the product profile"
   - play: "/learn-outcomes"

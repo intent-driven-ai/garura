@@ -29,7 +29,7 @@ Measure every slice's delivery on three axes:
 - **Speed** — elapsed time from a pipe opening to it closing. This is what everyone
   expects to be fast. Working heuristic: agent-led delivery should be at least **5x**
   faster than the human baseline for the same work (10 days → 2 days = an 80% cut;
-  10x would be 90%). Proof source: pipeline timestamps (start-change open → merge).
+  10x would be 90%). Proof source: pipeline timestamps (start-work open → merge).
 - **Tokens** — the fuel cost; less is better. The whole bet behind plays lives here:
   the more accurate the work is upfront, the fewer adjustment rounds later, the lower
   the burn. Proof source: token burn per pipe (token-burn dashboard).
@@ -39,7 +39,7 @@ Measure every slice's delivery on three axes:
   is the human share — how long the slice SITS, and how many changes/adjustments land
   in that sitting time before slice and Hub close out. Named cognition leaks: long
   spec-reading, long code reviews, adjusting instead of directing, defects caught in
-  manual review at /release-epic. Proof source: pipe dwell time (agent-done → pipe-closed)
+  manual review at /validate-uat. Proof source: pipe dwell time (agent-done → pipe-closed)
   + adjustment-round count in that window.
 
 The objective function is joint: spend the right tokens and cognition to get max

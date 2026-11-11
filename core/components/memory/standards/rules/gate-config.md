@@ -9,7 +9,7 @@ deterministic checks carry what the human was checking).
 
 | Kind | Meaning | Who decides |
 |---|---|---|
-| **pinned** | Always fires. No config value, policy, or ledger can turn it off. | The play's intent (unpinning = edit-play intent change) |
+| **pinned** | Always fires. No config value, policy, or ledger can turn it off. | The play's intent (unpinning = fix-play intent change) |
 | **conditional** | Fires unless the learned per-project policy says this change SHAPE is auto. Every crossing appends a live-eval line; the human's real action is the verdict that teaches the policy. | The gate policy, learned from the ledger |
 | **off** | Never waits. The checkpoint's judgment was replaced by named deterministic checks inside the play's loop; the skip is recorded. | Config (`gates.plays.<play>: off`), granted only in the same change that adds the replacement checks |
 
@@ -24,7 +24,7 @@ gates:
     docs-only: on      #   prose/documentation-only changes
     standard: on       #   normal code/component changes
     one-way-door: on   #   irreversible or shared-state actions (merges, deletes, releases)
-  plays: {}            # per-play override, e.g. "commit-change: off" — first precedence
+  plays: {}            # per-play override, e.g. "commit-work: off" — first precedence
   conditional:         # the learned-gate mechanism (#467)
     streak: 3          #   consecutive clean approvals a shape needs to earn auto
     ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl  # each issue's own live-eval ledger (append-only, committed)
@@ -61,7 +61,7 @@ gates:
 
 ## The live-eval loop (conditional gates)
 
-Scripts (canonical copies in `create-play/references/`, stamped into conditional plays):
+Scripts (canonical copies in `build-play/references/`, stamped into conditional plays):
 
 - `classify_change.py` — deterministic draft-vs-live shape classifier. Fixed axes
   (nodes added/removed, status changes, profile bars, decisions added, sections
@@ -89,18 +89,18 @@ Every checkpoint in a compiled play declares its risk class inline (e.g.
 
 **Pinned gates (#466 Batch B, re-ruled #467).** A checkpoint whose play's own intent
 mandates it declares `(class: <class>, pinned)`. A pinned gate NEVER resolves off — no
-config value can disable it (two exceptions, by intent not config: `/discover-intent`'s confirm and
-`/record-decision`'s accept are skipped when the play runs inside a loop's contract — ADR 031, #632; any
+config value can disable it (two exceptions, by intent not config: `/specify-intent`'s confirm and
+`/design-adr`'s accept are skipped when the play runs inside a loop's contract — ADR 031, #632; any
 other pinned gate inside a loop is asked up front or becomes the loop's question — the
 play stops short of it and the person answers on a later round — never deferred to the loop's
 review: `loop-contract.md` rule 4, ADR 041); the switch machinery records `pinned — config bypass
 refused` if an off value would otherwise match. Unpinning is an intent change to that
-play (edit-play), never a config edit. Per the #467 ruling the pinned set is: **grill**
+play (fix-play), never a config edit. Per the #467 ruling the pinned set is: **grill**
 (a wrong epic cut poisons everything downstream), **launch** (the one HITL gate of the
 implement trinity — the acceptance walk), **learn** (a wrong model learning bends the
-product model), and **merge-change's land-on-main step** (the #467 re-pin correction —
+product model), and **merge-work's land-on-main step** (the #467 re-pin correction —
 merging to main is the one irreversible action in the chain, so the actual land always
-keeps its human beat; the rest of merge-change is automatic), and **deploy** (standing up a live cloud
+keeps its human beat; the rest of merge-work is automatic), and **deploy** (standing up a live cloud
 environment is outward-facing — always requires a human), and **intent's confirm step when run by
 hand** (only a person confirms a business intent — ADR 031; inside a loop there is no approval
 stop: the intents are saved as proposed and confirmed at the loop's end review), and **adr's accept

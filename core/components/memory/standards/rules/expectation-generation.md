@@ -2,7 +2,7 @@
 
 How the harness generates a **play's** Expectation (`success_scenarios` + `recovery`)
 from its Intent triple. Consumed by the `draft-play-expectation` skill. Output is
-always human-validated at the create-play checkpoint — these rules exist to make the
+always human-validated at the build-play checkpoint — these rules exist to make the
 generation reviewable, not magic.
 
 > Scope: this is the **play** case (a play's intent → that play's expectation). The
@@ -68,7 +68,7 @@ judgment); "a below-confidence mapping was committed without approval" → human
 
 ## A feature's recovery (product ICE)
 
-A product ICE has no recovery part. When `/shape-slice` shapes a slice (ontology v11), it
+A product ICE has no recovery part. When `/design-slice` shapes a slice (ontology v11), it
 writes each feature's recovery itself, into the slice's hidden file
 (`.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`), one entry for
 each feature, by the same rule as above: for each "Fails if" line of the feature's two
@@ -97,5 +97,5 @@ the evals folder out of the contract".
 
 Every generated expectation carries:
 - `generated_from.intent` — the intent it was derived from.
-- `vetted.status: pending` — set to `approved` only by a human at the create-play
+- `vetted.status: pending` — set to `approved` only by a human at the build-play
   checkpoint. Nothing downstream consumes a `pending` expectation.

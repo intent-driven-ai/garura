@@ -6,7 +6,7 @@ ask; it says how each question is shown.
 
 This file is not memory. The install lays it beside the installed skills, at
 `_shared/asking-a-person.md`, and each part that asks a person reads it there: the plays
-`edit-ontology`, `shape-slice` and `update-plan` (its `place_feature.py` writes its questions in
+`specify-ontology`, `design-slice` and `reshape-plan` (its `place_feature.py` writes its questions in
 these four parts), the skills `author-product-ontology`, `find-slice-gaps`, `author-slice-brief`
 and `author-plan-changes`, and the `product-os-keeper` agent.
 

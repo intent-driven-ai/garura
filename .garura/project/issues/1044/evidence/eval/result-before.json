@@ -1,0 +1,246 @@
+{
+  "passed": 3,
+  "failed": 48,
+  "failures": [
+    {
+      "check": "plays/discover-intent is now plays/specify-intent",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/discover-domains is now plays/specify-domains",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/discover-capabilities is now plays/specify-capabilities",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/edit-ontology is now plays/specify-ontology",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/shape-slice is now plays/design-slice",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/shape-eval is now plays/design-eval",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/record-decision is now plays/design-adr",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/shape-ux-lens is now plays/design-surface",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/shape-run-lens is now plays/design-env",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/shape-architecture-lens is now plays/design-architecture",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/shape-quality-lens is now plays/design-quality",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/shape-agentic-lens is now plays/design-agentic",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/build-epic is now plays/build-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/fix-bug is now plays/fix-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/refactor-code is now plays/refactor-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/create-play is now plays/build-play",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/edit-play is now plays/fix-play",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/create-loop is now plays/build-loop",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/edit-loop is now plays/fix-loop",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/check-change is now plays/validate-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/validate-epic is now plays/validate-slice",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/release-epic is now plays/validate-uat",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/update-plan is now plays/reshape-plan",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/show-plan is now plays/view-plan",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/list-focus-issues is now plays/list-issues",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/start-change is now plays/start-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/commit-change is now plays/commit-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/propose-change is now plays/review-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "plays/merge-change is now plays/merge-work",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "loops/complete-discovery is now loops/loop-product-spec",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "the rename map has every plays pair",
+      "ok": false,
+      "detail": "discover-intent, discover-domains, discover-capabilities, edit-ontology, shape-slice, shape-eval, record-decision, shape-ux-lens, shape-run-lens, shape-architecture-lens, shape-quality-lens, shape-agentic-lens, build-epic, fix-bug, refactor-code, create-play, edit-play, create-loop, edit-loop, check-change, validate-epic, release-epic, update-plan, show-plan, list-focus-issues, start-change, commit-change, propose-change, merge-change"
+    },
+    {
+      "check": "no plays entry in the map still points at an old name",
+      "ok": false,
+      "detail": "intent, vision, understand, grill, ux, arch, quality, run, agentic, implement, validate, launch, review-change, refactor, adr, play-creator, play-editor, loop-creator, loop-editor, focus, shape-features, build-feature, validate-feature, release-feature"
+    },
+    {
+      "check": "the rename map has every loops pair",
+      "ok": false,
+      "detail": "complete-discovery"
+    },
+    {
+      "check": "no loops entry in the map still points at an old name",
+      "ok": false,
+      "detail": "discovery"
+    },
+    {
+      "check": "the old-name check exits 0",
+      "ok": false,
+      "detail": "ays\",\n      \"old\": \"learn\",\n      \"new\": \"learn-outcomes\"\n    },\n    {\n      \"file\": \"docs/philosophy/intent-and-adlc.md\",\n      \"line\": 452,\n      \"kind\": \"plays\",\n      \"old\": \"review-change\",\n      \"new\": \"check-change\"\n    },\n    {\n      \"file\": \"docs/philosophy/intent-and-adlc.md\",\n      \"line\": 452,\n      \"kind\": \"plays\",\n      \"old\": \"review-change\",\n      \"new\": \"check-change\"\n    }\n  ]\n}\n"
+    },
+    {
+      "check": "a loop named loop-product-spec passes",
+      "ok": false,
+      "detail": "['naming-reserved', 'naming-loop']"
+    },
+    {
+      "check": "a play that starts with a built-in command passes",
+      "ok": false,
+      "detail": "['naming-reserved', 'naming-play']"
+    },
+    {
+      "check": "env is an allowed short word",
+      "ok": false,
+      "detail": "['naming-reserved', 'naming-shortened', 'naming-play']"
+    },
+    {
+      "check": "naming.md's phase table says Product → Spec and Spec → Design",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "Phoenix memory's naming.md matches the source",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "Phoenix memory's naming.yaml matches the source",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "ADR 066 names #1044",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "the ADR index shows ADR 066 beside ADR 028",
+      "ok": false,
+      "detail": "| [028](028-agentic-lifecycle-five-loops.md) | The Agentic Lifecycle Is Five Loops | Accepted | 2026-10-07 |"
+    },
+    {
+      "check": "the ADR index shows ADR 066 beside ADR 029",
+      "ok": false,
+      "detail": "| [029](029-drives.md) | Drives: A Run of Plays That Ends in a Score or a Fail | Accepted | 2026-10-07 |"
+    },
+    {
+      "check": "the ADR index shows ADR 066 beside ADR 038",
+      "ok": false,
+      "detail": "| [038](038-install-brings-no-memory.md) | The Install Brings No Memory: the Memory Tool Lives in the Project and Fetches Phoenix Memory on First Use | Accepted"
+    },
+    {
+      "check": "the ADR index shows ADR 066 beside ADR 045",
+      "ok": false,
+      "detail": "| [045](045-a-drive-is-now-called-a-loop.md) | A Drive Is Now Called a Loop, a Loop Is Always Named in Full, and the Five Loops Are Discovery, Slice, Execute, S"
+    },
+    {
+      "check": "the ADR index shows ADR 066 beside ADR 046",
+      "ok": false,
+      "detail": "| [046](046-one-naming-standard-for-every-harness-part.md) | One Naming Standard for Every Harness Part: Verb First, One Meaning per Verb, Loops Named complete-"
+    },
+    {
+      "check": "the ADR index shows ADR 066 beside ADR 053",
+      "ok": false,
+      "detail": "| [053](053-shape-scope-and-shape-roadmap-are-dropped.md) | /shape-scope and /shape-roadmap Are Dropped; the Shaping Loop Does Their Jobs | Accepted | 2026-10-2"
+    }
+  ]
+}

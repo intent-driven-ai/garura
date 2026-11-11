@@ -300,7 +300,7 @@ class Touches(WritePageCase):
             self.assertNotIn("**Touches:**", self.text())
 
     def test_the_lines_read_back_through_the_models_own_reader(self):
-        reader = os.path.join(HERE, "..", "..", "..", "plays", "shape-slice", "scripts")
+        reader = os.path.join(HERE, "..", "..", "..", "plays", "design-slice", "scripts")
         if not os.path.isfile(os.path.join(reader, "intent_touches.py")):
             self.skipTest("the reader is not beside this skill in this layout")
         sys.path.insert(0, reader)

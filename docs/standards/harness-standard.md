@@ -107,8 +107,10 @@ the team's knowledge.
 ### 10. One name, one meaning
 
 Every part is named by one rule: the verb first, then the object, with each verb holding one meaning.
-No name is, or starts with, a built-in command of the coding tool. The full rules are in
-`core/components/memory/standards/rules/naming.md`, and the component linter enforces them (ADR 046).
+Five roles own the play verbs, so a play's verb says who does the work. No name is exactly a built-in
+command of the coding tool; a name may start with one. The full rules are in
+`core/components/memory/standards/rules/naming.md`, and the component linter enforces them (ADR 046,
+ADR 066).
 
 *Why:* people learn the words once and type them every day. One rule, with no exceptions to explain,
 is the easiest to learn and to teach.
@@ -126,10 +128,10 @@ on (`docs/adr/**`, `docs/philosophy/**`) and a `docs/*` branch prefix stay. Memo
 it through the memory tool into the issue's short-term memory, and the skill reads that copy. A note
 of origin ("source of truth: core/...", "canonical copy: ...") is deleted, not reworded.
 
-The source-only parts are the exception, by design: `create-play`, `edit-play`, `create-loop`,
-`edit-loop`, `install-garura`, `uninstall-garura`, `edit-ontology` and the skill
+The source-only parts are the exception, by design: `build-play`, `fix-play`, `build-loop`,
+`fix-loop`, `install-garura`, `uninstall-garura`, `specify-ontology` and the skill
 `author-product-ontology`; the dev tests; and the text that sorts the paths of the repo under review
-(the changeset analysis of `commit-change`, the review playbooks' signal globs, the artifact-type
+(the changeset analysis of `commit-work`, the review playbooks' signal globs, the artifact-type
 globs of the PR severity taxonomy, the trigger in `assess-pr`'s quality rules). The component
 linter's rule `installed-paths/source-path` enforces this in both layouts (#860). ADR 055 records
 this decision.
@@ -141,21 +143,25 @@ works only inside Garura's own repository, and fails everywhere else.
 
 | Kind | Shape | Examples |
 |------|-------|----------|
-| Loop | `complete-<phase>` | `complete-discovery` |
-| Play | `<verb>-<object>` | `discover-domains`, `shape-slice`, `build-epic`, `start-change` |
+| Loop | `loop-<from>-<to>` | `loop-product-spec` |
+| Play | `<verb>-<object>` | `specify-domains`, `design-slice`, `build-work`, `start-work` |
 | Skill | `<verb>-<object>` | `author-slice`, `find-model-gaps`, `check-quality` |
 | Agent | `<domain>-<role>` | `adr-keeper`, `quality-auditor` |
 
-The lifecycle plays take the verb of the phase they move a product through:
+A play takes a verb of the role that does its work (ADR 066):
 
-| Phase | Verb |
-|-------|------|
-| Product → Intent | `discover` |
-| Intent → Design | `shape` |
-| Design → Code | `build` |
-| Code → Validation | `validate` |
-| Validation → Run | `release` |
-| Run → Product | `learn` |
+| Role | Verbs |
+|------|-------|
+| Specifier | `specify`, `learn` |
+| Designer | `design` |
+| Builder | `build`, `fix`, `refactor` |
+| Validator | `validate` |
+| Orchestrator | `shape`, `reshape`, `view`, `list` |
+
+The work plays (`start-work`, `commit-work`, `review-work`, `merge-work`) and the product plays
+(`install-garura`, `uninstall-garura`) have no role. A loop has no role either: there is one for each
+transition between the six phases — Product, Spec, Design, Code, Validation, Run — named
+`loop-<from>-<to>`, such as `loop-product-spec`.
 
 ## How the standard is kept
 
@@ -166,5 +172,5 @@ The lifecycle plays take the verb of the phase they move a product through:
   In an installed project, run `node .garura/core/tools/lint-components/index.js --layout installed
   --target .claude` (give `--naming <naming.yaml>`, fetched through the memory tool, for the naming
   rules).
-- **A change to the standard** is a decision: it goes through `/record-decision` as an ADR, and the
+- **A change to the standard** is a decision: it goes through `/design-adr` as an ADR, and the
   rule files and this page change with it.

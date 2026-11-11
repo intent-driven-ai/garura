@@ -1,0 +1,218 @@
+# categories.yaml — /check-change Step 2, PR #1045 (issue #1044, ADR 066 rename of 29 plays and the loop)
+# Derived from the diff content (844 changed paths). Treatments are taken from the playbook copies in
+# .garura/project/issues/1044/context/memory/knowledge/review/ (not from prior knowledge).
+base: main
+changed_path_count: 844
+sources:
+  review_shelf: .garura/project/issues/1044/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/1044/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/1044/context/memory/manifest.json   # tier phoenix, version 4209021c6456, fingerprint per file
+  next_map: .garura/project/issues/1044/context/templates/standards/rules/pipeline-next.md   # the play's, for lint_play.py
+
+categories:
+
+  - name: harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - {glob: "core/components/plays/**/SKILL.md", note: "37 play SKILL.md files (moves/edits) incl. build-loop/references/compiled-loop-example/SKILL.md"}
+      - {glob: "core/components/plays/*/reference/**", note: "ICE sources and reference prose (e.g. design-slice, build-play, build-loop)"}
+      - {glob: "core/components/plays/*/references/**/*.md", note: "reference prose"}
+      - {glob: "core/components/plays/**/stop-condition*.yaml", note: "26+1 play stop conditions (play behaviour contracts)"}
+      - {glob: "core/components/plays/_shared/play-close.md", note: "the Standard Play Close"}
+      - {glob: "core/components/skills/**/SKILL.md", note: "41 skill definitions"}
+      - {glob: "core/components/skills/_shared/*.md", note: "asking-a-person.md; templates/analysis-output.md of assess-changes"}
+      - {glob: "core/components/agents/*.md", note: "10 agent definitions (adr-keeper, business-intent-keeper, environment-operator, evals-engineer, product-os-keeper, project-orchestrator, prototype-reader, quality-auditor, tech-designer, test-engineer)"}
+      - {glob: "core/components/loops/_shared/loop-run.md", note: "loop shared file"}
+      - {glob: "core/components/loops/loop-product-spec/SKILL.md", note: "the renamed loop"}
+      - {glob: "core/components/loops/loop-product-spec/reference/ice.md", note: "the loop's ICE source"}
+      - {glob: "core/components/loops/loop-product-spec/stop-condition.yaml", note: "loop stop condition"}
+      - {glob: "core/grounding/glossary.md", note: "grounding (playbook signal core/grounding/**)"}
+      - {glob: "core/grounding/rules/evidence.md", note: "grounding"}
+      - {glob: "core/components/plays/list-issues/reference/kind-map.yaml", note: "play reference map"}
+    treatment:
+      reviewer: "human (the design) + tool (conformance)"
+      layers: [layer-1-linters, layer-2-design-grounding]
+      linters:
+        - name: lint-components
+          command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+          note: "PR changes core/components/, so the source layout applies. Only violations in the PR's changed paths are findings; count the rest as 'there before'."
+        - name: lint_play
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/<play>/SKILL.md --next-map .garura/project/issues/1044/context/templates/standards/rules/pipeline-next.md"
+          note: "Run once for each changed play SKILL.md under core/components/plays/*/SKILL.md (37; the compiled-loop-example SKILL.md is a loop reference, not a play). Record 'not installed' or 'did not run: <first error line>' if a tool is absent/crashes; neither is a pass."
+      runnable_checks:
+        - "lint-components source layout (above)"
+        - "lint_play.py per changed play (above)"
+        - "ICE-source rule applies (repo holds the plays' source): an intent change must trace to the play's reference/ice.md, not a hand edit of the compiled SKILL.md. For this PR the moved ice.md and SKILL.md should change together; check that wording-only edits are in both."
+      design_grounding: "yes — reconstruct principles from committed sources only (docs/philosophy/**, docs/adr/** incl. ADR 066/046 as on base, standards under memory/standards/rules/**, glossary) via git show main:<path>; never from the rename map, naming.md or other text this branch adds"
+      rubric: "play->agent->skill->script wiring intact; intent change traces to ICE source; standards held"
+
+  - name: memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - {glob: "core/components/memory/standards/rules/*.md", note: "20 standards rules incl. naming.md, user-facing-voice.md, pipeline-next.md, self-review.md, loop-contract.md, work-plan.md"}
+      - {glob: "core/components/memory/standards/rules/naming.yaml", note: "the machine-readable naming standard"}
+      - {glob: "core/components/memory/standards/rules/rename-map.yaml", note: "the old-name -> new-name map"}
+      - {glob: "core/components/memory/standards/schemas/**", note: "schemas incl. product-os grounding/lens, intent.yaml, expectation.yaml"}
+      - {glob: "core/components/memory/standards/templates/*.md", note: "templates"}
+      - {glob: "core/components/memory/knowledge/review/_index.md", note: "the review shelf index"}
+      - {glob: "core/components/memory/knowledge/review/tests.md", note: "a review playbook (this reviewing treatment is itself memory)"}
+      - {glob: "core/components/memory/knowledge/technology/*.md", note: "10 technology shelves"}
+    treatment:
+      reviewer: "human (the design) + tool (conformance)"
+      layers: [layer-1-linters, layer-2-design-grounding]
+      linters:
+        - name: memory-integrity
+          command: null
+          note: "GAP per playbook: no installed tool checks memory integrity. The reviewer reads the changed files and cites each check: shelf files follow _TEMPLATE.md (Topic, Conditions, Recommendation, Rationale, Evolve when, Provenance); evolve_when and [[...]] cross-references resolve to real files; frontmatter id matches path; file is listed in the shelf _index."
+      runnable_checks:
+        - "by-hand memory-integrity checklist above (template shape, cross-references, id-vs-path, listed in _index)"
+        - "cross-reference resolution for any renamed play/skill/agent name the memory files mention (run by the play against the rename map is NOT a ground for Layer 2; resolution only)"
+      design_grounding: "yes — what the KB is for and how a shelf is shaped, from committed sources: knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read through the memory tool, plus ADR 066 on base. Do not ground from the branch's new naming.md / naming.yaml / rename-map.yaml; those are the artifacts under test."
+      rubric: "fits shelf purpose, follows template, cross-references resolve, no duplicate or contradicting knowledge"
+      note: "naming.md, naming.yaml and rename-map.yaml are memory files the branch adds or rewrites and also the standard the rename is judged by; conformance of the rename to ADR 066 must be tested against ADR 066 as committed on main."
+
+  - name: executable-code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - {glob: "core/components/plays/*/scripts/*.py", note: "play scripts, excluding test_*.py (about 400 files, mostly moved with references rewritten)"}
+      - {glob: "core/components/plays/build-loop/references/*.py", note: "build-loop reference scripts (non-test)"}
+      - {glob: "core/components/plays/build-play/references/*.py", note: "build-play reference scripts (non-test)"}
+      - {glob: "core/components/skills/*/scripts/*.py", note: "skill scripts: adr.py (ADR index tool), safe_write.py, intent_touches.py, spine_text.py, etc., excluding test_*.py"}
+      - {glob: "core/components/loops/loop-product-spec/scripts/*.py", note: "loop scripts, excluding test_discovery_scripts.py"}
+      - {glob: "core/tools/lint-components/lib/rules/*.js", note: "linter rules: naming.js (the new rule), installed-paths.js, asking-a-person.js, shared-scripts.js, structural.js"}
+      - {glob: "core/tools/memory/memory.py", note: "memory tool"}
+      - {glob: "core/tools/naming/check_old_names.py", note: "old-name check"}
+      - {glob: "core/tools/plan/plan_branch.py", note: "plan branch tool"}
+    treatment:
+      reviewer: "the tool, against industry best practice"
+      layers: [layer-1-linters]
+      linters:
+        - name: check-pr-quality
+          command: "the check-pr-quality skill against pr.diff with the PR severity taxonomy copy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)"
+          note: "exists in-repo (core/components/skills/check-pr-quality)"
+        - name: language-linter
+          command: "ruff check <changed .py files>   # ruff is on PATH locally; no Python linter config is committed in the repo, so this uses ruff defaults (informational)"
+          note: "Playbook: 'whatever the target repo commits'. No eslint config and no eslint installed: record 'not installed' for the .js rule files rather than a pass."
+      runnable_checks:
+        - "check-pr-quality against the diff (SEC/CODE/ARCH/BE/PERF/DATA rows)"
+        - "ruff check on changed .py (no committed config; informational)"
+        - "by hand, data-safety path review: check_old_names.py (scans the repo; apply_renames.py, which rewrites files, is unchanged but is exercised by test_naming_tools.py), adr.py (writes the ADR index), plan_branch.py (git), memory.py (tiers, writes), safe_write.py: idempotency, no clobber, no path escape"
+        - "rubric: error handling, function size, no stray debug output, no secrets, deterministic where it claims to be"
+      design_grounding: "no — industry best practice plus the pr.md taxonomy"
+      note: "The bulk of this category is mechanical (renamed paths, strings rewritten); the new logic is in core/tools/naming/*, lint-components naming.js, and adr.py."
+
+  - name: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - {glob: "core/components/plays/**/test_*.py", note: "play tests (about 50 files, e.g. start-work/scripts/test_start_change.py, design-adr/scripts/test_apply_adr.py, build-play/references/test_*.py)"}
+      - {glob: "core/components/skills/**/test_*.py", note: "skill tests: author-decision test_adr.py, author-intent-page test_write_page.py, enrich-grounding, link-model-gaps, link-model-part, track-plan-changes"}
+      - {path: "core/components/loops/loop-product-spec/scripts/test_discovery_scripts.py"}
+      - {glob: "core/tools/lint-components/test/*.test.js", note: "naming, installed-paths, asking-a-person, shared-scripts, dmw-declared-exception tests"}
+      - {path: "core/tools/naming/test_naming_tools.py", note: "old-name check + rename tests"}
+      - {path: "core/tools/memory/test_memory.py"}
+      - {path: "core/tools/memory/contract/test_check_contract.py"}
+      - {glob: "core/tools/memory/contract/samples/**/*.json", note: "24 contract fixtures (valid and broken samples) used by test_check_contract.py"}
+    treatment:
+      reviewer: "the tool"
+      layers: [layer-1-linters, run-the-suite]
+      linters:
+        - name: check-pr-quality (TEST-* rows)
+          command: "check-pr-quality skill against pr.diff with the pr.md TEST-* rows"
+          note: "plus a best-practice read of the test code: clear assertions, no skipped/disabled tests, no test that asserts nothing"
+      runnable_checks:
+        - "RUN the suites. A red suite is a blocker finding. Do not treat 'not run' as passed; say so if a suite cannot run."
+        - "python3 core/tools/naming/test_naming_tools.py"
+        - "python3 core/components/skills/author-decision/scripts/test_adr.py"
+        - "python3 core/tools/memory/test_memory.py   # and python3 core/tools/memory/contract/test_check_contract.py"
+        - "node core/tools/lint-components/test/naming.test.js   # and installed-paths, asking-a-person, shared-scripts, dmw-declared-exception tests (plain node; each prints 'N passed')"
+        - "each changed test_*.py under core/components/plays/*/scripts/ and plays/*/references/ and skills/*/scripts/ and the loop's scripts/test_discovery_scripts.py, run as 'python3 <file>' from its folder (pytest is not installed; the tests are unittest/self-running)"
+        - "check by hand that no moved test was skipped or deleted to get green (compare the 63 deleted paths with the 80 added)"
+      design_grounding: "no"
+
+  - name: config-maps
+    design_bearing: false
+    playbook: review/config-maps
+    evidence:
+      - {path: "CLAUDE.md", note: "host config map: names plays/agents/skills and paths"}
+      - {path: "core/config.yaml", note: "path and play config keys (start-work:, design-slice:, plans.base-path, loops blocks); renamed play keys"}
+    treatment:
+      reviewer: "human, by name; the tool surfaces the named changes and broken pointers"
+      layers: [layer-1-linters]
+      linters:
+        - name: path-existence check
+          command: null
+          note: "GAP per playbook: no committed config-map linter. The tool resolves each path and play/key name the changed lines in CLAUDE.md and core/config.yaml reference and reports any that miss (e.g. plans.base-path, play-config key names against the renamed play folders core/components/plays/<new-name>/)."
+      runnable_checks:
+        - "resolve every referenced path in the changed CLAUDE.md and core/config.yaml lines against the working tree"
+        - "each config block key (start-work, design-slice, loop blocks) matches an existing renamed play or loop folder name, and no old name remains: python3 core/tools/naming/check_old_names.py (the branch's own check; run it, but do not use its map as grounding)"
+      design_grounding: "no"
+
+  - name: decision-records
+    design_bearing: false
+    playbook: review/adrs
+    evidence:
+      - {path: "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md", note: "one-line change to Work This Creates: adds the pointer (#1044)"}
+      - {path: "docs/adr/_index.md", note: "the rebuilt ADR index (82 changed lines) produced by the ADR index tool"}
+    treatment:
+      reviewer: "human, line by line; the human judges whether the decision is right"
+      layers: [layer-1-linters]
+      linters:
+        - name: ADR structural check
+          command: null
+          note: "GAP per playbook: no ADR linter in-repo. Manual checklist surfaced for the human: required sections present (Status/Context/Decision/Consequences), status one of the allowed values, markdown well-formed, ADR numbered and linked from the index."
+      runnable_checks:
+        - "manual checklist: ADR 066 keeps its sections and status; docs/adr/_index.md lists 066 and every other ADR, numbering intact, no dropped row"
+        - "the ADR index tool's own test is the run for the index rebuild (see category tests: core/components/skills/author-decision/scripts/test_adr.py)"
+      design_grounding: "no — the decision is the design; the human owns the judgement. (Side note: an accepted ADR is never edited; the one-line edit to ADR 066 is only to the 'Work This Creates' pointer, so the human should confirm that fits the ADR's own rule.)"
+
+  - name: documentation
+    design_bearing: false
+    playbook: review/docs
+    evidence:
+      - {path: "README.md"}
+      - {glob: "docs/components/*.md", note: "agents.md, loops.md, memory.md, plays.md"}
+      - {path: "docs/design/playbook-catalog.md"}
+      - {glob: "docs/philosophy/*.md", note: "architecture, garura-reference-implementation, idsd, intent-and-adlc, intent-driven-development"}
+      - {path: "docs/standards/harness-standard.md", note: "prose standard; rule wording changed. It is the harness naming standard, whose decision lives in ADR 066, so a human should confirm it matches ADR 066."}
+      - {glob: "core/tools/*/README.md", note: "core/tools/plan/README.md, core/tools/rebuild-eval/README.md"}
+    treatment:
+      reviewer: "the tool; the human opts out unless they choose to read it"
+      layers: [layer-1-linters]
+      linters:
+        - name: prose checks
+          command: null
+          note: "GAP per playbook: no committed prose linter. The tool performs the checks directly and cites each as basis: spelling, grammar, dead/broken links, heading hierarchy, leftover TODOs, terminology consistency, completeness."
+      runnable_checks:
+        - "dead-link check of every relative link in the changed docs (links to renamed play folders, the ADR file, docs/ pages)"
+        - "terminology consistency: no old play/loop/agent name left in prose (python3 core/tools/naming/check_old_names.py; allowed exceptions such as ADR text that must keep old names are the human's call)"
+        - "heading hierarchy, stray TODOs"
+      design_grounding: "no"
+
+  - name: issue-working-records
+    design_bearing: false
+    playbook: null
+    playbook_missing: >
+      No playbook on the shelf covers a play run's own working records (issue short-term memory: context json/yaml, the
+      pr-body, self-review, plan, and the acceptance-check script with its before/after results). A playbook is missing;
+      the assessor does not force-fit these onto the code or docs playbooks. A follow-up task to write
+      knowledge/review/issue-working-records.md should be created.
+    evidence:
+      - {glob: ".garura/project/issues/1044/context/*", note: "analysis.yaml, args.json, branch.json, commits.yaml, issue.json, plan.json, porcelain.txt, pr-body.md, pr.json, resolved-rules.json, self-review.md, target.json, work-description.txt"}
+      - {path: ".garura/project/issues/1044/context/memory/standards/rules/self-review.md", note: "short-term copy of a standards rule (a memory copy, not a change to memory itself)"}
+      - {glob: ".garura/project/issues/1044/evidence/eval/*", note: "check_1044.py (the acceptance check script), result-before.json, result-after.json"}
+    treatment:
+      reviewer: "none assigned (no playbook)"
+      layers: []
+      linters: []
+      runnable_checks:
+        - "none from a playbook. Suggested by the assessor, not by a playbook: confirm no secrets or personal data in the committed records (a plain scan of those 17 files); the check_1044.py acceptance run may be re-executed by the play if it wants its before/after results confirmed."
+      design_grounding: "no"
+      note: "These are records of the work, not part of the product; they carry no design for the review to ground. Excluded from design grounding."
+
+design_bearing_categories: [harness, memory]
+absent_seeded_categories: []   # all seven seeded categories are present
+new_categories_without_playbook: [issue-working-records]

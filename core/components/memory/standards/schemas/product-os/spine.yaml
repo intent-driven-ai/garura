@@ -43,8 +43,8 @@ domains:
   - id: string            # opaque, stable — never changes once assigned
     slug: string          # human slug (the path is derived from slugs)
     status: string        # proposed | active | deprecated
-    detail: string        # directional (a light page, e.g. from /discover-intent) | detailed (the
-                          # full page, /discover-domains) — drives which domain.md shape the linter
+    detail: string        # directional (a light page, e.g. from /specify-intent) | detailed (the
+                          # full page, /specify-domains) — drives which domain.md shape the linter
                           # requires; absent → read from the page's headings
     one_line: string      # the descriptor — what this domain is, readable WITHOUT opening
                           # the doc. One sentence. This is what makes the spine browsable.
@@ -65,18 +65,18 @@ capabilities:
     slug: string
     domain: string        # parent DOMAIN id — the named relation, not "parent". May be empty
                           # while proposed: a capability can be written before its domain
-                          # is known (e.g. by /discover-intent, when it cannot tell one); /discover-domains
+                          # is known (e.g. by /specify-intent, when it cannot tell one); /specify-domains
                           # attaches the domain later.
     intents: [string]     # the BUSINESS INTENT ids (product-os/intents/<id>.md) this
                           # capability's ICE is built from. Its ICE is workable only when at
                           # least one of them is confirmed; with none, the ICE is kept but no
                           # play works on it (ontology v3).
     status: string        # proposed | active | deprecated
-    detail: string        # directional (/discover-intent or /discover-domains) | detailed (/discover-capabilities) — drives which
+    detail: string        # directional (/specify-intent or /specify-domains) | detailed (/specify-capabilities) — drives which
                           # capability.md shape the linter requires
     one_line: string
     doc: string           # pointer to its capability.md
-    nfr_needs:            # THIS capability's own NFR targets (set by /discover-capabilities) —
+    nfr_needs:            # THIS capability's own NFR targets (set by /specify-capabilities) —
                           # per-capability, because one capability's need (e.g. uptime)
                           # can differ from another's. Each dimension carries a `level`
                           # (none<low<medium<high<xhigh — the roll-up input) plus a
@@ -140,10 +140,10 @@ ices:
       thin: boolean       # true while the ICE is thin (ontology v11); the play that deepens it removes it
 
 # A thin ICE (ontology v11, #846; v14): proposed from the person's words when a part has no ICE —
-# by /shape-slice for a part a slice needs, or by /update-plan for a feature found mid-plan. Its
+# by /design-slice for a part a slice needs, or by /reshape-plan for a feature found mid-plan. Its
 # mark is kept in two places that agree: `metadata.thin: true` here and, on its ICE page, one line
 # just before the ICE — "Thin: proposed from the person's words; deepen with
-# `/discover-capabilities`." Any line that starts "Thin:" there counts (a page with the v11 line
+# `/specify-capabilities`." Any line that starts "Thin:" there counts (a page with the v11 line
 # is still thin). check_ice_workable.py reads the mark (gap "thin ICE", partly ready) and never
 # counts lines.
 
@@ -163,11 +163,11 @@ ices:
 # the spine, not in a grounding doc. (A short rationale per level may live in the
 # domain grounding doc, but the box itself is here.) `profile.nfr` is the MONOTONIC-UP
 # roll-up of every capability's `nfr_needs` (each dimension = max level across
-# capabilities); `profile.compliance` is the union of their `compliance_needs`. /discover-capabilities
+# capabilities); `profile.compliance` is the union of their `compliance_needs`. /specify-capabilities
 # writes the per-capability needs and rolls them up; an out-of-box move on an already-set
 # box halts for a human decision (recorded as an ADR).
 profile:
-  state: string                 # directional (/discover-domains) | set (/discover-capabilities) | locked (no play sets it now, ADR 053)
+  state: string                 # directional (/specify-domains) | set (/specify-capabilities) | locked (no play sets it now, ADR 053)
   shape:
     stage: string               # prototype | mvp | internal | public | monetized
     users: [string]
@@ -229,12 +229,12 @@ fill_rules:
   # Who writes what (ADR 043): every kind is written on its own, and inside the Discovery loop
   # each play writes one kind. The links between kinds are made by the loop's gap skills
   # (find-model-gaps, link-model-gaps) or, run by hand, by the next play the person runs.
-  - play: "/discover-intent"
+  - play: "/specify-intent"
     writes: "business intent pages only (and their Sources). No capability, ICE or domain."
-  - play: "/discover-domains"
+  - play: "/specify-domains"
     writes: "`domains` entries and their detailed domain pages (with `## Sources`), each
              domain's `intents`, and the directional profile. No capability."
-  - play: "/discover-capabilities"
+  - play: "/specify-capabilities"
     writes: "capabilities and features, each with its ICE, read off the screens (or
              named by the person): new capability entries — under their domain when the spine
              holds it, else in the holding folder with domain empty — and the detail of
@@ -242,7 +242,7 @@ fill_rules:
              with their `features` entries and pages; then rolls the per-capability
              needs up into the profile, firming it to state: set (out-of-box moves on an
              already-set box halt for a human decision). The last detailing step."
-  - play: "/shape-slice"
+  - play: "/design-slice"
     writes: "the `slices` entries — exactly id, slug, feature_refs, vertical, intents,
              record — and each slice record (product-os/slices/<id>.yaml, slice.yaml v2:
              `slice` {id, slug, name, outcome, feature_refs, vertical, intents} and
@@ -253,7 +253,7 @@ fill_rules:
              that has no ICE, and the slice's hidden file (failure-and-recovery.md, one
              entry for each feature) in its home plan's evals folder (ontology v11). It
              writes no plan, epic, story or eval."
-  - play: "/start … /release-epic"
+  - play: "/start … /validate-uat"
     writes: "epic status chain (ready -> in_delivery -> validated -> delivered),
              surface_verified, issue_ref — surgical structural stamps."
   - play: "/learn-outcomes"
@@ -262,7 +262,7 @@ fill_rules:
 # ---- On-disk layout ---------------------------------------------------------
 # product-os/
 #   _spine.yaml                                  # THIS file's instance — the map
-#   intents/{intent}.md                          # business intent pages (ontology v3, /discover-intent)
+#   intents/{intent}.md                          # business intent pages (ontology v3, /specify-intent)
 #   capabilities/{capability}/capability.md      # holding folder: a capability whose domain is
 #                                                #   not known yet; once attributed, its doc
 #                                                #   moves under {domain}/
@@ -278,11 +278,11 @@ fill_rules:
 #       personas/  journeys/  decisions/         # structured records (referenced by id)
 #     slices/{slice}/epics/{epic}.md             # OLDER CHAIN, not the slice chain: epic
 #     slices/{slice}/lens/{type}.yaml            #   grounding and lens docs that the stale
-#                                                #   /shape-*-lens plays and /build-epic read or
+#                                                #   /shape-*-lens plays and /build-work read or
 #                                                #   write until their rebuild (#855, ADR 048).
-#                                                #   /shape-slice never writes here.
+#                                                #   /design-slice never writes here.
 #     slices/_deferred.yaml                      # OLDER CHAIN: the deferred bucket of a dropped play (ADR 053)
-#   slices/                                      # THE SLICE CHAIN (/shape-slice, ADR 049)
+#   slices/                                      # THE SLICE CHAIN (/design-slice, ADR 049)
 #     {slice}.yaml                               # slice record (slice.yaml v2: slice + surface); a slice has
 #                                                #   no domain home (it links to capabilities)
 #

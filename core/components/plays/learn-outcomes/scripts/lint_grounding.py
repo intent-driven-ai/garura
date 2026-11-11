@@ -58,7 +58,7 @@ CONTRACTS = {
     "domain": {
         "title": "Theme:",
         # Domain is STAGE-AWARE like capability: a play that knows little writes the
-        # directional (light) page, /discover-domains writes or raises it to the detailed page. The
+        # directional (light) page, /specify-domains writes or raises it to the detailed page. The
         # spine entry's `detail:` says which applies; absent → inferred from content.
         "stages": {
             "directional": ["Intent"],
@@ -73,7 +73,7 @@ CONTRACTS = {
     },
     "capability": {
         "title": "Capability:",
-        # Capability is STAGE-AWARE: /discover-domains writes the directional shape, /discover-capabilities
+        # Capability is STAGE-AWARE: /specify-domains writes the directional shape, /specify-capabilities
         # promotes it to the detailed shape. The spine entry's `detail:` field
         # (directional | detailed) says which applies; absent → inferred from content.
         "stages": {

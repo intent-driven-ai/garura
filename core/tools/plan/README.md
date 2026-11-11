@@ -11,7 +11,7 @@ no model call, and the same files print the same way every time (#719).
   Branch and Waits on; then each of its epics with its Progress. Status and Direction are read
   from the plan file as a person set them. Used by `/list-plans`.
 - `show` — one plan as a tree, with the plans it needs after it. Done and Dropped are hidden and
-  counted. Used by `/show-plan`.
+  counted. Used by `/view-plan`.
 - `graph` — each plan's branch against main, with commits ahead and behind. Used by
   `/list-plans --graph`.
 
@@ -27,7 +27,7 @@ A plan file holds, at the top: `id` (the business intent's issue number), `title
 (Not Started, In Progress, Paused, Done or Dropped — set by a person), `direction` (1, 2, 3 or
 none — set by a person), `branch` (`plan/<id>/base` while its work is in progress), `started`,
 `updated`, `epic`, `identified_by`, `needs_plans` and `tree`. It keeps no history: each
-`/update-plan` landing is one commit whose message names what was asked, the overrides and what
+`/reshape-plan` landing is one commit whose message names what was asked, the overrides and what
 is owed.
 
 Each node of the tree has `issue`, `kind`, `title` and `status`, and may have `represents` (the
@@ -42,7 +42,7 @@ kind of parent (#917):
 | `spike`, `chore`, `bug` | a story |
 
 Older plan files also use the kind `issue`, and have some items under another parent (a bug under
-a feature). The tools still print them; `/update-plan` names such an item when an instruction
+a feature). The tools still print them; `/reshape-plan` names such an item when an instruction
 touches it and offers the right kind or parent, and never changes it unasked.
 
 ## Getting onto a plan's branch
@@ -60,8 +60,8 @@ plan file commit) when nothing else has landed on it, then goes back; a second `
 one that stopped after the revert (a refused delete). A copy of the plan's branch that is gone
 on the remote is deleted and cut fresh only when every commit on it is on main; otherwise it stops
 and names the commits (#953). When main's plan file already reads In Progress on the branch, there
-is nothing to commit on main and the branch is cut from main's tip. Used by `/update-plan` (#730),
-and by `start-change` (#989): `/start-change plan <id>`, and the first story of a plan with no
+is nothing to commit on main and the branch is cut from main's tip. Used by `/reshape-plan` (#730),
+and by `start-work` (#989): `/start-work plan <id>`, and the first story of a plan with no
 branch.
 
 ## Setting an item's status from its own issue
@@ -71,11 +71,11 @@ branch.
 An item's status follows its own issue: closed as completed is Done, closed as not planned is
 Dropped (#1007). It changes that item's `status:` line and the file's `updated:` line, and keeps
 every other line, comment and order. Nothing rolls up: the item's parent is never changed. An
-item already at that status is left as it is. Used by `merge-change` when it closes an issue that
+item already at that status is left as it is. Used by `merge-work` when it closes an issue that
 landed on its plan's branch.
 
 An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
-users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`
+users: `/reshape-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-work`
 (#989).
 
 Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status` from this folder.

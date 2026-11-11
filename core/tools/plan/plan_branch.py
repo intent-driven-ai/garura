@@ -47,7 +47,7 @@ main_commit, main_written, files, error, stale: null | {deleted, tip, on_main}}.
 already reads In Progress on the branch, `go` writes nothing on main (`main_written: false`) and
 cuts the branch from main's tip; `abort` then only deletes the branch. Exit 0 done; 2 bad input, a
 git step failed, or a stale copy holds commits not on main (the error is named); 3 stopped on
-uncommitted work. Users: /update-plan (#730), and start-change (#989): `/start-change plan <id>`,
+uncommitted work. Users: /reshape-plan (#730), and start-work (#989): `/start-work plan <id>`,
 and the cut of a plan's branch for the first story of a plan with no branch.
 """
 

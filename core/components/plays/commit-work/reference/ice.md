@@ -1,0 +1,142 @@
+# commit-work — ICE source
+
+The clean ICE triple this play is compiled from. Update this and recompile via
+build-play; never hand-edit the compiled SKILL.md.
+
+## Intent
+
+Commit all uncommitted work on the feature branch, grouped by concern, with conventional
+messages that reference the tracked issue — leaving a clean tree ready to raise. The play
+commits only; it does not push (review-work pushes when it opens the PR).
+
+Pipeline position: **end**. commit-work is the first step of the end sequence
+(commit-work → review-work → validate-work → merge-work) that D2 injects into any
+play declared `position: end`. Positions are start and end only — there is no middle.
+
+### Constraints
+
+- C1 — Work is committed on a feature branch, never on main.
+- C2 — Changes are grouped by concern; each commit holds one coherent concern.
+- C3 — Each commit uses conventional format and references the tracked issue. The
+  formatting is owned by exactly one party: the plan carries a BARE subject (no type
+  prefix, no scope, no issue reference — those live in separate fields), and the executor
+  renders the conventional message — defensively normalizing a subject that arrives
+  pre-formatted rather than doubling the prefix (#465 defect 1).
+- C4 — Every changed file lands in a commit or has a stated exclusion reason; the working
+  tree is clean afterward — including the play's own run artifacts, which the play commits
+  as its final chore group so the tree handed to review-work is genuinely clean
+  (#465 defect 2). A path the repository's ignore rules exclude is pre-checked and becomes
+  a recorded exclusion, never a mid-plan failure (#465 defect 3).
+- C5 — When there is nothing to commit, the play exits cleanly without committing.
+- C6 — Sensitive files (secrets, credentials, keys) are never committed; their presence
+  blocks the commit.
+- C7 — The play commits only; it never pushes (pushing is review-work's job).
+- C8 — Mechanical work runs as bundled scripts, not model inference: the changeset scan
+  and triviality classification always run as a script; a single-concern changeset is
+  analyzed entirely by script; commit execution is always a script over the decided plan.
+  The analyze agent is dispatched only when the script classifies the changeset as
+  multi-concern, i.e. when grouping genuinely requires judgment.
+- C9 — The interior is a goal-loop, not a baked step sequence (#460 Level 3): the play
+  ends by PROVING its Done means, never by a step list running out. Each round the agent
+  decides its own moves (scan, group, checkpoint when policy demands, execute, re-check);
+  between rounds the stop condition is evaluated. The loop is bounded by an iteration cap
+  of 5 — hitting the cap without the Done means holding halts the run with the
+  stop-condition verdict recorded; the cap is a circuit breaker, never a target. The
+  conditional checkpoint (it fires only on a sensitive flag, scanner warnings, or a
+  low-confidence mapping) resolves per gate-config — the per-play override
+  (`gates.plays.commit-work`) is off for this project, and a skip is recorded, never
+  silent. When the gate is off, scanner WARNINGS are never silently dropped: they are
+  carried into the delivery report's Run Summary (a visible surface). The sensitive-file
+  BLOCK is untouched by the switch — a hard halt, never a gate. A low-confidence issue
+  mapping when the gate is off proceeds with the mapping recorded as low-confidence in
+  the run record (visible), never silently upgraded.
+
+### Failure conditions
+
+- F1 — A commit mixes unrelated concerns.
+- F2 — A commit message is generic / doesn't describe the change, or lacks the issue
+  reference.
+- F3 — Changed files are left uncommitted with no recorded exclusion reason.
+- F4 — Work is committed on main.
+- F5 — A secret or sensitive file gets committed.
+- F6 — The play pushes, overstepping into review-work.
+- F7 — The fast path swallows a judgment call: the script analyzes a changeset it should
+  have classified as multi-concern, or an agent is dispatched for a changeset the script
+  already analyzed.
+- F8 — The loop exhausts its iteration cap without the Done means holding — the run must
+  halt with the stop-condition verdict recorded, never silently close as completed.
+- F9 — Scanner warnings existed but appeared neither at a checkpoint nor in the delivery
+  report.
+
+## Expectation
+
+### Success scenarios
+
+- S1 — (developer, multi-concern changes) Given uncommitted changes spanning more than one
+  concern on a feature branch, when commit-work runs, then each concern becomes a
+  separate conventional commit referencing the issue, the play's own run artifacts land in
+  a final chore commit, the tree is left clean, and nothing is pushed. Measure: commits are
+  grouped one-concern-each; each is conventional and references the issue with no doubled
+  type prefix; the run artifacts are committed; `git status` is clean; the remote branch
+  tip is unchanged.
+- S2 — (developer, nothing to commit) Given a clean working tree, when commit-work runs,
+  then it exits cleanly without creating a commit. Measure: no commit is created; the run
+  exits gracefully.
+- S3 — (reviewer, log readability) Given the resulting commits, then each is reviewable
+  from the log alone — type, scope, descriptive subject, issue reference. Measure: every
+  commit follows conventional format with an issue reference.
+- S4 — (developer, sensitive file) Given a secret or sensitive file among the changes,
+  when commit-work runs, then it blocks before committing. Measure: no commit is created;
+  the sensitive file is flagged.
+- S5 — (developer, trivial changeset) Given uncommitted changes that form a single concern,
+  when commit-work runs, then the entire run completes through bundled scripts with no
+  sub-agent spawned for analysis or commit execution. Measure: analysis.yaml and
+  commits.yaml are script-emitted; zero analyze/commit agent dispatches occurred; the
+  commit satisfies the same C2–C4 guarantees as the agent path.
+- S6 — (developer, loop convergence) Given a round whose execution leaves the Done means
+  unmet (leftover files, an ignored path surfacing, a failed group), when the loop
+  continues, then the next round consumes the stop-condition verdict as its work list and
+  the run either converges within the cap or halts with the verdict recorded. Measure: the
+  run's stop-condition verdict reads held on convergence, or the run closes HALTED with
+  the unmet clauses named and rounds ≤ 5.
+
+### Done means
+
+- D1 — says: "the commit record exists"
+  check: { type: artifact_exists, path: "context/commits.yaml" }
+- D2 — says: "every change is committed or excluded with a recorded reason"
+  check: { type: field_equals, file: "context/commits.yaml", field: "leftover_count", equals: 0 }
+- D3 — says: "the working tree ended clean"
+  check: { type: field_equals, file: "context/commits.yaml", field: "tree_clean", equals: true }
+- D4 — says: "nothing was pushed"
+  check: { type: field_equals, file: "context/commits.yaml", field: "pushed", equals: false }
+
+### Recovery (one per failure condition)
+
+- REC1 (F1) — trigger: a commit covers more than one concern. direction: regroup so each
+  commit holds a single concern; re-stage by group and recommit. handoff: autonomous.
+- REC2 (F2) — trigger: a commit subject is generic or missing the issue reference.
+  direction: rewrite the subject to describe the change and add the issue reference.
+  handoff: autonomous.
+- REC3 (F3) — trigger: changed files remain uncommitted with no exclusion reason.
+  direction: commit the remaining files in an appropriate group, or record an explicit
+  exclusion reason. handoff: autonomous.
+- REC4 (F4) — trigger: the current branch is main. direction: halt; the work must be moved
+  to a feature branch (start-work) before committing. handoff: human.
+- REC5 (F5) — trigger: a sensitive file is staged. direction: unstage the sensitive file
+  and confirm it is excluded before committing. handoff: human.
+- REC6 (F6) — trigger: the play attempted a push. direction: this play commits only —
+  drop the push; leave pushing to review-work. handoff: autonomous.
+- REC7 (F7) — trigger: the script's triviality classification disagrees with the changeset
+  (a "single-concern" analysis spans unrelated file sets, or an agent was dispatched over a
+  script-classified-trivial changeset). direction: discard the fast-path analysis and
+  re-run Step 1 through the analyze agent (or, for a needless dispatch, record the
+  redundancy); the agent's grouping wins. handoff: autonomous.
+- REC8 (F8) — trigger: the loop hit its iteration cap with the Done means still unmet.
+  direction: halt HALTED with exit_reason loop_cap_exhausted and the stop-condition
+  verdict recorded; a human inspects the unmet clauses and either fixes the underlying
+  state and re-runs, or raises the cap knowingly. handoff: human.
+- REC9 (F9) — trigger: the run's scan produced warnings but no checkpoint fired and the
+  delivery report's Run Summary carries no Scanner Warnings row. direction: re-render
+  the delivery report with the warnings carried into the Run Summary before closing.
+  handoff: autonomous.

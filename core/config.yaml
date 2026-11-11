@@ -66,7 +66,7 @@ ltm:
 # All agents, plays, and skills resolve these from config — never hardcode paths.
 # Per ADR 017, only 5 structure keys are permitted: specs, evidence, checkpoint, context, review.
 # Plans (ontology v5, #717): one file per plan, named by its business intent's issue number.
-# start-change reads them (resolve_plan.py) to cut an issue's branch under its plan's branch.
+# start-work reads them (resolve_plan.py) to cut an issue's branch under its plan's branch.
 plans:
   base-path: .garura/project/plans/
 
@@ -81,8 +81,8 @@ stm:
     context: "{issue-number}/context/"
     review: "{issue-number}/review/"
 
-# start-change play configuration
-start-change:
+# start-work play configuration
+start-work:
   worktree: false   # set up a git worktree on start only when true (C3)
 
 # implement play configuration
@@ -110,18 +110,18 @@ review-pr:
 craft-ice:
   hitl: true
 
-# shape-slice play configuration
-# grill-tier — how many questions /shape-slice may ask: xs 5, s 12, m 25, l 45, xl 70.
+# design-slice play configuration
+# grill-tier — how many questions /design-slice may ask: xs 5, s 12, m 25, l 45, xl 70.
 #   The questions only the person can answer are always asked, and count first.
-shape-slice:
+design-slice:
   grill-tier: m
 
-# Loops (ADR 029, #613) — one block per loop, written by /create-loop. `runner` is how
+# Loops (ADR 029, #613) — one block per loop, written by /build-loop. `runner` is how
 # each play runs (subagent | headless); `checker` is who checks the result (kind: subagent |
 # coding-agent). A subagent checker must name its model, one other than the session's (e.g.
 # sonnet when the session runs opus); a coding-agent checker is Codex — name a model your
 # Codex account allows (its own default may not be). A loop always records its evidence:
-# /create-loop also sets evidence.plays.<loop>: true below.
+# /build-loop also sets evidence.plays.<loop>: true below.
 #loops:
 #  <loop>:
 #    runner: subagent
@@ -130,7 +130,7 @@ shape-slice:
 #      model: sonnet          # coding-agent: a Codex model, e.g. gpt-5.6-terra
 
 loops:
-  complete-discovery:
+  loop-product-spec:
     runner: subagent
     max_rounds: 3           # the most rounds of intent -> vision -> understand before it asks
     checker:
@@ -141,7 +141,7 @@ loops:
 evidence:
   record: false
   plays:
-    complete-discovery: true           # a loop always records its evidence (ADR 029)
+    loop-product-spec: true           # a loop always records its evidence (ADR 029)
 
 # Grounding eval — the content-quality judge over product-model grounding docs
 # (domain/capability/feature/epic). The linter (lint_grounding.py) checks shape;
@@ -201,19 +201,19 @@ gates:
   # replacement machine checks; skips are always recorded. Flip any back to on
   # to restore the human wait; the checkpoint machinery is kept, not removed.
   plays:
-    start-change: off
-    commit-change: off
-    propose-change: off
-    check-change: off
-    # merge-change: the land on main is PINNED (#467 re-pin correction) — the actual
+    start-work: off
+    commit-work: off
+    review-work: off
+    validate-work: off
+    # merge-work: the land on main is PINNED (#467 re-pin correction) — the actual
     # merge always keeps its human beat; no config switch here (pinned overrides config).
     # Execute-side gates off per the #467 ruling (Batch D) — replaced by machine
-    # preconditions in the same change. fix-bug and implement were pinned; the ruling
+    # preconditions in the same change. fix-work and implement were pinned; the ruling
     # unpins them (an intent change), so the config switch now governs them too.
-    validate-epic: off
-    fix-bug: off
-    build-epic: off
-    refactor-code: off
+    validate-slice: off
+    fix-work: off
+    build-work: off
+    refactor-work: off
   conditional:
     streak: 3                                # clean approvals a shape needs to earn auto
     # each issue keeps its own gate history; {issue} is the run's issue, filled by gate_eval.py

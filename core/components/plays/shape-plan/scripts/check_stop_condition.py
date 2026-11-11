@@ -4,7 +4,7 @@ check_stop_condition.py — evaluate a play's baked stop condition (#464).
 
 A play ends because "done" was PROVEN, not because its step list ran out.
 The proof is this script: it reads the play's compiled stop-condition
-manifest (stop-condition.yaml, baked by create-play from the ICE's
+manifest (stop-condition.yaml, baked by build-play from the ICE's
 "### Done means" section) and evaluates every clause against what actually
 exists on disk at close. Pure assertions — it executes nothing, so the
 close gate stays instant and side-effect-free (implement's hand-built

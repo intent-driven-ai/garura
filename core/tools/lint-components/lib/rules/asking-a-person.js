@@ -19,7 +19,7 @@ const RULE_FILE = '_shared/asking-a-person.md';
 
 // The parts that ask a person and must name the rule, by kind.
 const PARTS = {
-  play: ['edit-ontology', 'shape-slice'],
+  play: ['specify-ontology', 'design-slice'],
   skill: ['author-product-ontology', 'find-slice-gaps', 'author-slice-brief'],
 };
 

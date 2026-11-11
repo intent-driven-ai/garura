@@ -59,7 +59,7 @@ Receive from agent:
 ## Output
 
 Write the grouped analysis to the contract's `outputs.analysis` path as **YAML in the
-executor's schema** — `commit-change/scripts/execute_commits.py` consumes this file
+executor's schema** — `commit-work/scripts/execute_commits.py` consumes this file
 mechanically, so the schema is a hard contract, not a style. The exact shape (with field
 notes) is in `templates/analysis-output.md`:
 

@@ -1,7 +1,7 @@
 # Analysis Output — the executor contract
 
 The analysis file this skill writes is consumed mechanically by
-`commit-change/scripts/execute_commits.py`. The keys below are a hard contract:
+`commit-work/scripts/execute_commits.py`. The keys below are a hard contract:
 `id` (not `name`), `commit_type` (not `type`), plain file paths (a rename lists both
 sides as separate entries — never an `old -> new` string). Extra keys are tolerated
 and ignored; contract keys must never be renamed or omitted.

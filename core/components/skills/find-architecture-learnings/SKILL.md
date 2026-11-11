@@ -1,6 +1,6 @@
 ---
 name: find-architecture-learnings
-description: Search the empirical Knowledge Base for the best-fit architecture and technology learnings given a product's conditions. Use during context-building in the realize lenses (/shape-architecture-lens, /shape-run-lens, /shape-ux-lens, /shape-agentic-lens) when you need to know what worked before for a product in this situation — its stage, scale, persistence, and monetization. Reads the architecture/ and technology/ shelves (the condition-matched, "what works for us" engine), distinct from find-work-placement which routes work to a domain. Returns the learnings that fit, with recommendation, rationale, and provenance.
+description: Search the empirical Knowledge Base for the best-fit architecture and technology learnings given a product's conditions. Use during context-building in the realize lenses (/design-architecture, /design-env, /design-surface, /design-agentic) when you need to know what worked before for a product in this situation — its stage, scale, persistence, and monetization. Reads the architecture/ and technology/ shelves (the condition-matched, "what works for us" engine), distinct from find-work-placement which routes work to a domain. Returns the learnings that fit, with recommendation, rationale, and provenance.
 version: 0.1.0
 user-invocable: false
 model: sonnet

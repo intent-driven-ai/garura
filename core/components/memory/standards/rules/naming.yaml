@@ -1,34 +1,41 @@
-# naming.yaml — the machine half of the naming standard (standards/rules/naming.md, ADR 046, #736).
-# lint-components reads this file; it holds no naming rule of its own.
-industry_terms: [pr, mvp, nfr, rca, lld, kb, ice, ux, tech, ci, yaml, adr]
+# naming.yaml — the machine half of the naming standard (standards/rules/naming.md, ADR 046, #736;
+# ADR 066, #1044). lint-components reads this file; it holds no naming rule of its own.
+industry_terms: [pr, mvp, nfr, rca, lld, kb, ice, ux, tech, ci, yaml, adr, env, perf, uat]
 play:
+  # Five roles own the play verbs (ADR 066). A verb belongs to one role; a role can have several.
+  roles:
+    specifier: [specify, learn]
+    designer: [design]
+    builder: [build, fix, refactor]
+    validator: [validate]
+    orchestrator: [shape, reshape, view, list]
+  # Verbs no role owns: the work plays, which anyone can run, the product plays, and release,
+  # whose name and role are still open (ADR 066).
+  no_role: [start, commit, review, merge, install, uninstall, release]
   verbs:
-    discover: Product -> Intent. Find what the product is.
-    shape: Intent -> Design. Decide how a piece will be built.
-    build: Design -> Code. Write the code.
-    validate: Code -> Validation. Prove it works.
-    release: Validation -> Run. Put it where people use it.
-    learn: Run -> Product. Read what happened and correct the intent.
-    start: Change. Open a unit of work.
-    commit: Change. Commit the work.
-    propose: Change. Raise it for review.
-    check: Change. A person or a check looks at a change before it is accepted.
-    merge: Change. Land it.
-    fix: Change. Fix a defect.
-    refactor: Change. Improve code without changing what it does.
-    draft: Plan. Set out a new plan.
-    show: Plan. Show one thing.
-    update: Plan. Change a plan, in its file and the tracker together.
-    list: Plan. Show many things.
-    record: Record. Write a fact down for good.
-    create: Harness. Make a new harness part.
-    edit: Harness. Change a harness part.
-    install: Harness. Put Garura into a project.
-    uninstall: Harness. Take Garura out of a project.
+    specify: Specifier. Turn what a person gives into a spec — intents, domains, capabilities, the ontology.
+    learn: Specifier. Read what happened in the run and correct the spec.
+    design: Designer. Decide how a piece will be built.
+    build: Builder. Make something new — code, a play, a loop.
+    fix: Builder. Fix a defect, or change what a play or loop does.
+    refactor: Builder. Improve code without changing what it does.
+    validate: Validator. Prove a piece works.
+    shape: Orchestrator. Make the plan that orders the work.
+    reshape: Orchestrator. Change a plan, in its file and the tracker together.
+    view: Orchestrator. Show one thing.
+    list: Orchestrator. Show more than one thing.
+    start: No role. Open a unit of work.
+    commit: No role. Commit the work.
+    review: No role. Raise the work for review.
+    merge: No role. Land it.
+    install: No role. Put Garura into a project.
+    uninstall: No role. Take Garura out of a project.
+    release: No role yet. Put it where people use it.
   one_word: []
 loop:
-  verb: complete
-  meaning: A loop runs its plays in rounds until its phase is complete. No play or skill starts with this verb.
+  verb: loop
+  phases: [product, spec, design, code, validation, run]
+  meaning: A loop runs the plays of one transition between two phases in rounds until it is done, named loop-<from>-<to>. No play or skill starts with this verb.
 skill:
   verbs:
     author: Write a document from inputs.
@@ -58,8 +65,8 @@ skill:
 agent:
   roles: [keeper, reviewer, builder, operator, crafter, engineer, steward, resolver, checker, analyst, orchestrator, reader, auditor, scriber, architect, designer, manager, runner]
 # Built-in commands of Claude Code and Codex (read 2026-10-22 from https://code.claude.com/docs/en/commands.md
-# and https://github.com/openai/codex/blob/main/codex-rs/tui/src/slash_command.rs). No name may be one of
-# these, or start with one as its first word.
+# and https://github.com/openai/codex/blob/main/codex-rs/tui/src/slash_command.rs). No name may be exactly
+# one of these; a name may start with one (ADR 066).
 reserved:
   - add-dir
   - adddir

@@ -1,7 +1,7 @@
 # deploy — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-edit-play; never hand-edit the compiled SKILL.md.
+fix-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -47,7 +47,7 @@ opens no issue, cuts no branch, and lands no PR — it deploys and records evide
 - C10 — The Confirm Deploy checkpoint is pinned (class: one-way-door, pinned; gate-config.md).
   Deploying to a live cloud environment is outward-facing and always requires a typed human approval
   before anything is deployed — no config value, policy, or ledger turns it off. Unpinning would be an
-  intent change (edit-play), never a config edit.
+  intent change (fix-play), never a config edit.
 
 ### Failure conditions
 
@@ -125,7 +125,7 @@ declared steps ran.
 - REC2 (F2) — trigger: production or an out-of-scope tier was targeted. direction: halt; production
   rollout is out of scope — it stays with CD from main. handoff: human.
 - REC3 (F3) — trigger: the increment is not delivered, merged, or validated. direction: halt; `/release-increment`
-  deploys only a validated, merged increment — route to /validate-epic or /release-epic first. handoff: human.
+  deploys only a validated, merged increment — route to /validate-slice or /validate-uat first. handoff: human.
 - REC4 (F4) — trigger: a product-model file changed. direction: revert the write; `/release-increment` executes
   only and never writes the model. handoff: autonomous.
 - REC5 (F5) — trigger: success was reported but the increment is not healthy. direction: mark the deploy
@@ -135,7 +135,7 @@ declared steps ran.
   remains. handoff: autonomous.
 - REC7 (F7) — trigger: a failed deploy left the environment half-deployed. direction: report the partial
   state for a human to resolve; `/release-increment` does not auto-rollback. handoff: human.
-- REC8 (F8) — trigger: no run lens, or no cloud environment is defined. direction: halt; run `/shape-run-lens` to
+- REC8 (F8) — trigger: no run lens, or no cloud environment is defined. direction: halt; run `/design-env` to
   define the cloud environment before `/release-increment`. handoff: human.
 - REC9 (F9) — trigger: the run is about to close COMPLETED with the Done means unmet. direction:
   close HALTED with `exit_reason: stop_condition_unmet` and the unmet clauses named; fix the state —

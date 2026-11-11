@@ -1,0 +1,14 @@
+{
+  "verdict": "reject",
+  "reason": "1 P1 (blocker) finding(s)",
+  "blocking": [
+    "TEST-RED-1"
+  ],
+  "counts": {
+    "P1": 1,
+    "P3": 4,
+    "P4": 8
+  },
+  "confidence": 0.9,
+  "threshold": 0.5
+}

@@ -1,0 +1,96 @@
+# design-findings-harness.yaml — /check-change Step 3 Layer 2, category: harness, PR #1045 (issue #1044)
+# Grounded only in committed sources on main (git show main:<path>); never in naming.md, naming.yaml or rename-map.yaml of this branch.
+category: harness
+base: main
+grounding:
+  principles:
+    - id: H1
+      principle: "The 30 renamed parts take the names agreed in names.md, under the five roles (specifier, designer, builder, validator, orchestrator); a loop is loop-<from>-<to>; the work plays have no role; skills and agents keep their verbs."
+      source: "main:docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md §1 (lines 59-69), §2 (71), §3 (75-79), §4 (81), §5 (85), 'The list names plays and loops, but no skill and no agent' (25-31)"
+      second_source: "main:.garura/project/issues/1021/context/names.md (the full old -> new list)"
+    - id: H2
+      principle: "The rename is names and references only: no play's goal, limit or check changes. Each ICE that names a part changes in wording only, through /edit-play or /edit-loop, and its fingerprint is stamped again."
+      source: "main:docs/adr/066-...md line 11 (ICE impact)"
+    - id: H3
+      principle: "The plain loop names Discovery, Slice, Execute, Ship and Learn go: a loop's full name is its command. ADR 045 §4's name 'Discovery loop' is superseded."
+      source: "main:docs/adr/066-...md §3 (line 75) and the Supersedes line (line 8, ADR 045 §3 and §4)"
+    - id: H4
+      principle: "The second phase is Spec, not Intent; the rule files' phase wording moves with the rename."
+      source: "main:docs/adr/066-...md §8 (line 97) and Work This Creates (line 149)"
+    - id: H5
+      principle: "An installed part names, reads and runs only installed files; it never names core/components/ or core/tools/. The source-only parts are named exceptions."
+      source: "main:docs/adr/055-installed-parts-read-only-installed-files.md §1 (line 31), §5 (line 55), §6 (line 63); main:CLAUDE.md 'Source of Truth' (the source-only parts list)"
+    - id: H6
+      principle: "An intent change goes through the play's ICE source and /edit-play; a compiled SKILL.md is never hand-edited for an intent change. A play's fingerprint is the sha256 of reference/ice.md and must match it."
+      source: "main:CLAUDE.md 'Play Pipeline Rules' (lines 101-127); main:core/components/plays/create-play/SKILL.md lines 376-381 and 419-421 (fingerprint = shasum -a 256 of the ICE; recompute and compare)"
+conformance:
+  names:
+    result: PASS
+    method: "Compared the 29 renamed play folders and the loop folder in the working tree against names.md on main, one by one. All 30 match H1: specify-intent, specify-domains, specify-capabilities, specify-ontology; design-slice, design-eval, design-adr, design-surface, design-env, design-architecture, design-quality, design-agentic; build-work, fix-work, refactor-work, build-play, fix-play, build-loop, fix-loop; validate-work, validate-slice, validate-uat; reshape-plan, view-plan, list-issues; start-work, commit-work, review-work, merge-work; loop-product-spec. shape-plan, list-plans, learn-outcomes, release-increment, install-garura, uninstall-garura keep their names. shape-marketing-lens and shape-measure-lens are not renamed and not deleted (ADR 066 §7: nothing is deleted). No skill or agent is renamed. No unbuilt play (view-issue, validate-perf, validate-security, the five other loops) is added."
+  names_and_references_only:
+    result: PASS_WITH_NOTES
+    method: "For every file in the 30 renamed folders (628 tracked files), took the file on main, applied the old -> new play-name map, and diffed it against the file on the branch. No file was added or lost inside a folder. After the map, every file is identical to the branch except the items listed in findings F1 to F5 (the fingerprint lines, retained identifier prefixes, the loop's ICE wording line, and adr.py). In the 10 agents, 41 skills, play-close.md, loop-run.md, the glossary and the stop-condition files, the only residuals are those same items. No goal, limit, check, constraint, failure condition, scenario, step or eval text changed."
+  fingerprints:
+    result: PASS_WITH_NOTES
+    method: "Recomputed shasum -a 256 of reference/ice.md for every play and loop with an ICE. 32 of 33 match their SKILL.md stamp. list-issues does not (finding F4). build-loop, build-play, fix-loop, fix-play, install-garura and uninstall-garura have no ICE source."
+  ice_and_skill_changed_together:
+    result: PASS
+    method: "33 ICE files and 38 compiled SKILL.md files changed under plays/ and loops/. Every ICE that changed has its SKILL.md changed in the same diff (and the reverse, for every play that has an ICE). The 6 SKILL.md files without an ICE are the no-ICE parts above. Each ICE change is identical to main after the name map, except the loop's one phase line (F3)."
+  installed_paths:
+    result: PASS
+    method: "Ran the branch's own linter on the branch source: node core/tools/lint-components/index.js --layout source --target core/components -> 36 errors, 0 installed-paths/source-path, 0 naming-reserved; main gives the same 36 (22 missing-section, 8 missing-frontmatter-field, 6 missing-standard-play-close). The branch updated the linter's source-only list (installed-paths.js) and CLAUDE.md and harness-standard.md to the new names (build-play, fix-play, build-loop, fix-loop, install-garura, uninstall-garura, specify-ontology, author-product-ontology), and commit-work/scripts/analyze_changeset.py. No installed part newly names core/."
+  play_pipeline_rules:
+    result: PASS_WITH_NOTES
+    method: "CLAUDE.md on the branch: the 'Play Pipeline Rules' and the durability rule are untouched and point to /build-play. The play-close.md anchors are unchanged. See F6 for how the ICE wording was applied."
+findings:
+  - id: F1
+    severity: P3
+    file: "core/components/loops/loop-product-spec/SKILL.md (lines 4, 13, 19), reference/ice.md (lines 1, 86, 97), core/components/plays/{specify-intent,specify-domains,specify-capabilities,design-adr}/SKILL.md and reference/ice.md (scenario names 'Discovery loop'), core/components/memory/standards/rules/pipeline-next.md (lines 22, 28, 30: 'Shaping loop', 'Execute loop', 'Learn loop')"
+    principle: "H3: the plain loop names go; a loop's full name is its command, and the name 'Discovery loop' is superseded."
+    basis: "main:docs/adr/066-...md §3 (line 75) and Supersedes line 8 (ADR 045 §4, 'the name Discovery loop'); ICE impact line 11 (each ICE that names a part changes in wording)."
+    detail: "The rename tool rewrote /complete-discovery, but the plain names stay: the loop's own description reads 'The Discovery loop — product to intent' with the trigger phrase 'run the Discovery loop' and the title '# discovery', and 20-odd ICE and SKILL scenario lines in four plays still say 'Discovery loop'. pipeline-next.md keeps 'Shaping loop', 'Execute loop' and 'Learn loop' as group names. The old-name check cannot see these (they are not play names). 30 of the 30 part names are right; this is leftover wording of the loop names that ADR 066 says go."
+    suggested_fix: "Change the wording to /loop-product-spec in the loop's description and heading and in the four plays' scenario lines (through /fix-play and /fix-loop, so the ICE and SKILL stay together), or record in the PR that the plain names stay until the later loops are built."
+  - id: F2
+    severity: P4
+    file: "46 lines in 12 SKILL.md/agent/test files, for example core/components/plays/fix-work/SKILL.md lines 84, 398, 404, 416; start-work/SKILL.md lines 268-422; design-slice/SKILL.md ('shape-slice-*' task_id, 21 lines); design-eval/SKILL.md; commit-work, merge-work, review-work, reshape-plan, view-plan, specify-ontology SKILL.md; core/components/agents/evals-engineer.md lines 72 and 81; core/components/plays/design-slice/scripts/test_shape_slice_scripts.py"
+    principle: "H2 and H1: names and references are renamed, and the old-name check is the proof; the part's name says who does the work."
+    basis: "main:docs/adr/066-...md §1 and line 11 (names and references change in wording)."
+    detail: "Identifier strings that start with a play's old name stay: run_id `fix-bug-${ts}`, `shape-slice-*` and `shape-eval-*` task_ids, session-stamp-<old>.json and stop-condition-<old>.yaml, manifest-<old>.json. The play field beside them is renamed (play `fix-work`, run_id `fix-bug-${ts}`), so a run record now reads two names. The old-name check reports 0 because its patterns skip a name followed by '-'. Each is used in one place together with its own reader, and the agent task_id in evals-engineer.md matches design-eval/SKILL.md, so nothing breaks. The PR body discloses it. build-loop/references/test_loop_scripts.py also keeps `open-discover-intent.json` and `discover-intent-done.json` in a fixture that names play 'specify-intent'."
+    suggested_fix: "Accept as disclosed, and add a follow-up for the identifiers, or extend the old-name check to names followed by '-'."
+  - id: F3
+    severity: P3
+    file: "core/components/loops/loop-product-spec/SKILL.md line 4 against core/components/loops/loop-product-spec/reference/ice.md line 3"
+    principle: "H4 and H6: the second phase is Spec; the compiled SKILL.md and its ICE change together."
+    basis: "main:docs/adr/066-...md §8 (line 97); main:CLAUDE.md 'Play Pipeline Rules' (the compiled file follows the ICE source)."
+    detail: "The loop's ICE now says 'It solves product → spec' (changed from 'intent'), but the compiled SKILL.md description still says 'The Discovery loop — product to intent'. This is the one ICE wording line that changed beyond a part name, and the compiled file did not follow. The fingerprint matches the ICE, so the lint passes."
+    suggested_fix: "Say 'product to spec' in the SKILL.md description (a surface wording change; the fingerprint does not move)."
+  - id: F4
+    severity: P4
+    file: "core/components/plays/list-issues/SKILL.md line 392 and reference/ice.md"
+    principle: "H2 and H6: when an ICE changes, its fingerprint is stamped again, and the fingerprint is the sha256 of reference/ice.md."
+    basis: "main:docs/adr/066-...md line 11; main:core/components/plays/create-play/SKILL.md lines 419-421."
+    detail: "The stamp is sha256:f937d9e7... and the ICE hashes to f38e7e60.... The same stamp was already out of step with the ICE on main (main's ICE hashes to 5e6ffc60...). The branch changed the ICE wording and did not stamp it again. The PR body says so. A mechanical re-stamp would hide an older drift between the ICE and the compiled play, so leaving it is defensible; it stays an open mismatch."
+    suggested_fix: "None for this PR. Record the drift (an /fix-play run on list-issues), as the PR body says."
+  - id: F5
+    severity: P4
+    file: "core/components/plays/design-adr/scripts/adr.py (lines 107-142, the new pointers() and index_status()), core/components/skills/author-decision/scripts/adr.py, core/components/skills/author-decision/scripts/test_adr.py"
+    principle: "H2: the rename changes names and references only; no play does anything different."
+    basis: "main:docs/adr/066-...md line 11 (ICE impact: no play's goal, limit or check changes); the play's own ICE S6 (design-adr/reference/ice.md lines 107-109: the index row reads Accepted)."
+    detail: "This is a behaviour change, not a rename: /design-adr's index Status cell now reads, for example, 'Accepted; superseded in part by 046' where it read 'Accepted'. Commit fe3892b3 makes it, and the self-review ties it to a 'Done when' line of #1044. For a newly accepted ADR the cell still reads Accepted, so ICE S6 still holds, and no ICE changed. The script exists twice (design-adr and author-decision, identical on the branch). It does widen a rename PR with code the rename did not need."
+    suggested_fix: "Keep, with the PR body line that already names it; or move it to its own change."
+  - id: F6
+    severity: P4
+    file: "all 33 ICE files under core/components/plays/*/reference/ and loops/*/reference/ (wording), 31 re-stamped fingerprints"
+    principle: "H2: each ICE changes in wording only, through /edit-play or /edit-loop, and its fingerprint is stamped again. H6: an intent change goes through the ICE source and /edit-play."
+    basis: "main:docs/adr/066-...md line 11; main:CLAUDE.md lines 101-127."
+    detail: "The ICE and SKILL.md wording was changed by the rename tool in one pass, not by one /fix-play run per play. The PR body says this was the product owner's choice and follows the earlier renames #743 to #746. The effect is within the rule's purpose: every ICE change is name-only (checked), each SKILL.md changed with its ICE, no SKILL.md was hand-edited for an intent change, and 32 of 33 stamps match. Only the method differs from ADR 066's words."
+    suggested_fix: "None. Keep the PR body line; the ADR's wording says /edit-play, so note the choice where ADR 066 is next touched."
+observations:
+  - "Layer 1 artefact for the play: .garura/project/issues/1044/review/lint-components.json and lint-play.txt were made with the installed tools under .garura/core/tools/, which are older than the branch (the installed installed-paths.js and naming.js still list create-play, edit-ontology and the old verbs). They show 78 errors, 30 installed-paths/source-path and 10 naming-reserved, and per-play 'next-command has no entry in pipeline-next.md' gaps (the next map copy is the old one). The branch's own tool on the branch source gives 36 errors, the same as main, and lint_play.py with the branch's core/components/memory/standards/rules/pipeline-next.md gives PASS (checked on design-slice). So these are not branch defects; do not record them as findings."
+  - "Outside the harness category: ADR 066 line 149 (an accepted record) is edited on this branch, while ADR 066 says an accepted ADR is never edited. The memory and docs reviews own it."
+  - "Grounding came from main only (ADR 066, 055, 046, 045, CLAUDE.md, names.md, create-play SKILL.md). Nothing the branch adds or rewrites was used as a source. No extra memory was copied (manifest at .garura/project/issues/1044/context/memory/grounding-harness/manifest.json)."
+summary:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 4

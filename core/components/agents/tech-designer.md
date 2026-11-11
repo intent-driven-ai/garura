@@ -80,7 +80,7 @@ When you receive a JSON contract from the play orchestrator:
 **Example return** (after technical-approach drafting):
 ```json
 {
-  "intent_path": ".claude/skills/fix-bug/reference/ice.md",
+  "intent_path": ".claude/skills/fix-work/reference/ice.md",
   "stm_base": ".garura/project/issues/",
   "slug": "chronos",
   "stm": {

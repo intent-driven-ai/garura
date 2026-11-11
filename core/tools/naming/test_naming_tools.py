@@ -63,8 +63,10 @@ SEED = {
     "docs/adr/049-a-later-decision.md": ADR_TEXT,
     "docs/adr/053-a-quoting-decision.md": ADR_TEXT,
     "docs/adr/054-a-later-decision.md": ADR_TEXT,
+    "docs/adr/066-the-last-rename.md": ADR_TEXT,
+    "docs/adr/067-a-decision-after-the-rename.md": ADR_TEXT,
     "docs/adr/SUPERSEDED-046-old-naming.md": ADR_TEXT,
-    "docs/adr/SUPERSEDED-047-old-ice.md": ADR_TEXT,
+    "docs/adr/SUPERSEDED-067-old-decision.md": ADR_TEXT,
     "CHANGELOG.md": "/vision shipped.\n",
 }
 KINDS = ["plays", "loops", "skills", "agents"]
@@ -94,14 +96,13 @@ def check_before(root):
     check("a lens word in code is not flagged", not hit_at(before, "core/x.py", 2))
     check("a dict key 'grill' in code is not flagged", not hit_at(before, "core/x.py", 3))
     check("past records are not searched", not {"docs/adr/006-naming.md", "CHANGELOG.md"} & hit)
-    check("the rename ADRs 046 and 048 are not searched",
-          not {"docs/adr/046-one-naming-standard.md", "docs/adr/048-two-layers.md"} & hit)
-    check("ADR 047 is searched", "docs/adr/047-the-ice.md" in hit)
-    check("ADR 049 is searched", "docs/adr/049-a-later-decision.md" in hit)
-    check("ADR 053, which quotes old names, is not searched", "docs/adr/053-a-quoting-decision.md" not in hit)
-    check("a later ADR 054 is searched", "docs/adr/054-a-later-decision.md" in hit)
-    check("a superseded rename ADR 046 is not searched", "docs/adr/SUPERSEDED-046-old-naming.md" not in hit)
-    check("a superseded ADR 047 is searched", "docs/adr/SUPERSEDED-047-old-ice.md" in hit)
+    check("the ADRs up to ADR 066, the last rename's decision, are not searched", not {
+        "docs/adr/046-one-naming-standard.md", "docs/adr/047-the-ice.md", "docs/adr/048-two-layers.md",
+        "docs/adr/049-a-later-decision.md", "docs/adr/053-a-quoting-decision.md",
+        "docs/adr/054-a-later-decision.md", "docs/adr/066-the-last-rename.md"} & hit)
+    check("an ADR after ADR 066 is searched", "docs/adr/067-a-decision-after-the-rename.md" in hit)
+    check("a superseded ADR up to 066 is not searched", "docs/adr/SUPERSEDED-046-old-naming.md" not in hit)
+    check("a superseded ADR after 066 is searched", "docs/adr/SUPERSEDED-067-old-decision.md" in hit)
 
 
 def check_after(root):

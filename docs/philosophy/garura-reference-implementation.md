@@ -35,8 +35,8 @@ IDSD keeps two intents apart, both in ICE form ([The Dual-Intent System](./idsd.
 
 | Intent | Where Garura keeps it | Who writes it | How it changes |
 |--------|----------------------|---------------|----------------|
-| **SDLC intent** | Each play's ICE source, `reference/ice.md`, compiled into the play | Framework author | Edit the ICE source and recompile with `edit-play` |
-| **Business intent** | The product model, `.garura/product/product-os/` | The strategy plays, lenses, and `/shape-slice`, with a human at the checkpoints | Plays write it on a feature branch; `/learn-outcomes` trues it from outcomes |
+| **SDLC intent** | Each play's ICE source, `reference/ice.md`, compiled into the play | Framework author | Edit the ICE source and recompile with `fix-play` |
+| **Business intent** | The product model, `.garura/product/product-os/` | The strategy plays, lenses, and `/design-slice`, with a human at the checkpoints | Plays write it on a feature branch; `/learn-outcomes` trues it from outcomes |
 
 ## Where Each Intent Lives
 
@@ -46,9 +46,9 @@ Every play separates four authoring concerns. Each craft has one owner, so inten
 
 | Craft | Owner | What it produces in the shipped plays |
 |-------|-------|----------------------------------------|
-| **Intent Crafting** | Framework author | The play's ICE source, `reference/ice.md` — goal, constraints, failure conditions, plus scenarios and a "Done means" section. `create-play` compiles it into `SKILL.md` and bakes "Done means" into `stop-condition.yaml`. |
+| **Intent Crafting** | Framework author | The play's ICE source, `reference/ice.md` — goal, constraints, failure conditions, plus scenarios and a "Done means" section. `build-play` compiles it into `SKILL.md` and bakes "Done means" into `stop-condition.yaml`. |
 | **Prompt Crafting** | Play | A JSON contract per agent dispatch — the task, the skill to use, and the input and output paths. The contract is the prompt; the play adds no prose instructions. |
-| **Context Crafting** | Agent | The agent finds the KB standards, product-model docs, and STM artifacts the skill needs and passes them as explicit inputs. In `/build-epic`, `tech-designer` captures box context in which every entry cites its source (epic, ICE, lens, or repo path). |
+| **Context Crafting** | Agent | The agent finds the KB standards, product-model docs, and STM artifacts the skill needs and passes them as explicit inputs. In `/build-work`, `tech-designer` captures box context in which every entry cites its source (epic, ICE, lens, or repo path). |
 | **Spec Crafting** | Skill | The skill fills a template and writes the artifact — a lens doc, an epic, a build plan, a verdict — to the product model or to STM. |
 
 A play is therefore an ICE document executed through four hands: intent by the author, prompt by the play, context by the agent, spec by the skill. The stop condition closes the loop: a play closes `COMPLETED` only when its "Done means" holds; otherwise it closes `HALTED` with the unmet clauses recorded (`play-close.md`).
@@ -66,7 +66,7 @@ Business intent is not held in any one play. It is stored in the **product model
 ### How the two meet when a play runs
 
 ```
-User: /build-epic --epic e-1-csv-export
+User: /build-work --epic e-1-csv-export
         │
         ▼
 ┌───────────────────────────────────────┐
@@ -99,43 +99,43 @@ IDSD runs the lifecycle as five loops, each defined by the intent it must meet (
 
 | Loop (working name) | Its intent | Plays it runs | Built today |
 |---------------------|-----------|---------------|-------------|
-| **Understand** | The intent is known and stored | `/discover-domains` → `/discover-capabilities` | The plays ship. Starting from a working prototype, and pulling the intent out of it, is decided (ADR 028) but not built |
-| **Shape** | The product is ready to build in slices | `/shape-slice`; the older design plays, stale until their rebuild (#855): `/shape-ux-lens` → `/shape-agentic-lens` → `/shape-marketing-lens`, `/shape-architecture-lens` → `/shape-quality-lens` → `/shape-run-lens` | The plays ship, but design still runs **per slice**, and `/shape-measure-lens` stamps each slice *realized*. Design once per project, each area optional, measure left out — decided (ADR 028), not built |
-| **Execute** | A slice is delivered and checked against its intent | `/shape-slice` → `/build-epic` → `/validate-epic` → `/release-epic` | Built. `/shape-slice` still requires a realized slice; grilling on a slice's missing design areas instead is #595 |
-| **Change** | Every change lands the same way | `/start-change` → `/commit-change` → `/propose-change` → `/check-change` → `/merge-change` | Built |
-| **Learn** | The stored intent stays true | `/list-focus-issues`, `/learn-outcomes` | Built |
+| **Understand** | The intent is known and stored | `/specify-domains` → `/specify-capabilities` | The plays ship. Starting from a working prototype, and pulling the intent out of it, is decided (ADR 028) but not built |
+| **Shape** | The product is ready to build in slices | `/design-slice`; the older design plays, stale until their rebuild (#855): `/design-surface` → `/design-agentic` → `/shape-marketing-lens`, `/design-architecture` → `/design-quality` → `/design-env` | The plays ship, but design still runs **per slice**, and `/shape-measure-lens` stamps each slice *realized*. Design once per project, each area optional, measure left out — decided (ADR 028), not built |
+| **Execute** | A slice is delivered and checked against its intent | `/design-slice` → `/build-work` → `/validate-slice` → `/validate-uat` | Built. `/design-slice` still requires a realized slice; grilling on a slice's missing design areas instead is #595 |
+| **Change** | Every change lands the same way | `/start-work` → `/commit-work` → `/review-work` → `/validate-work` → `/merge-work` | Built |
+| **Learn** | The stored intent stays true | `/list-issues`, `/learn-outcomes` | Built |
 
-Outside the five loops: `/fix-bug` and `/refactor-code` (the defect and refactor lanes, ADR 023), `/release-increment` (the future deployment-and-run loop), and the meta plays — `/install-garura`, `/uninstall-garura`, `/create-play`, `/edit-play`.
+Outside the five loops: `/fix-work` and `/refactor-work` (the defect and refactor lanes, ADR 023), `/release-increment` (the future deployment-and-run loop), and the meta plays — `/install-garura`, `/uninstall-garura`, `/build-play`, `/fix-play`.
 
-**Model writes ride the Change loop.** Plays that write the product model edit the live model directly on the feature branch that `/start-change` cut. Git is the draft, the PR is the review, and the Change loop lands it (ADR 026).
+**Model writes ride the Change loop.** Plays that write the product model edit the live model directly on the feature branch that `/start-work` cut. Git is the draft, the PR is the review, and the Change loop lands it (ADR 026).
 
 ### What each loop does to business intent today
 
 | Loop | What its plays do to business intent |
 |------|---------------------------------------|
-| **Understand** | `/discover-domains` seeds the domain and directional capabilities. `/discover-capabilities` details one capability and its features. |
-| **Shape** | `/shape-slice` shapes the slice that shows a business intent is served (ADR 049). Each design play writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`), and `/shape-measure-lens` runs last and stamps the slice *realized* once all seven agree. |
-| **Execute** | `/shape-slice` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/build-epic` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate-epic` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/release-epic` walks a human through the epic's `user_check` and acceptance. |
+| **Understand** | `/specify-domains` seeds the domain and directional capabilities. `/specify-capabilities` details one capability and its features. |
+| **Shape** | `/design-slice` shapes the slice that shows a business intent is served (ADR 049). Each design play writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`), and `/shape-measure-lens` runs last and stamps the slice *realized* once all seven agree. |
+| **Execute** | `/design-slice` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/build-work` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate-slice` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/validate-uat` walks a human through the epic's `user_check` and acceptance. |
 | **Learn** | `/learn-outcomes` reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted, and fixes it at the source: the capability and feature docs and new decision records, or the measure, run, and quality lenses. Every change must cite an outcome. |
 
 ### The short ways back
 
 A correction does not have to go all the way round; it returns to the loop that made the mistake ([IDSD in One Page](./idsd.md#idsd-in-one-page)). In Garura:
 
-- [`/validate-epic`](../../core/components/plays/validate-epic/SKILL.md) stamps a failing epic `fix_required`, which sends it back to [`/build-epic`](../../core/components/plays/build-epic/SKILL.md) as a fix round built from the validate report.
-- [`/shape-slice`](../../core/components/plays/shape-slice/SKILL.md) routes a defect it finds in a lens back to that lens's play.
+- [`/validate-slice`](../../core/components/plays/validate-slice/SKILL.md) stamps a failing epic `fix_required`, which sends it back to [`/build-work`](../../core/components/plays/build-work/SKILL.md) as a fix round built from the validate report.
+- [`/design-slice`](../../core/components/plays/design-slice/SKILL.md) routes a defect it finds in a lens back to that lens's play.
 - [`/learn-outcomes`](../../core/components/plays/learn-outcomes/SKILL.md) rewrites the measure, run, or quality lens when only the context was wrong, and the capability or feature docs (plus a decision record) when the intent was.
-- Two hard readiness markers guard the loop: [`/shape-slice`](../../core/components/plays/shape-slice/SKILL.md) needs a slice stamped realized, and [`/build-epic`](../../core/components/plays/build-epic/SKILL.md) needs an epic that is ready.
-- The plan is the work list (ADR 051); [`/list-focus-issues`](../../core/components/plays/list-focus-issues/SKILL.md) lists the issues worth attention from the issue tracker.
+- Two hard readiness markers guard the loop: [`/design-slice`](../../core/components/plays/design-slice/SKILL.md) needs a slice stamped realized, and [`/build-work`](../../core/components/plays/build-work/SKILL.md) needs an epic that is ready.
+- The plan is the work list (ADR 051); [`/list-issues`](../../core/components/plays/list-issues/SKILL.md) lists the issues worth attention from the issue tracker.
 
 ### Implementation Is Three Trinities (ADR 023)
 
-ADR 023 decided that implementation (the ADR calls it execution) has one shape at every grain: **capture → build → check**, with ceremony sized to the unit of work. The trinities run inside the **Execute loop** (ADR 028). ADR 028 also decided that `/shape-slice` needs only a slice, and grills on any design area the slice is missing; until #595 lands, `/shape-slice` still requires a realized slice. What is built today:
+ADR 023 decided that implementation (the ADR calls it execution) has one shape at every grain: **capture → build → check**, with ceremony sized to the unit of work. The trinities run inside the **Execute loop** (ADR 028). ADR 028 also decided that `/design-slice` needs only a slice, and grills on any design area the slice is missing; until #595 lands, `/design-slice` still requires a realized slice. What is built today:
 
 | Trinity | Capture | Build | Check | Built today |
 |---------|---------|-------|-------|-------------|
-| **Epics** | `/shape-slice` | `/build-epic` | `/validate-epic` + `/release-epic` | Yes — all four plays ship |
-| **Defects** | `/record` | `/fix-bug` | `/accept` | Build only. `/fix-bug` ships with its own independent verification; `/record` and `/accept` do not exist yet |
+| **Epics** | `/design-slice` | `/build-work` | `/validate-slice` + `/validate-uat` | Yes — all four plays ship |
+| **Defects** | `/record` | `/fix-work` | `/accept` | Build only. `/fix-work` ships with its own independent verification; `/record` and `/accept` do not exist yet |
 | **Amendments** | `/amend` | `/enhance` | `/accept` | No. ADR 024's amendment record has no schema, and none of the three plays exist |
 
 **Entry rule between lanes (ADR 023):** strategy (now the Understand and Shape loops) for a new domain, capability, or feature; realize (the Shape loop's design plays) for each new slice; within implementation, the epic trinity for epic-grain work on a realized slice; the amendment trinity for small improvements that can be anchored to a delivered epic; the defect trinity for bugs. Until the amendment lane exists, small improvements have no lane of their own.
@@ -145,7 +145,7 @@ ADR 023 decided that implementation (the ADR calls it execution) has one shape a
 The epic trinity carries one epic from a realized slice to verified, accepted code:
 
 ```
-/shape-slice  →  /build-epic  →  /validate-epic  →  /release-epic  (→ /release-increment)
+/design-slice  →  /build-work  →  /validate-slice  →  /validate-uat  (→ /release-increment)
    │            │              │             │
    ▼            ▼              ▼             ▼
 epics with   plan + code +   deep checks:   human acceptance
@@ -155,7 +155,7 @@ full ICE     tests + steel-  quality gates, on user_check +
                              surface check  stamped delivered
 ```
 
-The epic moves through statuses in the spine: `ready → in_delivery → validated` (or `fix_required`, which sends it back to `/build-epic` for a fix round) `→ delivered`. Delivered epics are kept as the as-delivered record, never deleted (ADR 019). The surface an epic promises is declared at the cut and enforced by `/validate-epic` and `/release-epic` (ADR 022).
+The epic moves through statuses in the spine: `ready → in_delivery → validated` (or `fix_required`, which sends it back to `/build-work` for a fix round) `→ delivered`. Delivered epics are kept as the as-delivered record, never deleted (ADR 019). The surface an epic promises is declared at the cut and enforced by `/validate-slice` and `/validate-uat` (ADR 022).
 
 ## Work Item Types in the Tracker
 
@@ -200,13 +200,13 @@ In Garura's own tracker (`intent-driven-ai/garura`) the six are set as the organ
 
 ## Perception
 
-Perception is what enters the system. In Garura today, **every signal is a user slash command**: each command is a play, and every play is the single entry point for its work. `/list-focus-issues` does not trigger anything — it reads the issue tracker and recommends; the human then sends the signal.
+Perception is what enters the system. In Garura today, **every signal is a user slash command**: each command is a play, and every play is the single entry point for its work. `/list-issues` does not trigger anything — it reads the issue tracker and recommends; the human then sends the signal.
 
 | IDD signal type | In Garura |
 |-----------------|-----------|
 | User prompt | Built — slash commands |
 | Schedule, webhook, file change | Not built |
-| Agent output | Not as a signal. A play can inject the change chain around itself (`start-change` at the head, `commit-change → … → merge-change` at the end), but that is orchestration inside one play, not a new signal |
+| Agent output | Not as a signal. A play can inject the change chain around itself (`start-work` at the head, `commit-work → … → merge-work` at the end), but that is orchestration inside one play, not a new signal |
 
 ## Cognition
 
@@ -219,16 +219,16 @@ The current plays call 11 agents. Each has one domain; utility agents (`project-
 | Agent | Domain | Role | Plays that call it |
 |-------|--------|------|--------------------|
 | [`product-os-keeper`](../../core/components/agents/product-os-keeper.md) | product model | model keeper | vision, understand, shape, roadmap, ux, agentic, marketing, arch, quality, run, measure, grill, launch, learn, next |
-| [`tech-designer`](../../core/components/agents/tech-designer.md) | design | designer | implement, fix-bug, refactor |
-| [`code-builder`](../../core/components/agents/code-builder.md) | implementation | builder | implement, fix-bug, refactor |
+| [`tech-designer`](../../core/components/agents/tech-designer.md) | design | designer | implement, fix-work, refactor |
+| [`code-builder`](../../core/components/agents/code-builder.md) | implementation | builder | implement, fix-work, refactor |
 | [`test-engineer`](../../core/components/agents/test-engineer.md) | testing | builder (tests) | implement |
 | [`evals-engineer`](../../core/components/agents/evals-engineer.md) | evaluation | eval author | implement |
-| [`quality-auditor`](../../core/components/agents/quality-auditor.md) | quality | validator | implement, validate, fix-bug, refactor, check-change |
-| [`change-reviewer`](../../core/components/agents/change-reviewer.md) | review | validator | check-change |
+| [`quality-auditor`](../../core/components/agents/quality-auditor.md) | quality | validator | implement, validate, fix-work, refactor, validate-work |
+| [`change-reviewer`](../../core/components/agents/change-reviewer.md) | review | validator | validate-work |
 | [`environment-operator`](../../core/components/agents/environment-operator.md) | environments | environment | launch, deploy |
-| [`intent-resolver`](../../core/components/agents/intent-resolver.md) | intent | intent | fix-bug, refactor |
-| [`project-orchestrator`](../../core/components/agents/project-orchestrator.md) | project | orchestrator (utility) | start-change, commit-change, implement, validate, launch, fix-bug, refactor, focus |
-| [`repo-orchestrator`](../../core/components/agents/repo-orchestrator.md) | repo | orchestrator (utility) | start-change, commit-change, propose-change, check-change, merge-change, implement, validate, launch, fix-bug, refactor |
+| [`intent-resolver`](../../core/components/agents/intent-resolver.md) | intent | intent | fix-work, refactor |
+| [`project-orchestrator`](../../core/components/agents/project-orchestrator.md) | project | orchestrator (utility) | start-work, commit-work, implement, validate, launch, fix-work, refactor, focus |
+| [`repo-orchestrator`](../../core/components/agents/repo-orchestrator.md) | repo | orchestrator (utility) | start-work, commit-work, review-work, validate-work, merge-work, implement, validate, launch, fix-work, refactor |
 
 Seven agent definitions from older pipelines were deleted (ADR 050, #833).
 
@@ -249,7 +249,7 @@ Garura keeps three layers of memory. Agents read all three during context crafti
 The governance doctrine — tiered review scaled to blast radius, Git as file-level conflict resolution, anti-entropy — is IDD's ([LTM Governance](./intent-driven-development.md#ltm-governance)). In Garura it runs like this:
 
 ```
-/discover-domains or /discover-capabilities finds a gap the KB does not cover
+/specify-domains or /specify-capabilities finds a gap the KB does not cover
         │
         ▼
 propose-kb-node records a KB-node proposal
@@ -272,7 +272,7 @@ Storage paths:
 
 Context crafting is the agent's main job. The play never builds an agent's context and a skill never goes looking for it: the play hands the agent a **JSON contract** of paths, the agent reads what those paths point to and assembles exactly what the task needs, and passes it to the skill as explicit inputs ([IDD — Context-Aware Decisions](./intent-driven-development.md#context-aware-decisions)).
 
-**Worked example — [`/build-epic`](../../core/components/plays/build-epic/SKILL.md) building one epic:**
+**Worked example — [`/build-work`](../../core/components/plays/build-work/SKILL.md) building one epic:**
 
 1. **The play dispatches a contract, not instructions.** [`tech-designer`](../../core/components/agents/tech-designer.md) receives the task and paths only:
 
@@ -314,29 +314,29 @@ A skill does one bounded job and never decides when it runs — an agent calls i
 
 | Skill | Called by | Job |
 |-------|-----------|-----|
-| [`scan-test-harness`](../../core/components/skills/scan-test-harness/SKILL.md) | `tech-designer` in `/build-epic` | Find the project's runnable build and test commands |
-| [`author-build-plan`](../../core/components/skills/author-build-plan/SKILL.md) | `tech-designer` in `/build-epic` | Cut an epic test-first into grounded pieces |
-| [`author-steelman-evals`](../../core/components/skills/author-steelman-evals/SKILL.md) | `evals-engineer` in `/build-epic` | Write the evals the build is judged against |
-| [`judge-validation-results`](../../core/components/skills/judge-validation-results/SKILL.md) | `quality-auditor` in `/validate-epic` | Judge captured check results |
-| [`author-business-intent`](../../core/components/skills/author-business-intent/SKILL.md) | `product-os-keeper` in `/shape-slice` | Draft the intent page when the model has none |
+| [`scan-test-harness`](../../core/components/skills/scan-test-harness/SKILL.md) | `tech-designer` in `/build-work` | Find the project's runnable build and test commands |
+| [`author-build-plan`](../../core/components/skills/author-build-plan/SKILL.md) | `tech-designer` in `/build-work` | Cut an epic test-first into grounded pieces |
+| [`author-steelman-evals`](../../core/components/skills/author-steelman-evals/SKILL.md) | `evals-engineer` in `/build-work` | Write the evals the build is judged against |
+| [`judge-validation-results`](../../core/components/skills/judge-validation-results/SKILL.md) | `quality-auditor` in `/validate-slice` | Judge captured check results |
+| [`author-business-intent`](../../core/components/skills/author-business-intent/SKILL.md) | `product-os-keeper` in `/design-slice` | Draft the intent page when the model has none |
 | [`author-learnings`](../../core/components/skills/author-learnings/SKILL.md) | `product-os-keeper` in `/learn-outcomes` | Rewrite the model from outcomes |
-| [`find-work-placement`](../../core/components/skills/find-work-placement/SKILL.md), [`propose-kb-node`](../../core/components/skills/propose-kb-node/SKILL.md) | `product-os-keeper` in `/discover-domains`, `/shape-slice` | Ground in the knowledge base, or propose what it lacks |
+| [`find-work-placement`](../../core/components/skills/find-work-placement/SKILL.md), [`propose-kb-node`](../../core/components/skills/propose-kb-node/SKILL.md) | `product-os-keeper` in `/specify-domains`, `/design-slice` | Ground in the knowledge base, or propose what it lacks |
 
 The full set is under `core/components/skills/`.
 
 ### Plays and the Change Chain
 
-Each play is compiled from its ICE source (`reference/ice.md`) by [`/create-play`](../../core/components/plays/create-play/SKILL.md) into the runnable `SKILL.md`; [`/edit-play`](../../core/components/plays/edit-play/SKILL.md) changes a play by editing the ICE source and recompiling. A play carries at most five domain agents. Plays that change the repository run on a branch [`/start-change`](../../core/components/plays/start-change/SKILL.md) cuts, and land through [`/commit-change`](../../core/components/plays/commit-change/SKILL.md) → [`/propose-change`](../../core/components/plays/propose-change/SKILL.md) → [`/check-change`](../../core/components/plays/check-change/SKILL.md) → [`/merge-change`](../../core/components/plays/merge-change/SKILL.md).
+Each play is compiled from its ICE source (`reference/ice.md`) by [`/build-play`](../../core/components/plays/build-play/SKILL.md) into the runnable `SKILL.md`; [`/fix-play`](../../core/components/plays/fix-play/SKILL.md) changes a play by editing the ICE source and recompiling. A play carries at most five domain agents. Plays that change the repository run on a branch [`/start-work`](../../core/components/plays/start-work/SKILL.md) cuts, and land through [`/commit-work`](../../core/components/plays/commit-work/SKILL.md) → [`/review-work`](../../core/components/plays/review-work/SKILL.md) → [`/validate-work`](../../core/components/plays/validate-work/SKILL.md) → [`/merge-work`](../../core/components/plays/merge-work/SKILL.md).
 
 ### Autonomy: Gate Config
 
-Human gates are configuration now (`gate-config.md`, the `gates:` block in `.garura/core/config.yaml`). A gate is **pinned** (always waits for a human), **conditional**, or **off**. `/shape-slice`, `/release-epic`, `/learn-outcomes`, the merge to main, and `/release-increment`'s confirm step are pinned. The change-chain gates and the `/build-epic`, `/validate-epic`, `/fix-bug`, and `/refactor-code` gates are off; machine preconditions stand in for them, and every skipped gate is recorded.
+Human gates are configuration now (`gate-config.md`, the `gates:` block in `.garura/core/config.yaml`). A gate is **pinned** (always waits for a human), **conditional**, or **off**. `/design-slice`, `/validate-uat`, `/learn-outcomes`, the merge to main, and `/release-increment`'s confirm step are pinned. The change-chain gates and the `/build-work`, `/validate-slice`, `/fix-work`, and `/refactor-work` gates are off; machine preconditions stand in for them, and every skipped gate is recorded.
 
 ### Recovery
 
 Recovery is the Expectation layer's answer to "how do we continue toward the intent when blocked" (see ICE in [IDSD](./idsd.md#ice-the-idsd-model)). The autonomous-fix loop and the structured failure format agents return (`domain_assessment.responsible_domain`) are defined once, in `docs/framework/intent-driven-recovery.md` and `docs/framework/structured-failure-protocol.md`; agent definitions carry the format in their escalation sections.
 
-What Garura adds is per-play bounds, stated in each play's failure-condition table. For example, `/build-epic` allows two retries per piece before `tech-designer` re-plans, and two refuted verdict rounds before escalating to a human.
+What Garura adds is per-play bounds, stated in each play's failure-condition table. For example, `/build-work` allows two retries per piece before `tech-designer` re-plans, and two refuted verdict rounds before escalating to a human.
 
 ## Manifestation
 
@@ -355,7 +355,7 @@ WRITE (on branch) → CHECK → CHECKPOINT → LAND
 
 **Note:** In barrier-exempt plays (the change chain, strategy and lens plays, etc.), writing and checking may use a single agent with full intent visibility. The barrier only applies when the play is classified as barrier-eligible.
 
-**Readiness markers.** On top of IDSD's intent-sufficiency principle ([`idsd.md`](./idsd.md#intent-sufficiency)), the epic lane adds explicit readiness markers: `/shape-slice` requires a slice stamped realized, and `/build-epic` requires an epic that is ready.
+**Readiness markers.** On top of IDSD's intent-sufficiency principle ([`idsd.md`](./idsd.md#intent-sufficiency)), the epic lane adds explicit readiness markers: `/design-slice` requires a slice stamped realized, and `/build-work` requires an epic that is ready.
 
 ### Verification Levels
 
@@ -369,7 +369,7 @@ WRITE (on branch) → CHECK → CHECKPOINT → LAND
 
 #### How the Barrier Is Held Today
 
-In `/build-epic`, the barrier is held by **sub-agent separation**: `evals-engineer` writes the steelman evals from spec-side paths, and the evals path is passed only to the play and to `quality-auditor`. Builders get their cut context slice; `test-engineer` never sees builder output. The evals are not encrypted — isolation comes from which sub-agent receives which contract, checked before every dispatch.
+In `/build-work`, the barrier is held by **sub-agent separation**: `evals-engineer` writes the steelman evals from spec-side paths, and the evals path is passed only to the play and to `quality-auditor`. Builders get their cut context slice; `test-engineer` never sees builder output. The evals are not encrypted — isolation comes from which sub-agent receives which contract, checked before every dispatch.
 
 #### Barrier-Eligible vs Barrier-Exempt Plays
 
@@ -378,33 +378,33 @@ Applying IDD's rule (judgment calls → barrier; mechanical, single-output work 
 | Play | Barrier? | Reasoning |
 |--------|----------|-----------|
 | implement | ✓ Eligible | Builder makes design and implementation decisions; evals walled off from builders |
-| fix-bug | ✓ Eligible | Builder chooses fix strategy; code-builder works context-isolated, quality-auditor verifies independently |
+| fix-work | ✓ Eligible | Builder chooses fix strategy; code-builder works context-isolated, quality-auditor verifies independently |
 | refactor | ✓ Eligible | Builder chooses the restructuring; quality-auditor verifies behavior is preserved, independently |
 | validate | ✗ Exempt | Validation IS the check — quality-auditor is already the validator over implement's output |
-| check-change | ✗ Exempt | Review IS validation — agent is already the validator |
+| validate-work | ✗ Exempt | Review IS validation — agent is already the validator |
 | launch | ✗ Exempt | A human is the validator |
 | vision, understand, shape, roadmap | ✗ Exempt | Strategy — outputs are human-reviewed before delivery |
 | ux, agentic, marketing, arch, quality, run, measure | ✗ Exempt | Realize lenses — outputs are human-reviewed before delivery |
 | grill | ✗ Exempt | The cut is grilled against declared intents and approved at a pinned human checkpoint |
-| start-change, commit-change, propose-change, merge-change | ✗ Exempt | Mechanical — deterministic output |
+| start-work, commit-work, review-work, merge-work | ✗ Exempt | Mechanical — deterministic output |
 | deploy | ✗ Exempt | Mechanical — deploys an already-validated, merged epic |
 
 #### Agent Roles in Compartmented Evaluation
 
 | Agent | Role in Barrier | Sees Goal+Constraints | Sees Failure Conditions / Evals | Notes |
 |-------|----------------|----------------------|------------------------|-------|
-| code-builder | Builder | ✓ (cut slice + spec) | ✗ | Primary builder — implement, fix-bug, refactor |
+| code-builder | Builder | ✓ (cut slice + spec) | ✗ | Primary builder — implement, fix-work, refactor |
 | test-engineer | Builder | ✓ (cut slice + spec) | ✗ | Writes tests from the specs; never sees implementation |
 | tech-designer | Builder | ✓ | ✗ | Box context, build plan, re-plans — implement |
 | evals-engineer | Eval author | ✓ (spec-side) | Writes the evals | Never sees builder output |
-| quality-auditor | Validator | — | ✓ | Steelman verdict (implement); judges check results (validate); independent verification (fix-bug, refactor) |
+| quality-auditor | Validator | — | ✓ | Steelman verdict (implement); judges check results (validate); independent verification (fix-work, refactor) |
 | product-os-keeper | Neutral | ✓ | ✓ | Model keeping — no barrier needed |
 | repo-orchestrator | Neutral | ✓ | ✓ | Mechanical operations — no barrier needed |
 | project-orchestrator | Neutral | ✓ | ✓ | Coordination operations — no barrier needed |
 
 #### Convergence in Garura
 
-IDD sets the convergence defaults ([Convergence Protocol](./idd-principles.md#convergence-protocol)). `/build-epic` sets its own bound inside that range: two refuted verdict rounds, then escalation to a human with the full record.
+IDD sets the convergence defaults ([Convergence Protocol](./idd-principles.md#convergence-protocol)). `/build-work` sets its own bound inside that range: two refuted verdict rounds, then escalation to a human with the full record.
 
 ### Level 3: Deterministic Skeleton, Goal-Loop Interior (ADR 025)
 
@@ -413,8 +413,8 @@ ADR 025 redefined Level 3 of the play maturity model: **determinism lives at the
 | Wall | What ADR 025 asks for | What is built |
 |------|----------------------|---------------|
 | **Stop condition** | A machine-checkable "done means" | Built. Every ICE-compiled play has a `stop-condition.yaml`, evaluated at close by `check_stop_condition.py`; an unmet condition forces `HALTED` |
-| **Checker** | Deterministic gates, run by a runner that emits pass/fail | Partly built. The `check-quality-gates` skill runs the quality lens's `quality-gates.yaml`; `/build-epic` runs `run_gates.py` and `/validate-epic` runs `run_checks.py` with per-tool runners. These are separate runners, not yet one |
-| **Budget** | A turn cap and a token/cost cap that halt the loop | **Not built.** No play halts on a token, cost, or turn budget. What shipped (#463) is spend *attribution*: every evidence file is stamped with the session identity and ledger window, so spend can be computed afterwards. Some plays have their own iteration caps — `/commit-change` stops after 5 rounds; `/build-epic` allows 2 refuted rounds before a human steps in — but these are per-play loop caps, not the budget wall |
+| **Checker** | Deterministic gates, run by a runner that emits pass/fail | Partly built. The `check-quality-gates` skill runs the quality lens's `quality-gates.yaml`; `/build-work` runs `run_gates.py` and `/validate-slice` runs `run_checks.py` with per-tool runners. These are separate runners, not yet one |
+| **Budget** | A turn cap and a token/cost cap that halt the loop | **Not built.** No play halts on a token, cost, or turn budget. What shipped (#463) is spend *attribution*: every evidence file is stamped with the session identity and ledger window, so spend can be computed afterwards. Some plays have their own iteration caps — `/commit-work` stops after 5 rounds; `/build-work` allows 2 refuted rounds before a human steps in — but these are per-play loop caps, not the budget wall |
 | **Evidence schema** | What the loop must write as it works | Built. The Standard Play Close (`play-close.md`) writes the evidence file, stop-condition verdict, and session stamp |
 
 ### Intent Complexity Scoring
@@ -428,8 +428,8 @@ How ICS works — restate, score six dimensions, pick a balance profile — is d
 #### IDSD-Specific ICS Rules
 
 - ICS runs on **business intents**, not SDLC intents (SDLC intents are framework-authored and pre-validated)
-- ICS belongs where business intent is crafted or cut — the strategy plays and `/shape-slice` — and at `/build-epic`, where intent ambiguity is most costly
-- ICS is optional for mechanical plays (the change chain: `commit-change`, `propose-change`, `merge-change`) per P7's "when to skip" guidance
+- ICS belongs where business intent is crafted or cut — the strategy plays and `/design-slice` — and at `/build-work`, where intent ambiguity is most costly
+- ICS is optional for mechanical plays (the change chain: `commit-work`, `review-work`, `merge-work`) per P7's "when to skip" guidance
 - ICS results are written to STM as evidence
 - Non-Balanced profiles generate a checkpoint; the human can override with yes or request decomposition
 - For barrier-eligible plays, ICS includes a 6th dimension: **Barrier Integrity** — whether the constraint-failure partition is correctly classified per P4's Classification Rule. Misclassified items trigger the "Barrier Compromised" profile.

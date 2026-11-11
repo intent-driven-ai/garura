@@ -4,7 +4,7 @@
     "issue": 613,
     "question": "How do shoppers sign in?",
     "answer": "Email and password, social login, and MFA.",
-    "decided_by": "product-os-keeper (/discover-capabilities)",
+    "decided_by": "product-os-keeper (/specify-capabilities)",
     "trace": [
       {
         "asked": "Who are the shop's users, and where do they use it?",
@@ -40,7 +40,7 @@
         }
       }
     ],
-    "play": "/discover-capabilities"
+    "play": "/specify-capabilities"
   },
   "response": {
     "ok": true,

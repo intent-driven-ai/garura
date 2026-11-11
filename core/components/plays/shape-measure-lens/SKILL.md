@@ -1,7 +1,7 @@
 ---
 name: shape-measure-lens
 position: both
-description: 'Write a SLICE''s measure lens as a grounding doc (measure.md) — the delivery-measurement focus, the metrics that prove it (baseline / target / proof, triangle-primary speed/tokens/cognition), and what is out of scope — then, when all seven lens docs line up, stamp the slice realized on the spine. The DELIVER pipe of realize (runs last): it opens its own branch (start-change) and closes it (commit → propose → review → merge). Reads the hub from the spine; the single play that flips a slice to realized — the marker /shape-slice checks. Writes the lens doc + decisions + the realized stamp directly on the live model (ADR 026 direct-model-write).'
+description: 'Write a SLICE''s measure lens as a grounding doc (measure.md) — the delivery-measurement focus, the metrics that prove it (baseline / target / proof, triangle-primary speed/tokens/cognition), and what is out of scope — then, when all seven lens docs line up, stamp the slice realized on the spine. The DELIVER pipe of realize (runs last): it opens its own branch (start-work) and closes it (commit → propose → review → merge). Reads the hub from the spine; the single play that flips a slice to realized — the marker /design-slice checks. Writes the lens doc + decisions + the realized stamp directly on the live model (ADR 026 direct-model-write).'
 user-invocable: true
 stale: true
 stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
@@ -15,13 +15,13 @@ speed/tokens/cognition), and what is out of scope — and, when the slice **line
 docs present), **stamp it realized**. /shape-measure-lens reads the slice's **hub** — its features'
 grounding docs plus the profile, both from the spine. It is the **deliver** lens, the last of the
 three realize pipes, and the one play that flips a slice's `status` to `realized` on the spine — the
-single marker /shape-slice checks before it cuts delivery work.
+single marker /design-slice checks before it cuts delivery work.
 
 **Pipeline position: both.** /shape-measure-lens is the DELIVER pipe — a single-play pipe that runs last (after
 the functional pipe ux → agentic → marketing and the non-functional pipe architecture → quality → run
-have merged to main). The D2 rule prepends `start-change` (opens the deliver issue, cuts a fresh
+have merged to main). The D2 rule prepends `start-work` (opens the deliver issue, cuts a fresh
 branch off main, inits STM) and, after the lens is persisted, the realized stamp is made, and both are
-guarded, appends the close sequence `commit-change → propose-change → check-change → merge-change`,
+guarded, appends the close sequence `commit-work → review-work → validate-work → merge-work`,
 merging the realized slice to main. (#437; 3-pipe realize 2026-06-26)
 
 **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM authoring skill
@@ -30,7 +30,7 @@ to the live model; every shared-file mutation — the new decision records under
 `decisions/`, and the ONE spine field the run may set (this slice's `status` → `realized`, gated by
 lines-up) — is done by the deterministic keyed persist script (`persist_measure.py`), in place, keyed
 to the slice so it cannot touch another slice, another field, another spine collection, or edit an
-accepted decision. The model tree is asserted clean once start-change has cut the branch (F15) and the
+accepted decision. The model tree is asserted clean once start-work has cut the branch (F15) and the
 play commits its own `feat(model)` delta after the checkpoint (C14), before the injected close sequence
 runs — so the working-tree diff vs the branch base is exactly this run's delta. Containment is a
 post-write scoped guard (`scoped_write_guard.py`), not a draft. There is no draft model copy and no
@@ -38,13 +38,13 @@ apply/promote step.
 
 ## Compiled From
 
-This play was compiled from the measure ICE (`reference/ice.md`) by edit-play (#466 Batch C, Level 3
+This play was compiled from the measure ICE (`reference/ice.md`) by fix-play (#466 Batch C, Level 3
 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a conditional learned gate, see
 `standards/rules/gate-config.md`; #500 — migrated to direct-model-write per ADR 026 and
 `standards/rules/direct-model-write.md`). Intent defines constraints (C1–C14) and failure conditions
 (F1–F15); the expectation defines success scenarios (S1–S6), a Done means (D1–D4, baked to
 `stop-condition.yaml` — D4 counts BOTH stamp outcomes as done), and one recovery entry per failure
-condition. To modify this play, update `reference/ice.md` and recompile with edit-play. Do NOT edit
+condition. To modify this play, update `reference/ice.md` and recompile with fix-play. Do NOT edit
 this file manually — it is a compiled artifact.
 
 ## Role
@@ -71,7 +71,7 @@ model delta before the Step 5 gate resolves (C11); running the writes against a 
 | `product-os-keeper` | Author the slice's measure lens (focus / metrics / out-of-scope) in place on the live model, from the hub + KB measurement-frame grounding, and emit the shared-file deltas (grounds, decisions, doc record) into the manifest | `find-architecture-learnings`, `author-measure-lens` | Draft |
 
 `product-os-keeper` is the single domain agent this play uses (1 of the ≤5 budget). The utility work —
-cutting the branch and resolving the issue — is `start-change` (injected head), not a domain agent. The
+cutting the branch and resolving the issue — is `start-work` (injected head), not a domain agent. The
 content-quality judge always runs as an isolated, clean-context sub-agent (optionally on a configured
 different model) — never the orchestrator's own context.
 
@@ -82,7 +82,7 @@ different model) — never the orchestrator's own context.
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C4 | Default: sub-agent on the session model |
 | Slice ready + hub resolves (`check_ready_slice.py`) | C1 | Hard halt (REC1) |
-| **Clean model tree** — after start-change (Step 0), `git status --porcelain -- <product_base>product-os` is empty | C14/F15 | Hard halt (REC15) |
+| **Clean model tree** — after start-work (Step 0), `git status --porcelain -- <product_base>product-os` is empty | C14/F15 | Hard halt (REC15) |
 
 Resolve the pre-flight facts mechanically with the bundled resolver:
 
@@ -106,7 +106,7 @@ lines-up capture, the keyed persist record (`persist-manifest.json`), the captur
 it. These are STM, non-model artifacts (ADR 008/017) — the model itself is written IN PLACE under
 `<product_base>product-os/`, never into `<working>`. The stop condition evaluates against `<working>`.
 
-**Clean-tree assertion (C14/F15, ADR 026).** start-change cuts the branch off fresh main, so the
+**Clean-tree assertion (C14/F15, ADR 026).** start-work cuts the branch off fresh main, so the
 product-os tree is clean by construction; still assert it right after Step 0 — the branch base is only
 a correct reference for the scoped guard and the change-shape if the tree is clean before the writes:
 
@@ -139,17 +139,17 @@ and the human all see the real delta. Nothing is COMMITTED before the gate resol
 the uncommitted writes.
 
 ```
-[T0] start-change (injected — start head)            blockedBy: []
+[T0] start-work (injected — start head)            blockedBy: []
 [T1] Draft the lens (doc to live)                    blockedBy: [T0]
 [T2] Validate the live doc                           blockedBy: [T1]
 [T3] Persist (keyed, in place — decisions + stamp)   blockedBy: [T2]
 [T4] Guard the full delta + classify the shape       blockedBy: [T3]
 [T5] Checkpoint (approval over the full git diff)     blockedBy: [T4]
 [T6] Commit the model delta                          blockedBy: [T5]
-[TE1] commit-change   (injected — end #1)            blockedBy: [T6]
-[TE2] propose-change  (injected — end #2)            blockedBy: [TE1]
-[TE3] check-change   (injected — end #3)            blockedBy: [TE2]
-[TE4] merge-change    (injected — end #4)            blockedBy: [TE3]
+[TE1] commit-work   (injected — end #1)            blockedBy: [T6]
+[TE2] review-work  (injected — end #2)            blockedBy: [TE1]
+[TE3] validate-work   (injected — end #3)            blockedBy: [TE2]
+[TE4] merge-work    (injected — end #4)            blockedBy: [TE3]
 [T7] Scenario Validation                             blockedBy: [TE4]
 [T8] Close                                           blockedBy: [T7]
 ```
@@ -161,17 +161,17 @@ reordering. On resume, skip completed and reset in-progress to pending.
 
 ### Phase: Start (injected — D2 position: start)
 
-**Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
+**Step 0 — start-work** · Owner: `start-work` (sub-play) · Depends on: pre-flight
 Run the start-of-pipeline member as a sub-play, dispatched with `parent_run_id` so it emits only its
 own C1 evidence and this play's close absorbs it. It resolves or creates the deliver-pipe issue, cuts a
 fresh branch off main, sets up a worktree iff config calls for it, and initializes the STM workspace.
 
-    { "play": "start-change", "parent_run_id": "<this run id>", "inputs": { "title": "realize (deliver): <slice>" }, "outputs": { "result": "{stm_base}_realize/measure/start/start-change.json" } }
+    { "play": "start-work", "parent_run_id": "<this run id>", "inputs": { "title": "realize (deliver): <slice>" }, "outputs": { "result": "{stm_base}_realize/measure/start/start-work.json" } }
 
-start-change owns its own evals (issue anchored, branch off latest main, worktree per config, STM
+start-work owns its own evals (issue anchored, branch off latest main, worktree per config, STM
 initialized); they are not re-checked here. Immediately after it returns, run the clean-tree assertion
 (pre-flight, C14/F15) so the branch base is a correct reference for the guard and the change-shape.
-**SE-14 (F15/C14):** the product-os tree was clean once start-change had cut the branch — the assertion
+**SE-14 (F15/C14):** the product-os tree was clean once start-work had cut the branch — the assertion
 (`git status --porcelain -- <product_base>product-os` empty) passed before any write; a dirty model
 tree halts (REC15), so the change-shape and the scoped guard reflect only this run's delta.
 
@@ -352,7 +352,7 @@ outstanding, the slice left un-realized) — render the approval prompt
 Step 6 (commit). **Cancel → revert the working tree (ADR 026 step 6):** the full delta is already on
 disk, so run the guard with `--restore` and an EMPTY allow set to `git restore` the modified model
 paths and remove the new ones (byte-clean back to the branch base), then halt — nothing was committed,
-and cancel means "revert what was written" (the branch, issue, and STM start-change created are its own
+and cancel means "revert what was written" (the branch, issue, and STM start-work created are its own
 committed side effects and are left as-is):
 
 ```
@@ -386,7 +386,7 @@ working-tree delta is reverted before any commit, so nothing is left on the tree
 **Step 6 — Commit the model delta** · Owner: play · Depends on: Step 5
 The gate approved (or auto-passed / was skipped by config). Commit the full model delta on the branch
 (C14, ADR 026 step 7) — a lightweight persist step that makes the writes durable and advances HEAD, run
-BEFORE the injected close sequence so the subsequent `commit-change` handles only what remains
+BEFORE the injected close sequence so the subsequent `commit-work` handles only what remains
 uncommitted (STM evidence, ADRs), not the model delta this play already committed. A cancelled
 checkpoint never reaches this step — its tree was already restored in Step 5:
 
@@ -408,24 +408,24 @@ After the model delta is committed, the D2 rule injects the close sequence — e
 with `parent_run_id`, resolving its own context — to commit any remaining change, raise the PR, take
 the verdict, and merge the realized slice to main.
 
-**Step E1 — commit-change** · blockedBy: Step 6
+**Step E1 — commit-work** · blockedBy: Step 6
 
-    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/commit-change.json" } }
+    { "play": "commit-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/commit-work.json" } }
 
-**Step E2 — propose-change** · blockedBy: E1
+**Step E2 — review-work** · blockedBy: E1
 
-    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/propose-change.json" } }
+    { "play": "review-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/review-work.json" } }
 
-**Step E3 — check-change** · blockedBy: E2
+**Step E3 — validate-work** · blockedBy: E2
 
-    { "play": "check-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/check-change.json" } }
+    { "play": "validate-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/validate-work.json" } }
 
-**Step E4 — merge-change** · blockedBy: E3
+**Step E4 — merge-work** · blockedBy: E3
 
-    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/merge-change.json" } }
+    { "play": "merge-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_realize/measure/end/merge-work.json" } }
 
 Each end member owns its own evals (commit grouped by concern, PR opened, verdict posted, branch merged
-+ cleaned); they are not re-checked here. A check-change reject stops the chain before merge.
++ cleaned); they are not re-checked here. A validate-work reject stops the chain before merge.
 
 ### Phase: Scenario Validation
 
@@ -509,7 +509,7 @@ and write to `$evidence_dest`. Do NOT hand-author the body.
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## measure Delivered —
 ${slug}`, the Run Summary table, the Pipeline Steps table, the Artifacts Produced table (the measure
 lens + any decision + whether the slice was stamped realized + the model-delta commit), Next Steps (if
-realized: run /shape-slice to cut this slice into epics; else: run the missing lens pipe), and a pointer to
+realized: run /design-slice to cut this slice into epics; else: run the missing lens pipe), and a pointer to
 `$evidence_dest`. Always emitted.
 
 ```bash
@@ -531,7 +531,7 @@ realized: run /shape-slice to cut this slice into epics; else: run the missing l
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /discover-capabilities before /shape-measure-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /specify-capabilities before /shape-measure-lens runs | human |
 | F2 | a write touched something beyond this slice's measure.md, a decision, or the one realized status field | revert the out-of-scope write; /shape-measure-lens writes only those | autonomous |
 | F3 | measure.md fails the template/shape | re-emit to the Measure lens template (Focus / Metrics / Out of scope only) | autonomous |
 | F4 | measure.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
@@ -545,28 +545,28 @@ realized: run /shape-slice to cut this slice into epics; else: run the missing l
 | F12 | a measurement frame with no KB learning and no recorded proposal | search the KB via find-architecture-learnings and ground the frame, or raise a KB-learning-gap proposal | autonomous |
 | F13 | the run is about to close COMPLETED with the Done means unmet | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run `persist_measure.py` so the persist record carries `applied` and the stamp record names one of the two outcomes, re-capture the guard report — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F14 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line from the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait (render the prompt, take the typed verdict) and append the corrected line | autonomous |
-| F15 | the product-os tree is dirty once start-change has cut the branch (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /shape-measure-lens writes | human |
+| F15 | the product-os tree is dirty once start-work has cut the branch (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /shape-measure-lens writes | human |
 
 ## Pause and Resume
 
 Steps run top to bottom. On entry, resolve config, resolve the target slice, check the status marker,
 skip completed steps, reset any in-progress step to pending, and continue. A fresh start with no marker
-runs everything. The clean-tree assertion (F15) is scoped to a FRESH start right after start-change — a
+runs everything. The clean-tree assertion (F15) is scoped to a FRESH start right after start-work — a
 resume that already wrote the model doc continues its own in-progress delta.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:76568d1e6bda57e5f653af81ae1c3a2c2da6fa346745481de4696638006d2f35 (of `reference/ice.md`) |
-| compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C; #467 Batch B — conditional learned gate) |
-| pipeline_position | both (deliver pipe — injects start-change head and commit → propose → review → merge close) |
+| fingerprint | sha256:27d61796c2bafb985767bbb11377069e59dd2f90d3482a0de5bae43bf6ef2621 (of `reference/ice.md`) |
+| compiled_by | fix-play (#500 direct-model-write, ADR 026); prior: fix-play (#466 Batch C; #467 Batch B — conditional learned gate) |
+| pipeline_position | both (deliver pipe — injects start-work head and commit → propose → review → merge close) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C14) BEFORE the injected close sequence, which then handles only what remains uncommitted |
 | workflow_structure | A (single checkpoint — conditional learned gate, class: standard, per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | model_writes | yes |
 | stop_condition | stop-condition.yaml (D1–D4; D4 counts both stamp outcomes), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
-| utility_agents | 0 (start-change is the injected head, not a domain agent) |
+| utility_agents | 0 (start-work is the injected head, not a domain agent) |
 | skills_used | find-architecture-learnings, author-measure-lens |
 | scripts | 13 (preflight, check_ready_slice, lint_grounding, grounding_gate, validate_measure, check_kb_grounding, lines_up, persist_measure — keyed in-place persist writing the machine `applied` field + the lines-up-gated realized stamp, scoped_write_guard — post-write containment, check_stop_condition, session_stamp, classify_change + gate_eval + distill_gate_policy — #467 conditional gate) |
 | step_evals | 14 (SE-1…SE-14) |
@@ -589,9 +589,9 @@ guarded ONCE and classified over the full delta (Step 4), then the gate resolves
 (Step 5), and only an approved (or auto-passed / config-skipped) gate COMMITS (Step 6). The stamp is a
 status change on the spine, so it is written BEFORE the gate — the change-shape and the human see it.
 Nothing is COMMITTED before the gate; cancel reverts the uncommitted writes via
-`scoped_write_guard.py --restore`. The play asserts a clean product-os tree once start-change has cut the
+`scoped_write_guard.py --restore`. The play asserts a clean product-os tree once start-work has cut the
 branch (F15) and commits its own `feat(model)` delta after the checkpoint (C14), BEFORE the injected
-`commit-change`. Done means: D1/D2 the persist record + `applied`; D3 the guard report `ok`; D4 the
+`commit-work`. Done means: D1/D2 the persist record + `applied`; D3 the guard report `ok`; D4 the
 resolved stamp record. See `standards/rules/direct-model-write.md`.
 
 **Recompiled note (#467 Batch B):** checkpoint upgraded to a conditional learned gate; see
@@ -599,13 +599,13 @@ resolved stamp record. See `standards/rules/direct-model-write.md`.
 
 **Direct-edit deviation note (#500) — INTENT CHANGE, HAND-COMPILED, CONVERGENCE UNVERIFIED:**
 This SKILL was updated to the direct-model-write write-then-review shape (ADR 026) by a **hand-compile
-from `reference/ice.md`**, NOT by a `/edit-play` run. This is an intent change (it alters the write
+from `reference/ice.md`**, NOT by a `/fix-play` run. This is an intent change (it alters the write
 path, the containment guarantee, the checkpoint cancel semantics, and the step order), so the sanctioned
-path is recompile-via-`/edit-play`; edit-play is interactive-only (fully gated, human-checkpoint)
+path is recompile-via-`/fix-play`; fix-play is interactive-only (fully gated, human-checkpoint)
 and cannot run headless in this environment, so the compiled output was produced by hand to match what
-edit-play would emit from the current `reference/ice.md` (fingerprint above). **The `compiled_by` line
-names edit-play for provenance intent, but no edit-play run actually occurred and convergence is
-UNVERIFIED.** An interactive `/edit-play` convergence run against `reference/ice.md` is **REQUIRED** —
+fix-play would emit from the current `reference/ice.md` (fingerprint above). **The `compiled_by` line
+names fix-play for provenance intent, but no fix-play run actually occurred and convergence is
+UNVERIFIED.** An interactive `/fix-play` convergence run against `reference/ice.md` is **REQUIRED** —
 confirming the emitted SKILL matches this hand-compiled body and refreshing the fingerprint. This mirrors
-the same caveat on /discover-capabilities's #498 migration (the ratified reference implementation) and the /discover-domains,
-/shape-slice, /learn-outcomes fan-out of that pattern.
+the same caveat on /specify-capabilities's #498 migration (the ratified reference implementation) and the /specify-domains,
+/design-slice, /learn-outcomes fan-out of that pattern.

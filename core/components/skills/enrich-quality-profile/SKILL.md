@@ -1,12 +1,12 @@
 ---
 name: enrich-quality-profile
-description: Stage 2 skill of /shape-architecture-lens. Reads the /specify quality profile, refines targets against architectural reality (inventory constraints, project-profile pins, epic constraints), and writes the refined quality profile to architecture/ with a delta log of every adjustment. The refined QP describes the NFRs physical must deliver; it does NOT name mechanisms.
+description: Stage 2 skill of /design-architecture. Reads the /specify quality profile, refines targets against architectural reality (inventory constraints, project-profile pins, epic constraints), and writes the refined quality profile to architecture/ with a delta log of every adjustment. The refined QP describes the NFRs physical must deliver; it does NOT name mechanisms.
 version: 0.1.0
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Glob, Grep
 stale: true
-stale_note: 'waits for the rebuild of /shape-architecture-lens (#855)'
+stale_note: 'waits for the rebuild of /design-architecture (#855)'
 ---
 
 # enrich-quality-profile
@@ -17,7 +17,7 @@ Called by `tech-designer` during `arch` Stage 2. Produces `quality-profile.yaml`
 
 ## Purpose
 
-The /specify play authored a first-cut quality profile from product intent. /shape-architecture-lens refines it against the architectural reality surfaced during Stages 1-2 — the systems chosen in inventory carry their own scale, reliability, and security ceilings; project-profile pins may set hard floors; epic constraints may demand stricter targets than the first-cut allowed for. This skill is the bridge.
+The /specify play authored a first-cut quality profile from product intent. /design-architecture refines it against the architectural reality surfaced during Stages 1-2 — the systems chosen in inventory carry their own scale, reliability, and security ceilings; project-profile pins may set hard floors; epic constraints may demand stricter targets than the first-cut allowed for. This skill is the bridge.
 
 The refined QP **describes** the NFRs the product must deliver. It does NOT name delivery mechanisms — those belong in physical-architecture. Same NFR, two views: this artifact is the target, physical is the mechanism.
 

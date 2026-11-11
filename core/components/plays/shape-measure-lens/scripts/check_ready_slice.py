@@ -10,7 +10,7 @@ profile (now structured in the spine), and the slice's PERSONA + JOURNEY records
 personas its surfaces name and every journey that runs on one of those surfaces. A journey is
 the flow itself: who takes it, the surface it runs on, and the ordered steps. This gate:
 
-  - asserts the product profile is `set` (firmed by /discover-capabilities) — read from the SPINE;
+  - asserts the product profile is `set` (firmed by /specify-capabilities) — read from the SPINE;
   - resolves the slice record and EVERY `feature_ref` via the spine to a
     `feature.md` grounding doc, asserting each doc exists on disk;
   - resolves the slice's people and paths: every `surface[].persona_ref` to a real
@@ -104,12 +104,12 @@ def main(argv=None):
     spine_path = os.path.join(root, "_spine.yaml")
     func_doc = {}
     if not os.path.isfile(spine_path):
-        errors.append(f"no spine at {spine_path} — run /discover-domains + /discover-capabilities first (C1/F1)")
+        errors.append(f"no spine at {spine_path} — run /specify-domains + /specify-capabilities first (C1/F1)")
     else:
         spine = load(spine_path)
         state = ((spine.get("profile") or {}).get("state") or "").strip().lower()
         if state != "set":
-            errors.append(f"profile.state is '{state}', must be 'set' (firmed by /discover-capabilities) (C1/F1)")
+            errors.append(f"profile.state is '{state}', must be 'set' (firmed by /specify-capabilities) (C1/F1)")
         func_doc = {f.get("id"): f.get("doc") for f in (spine.get("features") or [])
                     if isinstance(f, dict)}
 

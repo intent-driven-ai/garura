@@ -1,6 +1,6 @@
 ---
 name: author-product-ontology
-description: Build or extend the product ontology — the agreed, human-readable map of the kinds of things a product is made of, what each holds, how they connect, and what must always be true — one kind at a time, with the person. Follows the classic seven-step method (scope by questions, reuse, terms, kinds, properties, rules, instances) and writes the ontology in the canonical format, checked by a script. Run only by the edit-ontology play, one stage at a time, when the product model needs a new kind of thing (for example the Business Intent) or an existing kind changed, before anything writes instances of it.
+description: Build or extend the product ontology — the agreed, human-readable map of the kinds of things a product is made of, what each holds, how they connect, and what must always be true — one kind at a time, with the person. Follows the classic seven-step method (scope by questions, reuse, terms, kinds, properties, rules, instances) and writes the ontology in the canonical format, checked by a script. Run only by the specify-ontology play, one stage at a time, when the product model needs a new kind of thing (for example the Business Intent) or an existing kind changed, before anything writes instances of it.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
@@ -8,7 +8,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 
 # author-product-ontology
 
-**Run by the `edit-ontology` play only.** It builds Garura's own product ontology — the
+**Run by the `specify-ontology` play only.** It builds Garura's own product ontology — the
 framework's map of what a product is made of. The play opens the change, hands this skill one
 stage at a time through the `product-os-keeper` agent, stops for the product owner's yes
 between stages, and lands the result through the change plays. A person never runs this skill
@@ -30,14 +30,14 @@ written as agreed until they say so.
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `need` | yes | What the work needs, in plain words — e.g. "the Business Intent, human-facing, as `/discover-intent` will write it" |
+| `need` | yes | What the work needs, in plain words — e.g. "the Business Intent, human-facing, as `/specify-intent` will write it" |
 | `ontology_path` | yes | The ontology document. Default: `~/.garura/core/memory/standards/schemas/product-os/ontology.md` (source: `core/components/memory/standards/schemas/product-os/ontology.md`) |
 | `template_path` | no | The format. Default: `~/.garura/core/memory/standards/templates/product-ontology.md` |
 | `asking_rule` | yes, for `scope`, `kinds`, `links` | The shared rule for asking a person, `_shared/asking-a-person.md`: how each question in a draft is shown. It is not memory: the install lays it beside the installed skills (`../_shared/asking-a-person.md` from this skill's folder), and the agent passes that path |
 | `sources` | no | Paths to read for reuse — existing schemas, doctrine, decision records, issues |
 | `report_path` | yes | Where the check report is written |
-| `stage` | yes, from edit-ontology | Which stage to run: `scope`, `kinds`, `links` or `write` (see Stages) |
-| `draft` | yes, for `scope`, `kinds`, `links` | Where this stage writes its draft: `<working>/draft-questions.md`, `<working>/draft-kinds.md` or `<working>/draft-links.md` (`<working>` is the play's `{stm_base}<issue>/context/edit-ontology/`) |
+| `stage` | yes, from specify-ontology | Which stage to run: `scope`, `kinds`, `links` or `write` (see Stages) |
+| `draft` | yes, for `scope`, `kinds`, `links` | Where this stage writes its draft: `<working>/draft-questions.md`, `<working>/draft-kinds.md` or `<working>/draft-links.md` (`<working>` is the play's `{stm_base}<issue>/context/specify-ontology/`) |
 | `questions` | yes, for `kinds`, `links`, `write` | The agreed questions draft, `<working>/draft-questions.md` |
 | `kinds` | yes, for `links`, `write` | The agreed kinds draft, `<working>/draft-kinds.md` |
 | `links` | yes, for `write` | The agreed properties, links and rules draft, `<working>/draft-links.md` |
@@ -46,7 +46,7 @@ written as agreed until they say so.
 
 ## Stages
 
-The `edit-ontology` play runs the seven steps in four stages, one dispatch each. Each stage
+The `specify-ontology` play runs the seven steps in four stages, one dispatch each. Each stage
 reads the drafts of the stages before it, writes only its own draft, and stops. The product
 owner's yes between stages comes from the play, not from this skill.
 

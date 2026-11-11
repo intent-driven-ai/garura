@@ -1,7 +1,7 @@
 # list-plans — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-edit-play; never hand-edit the compiled SKILL.md.
+fix-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 

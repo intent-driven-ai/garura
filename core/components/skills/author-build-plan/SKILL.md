@@ -1,24 +1,24 @@
 ---
 name: author-build-plan
-description: Draft /build-epic's build plan for ONE epic — the working spine of the build. Reads the epic's box (the epic record, its features' ICE, the slice's six lenses, the captured repo context + test harness) and breaks the epic into PIECES — stories, tasks, tests, docs — with explicit dependency edges forming a DAG, test-first (every epic acceptance criterion covered by a test piece authored from the spec, never from the implementation). Every piece carries a grounding citation into the box (epic | ice | lens | repo) — an ungroundable piece becomes an open_question, never invented work. Writes the plan draft to STM only, never the product model. Also applies revision directives (re-plan after retry exhaustion, steelman refutations as new pieces) to an existing draft. The generative planning work for the /build-epic play.
+description: Draft /build-work's build plan for ONE epic — the working spine of the build. Reads the epic's box (the epic record, its features' ICE, the slice's six lenses, the captured repo context + test harness) and breaks the epic into PIECES — stories, tasks, tests, docs — with explicit dependency edges forming a DAG, test-first (every epic acceptance criterion covered by a test piece authored from the spec, never from the implementation). Every piece carries a grounding citation into the box (epic | ice | lens | repo) — an ungroundable piece becomes an open_question, never invented work. Writes the plan draft to STM only, never the product model. Also applies revision directives (re-plan after retry exhaustion, steelman refutations as new pieces) to an existing draft. The generative planning work for the /build-work play.
 version: 0.1.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob, Grep
 stale: true
-stale_note: 'waits for the rebuild of /build-epic (#855)'
+stale_note: 'waits for the rebuild of /build-work (#855)'
 ---
 
 # author-build-plan
 
-Turns one **ready epic** into its **build plan** — the ordered set of pieces /build-epic
+Turns one **ready epic** into its **build plan** — the ordered set of pieces /build-work
 executes. The epic is the tightest box: everything this plan may contain is what the epic
 carries or references (outcome, user_check, feature refs → ICE, acceptance, context)
 plus the slice's six lenses and the repository as it actually exists. The plan never
 crosses those walls; where the box has no wall, the skill records an open question — only
 the human draws a new wall.
 
-This skill drafts; it never persists to the model and never publishes. /build-epic
+This skill drafts; it never persists to the model and never publishes. /build-work
 validates the draft mechanically (`validate_plan.py`), publishes it to the epic's issue
 (project-orchestrator), and anchors the build to it.
 

@@ -1,15 +1,15 @@
 # shape-plan — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-edit-play; never hand-edit the compiled SKILL.md.
+fix-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-A person names a business intent that `/shape-slice` has served with a slice. /shape-plan makes
+A person names a business intent that `/design-slice` has served with a slice. /shape-plan makes
 the intent's one plan, once: the plan file, one epic for each slice the plan holds, and one
 story for each feature of that slice. Each story is written from its feature's ICE and that
 feature's capability's ICE, and holds no failure condition and no recovery condition. When the
-intent already has a plan, /shape-plan does not run: /update-plan changes a plan that exists.
+intent already has a plan, /shape-plan does not run: /reshape-plan changes a plan that exists.
 
 ### Constraints
 
@@ -17,7 +17,7 @@ intent already has a plan, /shape-plan does not run: /update-plan changes a plan
   plan is made.
 - C2 — The plan holds every slice that serves the intent, read from the spine's link "slice
   serves business intent". The play never picks, ranks or tests a slice: the person chose it at
-  `/shape-slice`.
+  `/design-slice`.
 - C3 — Within its one run, the play never makes an epic or a story twice: one epic for each
   slice, and one story for each feature in each epic. A work item stands for a slice or a
   feature when the plan file marks it so (`represents: <slice id>` on the epic,
@@ -39,8 +39,8 @@ intent already has a plan, /shape-plan does not run: /update-plan changes a plan
 - C9 — The play builds a story only from a ready ICE (the ready check). A part whose ICE is not
   ready is skipped, its story is not made, and the run names it in the brief; the play never
   guesses its content.
-- C10 — The play opens its own change with start-change and lands it through commit-change,
-  propose-change, check-change and merge-change, on the plan's branch when the intent has one.
+- C10 — The play opens its own change with start-work and lands it through commit-work,
+  review-work, validate-work and merge-work, on the plan's branch when the intent has one.
 - C11 — Plain words (ASD-STE100) and personas in the brief, the epic, the stories and the plan
   file; no real person's name.
 - C13 — An epic and a story are marked in the tracker by the issue type field, with no label:
@@ -48,13 +48,13 @@ intent already has a plan, /shape-plan does not run: /update-plan changes a plan
   slice: its sub-issues are the stories of its slice, and the work under a story hangs from that
   story. Anything else under an epic is misplaced work: the play names each item with its title
   and writes nothing until a person files it in its own place (its own story, bug or chore, which
-  `/shape-slice` and `/shape-plan` place when they run) (#879).
+  `/design-slice` and `/shape-plan` place when they run) (#879).
 
 - C14 — When the intent already has a plan file (`<plans>/<id>.yaml`, in the checked-out tree or
-  on main), the play stops at pre-flight, before start-change and before any read of the model
-  or any write, and says the plan exists and that /update-plan changes it. This is a
+  on main), the play stops at pre-flight, before start-work and before any read of the model
+  or any write, and says the plan exists and that /reshape-plan changes it. This is a
   pre-flight check: the play that changes an existing plan is
-  /update-plan.
+  /reshape-plan.
 
 ### Failure conditions
 
@@ -77,7 +77,7 @@ intent already has a plan, /shape-plan does not run: /update-plan changes a plan
 - F12 — An epic holds a sub-issue that is not a story of its slice, and the run wrote to the
   tracker, or did not name that item with its title.
 - F13 — The intent already had a plan file, and the run went on past pre-flight: it opened a
-  change, read the model, or wrote anything; or it stopped without naming /update-plan.
+  change, read the model, or wrote anything; or it stopped without naming /reshape-plan.
 
 ## Context
 
@@ -85,12 +85,12 @@ intent already has a plan, /shape-plan does not run: /update-plan changes a plan
   Story, Slice, Feature, ICE), read through the memory tool; the spine (`_spine.yaml`: `slices`
   with `feature_refs` in build order and `intents`, `features` with their `capability`, `ices`
   with their thin mark) and each slice's record (`slices/<id>.yaml`).
-- ADR 049 (the shaping loop: /shape-slice, then /shape-plan, then /shape-eval; one plan for each
-  business intent; how the ICE reaches the story and the hidden file), ADR 052 (/shape-slice
+- ADR 049 (the shaping loop: /design-slice, then /shape-plan, then /design-eval; one plan for each
+  business intent; how the ICE reaches the story and the hidden file), ADR 052 (/design-slice
   writes the hidden file), ADR 047 (the ICE and its ready check).
 - The plan files: `.garura/project/plans/<id>.yaml` (id, title, status, branch, tree of work
   items, each with its issue, kind, title, status, `represents` and children). /shape-plan makes
-  a plan file once; `/update-plan` (#720, #730) changes a plan that exists — a new epic, story,
+  a plan file once; `/reshape-plan` (#720, #730) changes a plan that exists — a new epic, story,
   feature, bug or status — in one session the product owner approves.
 - The rules: `managing-work.md` ("Type lives in the type field", "No labels, for now"; an Epic
   is filed as type Epic),
@@ -128,8 +128,8 @@ intent already has a plan, /shape-plan does not run: /update-plan changes a plan
   title, there is no `tracker-record.json`, and the plan file is as it was.
 
 - S9 — (product owner, a plan that exists) Given an intent that already has a plan file, when the
-  product owner runs /shape-plan, then the play stops at pre-flight and points to /update-plan.
-  Measure: the check's record reads `exists: true` and its message names `/update-plan <id>`;
+  product owner runs /shape-plan, then the play stops at pre-flight and points to /reshape-plan.
+  Measure: the check's record reads `exists: true` and its message names `/reshape-plan <id>`;
   no change issue, no branch, no short-term folder and no tracker write was made, no file is left
   behind, and the plan file is as it was.
 
@@ -174,4 +174,4 @@ intent already has a plan, /shape-plan does not run: /update-plan changes a plan
   Handoff: human.
 - REC13 (F13) — stop the run, undo whatever it opened or wrote after pre-flight (the change
   issue's branch and short-term folder, any tracker write), and show the product owner that the
-  plan exists and that `/update-plan <id>` changes it. Handoff: human.
+  plan exists and that `/reshape-plan <id>` changes it. Handoff: human.

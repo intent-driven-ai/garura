@@ -1,17 +1,17 @@
 ---
 name: author-validation-checks
-description: 'Author /validate-epic''s check manifest for one EPIC — the toolchain plan the run_checks orchestrator executes. Detects the product''s stack(s) from the slice''s architecture lens tech picks plus the repository''s own manifests (package.json, pom.xml, *.csproj, migrations), then resolves each stack to its tooling — build, test runner, linter, scanner, dependency audit — as KB-GROUNDED choices via find-architecture-learnings; anything the KB does not cover becomes a recorded KB-learning-gap proposal, never a silent pick. Scopes the regression checks to the resolved blast radius (recorded change claims, narrowing per fix round) and maps the slice''s quality-lens gates and the profile''s benchmarks to concrete checks. Emits checks.yaml (one entry per check: runner class, tool, command, install hint, class) + a choices manifest for the grounding gate. Plans only — runs nothing, writes no model file. The planning work for the /validate-epic play.'
+description: 'Author /validate-slice''s check manifest for one EPIC — the toolchain plan the run_checks orchestrator executes. Detects the product''s stack(s) from the slice''s architecture lens tech picks plus the repository''s own manifests (package.json, pom.xml, *.csproj, migrations), then resolves each stack to its tooling — build, test runner, linter, scanner, dependency audit — as KB-GROUNDED choices via find-architecture-learnings; anything the KB does not cover becomes a recorded KB-learning-gap proposal, never a silent pick. Scopes the regression checks to the resolved blast radius (recorded change claims, narrowing per fix round) and maps the slice''s quality-lens gates and the profile''s benchmarks to concrete checks. Emits checks.yaml (one entry per check: runner class, tool, command, install hint, class) + a choices manifest for the grounding gate. Plans only — runs nothing, writes no model file. The planning work for the /validate-slice play.'
 version: 0.1.0
 user-invocable: false
 model: best
 allowed-tools: Read, Write, Bash, Glob, Grep
 stale: true
-stale_note: 'waits for the rebuild of /validate-epic (#855)'
+stale_note: 'waits for the rebuild of /validate-slice (#855)'
 ---
 
 # author-validation-checks
 
-Turns one built epic into the **check manifest** /validate-epic executes: which checks run,
+Turns one built epic into the **check manifest** /validate-slice executes: which checks run,
 with which tools, against which scope. The plan is the seam between judgment and
 mechanics — everything downstream (run_checks.py, the runners, the gates, the verdict)
 is deterministic, so every judgment call lands HERE, grounded.

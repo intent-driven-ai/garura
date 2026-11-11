@@ -1,11 +1,11 @@
 # Plan Update Template
 
-What `/update-plan` shows a person, from the moment it finds the plan to the moment the changes
+What `/reshape-plan` shows a person, from the moment it finds the plan to the moment the changes
 land. The play's `render_screen.py` prints each
 screen from the settings below and the session's own files; nothing on a screen is worded at run
 time. A change to how a screen reads is made here, never in the play.
 
-Consumer: `/update-plan` (#730). It gets a copy of this file and of `plan-view.md` (the status
+Consumer: `/reshape-plan` (#730). It gets a copy of this file and of `plan-view.md` (the status
 marks) from `template-manager`.
 
 ## The screens
@@ -40,7 +40,7 @@ marks) from `template-manager`.
 - **resume** — a list from an earlier session is waiting: carry on with it, or start fresh.
 
 The list is the approval screen. It shows the plan and the business intent it serves; the plan
-**before** and **after** the list, printed like `/show-plan` but only the parts the list touches
+**before** and **after** the list, printed like `/view-plan` but only the parts the list touches
 (each touched item with the items above it), each with the plan's Status and Direction; then
 **what changed**, one plain line for each entry, numbered so the person can say "take out 3".
 
@@ -49,24 +49,24 @@ Plan 717 — serves #717: People plan work toward a business intent, and pick it
 
 Before — Status In Progress · Direction ⏵
 └─ ○ #956  A person builds, views and manages the plan of a business intent
-   ├─ ○ #720  Manage a plan with /update-plan
-   │  └─ ○ #730  The /update-plan session
+   ├─ ○ #720  Manage a plan with /reshape-plan
+   │  └─ ○ #730  The /reshape-plan session
    │     └─ ○ #917  The findings left by the PR #916 review
    └─ ○ #721  Start and land work against a plan
-      ├─ ✓ #731  start-change cuts a plan's branch
-      │  └─ ○ #779  start-change reads plan files from the checked-out branch
-      └─ ○ #989  start-change starts a plan on its own
+      ├─ ✓ #731  start-work cuts a plan's branch
+      │  └─ ○ #779  start-work reads plan files from the checked-out branch
+      └─ ○ #989  start-work starts a plan on its own
 
 After — Status Paused · Direction ⏵⏵
 └─ ○ #956  A person builds, views and manages the plan of a business intent
-   ├─ ○ #720  Manage a plan with /update-plan
-   │  ├─ ✓ #730  The /update-plan session
+   ├─ ○ #720  Manage a plan with /reshape-plan
+   │  ├─ ✓ #730  The /reshape-plan session
    │  │  └─ ✓ #917  The findings left by the PR #916 review
-   │  └─ ○ NEW  A person can undo the last /update-plan landing
+   │  └─ ○ NEW  A person can undo the last /reshape-plan landing
    ├─ ○ #721  Start and land work against a plan
-   │  ├─ ✓ #731  start-change cuts a plan's branch
-   │  └─ ○ #989  start-change starts a plan on its own
-   │     └─ ○ #779  start-change reads plan files from the checked-out branch
+   │  ├─ ✓ #731  start-work cuts a plan's branch
+   │  └─ ○ #989  start-work starts a plan on its own
+   │     └─ ○ #779  start-work reads plan files from the checked-out branch
    └─ ○ NEW  Tidy the comments in the plan files
 
 What changed
@@ -74,7 +74,7 @@ What changed
   2  #917 finished
   3  #779 moved under #989
   4  New chore "Tidy the comments in the plan files" under #956 — you chose to override: a chore does not sit under an epic; it sits under a story
-  5  New feature "A person can undo the last /update-plan landing" under #720 — also added to the product model; its slice and eval scenarios are left for later
+  5  New feature "A person can undo the last /reshape-plan landing" under #720 — also added to the product model; its slice and eval scenarios are left for later
   6  Plan status Paused
   7  Plan direction ⏵⏵
 
@@ -94,13 +94,13 @@ found: |-
 not_found: |-
   No single plan matches "{description}".
   {candidates}
-  Run /update-plan with the plan's number.
+  Run /reshape-plan with the plan's number.
 candidate_line: "  #{plan}  {title}"
 no_candidates: "  No plan has those words."
 stopped: |-
   Stopped. {branch} has uncommitted work:
   {files}
-  Commit or clean it, then run /update-plan {plan} again.
+  Commit or clean it, then run /reshape-plan {plan} again.
 file_line: "  {file}"
 on_branch: |-
   Plan {plan} · on {plan_branch}{back}
@@ -119,7 +119,7 @@ confirm: |-
   {row}
   This needs your yes first: {why}.
   Type yes to add it to the list, or tell me what to change.
-thin_warning: "  Its ICE will be thin: written from your words only. A thin ICE can cause problems later; /discover-capabilities can deepen it."
+thin_warning: "  Its ICE will be thin: written from your words only. A thin ICE can cause problems later; /specify-capabilities can deepen it."
 from_ice_note: "drafted from {feature}'s ICE and its capability's ICE"
 no_ice_note: "{feature}: {reason}, so the story uses your words"
 model_found: "#{story} is the story of {feature}: {one_line}\n  Its ICE: {pages}"

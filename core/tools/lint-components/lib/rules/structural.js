@@ -192,7 +192,7 @@ function checkAgent(component) {
  * fails the plays that have not yet been migrated. This is the converge-and-lint layer the
  * contract describes, mirroring the Standard Play Close anchors.
  */
-const DMW4_DECLARED_EXCEPTIONS = new Set(['update-plan']);
+const DMW4_DECLARED_EXCEPTIONS = new Set(['reshape-plan']);
 
 function checkDmwAnchors(component, body) {
   const violations = [];
@@ -250,7 +250,7 @@ function checkDmwAnchors(component, body) {
   }
 
   // L-DMW-4: clean product-os tree asserted at pre-flight AND a model-delta commit at close.
-  // Not a finding for a declared exception (direct-model-write.md): /update-plan checks the
+  // Not a finding for a declared exception (direct-model-write.md): /reshape-plan checks the
   // whole tree when it gets onto the plan's branch (plan_branch.py go) and commits its model
   // change in the session's one commit, with the plan file (ADR 062).
   const dmw4Exception = DMW4_DECLARED_EXCEPTIONS.has(path.basename(playDir));

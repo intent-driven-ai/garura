@@ -50,8 +50,8 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         repo = repo_with(tmp, plan_on_main=True)
         code, rec = absent(repo)
-        check("a plan file on main and in the checkout: stop (exit 3) and name /update-plan",
-              code == 3 and rec["where"] == ["checkout", "main"] and "/update-plan 788" in rec["message"])
+        check("a plan file on main and in the checkout: stop (exit 3) and name /reshape-plan",
+              code == 3 and rec["where"] == ["checkout", "main"] and "/reshape-plan 788" in rec["message"])
     with tempfile.TemporaryDirectory() as tmp:
         repo = repo_with(tmp, plan_on_main=True)
         git(repo, "checkout", "--quiet", "-b", "feature/1-x", "HEAD~0")

@@ -69,7 +69,7 @@ Summary of every play under `core/components/plays/` as of this audit. Scope sta
 | `distill` | Lightweight post-merge learning extraction. Fires non-blocking after `merge-pr`. knowledge-extractor in FAST mode, max 2 proposals. | Learning |
 | `reap` | Post-epic learning extraction. Reads build trinity (prepare context + all implement status reports + all validate verdicts). knowledge-extractor in ANALYZE mode with 2-level taxonomy. One gate. | Learning |
 | `briefs` | YAML→JSON→HTML brief regeneration with checksum-driven caching. Zero agent delegation. | Utility |
-| `create-play` | Play compiler (meta). Three modes: New / Rebake / Review. Deterministic compilation from intent.yaml. 11-principle agent audit gate. | Meta |
+| `build-play` | Play compiler (meta). Three modes: New / Rebake / Review. Deterministic compilation from intent.yaml. 11-principle agent audit gate. | Meta |
 
 **Cross-cutting notes from the audit:**
 - `report-issue` is a deprecated thin alias for `capture`.
@@ -341,8 +341,8 @@ When `/define` picks this up, the following decisions are pending:
 
 1. **Which form do playbooks take?**
    - (a) Markdown under `docs/usage/playbooks/` — human-readable, not executable
-   - (b) YAML catalog under `core/components/memory/knowledge/playbooks/` — structured, referenceable, feeds `/create-play`
-   - (c) Compiled meta-plays via `/create-play` — executable orchestrators
+   - (b) YAML catalog under `core/components/memory/knowledge/playbooks/` — structured, referenceable, feeds `/build-play`
+   - (c) Compiled meta-plays via `/build-play` — executable orchestrators
 2. **Selection mechanism:** how does a user pick a playbook at project start? Is there a `garura /playbook <name>` entry point, or is it a prose recommendation based on project state?
 3. **Playbook composition:** can playbooks embed each other (e.g., `incident-response` embedded inside any steady-state playbook)? If yes, how is composition expressed?
 4. **Optimization surface:** each playbook commits to an optimization (safety, cycle time, boundary clarity). Do we make that a first-class field (like `quality-profile`) that shapes downstream play behavior?

@@ -144,7 +144,7 @@ class ApplyLinks(unittest.TestCase):
         self.assertEqual(rep["changed"], ["_spine.yaml", "intents/share-reports.md"])
 
     def test_work_for_plays_is_handed_back(self):
-        work = [{"play": "/discover-capabilities", "target": "reports", "why": "no features"}]
+        work = [{"play": "/specify-capabilities", "target": "reports", "why": "no features"}]
         self.assertEqual(self.run_apply({"work": work})["work_for_plays"], work)
 
 

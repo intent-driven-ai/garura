@@ -5,11 +5,11 @@ resolve_deploy_target.py — resolve the ONE cloud environment /release-incremen
 /release-increment is lightweight and on-demand: it deploys a delivered increment to a CLOUD environment the
 run lens already defined. This resolver names the target deterministically:
 
-  - known tiers: dev=1, qa=2, stage=3, prod=4 (local=0 is /release-epic's, never a deploy target).
+  - known tiers: dev=1, qa=2, stage=3, prod=4 (local=0 is /validate-uat's, never a deploy target).
   - if --env <name> is given, resolve that named CLOUD environment — but if it is prod, exit with
     the distinct PROD_OUT_OF_SCOPE code (3) so the play halts (C2/F2); production stays with CD.
   - else pick the LOWEST cloud tier DEFINED in the slice's run.yaml (dev if present).
-  - if no cloud environment is defined at all, halt with NO_CLOUD_ENV (4) (C8/F8) — run /shape-run-lens first.
+  - if no cloud environment is defined at all, halt with NO_CLOUD_ENV (4) (C8/F8) — run /design-env first.
 
 Layer rule: reads files on disk only; no git/gh/network.
 
@@ -30,7 +30,7 @@ except ImportError:
     sys.stderr.write("resolve_deploy_target.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
-# local (0) is /release-epic's, not a deploy target; /release-increment owns the cloud tiers.
+# local (0) is /validate-uat's, not a deploy target; /release-increment owns the cloud tiers.
 CLOUD_TIERS = {"dev": 1, "qa": 2, "stage": 3, "prod": 4}
 OUT_OF_SCOPE = {"prod"}  # production stays with CD from main (#434)
 
@@ -88,7 +88,7 @@ def main(argv=None):
             return EXIT_NO_CLOUD
         if name not in defined_names:
             out["reason"] = "ENV_NOT_DEFINED"
-            errors.append(f"'{name}' is not defined in run.yaml — run /shape-run-lens to define it first")
+            errors.append(f"'{name}' is not defined in run.yaml — run /design-env to define it first")
             print(json.dumps(out, indent=2))
             return EXIT_NO_CLOUD
         out["target_env"] = {"name": name, "type": "cloud", "tier": CLOUD_TIERS[name]}
@@ -100,7 +100,7 @@ def main(argv=None):
     candidates = [(n, CLOUD_TIERS[n]) for n in defined_names if n in CLOUD_TIERS and n not in OUT_OF_SCOPE]
     if not candidates:
         out["reason"] = "NO_CLOUD_ENV"
-        errors.append("no in-scope cloud environment is defined in run.yaml — run /shape-run-lens to define one")
+        errors.append("no in-scope cloud environment is defined in run.yaml — run /design-env to define one")
         print(json.dumps(out, indent=2))
         return EXIT_NO_CLOUD
     name, tier = min(candidates, key=lambda c: c[1])

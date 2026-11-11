@@ -2,7 +2,7 @@
 name: test-engineer
 domain: testing
 role: engineer
-description: "Authors /build-epic's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content. Also: test surface analysis, blast radius computation, baseline test specification, and three-tier verification scenario authoring. Understands the system through its tests — maps what's tested, identifies what's not, and specifies tests for coverage gaps."
+description: "Authors /build-work's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content. Also: test surface analysis, blast radius computation, baseline test specification, and three-tier verification scenario authoring. Understands the system through its tests — maps what's tested, identifies what's not, and specifies tests for coverage gaps."
 model: opus
 tools:
   - Bash
@@ -12,7 +12,7 @@ tools:
   - Write
   - Skill
 stale: true
-stale_note: 'waits for the rebuild of /build-epic (#855); only stale plays dispatch it'
+stale_note: 'waits for the rebuild of /build-work (#855); only stale plays dispatch it'
 ---
 
 # test-engineer

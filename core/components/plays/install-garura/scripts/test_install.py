@@ -110,7 +110,7 @@ class WritesTheProjectInstructions(Installed):
             text = fh.read()
         self.assertTrue(text.startswith("# CLAUDE.md — shop"))
         self.assertIn("Agent-first", text)
-        for dev_only in ("Garura is an agentic framework", "core/components/", "edit-play", "Work Tracking"):
+        for dev_only in ("Garura is an agentic framework", "core/components/", "fix-play", "Work Tracking"):
             self.assertNotIn(dev_only, text)
 
 
@@ -176,7 +176,7 @@ class LaysTheMemorySystem(Installed):
         self.install()
         self.assertTrue(os.path.isfile(self.path(".claude", "skills", "_shared", "play-close.md")))
         self.assertTrue(os.path.isfile(self.path(".claude", "agents", "template-manager.md")))
-        with open(self.path(".claude", "skills", "start-change", "SKILL.md")) as fh:
+        with open(self.path(".claude", "skills", "start-work", "SKILL.md")) as fh:
             self.assertIn("../_shared/play-close.md", fh.read())
 
     def test_the_config_comes_from_core_config_yaml(self):
@@ -395,15 +395,15 @@ class RetiresOldNames(Installed):
                           "--phoenix-place", self.place, "--phoenix-source", self.source])
         self.assertFalse(os.path.exists(self.path(".claude", "skills", "play-creator")))
         self.assertFalse(os.path.exists(self.path(".claude", "skills", "review-change")))
-        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "create-play", "SKILL.md")))
-        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "check-change", "SKILL.md")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "build-play", "SKILL.md")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "validate-work", "SKILL.md")))
         self.assertTrue(os.path.isfile(self.path(".claude", "skills", "adr", "SKILL.md")))
         with open(self.path(".garura", "install-manifest.json")) as fh:
             retired = json.load(fh)["record"]["retired"]
         self.assertIn(os.path.join(".claude", "skills", "play-creator"), retired)
 
     def test_every_old_name_of_one_new_name_goes(self):
-        # #807: grill and shape-features both became shape-slice; both old folders go
+        # #807: grill and shape-features both became design-slice; both old folders go
         self.old(".claude/skills/grill", "grill")
         self.old(".claude/skills/shape-features", "shape-features")
         with contextlib.redirect_stdout(io.StringIO()):
@@ -412,7 +412,7 @@ class RetiresOldNames(Installed):
                           "--phoenix-place", self.place, "--phoenix-source", self.source])
         self.assertFalse(os.path.exists(self.path(".claude", "skills", "grill")))
         self.assertFalse(os.path.exists(self.path(".claude", "skills", "shape-features")))
-        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "shape-slice", "SKILL.md")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "design-slice", "SKILL.md")))
 
     def test_the_harness_scope_lays_the_plan_play_and_its_skill(self):
         # #876: /shape-plan and author-work-items were left off the harness list
@@ -442,9 +442,9 @@ class LaysLoops(unittest.TestCase):
         self.work = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
         self.src = os.path.join(self.work, "components")
-        for rel, text in (("plays/start-change/SKILL.md", "---\nname: start-change\n---\n"),
+        for rel, text in (("plays/start-work/SKILL.md", "---\nname: start-work\n---\n"),
                           ("plays/_shared/play-close.md", "# close\n"),
-                          ("loops/complete-discovery/SKILL.md", "---\nname: complete-discovery\nkind: loop\n---\n"),
+                          ("loops/loop-product-spec/SKILL.md", "---\nname: loop-product-spec\nkind: loop\n---\n"),
                           ("loops/_shared/loop-run.md", "# run\n")):
             path = os.path.join(self.src, rel)
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -460,10 +460,10 @@ class LaysLoops(unittest.TestCase):
         paths, counts, _ = self.lay(claude)
         skills = os.path.join(self.target, ".claude", "skills")
         self.assertEqual((counts["plays"], counts["loops"]), (1, 1))
-        self.assertTrue(os.path.isfile(os.path.join(skills, "complete-discovery", "SKILL.md")))
+        self.assertTrue(os.path.isfile(os.path.join(skills, "loop-product-spec", "SKILL.md")))
         self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "play-close.md")))
         self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "loop-run.md")))
-        self.assertIn(os.path.join(".claude", "skills", "complete-discovery"), paths)
+        self.assertIn(os.path.join(".claude", "skills", "loop-product-spec"), paths)
 
     def test_the_agents_shared_files_are_laid_in_shared_and_never_as_an_agent(self):
         for rel, text in (("agents/finder.md", "---\nname: finder\n---\n"),
@@ -497,22 +497,22 @@ class LaysLoops(unittest.TestCase):
 
     def test_the_harness_scope_installs_no_loop(self):
         allow = install.SCOPES["harness"]
-        _, counts, _ = self.lay(claude, {**allow, "plays": allow["plays"] | {"start-change"}})
+        _, counts, _ = self.lay(claude, {**allow, "plays": allow["plays"] | {"start-work"}})
         self.assertEqual(counts["loops"], 0)
-        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "complete-discovery")))
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "loop-product-spec")))
 
     def test_the_full_scope_installs_every_loop_but_not_the_loop_builders(self):
         scope = install.resolve_scope("full", os.path.join(ROOT, "core", "components"))
         self.assertIsNone(scope["loops"])
-        self.assertNotIn("create-loop", scope["plays"])
-        self.assertNotIn("edit-loop", scope["plays"])
-        self.assertIn("create-loop", install.SCOPES["harness"]["plays"])
+        self.assertNotIn("build-loop", scope["plays"])
+        self.assertNotIn("fix-loop", scope["plays"])
+        self.assertIn("build-loop", install.SCOPES["harness"]["plays"])
 
     def test_the_harness_scope_carries_discover_capabilities_and_its_workers(self):
         # Garura plans its own work with its own product model; this play writes the full ICE (#753).
         allow = install.SCOPES["harness"]
         components = os.path.join(ROOT, "core", "components")
-        self.assertIn("discover-capabilities", allow["plays"])
+        self.assertIn("specify-capabilities", allow["plays"])
         for skill in ("find-work-placement", "enrich-capability-ice", "judge-grounding"):
             self.assertIn(skill, allow["skills"])
             self.assertTrue(os.path.isfile(os.path.join(components, "skills", skill, "SKILL.md")), skill)
@@ -532,7 +532,7 @@ class LaysLoops(unittest.TestCase):
         # Garura shapes the slice for each of its own business intents (plan 788).
         allow = install.SCOPES["harness"]
         components = os.path.join(ROOT, "core", "components")
-        self.assertIn("shape-slice", allow["plays"])
+        self.assertIn("design-slice", allow["plays"])
         for skill in ("author-business-intent", "author-domains", "propose-answers", "author-slice",
                       "find-slice-gaps", "author-slice-brief", "enrich-grounding",
                       "author-failure-recovery", "find-work-placement", "enrich-capability-ice"):
@@ -541,18 +541,18 @@ class LaysLoops(unittest.TestCase):
 
     def test_edit_ontology_goes_to_harness_repos_only(self):
         # The play that changes the product ontology is build tooling for a harness repo (#777).
-        self.assertIn("edit-ontology", install.SCOPES["harness"]["plays"])
+        self.assertIn("specify-ontology", install.SCOPES["harness"]["plays"])
         self.assertIn("author-product-ontology", install.SCOPES["harness"]["skills"])
         full = install.resolve_scope("full", os.path.join(ROOT, "core", "components"))
-        self.assertNotIn("edit-ontology", full["plays"])
+        self.assertNotIn("specify-ontology", full["plays"])
         self.assertNotIn("author-product-ontology", full["skills"])
 
     def test_the_config_points_loops_at_the_install_place(self):
         text = install.transform_config("components:\n  loops: ./core/components/loops/\n"
-                                        "loops:\n  complete-discovery:\n    runner: subagent\n",
+                                        "loops:\n  loop-product-spec:\n    runner: subagent\n",
                                         "shop", "claude")
         self.assertIn("  loops: ./.claude/skills/", text)
-        self.assertIn("loops:\n  complete-discovery:", text)
+        self.assertIn("loops:\n  loop-product-spec:", text)
 
 
 class SkipsStaleParts(unittest.TestCase):
@@ -563,7 +563,7 @@ class SkipsStaleParts(unittest.TestCase):
         self.work = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
         self.src = os.path.join(self.work, "components")
-        for rel, text in (("plays/start-change/SKILL.md", "---\nname: start-change\n---\n"),
+        for rel, text in (("plays/start-work/SKILL.md", "---\nname: start-work\n---\n"),
                           ("plays/build-thing/SKILL.md", "---\nname: build-thing\n---\n"),
                           ("plays/_shared/play-close.md", "# close\n"),
                           ("skills/author-thing/SKILL.md", "---\nname: author-thing\n---\n"),
@@ -675,9 +675,9 @@ class InstallFindings(unittest.TestCase):
 
 # The parts that work on Garura's source only, by design (#860), and the files that sort the paths
 # of the repo under review. An installed file outside them names no path in the source.
-SOURCE_ONLY = {"create-play", "edit-play", "create-loop", "edit-loop", "install-garura",
-               "uninstall-garura", "edit-ontology", "author-product-ontology"}
-REPO_LAYOUT = {os.path.join("commit-change", "scripts", "analyze_changeset.py"),
+SOURCE_ONLY = {"build-play", "fix-play", "build-loop", "fix-loop", "install-garura",
+               "uninstall-garura", "specify-ontology", "author-product-ontology"}
+REPO_LAYOUT = {os.path.join("commit-work", "scripts", "analyze_changeset.py"),
                os.path.join("assess-pr", "reference", "quality-rules.md")}
 # Tools whose job includes Garura's own repository: the component linter's source layout.
 # The old-name check (naming) is not laid at all (decision 23).
@@ -805,8 +805,8 @@ class AnEmptyProject(unittest.TestCase):
     def test_the_install_records_the_kind_of_every_part(self):
         record = self.install(self.target)
         kinds = record["kinds"]
-        for name, kind in (("create-play", "play"), ("edit-play", "play"), ("create-loop", "play"),
-                           ("edit-loop", "play"), ("check-change", "play"), ("check-pr-quality", "skill")):
+        for name, kind in (("build-play", "play"), ("fix-play", "play"), ("build-loop", "play"),
+                           ("fix-loop", "play"), ("validate-work", "play"), ("check-pr-quality", "skill")):
             self.assertEqual(kinds.get(os.path.join(".claude", "skills", name)), kind, name)
         self.assertEqual(kinds.get(os.path.join(".claude", "agents", "change-reviewer.md")), "agent")
         self.assertNotIn(os.path.join(".claude", "skills", "_shared"), kinds)
@@ -867,7 +867,7 @@ class AnEmptyProject(unittest.TestCase):
 
     def test_the_installed_pr_context_script_names_no_memory_folder(self):
         self.install(self.target)
-        run = self.run_here("python3", "-c", FAKE_ADAPTER_RUN, ".claude/skills/check-change/scripts",
+        run = self.run_here("python3", "-c", FAKE_ADAPTER_RUN, ".claude/skills/validate-work/scripts",
                             "--config", ".garura/core/config.yaml", "--pr-number", "7",
                             "--out-context", "context.json", "--out-diff", "pr.diff")
         self.assertEqual(run.returncode, 0, run.stderr)

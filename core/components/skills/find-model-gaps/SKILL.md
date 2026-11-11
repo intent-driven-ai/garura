@@ -8,8 +8,8 @@ allowed-tools: Read, Write, Glob, Grep, Bash
 
 # find-model-gaps
 
-The product model is written in pieces (ADR 043): `/discover-intent` writes business intents,
-`/discover-domains` domains, `/discover-capabilities` capabilities and features, each on its own. A piece is
+The product model is written in pieces (ADR 043): `/specify-intent` writes business intents,
+`/specify-domains` domains, `/specify-capabilities` capabilities and features, each on its own. A piece is
 not ready until it is linked — feature → capability → domain, and its agent intent to a
 confirmed business intent. This skill finds what is not linked yet, what is written twice, and
 what is still missing, and says what to do about each.
@@ -52,11 +52,11 @@ what is still missing, and says what to do about each.
    one with more content and sources) and mark it `agreed: true` only when the pages and
    their sources show the same screen and the same purpose.
 5. **Give each piece of missing work to the play that does it:**
-   - a capability with no features → `/discover-capabilities`;
-   - a capability no domain holds, and no domain fits → `/discover-domains`;
-   - a screen's need that no business intent names → `/discover-intent`;
-   - an intent no capability serves → `/discover-capabilities`;
-   - a screen no capability or feature covers → `/discover-capabilities`.
+   - a capability with no features → `/specify-capabilities`;
+   - a capability no domain holds, and no domain fits → `/specify-domains`;
+   - a screen's need that no business intent names → `/specify-intent`;
+   - an intent no capability serves → `/specify-capabilities`;
+   - a screen no capability or feature covers → `/specify-capabilities`.
 6. **Write `gaps.json`** in the shape under Output.
 
 ## Output
@@ -68,7 +68,7 @@ what is still missing, and says what to do about each.
   "links_to_make": [{"kind": "capability", "id": "<id>", "field": "domain | capability | intents",
                      "value": "<parent id, or [intent ids]>", "why": "<one plain line>"}],
   "duplicates": [{"kind": "capability", "keep": "<id>", "drop": "<id>", "agreed": true, "why": "…"}],
-  "work": [{"play": "/discover-capabilities", "target": "<id or screen>", "why": "<one plain line>"}],
+  "work": [{"play": "/specify-capabilities", "target": "<id or screen>", "why": "<one plain line>"}],
   "uncovered": [{"what": "main section | view", "name": "…"}],
   "cleared": [{"candidate": "…", "why": "…"}]
 }
@@ -79,6 +79,6 @@ what is still missing, and says what to do about each.
 - **Read only.** This skill writes `gaps.json` and nothing else. `link-model-gaps` applies it.
 - **No link without a basis.** Every link and every merge says why, from the pages, their
   sources, the capture or the write-up.
-- **Work goes to the play that owns the kind** (ADR 043): intents to `/discover-intent`, domains to
-  `/discover-domains`, capabilities and features to `/discover-capabilities`.
+- **Work goes to the play that owns the kind** (ADR 043): intents to `/specify-intent`, domains to
+  `/specify-domains`, capabilities and features to `/specify-capabilities`.
 - **Plain words.** Each `why` is one short sentence a person reads without the model open.

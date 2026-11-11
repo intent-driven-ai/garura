@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-spine_text.py — write a changed spine back and keep its comments and layout (/shape-slice).
+spine_text.py — write a changed spine back and keep its comments and layout (/design-slice).
 
 yaml.safe_dump writes the whole file again and drops every comment. This module changes only
 the text of the top-level lists that changed, item by item, and keeps every other line:
