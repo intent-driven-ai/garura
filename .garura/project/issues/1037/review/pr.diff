@@ -1,0 +1,1575 @@
+diff --git a/.garura/project/issues/1037/context/analysis.yaml b/.garura/project/issues/1037/context/analysis.yaml
+new file mode 100644
+index 000000000..b74f48b5c
+--- /dev/null
++++ b/.garura/project/issues/1037/context/analysis.yaml
+@@ -0,0 +1,56 @@
++---
++# analyze_changeset.py output (C8 fast path), grouped by the assess-changes judgment
++# issue: 1037
++needs_judgment: false
++branch: feature/1037-index-tool-thin-and-moves
++issue: 1037
++
++change_groups:
++  - id: feat-skills-link-model-part-thin-and-moves
++    issue: 1037
++    commit_type: feat
++    scope: skills
++    subject: "clear a thin mark and move a feature or a page"
++    confidence: high
++    files:
++      - core/components/skills/link-model-part/scripts/link_part.py
++      - core/components/skills/link-model-part/scripts/test_link_part.py
++      - core/components/skills/link-model-part/SKILL.md
++      - core/components/agents/product-os-keeper.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "link-model-part's index script takes three new keys on update (thin: false, capability, doc); the SKILL.md and the agent's skill table describe them; the unit tests cover them. The script's internal plan() now returns five values and write_all() takes optional deletes and rmdirs; no other file in core/ calls either, and the request schema only gains optional keys, so nothing that exists breaks."
++
++  - id: chore-stm-run-state
++    issue: 1037
++    commit_type: chore
++    scope: stm
++    subject: "record commit-change run state and template copies"
++    confidence: high
++    files:
++      - .garura/project/issues/1037/context/analysis.yaml
++      - .garura/project/issues/1037/context/porcelain.txt
++      - .garura/project/issues/1037/context/templates/manifest-close-start-change.json
++      - .garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
++      - .garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "The commit-change run's own records (the porcelain scan and this analysis) and the template copies the start-change close loaded into short-term memory. Operational, not part of the feature."
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes:
++    []
++  ambiguous_types:
++    []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "grouping done by assess-changes: 2 groups, 9 files; every file from the porcelain scan (the templates/ folder expanded to its 3 files) plus this analysis file sits in exactly one group, none in exclusions"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched: no sensitive filename in the changeset, and no password/api_key/secret/token/private_key pattern in the diff or the new files"}
+diff --git a/.garura/project/issues/1037/context/args.json b/.garura/project/issues/1037/context/args.json
+new file mode 100644
+index 000000000..c9f6c0215
+--- /dev/null
++++ b/.garura/project/issues/1037/context/args.json
+@@ -0,0 +1,9 @@
++{
++  "mode": "issue",
++  "issue": "1037",
++  "plan": null,
++  "description": null,
++  "note": null,
++  "fetched": null,
++  "error": null
++}
+diff --git a/.garura/project/issues/1037/context/branch.json b/.garura/project/issues/1037/context/branch.json
+new file mode 100644
+index 000000000..40c0ad4f9
+--- /dev/null
++++ b/.garura/project/issues/1037/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "feature/1037-index-tool-thin-and-moves",
++  "base_sha": "1be69342e964380caff0a045b859b6c7c1921964",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": null,
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1037/context/commits.yaml b/.garura/project/issues/1037/context/commits.yaml
+new file mode 100644
+index 000000000..25c298fcb
+--- /dev/null
++++ b/.garura/project/issues/1037/context/commits.yaml
+@@ -0,0 +1,24 @@
++commits:
++  - sha: 019f1baa
++    message: "feat(skills): clear a thin mark and move a feature or a page (#1037)"
++    files:
++      - core/components/skills/link-model-part/scripts/link_part.py
++      - core/components/skills/link-model-part/scripts/test_link_part.py
++      - core/components/skills/link-model-part/SKILL.md
++      - core/components/agents/product-os-keeper.md
++    branch: feature/1037-index-tool-thin-and-moves
++  - sha: a97f5531
++    message: "chore(stm): record commit-change run state and template copies (#1037)"
++    files:
++      - .garura/project/issues/1037/context/analysis.yaml
++      - .garura/project/issues/1037/context/porcelain.txt
++      - .garura/project/issues/1037/context/templates/manifest-close-start-change.json
++      - .garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
++      - .garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
++    branch: feature/1037-index-tool-thin-and-moves
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1037/context/issue.json b/.garura/project/issues/1037/context/issue.json
+new file mode 100644
+index 000000000..5ce6310d6
+--- /dev/null
++++ b/.garura/project/issues/1037/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 1037,
++  "title": "The model's index tool clears a thin mark, moves a feature to another capability, and moves a part's page",
++  "created": false
++}
+diff --git a/.garura/project/issues/1037/context/memory/manifest-propose-change.json b/.garura/project/issues/1037/context/memory/manifest-propose-change.json
+new file mode 100644
+index 000000000..ecb65e7a5
+--- /dev/null
++++ b/.garura/project/issues/1037/context/memory/manifest-propose-change.json
+@@ -0,0 +1,11 @@
++{
++  "files": [
++    {
++      "tier": "phoenix",
++      "path": "standards/rules/self-review.md",
++      "version": "b2e40bff2131",
++      "fingerprint": "sha256:d630c3f6149122ae56b190e7041379f8efef63ff399e85a349dc946fff976eba",
++      "copy": ".garura/project/issues/1037/context/memory/standards/rules/self-review.md"
++    }
++  ]
++}
+diff --git a/.garura/project/issues/1037/context/memory/standards/rules/self-review.md b/.garura/project/issues/1037/context/memory/standards/rules/self-review.md
+new file mode 100644
+index 000000000..4ea21d8a1
+--- /dev/null
++++ b/.garura/project/issues/1037/context/memory/standards/rules/self-review.md
+@@ -0,0 +1,45 @@
++# Self-Review Rules (base)
++
++The default scope-and-quality self-review a change runs before it is raised for
++review. The `propose-change` play resolves this file through the standards
++hierarchy (`standards_order`, most-specific wins) and hands it to the self-review
++skill — so the review is driven by these rules, never by logic hardcoded in the play.
++
++**Overrideable per project.** This is the generic base. A project that wants its own
++checks drops a `self-review.md` at a more-specific standards level; the resolver
++prefers that project copy over this base. Keep project overrides as the same shape
++(Scope + Quality check lists) so the self-review skill consumes them uniformly. The
++base stays generic on purpose — project-specific and stack-specific judgment is added
++at runtime by the analyzing skill on top of these rules.
++
++The output is an informational checklist that travels in the PR. It is **not** the
++approve/reject gate — that is `review-change`'s job. The self-review surfaces problems
++early; it does not block the raise on its own.
++
++## Scope checks
++
++- **Matches the issue.** The change implements the tracked issue and nothing beyond
++  it — no unrelated edits riding along.
++- **No scope creep.** Files touched map to the issue's intent; flag any that don't.
++- **Reasonable size.** The change is small enough to review in one sitting, or its size
++  is justified in the PR description.
++- **No stray artifacts.** No commented-out blocks, debug prints, scratch files, or
++  generated output committed by accident.
++
++## Quality checks
++
++- **Tests present.** Behavior changes carry tests, or the PR states why none are needed.
++- **Commits are clean.** Conventional-commit format, each commit a coherent concern,
++  each referencing the issue.
++- **No secrets.** No credentials, tokens, keys, or other sensitive values in the diff.
++- **Docs in step.** User-facing or interface changes update the docs/README they affect.
++- **Nothing obviously broken.** No leftover TODOs blocking the change's own goal, no
++  known-failing paths introduced.
++
++## Resolution (how `propose-change` picks the file)
++
++1. Resolve `standards_order` from `.garura/core/config.yaml`.
++2. Take the most-specific level's `self-review.md` if it exists (the project override).
++3. Otherwise fall back to this base file.
++
++The resolved path is recorded in the run so the self-review's source is auditable.
+\ No newline at end of file
+diff --git a/.garura/project/issues/1037/context/plan.json b/.garura/project/issues/1037/context/plan.json
+new file mode 100644
+index 000000000..ed0dda56c
+--- /dev/null
++++ b/.garura/project/issues/1037/context/plan.json
+@@ -0,0 +1,12 @@
++{
++  "issue": "1037",
++  "plan_id": null,
++  "plan_branch": null,
++  "issue_branch": "feature/1037-index-tool-thin-and-moves",
++  "closed_plan": null,
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": []
++  }
++}
+diff --git a/.garura/project/issues/1037/context/porcelain.txt b/.garura/project/issues/1037/context/porcelain.txt
+new file mode 100644
+index 000000000..a7153ae85
+--- /dev/null
++++ b/.garura/project/issues/1037/context/porcelain.txt
+@@ -0,0 +1,6 @@
++ M core/components/agents/product-os-keeper.md
++ M core/components/skills/link-model-part/SKILL.md
++ M core/components/skills/link-model-part/scripts/link_part.py
++ M core/components/skills/link-model-part/scripts/test_link_part.py
++?? .garura/project/issues/1037/context/porcelain.txt
++?? .garura/project/issues/1037/context/templates/
+diff --git a/.garura/project/issues/1037/context/pr-body.md b/.garura/project/issues/1037/context/pr-body.md
+new file mode 100644
+index 000000000..f2c9dad98
+--- /dev/null
++++ b/.garura/project/issues/1037/context/pr-body.md
+@@ -0,0 +1,154 @@
++## What this does
++
++The model's index tool (`link-model-part`) can now take in old parts of the product model once a person approved it. Three steps had no tool, and the #1021 review of Orchestration (BI-9) was blocked on all three: its first capability takes in View plans, Manage a plan and Shape a slice.
++
++- **`thin: false`** takes a capability's or feature's thin mark off both places it lives, the index entry and the page's Thin line, so the part can take a full ICE of its own in the same request.
++- **`capability: <id>`** files a feature under another capability, one in the index or added earlier in the same request. Only a feature takes it.
++- **`doc: <new path>`** moves a page, and the ice.md beside it, to a new folder that a part of its kind may use; the entry's doc and its ICE entry's doc follow, and the old folder is removed. It is refused while any page or record names an old path (from the model root, or as a link relative to the page), while the old folder holds any other file, or when the new folder already holds a file. A failed write puts every file and folder back.
++- The skill's rule "Never re-parent" now reads that a feature with a capability moves only through this update, when a person approved taking in an old part; `link-model-gaps` leaves that move as alignment work. The `product-os-keeper` agent lists the three updates.
++
++The acceptance check (`.garura/project/issues/1037/evidence/eval/eval_1037.py`) was committed first, failing (5 of 26), and now passes 30 of 30. The skill's unit tests: 44, all passing. The component check reads 36 errors and 1 warning before and after, none in the files changed.
++
++Out of scope: writing BI-9's pages (#1021), the merge tool (`remove-model-part`), and a test of a move that fails part way (the reviewer forced two such failures in a scratch copy, and every file came back).
++
++## Raised past a failed self-review check
++
++The pre-push check (`check_self_review.py`) exited 1 on one line: commit 339ddf54 has a 156-character subject, and the commit rules cap it at 72. The product owner chose to raise it anyway, recorded in `.garura/project/issues/1037/context/raise-past-check.md`. The long subject stays in the history, and this run of /propose-change does not close COMPLETED.
++
++Closes #1037
++
++---
++
++# Self-Review: #1037 (the model's index tool clears a thin mark, moves a feature to another capability, and moves a part's page)
++
++Driven by the base self-review rules (no project override), the assess-pr quality ruleset and the
++commit rules. This checklist is informational; the approve or reject gate is `review-change`.
++Each line carries one status: PASS, REVIEW (a person signs off) or FAIL (a must-have rule is broken).
++
++## Branch Info
++
++- **Branch**: `feature/1037-index-tool-thin-and-moves` (pattern: feature, standard priorities)
++- **Base**: `main` (the branch sits on main's tip; main equals origin/main; a trial merge is clean)
++
++## Change Summary
++
++- **Commits**: 5
++- **Files changed**: 16 (+910 / -20)
++- **Source part**: 4 files under `core/components` (+271 / -20), the 322-line acceptance check, and 11 run records (+317)
++
++## Suggested PR Title
++
++```
++feat(skills): clear a thin mark and move a feature or a page (#1037)
++```
++
++## Context Detected
++
++| Pattern | Files |
++|---------|-------|
++| Skill definition (`core/components/skills/link-model-part/SKILL.md`) | 1 |
++| Agent definition (`core/components/agents/product-os-keeper.md`) | 1 |
++| Python (the index script, its tests, the acceptance check) | 3 |
++| YAML and JSON run records | 7 |
++| Markdown and text run records | 4 |
++
++| Commit type | Count | Subject |
++|-------------|-------|---------|
++| feat | 1 | clear a thin mark and move a feature or a page |
++| test | 1 | the acceptance check, failing before the build |
++| chore | 3 | stm run records |
++
++## Scope Checks
++
++- [PASS] **Matches the issue**: the change adds the three updates the issue names to the index script of `link-model-part` (`thin: false`, `capability: <id>`, `doc: <new path>`), with the skill doc, the agent's skill-table row, unit tests and the acceptance check. The one adjacent edit, the domain refusal that now also covers `thin: false`, belongs to the same feature and is covered by acceptance scenario E4.
++- [PASS] **No scope creep**: all 16 files sit in the issue's own folders (4 under `core/components`, the acceptance check, 11 records under `.garura/project/issues/1037/context/`). The two untracked paths in the tree (`context/memory/`, `context/resolved-rules.json`) are this raise's own records and are not in the diff.
++- [PASS] **Reasonable size**: +910 / -20 over 16 files, but a reviewer reads 4 source files (+271 / -20) and one acceptance check; the other 11 files are run records.
++- [PASS] **No stray artifacts**: no TODO, FIXME, debug print or commented-out block in the added source lines; no `__pycache__`, backup or scratch file in the diff. The `context/` records and template copies are what the start-change and commit-change plays commit on purpose.
++
++## Quality Checks
++
++- [PASS] **Tests present**: 8 new unit tests (`TakeInOldPartsTest`) plus the acceptance check, written first (commit 339ddf54). Run here: acceptance check 30 of 30 pass; skill unit tests 44 of 44 pass.
++- [FAIL] **Commits are clean**: commit 339ddf54 has a subject of 156 characters; the commit rules cap it at 72 (`subject-length`, must-have). The other four subjects are 54 to 70 characters.
++- [PASS] **Conventional format and issue reference**: all five commits use a valid type (`feat`, `test`, `chore`) with a scope, each names #1037, each is one concern, and none carries an attribution trailer.
++- [PASS] **No secrets**: a pattern scan of the added lines found no credential. The one hit is a scan-result sentence in `context/analysis.yaml` that names the patterns it looked for. No file is over 1 MB.
++- [PASS] **Docs in step**: `SKILL.md` (description, Input, Output and Rules), the script's header and the `product-os-keeper` skill-table row all name the three updates and the new report keys (`unthin`, `moved`). `docs/components/` has no entry for this skill.
++- [PASS] **Nothing obviously broken**: no TODO or known-failing path in the added lines. The component lint reports 36 errors and 1 warning on the branch, identical to main (0 new, none in `link-model-part` or `product-os-keeper`).
++
++## Skill Rule Checks (assess-pr ruleset)
++
++Must-have:
++
++- [PASS] `no-conflicts`: `git merge-tree --write-tree main HEAD` exits 0.
++- [PASS] `no-secrets`: see the Quality Checks line.
++- [PASS] `skill-frontmatter`: `SKILL.md` has name, description, user-invocable and allowed-tools.
++- [PASS] `skill-io`: `SKILL.md` has `## Input` and `## Output`.
++- [PASS] `agent-frontmatter`: `product-os-keeper.md` has name, domain, role, description, model and tools.
++- [PASS] `agent-boundaries`: `product-os-keeper.md` has `## Boundaries`.
++- [PASS] `config-valid`: both YAML records and all five JSON records parse.
++- [PASS] `feat-documented`: the feature is documented in `SKILL.md` and the agent's skill table.
++- [REVIEW] `deploy-components`: the installed copy of the script under `.claude/skills/link-model-part/` differs from the source. The install is the `install-garura` play, a separate step after merge; the installed copy is not tracked by git.
++
++Nice-to-have:
++
++- [PASS] `agent-naming`: `product-os-keeper` follows `{domain}-{role}`.
++- [REVIEW] `skill-constraints`: `SKILL.md` has no `## Constraints` heading; its rules sit under `## Rules`. Unchanged by this change.
++- [PASS] `feat-adr`: no ADR needed. The request schema only gains optional keys, no new writer is added, and the write boundary (only inside the product model) is unchanged.
++- [PASS] `config-documented`: not applicable; the YAML files are run records, not configuration.
++
++## Findings
++
++**Blocking count**: 1
++
++- Commits are clean (commit 339ddf54): the subject is 156 characters against the 72 limit. It is a message-only defect on a commit that is not pushed. Rewording it rewrites the hashes of the three commits above it, which leaves the hashes written in `context/commits.yaml` stale; the other way out is a person accepting the exception. This review changed none of it.
++
++**Observations** (nothing here blocks the raise):
++
++- No committed test covers a move that fails part way. A scratch run forced the second file deletion to fail, then the removal of the old folder to fail; each time every file and folder came back as it was. The behaviour is right; only the test is missing.
++- `core/components/memory/standards/rules/direct-model-write.md` (lines 54-55) says `link_part.py` writes "the spine entry of a part found during work, and the thin mark". It now also takes the mark off, files a feature under another capability and moves a page. The write boundary the rule states is unchanged, so the sentence is incomplete, not wrong.
++- A move refuses when another page names the old path, but it does not look at links inside the moved page itself. A page whose own relative links point at its old neighbours would break after a move. No capability or feature page in the model today uses a relative link (0 of 45), so nothing breaks now.
++
++## Readiness Assessment
++
++- **Ready**: no
++- **Blocking count**: 1
++- **Review required**: 2
++- **Recommendation**: Fix first: the one commit subject, or have a person accept it. Everything else is clean.
++
++---
++
++## YAML Output
++
++```yaml
++analysis:
++  branch: feature/1037-index-tool-thin-and-moves
++  base: main
++  branch_pattern: feature
++  commits: 5
++  changes: {files: 16, additions: 910, deletions: 20}
++  suggested_title: "feat(skills): clear a thin mark and move a feature or a page (#1037)"
++  context:
++    commit_types: [{type: feat, count: 1}, {type: test, count: 1}, {type: chore, count: 3}]
++  checklist:
++    scope:
++      - {id: matches-the-issue, status: "PASS"}
++      - {id: no-scope-creep, status: "PASS"}
++      - {id: reasonable-size, status: "PASS"}
++      - {id: no-stray-artifacts, status: "PASS"}
++    quality:
++      - {id: tests-present, status: "PASS", evidence: "acceptance 30 of 30; unit 44 of 44"}
++      - {id: commits-clean, status: "FAIL", evidence: "339ddf54 subject is 156 characters, limit 72 (subject-length)"}
++      - {id: conventional-format, status: "PASS"}
++      - {id: no-secrets, status: "PASS"}
++      - {id: docs-in-step, status: "PASS"}
++      - {id: nothing-obviously-broken, status: "PASS", evidence: "lint identical to main; trial merge clean"}
++    must_have_rules:
++      - {id: deploy-components, status: "REVIEW", evidence: "installed copy differs from source; deployed by install-garura after merge"}
++    nice_to_have_rules:
++      - {id: skill-constraints, status: "REVIEW", evidence: "rules sit under ## Rules; unchanged by this change"}
++  blocking_issues:
++    - item: commits-clean
++      reason: "commit 339ddf54 subject is 156 characters, limit 72"
++      trigger: "commit rules, subject-length (must-have)"
++  ready: false
++  recommendation: "Fix issues first"
++```
+diff --git a/.garura/project/issues/1037/context/pr.json b/.garura/project/issues/1037/context/pr.json
+new file mode 100644
+index 000000000..18e6550ea
+--- /dev/null
++++ b/.garura/project/issues/1037/context/pr.json
+@@ -0,0 +1,8 @@
++{
++  "number": 1038,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1038",
++  "state": "OPEN",
++  "base": "main",
++  "from_host": true,
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1037/context/raise-past-check.md b/.garura/project/issues/1037/context/raise-past-check.md
+new file mode 100644
+index 000000000..829210450
+--- /dev/null
++++ b/.garura/project/issues/1037/context/raise-past-check.md
+@@ -0,0 +1,22 @@
++# #1037 raised past a failed self-review check, by the product owner's word
++
++2026-11-11, /propose-change, Step 3.
++
++## What the check found
++
++- Command: `python3 .claude/skills/propose-change/scripts/check_self_review.py --self-review .garura/project/issues/1037/context/self-review.md`
++- Exit code: 1 (`clean: false`, `count: 1`).
++- The one blocking line: "Commits are clean": commit 339ddf54 has a subject of 156 characters, and the commit rules cap it at 72 (`subject-length`, must-have). The other four subjects are 54 to 70 characters.
++- Every other line of the self-review passes, or is a REVIEW line that does not block.
++
++## What the product owner chose
++
++Shown three choices (shorten the subject by rebuilding the four unpushed commits; leave it and raise anyway; or change the check or the rule), he chose to leave it: "B". Asked what that meant (raise past the check by his word, recorded; change the check so a person can accept a blocking line; or relax the rule), he chose: "1".
++
++So the branch is pushed and the pull request opened with the check failed. Step eval SE-8 (the check ran before the push and exited 0) is not met, and this run does not close COMPLETED.
++
++## What is owed
++
++- The 156-character subject of commit 339ddf54 stays in the branch's history.
++- The check that stopped the raise has no way past it that a person can use. Orchestration's capability "Give every gate a way past" (BI-9, #1021) holds that work; it is drafted and not built.
++- The self-review the product owner dropped on 2026-11-10 ("yes, record it with self-review dropped") still runs in /propose-change as built; taking it out is owed to Raise each change for review against where it lands (fn-raise-change, BI-8).
+diff --git a/.garura/project/issues/1037/context/resolved-rules.json b/.garura/project/issues/1037/context/resolved-rules.json
+new file mode 100644
+index 000000000..9cc16366e
+--- /dev/null
++++ b/.garura/project/issues/1037/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": ".garura/project/issues/1037/context/memory/standards/rules/self-review.md",
++  "source": ".garura/project/issues/1037/context/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1037/context/self-review.md b/.garura/project/issues/1037/context/self-review.md
+new file mode 100644
+index 000000000..66f623ce7
+--- /dev/null
++++ b/.garura/project/issues/1037/context/self-review.md
+@@ -0,0 +1,133 @@
++# Self-Review: #1037 (the model's index tool clears a thin mark, moves a feature to another capability, and moves a part's page)
++
++Driven by the base self-review rules (no project override), the assess-pr quality ruleset and the
++commit rules. This checklist is informational; the approve or reject gate is `review-change`.
++Each line carries one status: PASS, REVIEW (a person signs off) or FAIL (a must-have rule is broken).
++
++## Branch Info
++
++- **Branch**: `feature/1037-index-tool-thin-and-moves` (pattern: feature, standard priorities)
++- **Base**: `main` (the branch sits on main's tip; main equals origin/main; a trial merge is clean)
++
++## Change Summary
++
++- **Commits**: 5
++- **Files changed**: 16 (+910 / -20)
++- **Source part**: 4 files under `core/components` (+271 / -20), the 322-line acceptance check, and 11 run records (+317)
++
++## Suggested PR Title
++
++```
++feat(skills): clear a thin mark and move a feature or a page (#1037)
++```
++
++## Context Detected
++
++| Pattern | Files |
++|---------|-------|
++| Skill definition (`core/components/skills/link-model-part/SKILL.md`) | 1 |
++| Agent definition (`core/components/agents/product-os-keeper.md`) | 1 |
++| Python (the index script, its tests, the acceptance check) | 3 |
++| YAML and JSON run records | 7 |
++| Markdown and text run records | 4 |
++
++| Commit type | Count | Subject |
++|-------------|-------|---------|
++| feat | 1 | clear a thin mark and move a feature or a page |
++| test | 1 | the acceptance check, failing before the build |
++| chore | 3 | stm run records |
++
++## Scope Checks
++
++- [PASS] **Matches the issue**: the change adds the three updates the issue names to the index script of `link-model-part` (`thin: false`, `capability: <id>`, `doc: <new path>`), with the skill doc, the agent's skill-table row, unit tests and the acceptance check. The one adjacent edit, the domain refusal that now also covers `thin: false`, belongs to the same feature and is covered by acceptance scenario E4.
++- [PASS] **No scope creep**: all 16 files sit in the issue's own folders (4 under `core/components`, the acceptance check, 11 records under `.garura/project/issues/1037/context/`). The two untracked paths in the tree (`context/memory/`, `context/resolved-rules.json`) are this raise's own records and are not in the diff.
++- [PASS] **Reasonable size**: +910 / -20 over 16 files, but a reviewer reads 4 source files (+271 / -20) and one acceptance check; the other 11 files are run records.
++- [PASS] **No stray artifacts**: no TODO, FIXME, debug print or commented-out block in the added source lines; no `__pycache__`, backup or scratch file in the diff. The `context/` records and template copies are what the start-change and commit-change plays commit on purpose.
++
++## Quality Checks
++
++- [PASS] **Tests present**: 8 new unit tests (`TakeInOldPartsTest`) plus the acceptance check, written first (commit 339ddf54). Run here: acceptance check 30 of 30 pass; skill unit tests 44 of 44 pass.
++- [FAIL] **Commits are clean**: commit 339ddf54 has a subject of 156 characters; the commit rules cap it at 72 (`subject-length`, must-have). The other four subjects are 54 to 70 characters.
++- [PASS] **Conventional format and issue reference**: all five commits use a valid type (`feat`, `test`, `chore`) with a scope, each names #1037, each is one concern, and none carries an attribution trailer.
++- [PASS] **No secrets**: a pattern scan of the added lines found no credential. The one hit is a scan-result sentence in `context/analysis.yaml` that names the patterns it looked for. No file is over 1 MB.
++- [PASS] **Docs in step**: `SKILL.md` (description, Input, Output and Rules), the script's header and the `product-os-keeper` skill-table row all name the three updates and the new report keys (`unthin`, `moved`). `docs/components/` has no entry for this skill.
++- [PASS] **Nothing obviously broken**: no TODO or known-failing path in the added lines. The component lint reports 36 errors and 1 warning on the branch, identical to main (0 new, none in `link-model-part` or `product-os-keeper`).
++
++## Skill Rule Checks (assess-pr ruleset)
++
++Must-have:
++
++- [PASS] `no-conflicts`: `git merge-tree --write-tree main HEAD` exits 0.
++- [PASS] `no-secrets`: see the Quality Checks line.
++- [PASS] `skill-frontmatter`: `SKILL.md` has name, description, user-invocable and allowed-tools.
++- [PASS] `skill-io`: `SKILL.md` has `## Input` and `## Output`.
++- [PASS] `agent-frontmatter`: `product-os-keeper.md` has name, domain, role, description, model and tools.
++- [PASS] `agent-boundaries`: `product-os-keeper.md` has `## Boundaries`.
++- [PASS] `config-valid`: both YAML records and all five JSON records parse.
++- [PASS] `feat-documented`: the feature is documented in `SKILL.md` and the agent's skill table.
++- [REVIEW] `deploy-components`: the installed copy of the script under `.claude/skills/link-model-part/` differs from the source. The install is the `install-garura` play, a separate step after merge; the installed copy is not tracked by git.
++
++Nice-to-have:
++
++- [PASS] `agent-naming`: `product-os-keeper` follows `{domain}-{role}`.
++- [REVIEW] `skill-constraints`: `SKILL.md` has no `## Constraints` heading; its rules sit under `## Rules`. Unchanged by this change.
++- [PASS] `feat-adr`: no ADR needed. The request schema only gains optional keys, no new writer is added, and the write boundary (only inside the product model) is unchanged.
++- [PASS] `config-documented`: not applicable; the YAML files are run records, not configuration.
++
++## Findings
++
++**Blocking count**: 1
++
++- Commits are clean (commit 339ddf54): the subject is 156 characters against the 72 limit. It is a message-only defect on a commit that is not pushed. Rewording it rewrites the hashes of the three commits above it, which leaves the hashes written in `context/commits.yaml` stale; the other way out is a person accepting the exception. This review changed none of it.
++
++**Observations** (nothing here blocks the raise):
++
++- No committed test covers a move that fails part way. A scratch run forced the second file deletion to fail, then the removal of the old folder to fail; each time every file and folder came back as it was. The behaviour is right; only the test is missing.
++- `core/components/memory/standards/rules/direct-model-write.md` (lines 54-55) says `link_part.py` writes "the spine entry of a part found during work, and the thin mark". It now also takes the mark off, files a feature under another capability and moves a page. The write boundary the rule states is unchanged, so the sentence is incomplete, not wrong.
++- A move refuses when another page names the old path, but it does not look at links inside the moved page itself. A page whose own relative links point at its old neighbours would break after a move. No capability or feature page in the model today uses a relative link (0 of 45), so nothing breaks now.
++
++## Readiness Assessment
++
++- **Ready**: no
++- **Blocking count**: 1
++- **Review required**: 2
++- **Recommendation**: Fix first: the one commit subject, or have a person accept it. Everything else is clean.
++
++---
++
++## YAML Output
++
++```yaml
++analysis:
++  branch: feature/1037-index-tool-thin-and-moves
++  base: main
++  branch_pattern: feature
++  commits: 5
++  changes: {files: 16, additions: 910, deletions: 20}
++  suggested_title: "feat(skills): clear a thin mark and move a feature or a page (#1037)"
++  context:
++    commit_types: [{type: feat, count: 1}, {type: test, count: 1}, {type: chore, count: 3}]
++  checklist:
++    scope:
++      - {id: matches-the-issue, status: "PASS"}
++      - {id: no-scope-creep, status: "PASS"}
++      - {id: reasonable-size, status: "PASS"}
++      - {id: no-stray-artifacts, status: "PASS"}
++    quality:
++      - {id: tests-present, status: "PASS", evidence: "acceptance 30 of 30; unit 44 of 44"}
++      - {id: commits-clean, status: "FAIL", evidence: "339ddf54 subject is 156 characters, limit 72 (subject-length)"}
++      - {id: conventional-format, status: "PASS"}
++      - {id: no-secrets, status: "PASS"}
++      - {id: docs-in-step, status: "PASS"}
++      - {id: nothing-obviously-broken, status: "PASS", evidence: "lint identical to main; trial merge clean"}
++    must_have_rules:
++      - {id: deploy-components, status: "REVIEW", evidence: "installed copy differs from source; deployed by install-garura after merge"}
++    nice_to_have_rules:
++      - {id: skill-constraints, status: "REVIEW", evidence: "rules sit under ## Rules; unchanged by this change"}
++  blocking_issues:
++    - item: commits-clean
++      reason: "commit 339ddf54 subject is 156 characters, limit 72"
++      trigger: "commit rules, subject-length (must-have)"
++  ready: false
++  recommendation: "Fix issues first"
++```
+diff --git a/.garura/project/issues/1037/context/target.json b/.garura/project/issues/1037/context/target.json
+new file mode 100644
+index 000000000..4cded0dfd
+--- /dev/null
++++ b/.garura/project/issues/1037/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "feature/1037-index-tool-thin-and-moves",
++  "kind": "one-off",
++  "plan_id": null,
++  "issue": "1037",
++  "base": "main"
++}
+diff --git a/.garura/project/issues/1037/context/templates/manifest-close-start-change.json b/.garura/project/issues/1037/context/templates/manifest-close-start-change.json
+new file mode 100644
+index 000000000..4d99ef8e6
+--- /dev/null
++++ b/.garura/project/issues/1037/context/templates/manifest-close-start-change.json
+@@ -0,0 +1,27 @@
++{
++  "task_id": "load-templates",
++  "issue": 1037,
++  "templates": [
++    {
++      "name": "standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/1037/context/templates/standards/templates/delivery-report.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/templates/delivery-report.md",
++        "version": "b2e40bff2131",
++        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
++      }
++    },
++    {
++      "name": "standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/rules/pipeline-next.md",
++        "version": "b2e40bff2131",
++        "fingerprint": "sha256:b76c52d6e15aaa17e5ea20d161ccb76b0f3b784bfde3b721cb5285cd5e4a3c65"
++      }
++    }
++  ],
++  "missing": []
++}
+diff --git a/.garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md b/.garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
+new file mode 100644
+index 000000000..2078bacf6
+--- /dev/null
++++ b/.garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
+@@ -0,0 +1,95 @@
++# Pipeline-next — the successor map (single source of truth)
++
++Every user-invocable compiled play — and every loop, which closes like a play (ADR 029) —
++when it finishes, tells the user what to run next when it has one successor. This file is the one place that mapping lives. The **Standard Play Close**
++(`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
++`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
++`meta_exempt`.
++
++The rendered line reads:
++
++> **Next:** `/<command>` — <why>.
++
++When a play's `command` is `null`, the play has no single successor and the close leaves the
++Next line out. The person picks the next piece of work from the plan (one plan for each
++business intent, with done / now / next) or from `/list-focus-issues` (ADR 051).
++
++## The flow
++
++The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
++
++- **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge step is a step of the loop run by one agent, not a play (ADR 059).
++- **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then `/shape-plan <intent>`, then `/shape-eval <intent>`. `/shape-slice` hands to `/shape-plan`, which makes the intent's one plan, once: the plan file, one epic for each slice and one story for each feature. When the intent already has a plan, `/shape-plan` stops and a later slice joins the plan through `/update-plan <intent>`; `/shape-plan` hands to `/shape-eval`, which writes each slice's eval. The build stage (#819) is not built yet, so `/shape-eval` has no Next line. The Discovery plays hand to the loop (`/shape-slice <intent>`, the business intent's issue number).
++- **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
++  - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
++  - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
++  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/shape-slice` no longer reads that mark (ADR 049).
++  ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
++- **Execute loop (per epic):** `/build-epic → /validate-epic → /release-epic`. `/release-epic` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
++- **Change loop (git):** `/start-change` (injected at a play's head) `→ /commit-change → /propose-change → /check-change → /merge-change`.
++- **Learn loop:** `/learn-outcomes`. `/list-focus-issues` lists the open issues worth attention.
++- Branch points (at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
++
++## The map
++
++```yaml
++next:
++  # Standalone (no loop)
++  record-decision:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
++  # Discovery loop, then the Shaping loop (/shape-slice <intent>)
++  complete-discovery:      { command: shape-slice,          why: "the model holds the business intents — shape the slice that serves one (/shape-slice <intent>)" }
++  discover-intent:         { command: discover-domains,         why: "seed the product model from a confirmed business intent (give /discover-domains its title, outcome and why as the goal)" }
++  discover-domains:         { command: discover-capabilities,     why: "expand this capability's intent (ICE)" }
++  discover-capabilities:     { command: shape-slice,     why: "the capabilities are detailed — shape the slice that serves a business intent (/shape-slice <intent>)" }
++  # Older chain, stale (#855): old Shape loop — design plays, functional (ux → agentic → marketing)
++  shape-ux-lens:             { command: shape-agentic-lens,        why: "next lens in the functional pipe" }
++  shape-agentic-lens:        { command: shape-marketing-lens,      why: "next lens in the functional pipe" }
++  shape-marketing-lens:      { command: null,           why: "functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain, stale (#855): old Shape loop — design plays, non-functional (arch → quality → run)
++  shape-architecture-lens:           { command: shape-quality-lens,        why: "next lens in the non-functional pipe" }
++  shape-quality-lens:        { command: shape-run-lens,            why: "next lens in the non-functional pipe" }
++  shape-run-lens:            { command: null,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
++  shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /shape-slice, not from this mark" }
++
++  # Shaping loop (ADR 049) — the live shape loop: /shape-slice, then /shape-plan, then /shape-eval
++  shape-slice:          { command: shape-plan,     why: "the slice is shaped; make its plan, epic and stories (/shape-plan <intent>), or add them to the plan that exists (/update-plan <intent>)" }
++  shape-plan:           { command: shape-eval,     why: "the plan, its epics and its stories are made; write each slice's eval (/shape-eval <intent>)" }
++  shape-eval:           { command: null,           why: "each slice's eval is written; the build stage (#819) is not built yet" }
++
++  # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
++  build-epic:      { command: validate-epic,       why: "independently verify the built epic" }
++  validate-epic:       { command: release-epic,         why: "land the validated epic on human acceptance" }
++  release-epic:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
++  release-increment:         { command: null,           why: "increment deployed — the plan shows what comes next" }
++
++  # Defect and refactor lanes (ADR 023); /learn-outcomes is the Learn loop
++  fix-bug:        { command: null,           why: "defect resolved — the plan shows what comes next" }
++  refactor-code:       { command: null,           why: "refactor landed — the plan shows what comes next" }
++  learn-outcomes:          { command: null,           why: "model updated from outcomes — the plan shows what comes next" }
++
++  # Navigation
++  list-focus-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
++  list-plans:     { command: null,           why: "shows every plan — it has no successor" }
++  show-plan:      { command: null,           why: "shows one plan — it has no successor" }
++  update-plan:    { command: null,           why: "the plan is updated on its own branch — it reaches main with the plan's other work" }
++
++  # Change loop (git members)
++  start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
++  commit-change:  { command: propose-change, why: "raise the committed change" }
++  propose-change: { command: check-change,  why: "review the raised PR" }
++  check-change:  { command: merge-change,   why: "merge on approval" }
++  merge-change:   { command: null,           why: "change landed — the plan shows what comes next" }
++
++# Meta / bootstrap plays — not part of the product pipeline; no Next required.
++meta_exempt:
++  - install-garura
++  - uninstall-garura
++  - create-play
++  - edit-play
++  - create-loop
++  - edit-loop
++  - edit-ontology
++```
+\ No newline at end of file
+diff --git a/.garura/project/issues/1037/context/templates/standards/templates/delivery-report.md b/.garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
+new file mode 100644
+index 000000000..c557fdb31
+--- /dev/null
++++ b/.garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
+@@ -0,0 +1,72 @@
++# Delivery Report Template
++
++Canonical shape for the human-readable terminal report a play presents to the user at close. This is the user-facing output, not the machine-readable STM evidence file (see `templates/evidence-file.md` for that).
++
++Consumers: `ship`, `fix-it`, `implement`, every play that closes with a delivery step.
++
++## Shape
++
++```markdown
++## {Play Name} Delivered — {context}
++
++### Run Summary
++
++| Field | Value |
++|-------|-------|
++| Play | {play-name} |
++| Issue | #{issue} |
++| Status | {COMPLETE \| PARTIAL \| FAILED} |
++| Started | {ISO-8601 timestamp} |
++| Completed | {ISO-8601 timestamp} |
++
++### Pipeline Steps
++
++| Step | Description | Status | Key Output |
++|------|-------------|--------|------------|
++| {n} | {step description} | {PASS/FAIL/SKIP} | {primary artifact or action taken} |
++
++### Artifacts Produced
++
++| Artifact | Path | Notes |
++|----------|------|-------|
++| {artifact name} | {path} | {description or status} |
++
++### Next
++
++{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. If the mapped command is null, the play has no single successor: omit the line.}
++
++{Optional: any other real follow-ons beyond the mapped next command — open defects, uncommitted artifacts. Omit if none.}
++```
++
++## Field Rules
++
++| Field | Required | Rule |
++|-------|----------|------|
++| `play` | yes | Exact play slug (e.g. `ship`, `fix-it`, `implement`). |
++| `issue` | yes | Issue number. Required for all project-scoped plays. |
++| `status` | yes | `COMPLETE` when all steps passed; `PARTIAL` when some steps skipped by configuration; `FAILED` when a step halted. |
++| `started` / `completed` | yes | ISO-8601 timestamps. |
++| `pipeline_steps` table | yes | At least one row per major step executed. Status: `PASS`, `FAIL`, or `SKIP`. |
++| `artifacts` table | no | Include when the play produces named artifacts (evidence files, PRs, SHAs). |
++| `next_steps` | no | Optional. Use when there are explicit follow-on actions (e.g., "Run validate after implement"). |
++
++## Per-Play Notes
++
++### ship
++Include in Pipeline Steps: commit, PR creation, review-pr (if run), merge, distill.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, distill output.
++
++### fix-it
++Include in Pipeline Steps: RCA, design, approval gate, implement, quality check, PR, merge.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, issue comment dispatch status.
++Add to Run Summary: Root Cause (summary), Fix Strategy (summary).
++
++### implement
++Include in Pipeline Steps: context build, eval generation, test authoring, code authoring, quality audit.
++Include in Artifacts: quality report, judge report, status report.
++Add to Run Summary: Milestone, Scope Items count, Quality status, Judge pass rate.
++
++## Related
++
++- `templates/evidence-file.md` — machine-readable STM evidence file (distinct from this human-facing report)
++- `templates/checkpoint.md` — checkpoint artifact written at each approval gate during the run
+\ No newline at end of file
+diff --git a/.garura/project/issues/1037/context/work-description.txt b/.garura/project/issues/1037/context/work-description.txt
+new file mode 100644
+index 000000000..7dbd59f9d
+--- /dev/null
++++ b/.garura/project/issues/1037/context/work-description.txt
+@@ -0,0 +1 @@
++The model's index tool clears a thin mark, moves a feature to another capability, and moves a part's page
+diff --git a/.garura/project/issues/1037/evidence/eval/eval_1037.py b/.garura/project/issues/1037/evidence/eval/eval_1037.py
+new file mode 100644
+index 000000000..d4c04f1ab
+--- /dev/null
++++ b/.garura/project/issues/1037/evidence/eval/eval_1037.py
+@@ -0,0 +1,322 @@
++#!/usr/bin/env python3
++"""Acceptance check: the model's index tool clears a thin mark, moves a feature to another
++capability, and moves a part's page (#1037).
++
++Written before the build, so it fails until the three updates exist. Run from the repo root:
++
++    python3 <this file>
++
++E1  `thin: false` takes a part's thin mark off its index entry and its page together, and the
++    part can then take an ICE of its own in the same request.
++E2  `capability: <id>` files a feature under another capability that is in the index, or that the
++    same request adds; it is refused for a capability not in the index, and on a capability.
++E3  `doc: <new path>` moves a part's page and the ice.md beside it to the new folder, moves the
++    ICE's index entry with it, removes the empty old folder, and keeps the spine's comment.
++E4  The move is refused, and the model stays byte for byte as it was, when: the old folder holds
++    another file; a page names the old path (written from the model's root, or as a link
++    relative to the page); the new path is outside the part's allowed folders, already holds a
++    file, or leaves the model. `thin: false` on a domain is refused too.
++E5  What was there stays: an ICE for a part that still carries the thin mark is refused.
++"""
++
++import json
++import os
++import subprocess
++import sys
++import tempfile
++
++import yaml
++
++ROOT = os.getcwd()
++INDEX_SCRIPT = os.path.join(ROOT, "core/components/skills/link-model-part/scripts/link_part.py")
++
++SPINE = """\
++# The spine: a comment that must stay.
++domains:
++- id: dom-work
++  slug: work
++  intents:
++  - bi-1
++  status: proposed
++  detail: directional
++  one_line: Getting work done
++  doc: work/domain.md
++capabilities:
++- id: cap-1
++  slug: cap-1
++  domain: ''
++  intents:
++  - bi-1
++  status: proposed
++  one_line: Plan the work
++  doc: capabilities/cap-1/capability.md
++- id: cap-2
++  slug: run-work
++  domain: dom-work
++  intents:
++  - bi-1
++  status: proposed
++  one_line: Run the work
++  doc: work/run-work/capability.md
++features:
++- id: fn-a
++  slug: fn-a
++  capability: cap-1
++  intents:
++  - bi-1
++  status: proposed
++  one_line: See every plan
++  doc: capabilities/cap-1/fn-a/feature.md
++  depends_on: []
++  identified_by: ''
++  metadata:
++    thin: true
++- id: fn-b
++  slug: fn-b
++  capability: cap-1
++  intents:
++  - bi-1
++  status: proposed
++  one_line: Pause a plan
++  doc: features/fn-b/feature.md
++  depends_on: []
++  identified_by: ''
++slices: []
++"""
++
++THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
++
++OLD_THIN_PAGE = f"""\
++# Feature: See every plan
++
++## What it does
++Old words.
++
++{THIN}
++
++## Agent intent (ICE)
++- Goal: See every plan.
++"""
++
++NEW_PAGE = """\
++# Feature: See every plan
++
++## What it does
++Every plan as a card, from the plan files alone.
++
++## Out of scope
++- One plan as a tree. Another feature does it.
++"""
++
++ICE = """\
++## Intent
++- Goal: Anyone sees every plan at once.
++- Limit: It reads only the plan files.
++- Fails if: A plan is missing.
++
++## Context
++- Read: the plan files.
++- Persona: the product owner.
++
++## Expectation
++- Scenario: Three plans show as three cards.
++- Done means: Someone who did not build it counts three cards.
++"""
++
++results = []
++
++
++def check(name, ok, detail=""):
++    results.append((name, bool(ok), detail))
++
++
++class Model:
++    def __init__(self, spine=SPINE):
++        self.tmp = tempfile.TemporaryDirectory()
++        self.base = self.tmp.name + "/"
++        self.root = os.path.join(self.base, "product-os")
++        self.work = os.path.join(self.tmp.name, "work")
++        os.makedirs(self.work)
++        self.put("_spine.yaml", spine)
++        self.put("intents/bi-1.md", "# People get their work done\n")
++        self.put("work/domain.md", "# Theme: Getting work done\n")
++        self.put("capabilities/cap-1/capability.md", "# Capability: Plan the work\n")
++        self.put("work/run-work/capability.md", "# Capability: Run the work\n")
++        self.put("capabilities/cap-1/fn-a/feature.md", OLD_THIN_PAGE)
++        self.put("features/fn-b/feature.md", "# Feature: Pause a plan\n\n## What it does\nPause.\n")
++
++    def put(self, rel, text):
++        path = os.path.join(self.root, rel)
++        os.makedirs(os.path.dirname(path), exist_ok=True)
++        with open(path, "w", encoding="utf-8") as fh:
++            fh.write(text)
++
++    def read(self, rel):
++        with open(os.path.join(self.root, rel), encoding="utf-8") as fh:
++            return fh.read()
++
++    def exists(self, rel):
++        return os.path.exists(os.path.join(self.root, rel))
++
++    def spine(self):
++        return yaml.safe_load(self.read("_spine.yaml"))
++
++    def entry(self, kind, pid):
++        return next((e for e in self.spine().get(kind) or [] if e.get("id") == pid), {})
++
++    def snapshot(self):
++        out = {}
++        for d, dirs, files in os.walk(self.root):
++            for x in dirs:
++                out[os.path.relpath(os.path.join(d, x), self.root) + "/"] = b""
++            for f in files:
++                p = os.path.join(d, f)
++                with open(p, "rb") as fh:
++                    out[os.path.relpath(p, self.root)] = fh.read()
++        return out
++
++    def run(self, parts):
++        req = os.path.join(self.work, "request.json")
++        out = os.path.join(self.work, "report.json")
++        with open(req, "w", encoding="utf-8") as fh:
++            json.dump({"by": "the acceptance check", "parts": parts}, fh)
++        if os.path.exists(out):
++            os.remove(out)
++        p = subprocess.run([sys.executable, INDEX_SCRIPT, "--request", req, "--product-base", self.base,
++                            "--out", out], capture_output=True, text=True)
++        return p.returncode, p.stderr
++
++
++def with_ice_a(m, page=NEW_PAGE):
++    """fn-a with a page that has no Thin line, its ice.md beside it, no thin mark, and its ICE entry."""
++    m.put("capabilities/cap-1/fn-a/feature.md", page)
++    m.put("capabilities/cap-1/fn-a/ice.md", ICE)
++    spine = SPINE.replace("  metadata:\n    thin: true\n", "")
++    spine = spine.replace("slices: []\n", "slices: []\nices:\n- id: ice-a\n  for: fn-a\n  for_kind: feature\n"
++                          "  doc: capabilities/cap-1/fn-a/ice.md\n")
++    m.put("_spine.yaml", spine)
++
++
++# E1: thin: false, then the part's ICE in the same request
++m = Model()
++m.put("capabilities/cap-1/fn-a/feature.md", NEW_PAGE)
++m.put("capabilities/cap-1/fn-a/ice.md", ICE)
++code, err = m.run([{"id": "fn-a", "kind": "feature", "mode": "update", "thin": False},
++                   {"id": "ice-a", "kind": "ice", "mode": "new", "for": "fn-a",
++                    "doc": "capabilities/cap-1/fn-a/ice.md"}])
++check("E1 thin: false and the part's ICE are accepted together", code == 0, err.strip()[:200])
++if code == 0:
++    a = m.entry("features", "fn-a")
++    check("E1 the entry carries no thin mark", not (a.get("metadata") or {}).get("thin"))
++    check("E1 the entry keeps its other fields", a.get("capability") == "cap-1" and a.get("one_line") == "See every plan"
++          and a.get("doc") == "capabilities/cap-1/fn-a/feature.md")
++    check("E1 the ICE entry is there", any(e.get("id") == "ice-a" and e.get("for") == "fn-a"
++                                         for e in m.spine().get("ices") or []))
++    check("E1 the page is as written", m.read("capabilities/cap-1/fn-a/feature.md") == NEW_PAGE)
++
++m = Model()
++code, err = m.run([{"id": "fn-a", "kind": "feature", "mode": "update", "thin": False}])
++check("E1 thin: false on a page that still holds its Thin line", code == 0, err.strip()[:200])
++if code == 0:
++    page = m.read("capabilities/cap-1/fn-a/feature.md")
++    check("E1 the Thin line is gone from the page", THIN not in page and not any(
++        ln.startswith("Thin:") for ln in page.splitlines()))
++    check("E1 every other line of the page is kept",
++          [ln for ln in page.splitlines() if ln.strip()] ==
++          [ln for ln in OLD_THIN_PAGE.splitlines() if ln.strip() and ln != THIN])
++    check("E1 the entry carries no thin mark", not (m.entry("features", "fn-a").get("metadata") or {}).get("thin"))
++
++# E2: capability: <id>
++m = Model()
++code, err = m.run([{"id": "fn-b", "kind": "feature", "mode": "update", "capability": "cap-2"}])
++check("E2 a feature is filed under another capability", code == 0 and m.entry("features", "fn-b").get("capability") == "cap-2",
++      err.strip()[:200])
++if code == 0:
++    check("E2 its page does not move", m.entry("features", "fn-b").get("doc") == "features/fn-b/feature.md"
++          and m.exists("features/fn-b/feature.md"))
++
++m = Model()
++m.put("work/new-cap/capability.md", "# Capability: A new one\n")
++code, err = m.run([{"id": "cap-3", "kind": "capability", "mode": "new", "slug": "new-cap", "domain": "dom-work",
++                    "intents": ["bi-1"], "one_line": "A new one", "doc": "work/new-cap/capability.md",
++                    "identified_by": ""},
++                   {"id": "fn-b", "kind": "feature", "mode": "update", "capability": "cap-3"}])
++check("E2 a feature is filed under a capability the same request adds",
++      code == 0 and m.entry("features", "fn-b").get("capability") == "cap-3", err.strip()[:200])
++
++for why, part in {
++    "a capability not in the index": {"id": "fn-b", "kind": "feature", "mode": "update", "capability": "cap-none"},
++    "a capability key on a capability": {"id": "cap-1", "kind": "capability", "mode": "update", "capability": "cap-2"},
++}.items():
++    m = Model()
++    before = m.snapshot()
++    code, err = m.run([part])
++    check(f"E2 refused: {why}", code == 2 and m.snapshot() == before, f"exit {code}: {err.strip()[:160]}")
++
++# E3: doc: <new path>
++m = Model()
++with_ice_a(m)
++code, err = m.run([{"id": "fn-a", "kind": "feature", "mode": "update", "capability": "cap-2",
++                    "doc": "work/run-work/fn-a/feature.md"}])
++check("E3 a feature's page moves with its new capability", code == 0, err.strip()[:200])
++if code == 0:
++    a = m.entry("features", "fn-a")
++    ice = next((e for e in m.spine().get("ices") or [] if e.get("id") == "ice-a"), {})
++    check("E3 the entry names the new page and capability", a.get("doc") == "work/run-work/fn-a/feature.md"
++          and a.get("capability") == "cap-2")
++    check("E3 the page moved word for word", m.exists("work/run-work/fn-a/feature.md")
++          and m.read("work/run-work/fn-a/feature.md") == NEW_PAGE)
++    check("E3 the ICE page moved beside it", m.exists("work/run-work/fn-a/ice.md")
++          and m.read("work/run-work/fn-a/ice.md") == ICE)
++    check("E3 the ICE entry names the moved page", ice.get("doc") == "work/run-work/fn-a/ice.md")
++    check("E3 the old folder is gone", not m.exists("capabilities/cap-1/fn-a"))
++    check("E3 the spine keeps its comment", m.read("_spine.yaml").startswith("# The spine: a comment that must stay."))
++
++m = Model()
++with_ice_a(m)
++code, err = m.run([{"id": "fn-a", "kind": "feature", "mode": "update", "doc": "features/fn-a/feature.md"}])
++check("E3 a feature's page moves to the holding folder", code == 0 and m.exists("features/fn-a/feature.md")
++      and m.exists("features/fn-a/ice.md") and not m.exists("capabilities/cap-1/fn-a"), err.strip()[:200])
++
++# E4: refusals, nothing changes
++def refusal(why, setup, part):
++    m = Model()
++    with_ice_a(m)
++    setup(m)
++    before = m.snapshot()
++    code, err = m.run([part])
++    check(f"E4 refused: {why}", code == 2 and m.snapshot() == before, f"exit {code}: {err.strip()[:160]}")
++
++
++MOVE = {"id": "fn-a", "kind": "feature", "mode": "update", "doc": "features/fn-a/feature.md"}
++refusal("the old folder holds another file", lambda m: m.put("capabilities/cap-1/fn-a/notes.md", "notes\n"), MOVE)
++refusal("a page names the old path from the model's root",
++        lambda m: m.put("intents/bi-1.md", "# People get their work done\n\n- [See every plan]"
++                                           "(../capabilities/cap-1/fn-a/feature.md) (feature) — adds\n"), MOVE)
++refusal("a page links to the old path relative to itself",
++        lambda m: m.put("capabilities/cap-1/capability.md", "# Capability: Plan the work\n\n"
++                                                             "- [See every plan](fn-a/feature.md)\n"), MOVE)
++refusal("the new path is outside the part's allowed folders", lambda m: None,
++        dict(MOVE, doc="elsewhere/fn-a/feature.md"))
++refusal("the new path already holds a file", lambda m: m.put("features/fn-a/feature.md", "# Feature: Taken\n"), MOVE)
++refusal("the new path leaves the model", lambda m: None, dict(MOVE, doc="../outside/fn-a/feature.md"))
++
++m = Model()
++before = m.snapshot()
++code, err = m.run([{"id": "dom-work", "kind": "domain", "mode": "update", "thin": False}])
++check("E4 refused: thin: false on a domain", code == 2 and m.snapshot() == before, f"exit {code}: {err.strip()[:160]}")
++
++# E5: an ICE for a part that still carries the thin mark is refused
++m = Model()
++m.put("capabilities/cap-1/fn-a/ice.md", ICE)
++before = m.snapshot()
++code, err = m.run([{"id": "ice-a", "kind": "ice", "mode": "new", "for": "fn-a",
++                    "doc": "capabilities/cap-1/fn-a/ice.md"}])
++check("E5 refused: an ICE for a part still marked thin", code == 2 and m.snapshot() == before,
++      f"exit {code}: {err.strip()[:160]}")
++
++failed = [r for r in results if not r[1]]
++for name, ok, detail in results:
++    print(("PASS " if ok else "FAIL ") + name + (f"  ({detail})" if detail and not ok else ""))
++print(f"\n{len(results) - len(failed)} of {len(results)} checks pass")
++sys.exit(1 if failed else 0)
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index a2331d0a8..d7d4a45cf 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -71,7 +71,7 @@ the missing skill; never do the work yourself.
+ | `find-slice-gaps` | List each thing a slice needs that neither the model nor memory answers, and write each as one question by the rule for asking a person (id, topic, question, why, examples from several domains, blocking, assume, settled with its basis); never the surface or the tester. Rewrite mode rewrites only the questions the play's script refuses. Writes `questions.json`. | /shape-slice |
+ | `author-slice` | Choose the slice: the one surface and its tester (a persona), the features from any capability in build order, what is left out, and the needs list (`fills.json`: new parts, updates, thin parts); `no-slice.json` when no surface can be tested end to end. Reuse mode writes `reuse.json` (pull in, push out); fix mode fixes `slice.json` or `fills.json`; edit mode turns a person's edit words into `edit-list.json` (each change's record, part, old and new text, and the records made out of date). Never writes the model. | /shape-slice |
+ | `enrich-grounding` | Write on the pages of the model's parts, in place, keeping every section and line: bring a domain, capability or feature page up to the current rules, write one new feature under a capability that exists, write a thin ICE (Goal, Limit, Fails if, Context, Checked by), change the named lines of any page — domain, capability, feature or intent — through its `change_lines.py` (all or nothing; #993), write a page a person approved word for word — a domain, capability or feature page, or an ICE page `ice.md` — through its `write_approved.py` (all or nothing; #1031), fix the pages the model check names. Never writes `_spine.yaml` or the thin marks. | /shape-slice; a part found during work (#979), before `link-model-part`; named lines of any page (#993); approved pages (#1031) |
+-| `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, issue, status proposed), an existing one's one-line, intents or issue, and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page); add features to a slice that exists (#931); an ICE's entry in `ices` (the part it is for, its kind, its page) and, for a thin ICE, the mark on that entry and at the top of its page (#1031). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding`; `/update-plan`'s new feature (#931); an approved page's ICE (#1031), after `enrich-grounding` |
++| `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, issue, status proposed), an existing one's one-line, intents or issue, and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page); add features to a slice that exists (#931); an ICE's entry in `ices` (the part it is for, its kind, its page) and, for a thin ICE, the mark on that entry and at the top of its page (#1031); to take in an old part a person approved, an existing part's thin mark taken off (`thin: false`), a feature filed under another capability (`capability`), and a page moved with its ice.md to a new folder (`doc`), refused when a link would break (#1037). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding`; `/update-plan`'s new feature (#931); an approved page's ICE (#1031), after `enrich-grounding` |
+ | `remove-model-part` | Take parts out of the model once a person approved it: repoint what names an old business intent, part by part; remove an intent's page once nothing names it; merge a capability into another (its features, links, intents and decisions move, its needs are listed for review); remove a slice and its record. All or nothing; it refuses while the spine or a page still names a part being removed, naming each path and line, and writes no page words. `remove-report.json` lists every file it changed or deleted. | a removal a person approved, after `enrich-grounding` has fixed the words |
+ | `author-intent-page` | Write a business intent's page from its draft (`intent-draft.json`, one-intent mode), new or rewritten, in the one fixed order; a rewrite keeps the old What-was-done block, and the old Touches block unless the draft gives `touches`. It never drafts a word, never overwrites without `rewrite`, and writes confirmed only when given the person who confirmed it. `intent-page.json` reports what it wrote and kept. | an intent page whose words a person approved |
+ | `author-slice-brief` | Write the opening of the early brief or the confirmation brief: two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person (or the play's floor). The play's script builds the rest of the brief. | /shape-slice |
+diff --git a/core/components/skills/link-model-part/SKILL.md b/core/components/skills/link-model-part/SKILL.md
+index c162a71a3..c3f269265 100644
+--- a/core/components/skills/link-model-part/SKILL.md
++++ b/core/components/skills/link-model-part/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: link-model-part
+-description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced, its intents added or its issue named; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /shape-slice; an /update-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin); an ICE, which has its own page ice.md beside its part's page, gets its entry in the spine's ices list (the part it is for, its kind and its page), and a thin ICE gets the thin mark on its entry and as one Thin line at the top of its page — a part that has an ICE is never marked thin itself (ontology v15, #1031). Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
++description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced, its intents added or its issue named; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /shape-slice; an /update-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin); an ICE, which has its own page ice.md beside its part's page, gets its entry in the spine's ices list (the part it is for, its kind and its page), and a thin ICE gets the thin mark on its entry and as one Thin line at the top of its page — a part that has an ICE is never marked thin itself (ontology v15, #1031); and, to take in an old part a person approved (#1037), an existing capability's or feature's thin mark comes off both places (`thin: false`), a feature is filed under another capability (`capability`), and a page moves with the ice.md beside it to a new folder (`doc`), refused while a page names its old path or its old folder holds any other file. Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
+ user-invocable: false
+ model: sonnet
+ allowed-tools: Read, Bash
+@@ -18,7 +18,7 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
+ 
+ | Field | Required | Meaning |
+ |-------|----------|---------|
+-| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice|ice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`; an ICE: `new` with `for` and `doc`, or `update` to mark it thin) — see the script's header for the fields of each mode. |
++| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice|ice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`; an ICE: `new` with `for` and `doc`, or `update` to mark it thin; a capability or feature on `update` may also take `thin: false`, `doc` and, a feature only, `capability`) — see the script's header for the fields of each mode. |
+ | `product_base` | yes | The project's product base; the model is under `<product_base>product-os/`. |
+ | `out` | yes | Where to write `link-report.json`. |
+ 
+@@ -44,7 +44,8 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
+ ## Output
+ 
+ `link-report.json`, at `out`: `written` (each new part's id, an ICE's too), `updated` (each
+-existing part or ICE changed), `thin` (each part or ICE now marked thin), `changed` (every file it touched, relative to the
++existing part or ICE changed), `thin` (each part or ICE now marked thin), `unthin` (each part whose
++thin mark came off), `moved` (each page moved, from and to), `changed` (every file it touched, relative to the
+ product base) and `layout_kept` (false only when the spine had to be written whole). Nothing is
+ written when the script exits 2; its error names the part and why.
+ 
+@@ -64,5 +65,13 @@ written when the script exits 2; its error names the part and why.
+   own entry and page, at the top, before Intent; the part it is for is not marked. The `ices`
+   list is made only when an ICE is added, because a spine with that list is checked as one
+   whose ICE are nodes.
+-- **Never re-parent.** A part's parent is set when it is new; moving it later is
+-  `link-model-gaps`'s work.
++- **Re-file only what a person approved.** A part's parent is set when it is new, and a loose
++  part gets its parent from `link-model-gaps`. A feature that already has a capability moves to
++  another only through `capability` on `update`, when a person approved taking in an old part
++  (#1037); `link-model-gaps` leaves that move as alignment work.
++- **A move breaks no link.** `doc` moves a page and the ice.md beside it, and the ICE's entry
++  follows. It is refused while any page or record in the model names an old path, from the
++  model root or as a link relative to the page, and while the old folder holds any other file;
++  the page skill changes those lines first. The old folder is removed once empty.
++- **The thin mark comes off as it went on.** `thin: false` takes `metadata.thin` off the entry
++  and every Thin line off the page, together. Give it before the part's ICE in the same request.
+diff --git a/core/components/skills/link-model-part/scripts/link_part.py b/core/components/skills/link-model-part/scripts/link_part.py
+index 85b92e990..681d0dec7 100644
+--- a/core/components/skills/link-model-part/scripts/link_part.py
++++ b/core/components/skills/link-model-part/scripts/link_part.py
+@@ -38,7 +38,20 @@
+   empty lists, and metadata {created_by, deepen: true, thin when thin}.
+ - mode `update`: the id must be in the spine under its kind. `one_line` replaces its one-line,
+   `add_intents` are added to its intents, `issue` names its issue when it names none yet, `thin:
+-  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept.
++  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. Three more
++  keys take in old parts once a person approved it (#1037):
++    `thin: false`        takes the thin mark off a capability or feature: `metadata.thin` leaves its
++                         entry and every Thin line leaves its page. Give it before the part's ICE in
++                         the same request, so the ICE is not refused for the mark.
++    `capability: <id>`   files a feature under another capability, one in the spine or added
++                         earlier in the same request. Only a feature takes it.
++    `doc: <new path>`    moves a capability's or feature's page, and the ice.md beside it, to a new
++                         folder, which must be one a new part of its kind may use (under its parent,
++                         after any `capability` change, or its holding folder) and must not hold a
++                         file yet. The entry's doc and its ICE entry's doc follow; the old folder is
++                         removed. It is refused when the old folder holds any other file, or when
++                         any page or record in the model names an old path (written from the model
++                         root, or as a link relative to the page), so no link breaks.
+ - kind `slice`, mode `update` only (a slice is shaped by /shape-slice): `add_features` are added
+   to its `feature_refs`, in their order, at the end or right after the feature named by `after`;
+   a feature already there is not added twice, and each must be in the spine (#931).
+@@ -92,6 +105,8 @@
+ ICE_KIND = {"capability": "capability", "feature": "feature"}
+ BI_KEYS = ("intents", "business_intent", "business_intents")
+ NOT_A_DOMAIN_FOLDER = {"capabilities", "features", "intents"}
++MD_LINK = re.compile(r"\]\(([^)\s]+)\)")
++NAMED_IN = (".md", ".yaml", ".yml")
+ 
+ 
+ class Refused(Exception):
+@@ -196,6 +211,97 @@ def plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report):
+         report["thin"].append(iid)
+ 
+ 
++def without_thin_line(text):
++    """The page with every Thin line taken out, and the blank line it leaves folded."""
++    lines = text.splitlines()
++    out = []
++    for i, ln in enumerate(lines):
++        if OLD_THIN.match(ln):
++            if out and not out[-1].strip() and i + 1 < len(lines) and not lines[i + 1].strip():
++                out.pop()
++            continue
++        out.append(ln)
++    return "\n".join(out).rstrip("\n") + "\n"
++
++
++def names_of(root, old_rels):
++    """Each 'file:line' outside the moved files and the spine that names an old path."""
++    targets = {os.path.realpath(os.path.join(root, r)) for r in old_rels}
++    hits = []
++    for d, _, files in os.walk(root):
++        for f in sorted(files):
++            if not f.endswith(NAMED_IN):
++                continue
++            path = os.path.join(d, f)
++            rel = os.path.relpath(path, root)
++            if rel == "_spine.yaml" or rel in old_rels:
++                continue
++            with open(path, encoding="utf-8", errors="replace") as fh:
++                lines = fh.read().splitlines()
++            for n, line in enumerate(lines, 1):
++                if any(r in line for r in old_rels):
++                    hits.append(f"{rel}:{n}")
++                    continue
++                for m in MD_LINK.finditer(line):
++                    target = m.group(1).split("#")[0]
++                    if target and "://" not in target and \
++                            os.path.realpath(os.path.join(d, target)) in targets:
++                        hits.append(f"{rel}:{n}")
++                        break
++    return hits
++
++
++def plan_move(root, pid, kind, entry, new_doc, index, ices, ice_for, pages, deletes, rmdirs, report):
++    """Move a part's page, and the ice.md beside it, to `new_doc`; writes go into `pages`."""
++    if kind not in HOLDING:
++        raise Refused(f"{pid}: only a capability's or a feature's page moves")
++    new = (new_doc or "").strip("/")
++    new_full = inside(root, new)
++    old = entry.get("doc", "")
++    old_full = inside(root, old)
++    if new == old:
++        raise Refused(f"{pid}: its page is already at {new}")
++    if os.path.basename(new) != PAGE[kind]:
++        raise Refused(f"{pid}: its page must be named {PAGE[kind]}")
++    parent_entry = index[PARENT[kind]].get(entry.get(PARENT[kind]) or "")
++    if new not in allowed_docs(kind, pid, new, parent_entry):
++        raise Refused(f"{pid}: its new page {new} is outside its folder")
++    new_dir = os.path.dirname(new_full)
++    if os.path.exists(new_dir) and (not os.path.isdir(new_dir) or os.listdir(new_dir)):
++        raise Refused(f"{pid}: {os.path.dirname(new)} already holds a file")
++    old_dir = os.path.dirname(old_full)
++    if not os.path.isfile(old_full):
++        raise Refused(f"{pid}: its page {old} is not on disk")
++    extra = sorted(n for n in os.listdir(old_dir) if n not in (PAGE[kind], ICE_PAGE))
++    if extra:
++        raise Refused(f"{pid}: its folder {os.path.dirname(old)} also holds {', '.join(extra)}; "
++                      f"only its page and its ice.md move")
++    moving = [(old, new)]
++    old_ice = os.path.join(os.path.dirname(old), ICE_PAGE)
++    new_ice = os.path.join(os.path.dirname(new), ICE_PAGE)
++    iid = ice_for.get(pid)
++    if os.path.isfile(inside(root, old_ice)):
++        moving.append((old_ice, new_ice))
++    elif iid:
++        raise Refused(f"{pid}: its ICE {iid} names {ices[iid].get('doc')}, which is not on disk")
++    hits = names_of(root, [o for o, _ in moving])
++    if hits:
++        raise Refused(f"{pid}: these still name its old page, so the move would break them: {', '.join(hits)}")
++    for o, n in moving:
++        o_full, n_full = inside(root, o), inside(root, n)
++        text = pages.pop(o_full, None)
++        if text is None:
++            with open(o_full, encoding="utf-8") as fh:
++                text = fh.read()
++        pages[n_full] = text
++        deletes.append(o_full)
++        report["moved"].append({"from": o, "to": n})
++    rmdirs.append(old_dir)
++    entry["doc"] = new
++    if iid:
++        ices[iid]["doc"] = new_ice
++
++
+ def allowed_docs(kind, pid, doc, parent_entry):
+     if kind == "domain":
+         folder = os.path.dirname(doc)
+@@ -243,8 +349,8 @@ def plan(root, spine, request):
+     new_spine = copy.deepcopy(spine)
+     index = {kind: {e["id"]: e for e in new_spine.setdefault(key, [])} for kind, key in KINDS.items()}
+     before = {kind: set(ids) for kind, ids in index.items()}
+-    pages, intents, seen = {}, set(), set()
+-    report = {"written": [], "updated": [], "thin": [], "changed": []}
++    pages, intents, seen, deletes, rmdirs = {}, set(), set(), [], []
++    report = {"written": [], "updated": [], "thin": [], "unthin": [], "moved": [], "changed": []}
+     old_ices = [e for e in (spine.get("ices") or []) if isinstance(e, dict)]
+     ices = {e["id"]: copy.deepcopy(e) for e in old_ices if e.get("id")}
+     added_ices = []
+@@ -285,8 +391,8 @@ def plan(root, spine, request):
+                     at += 1
+             report["updated"].append(pid)
+             continue
+-        if p.get("thin") and kind == "domain":
+-            raise Refused(f"{pid}: a domain carries no ICE, so it cannot be thin")
++        if "thin" in p and kind == "domain":
++            raise Refused(f"{pid}: a domain carries no ICE, so it cannot be thin and has no mark to take off")
+         if mode == "new":
+             if any(pid in ids for ids in before.values()):
+                 raise Refused(f"{pid} is already in the spine; use mode update")
+@@ -321,6 +427,26 @@ def plan(root, spine, request):
+             for i in p.get("add_intents") or []:
+                 if i not in entry.setdefault("intents", []):
+                     entry["intents"].append(i)
++            if "capability" in p:
++                if kind != "feature":
++                    raise Refused(f"{pid}: only a feature is filed under a capability")
++                if p["capability"] not in index["capability"]:
++                    raise Refused(f"{pid}: its new capability {p['capability']!r} is not in the spine")
++                entry["capability"] = p["capability"]
++            if p.get("thin") is False:
++                (entry.get("metadata") or {}).pop("thin", None)
++                page = inside(root, entry["doc"])
++                if os.path.isfile(page):
++                    text = pages.get(page)
++                    if text is None:
++                        with open(page, encoding="utf-8") as fh:
++                            text = fh.read()
++                    new_text = without_thin_line(text)
++                    if new_text != text:
++                        pages[page] = new_text
++                report["unthin"].append(pid)
++            if "doc" in p:
++                plan_move(root, pid, kind, entry, p["doc"], index, ices, ice_for, pages, deletes, rmdirs, report)
+             entry.setdefault("metadata", {})["updated_by"] = by
+             report["updated"].append(pid)
+         intents.update(entry.get("intents") or [])
+@@ -347,27 +473,54 @@ def plan(root, spine, request):
+     if ices != {e["id"]: e for e in old_ices if e.get("id")} or added_ices:
+         new_spine["ices"] = [ices[e["id"]] for e in old_ices if e.get("id") in ices] + \
+             [ices[i] for i in added_ices]
+-    return new_spine, pages, report
++    return new_spine, pages, report, deletes, rmdirs
+ 
+ 
+-def write_all(writes):
+-    """Write every (path, text); when one write fails, put back each file already written
+-    (its old text, or no file when it was new) and raise the error."""
+-    done = []
++def missing_dirs(path):
++    """The folders above `path` that are not there yet, deepest last."""
++    out, d = [], os.path.dirname(os.path.abspath(path))
++    while not os.path.exists(d):
++        out.append(d)
++        d = os.path.dirname(d)
++    return list(reversed(out))
++
++
++def write_all(writes, deletes=(), rmdirs=()):
++    """Write every (path, text), then delete each moved-away file and its emptied folder; when one
++    step fails, put back every file and folder as it was (old text, no file when it was new, no
++    folder that was made) and raise the error."""
++    done, made, removed, gone = [], [], [], []
+     try:
+         for path, text in writes:
+             old = None
+             if os.path.exists(path):
+                 with open(path, encoding="utf-8") as fh:
+                     old = fh.read()
++            made += [d for d in missing_dirs(path) if d not in made]
+             safe_write.atomic_write(path, text)
+             done.append((path, old))
++        for path in deletes:
++            with open(path, encoding="utf-8") as fh:
++                removed.append((path, fh.read()))
++            os.remove(path)
++        for d in rmdirs:
++            if os.path.isdir(d) and not os.listdir(d):
++                os.rmdir(d)
++                gone.append(d)
+     except OSError:
++        for d in reversed(gone):
++            os.makedirs(d, exist_ok=True)
++        for path, text in reversed(removed):
++            safe_write.atomic_write(path, text)
+         for path, old in reversed(done):
+             if old is None:
+-                os.remove(path)
++                if os.path.exists(path):
++                    os.remove(path)
+             else:
+                 safe_write.atomic_write(path, old)
++        for d in reversed(made):
++            if os.path.isdir(d) and not os.listdir(d):
++                os.rmdir(d)
+         raise
+ 
+ 
+@@ -386,19 +539,19 @@ def main():
+             old_text = fh.read()
+         spine = yaml.safe_load(old_text) or {}
+         model_names.check_spine(spine, spine_path)
+-        new_spine, pages, report = plan(root, spine, request)
++        new_spine, pages, report, deletes, rmdirs = plan(root, spine, request)
+         model_names.check_spine(new_spine, spine_path)
+     except (Refused, OSError, ValueError, json.JSONDecodeError, yaml.YAMLError) as e:
+         sys.stderr.write(f"link_part.py: refused, nothing written: {e}\n")
+         return 2
+     text, kept = spine_text.dump(old_text, spine, new_spine)
+     try:
+-        write_all([(spine_path, text)] + list(pages.items()))
++        write_all([(spine_path, text)] + list(pages.items()), deletes, rmdirs)
+     except OSError as e:
+         sys.stderr.write(f"link_part.py: a write failed, every file is back as it was: {e}\n")
+         return 2
+     report["changed"].append(os.path.relpath(spine_path, a.product_base))
+-    for page in pages:
++    for page in list(pages) + list(deletes):
+         report["changed"].append(os.path.relpath(page, a.product_base))
+     report["layout_kept"] = kept
+     with open(a.out, "w", encoding="utf-8") as fh:
+diff --git a/core/components/skills/link-model-part/scripts/test_link_part.py b/core/components/skills/link-model-part/scripts/test_link_part.py
+index 1afb26583..e774cb20c 100644
+--- a/core/components/skills/link-model-part/scripts/test_link_part.py
++++ b/core/components/skills/link-model-part/scripts/test_link_part.py
+@@ -414,5 +414,94 @@ def test_a_part_and_its_ice_in_one_request_keep_the_mark_off_the_part(self):
+         self.refused([{"id": "fn-1", "kind": "feature", "mode": "update", "thin": True}, self.ice()],
+                      "thin mark")
+ 
++
++class TakeInOldPartsTest(unittest.TestCase):
++    """Taking in old parts (#1037): thin: false, capability: <id> and doc: <new path> on update."""
++
++    write, read, run_request = LinkPartTest.write, LinkPartTest.read, LinkPartTest.run_request
++    tearDown = LinkPartTest.tearDown
++    assert_refused_parts = LinkPartTest.assert_refused_parts
++
++    def setUp(self):
++        LinkPartTest.setUp(self)
++
++    def exists(self, rel):
++        return os.path.exists(os.path.join(self.root, rel))
++
++    def entry(self, kind, pid):
++        return next(e for e in yaml.safe_load(self.read("_spine.yaml"))[kind] if e["id"] == pid)
++
++    def update(self, **kw):
++        return dict({"id": "fn-1", "kind": "feature", "mode": "update"}, **kw)
++
++    def test_thin_false_takes_the_mark_off_the_entry_and_the_page(self):
++        r, _ = self.run_request(parts=[self.update(thin=True)])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertIn(THIN, self.read("features/fn-1/feature.md"))
++        r, report = self.run_request(parts=[self.update(thin=False)])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertNotIn(THIN, self.read("features/fn-1/feature.md"))
++        self.assertEqual(self.read("features/fn-1/feature.md"), PAGE.format(title="Send one message"))
++        self.assertFalse((self.entry("features", "fn-1").get("metadata") or {}).get("thin"))
++        self.assertEqual(report["unthin"], ["fn-1"])
++
++    def test_thin_false_lets_the_part_take_its_ice_in_the_same_request(self):
++        self.run_request(parts=[self.update(thin=True)])
++        self.write("features/fn-1/ice.md", ICE)
++        r, report = self.run_request(parts=[self.update(thin=False), {
++            "id": "ice-1", "kind": "ice", "mode": "new", "for": "fn-1", "doc": "features/fn-1/ice.md"}])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertEqual(report["written"], ["ice-1"])
++
++    def test_a_feature_is_filed_under_a_capability_the_same_request_adds(self):
++        self.write("capabilities/cap-2/capability.md", "# Capability: Read mail\n")
++        r, _ = self.run_request(parts=[
++            {"id": "cap-2", "kind": "capability", "mode": "new", "slug": "cap-2", "intents": ["bi-1"],
++             "one_line": "Read mail", "doc": "capabilities/cap-2/capability.md"},
++            self.update(capability="cap-2")])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertEqual(self.entry("features", "fn-1")["capability"], "cap-2")
++        self.assertEqual(self.entry("features", "fn-1")["doc"], "features/fn-1/feature.md")
++
++    def test_a_capability_not_in_the_spine_or_on_a_capability_is_refused(self):
++        self.assert_refused_parts([self.update(capability="cap-9")], "not in the spine")
++        self.assert_refused_parts([{"id": "cap-1", "kind": "capability", "mode": "update",
++                                    "capability": "cap-1"}], "only a feature")
++
++    def test_a_page_and_its_ice_move_to_a_new_folder(self):
++        self.write("features/fn-1/ice.md", ICE)
++        r, _ = self.run_request(parts=[{"id": "ice-1", "kind": "ice", "mode": "new", "for": "fn-1",
++                                        "doc": "features/fn-1/ice.md"}])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        r, report = self.run_request(parts=[self.update(doc="capabilities/cap-1/fn-1/feature.md")])
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertEqual(self.read("capabilities/cap-1/fn-1/feature.md"), PAGE.format(title="Send one message"))
++        self.assertEqual(self.read("capabilities/cap-1/fn-1/ice.md"), ICE)
++        self.assertFalse(self.exists("features/fn-1"))
++        self.assertEqual(self.entry("features", "fn-1")["doc"], "capabilities/cap-1/fn-1/feature.md")
++        self.assertEqual(self.entry("ices", "ice-1")["doc"], "capabilities/cap-1/fn-1/ice.md")
++        self.assertEqual([m["to"] for m in report["moved"]],
++                         ["capabilities/cap-1/fn-1/feature.md", "capabilities/cap-1/fn-1/ice.md"])
++        self.assertTrue(self.read("_spine.yaml").startswith("# The spine"))
++
++    def assert_move_refused(self, words, doc="capabilities/cap-1/fn-1/feature.md"):
++        before = {p: self.read(p) for p in ("_spine.yaml", "features/fn-1/feature.md")}
++        self.assert_refused_parts([self.update(doc=doc)], words)
++        self.assertEqual({p: self.read(p) for p in before}, before)
++        self.assertFalse(self.exists("capabilities/cap-1/fn-1"))
++
++    def test_a_move_that_would_break_a_link_is_refused(self):
++        self.write("intents/bi-1.md", "# People get their mail\n\n- [Send one message]"
++                                      "(../features/fn-1/feature.md) (feature) — adds\n")
++        self.assert_move_refused("still name its old page")
++
++    def test_a_move_from_a_folder_that_holds_another_file_is_refused(self):
++        self.write("features/fn-1/notes.md", "notes\n")
++        self.assert_move_refused("also holds notes.md")
++
++    def test_a_move_outside_the_part_s_folders_is_refused(self):
++        self.assert_move_refused("outside its folder", doc="elsewhere/fn-1/feature.md")
++
++
+ if __name__ == "__main__":
+     unittest.main()

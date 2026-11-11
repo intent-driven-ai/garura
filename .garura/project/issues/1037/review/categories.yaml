@@ -1,0 +1,320 @@
+# categories.yaml: the work categories present in PR #1038 (issue #1037), derived from the diff.
+# Written by change-reviewer, Job 1 (assessment). The play reads each category's treatment only here.
+# Treatments come from the playbook copies in short-term memory
+# (.garura/project/issues/1037/context/memory/knowledge/review/), never from prior knowledge.
+pr: 1038
+issue: 1037
+base: main
+changed_files: 24
+
+memory:
+  review_shelf: .garura/project/issues/1037/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/1037/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/1037/context/memory/manifest.json   # tier, source path, version, fingerprint, copy; no home-folder path
+  next_map: .garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md   # the play linter's only; no play changed, so it is not used this run
+
+categories:
+
+  - id: harness
+    summary: >-
+      The product-model index skill's contract (what it accepts, refuses and reports) and the
+      keeper agent's skill table that routes to it. This is harness: it defines how the
+      framework behaves, so it is design-bearing.
+    playbook: review/harness
+    playbook_missing: false
+    evidence:
+      - path: core/components/skills/link-model-part/SKILL.md
+        why: >-
+          a skill definition (user-invocable: false, allowed-tools: Read, Bash). Adds three
+          update keys (thin: false, capability, doc), two report fields (unthin, moved) and
+          replaces the rule "Never re-parent" with "Re-file only what a person approved".
+          Changes what the skill decides and guarantees.
+      - path: core/components/agents/product-os-keeper.md
+        why: >-
+          an agent definition. One row of its skill table (link-model-part) now lists the three
+          updates and the #1037 condition that a person approved taking in an old part.
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: lint-components (structural conformance of skills and agents)
+          layer: 1
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          why_this_form: >-
+            the PR changes core/components/, so the repository holds Garura's source; the
+            playbook says to use the source layout there. Run from the repository root.
+          scope_rule: >-
+            only a violation whose file is in changed_paths is a finding (here the two files
+            above); count every other violation and record the count as "there before".
+          when_not_runnable: >-
+            tool not installed: record "not installed". Tool crashes: record
+            "did not run: <first error line>". Neither is a pass; the review goes on.
+        - name: lint_play
+          layer: 1
+          command: null
+          note: >-
+            not run: no play (a SKILL.md under core/components/plays/ or a deployed play) is in
+            changed_paths. link-model-part is a skill. The ICE-source rule does not apply for
+            the same reason (no play changed, and a skill has no ICE source).
+      runnable_checks:
+        - id: H-1
+          run: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          expect: no violation in the changed files SKILL.md and product-os-keeper.md
+          kind: tool
+      design_grounding:
+        required: true
+        layer: 2
+        grounded_from: >-
+          committed sources only, read from outside the branch: docs/philosophy/**, docs/adr/**,
+          the standards under memory/standards/rules/** (through the memory tool), the glossary,
+          and the base-ref versions of the two files (git show main:<path>). Never from the
+          new prose this branch adds to either file.
+        artifacts_in_scope:
+          - core/components/skills/link-model-part/SKILL.md
+          - core/components/agents/product-os-keeper.md
+        also_read: >-
+          core/components/skills/link-model-part/scripts/link_part.py, read as the
+          implementation the SKILL.md describes (does the contract match what the script
+          does). The script's own review belongs to the executable-code category.
+        fan_out: dispatch the grounding job once, with category "harness", output design-findings-harness.yaml
+      rubric: >-
+        play, agent, skill, script wiring intact; an intent change traces to its ICE source only
+        where the repository holds a play's source (none changed); the change holds the
+        standards it is subject to.
+    notes:
+      - >-
+        The agent doc and the skill doc are harness, not documentation. Their content is the
+        framework's own behaviour, which the docs playbook excludes.
+
+  - id: executable-code
+    summary: >-
+      The index skill's script: it writes the model's spine and pages, now also deletes a moved
+      page, removes an emptied folder, and undoes all of it when a write fails. Real source the
+      runtime executes, in a data-touching path.
+    playbook: review/code
+    playbook_missing: false
+    evidence:
+      - path: core/components/skills/link-model-part/scripts/link_part.py
+        why: >-
+          a python script run by the skill (+181 / -20 lines). New functions: without_thin_line,
+          names_of, plan_move, missing_dirs; write_all now deletes files and removes folders and
+          restores them on failure; plan() returns five values instead of three.
+    treatment:
+      reviewer: the tool, against industry best practice
+      layers: [1]
+      linters:
+        - name: language linter (python)
+          layer: 1
+          command: null
+          status: not configured
+          note: >-
+            the playbook says the language linter is whatever the repository commits. The
+            repository commits no Python linter configuration (no pyproject.toml, ruff.toml,
+            .ruff.toml, setup.cfg, .flake8, tox.ini, .pylintrc or .pre-commit-config.yaml; no
+            package.json). Record "not configured" for this check. It is a gap, not a pass.
+            A ruff binary is on this machine's PATH; if the play runs it, it is advisory
+            only (no committed rules to hold the change to).
+        - name: check-pr-quality (best-practice and severity checks against the diff, pr.md taxonomy)
+          layer: 1
+          command: >-
+            python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+            --taxonomy .garura/project/issues/1037/context/memory/standards/rules/pr.md
+            --diff .garura/project/issues/1037/review/pr.diff
+            --paths <file of changed_paths, one per line>
+            --out <findings.yaml>
+          rows: SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* (as the playbook names them)
+          coverage_caveat: >-
+            the taxonomy's artifact-type table is first match wins, and core/components/** is
+            classified garura-prose before any code type. On a prose type, grep rules are
+            ineligible and a path rule fires only for a docs-targeting glob. So the scan will
+            give this script effectively no finding. A clean scan is NOT evidence that the
+            script meets the rubric below; the rubric is checked by reading the script.
+      runnable_checks:
+        - id: C-1
+          run: python3 -B -c "import ast,sys; ast.parse(open('core/components/skills/link-model-part/scripts/link_part.py').read())"
+          expect: exit 0 (the script parses)
+          kind: by_hand, objective
+          note: >-
+            the language linter is a known gap here. The tests category runs the suite that
+            executes this script.
+        - id: C-2
+          run: read the script against the rubric (see rubric); cite each check
+          kind: by_hand
+      design_grounding:
+        required: false
+        note: >-
+          the standard is industry best practice plus the taxonomy, so no Layer 2. The
+          playbook still says to review the data-safety and idempotency paths hard.
+      rubric: >-
+        error handling, function size, no stray debug output, no secrets, safe handling of
+        destructive and irreversible operations, deterministic where it claims to be.
+      weight_hard_on:
+        - the delete and rmdir steps of write_all, and its undo path on failure (writes a moved page, then deletes the old one)
+        - names_of, which decides whether a move would break a link (it walks the model and tests each line)
+        - plan_move's refusals: the new folder already holds a file, the old folder holds another file, a path leaves the model
+    notes:
+      - >-
+        The path core/components/skills/** also matches the harness signals. The content
+        decides: this is executable code, and the code playbook names scripts inside skills
+        as its own. The harness category reads the script only as the SKILL.md's
+        implementation, not for its code quality.
+
+  - id: tests
+    summary: >-
+      Automated tests: the skill's unit tests, and the acceptance check kept in the issue's
+      evidence folder. Both execute the script above. The suite must be run, not only read.
+    playbook: review/tests
+    playbook_missing: false
+    evidence:
+      - path: core/components/skills/link-model-part/scripts/test_link_part.py
+        why: >-
+          python unittest module (+89 lines): the new class TakeInOldPartsTest, 8 tests for
+          thin: false, capability and doc. The path has no tests/ folder and the name is
+          test_*.py, so the playbook's path globs do not catch it; the content does.
+      - path: .garura/project/issues/1037/evidence/eval/eval_1037.py
+        why: >-
+          a runnable acceptance check (new, 322 lines): it builds a scratch model in a
+          temporary folder, runs link_part.py, and asserts E1 to E5. Written before the build.
+          Judged by content as an automated test, although its path is in the issue's evidence
+          folder.
+    treatment:
+      reviewer: the tool
+      layers: [1]
+      run_the_suite: true   # the playbook: Layer 1 and run the suite; a red suite is a blocker
+      linters:
+        - name: coding best-practice linter on the test code (clear assertions, no skipped or disabled test, no test that asserts nothing)
+          layer: 1
+          command: null
+          status: not configured
+          note: no committed Python linter (see executable-code); the tool reads the test code for these three points and cites each.
+        - name: check-pr-quality, TEST-* rows of pr.md
+          layer: 1
+          command: same scan as executable-code (one scan for the whole changed_paths list)
+          coverage_caveat: >-
+            test_link_part.py is classified garura-prose (core/components/** matches first) and
+            eval_1037.py is stm-evidence (.garura/project/**); the scan gives no finding on
+            stm-evidence. So the TEST-* rows will not stand in for reading these two files.
+      runnable_checks:
+        - id: T-1
+          run: >-
+            PYTHONDONTWRITEBYTECODE=1 python3 -B -m unittest discover -s core/components/skills/link-model-part/scripts -p test_link_part.py -v
+          from: repository root
+          expect: all tests pass; the module collects 44 tests (collection checked in this assessment; the suite was not run)
+          failure_severity: blocker (a red suite)
+          kind: suite
+        - id: T-2
+          run: PYTHONDONTWRITEBYTECODE=1 python3 -B .garura/project/issues/1037/evidence/eval/eval_1037.py
+          from: repository root (the check reads the current directory)
+          expect: every acceptance check E1 to E5 passes (the PR body reports 30 of 30)
+          failure_severity: blocker (a red suite)
+          kind: suite
+        - id: T-3
+          run: state explicitly that no suite covers a branch of the change that neither T-1 nor T-2 reaches; never treat "not run" as "passed"
+          kind: by_hand
+      design_grounding:
+        required: false
+    notes:
+      - >-
+        The playbook's rule is "run, don't just read". Both T-1 and T-2 must be run by the
+        play; neither was run in this assessment.
+
+  - id: run-records
+    summary: >-
+      Records the plays wrote into this issue's short-term memory while it ran
+      (start-change, commit-change, propose-change, check-change), plus verbatim copies of
+      Phoenix memory files they loaded. Not authored work; evidence of runs.
+    playbook: null
+    playbook_missing: true
+    playbook_missing_note: >-
+      No playbook on the review shelf covers run records. Name: "run-records". The shelf is to
+      gain review/run-records. Until then no layer, linter or runnable check is assigned from a
+      playbook (none is invented here). The only committed word on these paths is the PR
+      severity taxonomy, Artifact-Type Scoping (#851): a path of type stm-evidence
+      (.garura/project/**) gets no scan finding, because these are run records and installed
+      copies that plays write, evidence of a run and not work to review.
+    evidence:
+      - group: machine state of the plays' runs
+        paths:
+          - .garura/project/issues/1037/context/analysis.yaml
+          - .garura/project/issues/1037/context/args.json
+          - .garura/project/issues/1037/context/branch.json
+          - .garura/project/issues/1037/context/commits.yaml
+          - .garura/project/issues/1037/context/issue.json
+          - .garura/project/issues/1037/context/plan.json
+          - .garura/project/issues/1037/context/porcelain.txt
+          - .garura/project/issues/1037/context/pr.json
+          - .garura/project/issues/1037/context/resolved-rules.json
+          - .garura/project/issues/1037/context/target.json
+          - .garura/project/issues/1037/context/work-description.txt
+      - group: prose records that travel with the PR
+        paths:
+          - .garura/project/issues/1037/context/pr-body.md
+          - .garura/project/issues/1037/context/self-review.md
+          - .garura/project/issues/1037/context/raise-past-check.md
+        why: >-
+          the PR description, the self-review checklist, and the product owner's recorded word
+          to raise the PR past one failed self-review line. Written by the propose-change run.
+      - group: verbatim short-term copies of Phoenix memory, and their manifests
+        paths:
+          - .garura/project/issues/1037/context/memory/manifest-propose-change.json
+          - .garura/project/issues/1037/context/memory/standards/rules/self-review.md
+          - .garura/project/issues/1037/context/templates/manifest-close-start-change.json
+          - .garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
+          - .garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
+        why: >-
+          each is a copy a play made through the memory tool. The sha256 of the three copies on
+          disk equals the fingerprint in their manifest (self-review.md d630c3f6..., pipeline-next.md
+          b76c52d6..., delivery-report.md 2783a07f...), so the content is unchanged from the source.
+    treatment:
+      reviewer: none assigned (no playbook)
+      layers: []
+      linters: []
+      runnable_checks: []
+      note: >-
+        Empty on purpose. A treatment may come only from a playbook, and none exists. The play
+        should not run a layer for this category until the playbook is written, and should not
+        report the absence as a pass.
+    follow_up: >-
+      create the playbook review/run-records (the shelf's index, _index.md, lists seven
+      categories and none for run records). A task for it could not be created by this agent
+      (TaskCreate is not available in this dispatch); the caller should raise it.
+
+# Categories that are NOT present in this diff (their playbooks are skipped; that is the expected path).
+absent:
+  - adrs            # no docs/adr/** or decision-record content changed
+  - docs            # no docs/** or README/CHANGELOG prose changed
+  - memory          # no core/components/memory/** change; see considered_and_excluded
+  - config-maps     # no CLAUDE.md, AGENTS.md or config.yaml change
+
+# Judgements where a path hint pointed one way and the content the other.
+considered_and_excluded:
+  - paths:
+      - .garura/project/issues/1037/context/memory/standards/rules/self-review.md
+      - .garura/project/issues/1037/context/memory/manifest-propose-change.json
+      - .garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
+    not_category: memory
+    reason: >-
+      the memory playbook's signals include memory/standards/** and "standards rules,
+      templates", which these paths match. But the content is a short-term copy of a Phoenix
+      file, byte for byte (fingerprints match the manifests). The knowledge base itself is not
+      changed; nothing under core/components/memory/** is in the diff. Reviewing these as a
+      memory change would grade a copy as if it were authored knowledge.
+  - paths:
+      - .garura/project/issues/1037/context/pr-body.md
+      - .garura/project/issues/1037/context/self-review.md
+    not_category: docs
+    reason: >-
+      human-readable prose, but it is the PR text a play wrote, not documentation of the
+      framework for a reader of the repository.
+
+# Observed while reading the diff; not a finding, and no basis cited, so left for the play.
+observations_for_the_play:
+  - >-
+    .garura/project/issues/1037/context/raise-past-check.md records that the PR was raised with
+    the pre-push self-review check failed (commit 339ddf54 has a 156-character subject; the
+    cap is 72) and that the run does not close COMPLETED. The play may want this in its
+    summary; this assessment does not judge it.
+  - >-
+    The PR body's claim "component check reads 36 errors and 1 warning before and after, none in
+    the files changed" is the author's; H-1 re-runs it rather than trusting it.
