@@ -51,7 +51,7 @@ A capability or a feature can need another capability or feature. It can also be
 
 ## Out of scope
 - The ready answer itself. A capability or feature is ready without a domain (fn-724) owns how needs decide readiness.
-- Finding which plans a plan needs. Build a plan (cap-718) and Manage a plan (cap-720) own it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main.
+- Finding which plans a plan needs. Work out the plans a plan waits on (fn-work-out-waits-on), in Orchestrate agent work through planning, owns it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main.
 - The links between business intents. They are on the intent pages, as the ontology defines (fn-597).
 - The links from domains. Domains link to business intents and capabilities (fn-726) owns those.
 

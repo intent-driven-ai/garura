@@ -54,7 +54,7 @@ A domain lists the business intents and capabilities in it. Thus a person can as
 - Writing domain pages and adding a domain to the spine. /discover-domains owns that.
 - Deciding readiness. fn-724 owns it, and a domain has no part in it.
 - The needs and identified-by links. fn-725 owns those.
-- Showing plans. View plans (cap-719) shows the plan tree, which has no domain level.
+- Showing plans. Orchestrate agent work through planning (cap-orchestrate-agent-work) shows the plan tree, which has no domain level.
 
 ## Sources
 - core/components/memory/standards/schemas/product-os/ontology.md (v5), kind Business Intent: "It touches a domain … A loose link, for finding things; a domain is never part of its plan".

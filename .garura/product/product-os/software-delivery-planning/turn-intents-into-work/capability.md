@@ -69,6 +69,6 @@ What is not built yet:
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "When the build play runs, its context sub-agent reads the story's Context guidance, collects the context, and puts it in the issue's short-term memory"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "Upkeep work for a Story.", "A defect. It is a child of the Story whose work introduced it", "A prototype or proof on something already built"
 - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md: "A story never names the eval, the hidden file or the plan's evals folder."
-- The old model parts this capability takes in: Build a plan (cap-718) with fn-727, fn-728 and fn-818, and from Manage a plan (cap-720) the work-item changes of fn-730 and fn-931.
+- The old model parts this capability takes in: Build a plan (cap-718) with fn-727, fn-728 and fn-818, and from Manage a plan the work-item changes of fn-730 and fn-931; fn-931 is filed under this capability, and the rest of Manage a plan merged into Orchestrate agent work through planning (cap-orchestrate-agent-work).
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf covers software delivery planning.

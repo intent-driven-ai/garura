@@ -62,33 +62,6 @@ capabilities:
     thin: true
     updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
       ontology v14 Thin line)'
-- id: cap-719
-  slug: cap-719
-  domain: ''
-  intents:
-  - bi-717
-  status: proposed
-  detail: directional
-  one_line: 'View plans: see every plan, and any one plan as a tree'
-  doc: capabilities/cap-719/capability.md
-  depends_on: []
-  identified_by: ''
-  issue: 719
-- id: cap-720
-  slug: cap-720
-  domain: ''
-  intents:
-  - bi-717
-  status: proposed
-  detail: directional
-  one_line: 'Manage a plan with /update-plan: change the plan file, GitHub and the
-    product model together, on one approval'
-  doc: capabilities/cap-720/capability.md
-  depends_on: []
-  identified_by: ''
-  issue: 720
-  metadata:
-    updated_by: 'the #720 design, through #993''s change'
 - id: cap-735
   slug: cap-735
   domain: ''
@@ -126,22 +99,6 @@ capabilities:
   - cap-739
   identified_by: ''
   issue: 742
-- id: cap-shape-slice
-  slug: shape-slice
-  domain: dom-software-delivery-planning
-  intents:
-  - bi-788
-  status: proposed
-  detail: directional
-  one_line: 'Shape the one slice that shows a business intent is served: the features
-    in build order, the one surface and the person who tests it.'
-  doc: software-delivery-planning/shape-slice/capability.md
-  metadata:
-    created_by: /shape-slice
-    deepen: true
-    thin: true
-    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
-      ontology v14 Thin line)'
 - id: cap-shape-eval
   slug: shape-eval
   domain: dom-software-delivery-planning
@@ -646,6 +603,23 @@ capabilities:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: cap-orchestrate-agent-work
+  slug: orchestrate-agent-work
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-9
+  status: proposed
+  detail: directional
+  one_line: 'Orchestrate agent work through planning: A person chooses what is delivered
+    next as a slice, sees every plan and where it stands, and sets the order and status
+    of the work as it runs.'
+  doc: software-delivery-planning/orchestrate-agent-work/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -745,48 +719,47 @@ features:
   issue: 728
 - id: fn-729
   slug: fn-729
-  capability: cap-719
+  capability: cap-orchestrate-agent-work
   intents:
-  - bi-717
+  - bi-9
   status: proposed
-  one_line: List every plan, from the plan files alone
+  one_line: One card for each plan, from the plan files alone, with its direction,
+    Status, Branch, the plans it waits on, and each epic's progress.
   doc: features/fn-729/feature.md
   depends_on: []
   identified_by: ''
   issue: 729
   metadata:
-    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
-      ontology v14 Thin line)'
-    thin: true
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-628
   slug: fn-628
-  capability: cap-719
+  capability: cap-orchestrate-agent-work
   intents:
-  - bi-717
+  - bi-9
   status: proposed
-  one_line: Show one plan as a tree, from its plan file alone
+  one_line: One plan's open work shown, its Done and Dropped work hidden and counted,
+    and each plan it needs printed after it.
   doc: features/fn-628/feature.md
   depends_on: []
   identified_by: ''
   issue: 628
   metadata:
-    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
-      ontology v14 Thin line)'
-    thin: true
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-730
   slug: fn-730
-  capability: cap-720
+  capability: cap-orchestrate-agent-work
   intents:
-  - bi-717
+  - bi-9
   status: proposed
-  one_line: 'The /update-plan session: instructions, checks, one approval, one landing
-    on the plan''s branch'
+  one_line: In /update-plan, a person sets statuses and the direction in their own
+    words, and on one plain "approved" they land in the tracker and the plan file
+    in one commit on the plan's branch.
   doc: features/fn-730/feature.md
   depends_on: []
   identified_by: ''
   issue: 730
   metadata:
-    updated_by: 'the #720 design, through #993''s change'
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-736
   slug: fn-736
   capability: cap-735
@@ -909,19 +882,18 @@ features:
     updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-795
   slug: fn-795
-  capability: cap-shape-slice
+  capability: cap-orchestrate-agent-work
   intents:
-  - bi-788
+  - bi-9
   status: proposed
-  one_line: From a business intent, /shape-slice writes one slice, its link to the
-    intent and its hidden file, and no plan, epic, story or eval.
-  doc: software-delivery-planning/shape-slice/fn-795/feature.md
+  one_line: A person names a business intent, and the features in build order, the
+    one surface and the tester are chosen from the model and memory, shown in one
+    brief and kept only on the person's yes.
+  doc: software-delivery-planning/orchestrate-agent-work/fn-795/feature.md
   metadata:
     created_by: /shape-slice
     deepen: true
-    thin: true
-    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
-      ontology v14 Thin line)'
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-818
   slug: fn-818
   capability: cap-718
@@ -1038,12 +1010,12 @@ features:
       ontology v14 Thin line)'
 - id: fn-806
   slug: fn-806
-  capability: cap-719
+  capability: cap-orchestrate-agent-work
   intents:
-  - bi-717
+  - bi-9
   status: proposed
-  one_line: 'See every plan as a graph against main: each plan''s branch, and its
-    commits ahead and behind'
+  one_line: Each plan's branch drawn against main with the commits git counts ahead
+    and behind, and the plans with no branch named as on main.
   doc: features/fn-806/feature.md
   depends_on: []
   identified_by: ''
@@ -1052,14 +1024,12 @@ features:
   metadata:
     created_by: 'the #719 change (view plans)'
     deepen: true
-    thin: true
-    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
-      ontology v14 Thin line)'
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-931
   slug: fn-931
-  capability: cap-720
+  capability: cap-turn-intents-into-work
   intents:
-  - bi-717
+  - bi-1
   status: proposed
   one_line: A person names a feature found while a plan is in progress, and on approval
     it joins the product model, its slice and its epic together with the plan file
@@ -1073,8 +1043,7 @@ features:
     created_by: '/update-plan (plan 717, the approved session''s new feature, #931)'
     deepen: true
     thin: true
-    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
-      ontology v14 Thin line)'
+    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-specify-intents
   slug: fn-specify-intents
   capability: cap-specify-product
@@ -2953,6 +2922,103 @@ features:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     deepen: true
+- id: fn-go-to-plan-branch
+  slug: fn-go-to-plan-branch
+  capability: cap-orchestrate-agent-work
+  intents:
+  - bi-9
+  status: proposed
+  one_line: A session stops on uncommitted work, gets onto the plan's branch, and
+    at the end goes back, or undoes a branch it cut.
+  doc: software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-know-what-next
+  slug: fn-know-what-next
+  capability: cap-orchestrate-agent-work
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Every play and loop ends by naming the one command that comes next from
+    one map, or names none.
+  doc: software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-remove-plan
+  slug: fn-remove-plan
+  capability: cap-orchestrate-agent-work
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Plans a person approved removing are deleted from the plans folder, whole,
+    with a report of what each held.
+  doc: software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+- id: fn-choose-next-item
+  slug: fn-choose-next-item
+  capability: cap-orchestrate-agent-work
+  intents:
+  - bi-9
+  status: proposed
+  one_line: The open items of every plan in progress are shown from the plan files,
+    with each plan's Direction and Waits on, and the one chosen becomes Now through
+    a session.
+  doc: software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+    updated_by: 'product-os-keeper (reorganise business intents, #1021; one-lines
+      approved by the product owner)'
+- id: fn-work-out-waits-on
+  slug: fn-work-out-waits-on
+  capability: cap-orchestrate-agent-work
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Each plan's Waits on list is worked out from the needs of its parts in
+    the product model, never set by hand.
+  doc: software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+    updated_by: 'product-os-keeper (reorganise business intents, #1021; one-lines
+      approved by the product owner)'
+- id: fn-pause-plan
+  slug: fn-pause-plan
+  capability: cap-orchestrate-agent-work
+  intents:
+  - bi-9
+  status: proposed
+  one_line: A paused plan's branch lands on main and main's plan file says it has
+    no branch; when its work starts again, a new branch is cut and named there.
+  doc: software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    deepen: true
+    updated_by: 'product-os-keeper (reorganise business intents, #1021; one-lines
+      approved by the product owner)'
 profile:
   state: set
   nfr:
@@ -3986,6 +4052,81 @@ ices:
   for: fn-run-tool-apart
   for_kind: feature
   doc: software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-795
+  for: fn-795
+  for_kind: feature
+  doc: software-delivery-planning/orchestrate-agent-work/fn-795/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-orchestrate-agent-work
+  for: cap-orchestrate-agent-work
+  for_kind: capability
+  doc: software-delivery-planning/orchestrate-agent-work/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-729
+  for: fn-729
+  for_kind: feature
+  doc: features/fn-729/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-806
+  for: fn-806
+  for_kind: feature
+  doc: features/fn-806/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-628
+  for: fn-628
+  for_kind: feature
+  doc: features/fn-628/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-730
+  for: fn-730
+  for_kind: feature
+  doc: features/fn-730/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-go-to-plan-branch
+  for: fn-go-to-plan-branch
+  for_kind: feature
+  doc: software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-know-what-next
+  for: fn-know-what-next
+  for_kind: feature
+  doc: software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-remove-plan
+  for: fn-remove-plan
+  for_kind: feature
+  doc: software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+- id: ice-choose-next-item
+  for: fn-choose-next-item
+  for_kind: feature
+  doc: software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-work-out-waits-on
+  for: fn-work-out-waits-on
+  for_kind: feature
+  doc: software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+    thin: true
+- id: ice-pause-plan
+  for: fn-pause-plan
+  for_kind: feature
+  doc: software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021)'
     thin: true

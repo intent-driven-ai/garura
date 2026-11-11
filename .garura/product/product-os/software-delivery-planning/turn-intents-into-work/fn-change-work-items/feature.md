@@ -52,5 +52,5 @@ Known break: #1035. For a feature that keeps its ICE inside its page, its story 
 - core/components/plays/update-plan/scripts/check_entries.py: "a spike, a chore or a bug under a story", "one story for each feature in an epic"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "Its tree holds six kinds of item, each under one kind of parent", "an issue of type Feature that groups some stories inside one epic"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "are drift for the Alignment loop", "In the same Alignment round, the plan play makes the story again"
-- .garura/product/product-os/features/fn-730/feature.md: "Changing an epic's or a story's text is one more instruction"
+- .garura/project/issues/1021/context/bi-9-capability-1/research.md, which keeps the earlier page of features/fn-730/feature.md: "Changing an epic's or a story's text is one more instruction"
 - GitHub #730 (closed): the /update-plan session. GitHub #1002 (closed): a story added in a session is drafted from the feature's ICE.
