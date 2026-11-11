@@ -1,0 +1,24 @@
+commits:
+  - sha: 019f1baa
+    message: "feat(skills): clear a thin mark and move a feature or a page (#1037)"
+    files:
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/agents/product-os-keeper.md
+    branch: feature/1037-index-tool-thin-and-moves
+  - sha: a97f5531
+    message: "chore(stm): record commit-change run state and template copies (#1037)"
+    files:
+      - .garura/project/issues/1037/context/analysis.yaml
+      - .garura/project/issues/1037/context/porcelain.txt
+      - .garura/project/issues/1037/context/templates/manifest-close-start-change.json
+      - .garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
+    branch: feature/1037-index-tool-thin-and-moves
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

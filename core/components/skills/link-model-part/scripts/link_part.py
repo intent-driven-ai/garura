@@ -38,7 +38,20 @@ link-request.json:
   empty lists, and metadata {created_by, deepen: true, thin when thin}.
 - mode `update`: the id must be in the spine under its kind. `one_line` replaces its one-line,
   `add_intents` are added to its intents, `issue` names its issue when it names none yet, `thin:
-  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept.
+  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. Three more
+  keys take in old parts once a person approved it (#1037):
+    `thin: false`        takes the thin mark off a capability or feature: `metadata.thin` leaves its
+                         entry and every Thin line leaves its page. Give it before the part's ICE in
+                         the same request, so the ICE is not refused for the mark.
+    `capability: <id>`   files a feature under another capability, one in the spine or added
+                         earlier in the same request. Only a feature takes it.
+    `doc: <new path>`    moves a capability's or feature's page, and the ice.md beside it, to a new
+                         folder, which must be one a new part of its kind may use (under its parent,
+                         after any `capability` change, or its holding folder) and must not hold a
+                         file yet. The entry's doc and its ICE entry's doc follow; the old folder is
+                         removed. It is refused when the old folder holds any other file, or when
+                         any page or record in the model names an old path (written from the model
+                         root, or as a link relative to the page), so no link breaks.
 - kind `slice`, mode `update` only (a slice is shaped by /shape-slice): `add_features` are added
   to its `feature_refs`, in their order, at the end or right after the feature named by `after`;
   a feature already there is not added twice, and each must be in the spine (#931).
@@ -58,8 +71,11 @@ link-request.json:
   ICE is added.
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
-writes nothing. When a write itself fails part way, every file already written is put back as
-it was, so the spine and the pages never disagree (exit 2). Paths that leave the model folder are refused. Every intent a part names must
+writes nothing. When a write itself fails part way, every file already written, deleted or
+moved, and every folder made or removed, is put back as it was, so the spine and the pages never
+disagree (exit 2). Each undo step is tried on its own; when one of them fails too, the others
+still run and the error names every path that is not back, to be put back from git (exit 2).
+Paths that leave the model folder are refused. Every intent a part names must
 have its page. The spine keeps its comments and layout (spine_text.py); every file is written
 through safe_write.atomic_write. Reads and writes files on disk only; no git, no network.
 Exit 0 written, 2 refused or bad input.
@@ -92,6 +108,8 @@ ICE_PARTS = ("Intent", "Context", "Expectation")
 ICE_KIND = {"capability": "capability", "feature": "feature"}
 BI_KEYS = ("intents", "business_intent", "business_intents")
 NOT_A_DOMAIN_FOLDER = {"capabilities", "features", "intents"}
+MD_LINK = re.compile(r"\]\(([^)\s]+)\)")
+NAMED_IN = (".md", ".yaml", ".yml")
 
 
 class Refused(Exception):
@@ -196,6 +214,103 @@ def plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report):
         report["thin"].append(iid)
 
 
+def without_thin_line(text):
+    """The page with every Thin line taken out, and the blank line it leaves folded."""
+    lines = text.splitlines()
+    out = []
+    for i, ln in enumerate(lines):
+        if OLD_THIN.match(ln):
+            if out and not out[-1].strip() and i + 1 < len(lines) and not lines[i + 1].strip():
+                out.pop()
+            continue
+        out.append(ln)
+    return "\n".join(out).rstrip("\n") + "\n"
+
+
+def names_of(root, old_rels):
+    """Each 'file:line' outside the moved files and the spine that names an old path."""
+    targets = {os.path.realpath(os.path.join(root, r)) for r in old_rels}
+    hits = []
+    for d, _, files in os.walk(root):
+        for f in sorted(files):
+            if not f.endswith(NAMED_IN):
+                continue
+            path = os.path.join(d, f)
+            rel = os.path.relpath(path, root)
+            if rel == "_spine.yaml" or rel in old_rels:
+                continue
+            with open(path, encoding="utf-8", errors="replace") as fh:
+                lines = fh.read().splitlines()
+            for n, line in enumerate(lines, 1):
+                if any(r in line for r in old_rels):
+                    hits.append(f"{rel}:{n}")
+                    continue
+                for m in MD_LINK.finditer(line):
+                    target = m.group(1).split("#")[0]
+                    if target and "://" not in target and \
+                            os.path.realpath(os.path.join(d, target)) in targets:
+                        hits.append(f"{rel}:{n}")
+                        break
+    return hits
+
+
+def plan_move(root, pid, kind, entry, new_doc, index, ices, ice_for, pages, deletes, rmdirs, report):
+    """Move a part's page, and the ice.md beside it, to `new_doc`; writes go into `pages`."""
+    if kind not in HOLDING:
+        raise Refused(f"{pid}: only a capability's or a feature's page moves")
+    new = (new_doc or "").strip("/")
+    new_full = inside(root, new)
+    old = entry.get("doc", "")
+    old_full = inside(root, old)
+    if new == old:
+        raise Refused(f"{pid}: its page is already at {new}")
+    if os.path.basename(new) != PAGE[kind]:
+        raise Refused(f"{pid}: its page must be named {PAGE[kind]}")
+    parent_entry = index[PARENT[kind]].get(entry.get(PARENT[kind]) or "")
+    if new not in allowed_docs(kind, pid, new, parent_entry):
+        raise Refused(f"{pid}: its new page {new} is outside its folder")
+    new_dir = os.path.dirname(new_full)
+    if os.path.exists(new_dir) and (not os.path.isdir(new_dir) or os.listdir(new_dir)):
+        raise Refused(f"{pid}: {os.path.dirname(new)} already holds a file")
+    new_ice_full = inside(root, os.path.join(os.path.dirname(new), ICE_PAGE))
+    sharing = sorted(e["id"] for k in HOLDING for e in index[k].values()
+                     if e is not entry and os.path.dirname(e.get("doc") or "") == os.path.dirname(new))
+    if sharing or new_full in pages or new_ice_full in pages:
+        raise Refused(f"{pid}: {os.path.dirname(new)} is already the folder of "
+                      f"{', '.join(sharing) or 'a page this request writes'}; two parts never share a folder")
+    old_dir = os.path.dirname(old_full)
+    if not os.path.isfile(old_full):
+        raise Refused(f"{pid}: its page {old} is not on disk")
+    extra = sorted(n for n in os.listdir(old_dir) if n not in (PAGE[kind], ICE_PAGE))
+    if extra:
+        raise Refused(f"{pid}: its folder {os.path.dirname(old)} also holds {', '.join(extra)}; "
+                      f"only its page and its ice.md move")
+    moving = [(old, new)]
+    old_ice = os.path.join(os.path.dirname(old), ICE_PAGE)
+    new_ice = os.path.join(os.path.dirname(new), ICE_PAGE)
+    iid = ice_for.get(pid)
+    if os.path.isfile(inside(root, old_ice)):
+        moving.append((old_ice, new_ice))
+    elif iid:
+        raise Refused(f"{pid}: its ICE {iid} names {ices[iid].get('doc')}, which is not on disk")
+    hits = names_of(root, [o for o, _ in moving])
+    if hits:
+        raise Refused(f"{pid}: these still name its old page, so the move would break them: {', '.join(hits)}")
+    for o, n in moving:
+        o_full, n_full = inside(root, o), inside(root, n)
+        text = pages.pop(o_full, None)
+        if text is None:
+            with open(o_full, encoding="utf-8") as fh:
+                text = fh.read()
+        pages[n_full] = text
+        deletes.append(o_full)
+        report["moved"].append({"from": o, "to": n})
+    rmdirs.append(old_dir)
+    entry["doc"] = new
+    if iid:
+        ices[iid]["doc"] = new_ice
+
+
 def allowed_docs(kind, pid, doc, parent_entry):
     if kind == "domain":
         folder = os.path.dirname(doc)
@@ -243,8 +358,8 @@ def plan(root, spine, request):
     new_spine = copy.deepcopy(spine)
     index = {kind: {e["id"]: e for e in new_spine.setdefault(key, [])} for kind, key in KINDS.items()}
     before = {kind: set(ids) for kind, ids in index.items()}
-    pages, intents, seen = {}, set(), set()
-    report = {"written": [], "updated": [], "thin": [], "changed": []}
+    pages, intents, seen, deletes, rmdirs = {}, set(), set(), [], []
+    report = {"written": [], "updated": [], "thin": [], "unthin": [], "moved": [], "changed": []}
     old_ices = [e for e in (spine.get("ices") or []) if isinstance(e, dict)]
     ices = {e["id"]: copy.deepcopy(e) for e in old_ices if e.get("id")}
     added_ices = []
@@ -285,8 +400,8 @@ def plan(root, spine, request):
                     at += 1
             report["updated"].append(pid)
             continue
-        if p.get("thin") and kind == "domain":
-            raise Refused(f"{pid}: a domain carries no ICE, so it cannot be thin")
+        if "thin" in p and kind == "domain":
+            raise Refused(f"{pid}: a domain carries no ICE, so it cannot be thin and has no mark to take off")
         if mode == "new":
             if any(pid in ids for ids in before.values()):
                 raise Refused(f"{pid} is already in the spine; use mode update")
@@ -321,6 +436,26 @@ def plan(root, spine, request):
             for i in p.get("add_intents") or []:
                 if i not in entry.setdefault("intents", []):
                     entry["intents"].append(i)
+            if "capability" in p:
+                if kind != "feature":
+                    raise Refused(f"{pid}: only a feature is filed under a capability")
+                if p["capability"] not in index["capability"]:
+                    raise Refused(f"{pid}: its new capability {p['capability']!r} is not in the spine")
+                entry["capability"] = p["capability"]
+            if p.get("thin") is False:
+                (entry.get("metadata") or {}).pop("thin", None)
+                page = inside(root, entry["doc"])
+                if os.path.isfile(page):
+                    text = pages.get(page)
+                    if text is None:
+                        with open(page, encoding="utf-8") as fh:
+                            text = fh.read()
+                    new_text = without_thin_line(text)
+                    if new_text != text:
+                        pages[page] = new_text
+                report["unthin"].append(pid)
+            if "doc" in p:
+                plan_move(root, pid, kind, entry, p["doc"], index, ices, ice_for, pages, deletes, rmdirs, report)
             entry.setdefault("metadata", {})["updated_by"] = by
             report["updated"].append(pid)
         intents.update(entry.get("intents") or [])
@@ -347,27 +482,79 @@ def plan(root, spine, request):
     if ices != {e["id"]: e for e in old_ices if e.get("id")} or added_ices:
         new_spine["ices"] = [ices[e["id"]] for e in old_ices if e.get("id") in ices] + \
             [ices[i] for i in added_ices]
-    return new_spine, pages, report
+    return new_spine, pages, report, deletes, rmdirs
 
 
-def write_all(writes):
-    """Write every (path, text); when one write fails, put back each file already written
-    (its old text, or no file when it was new) and raise the error."""
-    done = []
+def missing_dirs(path):
+    """The folders above `path` that are not there yet, deepest last."""
+    out, d = [], os.path.dirname(os.path.abspath(path))
+    while not os.path.exists(d):
+        out.append(d)
+        d = os.path.dirname(d)
+    return list(reversed(out))
+
+
+class UndoFailed(OSError):
+    """A write failed, and putting the files back failed too: `left` names what is not back."""
+
+    def __init__(self, cause, left):
+        super().__init__(f"{cause}; not put back: {'; '.join(left)}")
+        self.cause, self.left = cause, left
+
+
+def write_all(writes, deletes=(), rmdirs=()):
+    """Write every (path, text), then delete each moved-away file and its emptied folder; when one
+    step fails, put back every file and folder as it was (old text, no file when it was new, no
+    folder that was made) and raise the error. Each step of the undo is tried on its own; when any
+    of them fails, the rest still run and UndoFailed names every path that is not back."""
+    done, made, removed, gone = [], [], [], []
     try:
         for path, text in writes:
             old = None
             if os.path.exists(path):
                 with open(path, encoding="utf-8") as fh:
                     old = fh.read()
+            made += [d for d in missing_dirs(path) if d not in made]
             safe_write.atomic_write(path, text)
             done.append((path, old))
-    except OSError:
+        for path in deletes:
+            with open(path, encoding="utf-8") as fh:
+                removed.append((path, fh.read()))
+            os.remove(path)
+        for d in rmdirs:
+            if os.path.isdir(d) and not os.listdir(d):
+                os.rmdir(d)
+                gone.append(d)
+    except OSError as cause:
+        left = []
+
+        def attempt(what, step):
+            try:
+                step()
+            except OSError as e:
+                left.append(f"{what} ({e})")
+
+        def drop(path):
+            if os.path.exists(path):
+                os.remove(path)
+
+        def prune(d):
+            if os.path.isdir(d) and not os.listdir(d):
+                os.rmdir(d)
+
+        for d in reversed(gone):
+            attempt(d, lambda d=d: os.makedirs(d, exist_ok=True))
+        for path, text in reversed(removed):
+            attempt(path, lambda p=path, t=text: safe_write.atomic_write(p, t))
         for path, old in reversed(done):
             if old is None:
-                os.remove(path)
+                attempt(path, lambda p=path: drop(p))
             else:
-                safe_write.atomic_write(path, old)
+                attempt(path, lambda p=path, o=old: safe_write.atomic_write(p, o))
+        for d in reversed(made):
+            attempt(d, lambda d=d: prune(d))
+        if left:
+            raise UndoFailed(cause, left) from cause
         raise
 
 
@@ -386,19 +573,23 @@ def main():
             old_text = fh.read()
         spine = yaml.safe_load(old_text) or {}
         model_names.check_spine(spine, spine_path)
-        new_spine, pages, report = plan(root, spine, request)
+        new_spine, pages, report, deletes, rmdirs = plan(root, spine, request)
         model_names.check_spine(new_spine, spine_path)
     except (Refused, OSError, ValueError, json.JSONDecodeError, yaml.YAMLError) as e:
         sys.stderr.write(f"link_part.py: refused, nothing written: {e}\n")
         return 2
     text, kept = spine_text.dump(old_text, spine, new_spine)
     try:
-        write_all([(spine_path, text)] + list(pages.items()))
+        write_all([(spine_path, text)] + list(pages.items()), deletes, rmdirs)
+    except UndoFailed as e:
+        sys.stderr.write(f"link_part.py: a write failed ({e.cause}), and these are NOT back as they were: "
+                         f"{'; '.join(e.left)}. Put them back from git before anything else runs.\n")
+        return 2
     except OSError as e:
         sys.stderr.write(f"link_part.py: a write failed, every file is back as it was: {e}\n")
         return 2
     report["changed"].append(os.path.relpath(spine_path, a.product_base))
-    for page in pages:
+    for page in list(pages) + list(deletes):
         report["changed"].append(os.path.relpath(page, a.product_base))
     report["layout_kept"] = kept
     with open(a.out, "w", encoding="utf-8") as fh:

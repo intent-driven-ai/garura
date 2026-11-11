@@ -1,0 +1,56 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by the assess-changes judgment
+# issue: 1037
+needs_judgment: false
+branch: feature/1037-index-tool-thin-and-moves
+issue: 1037
+
+change_groups:
+  - id: feat-skills-link-model-part-thin-and-moves
+    issue: 1037
+    commit_type: feat
+    scope: skills
+    subject: "clear a thin mark and move a feature or a page"
+    confidence: high
+    files:
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/agents/product-os-keeper.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "link-model-part's index script takes three new keys on update (thin: false, capability, doc); the SKILL.md and the agent's skill table describe them; the unit tests cover them. The script's internal plan() now returns five values and write_all() takes optional deletes and rmdirs; no other file in core/ calls either, and the request schema only gains optional keys, so nothing that exists breaks."
+
+  - id: chore-stm-run-state
+    issue: 1037
+    commit_type: chore
+    scope: stm
+    subject: "record commit-change run state and template copies"
+    confidence: high
+    files:
+      - .garura/project/issues/1037/context/analysis.yaml
+      - .garura/project/issues/1037/context/porcelain.txt
+      - .garura/project/issues/1037/context/templates/manifest-close-start-change.json
+      - .garura/project/issues/1037/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1037/context/templates/standards/templates/delivery-report.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "The commit-change run's own records (the porcelain scan and this analysis) and the template copies the start-change close loaded into short-term memory. Operational, not part of the feature."
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes:
+    []
+  ambiguous_types:
+    []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "grouping done by assess-changes: 2 groups, 9 files; every file from the porcelain scan (the templates/ folder expanded to its 3 files) plus this analysis file sits in exactly one group, none in exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched: no sensitive filename in the changeset, and no password/api_key/secret/token/private_key pattern in the diff or the new files"}
