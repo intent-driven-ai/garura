@@ -62,43 +62,6 @@ capabilities:
     thin: true
     updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
       ontology v14 Thin line)'
-- id: cap-735
-  slug: cap-735
-  domain: ''
-  intents:
-  - bi-734
-  status: proposed
-  detail: directional
-  one_line: The harness standard, written down
-  doc: capabilities/cap-735/capability.md
-  depends_on: []
-  identified_by: ''
-  issue: 735
-- id: cap-739
-  slug: cap-739
-  domain: ''
-  intents:
-  - bi-734
-  status: proposed
-  detail: directional
-  one_line: The naming checks, built before any rename
-  doc: capabilities/cap-739/capability.md
-  depends_on: []
-  identified_by: cap-735
-  issue: 739
-- id: cap-742
-  slug: cap-742
-  domain: ''
-  intents:
-  - bi-734
-  status: proposed
-  detail: directional
-  one_line: Every name moved to the standard, one family at a time
-  doc: capabilities/cap-742/capability.md
-  depends_on:
-  - cap-739
-  identified_by: ''
-  issue: 742
 - id: cap-shape-eval
   slug: shape-eval
   domain: dom-software-delivery-planning
@@ -688,6 +651,108 @@ capabilities:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'
     deepen: true
+- id: cap-standards
+  slug: standards
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-10
+  status: proposed
+  detail: directional
+  one_line: 'Standards: Everything is built on the ICE model, with written standards
+    for parts, sub-agents and naming, and checks that hold them.'
+  doc: software-delivery-planning/standards/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: cap-build-your-own-harness
+  slug: build-your-own-harness
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-10
+  status: proposed
+  detail: directional
+  one_line: 'Build your own harness: You can keep building your harness with your
+    own plays, loops, sub-agents and skills, in a consistent way.'
+  doc: software-delivery-planning/build-your-own-harness/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: cap-structure
+  slug: structure
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-10
+  status: proposed
+  detail: directional
+  one_line: 'Structure: Where everything lives, in source and once deployed.'
+  doc: software-delivery-planning/structure/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: cap-settings
+  slug: settings
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-10
+  status: proposed
+  detail: directional
+  one_line: 'Settings: Everything that can be turned on or off lives in settings.'
+  doc: software-delivery-planning/settings/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: cap-memory
+  slug: memory
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-10
+  status: proposed
+  detail: directional
+  one_line: 'Memory: Agents decide from three tiers of memory (Phoenix global, Garura
+    project, short-term), and people control what enters them.'
+  doc: software-delivery-planning/memory/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: cap-model-routing
+  slug: model-routing
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-10
+  - bi-7
+  status: proposed
+  detail: directional
+  one_line: 'Intelligent model routing: Each part runs on the right model and effort
+    for its job, for speed and token cost, on each harness that supports it. Also
+    serves Install and distribute.'
+  doc: software-delivery-planning/model-routing/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -830,107 +895,144 @@ features:
     updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 - id: fn-736
   slug: fn-736
-  capability: cap-735
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: 'Naming rules: verbs, run- for loops, no tool built-ins, two-word plays'
+  one_line: 'Every part is named by one rule: plain words, the verb first, one meaning
+    per verb, never a coding tool''s own command, with five roles owning the verbs.'
   doc: features/fn-736/feature.md
   depends_on: []
   identified_by: ''
   issue: 736
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-737
   slug: fn-737
-  capability: cap-735
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: 'Harness principles and practices: why we build this way, and how'
+  one_line: One page names each kind of part, sets out eleven principles, each with
+    its reason and the ADR it comes from, and says how the standard is kept.
   doc: features/fn-737/feature.md
   depends_on: []
   identified_by: ''
   issue: 737
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-738
   slug: fn-738
-  capability: cap-735
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: One ADR that replaces ADR 006 and ADR 018
+  one_line: Every change to the standard or its rule files is an accepted ADR that
+    names each older ADR it supersedes or amends, and each older ADR points forward
+    to it.
   doc: features/fn-738/feature.md
   depends_on: []
   identified_by: ''
   issue: 738
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-740
   slug: fn-740
-  capability: cap-739
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: The component linter fails any name that breaks the standard
+  one_line: The component linter, the play linter, the loop linter and the old-name
+    check fail every part that breaks a written rule.
   doc: features/fn-740/feature.md
   depends_on: []
   identified_by: ''
   issue: 740
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-741
   slug: fn-741
-  capability: cap-739
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: A rename map, and a check that no old name is left
+  one_line: One rename map, and a read-only check that finds each use of an old name
+    outside past records.
   doc: features/fn-741/feature.md
   depends_on: []
   identified_by: ''
   issue: 741
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-743
   slug: fn-743
-  capability: cap-742
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: Rename the harness plays and the loops
+  one_line: The harness plays and the loop carry the standard's names, and move to
+    each new name the standard sets.
   doc: features/fn-743/feature.md
   depends_on:
   - fn-741
   identified_by: ''
   issue: 743
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-744
   slug: fn-744
-  capability: cap-742
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: Rename the change, plan, knowledge and record plays
+  one_line: The change, plan, knowledge and record plays carry the standard's names,
+    and move to each new name the standard sets.
   doc: features/fn-744/feature.md
   depends_on:
   - fn-741
   identified_by: ''
   issue: 744
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-745
   slug: fn-745
-  capability: cap-742
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: Rename the lifecycle and lens plays
+  one_line: The lifecycle and lens plays carry the standard's names, and move to each
+    new name the standard sets.
   doc: features/fn-745/feature.md
   depends_on:
   - fn-741
   identified_by: ''
   issue: 745
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-746
   slug: fn-746
-  capability: cap-742
+  capability: cap-standards
   intents:
-  - bi-734
+  - bi-10
   status: proposed
-  one_line: Rename the skills
+  one_line: Every skill carries a verb from the skill verb list, and moves to each
+    new name the standard sets.
   doc: features/fn-746/feature.md
   depends_on:
   - fn-741
   identified_by: ''
   issue: 746
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-748
   slug: fn-748
   capability: cap-upgrade-project
@@ -3527,6 +3629,657 @@ features:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'
     deepen: true
+- id: fn-build-from-ice
+  slug: fn-build-from-ice
+  capability: cap-standards
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Each play and loop is compiled from its ICE source and records its fingerprint,
+    so a check can tell when the compiled part no longer matches its ICE.
+  doc: software-delivery-planning/standards/fn-build-from-ice/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-standard-per-kind
+  slug: fn-standard-per-kind
+  capability: cap-standards
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Each kind of part, play, loop, sub-agent, skill, script, shared file and
+    tool, has a written standard that says what it is and what it does.
+  doc: software-delivery-planning/standards/fn-standard-per-kind/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-rules-for-every-part
+  slug: fn-rules-for-every-part
+  capability: cap-standards
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Each rule every part follows, such as asking a person and staying on scope,
+    is written once and binds every part without the part naming it.
+  doc: software-delivery-planning/standards/fn-rules-for-every-part/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-one-severity
+  slug: fn-one-severity
+  capability: cap-standards
+  intents:
+  - bi-10
+  status: proposed
+  one_line: One value, from written rules that start from an industry standard, says
+    how bad a finding is and what is fixed first.
+  doc: software-delivery-planning/standards/fn-one-severity/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-check-no-tracker-named
+  slug: fn-check-no-tracker-named
+  capability: cap-standards
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A check names each part that names a tracker, warns while the parts move
+    onto the Agent-work tool, and fails after.
+  doc: software-delivery-planning/standards/fn-check-no-tracker-named/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-build-play
+  slug: fn-build-play
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: '/create-play builds a play from its ICE: it works out its scripts, skills
+    and sub-agents, adds the change plays and the shared close, records the fingerprint
+    and runs the play linter until clean.'
+  doc: software-delivery-planning/build-your-own-harness/fn-build-play/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-change-play
+  slug: fn-change-play
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: /edit-play changes a play through its ICE first, compiles it again with
+    a new fingerprint and runs the play linter, so the play always matches its intent.
+  doc: software-delivery-planning/build-your-own-harness/fn-change-play/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-build-loop
+  slug: fn-build-loop
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: /create-loop builds a loop from its ICE as its own values and a pointer
+    to the shared loop run, with its Done means, settings and fingerprint, and runs
+    the loop linter until clean.
+  doc: software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-change-loop
+  slug: fn-change-loop
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: /edit-loop changes a loop through its ICE first, on the person's typed
+    approval, carries the change through and runs the loop linter, which fails a loop
+    whose ICE changed since it was built.
+  doc: software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-check-loop-principles
+  slug: fn-check-loop-principles
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: The loop builders ask for each part the loop principles need, such as
+    a goal a script can check and what starts the loop, and the loop linter fails
+    a loop that misses one.
+  doc: software-delivery-planning/build-your-own-harness/fn-check-loop-principles/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-add-gate
+  slug: fn-add-gate
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: The builders place a play's checkpoint where its workflow puts it, with
+    its class, and pinning or unpinning it is a change to the play's intent through
+    /edit-play.
+  doc: software-delivery-planning/build-your-own-harness/fn-add-gate/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-mark-play-running
+  slug: fn-mark-play-running
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Each play writes a record that it is running when it starts and clears
+    it at its close, so the guardrails the install lays can refuse a shortcut taken
+    without the play.
+  doc: software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-build-agent-skill
+  slug: fn-build-agent-skill
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A team builds a new sub-agent or skill to the written standard for its
+    kind, and a check holds it to that standard, with no ICE of its own.
+  doc: software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-harness-in-own-repo
+  slug: fn-harness-in-own-repo
+  capability: cap-build-your-own-harness
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A team installs Garura's builders in its own repository and builds its
+    own plays and loops there, reading a written architecture of what each part may
+    do.
+  doc: software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-source-layout
+  slug: fn-source-layout
+  capability: cap-structure
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Garura's own repository keeps each kind of part in one known folder, each
+    tool in the tools folder and the settings in one file, so a developer knows where
+    a part goes.
+  doc: software-delivery-planning/structure/fn-source-layout/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-installed-layout
+  slug: fn-installed-layout
+  capability: cap-structure
+  intents:
+  - bi-10
+  status: proposed
+  one_line: An install lays every part in one fixed place in the project, so each
+    installed part finds the others by an installed path and never needs Garura's
+    source.
+  doc: software-delivery-planning/structure/fn-installed-layout/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-garura-folder-list
+  slug: fn-garura-folder-list
+  capability: cap-structure
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A project's `.garura/` folder holds only what its written list names,
+    and a check names each folder or file the list does not hold.
+  doc: software-delivery-planning/structure/fn-garura-folder-list/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-run-records-with-issue
+  slug: fn-run-records-with-issue
+  capability: cap-structure
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Everything a play run writes goes in the folder of the issue whose work
+    made it, nothing goes in a global file, and every path in the records starts at
+    the repository's root.
+  doc: software-delivery-planning/structure/fn-run-records-with-issue/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-one-settings-file
+  slug: fn-one-settings-file
+  capability: cap-settings
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Every setting Garura's plays, scripts and loops read is in one settings
+    file, written once in Garura's source and laid by the install as each project's
+    own copy.
+  doc: software-delivery-planning/settings/fn-one-settings-file/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-setting-names-reader
+  slug: fn-setting-names-reader
+  capability: cap-settings
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A list names, for every setting, what it means and the play or tool that
+    reads it, and a check fails a setting no one reads.
+  doc: software-delivery-planning/settings/fn-setting-names-reader/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-settings-folder
+  slug: fn-settings-folder
+  capability: cap-settings
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Every settings file other than the one settings file goes into one settings
+    folder beside it, starting with the learned policy.
+  doc: software-delivery-planning/settings/fn-settings-folder/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-checkpoint-settings
+  slug: fn-checkpoint-settings
+  capability: cap-settings
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Each checkpoint is turned on or off by a setting for its play, its kind
+    of risk or the default, a conditional one passes once the learned policy allows
+    it, and no setting reaches a pinned one.
+  doc: software-delivery-planning/settings/fn-checkpoint-settings/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-evidence-setting
+  slug: fn-evidence-setting
+  capability: cap-settings
+  intents:
+  - bi-10
+  status: proposed
+  one_line: One setting, with a switch for each play, decides whether a play writes
+    its evidence file at its end, and the report a person reads is always shown.
+  doc: software-delivery-planning/settings/fn-evidence-setting/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-settings-others-need
+  slug: fn-settings-others-need
+  capability: cap-settings
+  intents:
+  - bi-10
+  status: proposed
+  one_line: The settings that approved pages of other capabilities read are kept in
+    the settings file, so each capability reads its choice from one place.
+  doc: software-delivery-planning/settings/fn-settings-others-need/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-tools-read-settings
+  slug: fn-tools-read-settings
+  capability: cap-settings
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Each of Garura's tools reads the settings meant for it from where they
+    live, so a team changes what a tool does by changing a setting, never the tool.
+  doc: software-delivery-planning/settings/fn-tools-read-settings/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-find-memory
+  slug: fn-find-memory
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: An agent finds what it needs with one memory tool, which looks in short-term,
+    then Garura, then Phoenix memory, stops at the first tier that answers, and names
+    where each answer came from.
+  doc: software-delivery-planning/memory/fn-find-memory/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-person-decides-update
+  slug: fn-person-decides-update
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: When no tier answers, an agent drafts the answer as a memory update, and
+    only a person approves or rejects it, one at a time, with their exact reply on
+    record.
+  doc: software-delivery-planning/memory/fn-person-decides-update/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-keep-decision-trace
+  slug: fn-keep-decision-trace
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Each decision an agent makes keeps its trace, each step resting on memory
+    lines with their fingerprint, and a check names the step whose source changed
+    or is gone.
+  doc: software-delivery-planning/memory/fn-keep-decision-trace/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-read-through-tool
+  slug: fn-read-through-tool
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: Every agent reads memory through the tool by one shared protocol, and
+    the component linter fails a part that skips it or names a memory folder.
+  doc: software-delivery-planning/memory/fn-read-through-tool/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-phoenix-in-step
+  slug: fn-phoenix-in-step
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A change to a memory page in Garura's source reaches Phoenix memory in
+    the same release, a check names every page where the two differ, and each release
+    has a version and its notes.
+  doc: software-delivery-planning/memory/fn-phoenix-in-step/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-bring-phoenix
+  slug: fn-bring-phoenix
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: The memory tool downloads Phoenix memory the first time a command needs
+    it and reads it at its approved version, and one Phoenix install per machine keeps
+    it current.
+  doc: software-delivery-planning/memory/fn-bring-phoenix/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-promote-page
+  slug: fn-promote-page
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A page moves from short-term memory to Garura memory, or up to Phoenix
+    memory, only on a person's yes in the Memory section of Argus, and what Run →
+    Product learned is chosen by that person.
+  doc: software-delivery-planning/memory/fn-promote-page/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-check-memory
+  slug: fn-check-memory
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: A page that is out of date, or whose source changed, is named before an
+    agent uses it, and each change to a project's memory shows in the review of its
+    change.
+  doc: software-delivery-planning/memory/fn-check-memory/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-decide-inside-memory
+  slug: fn-decide-inside-memory
+  capability: cap-memory
+  intents:
+  - bi-10
+  status: proposed
+  one_line: 'Everything agents decide from sits inside memory: the machine-wide copy
+    is retired, Claude Code''s own memory is held to a guardrail, and the engine''s
+    rules stay in Phoenix memory.'
+  doc: software-delivery-planning/memory/fn-decide-inside-memory/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-tier-by-rule
+  slug: fn-tier-by-rule
+  capability: cap-model-routing
+  intents:
+  - bi-10
+  - bi-7
+  status: proposed
+  one_line: Each part's maker names in its source the tier and the effort its job
+    needs, by one written rule, and a project may change a part's tier in its own
+    settings.
+  doc: software-delivery-planning/model-routing/fn-tier-by-rule/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-step-on-set-model
+  slug: fn-step-on-set-model
+  capability: cap-model-routing
+  intents:
+  - bi-10
+  - bi-7
+  status: proposed
+  one_line: A step whose model a setting names, such as the check of a finished loop
+    or the judge of a model page, runs on that model and not on the session's own.
+  doc: software-delivery-planning/model-routing/fn-step-on-set-model/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-record-run-cost
+  slug: fn-record-run-cost
+  capability: cap-model-routing
+  intents:
+  - bi-10
+  - bi-7
+  status: proposed
+  one_line: Each run of a play or a loop records, for each part it ran, the model
+    and effort it ran on, how long it took and what it cost in tokens.
+  doc: software-delivery-planning/model-routing/fn-record-run-cost/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-move-part-tier
+  slug: fn-move-part-tier
+  capability: cap-model-routing
+  intents:
+  - bi-10
+  - bi-7
+  status: proposed
+  one_line: When the record shows a part is slow or costly for a simple job, or falls
+    short on a hard one, a person moves it, and an eval checks the part on its new
+    tier before the move lands.
+  doc: software-delivery-planning/model-routing/fn-move-part-tier/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-choose-model-at-run
+  slug: fn-choose-model-at-run
+  capability: cap-model-routing
+  intents:
+  - bi-10
+  - bi-7
+  status: proposed
+  one_line: A router reads what a step must do and chooses its model and effort, once
+    the records of runs show it pays.
+  doc: software-delivery-planning/model-routing/fn-choose-model-at-run/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -4868,4 +5621,397 @@ ices:
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-standards
+  for: cap-standards
+  for_kind: capability
+  doc: software-delivery-planning/standards/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-737
+  for: fn-737
+  for_kind: feature
+  doc: features/fn-737/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-738
+  for: fn-738
+  for_kind: feature
+  doc: features/fn-738/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-build-from-ice
+  for: fn-build-from-ice
+  for_kind: feature
+  doc: software-delivery-planning/standards/fn-build-from-ice/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-standard-per-kind
+  for: fn-standard-per-kind
+  for_kind: feature
+  doc: software-delivery-planning/standards/fn-standard-per-kind/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-736
+  for: fn-736
+  for_kind: feature
+  doc: features/fn-736/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-741
+  for: fn-741
+  for_kind: feature
+  doc: features/fn-741/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-743
+  for: fn-743
+  for_kind: feature
+  doc: features/fn-743/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-744
+  for: fn-744
+  for_kind: feature
+  doc: features/fn-744/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-745
+  for: fn-745
+  for_kind: feature
+  doc: features/fn-745/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-746
+  for: fn-746
+  for_kind: feature
+  doc: features/fn-746/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-740
+  for: fn-740
+  for_kind: feature
+  doc: features/fn-740/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-rules-for-every-part
+  for: fn-rules-for-every-part
+  for_kind: feature
+  doc: software-delivery-planning/standards/fn-rules-for-every-part/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-one-severity
+  for: fn-one-severity
+  for_kind: feature
+  doc: software-delivery-planning/standards/fn-one-severity/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-check-no-tracker-named
+  for: fn-check-no-tracker-named
+  for_kind: feature
+  doc: software-delivery-planning/standards/fn-check-no-tracker-named/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-build-your-own-harness
+  for: cap-build-your-own-harness
+  for_kind: capability
+  doc: software-delivery-planning/build-your-own-harness/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-build-play
+  for: fn-build-play
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-build-play/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-change-play
+  for: fn-change-play
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-change-play/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-build-loop
+  for: fn-build-loop
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-build-loop/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-change-loop
+  for: fn-change-loop
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-change-loop/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-check-loop-principles
+  for: fn-check-loop-principles
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-check-loop-principles/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-add-gate
+  for: fn-add-gate
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-add-gate/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-mark-play-running
+  for: fn-mark-play-running
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-mark-play-running/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-build-agent-skill
+  for: fn-build-agent-skill
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-build-agent-skill/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-harness-in-own-repo
+  for: fn-harness-in-own-repo
+  for_kind: feature
+  doc: software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-structure
+  for: cap-structure
+  for_kind: capability
+  doc: software-delivery-planning/structure/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-source-layout
+  for: fn-source-layout
+  for_kind: feature
+  doc: software-delivery-planning/structure/fn-source-layout/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-installed-layout
+  for: fn-installed-layout
+  for_kind: feature
+  doc: software-delivery-planning/structure/fn-installed-layout/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-garura-folder-list
+  for: fn-garura-folder-list
+  for_kind: feature
+  doc: software-delivery-planning/structure/fn-garura-folder-list/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-run-records-with-issue
+  for: fn-run-records-with-issue
+  for_kind: feature
+  doc: software-delivery-planning/structure/fn-run-records-with-issue/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-settings
+  for: cap-settings
+  for_kind: capability
+  doc: software-delivery-planning/settings/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-one-settings-file
+  for: fn-one-settings-file
+  for_kind: feature
+  doc: software-delivery-planning/settings/fn-one-settings-file/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-setting-names-reader
+  for: fn-setting-names-reader
+  for_kind: feature
+  doc: software-delivery-planning/settings/fn-setting-names-reader/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-settings-folder
+  for: fn-settings-folder
+  for_kind: feature
+  doc: software-delivery-planning/settings/fn-settings-folder/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-checkpoint-settings
+  for: fn-checkpoint-settings
+  for_kind: feature
+  doc: software-delivery-planning/settings/fn-checkpoint-settings/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-evidence-setting
+  for: fn-evidence-setting
+  for_kind: feature
+  doc: software-delivery-planning/settings/fn-evidence-setting/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-settings-others-need
+  for: fn-settings-others-need
+  for_kind: feature
+  doc: software-delivery-planning/settings/fn-settings-others-need/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-tools-read-settings
+  for: fn-tools-read-settings
+  for_kind: feature
+  doc: software-delivery-planning/settings/fn-tools-read-settings/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-memory
+  for: cap-memory
+  for_kind: capability
+  doc: software-delivery-planning/memory/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-find-memory
+  for: fn-find-memory
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-find-memory/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-person-decides-update
+  for: fn-person-decides-update
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-person-decides-update/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-keep-decision-trace
+  for: fn-keep-decision-trace
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-keep-decision-trace/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-read-through-tool
+  for: fn-read-through-tool
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-read-through-tool/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-phoenix-in-step
+  for: fn-phoenix-in-step
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-phoenix-in-step/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-bring-phoenix
+  for: fn-bring-phoenix
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-bring-phoenix/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-promote-page
+  for: fn-promote-page
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-promote-page/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-check-memory
+  for: fn-check-memory
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-check-memory/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-decide-inside-memory
+  for: fn-decide-inside-memory
+  for_kind: feature
+  doc: software-delivery-planning/memory/fn-decide-inside-memory/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-model-routing
+  for: cap-model-routing
+  for_kind: capability
+  doc: software-delivery-planning/model-routing/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-tier-by-rule
+  for: fn-tier-by-rule
+  for_kind: feature
+  doc: software-delivery-planning/model-routing/fn-tier-by-rule/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-step-on-set-model
+  for: fn-step-on-set-model
+  for_kind: feature
+  doc: software-delivery-planning/model-routing/fn-step-on-set-model/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-record-run-cost
+  for: fn-record-run-cost
+  for_kind: feature
+  doc: software-delivery-planning/model-routing/fn-record-run-cost/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-move-part-tier
+  for: fn-move-part-tier
+  for_kind: feature
+  doc: software-delivery-planning/model-routing/fn-move-part-tier/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-choose-model-at-run
+  for: fn-choose-model-at-run
+  for_kind: feature
+  doc: software-delivery-planning/model-routing/fn-choose-model-at-run/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
     thin: true
