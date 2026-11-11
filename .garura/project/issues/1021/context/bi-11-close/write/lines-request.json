@@ -1,0 +1,62 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-11 (Product model) close",
+ "source": "The product owner's reply of 2026-11-11, recorded in .garura/project/issues/1021/context/bi-11-close/approval.md: \"1 yes, 2 yes, 3 yes, 4 yes, 5 drop\"",
+ "pages": [
+  {
+   "page": "software-delivery-planning/domain.md",
+   "changes": [
+    {
+     "old": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made. It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past. It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on. It does not release the work or run the product.",
+     "new": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made. It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past. It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on. It also defines what a product is made of, and keeps each product's model as a living map: added to, changed and pruned as work is done, and the source of what to try next. It does not release the work or run the product."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/define-product/capability.md",
+   "changes": [
+    {
+     "old": "It matters because the model only says what a product is when its parts mean the same to everyone who reads them. This intent's Why: \"GitOps records changes but doesn't know what the product is. The model keeps intent connected to the product after the work closes.\" The map is what makes that hold: \"A person and an agent reading it use the same words for the same things.\" It sits in software delivery planning with the other capability of Product model. The domain's first paragraph does not name it yet; widening it is owed at this intent's close.",
+     "new": "It matters because the model only says what a product is when its parts mean the same to everyone who reads them. This intent's Why: \"GitOps records changes but doesn't know what the product is. The model keeps intent connected to the product after the work closes.\" The map is what makes that hold: \"A person and an agent reading it use the same words for the same things.\" It sits in software delivery planning with the other capability of Product model, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- .garura/product/product-os/software-delivery-planning/domain.md, line 4: the domain's first paragraph, which does not name Product model yet.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also defines what a product is made of, and keeps each product's model as a living map: added to, changed and pruned as work is done, and the source of what to try next.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/manage-model/capability.md",
+   "changes": [
+    {
+     "old": "It sits in software delivery planning with the other capability of Product model. The domain's first paragraph does not name it yet; widening it is owed at this intent's close.",
+     "new": "It sits in software delivery planning with the other capability of Product model, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- .garura/product/product-os/software-delivery-planning/domain.md, line 4: the domain's first paragraph, which does not name Product model yet",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also defines what a product is made of, and keeps each product's model as a living map: added to, changed and pruned as work is done, and the source of what to try next.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+   "changes": [
+    {
+     "old": "- The needs links it reads sit in the model's index. Today their field there is still `depends_on`; \"Needs\" and \"identified by\" link capabilities and features (fn-725) renames it `needs`.",
+     "new": "- The needs links it reads sit in the model's index. Today their field there is still `depends_on`; Link the parts by the map's rules (fn-725), in Manage the model, renames it `needs`."
+    },
+    {
+     "old": "- Not decided: whether a feature's own needs count too, as the page of fn-725 says, or only the needs of its capability, as the ontology says.",
+     "new": "- Only the needs of a feature's capability count, never a feature's own. The reason, in the product owner's words: \"a feature doesn't need another feature. All of that is managed in the slices.\""
+    },
+    {
+     "old": "- The needs links on capabilities and features, and their name in the model's index. Product model owns them: \"Needs\" and \"identified by\" link capabilities and features (fn-725).",
+     "new": "- The needs links on capabilities and features, and their name in the model's index. Manage the model, in Product model, owns them: Link the parts by the map's rules (fn-725)."
+    },
+    {
+     "after": "- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, section 1.9: \"Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`.\"",
+     "add": "- .garura/project/issues/1021/context/capabilities.md, line 125: \"a feature doesn't need another feature. All of that is managed in the slices.\""
+    }
+   ]
+  }
+ ]
+}
