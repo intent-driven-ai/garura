@@ -1,0 +1,6 @@
+{
+  "category": "harness",
+  "issue": 1044,
+  "copied": [],
+  "note": "No extra memory was copied. The principles come from committed sources read with git show main:<path> (ADR 066, ADR 055, ADR 046, ADR 045, CLAUDE.md, names.md as committed on main) and from the shared copies the assessment made (review shelf, PR severity taxonomy)."
+}
