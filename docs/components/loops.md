@@ -56,27 +56,33 @@ above), written in our words. When you build or change a loop, check it against 
 | 7. A second agent checks | The checker runs on another model (or Codex), sees only the outputs, and judges with `judge-loop-result` | It checks once, at the end; inside the rounds the gap check runs in the same session |
 | 8. A person in the loop | The person writes the intent and the write-up, gets a brief only on what no one could answer, and confirms or drops each intent at the end | The brief accepts one "yes" for every proposal, which invites cognitive surrender (#699) |
 
-`/create-loop`, `/edit-loop` and `lint_loop.py` do not yet check principles 1, 3, 4, 5 and 8.
+`/build-loop`, `/fix-loop` and `lint_loop.py` do not yet check principles 1, 3, 4, 5 and 8.
 That is #699. Until it lands, check them by hand when you build or change a loop.
 
 ## Always name a loop in full
 
-Write "the Discovery loop", "the Ship loop" — never a bare "loop" (ADR 045). The word is busy:
-Claude Code has a built-in `/loop` command that repeats a prompt on a timer, every agent runs an
-inner agent loop, and the Learn loop shares its name with the `/learn-outcomes` play. No Garura command is
-called just `/loop`.
+A loop's full name is its command: `/loop-product-spec`, never a bare "loop" (ADR 045, ADR 066).
+The plain names Discovery, Slice, Execute, Ship and Learn are gone. The word is busy: Claude Code
+has a built-in `/loop` command that repeats a prompt on a timer, and every agent runs an inner agent
+loop. No Garura command is called just `/loop`, and only a loop's name starts with `loop-`.
 
 Older ADRs and past run records say "drive". Read it as "loop".
 
-## The five loops
+## The six loops
 
-| Loop | What it does | State |
-|------|--------------|-------|
-| **Discovery** | Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/discover-intent`), domains (`/discover-domains`), capabilities and features (`/discover-capabilities`) | Built: `core/components/loops/complete-discovery/` |
-| **Slice** | Locks domains and capabilities, cuts the model into vertical slices, and designs the project once | To build (#608) |
-| **Execute** | Grill, implement, validate and launch | To build (#609) |
-| **Ship** | Lands every change the same way: start, commit, propose, review, merge | To build (#610) |
-| **Learn** | `/learn-outcomes` takes what was learned into Garura memory, `/promote` sends it on to Phoenix memory, `/drift` finds drift | To build (#611) |
+There is one loop for each transition between the six phases (ADR 066). A loop has no role.
+
+| Loop | Transition | State |
+|------|------------|-------|
+| `/loop-product-spec` | Product → Spec. Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/specify-intent`), domains (`/specify-domains`), capabilities and features (`/specify-capabilities`) | Built: `core/components/loops/loop-product-spec/` (was the Discovery loop) |
+| `/loop-spec-design` | Spec → Design | To build |
+| `/loop-design-code` | Design → Code | To build |
+| `/loop-code-validation` | Code → Validation | To build |
+| `/loop-validation-run` | Validation → Run | To build |
+| `/loop-run-product` | Run → Product | To build |
+
+There is no Ship loop: start, commit, review and merge stay commands, the work plays. The open
+loop-recipe issues #608, #609, #610 and #611 are rewritten under these loops (ADR 066).
 
 ## How a loop runs
 
@@ -117,8 +123,8 @@ there.
 
 ## Building and changing a loop
 
-- `/create-loop` builds a new loop from its intent, as `/create-play` builds a play.
-- `/edit-loop` changes a loop through its ICE source (`reference/ice.md`), as `/edit-play`
+- `/build-loop` builds a new loop from its intent, as `/build-play` builds a play.
+- `/fix-loop` changes a loop through its ICE source (`reference/ice.md`), as `/fix-play`
   changes a play.
 - `lint_loop.py` checks a compiled loop: every check a play gets, plus the loop's own (its plays
   exist and run inside a loop, it points to the shared run, its fingerprint matches its ICE).
