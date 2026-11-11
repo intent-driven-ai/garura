@@ -654,6 +654,23 @@ capabilities:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'
     deepen: true
+- id: cap-manage-adrs
+  slug: manage-adrs
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-9
+  status: proposed
+  detail: directional
+  one_line: 'Manage ADRs: Decisions on how the project is built are recorded closely
+    as they''re made, so agents can coordinate many pieces from them.'
+  doc: software-delivery-planning/manage-adrs/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -3299,6 +3316,120 @@ features:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'
     deepen: true
+- id: fn-record-adr
+  slug: fn-record-adr
+  capability: cap-manage-adrs
+  intents:
+  - bi-9
+  status: proposed
+  one_line: From a decision brief, a decision is drafted as an ADR from the one template,
+    naming each older ADR it supersedes or amends with the part, and what it changes
+    by real paths.
+  doc: software-delivery-planning/manage-adrs/fn-record-adr/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-accept-adr
+  slug: fn-accept-adr
+  capability: cap-manage-adrs
+  intents:
+  - bi-9
+  status: proposed
+  one_line: 'An ADR becomes accepted only on a person''s typed word: by hand at a
+    pinned checkpoint, or later for an ADR a loop saved as proposed.'
+  doc: software-delivery-planning/manage-adrs/fn-accept-adr/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-keep-adrs-linked
+  slug: fn-keep-adrs-linked
+  capability: cap-manage-adrs
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Once an ADR is accepted, each older ADR it changes gains one forward pointer,
+    its only edit, and the index of ADRs is rebuilt from the ADR folder.
+  doc: software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-show-accepter-findings
+  slug: fn-show-accepter-findings
+  capability: cap-manage-adrs
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Each point found while an ADR was drafted that the brief did not ask about
+    is written with its five parts and shown to the person before they accept.
+  doc: software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-adr-in-its-change
+  slug: fn-adr-in-its-change
+  capability: cap-manage-adrs
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Run on the branch of a change that is already open, the decision play
+    records the ADR in that change, so a decision lands with the work it decides.
+  doc: software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-keep-adrs-to-build
+  slug: fn-keep-adrs-to-build
+  capability: cap-manage-adrs
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Every ADR is reviewed, and what is about what the product model holds
+    moves into the model, so ADRs hold only how the project is built.
+  doc: software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
+- id: fn-take-design-choices
+  slug: fn-take-design-choices
+  capability: cap-manage-adrs
+  intents:
+  - bi-9
+  status: proposed
+  one_line: Each design choice a person confirmed in Spec → Design reaches the decision
+    play as a decision brief and is recorded as an ADR, and an update supersedes the
+    older one.
+  doc: software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -4530,6 +4661,65 @@ ices:
   for: fn-say-what-each-type-means
   for_kind: feature
   doc: software-delivery-planning/track-execution/fn-say-what-each-type-means/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-manage-adrs
+  for: cap-manage-adrs
+  for_kind: capability
+  doc: software-delivery-planning/manage-adrs/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-record-adr
+  for: fn-record-adr
+  for_kind: feature
+  doc: software-delivery-planning/manage-adrs/fn-record-adr/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-accept-adr
+  for: fn-accept-adr
+  for_kind: feature
+  doc: software-delivery-planning/manage-adrs/fn-accept-adr/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-keep-adrs-linked
+  for: fn-keep-adrs-linked
+  for_kind: feature
+  doc: software-delivery-planning/manage-adrs/fn-keep-adrs-linked/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-show-accepter-findings
+  for: fn-show-accepter-findings
+  for_kind: feature
+  doc: software-delivery-planning/manage-adrs/fn-show-accepter-findings/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+- id: ice-adr-in-its-change
+  for: fn-adr-in-its-change
+  for_kind: feature
+  doc: software-delivery-planning/manage-adrs/fn-adr-in-its-change/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-keep-adrs-to-build
+  for: fn-keep-adrs-to-build
+  for_kind: feature
+  doc: software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); the write
+      plan and one-lines approved by the product owner'
+    thin: true
+- id: ice-take-design-choices
+  for: fn-take-design-choices
+  for_kind: feature
+  doc: software-delivery-planning/manage-adrs/fn-take-design-choices/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021); the write
       plan and one-lines approved by the product owner'

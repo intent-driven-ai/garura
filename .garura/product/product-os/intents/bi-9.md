@@ -45,5 +45,13 @@
 - [One tool knows the tracker, and no play, skill or sub-agent names it](../software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md) (feature) — adds
 - [Link each piece of work to its intent across trackers](../software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md) (feature) — adds
 - [Say what each work-item type means, for Initialize's brief](../software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md) (feature) — adds
+- [Manage ADRs](../software-delivery-planning/manage-adrs/capability.md) (capability) — adds
+- [Record a decision as an ADR, with what it overrides and what it changes](../software-delivery-planning/manage-adrs/fn-record-adr/feature.md) (feature) — adds
+- [Accept an ADR only on a person's word, then or later](../software-delivery-planning/manage-adrs/fn-accept-adr/feature.md) (feature) — adds
+- [Keep older ADRs pointing forward and the index current](../software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md) (feature) — adds
+- [Give the person who accepts every point found on the way, and check it is whole](../software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md) (feature) — adds
+- [Record the ADR in the change it belongs to](../software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md) (feature) — adds
+- [Keep ADRs to how the project is built, and move what the model holds into the model](../software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md) (feature) — adds
+- [Take in each design choice that Spec → Design hands over](../software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
