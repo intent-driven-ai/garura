@@ -1,21 +1,23 @@
-Reviewer verdict (human): reject
+Reviewer verdict (human): approve
 
-The reviewer rejected this change. The play's recommendation was reject: one P1 finding. Fix the cited finding and re-raise.
+Second review. The reviewer approved this change as it is. The play's recommendation was approve (no P1 findings). The first review's blocker is fixed for the case it found; the findings below are open and were not fixed in this PR.
 
-**Blocking**
-- P1 R-1: one request that moves two parts to the same new path loses a page without a word. `plan_move` checks the new folder only on disk, so the second write replaces the first in the pending writes, both old pages are deleted, and the run exits 0 (`link_part.py`, the move step). Reproduced. Basis: the P1 data-loss bucket of the PR severity rules; the code playbook's "safe handling of destructive/irreversible operations"; the script's own promise that every check runs before the first write.
+**Fixed since the first review**
+- R-1 (was P1): two moves into one folder are refused, in any order; the cases that must still work behave as before.
+- R-2: every undo step runs on its own, and a failure names every path not back and keeps the cause.
+- H-L2-1, H-L2-3, H-L2-4: the keeper agent's statements and the skill's re-file rules now match the script.
 
 **Checks**
 - Component linter (installed tool, source layout): no finding in a changed file; 37 were there before.
-- Test suites, all green: test_link_part 44 of 44; acceptance check 30 of 30.
-- The standards scan typed the two Python files as prose and could not fire on them, so the script was read by hand against the code playbook.
-- Design check of the skill and agent docs, grounded on main (the harness standard, ADR 026, ADR 055, ADR 065, the ontology): the wiring holds, and the acceptance check came first. ADR 065 is accepted but not yet on main.
+- Test suites, all green: test_link_part 48 of 48; acceptance check 30 of 30.
+- The standards scan types the two Python files as prose and could not fire on them, so the script was read by hand against the code playbook, with mutants of the fix run against the suite.
+- Design check of the skill and agent docs, grounded on main (the harness standard, ADR 026, the ontology, remove-model-part's process): conforms, with the notes below. ADR 065 is accepted but committed only on another branch.
 - Run records: no review playbook exists, so no checks ran on them; that is not a pass.
 
 **Open findings**
-- P2 R-2: a failed undo step skips the rest and still reports every file as back.
-- P2 R-3: no test covers the new delete, folder-removal and undo path.
-- P3 R-4: links going out of a moved page are not checked. P3 R-5: reference-style links are not seen.
-- P3 R-6: the planning functions are large. P3 R-7: `thin: false` removes every line starting "Thin:", code blocks included. P3 R-8: `thin` is not type-checked. P3 R-9: some refusals have no unit test.
-- P3 H-L2-1: two of the keeper agent's three statements of the skill were not updated. P3 H-L2-2: no mapping row for the order (clear the mark, write the pages, add the ICE). P3 H-L2-3: the re-file rule asks for a person's approval, but the request has no field for the person. P3 H-L2-4: the doc does not say a re-file needs `doc` as well as `capability`.
-- P4 R-10 to R-12, H-L2-5 to H-L2-9: a traceback for bad-typed input, line endings and permissions on a moved page, a long description, a re-filed feature keeping its old intents, unconnected thin-mark rules, and the skill's name against its new job.
+- P2 R-1 (residual): two folder names that differ only in letter case still lose a page with exit 0 on a case-insensitive disk.
+- P3 R-3: three mutants of the undo fix pass the suite; nothing pins each undo step running on its own, or the cause being kept.
+- P3 H-L2-2: the keeper's new mapping row runs the page-line fixes after the move, while the move is refused until those lines are fixed. P3 H-L2-10: the row does not say which part order works for a move and its ICE in one request.
+- P3 H-L2-11 and N-1: the skill's doc still says exit 2 means nothing was written.
+- P3 R-4, R-5, R-6, R-7, R-8, R-9: links out of a moved page, reference-style links, function size, Thin lines in code blocks, an untyped `thin`, untested lines.
+- P4 R-10 to R-12, N-2, N-3, H-L2-5 to H-L2-9, H-L2-12 to H-L2-14: a traceback for bad-typed input, line endings and mode on a moved page, a page named as not back when it never left, a re-filed feature keeping its old intents, the skill's description length, and the rest as listed in the review records.

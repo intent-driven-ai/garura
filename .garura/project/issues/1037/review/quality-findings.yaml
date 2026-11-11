@@ -1,35 +1,47 @@
-# quality-findings.yaml: Layer 1 (standards linter) for PR #1038, issue #1037.
+# quality-findings.yaml: Layer 1 (standards linter) for PR #1038, issue #1037. SECOND review (review_round 2).
 # Written by quality-auditor running check-pr-quality for the categories executable-code and tests.
+# Overwrites the first review's file.
 #
-# Two parts, kept apart on purpose:
-#   findings / counts   the deterministic scan (scan_taxonomy.py). Empty here, and it could not have been
-#                       anything else: the taxonomy classifies core/components/** as garura-prose, so no
-#                       grep rule is eligible on link_part.py or test_link_part.py, and eval_1037.py is
+# Three parts, kept apart on purpose:
+#   findings / counts   the deterministic scan (scan_taxonomy.py). Empty again, and it could not have been
+#                       anything else: the taxonomy classifies core/components/** as garura-prose, so no grep
+#                       rule is eligible on link_part.py or test_link_part.py, and eval_1037.py is
 #                       stm-evidence (no finding by rule). A clean scan is NOT evidence of quality.
-#   read_findings       findings from reading link_part.py and the two test files against the code and
-#                       tests playbooks' rubrics (categories.yaml, executable-code C-2; tests). Each has
-#                       a class and a cited basis. No taxonomy row fires for any of them, so the class is
-#                       the nearest pr.md severity bucket / row, named in `basis`. Do not read counts
-#                       alone: counts.* is scan-only, counts_read.* is the by-hand count.
+#   read_findings       what reading link_part.py and the two test files against the code and tests playbooks
+#                       found, and by running them. The first review's R-1..R-12 each carry a status (fixed,
+#                       partly_fixed, open) and the class now; N-1..N-3 are new in this round. No taxonomy
+#                       row fires for any of them, so the class is the nearest pr.md severity bucket, named
+#                       in `basis`. Do not read counts alone: counts.* is scan-only, counts_read.* is the
+#                       by-hand count of what still stands.
+#   evidence tables     reproductions, the pre-fix run of the four new tests (T-4), mutants, coverage.
 meta:
-  generated_at: '2026-11-11T02:00:52Z'
+  generated_at: '2026-11-11T03:40:00Z'
   pr: 1038
   issue: 1037
+  review_round: 2
+  head: 75c166ca
+  fix_commit: d4cb234f
+  core_unchanged_since_fix_commit: true   # git diff d4cb234f HEAD -- core is empty; link_part.py sha256 5a5fa4dd... equals the working tree
   diff_path: '.garura/project/issues/1037/review/pr.diff'
   taxonomy_path: '.garura/project/issues/1037/context/memory/standards/rules/pr.md'
   playbooks_read:
     - '.garura/project/issues/1037/context/memory/knowledge/review/code.md'
     - '.garura/project/issues/1037/context/memory/knowledge/review/tests.md'
-  changed_paths_count: 24
+  changed_paths_count: 57
   scan_coverage: 1.0
   standards_relevant: 0
   catchall:
-    CODE-20: 4
+    CODE-20: 6
   errors: []
   standards_order_resolved: 'severity taxonomy copy only (no knowledge/quality/ copy is in short-term memory for this issue)'
   scan_command: >-
     python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy <pr.md copy> --diff <pr.diff>
-    --paths <the 24 changed_paths> --out <scratch>   (exit 0; P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all=4; errors=0)
+    --paths <the 57 changed_paths, one per line> --out <scratch>   (exit 0; P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all=6; errors=0)
+  scratch: >-
+    all reproductions ran in copies under the session scratchpad, outside the repository
+    (r2-fixed = the scripts at HEAD; r2-prefix = link_part.py at 6de7f7c6 beside the unchanged helpers;
+    r2-work = harness and case scripts; r2-cov = line tracer; r2-mut = mutants). The repository was not written to
+    (git status before and after shows the same four modified review files the play wrote).
 
 findings: []
 counts:
@@ -38,239 +50,400 @@ counts:
   P3: 0
   P4: 0
 
+summary:
+  p1_closed: >-
+    The first review's P1 (R-1) is fixed for the case it reproduced: two moves into one new folder are now refused
+    (exit 2, tree unchanged), in either request order, with or without ice.md, and for slash spellings of the path.
+    It is partly fixed, not fixed: two folder names that differ only in letter case still slip through on a
+    case-insensitive file system, and silently lose a page (exit 0). That residual is classed P2 below (see R-1).
+  suite: 'T-1 48 of 48 pass (from the repository root); T-2 30 of 30 checks pass. Both run by this step; test-runs.txt agrees.'
+  counts_by_status: {fixed: 1, partly_fixed: 3, open: 8, new: 3}
+  note: >-
+    The caller may weigh the class of R-1's residual: it needs a request whose two folder names differ only in
+    case, and a case-insensitive file system (the default on macOS, where this repository is kept).
+
 counts_read:
-  P1: 1
-  P2: 2
-  P3: 6
-  P4: 3
+  # what still stands after this round (status not fixed), by class_now
+  P1: 0
+  P2: 1
+  P3: 8
+  P4: 5
 
 read_findings:
 
   - id: R-1
-    class: P1
+    status: partly_fixed
+    class_was: P1
+    class_now: P2
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '254-298 (cause at 296-297; the only collision check is on disk, 270)'
-    title: 'Two moves to the same new path in one request silently destroy a page (exit 0)'
+    lines: '275-280 (the new refusal); 314-323 (allowed_docs takes any final folder name); 273 (the disk check, which sees neither folder yet)'
+    title: 'Two moves into one folder are refused when the folder is spelled the same; a folder spelled with different letter case still loses a page on a case-insensitive file system'
     basis: >-
-      pr.md severity bucket P1 ("data-loss"); playbook review/code Treatment ("review the data-safety ...
-      paths hard") and Rubric ("safe handling of destructive/irreversible operations"); the script's own
-      contract, link_part.py lines 73-74 ("Every check runs before the first write; any failure refuses the
-      whole request"). No taxonomy row fires (garura-prose).
+      pr.md severity bucket P1 ("data-loss") lowered one step to P2 by the preconditions below; playbook review/code
+      Treatment ("review the data-safety ... paths hard") and Rubric ("safe handling of destructive/irreversible
+      operations"); the script's own contract, link_part.py lines 73-74 ("Every check runs before the first write; any
+      failure refuses the whole request") and the claim in the fix commit that plan_move refuses a move when another
+      part already uses the new folder. No taxonomy row fires (garura-prose).
     evidence: >-
-      plan_move checks the new folder against the disk only (line 270), then does pages[n_full] = text
-      (296) and deletes the old file (297). Two parts that name the same new doc both pass, the second
-      write replaces the first in `pages`, and both old files are deleted. Reproduced in a scratch model
-      (copy of the script): fn-a and fn-b both moved to capabilities/cap-1/shared/feature.md gave exit 0,
-      no warning, one page on disk (fn-b's), fn-a's text ("AAA content") on disk nowhere, and both spine
-      entries pointing at the same doc.
+      FIXED part, run on scratch models against the pre-fix script and the fixed one. fn-a and fn-b both moved to
+      capabilities/cap-1/shared/feature.md: pre-fix exit 0 and one page lost; fixed exit 2, tree unchanged, stderr
+      "fn-b: capabilities/cap-1/shared is already the folder of fn-a; two parts never share a folder". The result does
+      NOT depend on request order: order a,b and order b,a are both refused (the second-listed part is the one named);
+      three parts where two share (a to x, b to y, c to x) refused; two parts each with an ice.md refused; one with and
+      one without an ice.md refused; the path spelled with a leading slash or a trailing slash is refused (the slashes are
+      stripped, so the same folder is seen); a spelling with a doubled slash or "./" is refused as "outside its folder"
+      by allowed_docs, before and after the fix. A move into the folder of a NEW part written in the same request (its
+      page is on disk) is refused in both orders, by the older "already holds a file" check at 273, in the pre-fix script
+      too. In every refusal I saw, `sharing` was not empty (the message names a part, never "a page this request writes"), so
+      the two extra clauses `new_full in pages` and `new_ice_full in pages` were never the only reason. By reading, they cannot
+      be: a pending write is either an existing page (so its folder is not empty and the disk check at 273 refuses first) or an
+      earlier move's target (whose part is then in `sharing`). Mutants agree: `sharing` alone and the `pages` clauses alone both
+      pass the new test, and with neither it fails, so the test cannot tell the two halves apart.
+      Cases that must still work behave as before the fix (identical exit and tree to the pre-fix script): one move; two
+      moves to two folders; two moves to two folders each with an ice.md; a re-file (capability cap-2 with doc under cap-2).
+      The fix is not a new over-refusal. A move into the folder another part vacates in the same request is refused,
+      in either order, by the disk check at 273 and was refused by the pre-fix script too, so it is not a regression
+      (the categories list it among the cases that must still work; it never did).
+      RESIDUAL, reproduced on this machine (APFS, case-insensitive; a touch of CaseProbe is found as caseprobe): fn-a to
+      capabilities/cap-1/shared/feature.md and fn-b to capabilities/cap-1/Shared/feature.md: fixed script exit 0, no
+      warning; one page on disk, with fn-b's text ("FN-B content"); fn-a's text is on disk nowhere; the spine holds fn-a
+      at .../shared/ and fn-b at .../Shared/. The cause: `sharing` compares the two folder strings for equality (276-277)
+      and `pages` is keyed by realpath strings (os.path.realpath does not fold case for a path that is not there yet), so
+      shared and Shared are two folders to the check and one folder to the file system when write_all writes the second
+      page over the first. Run in one order only (shared then Shared); the compare is symmetric.
     precondition: >-
-      The request must name the same target doc for two parts. That is a bad request, not the normal path,
-      and the model is committed in git, so the lost page can be got back from history. The script still
-      reports success. The caller may weigh the class with this in view.
-    fix_hint: 'refuse when n_full is already a key of `pages` (or already a move target) before the second part is planned'
+      Two parts in one request whose new folder names differ only in letter case, on a case-insensitive file system
+      (macOS default, Windows). Callers derive the folder from a slug or an id, so a request like this is unlikely; the
+      model is committed in git, so the lost page can be got back from history. The script still reports success.
+      The same family (not run): names that differ only in Unicode normalisation (NFC and NFD), which APFS also folds.
+    fix_hint: >-
+      compare folders and page paths with `.casefold()` (and NFC-normalise) in the `sharing` test and for the `pages`
+      keys, or refuse in write_all when two write paths are the same file once the first is written (os.path.samefile).
+      Add the case-variant to test_two_moves_to_one_folder_in_one_request_are_refused (505-515).
 
   - id: R-2
-    class: P2
+    status: fixed
+    class_was: P2
+    class_now: null
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '510-524 (the undo); 550-552 (the message)'
-    title: 'The undo is not best-effort: a failure while restoring skips the rest, hides the first error, and the run still says every file is back'
+    lines: '497-502 (UndoFailed); 528-558 (the undo); 581-590 (main)'
+    title: 'The undo now runs every restore on its own, keeps the cause, and names every path that is not back'
     basis: >-
-      playbook review/code Rubric ("error handling", "safe handling of destructive/irreversible
-      operations"); pr.md P2 bucket ("error-handling violations"); contract lines 73-75 ("every file
-      already written is put back as it was").
+      playbook review/code Rubric ("error handling", "safe handling of destructive/irreversible operations"); the
+      contract lines 74-77 ("Each undo step is tried on its own; ... the error names every path that is not back").
     evidence: >-
-      The except OSError block runs its restores in a row with no try around each. Reproduced: with the
-      old folder read-only, os.remove of the old page fails; the undo then tries atomic_write of that
-      page into the same read-only folder, which fails, and the remaining restores never run. Result: exit
-      2, the spine rewritten to the new doc, the new pages left on disk, the old pages still there, and
-      stderr "a write failed, every file is back as it was" followed by the undo's own temp-file error,
-      not the delete error that started it. Credit: for a failure at the rmdir step (parent folder
-      read-only), and for a second rmdir failing after a first succeeded, the undo DID return the tree
-      to byte-identical (both reproduced), including recreating the removed folder.
-    fix_hint: 'run each restore in its own try, collect what could not be restored, and say so (and name the first error) instead of the fixed sentence'
+      Read: every restore is inside attempt() (531-535), which catches OSError and appends "<path> (<error>)" to `left`;
+      the four loops (gone 545-546, removed 547-548, done 549-553, made 554-555) all run to the end whatever fails; the
+      bare `raise` at 558 re-raises the first error when nothing is left; `raise UndoFailed(cause, left) from cause` at
+      557 otherwise. main catches UndoFailed before OSError (584 then 588), so "every file is back as it was" (589) can only
+      print when `left` is empty. The first error is kept three ways: in the exception message, as .cause, and as
+      __cause__; main prints it (585: "a write failed (<cause>), and these are NOT back as they were: ...").
+      Run, first review's reproduction (old folder read-only, so the delete fails and the restore into it fails): pre-fix
+      exit 2, spine rewritten, new page left on disk, stderr "every file is back as it was" with the undo's own temp-file
+      error; fixed exit 2, tree byte-identical to before, stderr names the path and the cause. Parent of the old folder
+      read-only (delete works, folder removal fails): both versions exit 2 with the plain sentence and a byte-identical
+      tree. In-process, with failures injected: (S1) delete fails and the drop of the new page fails and the restore of
+      the old page fails: all three tried, spine restored, both paths named; (S2) the spine restore fails: named, the
+      other restores had run; (S3) every rmdir fails, so removing the made folder fails: the folder is named; (G1) a second
+      rmdir fails after the first succeeded (the emptied folder must be re-made): tree byte-identical, plain error; (G2) the
+      same with re-making the first folder failing: the folder and the page that could not go into it are both named.
+      Over-naming and the CRLF rewrite are recorded separately (N-2, R-12); neither undoes this.
+    fix_hint: null
 
   - id: R-3
-    class: P2
+    status: partly_fixed
+    class_was: P2
+    class_now: P3
     category: tests
     file: core/components/skills/link-model-part/scripts/test_link_part.py
-    lines: '224-246 (the only rollback test); no test reaches link_part.py 502-509 and 511-523'
-    title: 'The new delete, rmdir and undo-of-delete path has no test, in the unit suite or in the acceptance check'
+    lines: '533-539 (failed delete); 541-559 (failed folder removal); 561-581 (undo that cannot finish); helper 529-531'
+    title: 'The delete, folder-removal and undo branches are now reached by tests, but the assertions do not pin what the fix claims'
     basis: >-
-      pr.md P2 bucket ("missing tests for new code"); TEST-01 (new `def` in source needs tests; the scan
-      cannot fire it on this path type); playbook review/tests T-3 (state that no suite covers a branch).
+      pr.md P2 bucket ("missing tests for new code") lowered to P3 because the branches are reached and each behaved
+      correctly when I ran it by hand; playbook review/tests Treatment ("clear assertions ... no test that asserts nothing")
+      and T-3; nearest row TEST-03 (P3, assert-count). No row fires (garura-prose).
     evidence: >-
-      test_a_write_that_fails_part_way_puts_every_file_back calls write_all([...]) with no deletes and no
-      rmdirs, so it exercises only the write step that already existed. eval_1037.py (E1-E5) never makes a
-      write or delete fail. So the `removed`, `gone` and `made` restores, and missing_dirs, are asserted
-      by nothing. I exercised them by hand (R-2 evidence: two failure shapes restore correctly, one does
-      not); that is not a test in the PR.
-    fix_hint: 'add a test that makes os.remove fail and one that makes os.rmdir fail, and compares the tree byte for byte'
+      Reached: the line tracer shows the unit suite (the three new write_all tests and the older rollback test) reaches every
+      statement of write_all's undo (528-558) except 546 (re-making an emptied folder). Read: test 1 makes the second delete fail by naming a file that is not there, so the
+      failure is in open() (FileNotFoundError), before os.remove, and rmdirs are passed but never reached; test 2 patches
+      link_part.os.rmdir (the process-wide os module) and restores it in finally; test 3 patches safe_write.atomic_write the
+      same way. Both patches are restored in finally and match the style of the older rollback test (not a finding).
+      The helper assert_tree_as_before (529-531) compares the old page's text, read in text mode, and the absence of the new
+      folder. It does not compare the spine (not among the writes of tests 1 and 2), an ice.md (no ICE in those scenarios), the
+      file mode, or bytes. assertRaises(OSError) in tests 1 and 2 also passes for UndoFailed, an OSError subclass.
+      Mutants of the fixed script, run against the four new tests AND the whole unit suite (47 of 48 pass on each mutant; the
+      one error is the scratch-copy artefact described in not_covered): (M3) the undo stops after its first failed step: all pass;
+      (M4) the cause dropped from UndoFailed's message: all pass; (M9) UndoFailed raised even when nothing is left: all pass.
+      So nothing in the suite pins "each undo step is tried on its own", "the cause is kept", or "the plain error only when the
+      undo finished". Test 3 has exactly one restore step to fail (the page write fails before it is recorded), so it cannot
+      tell a stop-at-the-first-failure undo from the real one. M3 is not an equivalent mutant: on the multi-failure case S1
+      it leaves the spine rewritten and does not name the new page. Mutants that did fail the new tests: removing the new
+      refusal (M5, the two-moves test fails); not pruning the made folder (M8, two tests fail).
+      Checked and held: assertions are specific; no skipped, disabled or expected-failure test; each new test asserts.
+    fix_hint: >-
+      in test 3 give the undo two steps (write two files, fail the third write, then fail the first restore only) and assert the
+      second restore ran; assert caught.exception.cause and that str() holds it; add a CLI test for stderr and exit 2 on
+      UndoFailed (main 584-587 is reached by no test); compare the whole tree (bytes and mode) in assert_tree_as_before.
 
   - id: R-4
-    class: P3
+    status: open
+    class_was: P3
+    class_now: P3
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '227-251 (skip at 237); caller 287'
+    lines: '230-254 (skip at 240); caller 296'
     title: 'names_of never reads the moved pages themselves, so links going out of a moved page break unchecked'
-    basis: >-
-      playbook review/code Rubric ("safe handling of destructive/irreversible operations"); contract
-      lines 50-54 ("so no link breaks").
+    basis: 'playbook review/code Rubric ("safe handling of destructive/irreversible operations"); contract lines 50-54 ("so no link breaks")'
     evidence: >-
-      `rel in old_rels` (237) skips the page and ice.md being moved. A relative link inside them
-      (../fn-b/feature.md, ../../work/domain.md) resolves differently from the new folder. Reproduced:
-      move exits 0 and both links point at files that do not exist after it. The real model
-      (.garura/product/product-os) has no relative link in any feature, capability, domain or ice page
-      (only intents/bi-788.md carries links), so today this is latent, not live.
-    fix_hint: 'either check the moved pages'' own relative links, or word the contract as "no page names the old path"'
+      Unchanged by the fix commit (no hunk in names_of). Re-run on the fixed script: a page holding [B](../fn-b/feature.md)
+      moved to capabilities/cap-1/fn-a/: exit 0, and the link target does not exist after the move.
+    fix_hint: 'check the moved pages'' own relative links, or word the contract as "no page names the old path"'
 
   - id: R-5
-    class: P3
+    status: open
+    class_was: P3
+    class_now: P3
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '108 (MD_LINK), 245-250'
+    lines: '111 (MD_LINK), 248-253'
     title: 'names_of recognises only inline [text](path) links and the full old path as text; other forms break unseen'
-    basis: >-
-      playbook review/code Rubric ("safe handling of destructive/irreversible operations"); contract
-      lines 50-54 ("a link relative to the page").
+    basis: 'playbook review/code Rubric ("safe handling of destructive/irreversible operations"); contract lines 50-54 ("a link relative to the page")'
     evidence: >-
-      Reproduced (exit 0, link left dangling): a reference-style definition `[a]: fn-a/feature.md` in a
-      sibling page (a relative link, inside the contract's words). The same page written inline,
-      `[fn](fn-a/feature.md)`, is refused, so the check is form-dependent. Also passed unseen, and outside
-      the contract's two named forms: a link to the old folder (`[A](../../features/fn-a/)`, the folder is
-      then removed) and a bare relative path in prose. The real model uses only inline links today.
-    fix_hint: 'add the reference-definition form (`^\s*\[[^]]+\]:\s*(\S+)`) and the folder; decide in the contract whether bare paths count'
+      Unchanged by the fix commit. Re-run: a sibling page features/fn-b/feature.md holding the reference-style definition
+      "[a]: ../fn-a/feature.md": exit 0 and the link dangles after the move; the same link inline, "[a](../fn-a/feature.md)",
+      is refused. The relative-link branch (248-253) is reached by the acceptance check E4 only, never by the unit suite.
+    fix_hint: 'add the reference-definition form and the folder; decide in the contract whether bare paths count'
 
   - id: R-6
-    class: P3
+    status: open
+    class_was: P3
+    class_now: P3
+    grew: true
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: 'plan 337-476; plan_move 254-302; write_all 488-524; names_of 227-251'
-    title: 'The change grows functions that were already large, and adds a 12-parameter function with four in-out arguments'
+    lines: 'plan 346-485; plan_move 257-311; write_all 505-558; main 561-598; names_of 230-254'
+    title: 'The fix grew plan_move, write_all and main, which were already large'
     basis: >-
-      playbook review/code Rubric ("function size"); pr.md rows CODE-09 (complexity), CODE-10 (function
-      line-count), CODE-11 (depth), all P3. Those rows are path rules that do not fire on core/components/**;
-      they are named as the nearest rows. Figures are my own count with Python's ast (branch points + 1,
-      deepest if/for/while/try/with), not a committed tool.
+      playbook review/code Rubric ("function size"); pr.md rows CODE-09 (complexity), CODE-10 (function line count),
+      CODE-11 (depth), all P3. Those are path rules that do not fire on core/components/**; they are the nearest rows. The
+      figures are my own count with Python's ast (branch points = if, for, while, except, conditional expression,
+      comprehension, each extra and/or operand, plus 1; nesting = deepest if/for/while/try/with), not a committed tool.
+      No committed Python linter holds a limit, so this is a judgement against the rubric, not a rule breach.
     evidence: >-
-      plan: 120 -> 140 lines, nesting 4 -> 6, about 73 -> 82 branch points. write_all: 19 -> 37 lines,
-      about 6 -> 17. plan_move (new): 49 lines, 12 parameters (pages, deletes, rmdirs, report are mutated
-      in place), about 20. names_of (new): 25 lines, nesting 5, about 14. plan() now returns a 5-tuple.
-      No committed Python linter exists in the repo to hold any limit, so this is a judgement against
-      the rubric, not a rule breach.
-    fix_hint: 'split plan() by part kind; gather the move''s outputs in one object instead of four arguments'
+      lines / parameters / branch points / nesting, on main, at the first push (6de7f7c6), and now (HEAD).
+      plan_move: new, 49 / 12 / 20 / 3, now 55 / 12 / 28 / 3 (+6 lines, +8 branch points).
+      write_all: main 19 / 1 / 6 / 4, first push 37 / 3 / 17 / 4, now 54 / 3 / 19 / 4 (+17 lines; it now holds three nested
+      functions, attempt, drop and prune, and five lambdas with default arguments).
+      main: 34 / 0 / 5 / 2, now 38 / 0 / 6 / 2.
+      plan: main 120 / 3 / 73 / 4, first push 140 / 3 / 82 / 6, now 140 / 3 / 82 / 6 (untouched by the fix).
+      names_of: 25 / 2 / 14 / 5, unchanged. plan() still returns a 5-tuple. R-6 grew: the three functions the fix touched
+      are longer, and write_all's undo is now a function inside a function.
+    fix_hint: >-
+      move the undo into its own function (undo(done, made, removed, gone) returning `left`) so write_all is back near 25
+      lines; split plan() by part kind; gather the move's outputs in one object instead of four in-out arguments.
 
   - id: R-7
-    class: P3
+    status: open
+    class_was: P3
+    class_now: P3
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '214-224 (without_thin_line), regex at 101'
+    lines: '217-227 (without_thin_line), OLD_THIN at 104'
     title: 'thin: false removes every line that starts "Thin:" anywhere on the page, and reports nothing about it'
-    basis: >-
-      playbook review/code Rubric ("safe handling of destructive/irreversible operations").
+    basis: 'playbook review/code Rubric ("safe handling of destructive/irreversible operations")'
     evidence: >-
-      OLD_THIN matches any line at any place, case-insensitive. Reproduced: a prose line
-      "Thin: slices of bread ..." and a `thin: true` line inside a yaml code fence were both deleted along
-      with the real mark, leaving an empty fence. (The older with_thin_line has the same reach when it
-      re-marks; the new function widens it to a clearing step.) The docstring says "every Thin line", so
-      it is as designed, but the person's own text is lost with no entry in the report.
-    fix_hint: 'only remove the mark just before the ICE heading, as the contract describes it, or list the removed lines in the report'
+      Unchanged by the fix commit. Re-run: a page with a prose line "Thin: slices of bread ..." and a fenced "thin: true"
+      line, thin: false: exit 0, both lines deleted, an empty ```yaml fence left, nothing in the report.
+    fix_hint: 'remove only the mark just before the ICE heading, or list the removed lines in the report'
 
   - id: R-8
-    class: P3
+    status: open
+    class_was: P3
+    class_now: P3
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '436 (`is False`), 453 (`if p.get("thin")`)'
+    lines: '445 (`is False`), 462 (`if p.get("thin")`)'
     title: 'The new thin: false is not type-checked: the string "false" marks the part thin'
-    basis: >-
-      playbook review/code Rubric ("error handling"); contract line 78 ("2 refused or bad input").
-    evidence: >-
-      Reproduced: "thin": "false" is truthy, so line 453 marks the part thin (Thin line added,
-      metadata.thin true), the opposite of what was asked, exit 0. "thin": 0 matches neither branch
-      and does nothing, exit 0.
+    basis: 'playbook review/code Rubric ("error handling"); contract line 81 ("2 refused or bad input")'
+    evidence: 'Unchanged by the fix commit. Re-run: "thin": "false" gives exit 0 and the page gets a Thin line, the opposite of what was asked.'
     fix_hint: 'refuse a thin value that is not a bool'
 
   - id: R-9
-    class: P3
+    status: partly_fixed
+    class_was: P3
+    class_now: P3
     category: tests
     file: core/components/skills/link-model-part/scripts/test_link_part.py
-    lines: 'class TakeInOldPartsTest, 418-507'
-    title: 'Several new branches have no assertion in the unit suite; the relative-link branch of names_of is reached only by the acceptance check'
+    lines: 'class TakeInOldPartsTest, 418-581'
+    title: 'Some new branches have still no assertion in the unit suite; the relative-link branch of names_of is reached only by the acceptance check'
     basis: >-
-      playbook review/tests T-3 (state which branches no suite reaches). The pr.md P2 bucket ("missing tests
-      for new code") would put this at P2; it is set to P3 because each branch below was run by hand and
-      behaved correctly (refused, tree unchanged).
+      playbook review/tests T-3 (state which branches no suite reaches). The pr.md P2 bucket ("missing tests for new code")
+      would put it at P2; kept at P3 because each branch below was run by hand and behaved correctly.
     evidence: >-
-      No test in either file reaches these plan_move refusals: "only a capability's or a feature's page
-      moves" (a domain given doc), "its page is already at", "its page must be named", and "its ICE ... is
-      not on disk" (all four checked by hand: exit 2, tree byte-identical). In the unit suite the
-      link test (test_a_move_that_would_break_a_link_is_refused) puts the full old path in the line, so the
-      substring branch (242) fires first and the relative-link branch (245-250) is not reached; only the
-      acceptance check E4 reaches it.
-    fix_hint: 'one assert_move_refused call per missing refusal; a link test whose text does not hold the old path as a substring'
+      Method: a hand-rolled line tracer over a scratch copy, run on the unit suite (the CLI runs through a tracing wrapper) and
+      on the acceptance check E1-E5 (not a coverage tool; statement level only). Of the 151 executable statements the PR adds
+      to link_part.py (diff against main), 141 are reached by one or both and 10 by neither. REACHED NOW that the first review
+      listed as unreached: write_all's delete, folder-removal and undo branches (528-558 except 546), and plan_move's new
+      refusal (279, by the two-moves test). STILL UNREACHED BY BOTH SUITES: plan_move 260 (a domain given doc), 266 ("its page
+      is already at"), 268 ("its page must be named"), 283 ("its page ... is not on disk"), 295 ("its ICE ... is not on disk");
+      write_all 546 (re-making an emptied folder; run by hand, G1 and G2, it works); main 584-587 (the CLI's UndoFailed branch;
+      run by hand through the CLI, it works; the third new test calls write_all directly, not main); names_of 237 (the
+      skip of a file that is not .md or .yaml; may be a tracer artefact, since a bare `continue` can compile to a jump).
+      REACHED BY THE ACCEPTANCE CHECK ONLY: names_of 249-253 (the relative-link branch; the unit link test puts the full old path
+      in the line, so the substring test at 245 fires first) and plan_move 274 ("already holds a file", E4).
+      The CLI's plain-OSError branch (588-590, not added by the PR) is reached by neither.
+    fix_hint: 'one assert_move_refused call per missing refusal (260, 266, 268, 283, 295); a link test whose text does not hold the old path as a substring; a CLI test for main 584-590'
 
   - id: R-10
-    class: P4
+    status: open
+    class_was: P4
+    class_now: P4
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '258 (new_doc), 433 (capability), 453-457 (thin with doc)'
+    lines: '261 (new_doc), 439-444 (capability), 457-458 and 462-466 (doc with thin)'
     title: 'Bad-typed doc or capability crashes with a traceback (exit 1); thin and doc in one item is refused with a misleading message'
-    basis: >-
-      playbook review/code Rubric ("error handling"); contract line 78 ("Exit 0 written, 2 refused or bad input").
+    basis: 'playbook review/code Rubric ("error handling"); contract line 81 ("Exit 0 written, 2 refused or bad input")'
     evidence: >-
-      Reproduced: "doc": 5 gives AttributeError, "capability": ["x"] gives TypeError, both exit 1, no write
-      (the plan runs before any write, so no data is at risk). The same pattern is older: p["doc"].strip in
-      the mode new branch. Also reproduced: an update with thin: true and doc together is refused with
-      "its page <new path> is not on disk", because the thin step reads the new path before the move has
-      happened.
-    fix_hint: 'check types where the keys are read; say that thin: true and doc cannot be given together'
+      Unchanged by the fix commit. Re-run: "doc": 5 gives AttributeError, "capability": ["x"] gives TypeError (both exit 1, no
+      write); thin: true with doc gives exit 2 "its page <new path> is not on disk".
+    fix_hint: 'check types where the keys are read; say thin: true and doc cannot be given together'
 
   - id: R-11
-    class: P4
+    status: open
+    class_was: P4
+    class_now: P4
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '231 (os.walk)'
+    lines: '234 (os.walk)'
     title: 'names_of lists hits in directory order (not stable) and skips an unreadable folder without a word'
-    basis: >-
-      playbook review/code Rubric ("deterministic where it claims to be"); the file loop sorts (232) but the
-      directory list `_` is not, so the order is half-set.
-    evidence: >-
-      Reproduced: five folders created zeta, alpha, mid, beta, omega were reported beta, zeta, mid, omega,
-      alpha. Reproduced: a link inside a folder with mode 000 is not seen (os.walk swallows the error with
-      its default onerror), so the move went ahead (exit 0) past a page that names the old path, where the
-      same link in a readable folder is refused. Every hit is also joined into one message, unbounded, and
-      the whole model is read once per moved part.
+    basis: 'playbook review/code Rubric ("deterministic where it claims to be")'
+    evidence: 'Unchanged by the fix commit. Re-run: folders made as zeta, alpha, mid, beta, omega were reported beta, zeta, mid, omega, alpha.'
     fix_hint: 'sort the directory list; give os.walk an onerror that refuses'
 
   - id: R-12
-    class: P4
+    status: open
+    class_was: P4
+    class_now: P4
+    grew: true
     category: executable-code
     file: core/components/skills/link-model-part/scripts/link_part.py
-    lines: '224 (trailing newline), 292-296 (move by read then write)'
-    title: 'A moved page is rewritten, not renamed: CRLF becomes LF, a missing last newline is added, and the file mode is reset'
+    lines: '227 (trailing newline), 299-307 (move by read then write), 520-523 (the delete step) and 547-548 (its restore)'
+    title: 'A moved page is rewritten, not renamed; the undo restores it the same way, so "every file is back as it was" is not byte-exact'
     basis: >-
-      playbook review/code Rubric ("safe handling of destructive/irreversible operations"); the existing
-      unit test test_a_rewritten_page_keeps_its_permissions covers an in-place rewrite only.
+      playbook review/code Rubric ("safe handling of destructive/irreversible operations"); the claims now stand in three
+      places: link_part.py lines 74-76 ("put back as it was"), the keeper's new "word for word", and the CLI sentence at 589
+      ("every file is back as it was").
     evidence: >-
-      Reproduced: a CRLF page moved came out LF; a page with mode 0600 came out 0644 (the new file gets the
-      umask default); thin: false on a page with no Thin line still rewrote it (trailing newline added).
-      The same text normalisation applies to the restore of a deleted file in the undo.
+      Re-run on the fixed script with a page that has CRLF line ends and mode 0600. Clean move: exit 0; the new page has LF
+      line ends and mode 0644. Undo after a failed folder removal (parent read-only): exit 2, stderr "every file is back as it
+      was"; the restored old page has LF line ends and mode 0644, so the tree is not byte-identical to before. A page whose
+      delete failed (it was never removed, because `removed.append` runs before os.remove at 521-523) is still rewritten by the
+      undo with LF line ends; the pre-fix script does the same. The new test helper reads in text mode and cannot see any of it.
+      The fix commit did not touch this; its new wording leans on it (so the finding grew a little: it now reaches the undo claim).
+      The caller may weigh the class with that in view; kept at P4 because pages here are LF and mode 0644 in practice.
+    fix_hint: 'rename the page (os.replace) instead of read and write, or read and write bytes (newline="") and copy the mode; append to `removed` after os.remove succeeds'
+
+  - id: N-1
+    status: new
+    class_was: null
+    class_now: P3
+    category: executable-code
+    file: core/components/skills/link-model-part/scripts/link_part.py
+    lines: '76-77 and 584-587 (the script); SKILL.md lines 40-41 and 49-50 (the contract the caller reads)'
+    title: 'Exit 2 now also means "files may not be back", but SKILL.md still says exit 2 means nothing was written'
+    basis: >-
+      pr.md P3 bucket ("missing docs"); playbook review/code Rubric ("error handling", "safe handling of destructive/irreversible
+      operations"). The harness category owns the SKILL.md half; it is named here because the behaviour is the script's.
+    evidence: >-
+      The script docstring (76-77) and main (584-587) now exit 2 in two different states: a refusal where nothing was written,
+      and an undo that could not finish, where the tree may be left changed. SKILL.md, which the caller follows, says "Exit 2:
+      nothing was written; the error says which part and why" (line 40-41) and "Nothing is written when the script exits 2"
+      (line 49-50); the fix commit changed the Rules there but not these two sentences. A caller that reads the exit code and
+      SKILL.md alone cannot tell the two states apart; only stderr does. No test covers it (main 584-587 is unreached).
+    fix_hint: 'give the undo-failed state its own exit code (3) and say so in SKILL.md, or change the two sentences to say exit 2 can leave files not put back, named on stderr'
+
+  - id: N-2
+    status: new
+    class_was: null
+    class_now: P4
+    category: executable-code
+    file: core/components/skills/link-model-part/scripts/link_part.py
+    lines: '520-523 (removed.append before os.remove), 547-548 (the restore), 585 (the message)'
+    title: 'The undo names a page as not back when the page never left'
+    basis: >-
+      playbook review/code Rubric ("error handling"); contract lines 76-77 ("names every path that is not back"). The reverse
+      of the first review's R-2 false claim, with no data at risk.
+    evidence: >-
+      First review's reproduction, run on the fixed script: the old folder is read-only, os.remove of the old page fails, and
+      the tree is byte-identical to before; stderr still says "these are NOT back as they were: <old page> (...)  Put them
+      back from git before anything else runs". The page is in `removed` because it is recorded before the delete is tried; the
+      restore into the read-only folder then fails and is named. In-process case S1 shows the same name beside a true one.
+      A person is told to restore a file that is intact, and a real miss is harder to see among false ones.
+    fix_hint: 'record the page in `removed` after os.remove returns; or restore it only when it is gone (not os.path.exists)'
+
+  - id: N-3
+    status: new
+    class_was: null
+    class_now: P4
+    category: executable-code
+    file: core/components/skills/link-model-part/scripts/link_part.py
+    lines: '497-502 (UndoFailed)'
+    title: 'UndoFailed cannot be copied or pickled: its constructor takes two arguments but OSError passes one to it'
+    basis: 'playbook review/code Rubric ("error handling"); pr.md P4 bucket (nit). The categories asked for the changed constructor to be looked at.'
+    evidence: >-
+      Run: copy.copy(UndoFailed(OSError("boom"), ["a"])) and a pickle round trip both raise TypeError "UndoFailed.__init__()
+      missing 1 required positional argument: 'left'", because args holds only the message. Nothing copies or pickles it today
+      (only test_link_part.py imports link_part). Checked and held: the class works in the CLI and in assertRaises; errno and
+      filename are None; `except OSError` in main sees it only after `except UndoFailed`, which is the right order.
+    fix_hint: 'pass both values on: super().__init__(msg, cause, left) with a __str__, or add __reduce__'
 
 checked_and_held:
-  - 'No secrets, no stray debug output: the only print is the report JSON on stdout, link_part.py line 559, as the contract says. No bare except, no TODO/FIXME. (grep, whole script and both test files.)'
-  - 'Every move path goes through inside(): the new page, the old page, the ice pages and every delete target; a path that leaves the model is refused.'
-  - 'plan_move refusals run before any write and leave the model byte-identical: the old-folder-holds-another-file, new-folder-not-empty, outside-allowed-folder, links-name-old-path, leaves-model, domain/slice-kind, already-at, wrong-name and ICE-not-on-disk refusals, by the acceptance check (E4) or by hand.'
-  - 'Write-new-then-delete-old order: a run killed between the two leaves a copy at both places, never none.'
-  - 'Undo for a failing rmdir (and a second rmdir failing after a first succeeded) returned the tree to byte-identical, folders recreated (R-2 evidence).'
-  - 'C-1: the script parses (ast.parse, exit 0). T-1 and T-2 were run by the play before this step (test-runs.txt: 44 tests OK, 30 of 30 checks); this step did not re-run them.'
-  - 'Tests: assertions are specific (content, spine entry, report fields, exact paths, tree unchanged after a refusal). No skipped, disabled or expected-failure test in either file; no test that asserts nothing. eval_1037.py compares a byte-for-byte snapshot on every refusal and exits 1 on any failed check. TakeInOldPartsTest borrows LinkPartTest methods by class attribute, the same way IceEntryTest already does; not a finding.'
+  - 'C-1: the script parses (ast.parse, exit 0). T-1: 48 of 48 pass, run from the repository root with python -B and PYTHONDONTWRITEBYTECODE=1 (no files written). T-2: eval_1037.py, 30 of 30 checks pass.'
+  - 'No secrets, no stray debug output: the only print is the report JSON at link_part.py line 597, as the contract says. No bare except, no TODO or FIXME, no skipped or disabled test.'
+  - 'The new refusal runs before any write and before the old-folder checks; every refusal I ran left the model byte-identical (R-1 cases above).'
+  - 'The undo restores in a safe order: re-make emptied folders, restore deleted files, undo written files (drop new ones, rewrite old text), remove made folders deepest first. Each step is wrapped; the first error is re-raised or chained.'
+  - 'Closures with default arguments (lambda d=d, lambda p=path, t=text) bind the loop variable correctly; attempt, drop and prune are re-created only on the failure path. No defect.'
+  - 'Cost of the new scan: O(entries) per move, a few hundred entries in the real spine. No concern.'
+  - 'Advisory only: ruff 0.15 on PATH, run isolated with its default rules in scratch (no committed config): one F401, "textwrap imported but unused" at test_link_part.py:8. It is on main already, not from this PR. Not a finding.'
+  - 'Write-new-then-delete-old order is unchanged: a run killed between the two leaves a copy at both places, never none.'
+
+t4_pre_fix_run:
+  how: >-
+    link_part.py from 6de7f7c6 (git show) beside the unchanged model_names.py, safe_write.py, spine_text.py (diffed: identical at
+    both commits) and the current test_link_part.py, in a scratch folder outside the repository; each of the four new tests run
+    on its own with python -B.
+  results:
+    - test: test_two_moves_to_one_folder_in_one_request_are_refused (test lines 505-515)
+      pre_fix: 'FAIL: AssertionError 0 != 2 at assert_refused_parts (the pre-fix script exits 0 and loses a page)'
+      fixed: pass
+      covers_the_fix: true
+    - test: test_a_failed_delete_puts_every_file_and_folder_back (533-539)
+      pre_fix: pass
+      fixed: pass
+      covers_the_fix: false   # the branch existed before; coverage added
+    - test: test_a_failed_folder_removal_puts_the_files_back (541-559)
+      pre_fix: pass
+      fixed: pass
+      covers_the_fix: false   # the branch existed before; coverage added
+    - test: test_an_undo_that_cannot_finish_names_what_is_not_back (561-581)
+      pre_fix: "ERROR: AttributeError, module 'link_part' has no attribute 'UndoFailed'"
+      fixed: pass
+      covers_the_fix: true
+      note: >-
+        it fails before the fix only because the name UndoFailed is not there; it cannot show how the pre-fix script behaved. See R-3
+        for what it does not pin.
+  expected_by_categories: 'the two tests that cover the fix fail before and pass after; the delete and folder-removal tests pass on both. Met.'
 
 not_covered:
-  - 'Any rule-based finding on link_part.py or test_link_part.py: the taxonomy types core/components/** as garura-prose, so grep rules are ineligible and the path rules that name code cannot fire. eval_1037.py is stm-evidence: no finding by rule.'
-  - 'A Python linter: none is committed (no ruff/flake8/pylint config), so style, unused names and type errors were not checked by a tool. ruff on the PATH was not run.'
-  - 'Crash safety: a kill or power loss mid-write (the undo runs on an exception, not on a dead process); a second run at the same time (no lock; the checks and the writes are a gap apart); a signal other than an OSError. Not run.'
-  - 'Other platforms and file systems: Windows separators, a case-insensitive file system matching a link of different case, symlinked folders inside the model. Not run.'
+  - 'Any rule-based finding on link_part.py or test_link_part.py: the taxonomy types core/components/** as garura-prose, so grep rules are ineligible and the path rules that name code cannot fire (CODE-20 catch-all counted 6 files, no per-file finding). eval_1037.py is stm-evidence: no finding by rule. The scan being clean says nothing about quality.'
+  - 'A Python linter: none is committed, so style, unused names and type errors were not held to any rule. The ruff run above is advisory and isolated.'
+  - 'Coverage is a hand-rolled statement tracer (no coverage tool is installed): statement level only, not branches or conditions, and a bare `continue` may not report (names_of 237).'
+  - 'One test errors in every scratch copy of the suite: test_the_thin_line_is_the_one_the_model_check_expects imports slice_check by a relative path (../../../plays/shape-slice/scripts) that does not exist beside a copy. In the repository the suite is 48 of 48. The four new tests do not use it, so T-4 is not affected.'
+  - 'eval_1037.py was run, and its first 30 lines and its use of the script path were read; it was not read in full (322 lines).'
+  - 'Crash safety: a kill or power loss mid-write (the undo runs on an exception, not on a dead process); a signal; a non-OSError raised inside the forward pass or inside an undo step (only OSError is caught, so the rest of the undo would be skipped); a second run at the same time (no lock). Not run.'
+  - 'Other platforms and file systems: the case-insensitive reproduction ran on APFS only; Linux (case-sensitive, where Shared and shared are two folders) and Windows were not run; NFC and NFD name variants, symlinked folders inside the model and Windows separators were not run.'
   - 'link_part.py plan() paths outside this PR (slices, ICE entries, new parts) beyond what the changed code touches; the safe_write, model_names and spine_text modules (not in the diff).'
-  - 'Whether the SKILL.md and the agent table match what the script does: that is the harness category (Layer 2), not read here beyond the contract text in the script header.'
-  - 'Findings were reproduced against a copy of the scripts in a scratch folder, not the tree under review; the repository was not written to.'
+  - 'Whether SKILL.md and the keeper agent match what the script does: that is the harness category (Layer 2). Only the exit-2 sentence is flagged here (N-1), because it is the script that changed behaviour. lint-components (H-1) was not run by this step.'
+  - 'The run-records category has no playbook, so nothing in it was reviewed.'
