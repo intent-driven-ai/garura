@@ -146,7 +146,7 @@ The second of the six phases is called Spec, not Intent. `docs/philosophy/intent
 ## Work This Creates
 
 - After acceptance, the forward pointers on ADR 028, ADR 029, ADR 038, ADR 045, ADR 046 and ADR 053.
-- The rename, as one change: the naming files, the linter and its tests, the rename map, the harness standard, `CLAUDE.md`, the other pages under Affects, each play's ICE wording, and then Phoenix memory's copies. The rule files' phase wording moves from Intent to Spec in it. ADR 029's wording changes only through its forward pointer, because an accepted ADR is never edited.
+- The rename, as one change (#1044): the naming files, the linter and its tests, the rename map, the harness standard, `CLAUDE.md`, the other pages under Affects, each play's ICE wording, and then Phoenix memory's copies. The rule files' phase wording moves from Intent to Spec in it. ADR 029's wording changes only through its forward pointer, because an accepted ADR is never edited.
 - A later decision gives skills and agents their own list, and settles the verb `remove`.
 - Delete the two dropped design plays and their skills, and take the `realized` check out of /build-epic and /learn-outcomes when they are rebuilt.
 - The product owner names the Alignment loop, which stays unapproved until then.
