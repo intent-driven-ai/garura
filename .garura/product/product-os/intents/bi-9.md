@@ -36,5 +36,14 @@
 - [Run each transition between phases as its own loop](../software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/feature.md) (feature) — adds
 - [Start a loop from a schedule or a hook, and keep a record across rounds](../software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/feature.md) (feature) — adds
 - [Run a round's plays side by side](../software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/feature.md) (feature) — adds
+- [Track execution in the team's tracker](../software-delivery-planning/track-execution/capability.md) (capability) — adds
+- [Mark each work item by its type, under the right parent, with no label](../software-delivery-planning/track-execution/fn-mark-item-type/feature.md) (feature) — adds
+- [An item's status follows its own issue, with no roll-ups](../software-delivery-planning/track-execution/fn-status-follows-issue/feature.md) (feature) — adds
+- [Every approved tracker write lands once, and is picked up after a stop](../software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md) (feature) — adds
+- [See the issues worth attention now](../software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md) (feature) — adds
+- [Record a defect under the story that brought it in](../software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md) (feature) — adds
+- [One tool knows the tracker, and no play, skill or sub-agent names it](../software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md) (feature) — adds
+- [Link each piece of work to its intent across trackers](../software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md) (feature) — adds
+- [Say what each work-item type means, for Initialize's brief](../software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md) (feature) — adds
 
 **What was done:** (nothing yet)
