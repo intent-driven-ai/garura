@@ -28,7 +28,7 @@ Status: not built (#664). What exists is the memory tool's side, which already k
 - One update at a time, each with the person's own words. The reason: "Only a person decides, one update at a time.", and "Nothing is approved in bulk, and an agent never answers one".
 - Memory's rules decide what an answer does; Argus only takes it. The reason: the memory tool records the decision and writes the update, and Memory's line is that "people control what enters them".
 - An approved update goes only to its issue's short-term memory. The reason: "STM - always STM".
-- Nothing moves up to Garura memory or Phoenix memory from here. The reason: "Moving memory up is not done here".
+- A page moves up from here only from an issue's short-term memory to the project's Garura memory, on a person's yes, and never to Phoenix memory. The reason, in the product owner's words of 2026-11-11: "Argus can only allow from short term to the project memory. Going to the Phoenix is not designed yet. That would need an organizational change."
 - Ask memory uses the same memory tool as the agents, with no index; only the question is in plain words. The reason, in the product owner's words: "the same tool under both, just that the interface for tool should be nlp".
 - Not decided: whether the Memory section lists Phoenix memory as well, or reaches it only through Ask memory.
 
@@ -39,7 +39,7 @@ Status: not built (#664). What exists is the memory tool's side, which already k
 - Given two updates, when the person tries to approve both at once, then the page does not allow it. This is not built.
 
 ## Out of scope
-- What a memory update is, who may decide it, and moving memory up. Memory, in Standards, structure, settings and memory, owns them.
+- What a memory update is, who may decide it, and what moving a page up does. Memory, in Standards, structure, settings and memory, owns them.
 - The trace of each agent decision. Check each agent decision against the memory it rested on (fn-check-agent-decisions) covers it.
 - Applying the answers in one commit. Finish the review and have every answer applied in one commit (fn-apply-answers) does it.
 
@@ -50,3 +50,4 @@ Status: not built (#664). What exists is the memory tool's side, which already k
 - docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md: "It is mocked only for now."
 - GitHub #664 (open): "Garura or Phoenix memory for a promotion"
 - The list set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "people control what enters them"
+- .garura/project/issues/1021/context/bi-10-close/approval.md, line 3, the product owner's words of 2026-11-11: "Argus can only allow from short term to the project memory. Going to the Phoenix is not designed yet. That would need an organizational change."

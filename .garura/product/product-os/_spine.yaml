@@ -4148,9 +4148,9 @@ features:
   intents:
   - bi-10
   status: proposed
-  one_line: A page moves from short-term memory to Garura memory, or up to Phoenix
-    memory, only on a person's yes in the Memory section of Argus, and what Run →
-    Product learned is chosen by that person.
+  one_line: A page moves from an issue's short-term memory to the project's Garura
+    memory only on a person's yes in Argus, and what Run → Product learned is chosen
+    by that person.
   doc: software-delivery-planning/memory/fn-promote-page/feature.md
   depends_on: []
   identified_by: ''
@@ -4159,6 +4159,7 @@ features:
     created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
       one-lines taken as approved by the product owner'
     deepen: true
+    updated_by: 'product-os-keeper, for #1021: BI-10 close, item 4'
 - id: fn-check-memory
   slug: fn-check-memory
   capability: cap-memory

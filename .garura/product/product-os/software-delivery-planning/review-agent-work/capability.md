@@ -62,7 +62,7 @@ What is not built yet:
   - The memory tool keeps each memory update and each agent decision with its trace.
   - The Discovery loop "ends at the pull request" with the person's typed confirm or drop, and its record reads "applied_to_model: false".
 - No piece of the model carries an approval state yet (#964), so no answer is kept on the piece it answers.
-- The story for the three sections, #664, is behind the design: it still names one "Memory and ADRs" section, and it writes an approved update to "Garura or Phoenix memory for a promotion", while the design says "Moving memory up is not done here".
+- The story for the three sections, #664, is behind the design: it still names one "Memory and ADRs" section, and it writes an approved update to "Garura or Phoenix memory for a promotion", while a page moves up from Argus only to Garura memory, and Phoenix memory is not reached from Garura.
 
 ### Benefit hypothesis
 - Who it serves: the product owner, who reviews what a run made and gives the answers only a person may give; the agents, which build only from what a person approved; the plays that write each kind of piece, which rework a piece sent back; and Ship every change the same way, which lands the applied answers.
@@ -85,7 +85,7 @@ What is not built yet:
 - In: Argus itself, as a Phoenix tool: its contract, its server and its page, built apart from Garura.
 - Out: committing, raising, the outside review, and merging the change with the person's yes. Ship every change the same way, the first capability of Developer tooling, owns them; reviewing a change against its standards is Check the code against its standards, in Code → Validation.
 - Out: the approval state on each piece, the rule that agents build only from approved pieces, and how approval is recorded outside the review step. Product model owns them (#964).
-- Out: what a memory update is, who may decide it, and moving memory up. Memory, in Standards, structure, settings and memory, owns them.
+- Out: what a memory update is, who may decide it, and what moving a page up does. Memory, in Standards, structure, settings and memory, owns them; the person's yes to move a page to Garura memory is given here.
 - Out: recording an ADR, and what accepting one writes. Manage ADRs, in Orchestration, owns it.
 - Out: running a loop's rounds, its checker and its questions. Run plays as loops, in Orchestration, owns it.
 - Out: writing each kind of piece. The play that writes that kind does it, and here only on the person's send-back.
@@ -97,7 +97,7 @@ What is not built yet:
 - Never: make the person read raw files to judge a piece. The one exception is an agent decision's source, shown as its memory, file and lines, "because the person must check it". The reason: Developer tooling must not "Make people read raw files to know what was made."
 - Never: put Garura code in Argus, or let it read a Garura path. The reason: "it imports no Garura code, so it can move into Griffin later".
 - Never: let an agent read the review's web page; the answers reach the work only as files on the run's branch. The reason: "Claude still never reads the web page: the answers are files on the branch".
-- Never: move memory up from a review. The reason: "Moving memory up is not done here".
+- Never: move a page to Phoenix memory from a review. The reason, in the product owner's words: "Going to the Phoenix is not designed yet. That would need an organizational change."
 - Never: touch production. The reason, in the product owner's words: "We are never touching production."
 
 ### Guiding rules
@@ -140,3 +140,4 @@ What is not built yet:
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none covers reviewing what agents made. The experience shelf in Phoenix memory, knowledge/domains/experience.md, names "HITL queues & approvals" among the parts that govern the agents built into a product, a loose match only.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made."
+- .garura/project/issues/1021/context/bi-10-close/approval.md, line 3, the product owner's words of 2026-11-11: "Argus can only allow from short term to the project memory. Going to the Phoenix is not designed yet. That would need an organizational change."
