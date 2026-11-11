@@ -1,0 +1,261 @@
+{
+  "pages": {
+    "software-delivery-planning/keep-spec-matched/capability.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md": {
+      "equals_draft": true,
+      "equals_copy_with_thin_line_back": true,
+      "thin_lines_on_page": 1
+    }
+  },
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "capabilities": {
+      "before": 14,
+      "after": 15,
+      "new": [
+        "cap-keep-spec-matched"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "features": {
+      "before": 49,
+      "after": 54,
+      "new": [
+        "fn-find-spec-drift",
+        "fn-keep-intent-links-current",
+        "fn-keep-tracker-matched",
+        "fn-replace-or-retire-intent",
+        "fn-update-spec-to-match-built"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "ices": {
+      "before": 18,
+      "after": 24,
+      "new": [
+        "ice-find-spec-drift",
+        "ice-keep-intent-links-current",
+        "ice-keep-spec-matched",
+        "ice-keep-tracker-matched",
+        "ice-replace-or-retire-intent",
+        "ice-update-spec-to-match-built"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "profile_unchanged": true,
+    "new_entries": {
+      "cap-keep-spec-matched": {
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-1"
+        ],
+        "doc": "software-delivery-planning/keep-spec-matched/capability.md",
+        "thin": false
+      },
+      "fn-update-spec-to-match-built": {
+        "capability": "cap-keep-spec-matched",
+        "intents": [
+          "bi-1"
+        ],
+        "doc": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+        "one_line": "When the work changes what the product does, the pages of the spec that it makes out of date are updated to say what the product now does.",
+        "thin": false
+      },
+      "fn-keep-intent-links-current": {
+        "capability": "cap-keep-spec-matched",
+        "intents": [
+          "bi-1"
+        ],
+        "doc": "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md",
+        "one_line": "As parts are built, moved or removed, the link between each business intent and the parts that serve it stays matched, on both of its sides.",
+        "thin": false
+      },
+      "fn-replace-or-retire-intent": {
+        "capability": "cap-keep-spec-matched",
+        "intents": [
+          "bi-1"
+        ],
+        "doc": "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md",
+        "one_line": "When the work shows that an intent has been replaced or is no longer wanted, and the person approves it, the spec is changed to match.",
+        "thin": false
+      },
+      "fn-keep-tracker-matched": {
+        "capability": "cap-keep-spec-matched",
+        "intents": [
+          "bi-1"
+        ],
+        "doc": "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        "one_line": "Each intent's issue in the tracker says what the intent's page in the product model says.",
+        "thin": false
+      },
+      "fn-find-spec-drift": {
+        "capability": "cap-keep-spec-matched",
+        "intents": [
+          "bi-1"
+        ],
+        "doc": "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md",
+        "one_line": "Finds the places where the spec no longer matches what the agents built and planned, and names each one to a person.",
+        "thin": false
+      },
+      "ice-find-spec-drift": {
+        "for": "fn-find-spec-drift",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md",
+        "thin": true
+      },
+      "ice-keep-intent-links-current": {
+        "for": "fn-keep-intent-links-current",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/ice.md",
+        "thin": false
+      },
+      "ice-keep-spec-matched": {
+        "for": "cap-keep-spec-matched",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/keep-spec-matched/ice.md",
+        "thin": false
+      },
+      "ice-keep-tracker-matched": {
+        "for": "fn-keep-tracker-matched",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/ice.md",
+        "thin": false
+      },
+      "ice-replace-or-retire-intent": {
+        "for": "fn-replace-or-retire-intent",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/ice.md",
+        "thin": false
+      },
+      "ice-update-spec-to-match-built": {
+        "for": "fn-update-spec-to-match-built",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/ice.md",
+        "thin": false
+      }
+    },
+    "ice_total": 24,
+    "thin_among_new": [
+      "ice-find-spec-drift"
+    ],
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 128
+  },
+  "bi_1": {
+    "lines_before": 35,
+    "lines_after": 46,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 11,
+    "added_equal_request": true,
+    "anchor": "- [Specify against what exists](../software-delivery-planning/specify-product/fn-specify-against-existing/feature.md) (feature) — adds",
+    "added_right_after_anchor": true,
+    "byte_check_other_lines": true,
+    "added": [
+      "- [Turn intents into agent work](../software-delivery-planning/turn-intents-into-work/capability.md) (capability) — adds",
+      "- [Cut an intent into epics and stories](../software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md) (feature) — adds",
+      "- [Write a story from its ICE](../software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md) (feature) — adds",
+      "- [Change the work items](../software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md) (feature) — adds",
+      "- [Add a feature found during work](../software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md) (feature) — adds",
+      "- [Keep the spec matched to what's built](../software-delivery-planning/keep-spec-matched/capability.md) (capability) — adds",
+      "- [Update the spec to match what's built](../software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md) (feature) — adds",
+      "- [Keep an intent's links current](../software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md) (feature) — adds",
+      "- [Replace or retire an intent](../software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md) (feature) — adds",
+      "- [Keep the tracker's words matched to the model](../software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md) (feature) — adds",
+      "- [Find where the spec and what's built no longer match](../software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md) (feature) — adds"
+    ],
+    "every_added_link_opens_a_file": true
+  },
+  "specify_product": {
+    "lines_before": 80,
+    "lines_after": 80,
+    "changes": [
+      {
+        "op": "replace",
+        "old": [
+          "- Out: keeping intents up to date as the product changes. This capability does not do it, and no capability in the model owns it yet."
+        ],
+        "new": [
+          "- Out: keeping the spec matched to what's built as the product changes. Keep the spec matched to what's built owns it."
+        ]
+      }
+    ],
+    "only_that_line_changed": true
+  },
+  "git_status": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-1.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/keep-spec-matched/"
+  ],
+  "one_way_bi_1": {
+    "how": "the gap finder is not installed here; counted by this script: spine parts whose intents name bi-1, against the parts BI-1's Touches list links to",
+    "spine_names_bi_1": 24,
+    "touches_lines": 24,
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "count": 0
+  },
+  "pages_all_equal": true,
+  "page_count": 12,
+  "all_checks_pass": true
+}

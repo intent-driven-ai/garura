@@ -1,0 +1,387 @@
+{
+  "pages": {
+    "software-delivery-planning/test-product-with-evals/capability.md": {
+      "equals_draft": true,
+      "bytes": 20493,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/test-product-with-evals/ice.md": {
+      "equals_draft": true,
+      "bytes": 4093,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md": {
+      "equals_draft": true,
+      "bytes": 13566,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md": {
+      "equals_draft": true,
+      "bytes": 3327,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md": {
+      "equals_draft": true,
+      "bytes": 11380,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md": {
+      "equals_draft": true,
+      "bytes": 3435,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md": {
+      "equals_draft": true,
+      "bytes": 8539,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md": {
+      "equals_draft": true,
+      "bytes": 3068,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 8,
+  "thin_lines_only_on_the_four_ice_pages": true,
+  "new_folder_files": [
+    "software-delivery-planning/test-product-with-evals/capability.md",
+    "software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+    "software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md",
+    "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+    "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md",
+    "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+    "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md",
+    "software-delivery-planning/test-product-with-evals/ice.md"
+  ],
+  "new_folder_holds_only_the_8_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 24,
+      "after": 25,
+      "new": [
+        "cap-test-product-with-evals"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 80,
+      "after": 83,
+      "new": [
+        "fn-run-slice-eval",
+        "fn-send-handoff-plan",
+        "fn-rerun-evals"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 59,
+      "after": 63,
+      "new": [
+        "ice-test-product-with-evals",
+        "ice-run-slice-eval",
+        "ice-send-handoff-plan",
+        "ice-rerun-evals"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-test-product-with-evals": {
+        "slug": "test-product-with-evals",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-4"
+        ],
+        "status": "proposed",
+        "one_line": "Test what the product does, with evals the builder never sees: each slice's eval runs on the built work, and every goal, expectation and failure condition it covers gets a pass or a fail.",
+        "doc": "software-delivery-planning/test-product-with-evals/capability.md",
+        "thin": false
+      },
+      "fn-run-slice-eval": {
+        "slug": "fn-run-slice-eval",
+        "capability": "cap-test-product-with-evals",
+        "intents": [
+          "bi-4"
+        ],
+        "status": "proposed",
+        "one_line": "Once a slice's work is built, runs the slice's eval on it step by step with no agent, through the usage guide, in the testing environment, and gives every goal, expectation and failure condition it covers a pass or a fail, trusting a pass only when the build never saw the eval.",
+        "doc": "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+        "thin": false
+      },
+      "fn-send-handoff-plan": {
+        "slug": "fn-send-handoff-plan",
+        "capability": "cap-test-product-with-evals",
+        "intents": [
+          "bi-4"
+        ],
+        "status": "proposed",
+        "one_line": "For each failure the eval finds, writes what the product does wrong and the way back, from the recovery parts of the hidden file only, and sends it to the builder when the builder can fix it alone, or to a person when a person must decide.",
+        "doc": "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+        "thin": false
+      },
+      "fn-rerun-evals": {
+        "slug": "fn-rerun-evals",
+        "capability": "cap-test-product-with-evals",
+        "intents": [
+          "bi-4"
+        ],
+        "status": "proposed",
+        "one_line": "When the built product changes, runs a slice's whole eval again after a fix and the evals of the slices that passed before, names each scenario that passed before and fails now, and hands a failure to a person once the rounds the project allows are used up.",
+        "doc": "software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+        "thin": false
+      },
+      "ice-test-product-with-evals": {
+        "for": "cap-test-product-with-evals",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/test-product-with-evals/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-run-slice-eval": {
+        "for": "fn-run-slice-eval",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-send-handoff-plan": {
+        "for": "fn-send-handoff-plan",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-rerun-evals": {
+        "for": "fn-rerun-evals",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      }
+    },
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 96,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_4": {
+    "lines_before": 18,
+    "lines_after": 24,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 6,
+    "added": [
+      "**Touches:**",
+      "- [Test what the product does, with evals the builder never sees](../software-delivery-planning/test-product-with-evals/capability.md) (capability) — adds",
+      "- [Run a slice's eval on the built work, and give the verdict](../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md) (feature) — adds",
+      "- [Send each failure back as a handoff plan, to the builder or to a person](../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md) (feature) — adds",
+      "- [Run the evals again as the product changes](../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md) (feature) — adds",
+      ""
+    ],
+    "added_as_asked_in_order": true,
+    "line_before_block": "",
+    "line_after_block": "**What was done:** (nothing yet)",
+    "byte_check_other_lines": true,
+    "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "outcome_and_proof_lines_unchanged": true,
+    "touches_lines": 4,
+    "every_touches_line_in_form": true,
+    "form_matches_bi_3": true,
+    "links": {
+      "../software-delivery-planning/test-product-with-evals/capability.md": true,
+      "../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md": true,
+      "../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md": true,
+      "../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md": true
+    },
+    "every_link_leads_to_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_4_before": [],
+    "spine_entries_naming_bi_4": 4,
+    "spine_entry_ids_naming_bi_4": [
+      "cap-test-product-with-evals",
+      "fn-run-slice-eval",
+      "fn-send-handoff-plan",
+      "fn-rerun-evals"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "touches_order_matches_capability_then_feature_list": true,
+    "kinds_agree_with_spine": true
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-4.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/test-product-with-evals/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 112,
+      "counts": {
+        "domain": 1,
+        "capability": 24,
+        "feature": 80,
+        "ice": 59
+      },
+      "file": ".garura/project/issues/1021/context/bi-4-capability-1/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 116,
+      "counts": {
+        "domain": 1,
+        "capability": 25,
+        "feature": 83,
+        "ice": 63
+      },
+      "file": ".garura/project/issues/1021/context/bi-4-capability-1/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 4 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021."
+  },
+  "failed_checks": [],
+  "checks_run": 65,
+  "checks_passed": 65,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md equals draft": true,
+    "page capability.md no thin line": true,
+    "page ice.md equals draft": true,
+    "page ice.md thin line back on top, rest = approved copy": true,
+    "page fn-run-slice-eval/feature.md equals draft": true,
+    "page fn-run-slice-eval/feature.md no thin line": true,
+    "page fn-run-slice-eval/ice.md equals draft": true,
+    "page fn-run-slice-eval/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-send-handoff-plan/feature.md equals draft": true,
+    "page fn-send-handoff-plan/feature.md no thin line": true,
+    "page fn-send-handoff-plan/ice.md equals draft": true,
+    "page fn-send-handoff-plan/ice.md thin line back on top, rest = approved copy": true,
+    "page fn-rerun-evals/feature.md equals draft": true,
+    "page fn-rerun-evals/feature.md no thin line": true,
+    "page fn-rerun-evals/ice.md equals draft": true,
+    "page fn-rerun-evals/ice.md thin line back on top, rest = approved copy": true,
+    "new folder holds only the 8 pages": true,
+    "spine domains: nothing removed or changed, order kept": true,
+    "spine capabilities: nothing removed or changed, order kept": true,
+    "spine features: nothing removed or changed, order kept": true,
+    "spine slices: nothing removed or changed, order kept": true,
+    "spine ices: nothing removed or changed, order kept": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "spine capabilities: new entries are exactly the ones asked": true,
+    "spine features: new entries are exactly the ones asked": true,
+    "spine ices: new entries are exactly the ones asked": true,
+    "spine domains: new entries are exactly the ones asked": true,
+    "spine slices: new entries are exactly the ones asked": true,
+    "spine entry cap-test-product-with-evals as asked": true,
+    "spine entry fn-run-slice-eval as asked": true,
+    "spine entry fn-send-handoff-plan as asked": true,
+    "spine entry fn-rerun-evals as asked": true,
+    "spine entry ice-test-product-with-evals as asked": true,
+    "spine entry ice-run-slice-eval as asked": true,
+    "spine entry ice-send-handoff-plan as asked": true,
+    "spine entry ice-rerun-evals as asked": true,
+    "capability one_line = first line of Directional intent, word for word": true,
+    "feature fn-run-slice-eval one_line = list text, first letter capitalised": true,
+    "feature fn-send-handoff-plan one_line = list text, first letter capitalised": true,
+    "feature fn-rerun-evals one_line = list text, first letter capitalised": true,
+    "feature list order on the capability page = the three features in order": true,
+    "all four new ICE thin": true,
+    "capability and features not thin themselves": true,
+    "ICE ids unique in the spine": true,
+    "all ids unique in the spine": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-4 only_insertions": true,
+    "bi-4 added_as_asked_in_order": true,
+    "bi-4 byte_check_other_lines": true,
+    "bi-4 outcome_and_proof_lines_unchanged": true,
+    "bi-4 every_touches_line_in_form": true,
+    "bi-4 every_link_leads_to_a_file": true,
+    "bi-4 titles_match_page_titles": true,
+    "bi-4 kinds_agree_with_spine": true,
+    "bi-4 touches_order_matches_capability_then_feature_list": true,
+    "bi-4 form_matches_bi_3": true,
+    "bi-4 gained exactly the Touches block (6 lines, one block) between Tracker and What was done": true,
+    "bi-4 stage line kept": true,
+    "the 4 index entries naming bi-4 match the 4 Touches lines": true,
+    "under .garura/product only the spine, bi-4.md and the new folder changed": true,
+    "structure check: no error names a new page": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD bb261543: the spine and intents/bi-4.md as committed (the model had no uncommitted change before this write)"
+}

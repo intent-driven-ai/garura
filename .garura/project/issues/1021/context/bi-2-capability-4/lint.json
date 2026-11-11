@@ -1,0 +1,173 @@
+{
+ "round": 1,
+ "date": "2026-11-08",
+ "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional]",
+ "pages": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/capability.md",
+   "args": [
+    "--kind",
+    "capability",
+    "--stage",
+    "directional"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "capability": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  }
+ ],
+ "ice_shape_check": {
+  "what": "thin mark on the first line; Intent, Context, Expectation in order; exactly one Goal; one to three Limits and Fails if; the fixed Read line first; Context labels in order (Read, Never read, Persona, Scope); every Done means checked by someone other than the doer",
+  "results": [
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 2,
+    "scenario": 1
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1,
+    "scenario": 1
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-build-environment/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1,
+    "scenario": 1
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-declare-environments/ice.md",
+    "ok": true,
+    "errors": [],
+    "goals": 1,
+    "limits": 3,
+    "fails_if": 3,
+    "done_means": 1,
+    "scenario": 1
+   }
+  ]
+ },
+ "quote_check": {
+  "what": "every quote in a Sources section, word for word against its file (memory quotes against this run's short-term copies; the product owner's words against bi-2-capability-3/research.md and the approved Deployment design page); and his words quoted in the page bodies",
+  "summary": {
+   "ice_ok": true,
+   "quotes_checked": 178,
+   "quotes_missing": 0,
+   "lines_without_quote": [
+    "The Spec → Design business intent in the tracker has one sub-issue, about surfaces (#553); the Validation → Run business intent has none. No issue plans this capability.",
+    "The short line beside each feature",
+    "Shelf"
+   ],
+   "body_quotes_checked": 11,
+   "body_quotes_missing": 0,
+   "hygiene_ok": true
+  },
+  "missing": []
+ },
+ "hygiene": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/capability.md",
+   "ok": true,
+   "errors": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/ice.md",
+   "ok": true,
+   "errors": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+   "ok": true,
+   "errors": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+   "ok": true,
+   "errors": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+   "ok": true,
+   "errors": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-build-environment/ice.md",
+   "ok": true,
+   "errors": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+   "ok": true,
+   "errors": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-4/drafts/product-os/software-delivery-planning/environment-setup/fn-declare-environments/ice.md",
+   "ok": true,
+   "errors": []
+  }
+ ]
+}

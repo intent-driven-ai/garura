@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: Once every test for the work has failed on the check's record, the builder writes all the code for every story, chore and spike under the chosen item, from its own part, each story's collected context and the design, in the order it chooses, until the check's record shows every test passing, without ever seeing a test.
+- Limit: The builder is never handed a test, a test file, the test writer's part, an eval, the hidden file or the evals folder, never writes or changes a test, and a read of a test file or the evals folder is flagged in the build's evidence.
+- Limit: The builder builds to the design and the project's code and coding standards, found in the project's memory first, writes just enough for the work, sends each departure from the design back to the technical lead with its reason, and sends an expected result it cannot make pass after the tries allowed back to the technical lead or the test writer.
+- Limit: The work counts as built only on the check's record, never on the builder's word, and a bug under the chosen item is left to Fix defects test first.
+- Fails if: The builder was handed a test, a test file, the test writer's part, an eval, the hidden file or the evals folder, or a read of one in the session's record has no flag in the build's evidence.
+- Fails if: A test changed, was weakened or went away during the build, or code was written before every test for the work failed on the check's record.
+- Fails if: The work is called built while the check's record shows a test failing, or a departure from the design has no reason sent to the technical lead.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the builder's part of each gathered story and its collected context, the design of the work with its components, classes, functions, interfaces, data model, libraries and patterns and where each part runs, the project's code and coding standards, the dev sandbox where the code runs while it is built, and what the check says still fails.
+- Never read: the tests for the work, the test writer's part, the plan's evals folder, the eval, the slice's hidden file and any ICE page.
+- Persona: the developer who builds the code, a person or an AI agent who is never the test writer of the same work; the technical lead receives each departure from the design.
+- Scope: In: the code for every story, chore and spike under the chosen item, built to the design in the order the builder chooses, until every test passes on the check's record; the departures sent back with their reasons; and what could not be made to pass, sent back. Out: the tests, running the check, the tidy, updating the design, a bug's fix, and checking the code against the standards.
+
+## Expectation
+- Scenario: In a library's loans service, the builder is handed two stories' parts, their collected context and a design that names a renewal function in the loans module, and no test. It builds the function and the endpoint, asks the check, and learns that one expected result, a renewal refused when the book is reserved, still fails. It adds the reserve check, and the check's record shows all eleven tests passing. The design named a separate notice module, but the project's code already sends notices from the loans module, so the builder builds it there and sends the departure with that reason to the technical lead. The session's record shows no read of a test file or the evals folder.
+- Done means: Someone other than the builder compares what the builder was handed and the session's record with the check's records, and finds no test, test writer's part or eval handed or read, no test changed, every test passing on the last record, and each departure from the design sent with its reason.

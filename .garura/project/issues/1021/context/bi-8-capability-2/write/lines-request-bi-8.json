@@ -1,0 +1,51 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md (the product owner, 2026-11-10: the write approval, its last line, \"On the write (the 20 pages, the index entries for the capability, its nine features and ten thin ICE, and ten Touches lines on BI-8's page, then my own checks and the tree): \\\"approved\\\"\")",
+  "pages": [
+    {
+      "page": "intents/bi-8.md",
+      "changes": [
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Review what agents make (Argus)](../software-delivery-planning/review-agent-work/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Open a review on what a run changed, and keep every answer on the run's branch](../software-delivery-planning/review-agent-work/fn-open-review/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Read what a run made, as business intents with their ICE and as the product](../software-delivery-planning/review-agent-work/fn-read-outcome/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Answer each piece, in the page or one card at a time](../software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Accept or send back each ADR that waits for a person](../software-delivery-planning/review-agent-work/fn-review-adrs/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [See what memory holds, and approve or reject each memory update that waits for a person](../software-delivery-planning/review-agent-work/fn-review-memory/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Check each agent decision against the memory it rested on](../software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Send a piece back and get it reworked](../software-delivery-planning/review-agent-work/fn-send-back/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Finish the review and have every answer applied in one commit](../software-delivery-planning/review-agent-work/fn-apply-answers/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the docs and command pages in step with each change](../software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md) (feature) — adds",
+          "add": "- [Run Argus apart from Garura, and point Garura at it](../software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md) (feature) — adds"
+        }
+      ]
+    }
+  ]
+}

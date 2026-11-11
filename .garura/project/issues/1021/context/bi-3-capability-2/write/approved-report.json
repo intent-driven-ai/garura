@@ -1,0 +1,47 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/write-work-evals/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-update-evals/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-update-evals/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-2/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

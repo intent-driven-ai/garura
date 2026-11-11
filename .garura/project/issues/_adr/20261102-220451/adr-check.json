@@ -1,0 +1,50 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261102-220451/adr-draft.md",
+  "target": "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md",
+  "lint": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261102-220451/adr-draft.md",
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261102-220451/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "declared_business_intent_check": "none",
+  "guard_agrees_with_declared": true,
+  "retries": 0,
+  "status_proposed": true,
+  "older_adrs_edited": 0,
+  "older_adrs_for_pointers": [
+    {
+      "file": "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+      "kind": "superseded"
+    },
+    {
+      "file": "docs/adr/045-a-drive-is-now-called-a-loop.md",
+      "kind": "superseded"
+    },
+    {
+      "file": "docs/adr/028-agentic-lifecycle-five-loops.md",
+      "kind": "superseded"
+    },
+    {
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended"
+    },
+    {
+      "file": "docs/adr/038-install-brings-no-memory.md",
+      "kind": "amended"
+    },
+    {
+      "file": "docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md",
+      "kind": "amended"
+    }
+  ],
+  "round": "after the product owner's answers on the four points"
+}

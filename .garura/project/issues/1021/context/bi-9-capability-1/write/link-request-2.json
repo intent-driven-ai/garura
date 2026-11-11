@@ -1,0 +1,230 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-orchestrate-agent-work",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "orchestrate-agent-work",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Orchestrate agent work through planning: A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+      "doc": "software-delivery-planning/orchestrate-agent-work/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-go-to-plan-branch",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-go-to-plan-branch",
+      "capability": "cap-orchestrate-agent-work",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "A session stops on uncommitted work, gets onto the plan's branch, and at the end goes back, or undoes a branch it cut.",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-know-what-next",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-know-what-next",
+      "capability": "cap-orchestrate-agent-work",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Every play and loop ends by naming the one command that comes next from one map, or names none.",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-remove-plan",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-remove-plan",
+      "capability": "cap-orchestrate-agent-work",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Plans a person approved removing are deleted from the plans folder, whole, with a report of what each held.",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-choose-next-item",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-choose-next-item",
+      "capability": "cap-orchestrate-agent-work",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Not built. Approved pages hand it here; today a person reads the plan and sets Now by hand.",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-work-out-waits-on",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-work-out-waits-on",
+      "capability": "cap-orchestrate-agent-work",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Not built. Waits on is printed as the plan file holds it, and nothing writes it.",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-pause-plan",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-pause-plan",
+      "capability": "cap-orchestrate-agent-work",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Not built. A session can set a plan to Paused, but nothing then lands its branch or sets its branch field to none.",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-729",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "One card for each plan, from the plan files alone, with its direction, Status, Branch, the plans it waits on, and each epic's progress."
+    },
+    {
+      "id": "fn-806",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "Each plan's branch drawn against main with the commits git counts ahead and behind, and the plans with no branch named as on main."
+    },
+    {
+      "id": "fn-628",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "One plan's open work shown, its Done and Dropped work hidden and counted, and each plan it needs printed after it."
+    },
+    {
+      "id": "fn-730",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "In /update-plan, a person sets statuses and the direction in their own words, and on one plain \"approved\" they land in the tracker and the plan file in one commit on the plan's branch."
+    },
+    {
+      "id": "ice-795",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-795",
+      "doc": "software-delivery-planning/shape-slice/fn-795/ice.md",
+      "thin": false
+    },
+    {
+      "id": "fn-795",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "A person names a business intent, and the features in build order, the one surface and the tester are chosen from the model and memory, shown in one brief and kept only on the person's yes.",
+      "capability": "cap-orchestrate-agent-work",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-795/feature.md"
+    },
+    {
+      "id": "fn-931",
+      "kind": "feature",
+      "mode": "update",
+      "capability": "cap-turn-intents-into-work"
+    },
+    {
+      "id": "ice-orchestrate-agent-work",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-orchestrate-agent-work",
+      "doc": "software-delivery-planning/orchestrate-agent-work/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-729",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-729",
+      "doc": "features/fn-729/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-806",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-806",
+      "doc": "features/fn-806/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-628",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-628",
+      "doc": "features/fn-628/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-730",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-730",
+      "doc": "features/fn-730/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-go-to-plan-branch",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-go-to-plan-branch",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-know-what-next",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-know-what-next",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-remove-plan",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-remove-plan",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-choose-next-item",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-choose-next-item",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-work-out-waits-on",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-work-out-waits-on",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-pause-plan",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-pause-plan",
+      "doc": "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md",
+      "thin": true
+    }
+  ]
+}

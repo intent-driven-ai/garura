@@ -1,0 +1,55 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/build-or-update-product/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/drafts/product-os/software-delivery-planning/build-or-update-product/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/write/approved/build-or-update-product/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/drafts/product-os/software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-propose-changes/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/write/approved/fn-propose-changes/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/drafts/product-os/software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-recommend-changes/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/write/approved/fn-recommend-changes/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/drafts/product-os/software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-act-on-its-own/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/write/approved/fn-act-on-its-own/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-start-changes/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/drafts/product-os/software-delivery-planning/build-or-update-product/fn-start-changes/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-start-changes/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/write/approved/fn-start-changes/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/drafts/product-os/software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/build-or-update-product/fn-update-recommendations/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-6-capability-3/write/approved/fn-update-recommendations/ice.md"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-5/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-5/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/resolution.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:5a353c93d28217b764076f2dc23a90f0299067da175db2472096c3d360cab54f",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-5/memory/standards/rules/resolution.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/naming.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:6d011521460976f6dbb3aa0d6a5dc063356e263bbf09e7dcf8b42fd9cedb1ed0",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-5/memory/standards/rules/naming.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/plan-view.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:272c8dbb15ca456a55b5396935ddd990617d5a8eac6c9161ceb76a0bff3105a1",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-5/memory/standards/templates/plan-view.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/architecture/regression-by-blast-radius.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ee31ace90baed81e8eba902c908d1d11775624670ec83ae6f8959dcf824e3d75",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-5/memory/knowledge/architecture/regression-by-blast-radius.md"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "by": "product-os-keeper (approved redrafts for #1021)",
+  "checked": "each live page equals its approved redraft byte for byte; no ice.md and no other file under .garura/product/ changed",
+  "result": "pass",
+  "pages": [
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/capability.md",
+      "byte_equal": true,
+      "bytes": 9786,
+      "sha256": "8fd2e1e7ecbb14073a0f85ce9c0fbd0975fa5e668c9a5f314d2badbd39a054fe",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "byte_equal": true,
+      "bytes": 9644,
+      "sha256": "414e7dc1c28fe4039488a7fe46bc653ad6a52cb172d59d9d07d761a5dc23900c",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "byte_equal": true,
+      "bytes": 7394,
+      "sha256": "7daaf3c812b5a0b68f573995863e0e1c0e6af434552d2321e94af6850761b6ff",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "byte_equal": true,
+      "bytes": 8900,
+      "sha256": "6a9c9e705a9ebfab1e19824cf7e865b03b5bc7ebeac9d73e770da83c60573684",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "byte_equal": true,
+      "bytes": 4822,
+      "sha256": "db41be982ed050db0b677d4f2c3213403e61ad03a97a3a9d4cae037edcb4ab1e",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "byte_equal": true,
+      "bytes": 4072,
+      "sha256": "b428b92e6f61b9daa14c951308d99dc1ff3817500dcd0dc8b57a00c8a72cd8ec",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "byte_equal": true,
+      "bytes": 5285,
+      "sha256": "3880019706d3bf6af8ba4cb59c7350578bc5b33d00a15c0e67a80e3ce8227801",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "byte_equal": true,
+      "bytes": 3598,
+      "sha256": "ecf2e5948ae8f849df6e27c55ab0aec4384951e26cf54ee0c53b579a225a16a8",
+      "changed_from_before": true
+    },
+    {
+      "page": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "byte_equal": true,
+      "bytes": 3411,
+      "sha256": "46caae0fa726f5b62f8e32c4e909ff7425bdcbcbd00fdbacf1ab9a71301fa7ae",
+      "changed_from_before": true
+    }
+  ],
+  "all_byte_equal": true,
+  "files_under_product_before": 92,
+  "files_under_product_after": 92,
+  "files_changed": [
+    ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+    ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md"
+  ],
+  "other_files_changed": [],
+  "ice_pages_changed": [],
+  "git_status_porcelain": [
+    " M .garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+    " M .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md"
+  ],
+  "git_status_paths_all_in_request": true
+}

@@ -1,0 +1,68 @@
+{
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <copy> --kind <capability|feature> [--stage directional]",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/capability.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

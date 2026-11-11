@@ -1,0 +1,180 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-ship-every-change",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "ship-every-change",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-8"
+      ],
+      "one_line": "Ship every change the same way: Every change goes from opening to merge through the same steps, with an outside review and a person's yes.",
+      "doc": "software-delivery-planning/ship-every-change/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-731",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "A person names the change, and its issue is found or filed, its branch is cut from the branch it will land on, and its working folder is made."
+    },
+    {
+      "id": "fn-commit-by-concern",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-commit-by-concern",
+      "capability": "cap-ship-every-change",
+      "intents": [
+        "bi-8"
+      ],
+      "one_line": "Every changed file is committed on the change's branch in commits of one concern each, each naming its issue, and a sensitive file stops the commit.",
+      "doc": "software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-raise-change",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-raise-change",
+      "capability": "cap-ship-every-change",
+      "intents": [
+        "bi-8"
+      ],
+      "one_line": "After the machine checks, the branch is pushed and one pull request is opened against the branch the change will land on, naming its issue.",
+      "doc": "software-delivery-planning/ship-every-change/fn-raise-change/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-673",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "Once the review approved the change and a person typed yes, it is merged where its branch lands, its branch is deleted, and an issue in a plan is closed with its item set Done."
+    },
+    {
+      "id": "fn-land-plan-with-evidence",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-land-plan-with-evidence",
+      "capability": "cap-ship-every-change",
+      "intents": [
+        "bi-8"
+      ],
+      "one_line": "When a plan pauses, its landing shows that every commit on its branch was reviewed and that the plan, its epics and the commits agree.",
+      "doc": "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-land-several-issues",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-land-several-issues",
+      "capability": "cap-ship-every-change",
+      "intents": [
+        "bi-8"
+      ],
+      "one_line": "A person groups several ready issues, and one run of the path lands them all and closes each.",
+      "doc": "software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-scan-every-push",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-scan-every-push",
+      "capability": "cap-ship-every-change",
+      "intents": [
+        "bi-8"
+      ],
+      "one_line": "Every push a change play makes is scanned first, and a reference stops it.",
+      "doc": "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-docs-in-step",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-docs-in-step",
+      "capability": "cap-ship-every-change",
+      "intents": [
+        "bi-8"
+      ],
+      "one_line": "A change that adds, renames, retires or changes a command brings the docs and command pages it alters, and a check fails it while they disagree.",
+      "doc": "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-ship-every-change",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-ship-every-change",
+      "doc": "software-delivery-planning/ship-every-change/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-731",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-731",
+      "doc": "features/fn-731/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-commit-by-concern",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-commit-by-concern",
+      "doc": "software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-raise-change",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-raise-change",
+      "doc": "software-delivery-planning/ship-every-change/fn-raise-change/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-673",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-673",
+      "doc": "features/fn-673/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-land-plan-with-evidence",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-land-plan-with-evidence",
+      "doc": "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-land-several-issues",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-land-several-issues",
+      "doc": "software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-scan-every-push",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-scan-every-push",
+      "doc": "software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-keep-docs-in-step",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-docs-in-step",
+      "doc": "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md",
+      "thin": true
+    }
+  ]
+}

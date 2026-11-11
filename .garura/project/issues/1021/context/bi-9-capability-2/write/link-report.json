@@ -1,0 +1,33 @@
+{
+  "written": [
+    "cap-run-plays-as-loops",
+    "fn-run-loop",
+    "fn-check-loop-result",
+    "fn-brief-open-points",
+    "fn-show-run-status",
+    "fn-loop-per-transition",
+    "fn-start-loop-on-trigger",
+    "fn-run-plays-side-by-side",
+    "ice-run-plays-as-loops",
+    "ice-run-loop",
+    "ice-check-loop-result",
+    "ice-brief-open-points",
+    "ice-show-run-status",
+    "ice-loop-per-transition",
+    "ice-start-loop-on-trigger",
+    "ice-run-plays-side-by-side"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-start-loop-on-trigger",
+    "ice-run-plays-side-by-side"
+  ],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/ice.md",
+    "product-os/software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/ice.md"
+  ],
+  "layout_kept": true
+}

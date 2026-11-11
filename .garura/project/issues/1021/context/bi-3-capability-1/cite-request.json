@@ -1,0 +1,279 @@
+{
+ "note": "Decisions this draft run made from memory, for the caller to record with memory.py cite (one call per request). Recording them writes outside bi-3-capability-1/, so this run did not.",
+ "requests": [
+  {
+   "question": "What is a slice, and what must every slice of Design slices hold?",
+   "answer": "An ordered group of features from any capabilities, each small enough that a person can test its result, with one screen or surface a person can test end to end; it holds no ICE and is not an issue type; whether its work has started is shown by its epic; inside it, the builder picks its own build order. The drafts use these as the slice's rules.",
+   "trace": [
+    {
+     "asked": "the definition of a slice",
+     "found": "an ordered group of features from any capabilities, one vertical a person can test end to end",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 424,
+      "end": 424,
+      "fingerprint": "sha256:e86944a7e09d368ba840c87a594cb3300e6ca6b7a66108b73c79cc3fcc0c0ec8"
+     }
+    },
+    {
+     "asked": "the rules of a slice",
+     "found": "features from any capabilities; each small enough to test; no ICE, not an issue type; one surface, else not a slice",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 455,
+      "end": 458,
+      "fingerprint": "sha256:8106845d1a98e3adc87d67b09e88f5028e7afcccb377424611ddb66abd3b5a68"
+     }
+    },
+    {
+     "asked": "how a slice shows its work has started",
+     "found": "by its epic; what comes first comes from its capabilities' needs",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 461,
+      "end": 461,
+      "fingerprint": "sha256:a9a94c1745473736cb520951cf108d58258f21270484de313322afdf41d41a4a"
+     }
+    },
+    {
+     "asked": "who picks the order of work inside a slice",
+     "found": "the agent picks it, in horizontal layers",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 470,
+      "end": 470,
+      "fingerprint": "sha256:541afcfd6eb845a2bd0364f00edb230f1ddca07f676b7764e3f04c7d83eb8e66"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-3 capability 1 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Who writes the slice's hidden file of failure and recovery conditions: Design slices or Design for evaluation and testing?",
+   "answer": "Not decided; the product owner decides. The drafts follow the lean, option 2: Design for evaluation and testing owns it, because writing failure and recovery conditions meets that capability's one line, not this one's. As built, /shape-slice writes it when it shapes the slice, and four approved BI-1 lines name Design slices as its writer, with two more naming both.",
+   "trace": [
+    {
+     "asked": "what the agreed one lines say",
+     "found": "Design slices cuts the work into vertical slices; Design for evaluation and testing designs how each slice is tested; Bring the design together names testing as its own part",
+     "source": {
+      "tier": "short-term",
+      "path": "1021/context/capabilities.md",
+      "start": 22,
+      "end": 22,
+      "fingerprint": "sha256:e27c5966c98f0a96c1d09596b8faa36bbd34b717dfbe2adb88d4b2ab17bb4a48"
+     }
+    },
+    {
+     "asked": "the sibling's and the joining capability's one lines",
+     "found": "how each slice will be tested is designed along with the slice; testing is one of the parts brought together",
+     "source": {
+      "tier": "short-term",
+      "path": "1021/context/capabilities.md",
+      "start": 24,
+      "end": 25,
+      "fingerprint": "sha256:bcca2118d51ee26f191d3f0fc08a7c62181579c05063c110c959bb5c004236d2"
+     }
+    },
+    {
+     "asked": "who writes the hidden file as built",
+     "found": "/shape-slice writes it when it shapes the slice, one entry per feature, and adds an entry when the slice gains a feature",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 465,
+      "end": 467,
+      "fingerprint": "sha256:0730383fff4cd11ee8fc65e70968af90c77fe0c62b635c6572e2d970cc8a1120"
+     }
+    },
+    {
+     "asked": "what the approved BI-1 capability page says",
+     "found": "Design slices owns choosing the slice and writing its hidden file",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+      "start": 42,
+      "end": 42,
+      "fingerprint": "sha256:1d7c50c41a03c05d4cffc5b676f1b57664a6f4d00d55f2210a5b2f74553e8f6b"
+     }
+    },
+    {
+     "asked": "the approved BI-1 rule on one reader per ICE line",
+     "found": "the Fails if lines go to the hidden file, which Design slices writes",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+      "start": 51,
+      "end": 51,
+      "fingerprint": "sha256:e425d907601551f9285c34c10a60db0e79a7e695ae72aad004dde3ae1100fdb1"
+     }
+    },
+    {
+     "asked": "the approved Cut an intent page",
+     "found": "Design slices writes the slice and its hidden file",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+      "start": 42,
+      "end": 42,
+      "fingerprint": "sha256:fb3499b40d7805819cf535718a9c0f1eddf33ac3848ea2ccbc577164cb7e4c88"
+     }
+    },
+    {
+     "asked": "the approved Write a story page",
+     "found": "Design slices writes the hidden file",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+      "start": 39,
+      "end": 39,
+      "fingerprint": "sha256:f43ea1fa67a64460b3a64c1985769426179159a38cd5b486405120dccd6d906a"
+     }
+    },
+    {
+     "asked": "the approved Add a found feature page",
+     "found": "the hidden-file entry and eval scenarios belong to Design slices and Design for evaluation and testing",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+      "start": 29,
+      "end": 29,
+      "fingerprint": "sha256:d9be3eef3c7784b3607f8757dff3026e5aefc055c15e24d10be17de9c5ce1b49"
+     }
+    },
+    {
+     "asked": "the approved Add a found feature page, out of scope",
+     "found": "Design slices and Design for evaluation and testing write the entry and the eval scenarios",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+      "start": 39,
+      "end": 39,
+      "fingerprint": "sha256:f82a05eb0449eb6a2e04aa2a7fb7db834df5bd602fe0cc29d15ddccad4957480"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-3 capability 1 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Where does a slice's one surface come from?",
+   "answer": "From the project's declared surfaces, as the approved Manage surfaces page says; when none is declared or none fits, it is proposed from the model and memory, the gap is named and the work goes on (the drafts' lean, option 1). As built, it is proposed from the intent, the model and the placement, because nothing declares surfaces yet.",
+   "trace": [
+    {
+     "asked": "what the approved surfaces page says a slice does",
+     "found": "each slice picks its one surface from the declared ones",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+      "start": 12,
+      "end": 12,
+      "fingerprint": "sha256:304522ebef792d429da9bbe1a94b13de26b152fe7284a98e90b06dc0d5f0f0ec"
+     }
+    },
+    {
+     "asked": "who chooses the surface and the tester",
+     "found": "Design slices owns it and picks from the declared surfaces",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+      "start": 47,
+      "end": 47,
+      "fingerprint": "sha256:6a60b2d506f880626024535fb9ec49a076c7dee148033ab7a6fdf9951e787684"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-3 capability 1 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Which persona does Design slices serve?",
+   "answer": "The product owner, who names the intent, answers and approves; each slice also names its own tester.",
+   "trace": [
+    {
+     "asked": "who the old slice part serves",
+     "found": "the product owner, who names the intent, answers and approves",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-slice/capability.md",
+      "start": 25,
+      "end": 25,
+      "fingerprint": "sha256:db0d7c2dc0cf9e0bfbe7752fd182924cf75c76400f4dcd78678c6435d50a5b08"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-3 capability 1 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Does Design slices write an intent's page when the model has none?",
+   "answer": "Yes, as a step of designing a slice, as built in /shape-slice and as the approved Keep the spec matched page says.",
+   "trace": [
+    {
+     "asked": "what the approved Keep the spec matched page says",
+     "found": "Design slices writes an intent's page from its issue when the model has none",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+      "start": 55,
+      "end": 55,
+      "fingerprint": "sha256:ee7d49c412bac6cd51f48aaa07bce35441f661118117ece8c0944a49a4aef242"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-3 capability 1 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "What does memory hold on how to cut work into vertical slices?",
+   "answer": "Little: the slice's rules in the ontology, an old epic rule (a vertical slice, never a horizontal layer) written for a retired pipeline, and domain shelves that name a first path to build end to end, such as the commerce shelf. Nothing on how to cut an intent into slices, their size or their order. Phoenix memory's slice schema is still v1. The pages name this as a gap and write no memory answer as a rule.",
+   "trace": [
+    {
+     "asked": "a memory rule on vertical slices",
+     "found": "an epic is a vertical slice, never a horizontal layer (old epic rules)",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/epics.md",
+      "start": 27,
+      "end": 27,
+      "fingerprint": "sha256:d807352a9abf6895d9c4c5d7f7e3ce0db0333e8554e1992d3abf434d580908f9"
+     }
+    },
+    {
+     "asked": "a domain shelf that names what to build first end to end",
+     "found": "build the core path first, end to end, before any enrichment",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "start": 90,
+      "end": 91,
+      "fingerprint": "sha256:a84f3ed8b7124f5a2a3391049549c55d62e11de1d2bd699290434282990838ad"
+     }
+    },
+    {
+     "asked": "the slice schema in Phoenix memory",
+     "found": "version 1: one domain per slice, with order and effort from the old chain",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/slice.yaml",
+      "start": 1,
+      "end": 6,
+      "fingerprint": "sha256:1db4b6fc059a123d4ffacfbe44cddb5c329718692f044b350cdccfc870327221"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-3 capability 1 draft",
+   "decided_by": "product-os-keeper"
+  }
+ ]
+}

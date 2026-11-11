@@ -1,0 +1,17 @@
+{
+  "written": [
+    "cap-keep-intents",
+    "cap-orchestrate-planning"
+  ],
+  "updated": [],
+  "thin": [
+    "cap-keep-intents",
+    "cap-orchestrate-planning"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/keep-intents/capability.md",
+    "product-os/software-delivery-planning/orchestrate-planning/capability.md"
+  ],
+  "layout_kept": true
+}

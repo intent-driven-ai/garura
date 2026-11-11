@@ -1,0 +1,8 @@
+{"issue": 1021,
+ "missing": "A knowledge shelf for software delivery planning. The ten domain shelves hold no such domain, and the capabilities being written under dom-software-delivery-planning need one to ground in.",
+ "target_tier": "short-term",
+ "target_path": "1021/context/answers/software-delivery-planning-shelf.md",
+ "draft": "A shelf for software delivery planning should start from what the model's domain page already says: this domain turns a business intent into work that agents can build and that a check from the outside can prove; it shapes one slice a person can test end to end, plans that slice as work items in the tracker, and writes the eval that says if the intent is met; it does not build, check or release the work. The personas, systems, quality needs and feature baseline a shelf holds are not drafted here, because nothing read in this run gives them.",
+ "draft_source": "model",
+ "sources": [],
+ "requested_by": "product-os-keeper (reorganise business intents, #1021)"}

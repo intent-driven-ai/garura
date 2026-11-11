@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: When the built product changes, a surface's properties or guidelines are updated, or the screen design is updated, the tools run and the person walks again on the built work after a fix, when more work is built, when a defect is fixed, when a confirmed update changes a surface, and when a confirmed update changes the screen design, each run kept as a new verdict that answers every part at every size as it is now and names every part that passed before and fails now; and when the same finding comes back after the rounds the project allows, the next handoff plan goes to the product owner with each round's verdicts.
+- Limit: Each run answers every property, guideline and screen at every size the surface names as they are now, and never skips, switches off or loosens a test or a walk to reach a pass.
+- Limit: Each verdict, with how and where each part was checked and who walked, is kept beside the earlier ones and never written over.
+- Limit: The number of rounds comes from the project's setting, and when each run starts is the plan's.
+- Fails if: A part that passed before fails after a change, and the verdict does not name it.
+- Fails if: A surface or the screen design was updated, and the built work kept its earlier pass without being tested again.
+- Fails if: The same finding went round again to the developer after the rounds the project allows, or an earlier verdict was written over.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: what changed in the built product and why, the confirmed updates of each surface's properties and guidelines, the confirmed updates of the screen design, each surface and the screen design as they are now, the earlier verdicts with how and where each part was checked and who walked, the handoff plans, and the project's setting for rounds.
+- Never read: the value of any secret, such as a password or a key; anything in production, such as its data or its traffic; and any ICE page.
+- Persona: the product owner, who trusts that what passed before still passes, and decides a finding that keeps coming back.
+- Scope: In: running the tools and the walk again after a change, an updated surface or an updated screen design, keeping each verdict, naming what passed before and fails now, and sending a finding that keeps coming back to a person. Out: fixing the work, updating a surface or the screen design, starting each run and the loop, and opening the screens, walking and writing each handoff plan.
+
+## Expectation
+- Scenario: A shop's checkout passed its user experience tests on desktop screens. More work is built, a step that offers a gift message, and the tests run again: the new message box spills past the edge of the checkout page, so the verdict names it as broken by the change. The developer fixes it from the handoff plan, and the tools and the walk run again and pass. Later, a confirmed update of the browser surface adds a phone screen size, and the tests run at the new size; a finding about the order summary on the phone comes back after the rounds the project allows, so the next handoff plan goes to the product owner with every round's verdicts.
+- Done means: Someone other than the one who ran the tests compares the verdicts of each round with the surface and the screen design of the time, and finds every part answered at every size each time, each part that passed before and fails now named, each earlier verdict kept, the updated surface and screen design tested, and the finding sent to a person once the rounds the project allows were used up.

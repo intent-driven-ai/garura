@@ -1,0 +1,115 @@
+{
+  "checked_on": "2026-11-10",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "headings": [
+        "## What it does",
+        "## Inputs / Outputs",
+        "## Rules & behavior",
+        "## Acceptance criteria",
+        "## Out of scope",
+        "## Sources"
+      ],
+      "examples": 3,
+      "how_it_meets": true,
+      "status": "Status: not built (#893, an agent cannot do a play's work without the play: guardrails laid by the Garura install, open and not shaped). Nothing is laid today: \"No install touches the coding tool's own settings today\". The approved page that lays them hands this part here: \"This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's.\"",
+      "rules": 10,
+      "rules_without_reason": [],
+      "acceptance": 3,
+      "acceptance_not_given_when_then": [],
+      "acceptance_not_marked": [],
+      "out_of_scope": 4,
+      "out_of_scope_without_owner": [],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "headings": [
+        "## What it does",
+        "## Inputs / Outputs",
+        "## Rules & behavior",
+        "## Acceptance criteria",
+        "## Out of scope",
+        "## Sources"
+      ],
+      "examples": 3,
+      "how_it_meets": true,
+      "status": "Status: not built (#992, every gate has a key, which asks where the debt is kept; #990, the product model moves with the work, whose list of changes not yet learned is not built; #943, gate records live in the evidence folder of the issue that made them). All three are open.",
+      "rules": 9,
+      "rules_without_reason": [],
+      "acceptance": 4,
+      "acceptance_not_given_when_then": [],
+      "acceptance_not_marked": [],
+      "out_of_scope": 5,
+      "out_of_scope_without_owner": [],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "headings": [
+        "## What it does",
+        "## Inputs / Outputs",
+        "## Rules & behavior",
+        "## Acceptance criteria",
+        "## Out of scope",
+        "## Sources"
+      ],
+      "examples": 3,
+      "how_it_meets": true,
+      "status": "Status: not built (#992, every gate has a key, whose open point asks whether a typed yes is a key of its own kind or an exception). No list of the pinned yeses exists apart from the gate rule, and #992's ADR is not written.",
+      "rules": 8,
+      "rules_without_reason": [],
+      "acceptance": 3,
+      "acceptance_not_given_when_then": [],
+      "acceptance_not_marked": [],
+      "out_of_scope": 6,
+      "out_of_scope_without_owner": [],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "headings": [
+        "## What it does",
+        "## Inputs / Outputs",
+        "## Rules & behavior",
+        "## Acceptance criteria",
+        "## Out of scope",
+        "## Sources"
+      ],
+      "examples": 3,
+      "how_it_meets": true,
+      "status": "Status: not built (#943, gate records live in the evidence folder of the issue that made them; #969, every run's records are kept in the evidence folder of its issue). Both are open.",
+      "rules": 9,
+      "rules_without_reason": [],
+      "acceptance": 3,
+      "acceptance_not_given_when_then": [],
+      "acceptance_not_marked": [],
+      "out_of_scope": 4,
+      "out_of_scope_without_owner": [],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "headings": [
+        "## What it does",
+        "## Inputs / Outputs",
+        "## Rules & behavior",
+        "## Acceptance criteria",
+        "## Out of scope",
+        "## Sources"
+      ],
+      "examples": 3,
+      "how_it_meets": true,
+      "status": "Status: not built (#992, a person is never stopped: every gate has a key, and using it records what is owed). #992 is open, under #735 (the harness standard, written down), and not under this intent. No ADR records the principle, and the harness standard says it for the model only: \"missing links are warnings to fix later, not stops\".",
+      "rules": 10,
+      "rules_without_reason": [],
+      "acceptance": 4,
+      "acceptance_not_given_when_then": [],
+      "acceptance_not_marked": [],
+      "out_of_scope": 8,
+      "out_of_scope_without_owner": [],
+      "problems": []
+    }
+  ]
+}

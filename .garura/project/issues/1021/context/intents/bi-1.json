@@ -1,0 +1,15 @@
+{
+  "id": "bi-1",
+  "issue": 1,
+  "title": "Product → Spec",
+  "outcome": "What a person gives, whether a video, a prototype, a brief or all of those, becomes an understanding of the product and a spec agents can act on. The original intents are kept and stay up to date as the product evolves.",
+  "why": "The bottleneck is stating intent clearly and keeping it across sessions, not writing code. Most tools lose the intent once the work starts.",
+  "asked_by": "the product owner",
+  "proof": [
+    "A person confirms the intents without writing a spec.",
+    "An agent acts on the spec without asking again.",
+    "Everything a person gave can still be read as given.",
+    "An intent that drifts from the product gets named."
+  ],
+  "must_not": "Make a person write the spec, say how to build it, or block because earlier documents are missing."
+}

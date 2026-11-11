@@ -1,0 +1,19 @@
+{
+  "updated": [],
+  "new_features": [],
+  "thin": [
+    {
+      "id": "cap-orchestrate-planning",
+      "doc": "software-delivery-planning/orchestrate-planning/capability.md",
+      "lines": [
+        "Goal",
+        "Limit",
+        "Fails if",
+        "Context",
+        "Checked by"
+      ]
+    }
+  ],
+  "fixed": [],
+  "not_mine": []
+}

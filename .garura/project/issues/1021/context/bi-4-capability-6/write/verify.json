@@ -1,0 +1,539 @@
+{
+ "pages": {
+  "software-delivery-planning/check-code-against-standards/capability.md": {
+   "equals_draft": true,
+   "bytes": 32579,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/ice.md": {
+   "equals_draft": true,
+   "bytes": 6199,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md": {
+   "equals_draft": true,
+   "bytes": 14399,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/fn-review-each-change/ice.md": {
+   "equals_draft": true,
+   "bytes": 3788,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md": {
+   "equals_draft": true,
+   "bytes": 9645,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md": {
+   "equals_draft": true,
+   "bytes": 3207,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md": {
+   "equals_draft": true,
+   "bytes": 14849,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/fn-send-code-findings/ice.md": {
+   "equals_draft": true,
+   "bytes": 4575,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md": {
+   "equals_draft": true,
+   "bytes": 7933,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md": {
+   "equals_draft": true,
+   "bytes": 3683,
+   "thin_lines_on_page": 0
+  }
+ },
+ "pages_all_equal": true,
+ "page_count": 10,
+ "pages_with_a_thin_line": [
+  "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md"
+ ],
+ "new_folder_files": [
+  "software-delivery-planning/check-code-against-standards/capability.md",
+  "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md",
+  "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md",
+  "software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+  "software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md",
+  "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+  "software-delivery-planning/check-code-against-standards/fn-review-each-change/ice.md",
+  "software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+  "software-delivery-planning/check-code-against-standards/fn-send-code-findings/ice.md",
+  "software-delivery-planning/check-code-against-standards/ice.md"
+ ],
+ "spine": {
+  "domains": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "old_unchanged_order_kept": true
+  },
+  "capabilities": {
+   "before": 29,
+   "after": 30,
+   "new": [
+    "cap-check-code-against-standards"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "features": {
+   "before": 99,
+   "after": 103,
+   "new": [
+    "fn-review-each-change",
+    "fn-check-whole-built-work",
+    "fn-send-code-findings",
+    "fn-recheck-code"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "slices": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "old_unchanged_order_kept": true
+  },
+  "ices": {
+   "before": 83,
+   "after": 88,
+   "new": [
+    "ice-check-code-against-standards",
+    "ice-review-each-change",
+    "ice-check-whole-built-work",
+    "ice-send-code-findings",
+    "ice-recheck-code"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "other_top_keys": [
+   "profile"
+  ],
+  "other_top_keys_unchanged": true,
+  "top_key_order_kept": true,
+  "new_entries": {
+   "cap-check-code-against-standards": {
+    "slug": "check-code-against-standards",
+    "domain": "dom-software-delivery-planning",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Check the code against its standards: every change, before it is merged, and the whole of each piece of built work, are checked by a part that is not their builder against the standards the project set before the change, and each finding goes back to the developer or to a person.",
+    "doc": "software-delivery-planning/check-code-against-standards/capability.md",
+    "thin": false
+   },
+   "fn-review-each-change": {
+    "slug": "fn-review-each-change",
+    "capability": "cap-check-code-against-standards",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Before a change is merged, a part that is not its builder reads which kinds of work the change holds, runs the checks the standards of each kind name on what the change adds, judges each part that carries a design against what was committed before the change, and records each finding with the standard it breaks and where.",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+    "thin": false
+   },
+   "fn-check-whole-built-work": {
+    "slug": "fn-check-whole-built-work",
+    "capability": "cap-check-code-against-standards",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Once a piece of work is built, checks the whole of its code, not only one change's lines, by a part that is not the builder, against the project's coding standards, the architecture and the design in force, and the profile's maintainability level, with its reliability level where the pass bar names a check of the code.",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md",
+    "thin": false
+   },
+   "fn-send-code-findings": {
+    "slug": "fn-send-code-findings",
+    "capability": "cap-check-code-against-standards",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Gives one verdict for each change and for the whole built work by one fixed rule over the findings, decided by a person or by that rule as the project's setting says, and sends each finding back as a handoff plan to the developer when the builder can fix it alone, to the test writer when it is about a test, or to the product owner when a person must decide.",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+    "thin": false
+   },
+   "fn-recheck-code": {
+    "slug": "fn-recheck-code",
+    "capability": "cap-check-code-against-standards",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Reviews a change again after a fix, checks the whole built work again when more work is built, when a standard changes and when an approved decision raises a level, keeps each verdict, names what passed before and fails now, and sends a finding that keeps coming back to a person once the rounds the project allows are used up.",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+    "thin": false
+   },
+   "ice-check-code-against-standards": {
+    "for": "cap-check-code-against-standards",
+    "for_kind": "capability",
+    "doc": "software-delivery-planning/check-code-against-standards/ice.md",
+    "thin": false
+   },
+   "ice-review-each-change": {
+    "for": "fn-review-each-change",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-review-each-change/ice.md",
+    "thin": false
+   },
+   "ice-check-whole-built-work": {
+    "for": "fn-check-whole-built-work",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md",
+    "thin": true
+   },
+   "ice-send-code-findings": {
+    "for": "fn-send-code-findings",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-send-code-findings/ice.md",
+    "thin": false
+   },
+   "ice-recheck-code": {
+    "for": "fn-recheck-code",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md",
+    "thin": false
+   }
+  },
+  "thin_ices": [
+   "ice-check-whole-built-work"
+  ],
+  "before_equals_head": true,
+  "text_lines_removed_or_replaced": 0,
+  "text_lines_added": 120,
+  "insert_blocks": 3,
+  "only_insertions": true,
+  "comment_lines_before": 0,
+  "comment_lines_after": 0
+ },
+ "bi_4": {
+  "before_equals_head": true,
+  "lines_before": 44,
+  "lines_after": 49,
+  "only_insertions": true,
+  "insert_blocks": 1,
+  "lines_added": 5,
+  "added": [
+   "- [Check the code against its standards](../software-delivery-planning/check-code-against-standards/capability.md) (capability) — adds",
+   "- [Review each change against the standards for what it holds](../software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md) (feature) — adds",
+   "- [Check the whole built work against its standards and the profile's levels](../software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md) (feature) — adds",
+   "- [Give the verdict on the code, and send each finding to the developer or to a person](../software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md) (feature) — adds",
+   "- [Check the code again as the product and its standards change](../software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md) (feature) — adds"
+  ],
+  "added_as_asked_in_order": true,
+  "inserted_after_line": "- [Test the user experience again as the product changes](../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md) (feature) — adds",
+  "inserted_after_last_touches_line": true,
+  "no_blank_line_added": true,
+  "byte_check_other_lines": true,
+  "outcome_proof_must_not_lines_unchanged": true,
+  "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+  "touches_lines": 29,
+  "every_touches_line_in_form": true,
+  "links": [
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-test-code-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-test-running-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-retest-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-test-running-speed/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-test-under-load/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-send-performance-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-retest-performance/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/check-code-against-standards/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+    "leads_to_a_file": true
+   }
+  ],
+  "every_link_leads_to_a_file": true,
+  "titles_match_page_titles": true,
+  "spine_entries_naming_bi_4": 29,
+  "spine_entry_ids_naming_bi_4": [
+   "cap-test-product-with-evals",
+   "cap-test-security",
+   "cap-test-performance",
+   "cap-test-accessibility",
+   "cap-test-user-experience",
+   "cap-check-code-against-standards",
+   "fn-run-slice-eval",
+   "fn-send-handoff-plan",
+   "fn-rerun-evals",
+   "fn-test-code-security",
+   "fn-test-running-security",
+   "fn-send-security-findings",
+   "fn-retest-security",
+   "fn-test-running-speed",
+   "fn-test-under-load",
+   "fn-send-performance-findings",
+   "fn-retest-performance",
+   "fn-test-accessibility-with-tools",
+   "fn-walk-with-keyboard-and-screen-reader",
+   "fn-send-accessibility-findings",
+   "fn-retest-accessibility",
+   "fn-test-user-experience-with-tools",
+   "fn-walk-against-screen-design",
+   "fn-send-user-experience-findings",
+   "fn-retest-user-experience",
+   "fn-review-each-change",
+   "fn-check-whole-built-work",
+   "fn-send-code-findings",
+   "fn-recheck-code"
+  ],
+  "in_spine_not_in_touches": [],
+  "in_touches_not_in_spine": [],
+  "kinds_agree_with_spine": true,
+  "new_touches_order_matches_capability_then_feature_list": true
+ },
+ "git_status_product": [
+  " M .garura/product/product-os/_spine.yaml",
+  " M .garura/product/product-os/intents/bi-4.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/check-code-against-standards/ice.md"
+ ],
+ "git_status_only_expected": true,
+ "structure_check": {
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+  "before": {
+   "errors": 87,
+   "warnings": 136,
+   "counts": {
+    "domain": 1,
+    "capability": 29,
+    "feature": 99,
+    "ice": 83
+   }
+  },
+  "after": {
+   "errors": 87,
+   "warnings": 141,
+   "counts": {
+    "domain": 1,
+    "capability": 30,
+    "feature": 103,
+    "ice": 88
+   }
+  },
+  "new_errors": [],
+  "errors_gone": [],
+  "new_warnings": [
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "warnings_gone": [],
+  "errors_naming_a_new_page": [],
+  "warnings_naming_a_new_page": [
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "note": "The 5 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page (ice.md beside the part's page) and write_approved.py refuses an ICE section on a part's page, so the same 5 warnings came with each earlier capability written this way."
+ },
+ "failed_checks": [],
+ "checks_run": 73,
+ "checks_passed": 73,
+ "all_checks_pass": true,
+ "checks": {
+  "page capability.md equals draft": true,
+  "page capability.md no thin line": true,
+  "page ice.md equals draft": true,
+  "page ice.md no thin line": true,
+  "page fn-review-each-change/feature.md equals draft": true,
+  "page fn-review-each-change/feature.md no thin line": true,
+  "page fn-review-each-change/ice.md equals draft": true,
+  "page fn-review-each-change/ice.md no thin line": true,
+  "page fn-check-whole-built-work/feature.md equals draft": true,
+  "page fn-check-whole-built-work/feature.md no thin line": true,
+  "page fn-check-whole-built-work/ice.md equals draft": true,
+  "page fn-check-whole-built-work/ice.md thin line back on top, rest = approved copy": true,
+  "page fn-send-code-findings/feature.md equals draft": true,
+  "page fn-send-code-findings/feature.md no thin line": true,
+  "page fn-send-code-findings/ice.md equals draft": true,
+  "page fn-send-code-findings/ice.md no thin line": true,
+  "page fn-recheck-code/feature.md equals draft": true,
+  "page fn-recheck-code/feature.md no thin line": true,
+  "page fn-recheck-code/ice.md equals draft": true,
+  "page fn-recheck-code/ice.md no thin line": true,
+  "only fn-check-whole-built-work/ice.md has a Thin line": true,
+  "new folder holds only the 10 pages": true,
+  "feature list order on the capability page = the four features in order": true,
+  "spine domains: nothing removed or changed, order kept": true,
+  "spine domains: new entries are exactly the ones asked": true,
+  "spine capabilities: nothing removed or changed, order kept": true,
+  "spine capabilities: new entries are exactly the ones asked": true,
+  "spine features: nothing removed or changed, order kept": true,
+  "spine features: new entries are exactly the ones asked": true,
+  "spine slices: nothing removed or changed, order kept": true,
+  "spine slices: new entries are exactly the ones asked": true,
+  "spine ices: nothing removed or changed, order kept": true,
+  "spine ices: new entries are exactly the ones asked": true,
+  "spine other top keys unchanged": true,
+  "spine top key order kept": true,
+  "spine entry cap-check-code-against-standards as asked": true,
+  "capability one_line = first line of Directional intent, word for word": true,
+  "spine entry fn-review-each-change as asked": true,
+  "feature fn-review-each-change one_line = list text, first letter capitalised": true,
+  "spine entry fn-check-whole-built-work as asked": true,
+  "feature fn-check-whole-built-work one_line = list text, first letter capitalised": true,
+  "spine entry fn-send-code-findings as asked": true,
+  "feature fn-send-code-findings one_line = list text, first letter capitalised": true,
+  "spine entry fn-recheck-code as asked": true,
+  "feature fn-recheck-code one_line = list text, first letter capitalised": true,
+  "spine entry ice-check-code-against-standards as asked": true,
+  "spine entry ice-review-each-change as asked": true,
+  "spine entry ice-check-whole-built-work as asked": true,
+  "spine entry ice-send-code-findings as asked": true,
+  "spine entry ice-recheck-code as asked": true,
+  "only ice-check-whole-built-work is thin among the new ICE": true,
+  "capability and features not thin themselves": true,
+  "ICE ids unique in the spine": true,
+  "all ids unique in the spine": true,
+  "each part at most one ICE": true,
+  "spine only gained lines": true,
+  "spine comments kept": true,
+  "bi-4 only_insertions": true,
+  "bi-4 added_as_asked_in_order": true,
+  "bi-4 inserted_after_last_touches_line": true,
+  "bi-4 no_blank_line_added": true,
+  "bi-4 byte_check_other_lines": true,
+  "bi-4 outcome_proof_must_not_lines_unchanged": true,
+  "bi-4 every_touches_line_in_form": true,
+  "bi-4 every_link_leads_to_a_file": true,
+  "bi-4 titles_match_page_titles": true,
+  "bi-4 kinds_agree_with_spine": true,
+  "bi-4 new_touches_order_matches_capability_then_feature_list": true,
+  "bi-4 gained exactly the 5 Touches lines, one block": true,
+  "the 29 index entries naming bi-4 match the 29 Touches lines": true,
+  "under .garura/product only the spine, bi-4.md and the new folder changed": true,
+  "structure check: no error names a new page": true,
+  "structure check: no new error": true
+ },
+ "before_state": "git HEAD 123961fb: the spine and intents/bi-4.md as committed (the model had no uncommitted change before this write)"
+}

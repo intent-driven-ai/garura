@@ -1,0 +1,439 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/standards/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-737/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-737/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-738/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-738/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-build-from-ice/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-build-from-ice/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-standard-per-kind/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-standard-per-kind/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-736/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-736/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-741/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-741/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-743/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-743/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-744/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-744/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-745/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-745/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-746/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-746/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-740/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-740/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-rules-for-every-part/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-one-severity/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-one-severity/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-check-no-tracker-named/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-check-no-tracker-named/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-play/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-play/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-play/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-play/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-loop/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-change-loop/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-check-loop-principles/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-check-loop-principles/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-add-gate/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-add-gate/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-build-agent-skill/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-source-layout/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-source-layout/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-installed-layout/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-installed-layout/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-garura-folder-list/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-garura-folder-list/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-run-records-with-issue/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-one-settings-file/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-one-settings-file/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-setting-names-reader/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-folder/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-folder/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-checkpoint-settings/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-checkpoint-settings/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-evidence-setting/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-evidence-setting/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-others-need/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-others-need/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-tools-read-settings/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-tools-read-settings/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-find-memory/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-find-memory/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-person-decides-update/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-person-decides-update/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-keep-decision-trace/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-keep-decision-trace/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-read-through-tool/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-phoenix-in-step/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-phoenix-in-step/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-bring-phoenix/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-bring-phoenix/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-promote-page/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-promote-page/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-check-memory/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-check-memory/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-decide-inside-memory/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-tier-by-rule/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-tier-by-rule/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-step-on-set-model/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-step-on-set-model/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-record-run-cost/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-record-run-cost/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-move-part-tier/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-move-part-tier/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-choose-model-at-run/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-choose-model-at-run/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capabilities.md, section Standards, structure, settings and memory: the product owner's words of 2026-11-11, \"continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp\"",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

@@ -1,0 +1,35 @@
+{
+  "routing_result": {
+    "work": "Garura understands, for a product team, what the product's consumers want and what the products it competes with are doing, from what the team's own web analytics, product analytics, user feedback and forums gave it: the needs and problems that come up across many items, each with the items it rests on; what rivals do as people describe them; each finding placed on the business intents, capabilities and features of the product model, or named as fitting none; and the findings handed to the product owner and to the step that recommends changes. It is Garura's own work for any product it builds, not a feature built into a product.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_detail": [
+      {
+        "name": "software delivery (the field Garura serves)",
+        "why": "Garura serves teams that build software; no shelf's trigger is about building or delivering software, as the earlier placements for the domain of software delivery planning and for the first capability of Run → Product already found."
+      },
+      {
+        "name": "understanding a product's consumers and its competition from its use and its market (the job this work does)",
+        "why": "The job is to read what a team took in about its own product and its rivals and say what consumers want and what rivals do. Each of the ten shelves is a field a product is built for (selling, paying, content, accounts, reach and so on); none is about understanding another product's consumers or competitors."
+      }
+    ],
+    "near_but_not_placed": [
+      {
+        "domain": "analytics",
+        "why_near": "Its operator intent 'Understand product usage' and its core 'Product-usage insight' are about understanding what people do in a product.",
+        "why_not_placed": "Its trigger is 'the product needs to measure behaviour and outcomes — events, goals, funnels, product usage': it is how measuring is built into a product. This work builds nothing into a product; it reads what a team's tools already hold, including feedback and forums, which no shelf covers, and it says nothing about rivals."
+      },
+      {
+        "domain": "experience",
+        "why_near": "Its 'Intent intelligence' infers what a visitor is trying to do, and its rule that every inference traces to evidence with a confidence matches how findings must be shown here.",
+        "why_not_placed": "Its trigger is 'the product helps people find, understand, and be guided': a front-end a product offers its visitors. This work is a harness understanding a product's consumers for its team."
+      },
+      {
+        "domain": "ecommerce",
+        "why_near": "Its 'Understand' intent, 'learn from behaviour and reviews', with review analysis.",
+        "why_not_placed": "It is a shop analysing its buyers' reviews, a feature of selling goods, not a harness understanding any product's consumers and rivals."
+      }
+    ]
+  }
+}

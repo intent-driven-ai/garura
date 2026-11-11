@@ -1,0 +1,56 @@
+{
+  "checked_on": "2026-11-10",
+  "how": "each Goal read against each Limit and Fails if of the same ICE page, by hand",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/ice.md",
+      "contradiction": false,
+      "note": "The Goal has the person answer each piece in the page or on cards and the review step apply every answer in one commit; the Limits keep the answers to a person and to each kind's owner, keep Argus from writing the model, and leave landing to Ship every change the same way. The Goal says the person never reads a raw file; the first draft's third Fails if excepted an agent decision's source, which read as a raw file, so it now says the person never had to open a file (the source is shown inside Argus). No contradiction left."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/ice.md",
+      "contradiction": false,
+      "note": "The Goal starts a review in Argus once Argus is up; the Limit says Garura never starts Argus itself. Starting a review is not starting the server, so they agree. The Goal keeps every action on the run's branch; the Limit forbids any agent reading the web page, which the branch makes unneeded."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+      "contradiction": false,
+      "note": "The Goal is reading only; the Limit that reading writes nothing, the ICE answered only in Intents, and no file shown all narrow it without taking anything from it."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md",
+      "contradiction": false,
+      "note": "The Goal lets a swipe right accept; the first draft's Limit said a swipe never changes a piece, which could read as forbidding the accept. It now says a swipe never changes a piece's words: accepting answers a piece and leaves its words as they are. The Limit that Argus applies nothing agrees with the Goal, which only keeps events."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+      "contradiction": false,
+      "note": "The Goal carries each accept through the decision play's own accept; the Limits keep the accept to a person and to what the decision play writes. They agree."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+      "contradiction": false,
+      "note": "The Goal records each decision through the memory tool and writes an approved update to its issue's short-term memory; the Limits keep the decision to a person, one at a time, keep writes to short-term memory, and leave what an answer does to the memory tool. They agree."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md",
+      "contradiction": false,
+      "note": "The Goal shows each step's state after a fresh check and lets the person send a decision back; the Limits require the fresh check, keep Argus from reading memory itself (the pack carries it), and keep the redo to memory only. They agree."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+      "contradiction": false,
+      "note": "The Goal has the owning play rework one piece while the review goes on; the Limits keep the rework to that piece and that play, ask for a reply every time, and keep comments pinned. They agree."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/ice.md",
+      "contradiction": false,
+      "note": "The Goal applies every answer in one commit and hands landing on; the Limits keep the commit to the person's answers, keep approval to the review step and each kind's owner, and leave landing and the merge to Ship every change the same way. They agree."
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md",
+      "contradiction": false,
+      "note": "The Goal has a person start Argus once and Garura reach it at one address; the Limit says Garura never starts it. They agree. The Limit that Argus names no Garura kind in its code agrees with the Goal's contract, which carries kinds as data."
+    }
+  ]
+}

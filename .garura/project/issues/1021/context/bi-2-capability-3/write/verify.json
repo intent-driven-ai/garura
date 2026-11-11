@@ -1,0 +1,292 @@
+{
+  "pages": {
+    "software-delivery-planning/deployment-design/capability.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/deployment-design/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/deployment-design/fn-update-deployment/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/deployment-design/fn-update-deployment/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 8,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "capabilities": {
+      "before": 17,
+      "after": 18,
+      "new": [
+        "cap-deployment-design"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "features": {
+      "before": 58,
+      "after": 61,
+      "new": [
+        "fn-design-how-project-runs",
+        "fn-cloud-cartridges",
+        "fn-update-deployment"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "ices": {
+      "before": 30,
+      "after": 34,
+      "new": [
+        "ice-deployment-design",
+        "ice-design-how-project-runs",
+        "ice-cloud-cartridges",
+        "ice-update-deployment"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "profile_unchanged": true,
+    "other_top_keys_unchanged": true,
+    "new_entries": {
+      "cap-deployment-design": {
+        "slug": "deployment-design",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "How the product gets deployed is designed.",
+        "doc": "software-delivery-planning/deployment-design/capability.md",
+        "thin": false
+      },
+      "fn-design-how-project-runs": {
+        "slug": "fn-design-how-project-runs",
+        "capability": "cap-deployment-design",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "Turns the approved architecture into a physical architecture, which services run, on what container platform and on which cloud, and designs the path through the environments Environment setup declares, with the one design each environment is built from, the pipeline for continuous integration and continuous delivery, the tests in each environment, release and rollback, where secrets and settings are kept, and the cost on each cloud, each with its reason, so every change runs the same way.",
+        "doc": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+        "thin": false
+      },
+      "fn-cloud-cartridges": {
+        "slug": "fn-cloud-cartridges",
+        "capability": "cap-deployment-design",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "Prepares one ready cartridge for each of the three clouds, with its services, its container platforms and how to work out what running on it costs, so the design can map the project onto any of them and set the three costs side by side.",
+        "doc": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+        "thin": false
+      },
+      "fn-update-deployment": {
+        "slug": "fn-update-deployment",
+        "capability": "cap-deployment-design",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "When the project outgrows how it runs, or a part of the design or a cloud's cartridge must change, a person confirms an update, and what held before stays readable with why it changed.",
+        "doc": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+        "thin": false
+      },
+      "ice-deployment-design": {
+        "for": "cap-deployment-design",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/deployment-design/ice.md",
+        "thin": true
+      },
+      "ice-design-how-project-runs": {
+        "for": "fn-design-how-project-runs",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+        "thin": true
+      },
+      "ice-cloud-cartridges": {
+        "for": "fn-cloud-cartridges",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+        "thin": true
+      },
+      "ice-update-deployment": {
+        "for": "fn-update-deployment",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+        "thin": true
+      }
+    },
+    "entries_as_asked": true,
+    "feature_one_lines_match_capability_list": {
+      "fn-design-how-project-runs": true,
+      "fn-cloud-cartridges": true,
+      "fn-update-deployment": true
+    },
+    "capability_one_line_as_given": true,
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 95,
+    "insert_blocks": 3,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0,
+    "comments_kept": true,
+    "layout_kept_reported_by_link_part": true
+  },
+  "bi_2": {
+    "lines_before": 27,
+    "lines_after": 31,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 4,
+    "added": [
+      "- [Deployment design](../software-delivery-planning/deployment-design/capability.md) (capability) — adds",
+      "- [Design how the project runs](../software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md) (feature) — adds",
+      "- [Prepare a dedicated cartridge for each cloud: AWS, GCP and Azure](../software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md) (feature) — adds",
+      "- [Update the deployment design as the project changes](../software-delivery-planning/deployment-design/fn-update-deployment/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Update the surfaces as the project changes](../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "touches_lines": 10,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/design-technology-architecture/capability.md": true,
+      "../software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md": true,
+      "../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md": true,
+      "../software-delivery-planning/manage-surfaces/capability.md": true,
+      "../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md": true,
+      "../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md": true,
+      "../software-delivery-planning/deployment-design/capability.md": true,
+      "../software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md": true,
+      "../software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md": true,
+      "../software-delivery-planning/deployment-design/fn-update-deployment/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_parts_naming_bi_2": 10,
+    "spine_part_ids_naming_bi_2": [
+      "cap-design-technology-architecture",
+      "cap-manage-surfaces",
+      "cap-deployment-design",
+      "fn-set-architecture",
+      "fn-update-architecture",
+      "fn-declare-surfaces",
+      "fn-update-surfaces",
+      "fn-design-how-project-runs",
+      "fn-cloud-cartridges",
+      "fn-update-deployment"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kind_matches": true,
+    "request_form": "All 4 adds anchor on the page's last Touches line as it was before the run (change_lines.py checks each 'after' line against the page as it was), and the script put them below it in request order."
+  },
+  "git_status": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-2.md",
+    "?? .garura/product/product-os/software-delivery-planning/deployment-design/"
+  ],
+  "git_status_only_expected": true,
+  "new_folder_files": [
+    ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+    ".garura/product/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+    ".garura/product/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+    ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+    ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+    ".garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+    ".garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+    ".garura/product/product-os/software-delivery-planning/deployment-design/ice.md"
+  ],
+  "new_folder_holds_only_the_8_pages": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 83,
+      "counts": {
+        "domain": 1,
+        "capability": 17,
+        "feature": 58,
+        "ice": 30
+      },
+      "file": ".garura/project/issues/1021/context/bi-2-capability-3/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 87,
+      "counts": {
+        "domain": 1,
+        "capability": 18,
+        "feature": 61,
+        "ice": 34
+      },
+      "file": ".garura/project/issues/1021/context/bi-2-capability-3/write/lint-after.json"
+    },
+    "new_errors": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "errors_gone": [],
+    "warnings_gone": [],
+    "errors_naming_a_new_part": [],
+    "warnings_naming_a_new_part": [
+      ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 4 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'); under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning already stood on 30 pages before this write, among them the 6 pages of Design the technology and architecture and Manage surfaces. No error names a new page."
+  },
+  "all_checks_pass": true,
+  "before_state": "git HEAD 3102ad20: the spine and intents/bi-2.md as committed (the model had no uncommitted change before this write; both were copied aside before the first write)"
+}

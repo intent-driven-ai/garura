@@ -1,0 +1,31 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/gather-work-under-item/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/gather-work-under-item/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/gather-work-under-item/fn-collect-story-context/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-1b/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

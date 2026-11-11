@@ -1,0 +1,39 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-4/page-approvals.md (the product owner, 2026-11-10: the write shown with fn-883, seven Touches lines on BI-7's page marked \"changes\")",
+  "pages": [
+    {
+      "page": "intents/bi-7.md",
+      "changes": [
+        {
+          "after": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+          "add": "- [Set a project up after the install (Initialize)](../software-delivery-planning/initialize/capability.md) (capability) — changes"
+        },
+        {
+          "after": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+          "add": "- [Ask the setup questions](../software-delivery-planning/initialize/fn-setup-questions/feature.md) (feature) — changes"
+        },
+        {
+          "after": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+          "add": "- [Build the project's memory](../software-delivery-planning/initialize/fn-project-memory/feature.md) (feature) — changes"
+        },
+        {
+          "after": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+          "add": "- [Choose the review rule groups](../software-delivery-planning/initialize/fn-review-rule-groups/feature.md) (feature) — changes"
+        },
+        {
+          "after": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+          "add": "- [Set up the tracker's work-item types](../software-delivery-planning/initialize/fn-881/feature.md) (feature) — changes"
+        },
+        {
+          "after": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+          "add": "- [Update the setup as the project changes](../software-delivery-planning/initialize/fn-rerun-initialize/feature.md) (feature) — changes"
+        },
+        {
+          "after": "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds",
+          "add": "- [Update each project's own memory as Phoenix memory changes](../software-delivery-planning/initialize/fn-883/feature.md) (feature) — changes"
+        }
+      ]
+    }
+  ]
+}

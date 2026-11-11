@@ -1,0 +1,24 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work",
+  "approved_by": "the product owner",
+  "repointed": [],
+  "removed": [
+    "bi-717",
+    "bi-722",
+    "bi-734",
+    "bi-756",
+    "bi-788"
+  ],
+  "merged": [],
+  "moved_features": [],
+  "needs_to_review": [],
+  "changed": [],
+  "deleted": [
+    "product-os/intents/bi-717.md",
+    "product-os/intents/bi-722.md",
+    "product-os/intents/bi-734.md",
+    "product-os/intents/bi-756.md",
+    "product-os/intents/bi-788.md"
+  ],
+  "layout_kept": true
+}

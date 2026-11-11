@@ -1,0 +1,68 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-manage-surfaces",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "manage-surfaces",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "The project's surfaces are declared: CLI, browser, mobile or other.",
+      "doc": "software-delivery-planning/manage-surfaces/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-declare-surfaces",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-declare-surfaces",
+      "capability": "cap-manage-surfaces",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "Declares each surface the project has, with its kind, who opens it and why, what it offers and how it behaves, and the guidelines every design on it must handle, so each design on that surface is made for it.",
+      "doc": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-surfaces",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-surfaces",
+      "capability": "cap-manage-surfaces",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "When the project gains or drops a surface, or a surface's kind, properties or guidelines must change, a person confirms an update, and what held before stays readable with why it changed.",
+      "doc": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-manage-surfaces",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-manage-surfaces",
+      "doc": "software-delivery-planning/manage-surfaces/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-declare-surfaces",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-declare-surfaces",
+      "doc": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-surfaces",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-surfaces",
+      "doc": "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+      "thin": true
+    }
+  ]
+}

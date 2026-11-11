@@ -1,0 +1,42 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-6.md",
+      "changes": [
+        {
+          "after": "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+          "add": "- [Build features or update the product model, on its own or at least as recommendations](../software-delivery-planning/build-or-update-product/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+          "add": "- [Work out the change each finding calls for, with why and how sure](../software-delivery-planning/build-or-update-product/fn-propose-changes/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+          "add": "- [Recommend each change to the product owner, and keep his answer](../software-delivery-planning/build-or-update-product/fn-recommend-changes/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+          "add": "- [Let the changes the product owner allows go ahead on their own, and show each one with a way back](../software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+          "add": "- [Start each change down the path that builds it, through the part that owns each step](../software-delivery-planning/build-or-update-product/fn-start-changes/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the understanding as new items come in and the product changes](../software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md) (feature) — adds",
+          "add": "- [Update the recommendations as the findings and the product change](../software-delivery-planning/build-or-update-product/fn-update-recommendations/feature.md) (feature) — adds"
+        }
+      ],
+      "lines_before": 31,
+      "lines_after": 37,
+      "lines_added": 6,
+      "lines_kept": 31
+    }
+  ],
+  "changed": [
+    "intents/bi-6.md"
+  ]
+}

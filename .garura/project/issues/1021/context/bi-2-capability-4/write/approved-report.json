@@ -1,0 +1,47 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/environment-setup/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-declare-environments/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-declare-environments/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-build-environment/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-build-environment/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-update-environments/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-4/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

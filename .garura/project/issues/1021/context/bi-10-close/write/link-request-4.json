@@ -1,0 +1,11 @@
+{
+ "by": "product-os-keeper, for #1021: BI-10 close, item 4",
+ "parts": [
+  {
+   "id": "fn-promote-page",
+   "kind": "feature",
+   "mode": "update",
+   "one_line": "A page moves from an issue's short-term memory to the project's Garura memory only on a person's yes in Argus, and what Run → Product learned is chosen by that person."
+  }
+ ]
+}

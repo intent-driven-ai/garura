@@ -1,0 +1,349 @@
+# Layer 2 design-grounding, category: memory (check-change Step 3, PR 1039, issue 1021)
+# Written by change-reviewer. Read-only review: no file under review was changed.
+category: memory
+base: main
+changed_files:
+  - core/components/memory/standards/rules/ice-rubric.md        # new
+  - core/components/memory/standards/rules/intent-depth.md      # new
+  - core/components/memory/standards/rules/_index.md            # +7 lines: a "Product model rules" table
+severity_note: >-
+  pr.md maps scan rows to buckets mechanically; no row types a design finding, and the scan gives
+  no finding on prose. The bucket meanings are used as written: P2 Major = a structural
+  violation, here a conflict with a committed design that a downstream agent would act on;
+  P3 Minor = missing docs, wording, naming, a gap that does not change what an agent does;
+  P4 Nit = style-level or an omission with a cheap fix. No P1: nothing here touches security,
+  secrets, data loss, a breaking API contract or migration safety.
+counts: {P1: 0, P2: 2, P3: 5, P4: 3, total: 10}
+
+grounded_principles:
+  - id: GP-1
+    principle: >-
+      An ICE holds its Intent as "goals, limits, fails if" (plural goals); the ready check counts
+      no lines and judges no richness (that is the product owner's job); a thin ICE is thin
+      because of the mark, never because of its line count, and has AT LEAST a goal, a limit and
+      one Fails if; writing an ICE is never blocked.
+    sources:
+      - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: "main", lines: "482, 493, 518-520"}
+      - {path: docs/adr/047-the-ice-is-its-own-node.md, ref: "main", lines: "38-42 (section 2), 66-68 (section 7), 70-74 (section 8)"}
+      - {path: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md, ref: "main", lines: "47-54 (section 5), 59 (section 6), 74"}
+  - id: GP-2
+    principle: >-
+      The committed ICE schema and grounding template let an ICE carry several goals: goals may
+      be many; goals share one ICE only when they share the context; the Goal label may repeat
+      (at least one Goal); the committed gold example has two Goal lines; the linter requires
+      at least one Goal.
+    sources:
+      - {path: core/components/memory/standards/schemas/product-os/ice.yaml, ref: "main", lines: "58-65"}
+      - {path: core/components/memory/standards/schemas/product-os/grounding/capability.md, ref: "main", lines: "56-70, 109-110"}
+      - {path: core/components/plays/discover-capabilities/scripts/lint_grounding.py, ref: "main", lines: "143, 220-237, 471"}
+  - id: GP-3
+    principle: >-
+      The one-goal discipline: "Can you state the goal in one sentence without 'and'?" A goal that
+      needs "and" is usually two goals. (Supports the direction of the rubric's one-goal line; it is
+      the only committed source that does.)
+    sources:
+      - {path: docs/philosophy/idd-decision-checklist.md, ref: "main", lines: "113-117"}
+  - id: GP-4
+    principle: >-
+      Builders and validators must not share context: the one who did the work is not the one who
+      proves it. (The rubric's "Done means ... by someone other than the one who did the work" and
+      "A check by the doer" conform.)
+    sources:
+      - {path: docs/philosophy/idd-principles.md, ref: "main", lines: "100-118"}
+  - id: GP-5
+    principle: >-
+      A failure condition is observable and binary and checkable from the output alone; a limit
+      shapes the builder's design choices. A "Fails if" that needs the goal to judge is a limit in
+      disguise.
+    sources:
+      - {path: docs/philosophy/idd-principles.md, ref: "main", lines: "71, 75-81"}
+  - id: GP-6
+    principle: >-
+      /discover-intent proposes one business intent per need, never merges two needs, and never
+      leaves out a part the source shows: every part of the source is mapped to the business
+      intent it serves. A part mapped to no intent is a failure condition, and the checker
+      refuses it ("nothing may be left out"). Each main section of the product gets its own intent.
+    sources:
+      - {path: core/components/plays/discover-intent/reference/ice.md, ref: "main", lines: "92-96 (C12), 138-146 (C17), 179-181 (F12), 270-275 (S7), 357-360 (REC12)"}
+      - {path: core/components/plays/discover-intent/SKILL.md, ref: "main", lines: "335-339 (SE-12)"}
+      - {path: core/components/plays/discover-intent/scripts/check_intent.py, ref: "main", lines: "187-206"}
+  - id: GP-7
+    principle: >-
+      Memory has three tiers read in this order: short-term, Garura, Phoenix. The project tier is
+      called Garura memory, never "project memory". Agents also read the project's git repository,
+      product model and intents. When no tier answers, an agent raises a memory update; the model
+      or web may only help draft it; nothing is used until a person approves it.
+    sources:
+      - {path: docs/adr/035-agents-work-only-from-memory.md, ref: "main", lines: "36-44 (section 1), 55-68 (section 3), 70-76 (section 5)"}
+  - id: GP-8
+    principle: >-
+      A plan's operational data (status, direction, branch, item kinds, history) is never written in
+      the product model's index or on its pages; the ICE has no link to a work item or a business
+      intent. The Plan is one of the ontology's thirteen kinds, "the thread between" the layers.
+    sources:
+      - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: "main", lines: "9, 482, 585, 629"}
+  - id: GP-9
+    principle: >-
+      A business intent links to its capabilities, never names features (a feature is reached
+      through its parent capability); it holds Outcome, Why, Proof, Must not, Rules, Touches, and
+      carries no property for a depth preference.
+    sources:
+      - {path: core/components/memory/standards/schemas/product-os/ontology.md, ref: "main", lines: "173-250 (Business Intent), 194"}
+      - {path: core/config.yaml, ref: "main", lines: "whole file: no depth or granularity key"}
+  - id: GP-10
+    principle: >-
+      How a rules file is shaped and admitted. A rule answers "how must this artifact be
+      structured", is enforced by at least one skill, and is the single source of truth. Sibling
+      rules open with an H1, anchor to the decision that made them (an ADR or issue), and name
+      concrete consumers in the index; a rule that lands before its enforcer says "Not yet wired".
+    sources:
+      - {path: core/components/memory/standards/rules/_index.md, ref: "main", lines: "67-76 (When to Add Here), 14-47 (rows with named consumers)"}
+      - {path: core/components/memory/standards/rules/work-plan.md, ref: "main", lines: "3, 11 (Not yet wired)"}
+      - {path: core/components/memory/standards/rules/eval-format.md, ref: "main", lines: "3 (ADR 057)"}
+      - {path: core/components/memory/standards/rules/direct-model-write.md, ref: "main", lines: "8 (Authority: ADR 026)"}
+      - {path: core/components/memory/standards/rules/user-questions.md, ref: "main", lines: "6-9"}
+      - {path: core/components/memory/standards/rules/surface-contract.md, ref: "main", lines: "7 (ADR 022)"}
+
+excluded_as_grounding:
+  - what: docs/adr/065-*.md and docs/adr/066-*.md, and both new rule files
+    why: This branch adds them. They are the work under review, not the standard.
+  - what: Phoenix memory copies of ice-rubric.md and intent-depth.md (standards/rules/, version b2e40bff2131)
+    why: >-
+      The memory tool returns both at the new version, and the text equals this branch's files
+      (a diff shows only a trailing newline). They are the subject promoted, not an earlier design.
+      Copied into the memory folder only to prove the identity; not used as a source.
+  - what: Phoenix memory older rules (features.md, scenarios.md, product.md, feature-catalog.md, kb-extension.md)
+    why: >-
+      Read for duplication. They govern the retired intent-epic and specify pipeline (consumers
+      generate-intent-epics, manage-features); none overlaps either new rule. No finding.
+grounding_gaps:
+  - id: GAP-1
+    what: >-
+      No source committed before this branch decides "exactly one goal, not negotiable"
+      (ice-rubric.md line 9), "parts that only connect others are transitional and recorded as
+      considered" (intent-depth.md line 10), or "the product owner can set a preference for
+      smaller or bigger intents" (intent-depth.md line 9). Searched main: docs/adr/**,
+      docs/philosophy/**, core/components/memory/standards/**, the discover-intent play. Only
+      GP-3 supports the first, in direction. Reported as DG-MEM-01, -02 and -06.
+
+layer1_checks_by_hand:
+  - check: each rule follows its siblings' shape (H1, body, examples, named consumers in the index)
+    result: >-
+      Partly. Both open with an H1 and a plain-words body, and both have examples across
+      several domains. Neither anchors to a decision or says what enforces it (DG-MEM-07, -08).
+  - check: cross-references resolve (no [[...]] link and no markdown link in either file)
+    result: none present, nothing to resolve
+  - check: frontmatter id consistent with path
+    result: not applicable (sibling rules on main carry no frontmatter)
+  - check: each file is listed in the shelf index
+    result: pass. Both are in core/components/memory/standards/rules/_index.md lines 17-23; both paths exist.
+  - check: the component linter (node core/tools/lint-components/index.js --target core/components, from the repo root)
+    result: no message names either rule file or the rules index
+  - check: no real person named in either file
+    result: pass (they say "the product owner")
+
+findings:
+  - id: DG-MEM-01
+    severity: P2
+    file: core/components/memory/standards/rules/intent-depth.md
+    lines: "10-11, 15-16"
+    title: The rule lets a part of the source become no intent; the committed /discover-intent play and its checker refuse exactly that
+    what_the_change_says: >-
+      Line 10: "Not every part is an intent. Parts that only connect others are transitional. They
+      are recorded as considered, with the reason they are not an intent." Line 11: "Every part is
+      considered. Coverage means each part that matters was looked at, not that each one became
+      something."
+    principle_violated: GP-6
+    basis: >-
+      On main the play that "specifies intents" (the rule's own named consumer, in _index.md line
+      22) holds the opposite contract. C12 (core/components/plays/discover-intent/reference/ice.md
+      lines 92-96): "never leaving out a part the source shows; every part of the source is mapped
+      to the business intent it serves (the coverage map)". F12 (lines 179-181): "a part of what
+      the source shows is mapped to no business intent" is a failure. S7 (lines 270-275) and SE-12
+      (core/components/plays/discover-intent/SKILL.md lines 335-339) test "every part mapped". The
+      checker, core/components/plays/discover-intent/scripts/check_intent.py lines 187-206, rejects
+      a coverage entry whose intent is missing: "maps to no business intent ... nothing may be left
+      out". The rule also has no home for a "considered" record: a coverage entry must name an
+      intent, and the Business Intent and Source kinds (ontology.md lines 173-250, 252-290) hold no
+      such property. Line 11 also contradicts itself ("every part" versus "each part that
+      matters") and leaves the exempt parts unrecorded, which line 16 calls a fault.
+    why_p2: >-
+      Two committed instructions now disagree for the same consumer, and the play's checker would
+      fail a draft that follows the rule. This branch changes no play or script
+      (git diff main...HEAD names none under core/components/plays/).
+    fix_direction: >-
+      Amend the play's contract (through its ICE source and /edit-play, with a decision record) and
+      check_intent.py in the same change, or mark the rule "Not yet wired" the way work-plan.md
+      line 11 does; give "considered" a stated home; make line 11 say which parts are exempt.
+
+  - id: DG-MEM-02
+    severity: P2
+    file: core/components/memory/standards/rules/ice-rubric.md
+    lines: "9, 37"
+    title: '"Exactly one goal, not negotiable" reverses the committed ICE design, which lets an ICE carry several goals'
+    what_the_change_says: >-
+      Line 9: Goal "Exactly one. This is not negotiable. Two goals mean two parts: split the part,
+      or move one goal down to a feature." Line 37 repeats it ("two goals, unless sharing is what
+      the upload is for").
+    principle_violated: GP-2 (with GP-1)
+    basis: >-
+      The rubric says (line 5) the ontology's ICE kind "holds the full shape". The ontology's
+      Intent property is "The goals (what must be true), the limits, and what counts as failing"
+      (ontology.md line 493; also line 482), and ADR 047 section 2 says "the goals" (lines 38-42).
+      The committed ICE schema is explicit: "intent.goals and expectations.outcomes may be many"
+      and goals "share an ICE only if they share the context" (ice.yaml lines 58-65). The
+      committed grounding template says "a label may repeat; at least one Goal" and its gold
+      example has two Goal lines (grounding/capability.md lines 69, 109-110); the linter enforces
+      "at least one Goal" (lint_grounding.py lines 220-237). The count test is context, not "one".
+      The only committed source for a one-goal bar is docs/philosophy/idd-decision-checklist.md
+      lines 113-117 ("usually two goals"), which is advice with "usually", not "not negotiable".
+    why_p2: >-
+      The ontology and the rubric are both memory an agent reads. They now give opposite answers on
+      a line every ICE has, and a judge using the rubric would fail the committed gold example. The
+      direction may be right; the change records no decision that narrows the ontology and the ICE
+      schema, and amends neither.
+    fix_direction: >-
+      Record the decision, amend ontology.md and ice.yaml to match (or soften the rubric to the
+      checklist's "usually" and the context-sharing test), and drop "not negotiable" unless a
+      decision record says so.
+
+  - id: DG-MEM-03
+    severity: P3
+    file: core/components/memory/standards/rules/ice-rubric.md
+    lines: "3, 10-11"
+    title: '"A thin ICE has up to three" caps what the thin mark defines as a floor, and the rubric never says it is advisory'
+    principle_violated: GP-1
+    basis: >-
+      ADR 052 section 5 (lines 49-54) and ontology.md line 520 give a thin ICE "at least" a goal,
+      a limit and one Fails if. ADR 052 line 59 and ontology.md lines 518 and 520: "the check
+      counts no lines ... An ICE is thin because it carries the mark, not because it has few
+      lines." The rubric's own "Thin" section (line 33) says the same, so lines 10-11 contradict
+      the file they sit in. Line 3 says "a person, a play or a judge reads an ICE against this
+      table" and never says that failing it never blocks a write or work (ontology.md line 519;
+      ADR 047 section 8 line 74; ADR 052 line 74; lint_grounding.py line 471 "never whether a part
+      is thin or wrong"). Richness is "the product owner's job" (ontology.md line 518).
+    fix_direction: >-
+      Replace "up to three" with the floor the ADR gives, and add one sentence that the rubric is
+      read for quality, is judged by the product owner, and never stops a write or work.
+
+  - id: DG-MEM-04
+    severity: P3
+    file: core/components/memory/standards/rules/ice-rubric.md
+    lines: "22-27"
+    title: The Read order names "the project's existing memory" and "Garura memory" as two steps and leaves out short-term memory
+    principle_violated: GP-7
+    basis: >-
+      ADR 035 section 1 (lines 36-44): the tiers are Phoenix, Garura and short-term; the project
+      tier "is called Garura memory, not 'project memory'". Section 3 (lines 55-68): the lookup runs
+      short-term, then Garura, then Phoenix. Line 42: "Agents also read the project's git
+      repository, its product model and its intents." Rubric step 1 uses the banned name, and if
+      it means Garura memory then step 2 repeats it; if it means the issue's folder it omits the
+      tier's name. Step 4 ("research it and raise a memory update") is consistent with section 5
+      (lines 70-76) only if the research is read as drafting help, which the line does not say.
+    fix_direction: >-
+      State the order as short-term memory, Garura memory, Phoenix memory (with the repository and
+      product model read as the project's own state), and say research only helps draft the update.
+
+  - id: DG-MEM-05
+    severity: P3
+    file: core/components/memory/standards/rules/_index.md
+    lines: "17-23"
+    title: The new rows name no concrete consumer, and no play, skill or checker reads either rule
+    principle_violated: GP-10
+    basis: >-
+      _index.md "When to Add Here" (lines 67-76): a rule "is enforced by at least one skill
+      (validator, generator, orchestrator)". Every existing row names who reads it (for example
+      eval-format.md names /shape-eval and author-slice-eval; work-plan.md names author-plan-file
+      and project-orchestrator). The new rows say "Any play or skill that writes or judges an ICE"
+      and "Any play or skill that specifies intents". A search of core/, docs/ and installer/ on
+      this branch finds both file names only in _index.md. work-plan.md line 11 shows the base
+      practice when a rule lands ahead of its enforcer: a "Not yet wired" note.
+    fix_direction: >-
+      Name the real consumers (for example /discover-capabilities, /shape-slice, /update-plan,
+      /discover-intent), or add a "Not yet wired" note to each rule until a play reads it.
+
+  - id: DG-MEM-06
+    severity: P3
+    file: core/components/memory/standards/rules/intent-depth.md
+    lines: "9"
+    title: '"They can also set a preference for smaller or bigger intents" names a setting that has no home'
+    principle_violated: GP-9
+    basis: >-
+      No committed place holds it: core/config.yaml on main has no depth or granularity key;
+      the Business Intent kind lists its properties (ontology.md lines 183-195) and none is a depth
+      preference; the play reads no such input (discover-intent SKILL.md, ice.md C12 and C17 set
+      the level from the product's own main areas). Sibling rules that name a state say where it
+      lives (work-plan.md "Where it lives", run-status.md "The file", user-questions.md "How the
+      file is kept"). The rule does not say where the preference is kept, who writes it, or which
+      play reads it.
+    fix_direction: >-
+      Say where the preference is kept and which play reads it, or drop the sentence until a play
+      can use it.
+
+  - id: DG-MEM-07
+    severity: P3
+    file: core/components/memory/standards/rules/intent-depth.md
+    lines: "whole file (also core/components/memory/standards/rules/ice-rubric.md, whole file)"
+    title: Neither rule anchors to a decision, and no committed decision exists for its design points
+    principle_violated: GP-10
+    basis: >-
+      Sibling rules open by naming the decision that made them: eval-format.md line 3 (ADR 057),
+      work-plan.md line 3 (ADR 030), direct-model-write.md line 8 ("Authority: ADR 026"),
+      user-questions.md lines 6-9 (ADR 050), surface-contract.md line 7 (ADR 022). The two new
+      files cite none. GAP-1: nothing on main decides the three points DG-MEM-01, -02 and -06
+      report. The memory playbook's rationale (knowledge/review/memory.md) warns that "a wrong or
+      self-justifying entry propagates silently". The only record the branch offers is ADR 065 and
+      066, which are under review and name neither rule.
+    fix_direction: >-
+      Add a source line to each rule that names the decision (an ADR or the issue where the
+      product owner decided it).
+
+  - id: DG-MEM-08
+    severity: P4
+    file: core/components/memory/standards/rules/ice-rubric.md
+    lines: "39"
+    title: '"Plans sit outside the model" is looser than the ontology'
+    principle_violated: GP-8
+    basis: >-
+      The ontology makes the Plan one of its thirteen kinds, "the thread between" the two layers
+      (ontology.md line 9, line 585), and forbids a plan's operational data in "the product model's
+      index or on its pages" (line 629). It forbids operational data, not every mention. The
+      conclusion for the ICE page (no plan named) holds: the ICE has no link to a work item or a
+      business intent (line 482). Only the reason is worded too wide.
+    fix_direction: Say "plans sit outside the product layer" or cite the ontology's rule.
+
+  - id: DG-MEM-09
+    severity: P4
+    file: core/components/memory/standards/rules/ice-rubric.md
+    lines: "9-11"
+    title: The rubric gives no test that tells a Limit from a Fails if
+    principle_violated: GP-5
+    basis: >-
+      IDD principle 3 (idd-principles.md lines 75-81): a failure condition is observable and binary
+      and can be judged "from builder output alone"; one that needs the goal to judge "may be a
+      constraint in disguise". Line 71: a requirement that shapes the builder's design is a
+      constraint. The rubric asks for "at least one, for what matters most" and offers no test, so
+      a judge cannot catch a limit written as a Fails if (or the reverse). The examples are sound.
+    fix_direction: Add the one-line test from the principle to the Fails if row.
+
+  - id: DG-MEM-10
+    severity: P4
+    file: core/components/memory/standards/rules/intent-depth.md
+    lines: "8"
+    title: '"The detail goes in its features" skips the capability'
+    principle_violated: GP-9
+    basis: >-
+      The Business Intent kind links to its capabilities and "does not name features; a feature is
+      reached through its parent capability" (ontology.md line 194). The rule's example also reads
+      "with the discount as a feature". The shape holds, but the sentence should say "its
+      capabilities and their features".
+    fix_direction: Reword to name the capability level.
+
+conforming:
+  - ice-rubric.md line labels and section order match the ontology's ICE page (ontology.md line 486, "Lives at": Goal, Limit, Fails if; Read, Never read, Persona, Scope; Scenario, Done means, Quality need)
+  - ice-rubric.md "Thin" mark kept in two places that agree (ontology.md line 520; ADR 052 section 5)
+  - ice-rubric.md "own page ice.md, own index entry, three sections in order" (ontology.md line 486, "Lives at" for ICE)
+  - ice-rubric.md "check by someone other than the doer" (GP-4)
+  - intent-depth.md "One need is one intent" (C12 line 92)
+  - intent-depth.md "The product owner chooses" fits "only a person confirms or drops" (ontology.md Business Intent rules)
+  - _index.md new section placed and formatted like its siblings; both paths exist

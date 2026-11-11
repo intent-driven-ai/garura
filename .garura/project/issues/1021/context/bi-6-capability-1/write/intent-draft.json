@@ -1,0 +1,45 @@
+{
+  "id": "bi-6",
+  "issue": 6,
+  "title": "Run → Product",
+  "outcome": "What happens in use flows back. What happened is compared with what was intended, drift is found, and the intents, model and memory stay true.",
+  "why": "Without this, what is built and what was intended pull apart without anyone noticing.",
+  "asked_by": "the product owner",
+  "proof": [
+    "Drift between the model and the work gets named.",
+    "Each learning is promoted on purpose."
+  ],
+  "must_not": "Change an intent, or promote memory, without a person.",
+  "touches": [
+    {
+      "title": "Connect to what happens in use and in the market",
+      "link": "../software-delivery-planning/connect-use-and-market/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Choose the tools and forums a project reads, and connect to them",
+      "link": "../software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Take in how the product is used, from its web analytics and product analytics",
+      "link": "../software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Take in what people say about the product and its market, from feedback tools and forums",
+      "link": "../software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Update the connections as the product and its tools change",
+      "link": "../software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"It matters to software delivery planning because that domain turns a business intent into work that agents can build. This capability is where those business intents and the model come from.\" \"What makes it unique: it starts from something that works, not from a written spec.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"The reason: the Source must outlive the link or the file.\" \"The reason: a model drawn from a source nobody read has no basis.\" \"Other parts may already rely on these pages.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Specify intents (fn-specify-intents): drafts one business intent for each need the product meets, and the person confirms or drops each one.\" \"Specify capabilities (fn-specify-capabilities): writes a full page for each capability and creates its features with their pages.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Out: choosing what to build first. Later shaping work picks the features a person can test end to end and turns them into work items.\" \"Never: set a capability to active, or rank one part above another. Ranking belongs to the later shaping work, and no step sets a capability active today.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Who it serves: the product owner, who wants to confirm what a product is for without writing a spec first.\" \"How we will know: a new builder, who never saw the prototype, builds the product from the intents and the model alone.\" \"Out: keeping intents up to date as the product changes. This capability does not do it, and no capability in the model owns it yet.\"",
+      "fix": ""
+    }
+  ]
+}

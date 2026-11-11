@@ -1,0 +1,15 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md (the product owner, 2026-11-10: the write shown with fn-keep-docs-in-step, one line on features/fn-725/feature.md changed from \"- Finding which plans a plan needs, and the merge order between plan branches. Build a plan (cap-718), Manage a plan (cap-720) and Start and land work against a plan (cap-721) own those.\" to \"- Finding which plans a plan needs. Build a plan (cap-718) and Manage a plan (cap-720) own it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main.\")",
+  "pages": [
+    {
+      "page": "features/fn-725/feature.md",
+      "changes": [
+        {
+          "old": "- Finding which plans a plan needs, and the merge order between plan branches. Build a plan (cap-718), Manage a plan (cap-720) and Start and land work against a plan (cap-721) own those.",
+          "new": "- Finding which plans a plan needs. Build a plan (cap-718) and Manage a plan (cap-720) own it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/connect-use-and-market/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

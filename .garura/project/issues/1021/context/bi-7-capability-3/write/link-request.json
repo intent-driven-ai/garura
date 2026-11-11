@@ -1,0 +1,152 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-support-coding-tools",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "support-coding-tools",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Support each coding tool: Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+      "doc": "software-delivery-planning/support-coding-tools/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-install-for-claude-code",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-install-for-claude-code",
+      "capability": "cap-support-coding-tools",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Every sub-agent, play, loop and skill is laid where Claude Code reads it, each sub-agent with its tier, with the shared files, the memory guide every agent reads, and Garura's instructions beside the team's own. Built.",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-install-for-codex",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-install-for-codex",
+      "capability": "cap-support-coding-tools",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Every part a play needs is laid where Codex reads it, with the memory guide as a marked block in the team's own instructions file. Stopped until its redesign (#863).",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-install-for-copilot",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-install-for-copilot",
+      "capability": "cap-support-coding-tools",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Every part laid where GitHub Copilot reads it, through its own adapter. Neither built nor filed.",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-install-for-antigravity",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-install-for-antigravity",
+      "capability": "cap-support-coding-tools",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Every part laid where Antigravity reads it, through its own adapter. Neither built nor filed.",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-install-for-factory",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-install-for-factory",
+      "capability": "cap-support-coding-tools",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Every part laid where Factory's agent reads it, through its own adapter. Supported once, then removed.",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-map-model-tier",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-map-model-tier",
+      "capability": "cap-support-coding-tools",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "The tier a part names is read once, and each tool's adapter writes it where that tool takes a model for that kind of part, so the part runs on the tier its maker chose. Built in part.",
+      "doc": "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-support-coding-tools",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-support-coding-tools",
+      "doc": "software-delivery-planning/support-coding-tools/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-install-for-claude-code",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-install-for-claude-code",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-install-for-codex",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-install-for-codex",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-install-for-copilot",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-install-for-copilot",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-install-for-antigravity",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-install-for-antigravity",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-install-for-factory",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-install-for-factory",
+      "doc": "software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-map-model-tier",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-map-model-tier",
+      "doc": "software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md",
+      "thin": false
+    }
+  ]
+}

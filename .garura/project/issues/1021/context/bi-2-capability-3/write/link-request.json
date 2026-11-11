@@ -1,0 +1,89 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-deployment-design",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "deployment-design",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "How the product gets deployed is designed.",
+      "doc": "software-delivery-planning/deployment-design/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-design-how-project-runs",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-design-how-project-runs",
+      "capability": "cap-deployment-design",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "Turns the approved architecture into a physical architecture, which services run, on what container platform and on which cloud, and designs the path through the environments Environment setup declares, with the one design each environment is built from, the pipeline for continuous integration and continuous delivery, the tests in each environment, release and rollback, where secrets and settings are kept, and the cost on each cloud, each with its reason, so every change runs the same way.",
+      "doc": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-cloud-cartridges",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-cloud-cartridges",
+      "capability": "cap-deployment-design",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "Prepares one ready cartridge for each of the three clouds, with its services, its container platforms and how to work out what running on it costs, so the design can map the project onto any of them and set the three costs side by side.",
+      "doc": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-deployment",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-deployment",
+      "capability": "cap-deployment-design",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "When the project outgrows how it runs, or a part of the design or a cloud's cartridge must change, a person confirms an update, and what held before stays readable with why it changed.",
+      "doc": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-deployment-design",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-deployment-design",
+      "doc": "software-delivery-planning/deployment-design/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-design-how-project-runs",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-design-how-project-runs",
+      "doc": "software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-cloud-cartridges",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-cloud-cartridges",
+      "doc": "software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-deployment",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-deployment",
+      "doc": "software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+      "thin": true
+    }
+  ]
+}

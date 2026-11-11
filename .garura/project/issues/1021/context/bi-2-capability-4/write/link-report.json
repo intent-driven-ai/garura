@@ -1,0 +1,31 @@
+{
+  "written": [
+    "cap-environment-setup",
+    "fn-declare-environments",
+    "fn-build-environment",
+    "fn-update-environments",
+    "fn-dev-sandbox",
+    "ice-environment-setup",
+    "ice-declare-environments",
+    "ice-build-environment",
+    "ice-update-environments",
+    "ice-dev-sandbox"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-environment-setup",
+    "ice-declare-environments",
+    "ice-build-environment",
+    "ice-update-environments",
+    "ice-dev-sandbox"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/environment-setup/ice.md",
+    "product-os/software-delivery-planning/environment-setup/fn-declare-environments/ice.md",
+    "product-os/software-delivery-planning/environment-setup/fn-build-environment/ice.md",
+    "product-os/software-delivery-planning/environment-setup/fn-update-environments/ice.md",
+    "product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/ice.md"
+  ],
+  "layout_kept": true
+}

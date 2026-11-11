@@ -1,0 +1,254 @@
+issue: 1021
+pr: 1039
+base: main
+changed_paths_total: 2884
+derived_from: the diff (.garura/project/issues/1021/review/pr.diff) read by content and sampled per category; the playbook copies were used to recognise seeded categories, no category list was presumed
+status_mix_of_diff:
+  added: 2803
+  modified: 45
+  deleted: 25
+  renamed: 11
+memory_copies:
+  review_shelf: .garura/project/issues/1021/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/1021/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/1021/context/memory/manifest.json
+  source_tier: phoenix (the garura tier holds none of these files)
+  source_version: b2e40bff2131
+categories:
+- id: decision-records
+  what: 'Architecture decision records: two new ADRs (065, 066), eleven existing ADRs amended by a one-sentence Status edit, and the ADR index'
+  path_count: 14
+  evidence:
+    count: 14
+    paths:
+    - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md
+    - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md
+    - docs/adr/029-drives.md
+    - docs/adr/005-skills-as-capabilities.md
+    - docs/adr/_index.md
+    why: Both new files carry the decision-record shape (Status, Date, Level, Decided by/in, Amends, Affects, ICE impact, Business intent check, Related). Each of the eleven modified ADRs gains an "amended
+      in part by ADR 065/066" clause on its Status line (ADR 005 recorded no Status line, so it gains a new one). The index gains two rows (065, 066). ADR 066 also states that it supersedes ADR 046 in part
+      and amends ADR 029 and 038.
+  playbook: review/adrs
+  design_bearing: false
+  treatment:
+    reviewer: human, line by line; the human judges whether each decision is right
+    layers:
+    - Layer 1
+    linters: []
+    linter_gap: No ADR linter exists in-repo; the playbook says the structural check is a manual checklist the tool surfaces for the human.
+    runnable_checks: []
+    checks_done_by_hand:
+    - the required sections are present (status, context, decision, consequences)
+    - the status field is one of the allowed values
+    - the markdown is well-formed
+    - the ADR is numbered and linked from the index (docs/adr/_index.md)
+    design_grounding: 'no (the playbook: the decision is the design; no prior principle to conform to)'
+- id: memory
+  what: 'Standards rules the agents read: two new product-model rules and the rules index that lists them'
+  path_count: 3
+  evidence:
+    count: 3
+    paths:
+    - core/components/memory/standards/rules/ice-rubric.md
+    - core/components/memory/standards/rules/intent-depth.md
+    - core/components/memory/standards/rules/_index.md
+    why: They are standards rules under memory/standards/rules, which shape what downstream agents believe (what a good ICE is; how deep business intents go). _index.md gains a "Product model rules" table
+      listing them with their consumers.
+  playbook: review/memory
+  design_bearing: true
+  treatment:
+    reviewer: human (the design) + tool (conformance)
+    layers:
+    - Layer 1
+    - Layer 2
+    linters: []
+    linter_gap: No installed tool checks memory integrity yet; the reviewer does the checks by reading the changed files and cites each.
+    runnable_checks: []
+    checks_done_by_hand:
+    - each shelf file follows _TEMPLATE.md (Topic, Conditions, Recommendation, Rationale, Evolve when, Provenance)
+    - evolve_when and [[...]] cross-references resolve to real files
+    - the frontmatter id is consistent with the path
+    - the file is listed in the shelf _index
+    design_grounding: 'yes: reconstruct what the knowledge base is for and how a shelf is shaped from committed sources only (knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md, the relevant
+      standards), never from the branch''s new text; then check the change for conformance (is a learning truly conditional, does it earn its shelf, does it duplicate an existing one, does the severity
+      taxonomy stay mechanical)'
+    conformance_rubric: does the change fit the shelf purpose, follow the template, resolve its cross-references, and avoid duplicating or contradicting existing knowledge
+  notes:
+  - The playbook's template check is written for knowledge shelf files. The changed files are standards rules, not shelf files. The grounding job should take the shape of a standards rule from sibling rules
+    on the base ref, not from the two new files.
+  - 'ice-rubric.md and intent-depth.md are added by this branch. They are not grounding for any other category: the product-model pages in this PR cannot be tested against them (circular).'
+- id: config-maps
+  what: 'Files that point at other things by name or path: the project settings file and the install record'
+  path_count: 2
+  evidence:
+    count: 2
+    paths:
+    - core/config.yaml
+    - .garura/install-manifest.json
+    why: 'core/config.yaml gains a trackers: block that names, per kind of work, which tracker (platform, owner, name) holds business intents and which holds agent work. .garura/install-manifest.json lists
+      installed parts by path (three new skills: author-intent-page, remove-model-part, remove-plan; skills count 29 to 32) and the Phoenix memory version (c14f515d910f to b2e40bff2131). The install record
+      is generated by the install play, not hand-written; it is judged a config map because its job is to point at installed parts by path.'
+  playbook: review/config-maps
+  design_bearing: false
+  treatment:
+    reviewer: human, by name; the human reads the named changes directly
+    layers:
+    - Layer 1 (a narrow existence check; the human owns the judgement)
+    linters: []
+    linter_gap: No committed config-map linter exists in-repo; to be built (small). Until then the tool resolves each referenced path and reports any that miss.
+    runnable_checks: []
+    checks_done_by_hand:
+    - every path the config map references resolves to a real file or directory; no key points at a moved or deleted target
+    design_grounding: 'no'
+- id: product-model
+  what: 'Garura''s own product model, reorganised: eleven new business-intent pages replace five old ones; capability, feature and ICE pages are added, moved, renamed or deleted; the index _spine.yaml is
+    rewritten'
+  path_count: 577
+  status_mix:
+    added: 530
+    modified: 30
+    deleted: 12
+    renamed: 5
+  evidence:
+    count: 577
+    breakdown:
+      intents (11 added bi-1..bi-11, 5 deleted bi-717/722/734/756/788): 16
+      'software-delivery-planning domain (domain.md, 41 capability folders: capability.md, feature.md and ice.md pages)': 514
+      features/fn-* (21 feature.md modified, 20 ice.md added): 41
+      capabilities/cap-* (deleted): 4
+      slices/sl-intent-to-design.yaml (deleted): 1
+      _spine.yaml (the model index; +6278/-462 lines): 1
+    paths:
+    - .garura/product/product-os/intents/bi-1.md
+    - .garura/product/product-os/intents/bi-717.md
+    - .garura/product/product-os/_spine.yaml
+    - .garura/product/product-os/slices/sl-intent-to-design.yaml
+    - .garura/product/product-os/capabilities/cap-719/capability.md
+    - .garura/product/product-os/features/fn-597/feature.md
+    - .garura/product/product-os/features/fn-597/ice.md
+    - .garura/product/product-os/software-delivery-planning/memory/capability.md
+    - .garura/product/product-os/software-delivery-planning/memory/fn-promote-page/ice.md
+    - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-727/feature.md
+    - .garura/product/product-os/software-delivery-planning/domain.md
+    why: 'By content these are requirements pages of the product model, not harness code, not memory shelves, not prose docs: each intent page holds Outcome, Why, Proof, Must not, a Touches list; each feature
+      page says what it does, with an ICE page of Intent, Context, Expectation. fn-597 (modified) was rewritten from an ontology-version-5 text to a version-15 text. Taxonomy pr.md types this path as productos-model,
+      but no review playbook covers it.'
+  playbook: null
+  playbook_missing: true
+  playbook_note: 'playbook missing: no review/ playbook covers the product model. Follow-up: a review/product-model playbook is owed.'
+  design_bearing: true
+  design_bearing_why: 'The reorganisation is a design decision about what the product is (which intents exist, which capabilities and features serve them). It can be tested against a design fixed before
+    this branch: the ontology and the product-os schemas in Phoenix memory, the model as it stands on the base ref (git show main:.garura/product/product-os/...), and the base-ref ADRs. It is not a decision
+    record (it has prior design to conform to), so the adrs rule "no grounding" does not carry over.'
+  treatment:
+    source: none from a playbook (playbook missing)
+    layers:
+    - Layer 2 applies on the judgement above; no playbook states a layer set
+    linters: []
+    runnable_checks: []
+    checks_done_by_hand: []
+    design_grounding: 'yes, on the assessor''s judgement (not a playbook rule). Ground only from the base ref, the Phoenix standards (standards/schemas/product-os/**) and the ontology, the glossary and
+      base-ref ADRs. Not from ice-rubric.md, intent-depth.md, ADR 065 or ADR 066: this branch adds them.'
+  notes:
+  - 'pr.md types the path productos-model, a prose artifact type: grep rules are ineligible and path rules fire only for docs-targeting globs, so check-pr-quality gives little here.'
+  - 'Installed checks that exist but that no playbook names, fit not assessed: .claude/skills/discover-intent/scripts/lint_grounding.py (shape, link and spine consistency of model pages), check_intent.py,
+    check_ice_workable.py. The play decides whether to run them.'
+  - 'Cross-category: the product-model pages and the plan deletions below must agree (five old intents retired; seven plans deleted).'
+- id: plan-records
+  what: 'Retirement of plans: seven plan files and the six hidden evals of plan 788 are deleted'
+  path_count: 13
+  status_mix:
+    deleted: 13
+  evidence:
+    count: 13
+    paths:
+    - .garura/project/plans/606.yaml
+    - .garura/project/plans/717.yaml
+    - .garura/project/plans/722.yaml
+    - .garura/project/plans/734.yaml
+    - .garura/project/plans/756.yaml
+    - .garura/project/plans/767.yaml
+    - .garura/project/plans/788.yaml
+    - .garura/project/plans/788/evals/intent-to-design/ (6 deleted files, names only; contents not read by rule)
+    why: A plan file is the tracker-side plan of one business intent (its id is the intent's issue number; a tree of epic, stories and status). Plans 717, 722, 734, 756, 788 match the five intent pages
+      deleted from the model. Plans 606 and 767 have no intent page on the base ref (git ls-tree main shows only bi-717/722/734/756/788 under intents/), so their intents were not model pages. It is a live
+      project record being removed on purpose, not a run record.
+  playbook: null
+  playbook_missing: true
+  playbook_note: 'playbook missing: no review/ playbook covers plan records. Follow-up: a review/plan-records playbook is owed (or an extension of one for the product model).'
+  design_bearing: true
+  design_bearing_why: Base-ref ADR 063 (docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md; "git show main:" section 2, "A plan that exists is changed only by /update-plan";
+    this PR edits only its Status line) is a design fixed before this branch. A deletion has to be tested against it and the ontology Plan kind, not against ADR 065 (added here, which allows deleting a
+    plan through remove-plan on a person's named approval). Small category; the play may fold its grounding with product-model.
+  treatment:
+    source: none from a playbook (playbook missing)
+    layers:
+    - Layer 2 applies on the judgement above; no playbook states a layer set
+    linters: []
+    runnable_checks: []
+    checks_done_by_hand: []
+    design_grounding: yes, on the assessor's judgement (not a playbook rule); from the base ref only
+  notes:
+  - 'Never read anything under .garura/project/plans/*/evals/ : the six deletions there were counted by path name only.'
+- id: run-records
+  what: 'Short-term-memory records of the runs that did the reorganisation: per-capability drafts, checks, write requests, approvals, memory copies, memory-update records, and the run folders of the two
+    ADR drafts'
+  path_count: 2275
+  status_mix:
+    added: 2269
+    renamed: 6
+  evidence:
+    count: 2275
+    breakdown:
+      ? .garura/project/issues/1021/context/** (73 run folders such as bi-N-capability-M, bi-N-write, bi-N-close, cleanup, plus 19 top-level files)
+      : 2233
+      .garura/project/issues/1021/review/memory-updates/mu-*.json (memory-update records): 14
+      .garura/project/issues/_adr/<timestamp>/** (two record-adr runs; the drafts that landed as ADR 065 and 066): 28
+    by_extension:
+      .md: 1432
+      .json: 679
+      .yaml: 73
+      .py: 67
+      .txt: 21
+      .before: 2
+      .jsonl: 1
+    paths:
+    - .garura/project/issues/1021/context/bi-9-capability-1/ (70 files)
+    - .garura/project/issues/1021/context/bi-10-close/write/build_item4.py
+    - .garura/project/issues/1021/context/bi-3-close/snapshot/bi-3.md.before
+    - .garura/project/issues/1021/context/citations.jsonl
+    - .garura/project/issues/1021/review/memory-updates/mu-20261110-001.json
+    - .garura/project/issues/_adr/20261102-030220/adr-draft.md
+    why: 'Everything here was written by a play run into the issue''s short-term memory as evidence of the run. The 67 .py files were judged by content: one-off helper scripts that build write requests
+      and check quotes and drafts (check_quotes.py, build_item4.py, verify.py); they are run evidence, not shipped code. A scan of their added lines found only read-only commands (git show, git status,
+      git config user.name, gh issue view, python3 on a linter) and local file writes; no tracker write and no delete. The adr-draft.md files are intermediate drafts of ADR 065 and 066, which are counted
+      under decision-records.'
+    of_which_memory_copy_folders: 513 of the 2275 paths sit in memory/ copy folders (509 under 1021/context, 4 under _adr)
+  playbook: null
+  playbook_missing: true
+  playbook_note: 'playbook missing: no review/ playbook covers run records. Follow-up: a review/run-records playbook is owed. The taxonomy copy already states the rule in the interim.'
+  design_bearing: false
+  treatment:
+    source: 'no playbook; the PR severity taxonomy copy (standards/rules/pr.md, lines 85-93, "Two kinds of path get no finding (#851)") says a path whose artifact type is stm-evidence (.garura/project/**,
+      .garura/core/**) gets no finding: these are run records the plays write, evidence of a run and not work to review'
+    layers: []
+    linters: []
+    runnable_checks: []
+    checks_done_by_hand: []
+    design_grounding: 'no'
+  notes:
+  - Not reviewed for merit. If the play wants a check here it must come from a playbook; none exists.
+design_bearing_categories:
+- memory
+- product-model
+- plan-records
+categories_without_playbook:
+- product-model
+- plan-records
+- run-records
+absent_seeded_categories:
+- documentation (no docs/ prose other than ADRs)
+- harness (no core/components plays, skills or agents in the diff)
+- executable code (no runtime source; the 67 .py helpers sit in run records)
+- tests

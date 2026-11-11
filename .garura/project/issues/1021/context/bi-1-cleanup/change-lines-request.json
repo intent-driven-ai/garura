@@ -1,0 +1,128 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-1 (Product → Spec) clean-up after BI-2 and BI-3, draft",
+  "source": "The product owner's decisions recorded in .garura/project/issues/1021/context/capabilities.md and the approved BI-2 and BI-3 pages. Spec → Design note (2026-11-08): \"seeding memory - drop it. also these are not lenses anymore.\", \"we are not locking design, we can run this anytime.\" Design → Code note (2026-11-09): the four items \"Design slices\", \"Use the lenses on each slice\", \"Design for evaluation and testing\" and \"Bring the design together for a vertical slice\" were replaced by Gather the work under a chosen plan item, Write the evals that check the work, Design the work, Build the work test first and Fix defects test first; \"Slicing and making the plan leave this intent for wherever the plan is made (Orchestration, by his words; confirmed when Orchestration is reviewed)\"; \"the code, when being written, should not get to see what tests there were\". Approved BI-3 pages: Gather the work under a chosen plan item splits each story into the builder's part (title, goals, limits, Context guidance) and the test writer's part (expectations), and collects each story's context (fn-collect-story-context); Write the evals that check the work writes the slice's hidden file just before the evals (\"the list of what must never happen written here, just before the evals (ADR 052 to change)\").",
+  "pages": [
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/capability.md",
+      "changes": [
+        {
+          "old": "- No builder reads a story yet. The build step that reads a story's Context guidance and collects its context is not built. The old build play, /build-epic, reads an epic record that the model no longer keeps. So nothing yet shows that an agent acts on a story without asking again.",
+          "new": "- No builder reads a story yet. The build step that reads a story's Context guidance and collects its context is not built. That step is now Collect each story's context from its guidance, in Gather the work under a chosen plan item. The old build play, /build-epic, reads an epic record that the model no longer keeps. So nothing yet shows that an agent acts on a story without asking again."
+        },
+        {
+          "old": "- How we will know: an agent that did not write a story builds its feature from the story and the context its guidance points to, without asking a person.",
+          "new": "- How we will know: an agent that did not write a story builds its feature from the builder's part of the story (its title, goals, limits and Context guidance) and the context its guidance points to, without asking a person."
+        },
+        {
+          "old": "- In: writing each story from its feature's ICE and its capability's ICE. The builder reads the story and never the ICE, so this is where the intent reaches the agent.",
+          "new": "- In: writing each story from its feature's ICE and its capability's ICE. The builder reads the story's title, goals, limits and Context guidance, never its expectations or the ICE, so this is where the intent reaches the agent."
+        },
+        {
+          "old": "- Out: choosing the slice and writing its hidden file. Design slices owns them. The hidden file holds each feature's failure conditions and the way back from each. The eval uses it, and no builder reads it.",
+          "new": "- Out: choosing the slice and writing its hidden file. Choosing the slice left Design → Code, and its place is settled when Orchestrate agent work through planning is reviewed. Write the evals that check the work writes the hidden file, just before the evals. The hidden file holds each feature's failure conditions and the way back from each. The eval uses it, and no builder reads it."
+        },
+        {
+          "old": "- Out: writing the eval that tests the slice. Design for evaluation and testing owns it.",
+          "new": "- Out: writing the eval that tests the slice. Write the evals that check the work owns it."
+        },
+        {
+          "old": "- Out: writing the ICE itself. Specify the product writes it, and Design slices proposes a thin one where a slice needs it.",
+          "new": "- Out: writing the ICE itself. Specify the product writes it, and the step that chooses the slice proposes a thin one where a slice needs it."
+        },
+        {
+          "old": "- Out: breaking a story into tasks and building it. Build the work owns the build. Today /build-epic cuts an epic into stories, tasks, tests and docs inside the build.",
+          "new": "- Out: breaking a story into tasks and building it. Build the work test first owns the build. Today /build-epic cuts an epic into stories, tasks, tests and docs inside the build."
+        },
+        {
+          "old": "- Each line of an ICE has one reader. The \"Fails if\" lines go to the slice's hidden file, which Design slices writes. Every other line goes to the story. The reason: each line then has one meaning, so the story and the eval never disagree.",
+          "new": "- Each line of an ICE has one reader. The \"Fails if\" lines go to the slice's hidden file, which Write the evals that check the work writes just before the evals. Every other line goes to the story. The reason: each line then has one meaning, so the story and the eval never disagree."
+        },
+        {
+          "old": "- A story holds the Context guidance, never the context. The guidance says what to read, what never to read, who the work is for, and what is in and out. The reason: the build collects the context when it runs and puts it in the issue's short-term memory, so the builder reads it in one place and never opens an ICE page.",
+          "new": "- A story holds the Context guidance, never the context. The guidance says what to read, what never to read, who the work is for, and what is in and out. The reason: Gather the work under a chosen plan item collects the context when it gathers the work and puts it in the issue's short-term memory, so the builder reads it in one place and never opens an ICE page."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/ice.md",
+      "changes": [
+        {
+          "old": "- Done means: An agent that did not write a story builds its feature from the story and the context its guidance points to, without asking a person.",
+          "new": "- Done means: An agent that did not write a story builds its feature from the builder's part of the story (its title, goals, limits and Context guidance) and the context its guidance points to, without asking a person."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+      "changes": [
+        {
+          "old": "It runs as /shape-plan, once for each intent, after the slice is designed. It reads the slices from the product model, finds any work items that already exist, and has each story written from its ICE. An ICE is the agent's intent for one capability or feature: what an agent must make true there, for whom, and how it is checked. It shows the product owner every item it will make, and files them in the tracker only after a typed yes. Then it writes the plan file, a file in the repository that holds the intent's work items as a tree, so the plan file and the tracker agree.",
+          "new": "It runs as /shape-plan, once for each intent, after the slice is shaped. It reads the slices from the product model, finds any work items that already exist, and has each story written from its ICE. An ICE is the agent's intent for one capability or feature: what an agent must make true there, for whom, and how it is checked. It shows the product owner every item it will make, and files them in the tracker only after a typed yes. Then it writes the plan file, a file in the repository that holds the intent's work items as a tree, so the plan file and the tracker agree."
+        },
+        {
+          "old": "- It never picks, orders or tests a slice. It takes every slice the model links to the intent. The reason: the product owner chose the slice when it was designed.",
+          "new": "- It never picks, orders or tests a slice. It takes every slice the model links to the intent. The reason: the product owner chose the slice when it was shaped."
+        },
+        {
+          "old": "- The slice and its hidden file of failure conditions. Design slices writes them.",
+          "new": "- The slice and its hidden file of failure conditions. Choosing the slice left Design → Code, and its place is settled when Orchestrate agent work through planning is reviewed. Write the evals that check the work writes the hidden file, just before the evals."
+        },
+        {
+          "old": "- The eval that tests the slice. Design for evaluation and testing writes it.",
+          "new": "- The eval that tests the slice. Write the evals that check the work writes it."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+      "changes": [
+        {
+          "old": "The feature exists because the builder reads the story and never the ICE. The story is where the model's intent reaches the agent.",
+          "new": "The feature exists because the builder reads the story's title, goals, limits and Context guidance, the test writer reads its expectations, and neither reads the ICE. The story is where the model's intent reaches the agent."
+        },
+        {
+          "old": "- The Context guidance says where to look, never the facts. The reason: the build collects the context when it runs and puts it in the issue's short-term memory, so the builder reads it in one place.",
+          "new": "- The Context guidance says where to look, never the facts. The reason: Gather the work under a chosen plan item collects the context when it gathers the work and puts it in the issue's short-term memory, so the builder reads it in one place."
+        },
+        {
+          "old": "- Not built: no builder reads a story yet. The build step that reads the Context guidance and collects the context is not built.",
+          "new": "- Not built: no builder reads a story yet. The step that reads the Context guidance and collects the context is not built. It is Collect each story's context from its guidance, in Gather the work under a chosen plan item."
+        },
+        {
+          "old": "- The slice's hidden file, written from the \"Fails if\" lines. Design slices writes it.",
+          "new": "- The slice's hidden file, written from the \"Fails if\" lines. Write the evals that check the work writes it, just before the evals."
+        },
+        {
+          "old": "- Collecting the context when the build runs. Build the work does this.",
+          "new": "- Collecting the context when the work is gathered. Collect each story's context from its guidance, in Gather the work under a chosen plan item, does this."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+      "changes": [
+        {
+          "old": "- It never writes the folder that holds the evals. The hidden-file entry and the eval scenarios are named as owed. The reason: those belong to Design slices and Design for evaluation and testing, and no builder may see them.",
+          "new": "- It never writes the folder that holds the evals. The hidden-file entry and the eval scenarios are named as owed. The reason: those belong to Write the evals that check the work, and no builder may see them."
+        },
+        {
+          "old": "- Designing a new slice. Design slices does it.",
+          "new": "- Choosing a new slice. It left Design → Code, and its place is settled when Orchestrate agent work through planning is reviewed."
+        },
+        {
+          "old": "- Writing the feature's hidden-file entry and its eval scenarios. Design slices and Design for evaluation and testing do them, after this feature names them as owed.",
+          "new": "- Writing the feature's hidden-file entry and its eval scenarios. Write the evals that check the work does them, after this feature names them as owed."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+      "changes": [
+        {
+          "old": "- The first page of an intent or a part. Specify the product writes it from what a person gives, and Design slices writes an intent's page from its issue when the model has none.",
+          "new": "- The first page of an intent or a part. Specify the product writes it from what a person gives, and the step that chooses the slice writes an intent's page from its issue when the model has none."
+        }
+      ]
+    }
+  ]
+}

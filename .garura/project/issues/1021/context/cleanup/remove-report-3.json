@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work",
+  "approved_by": "the product owner",
+  "repointed": [],
+  "removed": [
+    "cap-718",
+    "cap-shape-eval"
+  ],
+  "merged": [
+    {
+      "id": "cap-718",
+      "into": "cap-turn-intents-into-work"
+    },
+    {
+      "id": "cap-shape-eval",
+      "into": "cap-write-work-evals"
+    }
+  ],
+  "moved_features": [],
+  "needs_to_review": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "deleted": [
+    "product-os/software-delivery-planning/cap-718/capability.md",
+    "product-os/software-delivery-planning/shape-eval/capability.md",
+    "product-os/software-delivery-planning/cap-718",
+    "product-os/software-delivery-planning/shape-eval"
+  ],
+  "layout_kept": true
+}

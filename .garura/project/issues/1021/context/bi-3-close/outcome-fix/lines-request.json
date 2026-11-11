@@ -1,0 +1,15 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021, BI-3 close, outcome fix)",
+  "source": "The product owner's approval of 2026-11-09, reply \"yes, commit and cp\", the last entry of .garura/project/issues/1021/context/bi-3-close/approval.md: BI-3's outcome's last sentence becomes \"Defects are fixed test first too, quickly and without a full design.\"",
+  "pages": [
+    {
+      "page": "intents/bi-3.md",
+      "changes": [
+        {
+          "old": "**Outcome:** The work under any item a person names from the plan becomes working code: it is designed against the project's standards, its evals are written before it is built, and it is built test first by a builder who never sees the tests. Defects are fixed the same way, quickly.",
+          "new": "**Outcome:** The work under any item a person names from the plan becomes working code: it is designed against the project's standards, its evals are written before it is built, and it is built test first by a builder who never sees the tests. Defects are fixed test first too, quickly and without a full design."
+        }
+      ]
+    }
+  ]
+}

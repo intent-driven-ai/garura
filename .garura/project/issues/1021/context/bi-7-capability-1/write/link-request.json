@@ -1,0 +1,152 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-install-into-project",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "install-into-project",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.",
+      "doc": "software-delivery-planning/install-into-project/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-install-in-one-step",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-install-in-one-step",
+      "capability": "cap-install-into-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "One command in the project's folder, with no copy of Garura's source, lays Garura for the team's coding tool from the version named or the default, keeps the version and every part laid in the install record, and writes over no file of the project's own.",
+      "doc": "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-choose-parts",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-choose-parts",
+      "capability": "cap-install-into-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "The team chooses a kind of install, the full set for a product project or the harness set for a team that builds its own harness, and, once built, named plays, so the project carries the parts it uses and every chosen play arrives with the workers it calls.",
+      "doc": "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-check-install",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-install",
+      "capability": "cap-install-into-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Checks that the memory tool runs and reaches the project's short-term memory and Garura memory and that every tool loads, and names whatever does not, so no team starts work on a Garura that cannot run.",
+      "doc": "software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-lay-guardrails",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-lay-guardrails",
+      "capability": "cap-install-into-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Lays the guardrails that keep an agent from doing a play's work without the play, in every project, records them, and changes the team's own coding tool settings only on the person's yes.",
+      "doc": "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-parts",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-parts",
+      "capability": "cap-install-into-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "A new run with a new choice shows what it will add and take out, lays what is newly chosen, and takes out from the record what is no longer chosen and what Garura dropped, with nothing else in the project changed.",
+      "doc": "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-take-out",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-take-out",
+      "capability": "cap-install-into-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Shows the list of what goes and what stays, and on the person's yes removes exactly what the record names, keeping the team's work, its product model and its own files.",
+      "doc": "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-install-into-project",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-install-into-project",
+      "doc": "software-delivery-planning/install-into-project/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-install-in-one-step",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-install-in-one-step",
+      "doc": "software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-choose-parts",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-choose-parts",
+      "doc": "software-delivery-planning/install-into-project/fn-choose-parts/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-check-install",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-install",
+      "doc": "software-delivery-planning/install-into-project/fn-check-install/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-lay-guardrails",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-lay-guardrails",
+      "doc": "software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-parts",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-parts",
+      "doc": "software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-take-out",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-take-out",
+      "doc": "software-delivery-planning/install-into-project/fn-take-out/ice.md",
+      "thin": false
+    }
+  ]
+}

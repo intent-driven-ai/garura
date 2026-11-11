@@ -1,0 +1,255 @@
+# check-change Step 3, Layer 2 -- design-grounding of ONE category: plan-records (PR #1039, #1021)
+# Written by change-reviewer. Read-only review; nothing under review was changed.
+category: plan-records
+issue: 1021
+pr: 1039
+base: main
+changed_paths_in_scope:
+  - .garura/project/plans/606.yaml
+  - .garura/project/plans/717.yaml
+  - .garura/project/plans/722.yaml
+  - .garura/project/plans/734.yaml
+  - .garura/project/plans/756.yaml
+  - .garura/project/plans/767.yaml
+  - .garura/project/plans/788.yaml
+  - .garura/project/plans/788/evals/intent-to-design/ (6 deleted files; counted by name only, no eval file was opened on any ref)
+severity_source: .garura/project/issues/1021/context/memory/standards/rules/pr.md
+severity_note: >-
+  No Standard ID row in the taxonomy covers a design-conformance finding, and the mechanical scan gives no finding on
+  these paths at all (artifact type stm-evidence, lines 85-93 of the taxonomy copy). The class below is therefore taken
+  from the bucket definitions (lines 8-11: P1 blocker, P2 major, P3 minor, P4 nit), as a Layer-2 judgement, and each
+  finding carries its cited basis instead of a Standard ID.
+memory_dir: .garura/project/issues/1021/context/memory/grounding-plan-records/
+memory_copied:
+  - tier: phoenix
+    path: standards/schemas/product-os/ontology.md
+    version: b2e40bff2131
+    copy: .garura/project/issues/1021/context/memory/grounding-plan-records/standards/schemas/product-os/ontology.md
+    note: >-
+      Byte-identical (bar the final newline) to the base-ref source core/components/memory/standards/schemas/product-os/ontology.md
+      on main, and this branch does not change that file, so the principles below stand on the base ref.
+
+counts:
+  P1: 0
+  P2: 1
+  P3: 4
+  P4: 2
+  total: 7
+
+# ---------------------------------------------------------------------------------------------------------------
+# Principles reconstructed from committed sources (every source exists on the base ref; none is added by this branch)
+# ---------------------------------------------------------------------------------------------------------------
+grounded_principles:
+  - id: G1
+    principle: A plan that exists is changed in one place only, /update-plan. A plan play does not change a plan that exists any other way.
+    source: docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md (on main), lines 27-29 (Decision 2), line 44 (Consequences, Positive)
+    also: ontology Plan kind, Q46 (lines 164-165 of the memory copy) "a person manages it with /update-plan"
+  - id: G2
+    principle: A plan ends by its Status. The five statuses are Not Started, In Progress, Paused, Done, Dropped; a person moves a plan to any of them, and "Dropped from any status" is the way a plan ends. The ontology names no removal of a plan file.
+    source: ontology Plan kind, "States" (line 636 of the memory copy; Phoenix memory standards/schemas/product-os/ontology.md, version b2e40bff2131; same text in core/components/memory/standards/schemas/product-os/ontology.md on main)
+  - id: G3
+    principle: When a plan pauses, its issues that are still open stay open and stay in the plan; the plan is restarted by cutting a new branch from main.
+    source: 'docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (on main), lines 99-103 (Decision 2) and 105-107 (Decision 3); .garura/user-provided/managing-work.md (on main), lines 160-171, "A plan''s branch: start, pause, start again"'
+  - id: G4
+    principle: The plan is the work list. It holds what is done, what is being worked now and what comes next; open issues that are in no plan are listed by /list-focus-issues.
+    source: docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md (on main), line 18 and line 48; docs/philosophy/garura-reference-implementation.md (on main), line 129
+  - id: G5
+    principle: The plan is the human's interface. A business user reads it and learns what the intent is being broken into, what is decided, what is built, and what is still to do.
+    source: docs/adr/030-plan-mode.md (on main), lines 18-22 (Decision 0); docs/philosophy/idsd.md (on main), lines 98-110, "The Plan Is the Human's Interface; the Product Model Is the Agent's"
+  - id: G6
+    principle: A Done plan is not reopened. A bug found after a plan is done sits under the story that introduced it, and no new plan is made. A plan is kept in the repo so that anyone, on any day, can see where the work for one business intent stands.
+    source: ontology Plan kind, "What it is" (line 583) and rule on line 631 of the memory copy; States, line 636
+  - id: G7
+    principle: Open work that belongs to no slice is filed on its own, as a Story, Bug or Chore, and /shape-slice and /shape-plan place it when they run. So an issue with no plan is a legal state, not an error.
+    source: .garura/user-provided/managing-work.md (on main), lines 65-74
+  - id: G8
+    principle: A plan's files are removed only by the remove-plan skill, only with the name of the person who approved, and never when the plan has a branch or when a plan that stays needs it; it never opens a file under a plan's folder and never touches the tracker or the model.
+    source: core/components/skills/remove-plan/SKILL.md (on main, added by commit faf8a2ef, #1019), lines 11-12, 44-58; core/components/agents/project-orchestrator.md (on main), lines 147 and 164
+    caveat: >-
+      This is a harness part, not a decision record. It is the only authority for deleting a plan on the base ref, and it is not
+      a design record. See finding PLAN-2.
+  - id: G9
+    principle: A scenario in a play's intent is a guarantee that can be run. An intent change (scenarios, constraints, failure conditions) goes through the play's ICE and /edit-play, never a hand edit of the compiled play.
+    source: 'CLAUDE.md (on main), section "Play Pipeline Rules"; docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md (on main), lines 40-44 (Decision 3: eval and hidden file live in the home plan''s folder)'
+
+grounding_not_used:
+  - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md
+  - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md
+  - .garura/project/issues/1021/context/cleanup/approval.md and plan.md (used only to learn what the change says it did; never as a standard)
+  - reason: ADR 065 and 066 are added by this branch and are under review. ADR 065 is the record that allows deleting a plan through remove-plan; it cannot ground its own change.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Findings
+# ---------------------------------------------------------------------------------------------------------------
+findings:
+
+  - id: PLAN-1
+    severity: P2
+    title: 90 of the 162 issues open in the tracker lose their plan, and the approval record does not name them
+    files:
+      - .garura/project/plans/606.yaml
+      - .garura/project/plans/722.yaml
+      - .garura/project/plans/734.yaml
+      - .garura/project/plans/756.yaml
+      - .garura/project/plans/788.yaml
+    principle_violated: G3 (open issues of a plan that is not running stay in the plan), supported by G4 (the plan is the work list) and G5 (the plan shows what is still to do)
+    committed_source:
+      - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (main) lines 101-103: "even with issues of the plan still open. Those issues stay open and stay in the plan."
+      - docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md (main) line 18 and line 48
+      - docs/philosophy/idsd.md (main) lines 98-110
+    basis: >-
+      Six of the seven plans were Paused, not Dropped (read from main:.garura/project/plans/<id>.yaml; branch null for all seven).
+      The design's rule for a plan that is not running is that its open issues stay in the plan. The removal does the opposite:
+      the issues stay open in the tracker and leave every plan. Counted from the seven base-ref plan trees against the open issues
+      of the repository (read-only gh list): 606 has 39 still open, 722 has 9, 734 has 26, 756 has 7, 788 has 9. That is 90 issues
+      (26 stories, 24 bugs, 19 chores, 16 feature items, 5 spikes) out of 162 open issues in the repository (about 56 percent).
+      Plans 717 and 767 have none still open. The plan files themselves count 98 items not Done or Dropped (41, 0, 10, 27, 8, 1, 11);
+      8 of them are already closed in the tracker, so the plan files were behind the tracker.
+      The approval record (.garura/project/issues/1021/context/cleanup/approval.md and plan.md, step 7) says "Every plan is Paused or
+      Done with no branch. Git keeps them." It names neither the open items nor their count, though the skill's report carried
+      them (items by status per plan). So the product owner approved the deletion without being shown what it leaves on no plan.
+    what_stays_true:
+      - The seven business intents and the six epics (955, 957, 958, 959, 960, 794) are all CLOSED in the tracker (NOT_PLANNED, or COMPLETED for 717), so no open epic is orphaned.
+      - The tracker keeps each issue's parent link; /list-focus-issues lists open issues (ADR 051 line 18); git keeps every file (remove-plan SKILL.md line 48).
+      - Plan-less open work is a legal state (G7, managing-work.md lines 65-74).
+    why_not_lower: >-
+      It is the one place where the removal contradicts an accepted ADR sentence, it touches more than half of the open issues,
+      and the approval did not carry the fact. It does not block: nothing is lost and nothing is unsafe. A reviewer may take it to P3
+      if the product owner confirms the 90 issues are meant to go back to standalone work.
+    owed_to_close: the product owner confirms the 90 open issues are meant to stand alone until /shape-slice and /shape-plan place them (G7), or the list is recorded where it can be found.
+
+  - id: PLAN-2
+    severity: P3
+    title: Grounding unavailable - no decision record on the base ref allows deleting a plan, and six Paused plans were deleted instead of marked Dropped
+    files:
+      - .garura/project/plans/606.yaml
+      - .garura/project/plans/722.yaml
+      - .garura/project/plans/734.yaml
+      - .garura/project/plans/756.yaml
+      - .garura/project/plans/767.yaml
+      - .garura/project/plans/788.yaml
+    principle_violated: G1 and G2 (a plan that exists is changed only by /update-plan; a plan ends by Status Dropped), with G3 (Paused means a restart is planned)
+    committed_source:
+      - docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md (main) lines 27-29 and 44
+      - ontology Plan kind, States (memory copy line 636), and Q46 (lines 164-165)
+      - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (main) lines 105-107
+    basis: >-
+      The base design says one thing about the end of a plan: its Status becomes Dropped, and the file stays. It says one thing
+      about changing a plan that exists: /update-plan. It says one thing about a Paused plan: work starts again from a new branch.
+      No ADR, ontology line or guide on the base ref says a plan file may be deleted, when, or who decides. The only base-ref
+      authority is the skill remove-plan (commit faf8a2ef, #1019, 2026-11-02) and its routing line in project-orchestrator.md
+      (lines 147 and 164). A skill is a tool, not a decision. The record that does allow it, ADR 065, is added by this branch and
+      is not used as grounding here. This is a grounding gap, not a proven violation: ADR 063 is about plays that change the
+      content of a plan, and it neither forbids nor sanctions a deletion.
+    conformance_checked_and_met:
+      - Every plan has branch null on main, and no plan/* branch exists locally or on origin.
+      - No plan stays after the removal, so no remaining plan needs a removed one (needs_plans 717 -> 722, 756 -> 722 all go together).
+      - The request carries the approver (the product owner) and a plan list of digits only (remove-plans.json).
+      - The script opens only the plan YAML files; files under a plan's folder are counted and moved by name (remove_plans.py lines 66-71 and 124-135).
+    owed_to_close: the human reviewer judges ADR 065 (decision-records category) as the record that fills this gap; and decides whether deleting a Paused plan, rather than setting it Dropped, is intended.
+
+  - id: PLAN-3
+    severity: P3
+    title: The one Done plan (717) is deleted although the design keeps a Done plan as the finished record and the home for later bugs
+    files:
+      - .garura/project/plans/717.yaml
+    principle_violated: G6
+    committed_source:
+      - ontology Plan kind, "What it is" (line 583), rule on line 631, States (line 636) of the memory copy
+    basis: >-
+      Plan 717 is Done (35 items: 31 Done, 4 Dropped, none open; its business intent #717 is CLOSED as completed). The ontology says a
+      Done plan is not reopened and that a bug found after it sits under the story that introduced it, with no new plan. That rule
+      assumes the Done plan stays. With the file gone, a late bug in the work delivered under #717 (/update-plan, /show-plan, plan
+      branches) has no plan file to sit in, and /update-plan, which "finds the plan", finds none. The other six deleted plans were
+      Paused, so G6 does not reach them.
+    what_stays_true: the issues and their parent links stay in the tracker, and git keeps the file; so a later bug can still be filed under its story.
+    owed_to_close: the human reviewer confirms that a Done plan may be removed (the same gap as PLAN-2).
+
+  - id: PLAN-4
+    severity: P3
+    title: The only test that reads this repository's real plan files now has no plan to read; it fails on a tree where the emptied folder remains and is skipped on a clean checkout
+    files:
+      - .garura/project/plans/606.yaml
+      - .garura/project/plans/717.yaml
+      - .garura/project/plans/722.yaml
+      - .garura/project/plans/734.yaml
+      - .garura/project/plans/756.yaml
+      - .garura/project/plans/767.yaml
+      - .garura/project/plans/788.yaml
+    principle_violated: a committed check still has what it checks (core/tools/plan/test_plan.py, class RepoPlansTest, is on main and is not changed by this branch)
+    committed_source: core/tools/plan/test_plan.py (main), lines 309-315 - "test_every_plan_of_this_repository_reads_with_the_template" skips when there is no plans folder and otherwise asserts that at least one plan loads
+    basis: >-
+      Run on this working tree (python3 -B core/tools/plan/test_plan.py RepoPlansTest): FAILED, "AssertionError: [] is not true",
+      because remove-plan leaves the emptied .garura/project/plans/ folder on disk. In a clean checkout of the branch the tree
+      holds only .garura/project/issues under .garura/project (git ls-tree HEAD .garura/project/), so the folder is absent and the
+      test is skipped. Either way the repository has no real plan file left that is checked against the plan-view template.
+      Other plan tests write their own temporary plans (test_check_plan_absent.py, test_merge_plan.py, test_resolve_plan.py,
+      test_setup_branch.py), so they are not affected. The plan tools themselves tolerate an empty folder (plan.py list prints "No plans in <dir>.").
+    owed_to_close: the working-tree folder is removed or the test is told what to do with zero plans; the real-plan check resumes when the next plan is made.
+
+  - id: PLAN-5
+    severity: P3
+    title: /shape-eval's first success scenario (S1) is pinned on plan 788, its epic and its eval, which no longer exist in the repository
+    files:
+      - .garura/project/plans/788.yaml
+      - .garura/project/plans/788/evals/intent-to-design/ (6 deleted files, counted by name only)
+    principle_violated: G9 (a play's scenario is a guarantee that can be run; the eval and the hidden file live in the home plan's folder)
+    committed_source:
+      - core/components/plays/shape-eval/reference/ice.md (main) line 117: "S1 - (product owner, first eval) Given plan 788 with epic #794, its four stories and the slice's hidden file, and no eval yet, when the product owner runs /shape-eval 788 ..."
+      - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md (main) lines 40-44
+      - CLAUDE.md (main), "Play Pipeline Rules"
+    basis: >-
+      shape-eval's ICE is not changed by this branch and still gives plan 788 as the case of its first scenario. Plan 788, its eval
+      folder (the first evals Garura made, ADR 057 lines 13-15) and, in the model, the slice sl-intent-to-design are all removed in
+      this PR, so /shape-eval 788 cannot be run as written. The four features whose stories the deleted eval files were named for
+      (fn-795, fn-798, fn-818, fn-898) are still in the model on this branch, moved to new capabilities, with no slice and no eval;
+      the design allows that (an eval belongs to a slice), so that part is not a finding. The scenario is an intent line, so its fix is an
+      intent change through the play's ICE and /edit-play, not a hand edit.
+    owed_to_close: a follow-up through /edit-play changes S1 to a case that exists; not part of this PR.
+
+  - id: PLAN-6
+    severity: P4
+    title: Two template samples show the removed plans as if they were live
+    files:
+      - .garura/project/plans/717.yaml
+      - .garura/project/plans/788.yaml
+      - .garura/project/plans/606.yaml
+      - .garura/project/plans/722.yaml
+      - .garura/project/plans/734.yaml
+      - .garura/project/plans/756.yaml
+      - .garura/project/plans/767.yaml
+    principle_violated: the plan view is printed from the plan files alone, so a sample that names real plans reads as the current state
+    committed_source:
+      - 'core/components/memory/standards/templates/plan-view.md (main) lines 99-103 (the graph sample: plan/717/base, plan/788/base, and "on main: #606, #722, #734, #756, #767" - exactly the removed set)'
+      - core/components/memory/standards/templates/plan-update.md (main) line 48 (a sample screen headed "Plan 717 - serves #717")
+      - core/components/plays/show-plan/SKILL.md (main) description: "from its plan file alone"
+    basis: >-
+      Both are format samples; the plan tool reads only the Settings block of plan-view.md, so nothing breaks. The names are real,
+      the plans are gone, and plan 717's branch was deleted on 2026-10-31 (plan 717 file, branch comment), so the samples
+      were already stale.
+
+  - id: PLAN-7
+    severity: P4
+    title: The work guide still points at plan 606 as the live case of the unplanned-epic rule
+    files:
+      - .garura/project/plans/606.yaml
+    principle_violated: the guide read before every issue should match the plan files it describes
+    committed_source: '.garura/user-provided/managing-work.md (main) lines 83-106 ("An unplanned epic gathers defects being fixed together": "Its plan is the business intent''s plan file, plans/<intent>.yaml, with planned: false", "The first is #922, under business intent #606")'
+    basis: >-
+      Plan 606 (planned: false) was the only plan file of that kind. The rule stays valid for any later unplanned epic; only its
+      first and only worked case is gone, and epic #922 is CLOSED as completed. The guide is not changed by this branch.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Checked and found consistent (no finding)
+# ---------------------------------------------------------------------------------------------------------------
+checked_consistent:
+  - Each plan's status and branch on main, read from the seven plan files: 717 Done; 606, 722, 734, 756, 767, 788 Paused; branch null on all seven. The claim "Paused or Done, with no branch" is true.
+  - No plan/* branch on origin or locally (git branch -a, git ls-remote --heads origin 'plan/*', both empty).
+  - The report counts agree with the base-ref plan files: items 76, 35, 12, 44, 17, 1, 35 (220 in all); plan 788's folder held 6 files.
+  - The removal is the base-ref skill's own path (remove-plan, named approver, all or nothing), and it opened only plan YAML files.
+  - Plans 717, 722, 734, 756, 788 match the five business-intent pages deleted from the model; plans 606 and 767 had no intent page on the base ref, and their business intents (#606, #767) are CLOSED as not planned in the tracker.
+  - No remaining file reads a removed plan file as live data: the other mentions are test fixtures that write temporary plans, preflight comments, install.py comments (lines 244 and 253, history), ADR text, and ontology change-log lines. The two plan-view tools tolerate an empty plans folder.
+
+cross_category_notes:
+  - The index line .garura/product/product-os/_spine.yaml:1205 (created_by '/update-plan (plan 717, ...)') still names plan 717 as provenance. The cleanup plan already records it (plan.md, "Left as it is"). It belongs to the product-model category.
+  - The tracker facts above (closed intents and epics, 162 open issues) are read from GitHub, read-only; they are not committed sources and are used to test conformance, not as a standard.

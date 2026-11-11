@@ -1,0 +1,27 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work",
+  "approved_by": "the product owner",
+  "repointed": [
+    "cap-718",
+    "fn-727",
+    "fn-728",
+    "fn-818",
+    "cap-shape-eval",
+    "fn-798",
+    "fn-898",
+    "dom-software-delivery-planning"
+  ],
+  "removed": [
+    "sl-intent-to-design"
+  ],
+  "merged": [],
+  "moved_features": [],
+  "needs_to_review": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "deleted": [
+    "product-os/slices/sl-intent-to-design.yaml"
+  ],
+  "layout_kept": true
+}

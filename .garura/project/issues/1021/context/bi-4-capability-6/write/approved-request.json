@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-6/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/check-code-against-standards/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-review-each-change/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/fn-review-each-change/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/write/approved/fn-check-whole-built-work/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-send-code-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/fn-send-code-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-6/drafts/product-os/software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md"
+    }
+  ]
+}

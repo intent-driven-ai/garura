@@ -1,0 +1,49 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capabilities.md, section Product model, and the product owner's words of 2026-11-11 on BI-11's review, \"i want to review A as most of this is built at least as skills\"; recorded in .garura/project/issues/1021/context/bi-11-write/approval.md",
+  "repoint": [
+    {
+      "id": "cap-723",
+      "kind": "capability",
+      "intents": {
+        "bi-722": "bi-11"
+      }
+    },
+    {
+      "id": "fn-597",
+      "kind": "feature",
+      "intents": {
+        "bi-722": "bi-11"
+      }
+    },
+    {
+      "id": "fn-724",
+      "kind": "feature",
+      "intents": {
+        "bi-722": "bi-11"
+      }
+    },
+    {
+      "id": "fn-725",
+      "kind": "feature",
+      "intents": {
+        "bi-722": "bi-11"
+      }
+    },
+    {
+      "id": "fn-726",
+      "kind": "feature",
+      "intents": {
+        "bi-722": "bi-11"
+      }
+    }
+  ],
+  "remove": [
+    {
+      "kind": "capability",
+      "id": "cap-723",
+      "into": "cap-manage-model"
+    }
+  ]
+}

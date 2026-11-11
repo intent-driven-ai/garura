@@ -1,0 +1,19 @@
+Review every ADR: anything about what the product model holds moves to the model
+## What this is
+
+The product owner, 2026-11-02: an ADR is only for how this project is being developed: its architecture, its pieces, and why they are built that way. A change to the ontology, and why the ontology changed, is an ADR. What is written inside the product model is not.
+
+Business intents are requirements. The product owner changes them at will, and no ADR is needed to do it. Why an intent exists or does not exist belongs in the model, not in an ADR.
+
+## What to do
+
+Read every ADR in `docs/adr/`. For each one that is about what the product model holds, rather than how the project is built, move what it says into the model and take it out of the ADRs. List each ADR with what was found and what was done, and show the list to the product owner before anything moves.
+
+## Why it came up
+
+A decision record drafted for #1021 (the reorganisation of the business intents) was about which intents exist. It stopped at the rule that a decision record may never change a person's business intent. That rule, in the ADR template, may need rewording once this review is done.
+
+## Scope boundary
+
+This chore only reviews the ADRs and moves what does not belong in them. It does not change any decision about how the project is built.
+

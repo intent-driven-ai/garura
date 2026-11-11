@@ -1,0 +1,61 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "repointed": [
+    "cap-735",
+    "cap-739",
+    "cap-742",
+    "fn-736",
+    "fn-737",
+    "fn-738",
+    "fn-740",
+    "fn-741",
+    "fn-743",
+    "fn-744",
+    "fn-745",
+    "fn-746"
+  ],
+  "removed": [
+    "cap-735",
+    "cap-739",
+    "cap-742"
+  ],
+  "merged": [
+    {
+      "id": "cap-735",
+      "into": "cap-standards"
+    },
+    {
+      "id": "cap-739",
+      "into": "cap-standards"
+    },
+    {
+      "id": "cap-742",
+      "into": "cap-standards"
+    }
+  ],
+  "moved_features": [
+    "fn-736",
+    "fn-737",
+    "fn-738",
+    "fn-740",
+    "fn-741",
+    "fn-743",
+    "fn-744",
+    "fn-745",
+    "fn-746"
+  ],
+  "needs_to_review": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "deleted": [
+    "product-os/capabilities/cap-735/capability.md",
+    "product-os/capabilities/cap-739/capability.md",
+    "product-os/capabilities/cap-742/capability.md",
+    "product-os/capabilities/cap-735",
+    "product-os/capabilities/cap-739",
+    "product-os/capabilities/cap-742"
+  ],
+  "layout_kept": true
+}

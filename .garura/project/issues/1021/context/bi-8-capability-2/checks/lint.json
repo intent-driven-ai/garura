@@ -1,0 +1,109 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "first_run": "four feature pages failed once, each on one short label bullet over its sub-bullets (fn-apply-answers, fn-check-agent-decisions, fn-review-adrs, fn-run-tool-apart); each label was written out in full and the check run again",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

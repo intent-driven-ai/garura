@@ -1,0 +1,87 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/review-agent-work/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-open-review/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-open-review/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-open-review/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-open-review/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-read-outcome/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-read-outcome/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-read-outcome/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-read-outcome/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-answer-pieces/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-answer-pieces/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-answer-pieces/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-review-adrs/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-review-adrs/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-review-memory/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-review-memory/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-review-memory/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-check-agent-decisions/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-check-agent-decisions/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-send-back/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-send-back/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-send-back/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-send-back/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-apply-answers/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-apply-answers/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-apply-answers/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/drafts/product-os/software-delivery-planning/review-agent-work/fn-run-tool-apart/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-run-tool-apart/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-8-capability-2/write/approved/fn-run-tool-apart/ice.md"
+    }
+  ]
+}

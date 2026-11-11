@@ -1,0 +1,25 @@
+{
+  "written": [
+    "cap-keep-spec-matched",
+    "fn-update-spec-to-match-built",
+    "fn-keep-intent-links-current",
+    "fn-replace-or-retire-intent",
+    "fn-keep-tracker-matched",
+    "fn-find-spec-drift",
+    "ice-keep-spec-matched",
+    "ice-update-spec-to-match-built",
+    "ice-keep-intent-links-current",
+    "ice-replace-or-retire-intent",
+    "ice-keep-tracker-matched",
+    "ice-find-spec-drift"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-find-spec-drift"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md"
+  ],
+  "layout_kept": true
+}

@@ -1,0 +1,112 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-7 (Install and distribute) close",
+  "source": "The product owner's approval of 2026-11-10, reply \"approved\", recorded in .garura/project/issues/1021/context/bi-7-close/approval.md, of the proposal in .garura/project/issues/1021/context/bi-7-close/proposal.md: one sentence added to BI-7's Outcome and one Proof line; one sentence added to the domain page's first paragraph, as the four capabilities of Install and distribute stay in software delivery planning; the domain lines on those four capability pages, each with one Sources line quoting the domain page.",
+  "pages": [
+    {
+      "page": "intents/bi-7.md",
+      "changes": [
+        {
+          "old": "**Outcome:** A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.",
+          "new": "**Outcome:** A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has. Once Garura is in, the project is set up from the team's own answers, with its own memory, its review rules and its tracker's work-item types, and the team can take Garura out again, keeping its work and its own files."
+        },
+        {
+          "after": "- Each tool gets what it supports.",
+          "add": "- After the set-up, the project's own memory and its review hold only what the team's answers call for."
+        }
+      ],
+      "lines_before": 49,
+      "lines_after": 50,
+      "lines_added": 1,
+      "lines_kept": 48
+    },
+    {
+      "page": "software-delivery-planning/domain.md",
+      "changes": [
+        {
+          "old": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It does not release the work or run the product.",
+          "new": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It does not release the work or run the product."
+        }
+      ],
+      "lines_before": 19,
+      "lines_after": 19,
+      "lines_added": 0,
+      "lines_kept": 18
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/capability.md",
+      "changes": [
+        {
+          "old": "It matters because a team \"can only use Garura once it's in their project\": the install is the first thing a team meets, and a team that can put Garura in with one step and take it out again can try it at little cost. For now it sits in software delivery planning, beside Initialize; the domain of Install and distribute is settled once all its capabilities are drafted.",
+          "new": "It matters because a team \"can only use Garura once it's in their project\": the install is the first thing a team meets, and a team that can put Garura in with one step and take it out again can try it at little cost. It sits in software delivery planning with the other three capabilities of Install and distribute, and the domain's first paragraph says so."
+        },
+        {
+          "after": "- Shelf: none. No knowledge shelf in any memory tier covers installing, distributing or taking out a harness.",
+          "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in.\""
+        }
+      ],
+      "lines_before": 111,
+      "lines_after": 112,
+      "lines_added": 1,
+      "lines_kept": 110
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/capability.md",
+      "changes": [
+        {
+          "old": "It matters because a team \"only keeps using it if upgrades are safe\": a team that can see what a version changes, and knows that nothing its people changed is lost, takes each new version instead of staying on an old one. For now it sits in software delivery planning, beside Install into a project and Initialize; the domain of Install and distribute is settled once all its capabilities are drafted.",
+          "new": "It matters because a team \"only keeps using it if upgrades are safe\": a team that can see what a version changes, and knows that nothing its people changed is lost, takes each new version instead of staying on an old one. It sits in software delivery planning with the other three capabilities of Install and distribute, and the domain's first paragraph says so."
+        },
+        {
+          "after": "- Shelf: none. No knowledge shelf in any memory tier covers upgrading, versioning or releasing a harness.",
+          "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in.\""
+        }
+      ],
+      "lines_before": 109,
+      "lines_after": 110,
+      "lines_added": 1,
+      "lines_kept": 108
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/capability.md",
+      "changes": [
+        {
+          "old": "It matters because Install and distribute promises that a team \"uses it on whichever coding tool it has\", and its third proof is \"Each tool gets what it supports.\": today one of the five tools gets an install, so a team on any other tool cannot use Garura at all. For now it sits in software delivery planning, beside Install into a project, Upgrade a project and Initialize; the domain of Install and distribute is settled once all its capabilities are drafted.",
+          "new": "It matters because Install and distribute promises that a team \"uses it on whichever coding tool it has\", and its third proof is \"Each tool gets what it supports.\": today one of the five tools gets an install, so a team on any other tool cannot use Garura at all. It sits in software delivery planning with the other three capabilities of Install and distribute, and the domain's first paragraph says so."
+        },
+        {
+          "after": "- Shelf: none. No knowledge shelf in any memory tier covers what a coding tool loads from a project.",
+          "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in.\""
+        }
+      ],
+      "lines_before": 115,
+      "lines_after": 116,
+      "lines_added": 1,
+      "lines_kept": 114
+    },
+    {
+      "page": "software-delivery-planning/initialize/capability.md",
+      "changes": [
+        {
+          "old": "It serves Install and distribute, whose outcome is that \"A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.\" It matters because a team \"can only use Garura once it's in their project\", and a project that is in but not set up reads all of Phoenix memory on every lookup, gets every review rule whether it fits or not, and stops the first time a play files a type its tracker lacks. For now it sits in software delivery planning, beside Install into a project, Upgrade a project and Support each coding tool; the domain of Install and distribute is settled once all its capabilities are drafted.",
+          "new": "It serves Install and distribute, whose outcome is that \"A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.\" It matters because a team \"can only use Garura once it's in their project\", and a project that is in but not set up reads all of Phoenix memory on every lookup, gets every review rule whether it fits or not, and stops the first time a play files a type its tracker lacks. It sits in software delivery planning with the other three capabilities of Install and distribute, and the domain's first paragraph says so."
+        },
+        {
+          "after": "- Shelf: none. No knowledge shelf in memory covers setting up a software project; the domain page software-delivery-planning/domain.md carries its own outside sources.",
+          "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in.\""
+        }
+      ],
+      "lines_before": 116,
+      "lines_after": 117,
+      "lines_added": 1,
+      "lines_kept": 115
+    }
+  ],
+  "changed": [
+    "intents/bi-7.md",
+    "software-delivery-planning/domain.md",
+    "software-delivery-planning/install-into-project/capability.md",
+    "software-delivery-planning/upgrade-project/capability.md",
+    "software-delivery-planning/support-coding-tools/capability.md",
+    "software-delivery-planning/initialize/capability.md"
+  ]
+}

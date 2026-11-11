@@ -1,0 +1,33 @@
+{
+  "id": "bi-3",
+  "issue": 3,
+  "title": "Design → Code",
+  "outcome": "Each slice is designed through the lenses, with how it will be tested, and the parts of the design come together to deliver one vertical slice.",
+  "why": "Left alone, agents build horizontally, and nothing can be tested until the end. Vertical slices usually get left to people.",
+  "asked_by": "the product owner",
+  "proof": [
+    "Each slice can be tested end to end by one person on one surface.",
+    "How a slice is tested is designed before it's built."
+  ],
+  "must_not": "Tell the builder the steps, or deliver work that only a later slice makes testable.",
+  "touches": [
+    {
+      "title": "Gather the work under a chosen plan item",
+      "link": "../software-delivery-planning/gather-work-under-item/capability.md",
+      "kind": "capability",
+      "mark": "adds"
+    },
+    {
+      "title": "Gather the whole tree under a chosen item",
+      "link": "../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    },
+    {
+      "title": "Collect each story's context from its guidance",
+      "link": "../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md",
+      "kind": "feature",
+      "mark": "adds"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021); the write plan and one-lines approved by the product owner",
+  "parts": [
+    {
+      "id": "cap-run-plays-as-loops",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "run-plays-as-loops",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met.",
+      "doc": "software-delivery-planning/run-plays-as-loops/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-run-loop",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-run-loop",
+      "capability": "cap-run-plays-as-loops",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Every loop takes the same steps: a check before anything opens, one change, questions first, its plays in rounds decided done, again or ask, then the checker and the landing.",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-run-loop/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-check-loop-result",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-loop-result",
+      "capability": "cap-run-plays-as-loops",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "A model or coding agent that did not run the loop judges every criterion from the loop's outputs only, and a reject halts the loop before any pull request.",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-brief-open-points",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-brief-open-points",
+      "capability": "cap-run-plays-as-loops",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "When a round closes nothing new or the round limit is reached, the loop closes what it can, then briefs the person once with proposed answers; they reply or type stop.",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-brief-open-points/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-show-run-status",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-show-run-status",
+      "capability": "cap-run-plays-as-loops",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "While a loop runs, one status file always says its state, round, play and step in plain words, so a person can see what a long run is doing.",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-show-run-status/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-loop-per-transition",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-loop-per-transition",
+      "capability": "cap-run-plays-as-loops",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Each of the six transitions between phases has one loop of its own, named for the two phases it joins, that runs that transition's plays.",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-start-loop-on-trigger",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-start-loop-on-trigger",
+      "capability": "cap-run-plays-as-loops",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "A loop is started by a person, a schedule or a hook, as the loop says, and keeps one record across rounds that tells the next round what was tried.",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-run-plays-side-by-side",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-run-plays-side-by-side",
+      "capability": "cap-run-plays-as-loops",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "A round's plays run at the same time when all five conditions of the scoped-write rule hold, and in turn when they do not, with the same result.",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-run-plays-as-loops",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-run-plays-as-loops",
+      "doc": "software-delivery-planning/run-plays-as-loops/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-run-loop",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-run-loop",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-run-loop/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-check-loop-result",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-loop-result",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-check-loop-result/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-brief-open-points",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-brief-open-points",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-brief-open-points/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-show-run-status",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-show-run-status",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-show-run-status/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-loop-per-transition",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-loop-per-transition",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-start-loop-on-trigger",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-start-loop-on-trigger",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-run-plays-side-by-side",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-run-plays-side-by-side",
+      "doc": "software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/ice.md",
+      "thin": true
+    }
+  ]
+}

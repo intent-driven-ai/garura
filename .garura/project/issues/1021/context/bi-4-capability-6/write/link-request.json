@@ -1,0 +1,110 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-check-code-against-standards",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "check-code-against-standards",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Check the code against its standards: every change, before it is merged, and the whole of each piece of built work, are checked by a part that is not their builder against the standards the project set before the change, and each finding goes back to the developer or to a person.",
+      "doc": "software-delivery-planning/check-code-against-standards/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-review-each-change",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-review-each-change",
+      "capability": "cap-check-code-against-standards",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Before a change is merged, a part that is not its builder reads which kinds of work the change holds, runs the checks the standards of each kind name on what the change adds, judges each part that carries a design against what was committed before the change, and records each finding with the standard it breaks and where.",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-check-whole-built-work",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-whole-built-work",
+      "capability": "cap-check-code-against-standards",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Once a piece of work is built, checks the whole of its code, not only one change's lines, by a part that is not the builder, against the project's coding standards, the architecture and the design in force, and the profile's maintainability level, with its reliability level where the pass bar names a check of the code.",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-send-code-findings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-send-code-findings",
+      "capability": "cap-check-code-against-standards",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Gives one verdict for each change and for the whole built work by one fixed rule over the findings, decided by a person or by that rule as the project's setting says, and sends each finding back as a handoff plan to the developer when the builder can fix it alone, to the test writer when it is about a test, or to the product owner when a person must decide.",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-send-code-findings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-recheck-code",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-recheck-code",
+      "capability": "cap-check-code-against-standards",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Reviews a change again after a fix, checks the whole built work again when more work is built, when a standard changes and when an approved decision raises a level, keeps each verdict, names what passed before and fails now, and sends a finding that keeps coming back to a person once the rounds the project allows are used up.",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-recheck-code/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-check-code-against-standards",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-check-code-against-standards",
+      "doc": "software-delivery-planning/check-code-against-standards/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-review-each-change",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-review-each-change",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-review-each-change/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-check-whole-built-work",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-whole-built-work",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-check-whole-built-work/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-send-code-findings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-send-code-findings",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-send-code-findings/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-recheck-code",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-recheck-code",
+      "doc": "software-delivery-planning/check-code-against-standards/fn-recheck-code/ice.md",
+      "thin": false
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): the last model work",
+ "approved_by": "the product owner",
+ "source": ".garura/project/issues/1021/context/cleanup/approval.md",
+ "remove": [
+  {
+   "kind": "capability",
+   "id": "cap-718",
+   "into": "cap-turn-intents-into-work"
+  },
+  {
+   "kind": "capability",
+   "id": "cap-shape-eval",
+   "into": "cap-write-work-evals"
+  }
+ ]
+}

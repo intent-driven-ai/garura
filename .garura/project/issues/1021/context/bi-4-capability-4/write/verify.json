@@ -1,0 +1,498 @@
+{
+ "pages": {
+  "software-delivery-planning/test-accessibility/capability.md": {
+   "equals_draft": true,
+   "bytes": 28964,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-accessibility/ice.md": {
+   "equals_draft": true,
+   "bytes": 5984,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md": {
+   "equals_draft": true,
+   "bytes": 12598,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/ice.md": {
+   "equals_draft": true,
+   "bytes": 3920,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md": {
+   "equals_draft": true,
+   "bytes": 10196,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/ice.md": {
+   "equals_draft": true,
+   "bytes": 3791,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md": {
+   "equals_draft": true,
+   "bytes": 13532,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/ice.md": {
+   "equals_draft": true,
+   "bytes": 4774,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  },
+  "software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md": {
+   "equals_draft": true,
+   "bytes": 8589,
+   "thin_lines_on_page": 0
+  },
+  "software-delivery-planning/test-accessibility/fn-retest-accessibility/ice.md": {
+   "equals_draft": true,
+   "bytes": 4133,
+   "thin_lines_on_page": 1,
+   "thin_line_first": true,
+   "blank_after_thin_line": true,
+   "equals_copy_with_thin_line_back": true,
+   "copy_has_no_thin_line": true
+  }
+ },
+ "pages_all_equal": true,
+ "page_count": 10,
+ "thin_lines_only_on_the_five_ice_pages": true,
+ "new_folder_files": [
+  "software-delivery-planning/test-accessibility/capability.md",
+  "software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+  "software-delivery-planning/test-accessibility/fn-retest-accessibility/ice.md",
+  "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+  "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/ice.md",
+  "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md",
+  "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/ice.md",
+  "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md",
+  "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/ice.md",
+  "software-delivery-planning/test-accessibility/ice.md"
+ ],
+ "new_folder_holds_only_the_10_pages": true,
+ "spine": {
+  "domains": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "old_unchanged_order_kept": true
+  },
+  "capabilities": {
+   "before": 27,
+   "after": 28,
+   "new": [
+    "cap-test-accessibility"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "features": {
+   "before": 91,
+   "after": 95,
+   "new": [
+    "fn-test-accessibility-with-tools",
+    "fn-walk-with-keyboard-and-screen-reader",
+    "fn-send-accessibility-findings",
+    "fn-retest-accessibility"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "slices": {
+   "before": 1,
+   "after": 1,
+   "new": [],
+   "old_unchanged_order_kept": true
+  },
+  "ices": {
+   "before": 73,
+   "after": 78,
+   "new": [
+    "ice-test-accessibility",
+    "ice-test-accessibility-with-tools",
+    "ice-walk-with-keyboard-and-screen-reader",
+    "ice-send-accessibility-findings",
+    "ice-retest-accessibility"
+   ],
+   "old_unchanged_order_kept": true
+  },
+  "other_top_keys": [
+   "profile"
+  ],
+  "other_top_keys_unchanged": true,
+  "top_key_order_kept": true,
+  "new_entries": {
+   "cap-test-accessibility": {
+    "slug": "test-accessibility",
+    "domain": "dom-software-delivery-planning",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline: the running build is tested in the testing environment, by tools and by a person who uses it with a keyboard alone and with a screen reader, against the accessibility level the product profile commits to and the accessibility guideline of each declared surface, and each finding goes back to the developer or to a person.",
+    "doc": "software-delivery-planning/test-accessibility/capability.md",
+    "thin": false
+   },
+   "fn-test-accessibility-with-tools": {
+    "slug": "fn-test-accessibility-with-tools",
+    "capability": "cap-test-accessibility",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Once the built work runs in the testing environment, runs on each declared surface a person opens, by a part that is not the builder, the tools that check what the pass bar, each capability's accessibility need and the surface's accessibility guideline say a tool checks, and records each result with what was checked and where.",
+    "doc": "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md",
+    "thin": false
+   },
+   "fn-walk-with-keyboard-and-screen-reader": {
+    "slug": "fn-walk-with-keyboard-and-screen-reader",
+    "capability": "cap-test-accessibility",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Once the built work runs in the testing environment, a person who is not the builder, named by the product owner, uses the slice end to end on its surface with a keyboard alone, with a screen reader and in any other way the surface's guideline names, and records what they could and could not do, where, and how they walked.",
+    "doc": "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md",
+    "thin": false
+   },
+   "fn-send-accessibility-findings": {
+    "slug": "fn-send-accessibility-findings",
+    "capability": "cap-test-accessibility",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Gives one verdict for the built work against the profile's accessibility level and each surface's accessibility guideline, with a pass or a fail for every part, and sends each finding back as a handoff plan to the developer when the builder can fix it alone, or to the product owner when a person must decide.",
+    "doc": "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+    "thin": false
+   },
+   "fn-retest-accessibility": {
+    "slug": "fn-retest-accessibility",
+    "capability": "cap-test-accessibility",
+    "intents": [
+     "bi-4"
+    ],
+    "status": "proposed",
+    "one_line": "Runs the tools and the walk again after a fix, when more work is built, when an approved decision raises the accessibility level and when a surface's accessibility guideline is updated, keeps each verdict, names what passed before and fails now, and sends a finding that keeps coming back to a person once the rounds the project allows are used up.",
+    "doc": "software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+    "thin": false
+   },
+   "ice-test-accessibility": {
+    "for": "cap-test-accessibility",
+    "for_kind": "capability",
+    "doc": "software-delivery-planning/test-accessibility/ice.md",
+    "thin": true
+   },
+   "ice-test-accessibility-with-tools": {
+    "for": "fn-test-accessibility-with-tools",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/ice.md",
+    "thin": true
+   },
+   "ice-walk-with-keyboard-and-screen-reader": {
+    "for": "fn-walk-with-keyboard-and-screen-reader",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/ice.md",
+    "thin": true
+   },
+   "ice-send-accessibility-findings": {
+    "for": "fn-send-accessibility-findings",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/ice.md",
+    "thin": true
+   },
+   "ice-retest-accessibility": {
+    "for": "fn-retest-accessibility",
+    "for_kind": "feature",
+    "doc": "software-delivery-planning/test-accessibility/fn-retest-accessibility/ice.md",
+    "thin": true
+   }
+  },
+  "text_lines_removed_or_replaced": 0,
+  "text_lines_added": 126,
+  "insert_blocks": 3,
+  "only_insertions": true,
+  "comment_lines_before": 0,
+  "comment_lines_after": 0
+ },
+ "bi_4": {
+  "lines_before": 34,
+  "lines_after": 39,
+  "only_insertions": true,
+  "insert_blocks": 1,
+  "lines_added": 5,
+  "added": [
+   "- [Test accessibility](../software-delivery-planning/test-accessibility/capability.md) (capability) — adds",
+   "- [Test the running build for accessibility with tools, in the testing environment](../software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md) (feature) — adds",
+   "- [Walk the running build with a keyboard alone and with a screen reader, in the testing environment](../software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md) (feature) — adds",
+   "- [Give the accessibility verdict, and send each finding to the developer or to a person](../software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md) (feature) — adds",
+   "- [Test accessibility again as the product changes](../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md) (feature) — adds"
+  ],
+  "added_as_asked_in_order": true,
+  "inserted_after_line": "- [Test performance again as the product changes](../software-delivery-planning/test-performance/fn-retest-performance/feature.md) (feature) — adds",
+  "inserted_after_last_touches_line": true,
+  "no_blank_line_added": true,
+  "byte_check_other_lines": true,
+  "outcome_proof_must_not_lines_unchanged": true,
+  "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+  "touches_lines": 19,
+  "every_touches_line_in_form": true,
+  "links": [
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-test-code-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-test-running-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-security/fn-retest-security/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-test-running-speed/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-test-under-load/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-send-performance-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-performance/fn-retest-performance/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/capability.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+    "leads_to_a_file": true
+   },
+   {
+    "link": "../software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+    "leads_to_a_file": true
+   }
+  ],
+  "every_link_leads_to_a_file": true,
+  "titles_match_page_titles": true,
+  "spine_entries_naming_bi_4": 19,
+  "spine_entry_ids_naming_bi_4": [
+   "cap-test-product-with-evals",
+   "cap-test-security",
+   "cap-test-performance",
+   "cap-test-accessibility",
+   "fn-run-slice-eval",
+   "fn-send-handoff-plan",
+   "fn-rerun-evals",
+   "fn-test-code-security",
+   "fn-test-running-security",
+   "fn-send-security-findings",
+   "fn-retest-security",
+   "fn-test-running-speed",
+   "fn-test-under-load",
+   "fn-send-performance-findings",
+   "fn-retest-performance",
+   "fn-test-accessibility-with-tools",
+   "fn-walk-with-keyboard-and-screen-reader",
+   "fn-send-accessibility-findings",
+   "fn-retest-accessibility"
+  ],
+  "in_spine_not_in_touches": [],
+  "in_touches_not_in_spine": [],
+  "kinds_agree_with_spine": true,
+  "new_touches_order_matches_capability_then_feature_list": true
+ },
+ "git_status_product": [
+  " M .garura/product/product-os/_spine.yaml",
+  " M .garura/product/product-os/intents/bi-4.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/capability.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-retest-accessibility/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/test-accessibility/ice.md"
+ ],
+ "git_status_only_expected": true,
+ "structure_check": {
+  "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+  "before": {
+   "errors": 87,
+   "warnings": 126,
+   "counts": {
+    "domain": 1,
+    "capability": 27,
+    "feature": 91,
+    "ice": 73
+   }
+  },
+  "after": {
+   "errors": 87,
+   "warnings": 131,
+   "counts": {
+    "domain": 1,
+    "capability": 28,
+    "feature": 95,
+    "ice": 78
+   }
+  },
+  "new_errors": [],
+  "errors_gone": [],
+  "new_warnings": [
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "warnings_gone": [],
+  "errors_naming_a_new_page": [],
+  "warnings_naming_a_new_page": [
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+   ".garura/product/product-os/software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+  ],
+  "note": "The 5 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021."
+ },
+ "failed_checks": [],
+ "checks_run": 72,
+ "checks_passed": 72,
+ "all_checks_pass": true,
+ "checks": {
+  "page capability.md equals draft": true,
+  "page capability.md no thin line": true,
+  "page ice.md equals draft": true,
+  "page ice.md thin line back on top, rest = approved copy": true,
+  "page fn-test-accessibility-with-tools/feature.md equals draft": true,
+  "page fn-test-accessibility-with-tools/feature.md no thin line": true,
+  "page fn-test-accessibility-with-tools/ice.md equals draft": true,
+  "page fn-test-accessibility-with-tools/ice.md thin line back on top, rest = approved copy": true,
+  "page fn-walk-with-keyboard-and-screen-reader/feature.md equals draft": true,
+  "page fn-walk-with-keyboard-and-screen-reader/feature.md no thin line": true,
+  "page fn-walk-with-keyboard-and-screen-reader/ice.md equals draft": true,
+  "page fn-walk-with-keyboard-and-screen-reader/ice.md thin line back on top, rest = approved copy": true,
+  "page fn-send-accessibility-findings/feature.md equals draft": true,
+  "page fn-send-accessibility-findings/feature.md no thin line": true,
+  "page fn-send-accessibility-findings/ice.md equals draft": true,
+  "page fn-send-accessibility-findings/ice.md thin line back on top, rest = approved copy": true,
+  "page fn-retest-accessibility/feature.md equals draft": true,
+  "page fn-retest-accessibility/feature.md no thin line": true,
+  "page fn-retest-accessibility/ice.md equals draft": true,
+  "page fn-retest-accessibility/ice.md thin line back on top, rest = approved copy": true,
+  "new folder holds only the 10 pages": true,
+  "feature list order on the capability page = the four features in order": true,
+  "spine domains: nothing removed or changed, order kept": true,
+  "spine domains: new entries are exactly the ones asked": true,
+  "spine capabilities: nothing removed or changed, order kept": true,
+  "spine capabilities: new entries are exactly the ones asked": true,
+  "spine features: nothing removed or changed, order kept": true,
+  "spine features: new entries are exactly the ones asked": true,
+  "spine slices: nothing removed or changed, order kept": true,
+  "spine slices: new entries are exactly the ones asked": true,
+  "spine ices: nothing removed or changed, order kept": true,
+  "spine ices: new entries are exactly the ones asked": true,
+  "spine other top keys unchanged": true,
+  "spine top key order kept": true,
+  "spine entry cap-test-accessibility as asked": true,
+  "capability one_line = first line of Directional intent, word for word": true,
+  "spine entry fn-test-accessibility-with-tools as asked": true,
+  "feature fn-test-accessibility-with-tools one_line = list text, first letter capitalised": true,
+  "spine entry fn-walk-with-keyboard-and-screen-reader as asked": true,
+  "feature fn-walk-with-keyboard-and-screen-reader one_line = list text, first letter capitalised": true,
+  "spine entry fn-send-accessibility-findings as asked": true,
+  "feature fn-send-accessibility-findings one_line = list text, first letter capitalised": true,
+  "spine entry fn-retest-accessibility as asked": true,
+  "feature fn-retest-accessibility one_line = list text, first letter capitalised": true,
+  "spine entry ice-test-accessibility as asked": true,
+  "spine entry ice-test-accessibility-with-tools as asked": true,
+  "spine entry ice-walk-with-keyboard-and-screen-reader as asked": true,
+  "spine entry ice-send-accessibility-findings as asked": true,
+  "spine entry ice-retest-accessibility as asked": true,
+  "all five new ICE thin": true,
+  "capability and features not thin themselves": true,
+  "ICE ids unique in the spine": true,
+  "all ids unique in the spine": true,
+  "each part at most one ICE": true,
+  "spine only gained lines": true,
+  "spine comments kept": true,
+  "bi-4 only_insertions": true,
+  "bi-4 added_as_asked_in_order": true,
+  "bi-4 inserted_after_last_touches_line": true,
+  "bi-4 no_blank_line_added": true,
+  "bi-4 byte_check_other_lines": true,
+  "bi-4 outcome_proof_must_not_lines_unchanged": true,
+  "bi-4 every_touches_line_in_form": true,
+  "bi-4 every_link_leads_to_a_file": true,
+  "bi-4 titles_match_page_titles": true,
+  "bi-4 kinds_agree_with_spine": true,
+  "bi-4 new_touches_order_matches_capability_then_feature_list": true,
+  "bi-4 gained exactly the 5 Touches lines, one block": true,
+  "the 19 index entries naming bi-4 match the 19 Touches lines": true,
+  "under .garura/product only the spine, bi-4.md and the new folder changed": true,
+  "structure check: no error names a new page": true,
+  "structure check: no new error": true
+ },
+ "before_state": "git HEAD e82186fe: the spine and intents/bi-4.md as committed (the model had no uncommitted change before this write)"
+}

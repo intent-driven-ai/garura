@@ -1,0 +1,166 @@
+[
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 1 (Test what the product does, with evals the builder never sees)",
+  "question": "When does a slice's eval pass, and does an agent judge it?",
+  "answer": "It runs with no agent: a runner does each step as its library says, and the eval passes only when every scenario of every story passes, with no score; a scenario past its time limit fails. The run feature and the capability state it as rules.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the pass rule of the slice file",
+    "found": "passes only when every scenario of every story passes; no score; a scenario past the time limit fails",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/templates/eval-slice.md",
+     "start": 20,
+     "end": 21,
+     "fingerprint": "sha256:a8b5a50a511bdce995c95d460cd835c140c51cc16dd68a2f9a520de41c8ba516"
+    }
+   },
+   {
+    "asked": "what a runner does for a step",
+    "found": "each sentence is one exact action or check that a runner does with no agent and no judgment",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/eval/steps-command-line.yaml",
+     "start": 3,
+     "end": 6,
+     "fingerprint": "sha256:b34804c404330e2d6de519b0d807a7650546e14538dafd441c0602177eee3af4"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 1 (Test what the product does, with evals the builder never sees)",
+  "question": "What does the running eval read, and what does it never read?",
+  "answer": "The eval, the usage guide, the Context guidance in the eval and only the recovery parts of the hidden file, never the failure conditions; it reaches the built product only through the guide. The run reads nothing of the hidden file; the handoff feature reads only its recovery parts.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the Slice kind's rule on reading the eval",
+    "found": "the running eval reads the eval, the guide, the Context guidance and only the recovery parts of the hidden file, and reaches the product only through the guide",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 464,
+     "end": 464,
+     "fingerprint": "sha256:50d78d9dafb98774da0f633e2a2eb038d460feeeadd2048892a87a1aae8b2ac3"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 1 (Test what the product does, with evals the builder never sees)",
+  "question": "What does a failure send back, and to whom?",
+  "answer": "A handoff plan from the recovery: the symptom and the way back, never the failure condition, its id or the check; to the builder when the recovery says the builder can fix it alone, to a person when a person must decide. Where it is kept is left open, as the ontology leaves it.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the Slice kind's rule on a failure",
+    "found": "a handoff plan from the recovery condition, never naming the failure condition, its id or the check; builder or person by who fixes; where it is kept is not part of the ontology",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 466,
+     "end": 466,
+     "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"
+    }
+   },
+   {
+    "asked": "the recovery rule for a feature",
+    "found": "the running eval reads only the recovery parts; the builder gets only the handoff plan, which never names the evals folder, the eval, the hidden file or the check",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 85,
+     "end": 91,
+     "fingerprint": "sha256:83be66624d454e84641f2e32a76d97590eb9022fea15808bc75b00282a0efb4c"
+    }
+   },
+   {
+    "asked": "who fixes: the builder or a person",
+    "found": "autonomous when the builder can fix it from what it has, deterministically; human when it needs judgment or authority the builder does not hold",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 45,
+     "end": 58,
+     "fingerprint": "sha256:efdecb364117fabdced0735b9cfb9454149ee4834cf2626eeb6dbdb7737b56b6"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 1 (Test what the product does, with evals the builder never sees)",
+  "question": "Is a check that did not run, or a step the runner cannot do, ever a pass?",
+  "answer": "No. A required check that was not measured fails; so a line not tested, a step not done and a scenario past its time limit never count as a pass.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the surface contract's rule on an unmeasured check",
+    "found": "a required surface not measured is fix_required, never validated; a missing probe does not waive the check, it fails it",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/surface-contract.md",
+     "start": 45,
+     "end": 48,
+     "fingerprint": "sha256:a585f5fc180c7318a3b914b3d62941d6b5d1439c47f2eed1cd53d9ff1886b7a4"
+    }
+   },
+   {
+    "asked": "a step that matches no library sentence",
+    "found": "a step of an eval matches exactly one step of its library, or the eval is refused",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/eval/steps-command-line.yaml",
+     "start": 87,
+     "end": 87,
+     "fingerprint": "sha256:cea7f957924f33d3835720e0cca96c06c03370d0bb138a34335f69e2a72495fc"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 1 (Test what the product does, with evals the builder never sees)",
+  "question": "May the builder see the eval or the verdict?",
+  "answer": "No. Only the handoff plan reaches the builder; the eval, the verdict, the hidden file and the evals folder never do.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the builder isolation rule",
+    "found": "the builder cannot teach to a test it cannot see",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/builder-isolation.md",
+     "start": 35,
+     "end": 35,
+     "fingerprint": "sha256:2142297c17ad74a0bb9854267a55fb3ad4768e216963e1f15852c184ec0b4cc5"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 1 (Test what the product does, with evals the builder never sees)",
+  "question": "Which evals of earlier slices run again on each change?",
+  "answer": "Not decided. Memory's answer for the old slice check is only what the change touches, never the full suite by default; it is memory's current answer, so the pages name the point as not decided and do not write it as a rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how much to re-verify after a change",
+    "found": "the checks impacted by the blast radius of what changed, never the full suite by default",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/architecture/regression-by-blast-radius.md",
+     "start": 14,
+     "end": 18,
+     "fingerprint": "sha256:a87ca5caee9b604becdcb6dad458d7d07dad7ea5a54d5e3acc2b81aa96275b53"
+    }
+   }
+  ]
+ }
+]

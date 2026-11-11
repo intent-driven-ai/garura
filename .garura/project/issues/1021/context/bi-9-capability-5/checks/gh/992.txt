@@ -1,0 +1,29 @@
+#992 Harness principle: a person is never stopped — every gate has a key, and using it records what is owed (OPEN)
+
+## The principle (the product owner, 2026-10-30)
+
+The harness never stops a person. It gives choices, so people move at the speed they want. Going fast has repercussions later, and the choice is theirs. A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later. Only evidence is enforced.
+
+The product owner: "The whole principle of the harness is we're not limiting or stopping people. We're giving them choices. They can move at the speed at which they want to go. If they want to go really fast, they can. There are repercussions later on, but the choice is on them. The harness is not going to stop them." And: "The gate … is not a hard gate. It's a gate nevertheless, but you always have a key to bypass it, and that key will keep track of what needs to be learned later."
+
+## What this story does
+
+- Writes the principle into the harness standard (`docs/standards/harness-standard.md`), next to principle 6 "Nothing is blocked" — which says the same for the product model; this widens it to people and every gate.
+- Records it as a decision through `/record-decision` (an ADR), as the standard requires for any change to it.
+- Says what a key must record: who used it, when, what was skipped, and where the debt is kept so a later play finds it (for example the not-yet-learned list of #990).
+
+## Done means
+
+- The harness standard holds the principle, with its *Why*, and the ADR is accepted.
+- The standard says how a gate offers its key and what the key records.
+- The gates in today's plays that stop a person with no key are listed in the ADR, each with what its key would record or why it keeps a human beat.
+
+## Open point for the ADR
+
+Some stops are pinned on purpose today: the merge onto main keeps a typed approval (merge-change), and nothing is written to an outside system without the person asking. The ADR says whether these are keys of their own kind (the person's typed "yes" is the key) or exceptions to the principle.
+
+## Links
+
+- Came from #990 (the product model moves with the work), under #819, designed on 2026-10-30 while designing #720 (manage a plan).
+- Feature #735 (the harness standard, written down), beside #737 (harness principles and practices). Plan 734.
+

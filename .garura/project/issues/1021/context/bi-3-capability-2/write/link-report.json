@@ -1,0 +1,25 @@
+{
+  "written": [
+    "cap-write-work-evals",
+    "fn-write-work-evals",
+    "fn-update-evals",
+    "fn-add-eval-steps",
+    "fn-keep-evals-from-builder",
+    "ice-write-work-evals",
+    "ice-write-work-evals-feature",
+    "ice-update-evals",
+    "ice-add-eval-steps",
+    "ice-keep-evals-from-builder"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-add-eval-steps",
+    "ice-keep-evals-from-builder"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md",
+    "product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md"
+  ],
+  "layout_kept": true
+}

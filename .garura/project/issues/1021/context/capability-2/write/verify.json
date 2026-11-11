@@ -1,0 +1,202 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "result": "pass",
+  "checks": [
+    {
+      "check": "10 live pages equal their approved drafts byte for byte",
+      "pass": true,
+      "detail": [
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+          "equal": true,
+          "bytes": 10742
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/ice.md",
+          "equal": true,
+          "bytes": 2576
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+          "equal": true,
+          "bytes": 7599
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/ice.md",
+          "equal": true,
+          "bytes": 1744
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+          "equal": true,
+          "bytes": 6366
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/ice.md",
+          "equal": true,
+          "bytes": 1450
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+          "equal": true,
+          "bytes": 7430
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/ice.md",
+          "equal": true,
+          "bytes": 1648
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+          "equal": true,
+          "bytes": 6602
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md",
+          "equal": true,
+          "bytes": 1656
+        }
+      ]
+    },
+    {
+      "check": "capability in the spine, under the domain, linked to bi-1",
+      "pass": true,
+      "detail": {
+        "id": "cap-turn-intents-into-work",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-1"
+        ],
+        "status": "proposed",
+        "detail": "directional",
+        "doc": "software-delivery-planning/turn-intents-into-work/capability.md",
+        "one_line": "A business intent becomes the epics, stories and other work items agents execute.",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      }
+    },
+    {
+      "check": "4 features in the spine, under the capability, linked to bi-1",
+      "pass": true,
+      "detail": [
+        {
+          "id": "fn-cut-intent-into-work",
+          "ok": true,
+          "capability": "cap-turn-intents-into-work",
+          "intents": [
+            "bi-1"
+          ],
+          "status": "proposed",
+          "doc": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md"
+        },
+        {
+          "id": "fn-write-story-from-ice",
+          "ok": true,
+          "capability": "cap-turn-intents-into-work",
+          "intents": [
+            "bi-1"
+          ],
+          "status": "proposed",
+          "doc": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md"
+        },
+        {
+          "id": "fn-change-work-items",
+          "ok": true,
+          "capability": "cap-turn-intents-into-work",
+          "intents": [
+            "bi-1"
+          ],
+          "status": "proposed",
+          "doc": "software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md"
+        },
+        {
+          "id": "fn-add-found-feature",
+          "ok": true,
+          "capability": "cap-turn-intents-into-work",
+          "intents": [
+            "bi-1"
+          ],
+          "status": "proposed",
+          "doc": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md"
+        }
+      ]
+    },
+    {
+      "check": "18 ICE entries (13 before plus 5), the 5 new ones right and none thin",
+      "pass": true,
+      "detail": {
+        "before": 13,
+        "after": 18,
+        "new": [
+          {
+            "id": "ice-turn-intents-into-work",
+            "ok": true,
+            "for": "cap-turn-intents-into-work",
+            "for_kind": "capability",
+            "doc": "software-delivery-planning/turn-intents-into-work/ice.md",
+            "thin": false
+          },
+          {
+            "id": "ice-cut-intent-into-work",
+            "ok": true,
+            "for": "fn-cut-intent-into-work",
+            "for_kind": "feature",
+            "doc": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/ice.md",
+            "thin": false
+          },
+          {
+            "id": "ice-write-story-from-ice",
+            "ok": true,
+            "for": "fn-write-story-from-ice",
+            "for_kind": "feature",
+            "doc": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/ice.md",
+            "thin": false
+          },
+          {
+            "id": "ice-change-work-items",
+            "ok": true,
+            "for": "fn-change-work-items",
+            "for_kind": "feature",
+            "doc": "software-delivery-planning/turn-intents-into-work/fn-change-work-items/ice.md",
+            "thin": false
+          },
+          {
+            "id": "ice-add-found-feature",
+            "ok": true,
+            "for": "fn-add-found-feature",
+            "for_kind": "feature",
+            "doc": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md",
+            "thin": false
+          }
+        ]
+      }
+    },
+    {
+      "check": "only the 10 new pages and the spine changed under .garura/product/",
+      "pass": true,
+      "detail": {
+        "git_status_porcelain": [
+          " M .garura/product/product-os/_spine.yaml",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/"
+        ],
+        "git_status_porcelain_uall": [
+          " M .garura/product/product-os/_spine.yaml",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/ice.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/ice.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/ice.md",
+          "?? .garura/product/product-os/software-delivery-planning/turn-intents-into-work/ice.md"
+        ],
+        "spine_lines_added": 106,
+        "spine_lines_removed": 0
+      }
+    }
+  ]
+}

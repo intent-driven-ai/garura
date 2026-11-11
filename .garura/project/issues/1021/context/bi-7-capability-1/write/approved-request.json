@@ -1,0 +1,63 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/install-into-project/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-choose-parts/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-check-install/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-check-install/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/write/approved/fn-lay-guardrails/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-take-out/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/ice.md"
+    }
+  ]
+}

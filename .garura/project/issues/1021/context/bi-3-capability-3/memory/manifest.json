@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/ux-design-system-tokens.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:05e5ef7b00840cf6c61ca91743a17817df144af0dcaa465722de413aa226c159",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/knowledge/technology/ux-design-system-tokens.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/ux-state-and-feedback.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:14f3fa3dd1d94b7987944ad120eea8da94a66bd8bb55a457253ccbb600807bdc",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/knowledge/technology/ux-state-and-feedback.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/frontend-component-orchestration.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:5d145ac471988ddab157a7175f543a8cce9763f400a3a954bba2654ca2b3981c",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/knowledge/technology/frontend-component-orchestration.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:d61bef3f9368ca98675f960019b64b1e5ed526d55fc57b0d367674f441d4b2e4",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/standards/rules/surface-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/design.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:bd1de77d496446a360b21d7032ccc58b71b2b4b903e0a8e4d757e527d349fffe",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/standards/rules/design.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/_index.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:4ce39a8c3d2789fa38a705cd79920faaa686c597cd935a090c8f204c507a9cb1",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-3/memory/standards/templates/_index.md"
+    }
+  ]
+}

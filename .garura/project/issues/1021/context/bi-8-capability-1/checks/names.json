@@ -1,0 +1,39 @@
+{
+  "checked_on": "2026-11-10",
+  "files_checked": 32,
+  "checks": {
+    "every file": [
+      "home folder",
+      "temp folder",
+      "user name"
+    ],
+    "draft pages also": [
+      "cap-721",
+      "bi-717",
+      "a particular plan"
+    ]
+  },
+  "hits": [],
+  "capability_feature_list": [
+    "fn-673",
+    "fn-731",
+    "fn-commit-by-concern",
+    "fn-keep-docs-in-step",
+    "fn-land-plan-with-evidence",
+    "fn-land-several-issues",
+    "fn-raise-change",
+    "fn-scan-every-push"
+  ],
+  "drafted_features": [
+    "fn-673",
+    "fn-731",
+    "fn-commit-by-concern",
+    "fn-keep-docs-in-step",
+    "fn-land-plan-with-evidence",
+    "fn-land-several-issues",
+    "fn-raise-change",
+    "fn-scan-every-push"
+  ],
+  "list_matches_drafts": true,
+  "feature_ids_neither_drafted_nor_live": []
+}

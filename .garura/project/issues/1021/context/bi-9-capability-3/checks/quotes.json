@@ -1,0 +1,2918 @@
+{
+  "how": "each quote in a Sources line is looked for in that line's own file, issue (gh issue view: title and body) or memory copy; each quote in the page text in any source its page lists (for an ICE page, its part's page); whitespace, backticks and bold marks are ignored",
+  "total": 303,
+  "not_found": 0,
+  "problems": [],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 5",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 9",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#1021",
+        ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+        ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/skills/track-plan-changes/SKILL.md",
+        "core/components/skills/track-plan-changes/scripts/track_changes.py",
+        "core/config.yaml",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 23",
+      "quote": "UNTESTED here",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+        ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+        "core/components/skills/track-plan-changes/scripts/platform_adapter.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 38",
+      "quote": "3 plays, 11 skills and 3 agents hold `gh` commands",
+      "status": "found",
+      "in": [
+        "#1023",
+        ".garura/project/issues/1021/context/bi-9-inventory/inventory.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 72",
+      "quote": "so only the list the person saw lands.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 73",
+      "quote": "When I said status cannot be updated, I mean don't do rollups.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 74",
+      "quote": "Never encode the type as a title prefix",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 74",
+      "quote": "the field is the only place it belongs.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 75",
+      "quote": "No labels are added, and nothing is deleted.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 75",
+      "quote": "so an issue is never made twice.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 76",
+      "quote": "anything the builder could read, it would end up writing to.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 79",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 79",
+      "quote": "A reader sees what an issue is from its type, as the tracker shows it.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 80",
+      "quote": "It never finds one by its issue type or by its title.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 81",
+      "quote": "An item's status in a plan file follows its own GitHub issue.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 81",
+      "quote": "A parent never changes because its children closed",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 82",
+      "quote": "Only the list the person approved, and only through the platform adapter's verbs.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 84",
+      "quote": "The cardinal rule: silence beats a wrong answer.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 85",
+      "quote": "Plays, skills and sub-agents know only the tool, never the tracker.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 85",
+      "quote": "A team can choose its tracker as a setting, and a new tracker means changing one tool.",
+      "status": "found",
+      "in": [
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "text line 87",
+      "quote": "the backlog",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 90",
+      "quote": "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 90",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 91",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-9.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 91",
+      "quote": "Any work traces up to its intent and down to its result.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-9.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 92",
+      "quote": "Tools read this; plays, skills and sub-agents never name a tracker.",
+      "status": "found",
+      "in": [
+        "core/config.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 92",
+      "quote": "platform: github",
+      "status": "found",
+      "in": [
+        "core/config.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 93",
+      "quote": "Exposes exactly 25 verbs",
+      "status": "found",
+      "in": [
+        "core/components/skills/platform-adapter/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 93",
+      "quote": "Create an issue with its type and its parent in one call (GitHub only; GitLab stops with a plain message)",
+      "status": "found",
+      "in": [
+        "core/components/skills/platform-adapter/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 94",
+      "quote": "UNTESTED here",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/platform_adapter.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 95",
+      "quote": "so only the list the person saw lands.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 96",
+      "quote": "No labels are added, and nothing is deleted.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 96",
+      "quote": "so an issue is never made twice.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 96",
+      "quote": "Only the list the person approved, and only through the platform adapter's verbs.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 97",
+      "quote": "Comma-separated labels to apply on create",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-issue/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 98",
+      "quote": "title carries a type tag: [ENH] [BUG] [FEAT] [DOCS] [TASK]",
+      "status": "found",
+      "in": [
+        "core/components/plays/start-change/scripts/validate_issue.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 99",
+      "quote": "The cardinal rule: silence beats a wrong answer.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 100",
+      "quote": "command: grill",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 100",
+      "quote": "command: refactor",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 100",
+      "quote": "command: shape",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 101",
+      "quote": "Nothing rolls up: the item's parent is never changed.",
+      "status": "found",
+      "in": [
+        "core/tools/plan/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 102",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 102",
+      "quote": "Never encode the type as a title prefix",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 102",
+      "quote": "the field is the only place it belongs.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 102",
+      "quote": "No labels, for now.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 102",
+      "quote": "anything the builder could read, it would end up writing to.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 103",
+      "quote": "A reader sees what an issue is from its type, as the tracker shows it.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 103",
+      "quote": "It never finds one by its issue type or by its title.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 103",
+      "quote": "A Spike, a Chore and a Bug keep the label `work-item`.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 104",
+      "quote": "An item's status in a plan file follows its own GitHub issue.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 104",
+      "quote": "A parent never changes because its children closed",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 104",
+      "quote": "When I said status cannot be updated, I mean don't do rollups.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 105",
+      "quote": "Plays, skills and sub-agents know only the tool, never the tracker.",
+      "status": "found",
+      "in": [
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 105",
+      "quote": "A team can choose its tracker as a setting, and a new tracker means changing one tool.",
+      "status": "found",
+      "in": [
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 105",
+      "quote": "Two settings for one tracker can disagree, and on the owner they already do.",
+      "status": "found",
+      "in": [
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 106",
+      "quote": "the label `work-item` on a Spike, a Chore or a Bug only",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 107",
+      "quote": "In: keeping the plan file's list of work items in step with the tracker.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 108",
+      "quote": "an issue in a plan is closed with its item set Done.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 109",
+      "quote": "what each tracker type means is for Track execution in the team's tracker, in Orchestration, to say",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/initialize/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 110",
+      "quote": "recording a defect in the tracker, as a bug under the story that brought it in, with its text and its severity. Orchestration owns it",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 111",
+      "quote": "Tracking the agent work's own status in the tracker. Track execution in the team's tracker owns it.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 112",
+      "quote": "An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker",
+      "status": "found",
+      "in": [
+        "#1023"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 112",
+      "quote": "3 plays, 11 skills and 3 agents hold `gh` commands",
+      "status": "found",
+      "in": [
+        "#1023"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 113",
+      "quote": "merge-change closes the top item of a plan's tree (the Epic) when every issue under it is closed, against the no-roll-up rule",
+      "status": "found",
+      "in": [
+        "#1014"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 114",
+      "quote": "Findings and defects get one severity, P1 to P4",
+      "status": "found",
+      "in": [
+        "#934"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 115",
+      "quote": "Initialize sets up the tracker's work-item types",
+      "status": "found",
+      "in": [
+        "#881"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/capability.md",
+      "where": "sources line 116",
+      "quote": "the open work moved under the new intents with real links across the repos",
+      "status": "found",
+      "in": [
+        "#1021"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 6",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/update-plan/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/skills/track-plan-changes/SKILL.md",
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 8",
+      "quote": "Made by /update-plan (list <12 hex>, op <id>).",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md",
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 21",
+      "quote": "may not find an issue made seconds earlier",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 21",
+      "quote": "wait a minute and search again",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 36",
+      "quote": "so only the list the person saw lands.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 36",
+      "quote": "What lands is exactly the list the person saw when they approved it.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 37",
+      "quote": "Only the list the person approved, and only through the platform adapter's verbs.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 38",
+      "quote": "Each write is recorded as soon as it is made; a run again never repeats one, and a create looks for its own marker first, so an issue is never made twice.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 39",
+      "quote": "a record from another list is refused, never skipped over.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 40",
+      "quote": "No labels are added, and nothing is deleted.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 42",
+      "quote": "the model first, then the tracker, then the plan file",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 42",
+      "quote": "the plan file step writes only when the tracker record reads ok: true.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 43",
+      "quote": "It is mechanical \u2014 what to change was decided in the session; this skill decides nothing.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "text line 51",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/update-plan/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/skills/track-plan-changes/SKILL.md",
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 61",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 62",
+      "quote": "Each write is recorded as soon as it is made; a run again never repeats one, and a create looks for its own marker first, so an issue is never made twice.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 62",
+      "quote": "Only the list the person approved, and only through the platform adapter's verbs.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 62",
+      "quote": "No labels are added, and nothing is deleted.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 62",
+      "quote": "It is mechanical \u2014 what to change was decided in the session; this skill decides nothing.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 62",
+      "quote": "Made by /update-plan (list <12 hex>, op <id>).",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 62",
+      "quote": "may not find an issue made seconds earlier",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 62",
+      "quote": "wait a minute and search again, so no issue is made twice.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 63",
+      "quote": "so only the list the person saw lands.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 63",
+      "quote": "a record from another list is refused, never skipped over.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 63",
+      "quote": "run again, it skips each op the record has.",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 64",
+      "quote": "What lands is exactly the list the person saw when they approved it.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 64",
+      "quote": "the model first, then the tracker, then the plan file",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 65",
+      "quote": "the plan file step writes only when the tracker record reads ok: true.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 65",
+      "quote": "a second failure stops the landing and names the failed op for the person",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 65",
+      "quote": "carry on, or start fresh",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 66",
+      "quote": "The record is written after every tracker write, not only at the end.",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/scripts/write_work_items.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 66",
+      "quote": "the play still writes the plan file from it, so the next run finds those issues and makes no copy.",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/scripts/write_work_items.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 66",
+      "quote": "A second run with nothing new writes nothing.",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/scripts/write_work_items.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 67",
+      "quote": "Nothing is written to the tracker, the plan file or the model before a plain",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 68",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-9.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 69",
+      "quote": "The /update-plan session: instructions, checks, one approval, one landing on the plan's branch",
+      "status": "found",
+      "in": [
+        "#730"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "where": "sources line 70",
+      "quote": "An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker",
+      "status": "found",
+      "in": [
+        "#1023"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/ice.md",
+      "where": "text line 3",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/update-plan/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/skills/track-plan-changes/SKILL.md",
+        "core/components/skills/track-plan-changes/scripts/track_changes.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 11",
+      "quote": "do it anyway",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 13",
+      "quote": "if determinable from type",
+      "status": "found",
+      "in": [
+        "core/components/agents/project-orchestrator.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 14",
+      "quote": "A non-zero exit is a hard halt regardless of the gate state",
+      "status": "found",
+      "in": [
+        "core/components/plays/start-change/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 20",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/agents/project-orchestrator.md",
+        "core/components/plays/start-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 26",
+      "quote": "No labels, for now.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 28",
+      "quote": "UNTESTED here",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/platform_adapter.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 40",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 40",
+      "quote": "Never encode the type as a title prefix",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 40",
+      "quote": "the field is the only place it belongs.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 41",
+      "quote": "Neither has a label.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 41",
+      "quote": "An Epic is never filed as type Feature.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 42",
+      "quote": "Its tree holds six kinds of item, each under one kind of parent",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 43",
+      "quote": "as a real parent/child link in the tracker",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 43",
+      "quote": "Linking a child to a parent needs the internal identifier, not the issue number.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 44",
+      "quote": "It never finds one by its issue type or by its title.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 45",
+      "quote": "A break is shown with what works instead.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 45",
+      "quote": "the override is recorded.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 45",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-9.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 46",
+      "quote": "Anything else under an epic is misplaced work",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 46",
+      "quote": "writes nothing until a person files it in its own place",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 47",
+      "quote": "machine replacement for start-change's confirm-new-issue gate (#467)",
+      "status": "found",
+      "in": [
+        "core/components/plays/start-change/scripts/validate_issue.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 49",
+      "quote": "how a work item is marked is for Track execution in the team's tracker to decide.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "text line 54",
+      "quote": "do it anyway",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 67",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 68",
+      "quote": "becomes an issue of type Epic, with no label, in one write.",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/scripts/write_work_items.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 68",
+      "quote": "becomes an issue of type Story, with no label and with the epic as its parent, in one write.",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/scripts/write_work_items.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 69",
+      "quote": "each epic has type Epic and each story type Story, and none has a label;",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/scripts/check_tracker.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 70",
+      "quote": "Anything else under an epic is misplaced work",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 70",
+      "quote": "writes nothing until a person files it in its own place",
+      "status": "found",
+      "in": [
+        "core/components/plays/shape-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 71",
+      "quote": "no labels on an issue that joins the plan",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/scripts/check_entries.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 71",
+      "quote": "a spike, a chore or a bug under a story",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/scripts/check_entries.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 72",
+      "quote": "A break is shown with what works instead.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 72",
+      "quote": "the override is recorded.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 73",
+      "quote": "a new type, a new parent, a new issue with its type and parent",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 74",
+      "quote": "Comma-separated labels to apply on create",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-issue/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 74",
+      "quote": "parent/child hierarchy is not supported",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-issue/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 75",
+      "quote": "labels: {if determinable from type}",
+      "status": "found",
+      "in": [
+        "core/components/agents/project-orchestrator.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 76",
+      "quote": "A non-zero exit is a hard halt regardless of the gate state",
+      "status": "found",
+      "in": [
+        "core/components/plays/start-change/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 77",
+      "quote": "title carries a type tag: [ENH] [BUG] [FEAT] [DOCS] [TASK]",
+      "status": "found",
+      "in": [
+        "core/components/plays/start-change/scripts/validate_issue.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 77",
+      "quote": "machine replacement for start-change's confirm-new-issue gate (#467)",
+      "status": "found",
+      "in": [
+        "core/components/plays/start-change/scripts/validate_issue.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 78",
+      "quote": "Create an issue with its type and its parent in one call (GitHub only; GitLab stops with a plain message)",
+      "status": "found",
+      "in": [
+        "core/components/skills/platform-adapter/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 78",
+      "quote": "Set an issue's type (GitHub only; GitLab stops with a plain message)",
+      "status": "found",
+      "in": [
+        "core/components/skills/platform-adapter/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 79",
+      "quote": "UNTESTED here",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-plan-changes/scripts/platform_adapter.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 80",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 80",
+      "quote": "Never encode the type as a title prefix",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 80",
+      "quote": "the field is the only place it belongs.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 80",
+      "quote": "No labels, for now.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 80",
+      "quote": "as a real parent/child link in the tracker",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 80",
+      "quote": "Linking a child to a parent needs the internal identifier, not the issue number.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 80",
+      "quote": "a repository under a personal account has no issue types at all",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 81",
+      "quote": "Neither has a label.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 81",
+      "quote": "An Epic is never filed as type Feature.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 81",
+      "quote": "It never finds one by its issue type or by its title.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 81",
+      "quote": "A Spike, a Chore and a Bug keep the label `work-item`.",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 82",
+      "quote": "Its tree holds six kinds of item, each under one kind of parent",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 82",
+      "quote": "in a plan, an issue of type Feature is a feature item, a group of stories inside an epic",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 82",
+      "quote": "the label `work-item` on a Spike, a Chore or a Bug only",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 83",
+      "quote": "how a work item is marked is for Track execution in the team's tracker to decide.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 84",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-9.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 85",
+      "quote": "Never encode the type as a title prefix",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 86",
+      "quote": "The plan play makes the plan file, the epic and one story per feature",
+      "status": "found",
+      "in": [
+        "#818"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 87",
+      "quote": "a slice's Epic must be type Epic",
+      "status": "found",
+      "in": [
+        "#875"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 88",
+      "quote": "The /update-plan session",
+      "status": "found",
+      "in": [
+        "#730"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "where": "sources line 89",
+      "quote": "Initialize sets up the tracker's work-item types",
+      "status": "found",
+      "in": [
+        "#881"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/ice.md",
+      "where": "text line 17",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/agents/project-orchestrator.md",
+        "core/components/plays/start-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/skills/track-plan-changes/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 7",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/plays/fix-bug/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 9",
+      "quote": "Severity: P<n> \u2014 <why, in one line>",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 11",
+      "quote": "a person sets its status before work starts again",
+      "status": "found",
+      "in": [
+        "core/tools/plan/plan_branch.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 17",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/plays/fix-bug/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 32",
+      "quote": "Each Bug still hangs under the Story that introduced it, so the trace of where it came from is kept.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 33",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 33",
+      "quote": "a spike, a chore or a bug under a story",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        "core/components/plays/update-plan/scripts/check_entries.py",
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 34",
+      "quote": "A Bug carries its severity in its text.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 34",
+      "quote": "one value, P1 to P4, that also says what is fixed first.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 34",
+      "quote": "Until the severity rules exist (#934), the product owner sets it.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 35",
+      "quote": "anything the builder could read, it would end up writing to.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 35",
+      "quote": "It never names the test, its rule, its id or its tool",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 35",
+      "quote": "It never names the failure condition, its id, the scenario, its steps or the check.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 36",
+      "quote": "a missing feature is a Story.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 37",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/plays/fix-bug/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 37",
+      "quote": "What lands is exactly the list the person saw when they approved it.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 38",
+      "quote": "A bug found after a plan is done sits under the Story that introduced it; no new plan is made, and the done plan is not reopened.",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "text line 44",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/plays/fix-bug/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 57",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 58",
+      "quote": "A defect is a fault in a feature a user wants",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 58",
+      "quote": "A bug is how a plan keeps a defect as a work item",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 58",
+      "quote": "recording a defect in the tracker, as a bug under the story that brought it in, with its text and its severity. Orchestration owns it",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 58",
+      "quote": "The bug fix play starts only from an open issue in the tracker",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 59",
+      "quote": "Not decided: whether the understanding is written on the defect's issue in the tracker, as the bug fix play does today.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 59",
+      "quote": "Only the tool that knows the tracker may write it, and tracking is Orchestration's.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 60",
+      "quote": "Recording a defect in the tracker. Orchestration owns it.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 60",
+      "quote": "It never names the test, its rule, its id or its tool",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 61",
+      "quote": "Recording a defect in the tracker. Orchestration owns it.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 61",
+      "quote": "It never names the failure condition, its id, the scenario, its steps or the check.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 62",
+      "quote": "recording it in the tracker, which Orchestration owns",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 63",
+      "quote": "a bug, which is a defect a story's work brought in",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 64",
+      "quote": "What lands is exactly the list the person saw when they approved it.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 65",
+      "quote": "Where a bug is placed in a plan. Turn intents into agent work, in Product \u2192 Spec, and Orchestration own it.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 66",
+      "quote": "a spike, a chore or a bug under a story",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/scripts/check_entries.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 66",
+      "quote": "a new item needs a title",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/scripts/check_entries.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 67",
+      "quote": "confirm the issue is open",
+      "status": "found",
+      "in": [
+        "core/components/plays/fix-bug/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 68",
+      "quote": "A plan that main's file marks Done or Dropped gets no branch",
+      "status": "found",
+      "in": [
+        "core/tools/plan/plan_branch.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 68",
+      "quote": "a person sets its status before work starts again",
+      "status": "found",
+      "in": [
+        "core/tools/plan/plan_branch.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "A Bug carries its severity in its text.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "Severity: P<n> \u2014 <why, in one line>",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "one value, P1 to P4, that also says what is fixed first.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "Until the severity rules exist (#934), the product owner sets it.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "Each Bug still hangs under the Story that introduced it, so the trace of where it came from is kept.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "a missing feature is a Story.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 69",
+      "quote": "anything the builder could read, it would end up writing to.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 70",
+      "quote": "A bug found after a plan is done sits under the Story that introduced it; no new plan is made, and the done plan is not reopened.",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 71",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/intents/bi-9.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 72",
+      "quote": "The /update-plan session",
+      "status": "found",
+      "in": [
+        "#730"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "where": "sources line 73",
+      "quote": "Findings and defects get one severity, P1 to P4",
+      "status": "found",
+      "in": [
+        "#934"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/ice.md",
+      "where": "text line 17",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        "#730",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+        ".garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        ".garura/user-provided/managing-work.md",
+        "core/components/plays/fix-bug/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 44",
+      "quote": "An unrecognised mode halts the play; it is never guessed or inferred.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 45",
+      "quote": "Output is capped at 10 entries.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 46",
+      "quote": "the same captured issue set and the same mode always yield the same ordered, capped list.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 47",
+      "quote": "The play never infers a kind, never invents a play name, and never derives a recommendation by reading the product model.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 48",
+      "quote": "The cardinal rule: silence beats a wrong answer.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 49",
+      "quote": "Read only: the play never creates, edits, closes, comments on, labels, assigns or otherwise writes to any issue",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 50",
+      "quote": "When a mode matches nothing, the play says so plainly and stops.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 51",
+      "quote": "No backlog, sprint plan, product model, or work queue is consulted, and none is created.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "text line 52",
+      "quote": "Blocked is read from the issue's own labels \u2014 never inferred.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/scripts/select_focus.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 70",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "An unrecognised mode halts the play; it is never guessed or inferred.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "Output is capped at 10 entries.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "the same captured issue set and the same mode always yield the same ordered, capped list.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "The play never infers a kind, never invents a play name, and never derives a recommendation by reading the product model.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "The cardinal rule: silence beats a wrong answer.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "A default offered in place of an answer still reads as advice",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "Read only: the play never creates, edits, closes, comments on, labels, assigns or otherwise writes to any issue",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "When a mode matches nothing, the play says so plainly and stops.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 71",
+      "quote": "No backlog, sprint plan, product model, or work queue is consulted, and none is created.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 72",
+      "quote": "Blocked is read from the issue's own labels \u2014 never inferred.",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/scripts/select_focus.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 72",
+      "quote": "STALE_DAYS = 14",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/scripts/select_focus.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 73",
+      "quote": "command: fix-bug",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 73",
+      "quote": "command: grill",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 73",
+      "quote": "command: refactor",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 73",
+      "quote": "command: shape",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 73",
+      "quote": "no recommendation (label it to get one)",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/reference/kind-map.yaml"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 74",
+      "quote": "a limit high enough to cover the repo (200)",
+      "status": "found",
+      "in": [
+        "core/components/plays/list-focus-issues/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 77",
+      "quote": "finds an issue's kind by its labels",
+      "status": "found",
+      "in": [
+        "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 78",
+      "quote": "An Epic is never worked directly; its Stories are.",
+      "status": "found",
+      "in": [
+        ".garura/user-provided/managing-work.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 79",
+      "quote": "The bug fix play, /fix-bug, is built and live only in a full install.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 79",
+      "quote": "It is not laid in Garura's own repository",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "where": "sources line 80",
+      "quote": "/list-issues (was /list-focus-issues)",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/names.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 7",
+      "quote": "closed on GitHub",
+      "status": "found",
+      "in": [
+        "#1007",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 7",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 15",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 22",
+      "quote": "closed on GitHub",
+      "status": "found",
+      "in": [
+        "#1007",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 31",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 34",
+      "quote": "An item's status in a plan file follows its own GitHub issue.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 34",
+      "quote": "Closed as completed means Done.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 34",
+      "quote": "Closed as not planned means Dropped.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 35",
+      "quote": "Closed as not planned or as a duplicate is Dropped; any other close is Done.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/scripts/closed_on_github.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 36",
+      "quote": "If GitHub is updated to be done, then this status here has to be updated. When I said status cannot be updated, I mean don't do rollups.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 36",
+      "quote": "A parent never changes because its children closed",
+      "status": "found",
+      "in": [
+        "#1007",
+        ".garura/product/product-os/features/fn-673/feature.md",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 37",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 37",
+      "quote": "An issue closed by hand is caught at the next /update-plan session and shown before it lands.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 38",
+      "quote": "while the issue is open, a person sets the item's status",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 38",
+      "quote": "A person sets every status and the plan's direction.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 39",
+      "quote": "leaves every other line, comment and order as it is.",
+      "status": "found",
+      "in": [
+        "core/tools/plan/plan_status.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 39",
+      "quote": "Nothing rolls up: the item's parent is never changed.",
+      "status": "found",
+      "in": [
+        "core/tools/plan/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 40",
+      "quote": "An item already at that status is left as it is.",
+      "status": "found",
+      "in": [
+        "core/tools/plan/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 42",
+      "quote": "items already closed in the tracker",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "text line 46",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 58",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "status": "found",
+      "in": [
+        ".garura/project/issues/1021/context/capabilities.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "An item's status in a plan file follows its own GitHub issue.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "Closed as completed means Done.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "Closed as not planned means Dropped.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "A parent never changes because its children closed",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "The plan's own Status and Direction stay the person's.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "An issue closed by hand is caught at the next /update-plan session and shown before it lands.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "An issue closed by hand stays open in the plan file until the next /update-plan session.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 59",
+      "quote": "If GitHub is updated to be done, then this status here has to be updated. When I said status cannot be updated, I mean don't do rollups.",
+      "status": "found",
+      "in": [
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 60",
+      "quote": "now read as its own issue in the tracker",
+      "status": "found",
+      "in": [
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 61",
+      "quote": "Nothing rolls up: the item's parent is never changed.",
+      "status": "found",
+      "in": [
+        "core/tools/plan/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 61",
+      "quote": "An item already at that status is left as it is.",
+      "status": "found",
+      "in": [
+        "core/tools/plan/README.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 62",
+      "quote": "leaves every other line, comment and order as it is.",
+      "status": "found",
+      "in": [
+        "core/tools/plan/plan_status.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 63",
+      "quote": "Closed as not planned or as a duplicate is Dropped; any other close is Done.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/scripts/closed_on_github.py"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 64",
+      "quote": "A person sets every status and the plan's direction.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 64",
+      "quote": "Nothing is worked out from the work under an item: no roll-ups.",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 64",
+      "quote": "closed on GitHub",
+      "status": "found",
+      "in": [
+        "core/components/plays/update-plan/reference/ice.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 65",
+      "quote": "only that item, no roll-up",
+      "status": "found",
+      "in": [
+        "core/components/plays/merge-change/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 66",
+      "quote": "on GitLab, the `reason` argument is silently ignored by the adapter",
+      "status": "found",
+      "in": [
+        "core/components/skills/track-issue/SKILL.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 67",
+      "quote": "while the issue is open, a person sets the item's status",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 67",
+      "quote": "an epic stays open until its own issue closes, and can be closed with open stories",
+      "status": "found",
+      "in": [
+        "standards/schemas/product-os/ontology.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 68",
+      "quote": "Tracking the agent work's own status in the tracker. Track execution in the team's tracker owns it.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 69",
+      "quote": "The status of each item, the direction of the work, and items already closed in the tracker. Orchestrate agent work through planning owns them.",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 70",
+      "quote": "An issue that landed on its plan's branch is closed by the merge",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 71",
+      "quote": "An item's status in the plan file follows its own GitHub issue: merge-change sets it Done, and /update-plan lists items closed on GitHub",
+      "status": "found",
+      "in": [
+        "#1007"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "where": "sources line 72",
+      "quote": "merge-change closes the top item of a plan's tree (the Epic) when every issue under it is closed, against the no-roll-up rule",
+      "status": "found",
+      "in": [
+        "#1014"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "where": "text line 2",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "where": "text line 4",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "where": "text line 8",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "where": "text line 17",
+      "quote": "approved",
+      "status": "found",
+      "in": [
+        ".garura/product/product-os/features/fn-673/feature.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+        ".garura/project/issues/1021/context/capabilities.md",
+        "core/components/plays/merge-change/SKILL.md",
+        "core/components/plays/update-plan/reference/ice.md",
+        "core/components/plays/update-plan/scripts/closed_on_github.py",
+        "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+        "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+      ]
+    }
+  ]
+}

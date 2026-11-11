@@ -1,0 +1,31 @@
+{
+  "written": [
+    "cap-build-work-test-first",
+    "fn-write-failing-tests",
+    "fn-build-code-to-pass",
+    "fn-write-usage-guide",
+    "fn-update-tests-and-code",
+    "ice-build-work-test-first",
+    "ice-write-failing-tests",
+    "ice-build-code-to-pass",
+    "ice-write-usage-guide",
+    "ice-update-tests-and-code"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-build-work-test-first",
+    "ice-write-failing-tests",
+    "ice-build-code-to-pass",
+    "ice-write-usage-guide",
+    "ice-update-tests-and-code"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/build-work-test-first/ice.md",
+    "product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md",
+    "product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md",
+    "product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md",
+    "product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md"
+  ],
+  "layout_kept": true
+}

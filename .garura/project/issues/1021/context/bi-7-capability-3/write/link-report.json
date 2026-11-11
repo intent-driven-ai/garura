@@ -1,0 +1,31 @@
+{
+  "written": [
+    "cap-support-coding-tools",
+    "fn-install-for-claude-code",
+    "fn-install-for-codex",
+    "fn-install-for-copilot",
+    "fn-install-for-antigravity",
+    "fn-install-for-factory",
+    "fn-map-model-tier",
+    "ice-support-coding-tools",
+    "ice-install-for-claude-code",
+    "ice-install-for-codex",
+    "ice-install-for-copilot",
+    "ice-install-for-antigravity",
+    "ice-install-for-factory",
+    "ice-map-model-tier"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-install-for-copilot",
+    "ice-install-for-antigravity",
+    "ice-install-for-factory"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md",
+    "product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md",
+    "product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md"
+  ],
+  "layout_kept": true
+}

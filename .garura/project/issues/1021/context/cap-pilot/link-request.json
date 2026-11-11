@@ -1,0 +1,11 @@
+{"by": "product-os-keeper (reorganise business intents, #1021)",
+ "parts": [
+  {"id": "cap-keep-intents", "kind": "capability", "mode": "new", "slug": "keep-intents",
+   "domain": "dom-software-delivery-planning", "intents": ["bi-1"],
+   "one_line": "Everything a person gives is kept exactly as given, and the intents stay up to date as the product evolves, with no drift.",
+   "doc": "software-delivery-planning/keep-intents/capability.md", "identified_by": "", "thin": true},
+  {"id": "cap-orchestrate-planning", "kind": "capability", "mode": "new", "slug": "orchestrate-planning",
+   "domain": "dom-software-delivery-planning", "intents": ["bi-9"],
+   "one_line": "The work of the agents can be orchestrated by careful planning that reads the slices and creates verticals for a clear and crisp end-to-end delivery.",
+   "doc": "software-delivery-planning/orchestrate-planning/capability.md", "identified_by": "", "thin": true}
+ ]}

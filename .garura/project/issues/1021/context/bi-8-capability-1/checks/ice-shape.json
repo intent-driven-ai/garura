@@ -1,0 +1,203 @@
+{
+  "checked_on": "2026-11-10",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-673/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-673/feature.md",
+      "part_status": "built",
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-731/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/features/fn-731/feature.md",
+      "part_status": "built",
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-commit-by-concern/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md",
+      "part_status": "built",
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+      "part_status": "not built",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+      "part_status": "not built",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md",
+      "part_status": "not built",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-raise-change/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-raise-change/feature.md",
+      "part_status": "built",
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+      "part_status": "not built",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-8-capability-1/drafts/product-os/software-delivery-planning/ship-every-change/capability.md",
+      "part_status": "capability (built in part)",
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    }
+  ]
+}

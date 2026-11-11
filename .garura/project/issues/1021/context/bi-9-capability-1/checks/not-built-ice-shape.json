@@ -1,0 +1,73 @@
+{
+  "checked_on": "2026-11-10",
+  "thin_line": "Thin: proposed from the person's words; deepen with `/discover-capabilities`.",
+  "read_opening": "Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: ",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md",
+      "thin_line": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "page_has_ice_section": false,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+      "thin_line": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "page_has_ice_section": false,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md",
+      "part_page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md",
+      "thin_line": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "page_has_ice_section": false,
+      "problems": []
+    }
+  ]
+}

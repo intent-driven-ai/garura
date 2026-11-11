@@ -1,5 +1,7 @@
 # ADR 005: Skills as Learned Capabilities
 
+**Status:** (not recorded) — amended in part by [ADR 065](065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md): "Skill Execution Preferences": `gh` in the first row of its table, and its example "Preferred: Use gh CLI directly". A skill reaches a tracker only through the tool. The order of preference stands for everything else
+
 ## Status
 
 Accepted

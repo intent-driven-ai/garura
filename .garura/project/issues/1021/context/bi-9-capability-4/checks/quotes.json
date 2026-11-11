@@ -1,0 +1,1414 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 189,
+  "not_found": 0,
+  "problems": [],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "the domain (lean: software delivery planning, its opening widened, as for BI-6, BI-7 and BI-8)",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+      "quote": "Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+      "quote": "Manage ADRs (Orchestration) owns the records; this capability decides what the update says and hands it over.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "quote": "the accept is carried out as Manage ADRs says",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "Only a person accepts an ADR.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "no record is written off the template",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "Every check runs before the first write, so a stop writes nothing",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "only the record, its pointers, the index and the run's own records changed",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "Candidates are found mechanically; which ones really apply is judged by reading them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "An ADR never changes a person's business intent.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "a sub-agent gathers the context and checks, a skill drafts, scripts do the mechanical work; a small play holds the person's approval.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "run by hand it opens and lands its own change; handed a loop's contract, it opens no issue or branch of its own and works on the loop's branch.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/agents/adr-keeper.md",
+      "quote": "A new decision is only safe when its reader can see what it replaces.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/agents/adr-keeper.md",
+      "quote": "No outside research: a decision's reasons come from the brief and the person, never from you.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/agents/change-reviewer.md",
+      "quote": "the decision records (`docs/adr/**`)",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/loops/complete-discovery/SKILL.md",
+      "quote": "You run `/discover-intent`, `/discover-domains` and `/discover-capabilities`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "An accepted ADR is never edited.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "An ADR never changes a person's business intent.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": "core/components/plays/discover-capabilities/SKILL.md",
+      "quote": "writes one decision per box-move",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/1022.txt",
+      "quote": "an ADR is only for how this project is being developed",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/1022.txt",
+      "quote": "That rule, in the ADR template, may need rewording once this review is done.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/822.txt",
+      "quote": "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/968.txt",
+      "quote": "A person records a decision as an ADR, in the change it belongs to, and sees every point found on the way",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/992.txt",
+      "quote": "A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/632.txt",
+      "quote": "check if this adr invalidates any older ones",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+      "quote": "Nothing catches a decision made in a session that no one records.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "an ADR is only for how this project is being developed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "a sub-agent gathers the context and checks, a skill drafts, scripts do the mechanical work; a small play holds the person's approval.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "the accept is carried out as Manage ADRs says",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "A new decision is only safe when its reader can see what it replaces.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "the decision records (`docs/adr/**`)",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "writes one decision per box-move",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "Only a person accepts an ADR.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "An accepted ADR is never edited.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "An ADR never changes a person's business intent.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "no record is written off the template",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "No outside research: a decision's reasons come from the brief and the person, never from you.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "A new decision is only safe when its reader can see what it replaces.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "Candidates are found mechanically; which ones really apply is judged by reading them.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "a sub-agent gathers the context and checks, a skill drafts, scripts do the mechanical work; a small play holds the person's approval.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "Every check runs before the first write, so a stop writes nothing",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "only the record, its pointers, the index and the run's own records changed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "run by hand it opens and lands its own change; handed a loop's contract, it opens no issue or branch of its own and works on the loop's branch.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "where": "body",
+      "quote": "an ADR is only for how this project is being developed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "no record is written off the template",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "Ask the person for any heading that is empty \u2014 plainly, one at a time; never fill one in.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "a new question stops the loop",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "the ADR is never applied to the intent either way",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "Every check runs before the first write, so a stop writes nothing",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "only the record, its pointers, the index and the run's own records changed",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "Candidates are found mechanically; which ones really apply is judged by reading them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "What it changes is recorded with real names",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "An ADR never changes a person's business intent.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "changing the Business Intent kind (framework doctrine) is allowed and recorded as such",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/scripts/apply_adr.py",
+      "quote": "a record is never overwritten",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/agents/adr-keeper.md",
+      "quote": "No outside research: a decision's reasons come from the brief and the person, never from you.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/agents/adr-keeper.md",
+      "quote": "Retry the skill at most twice",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/SKILL.md",
+      "quote": "You draft; you never accept.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/scripts/adr.py",
+      "quote": "candidates only \u2014 the agent judges which are really superseded or amended",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "It checks the shape, never the merit",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/632.txt",
+      "quote": "check if this adr invalidates any older ones",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/822.txt",
+      "quote": "/record-decision cannot join a change that is already open",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+      "quote": "Nothing catches a decision made in a session that no one records.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "no record is written off the template",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "a new question stops the loop",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "Decisions on how the project is built are recorded",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "coordinate many pieces from them",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "Ask the person for any heading that is empty \u2014 plainly, one at a time; never fill one in.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "No outside research: a decision's reasons come from the brief and the person, never from you.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "no record is written off the template",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "checks the shape, never the merit",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "Candidates are found mechanically; which ones really apply is judged by reading them.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "candidates only \u2014 the agent judges which are really superseded or amended",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "What it changes is recorded with real names",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "An ADR never changes a person's business intent.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "the ADR is never applied to the intent either way",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "changing the Business Intent kind (framework doctrine) is allowed and recorded as such",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "You draft; you never accept.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "Every check runs before the first write, so a stop writes nothing",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "a record is never overwritten",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "only the record, its pointers, the index and the run's own records changed",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "where": "body",
+      "quote": "Retry the skill at most twice",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "An older ADR is never edited, except for its forward pointer, and pointers are written only once the new ADR is accepted.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "The index of the framework's ADRs is rebuilt after each one is accepted, so it is never stale.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "the only edit they get",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/scripts/apply_adr.py",
+      "quote": "older ADRs named but not found",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/scripts/adr.py",
+      "quote": "supersede that one instead",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/scripts/adr.py",
+      "quote": "already points to it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/SKILL.md",
+      "quote": "the only edit an accepted ADR ever gets",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "An accepted ADR is never edited.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "the ONLY fields ever written on an accepted ADR after it is accepted",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "a record is superseded in full only once",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "Every ADR it supersedes or amends names it back through that pointer \u2014 both directions.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/_index.md",
+      "quote": "Generated by `adr.py index` (#632) \u2014 do not edit by hand.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/_index.md",
+      "quote": "Each ADR's own **Status:** line is the source of truth",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/850.txt",
+      "quote": "apply_adr.py reports linked:true but writes no forward pointer when the context has no amends list",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/850.txt",
+      "quote": "and still reported `linked: true` with `olders: []`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "coordinate many pieces from",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "An older ADR is never edited, except for its forward pointer, and pointers are written only once the new ADR is accepted.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "An accepted ADR is never edited.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "the ONLY fields ever written on an accepted ADR after it is accepted",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "Every ADR it supersedes or amends names it back through that pointer \u2014 both directions.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "a record is superseded in full only once",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "supersede that one instead",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "older ADRs named but not found",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "already points to it",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "Generated by `adr.py index` (#632) \u2014 do not edit by hand.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "The index of the framework's ADRs is rebuilt after each one is accepted, so it is never stale.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "where": "body",
+      "quote": "Each ADR's own **Status:** line is the source of truth",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": "core/components/agents/adr-keeper.md",
+      "quote": "each thing you found on the way that the brief did not ask about",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/SKILL.md",
+      "quote": "Give the detail itself, never a summary",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/SKILL.md",
+      "quote": "A finding you only mention in passing in Context belongs here instead.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "show the draft exactly as it will read",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "A point for the person who accepts it is written for someone who was not in the work.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "gives the detail itself (the lines, the names, the dates), not a summary",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/930.txt",
+      "quote": "update the ADR template so that things that I should know should be properly explained.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/930.txt",
+      "quote": "A decision record tells the person accepting it what was found on the way",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/930.txt",
+      "quote": "ADR 059 is the first such record.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/935.txt",
+      "quote": "So if the agent gathers no points, or a point misses one of its five parts in the gathered context, the play still passes.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/935.txt",
+      "quote": "The ADR linter (`adr.py lint`) catches a broken point only when the section is in the record at all.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/935.txt",
+      "quote": "A record can reach the person who accepts it with nothing explained.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/941.txt",
+      "quote": "An agent reading the row alone does not learn the section exists.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "recorded closely as they're made",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "A decision record tells the person accepting it what was found on the way",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "ADR 059 is the first such record.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "So if the agent gathers no points, or a point misses one of its five parts in the gathered context, the play still passes.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "The ADR linter (`adr.py lint`) catches a broken point only when the section is in the record at all.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "An agent reading the row alone does not learn the section exists.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "update the ADR template so that things that I should know should be properly explained.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "A point for the person who accepts it is written for someone who was not in the work.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "gives the detail itself (the lines, the names, the dates), not a summary",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "Give the detail itself, never a summary",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "A finding you only mention in passing in Context belongs here instead.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "each thing you found on the way that the brief did not ask about",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "show the draft exactly as it will read",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "where": "body",
+      "quote": "A record can reach the person who accepts it with nothing explained.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "Only a person accepts an ADR.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "never skipped by config or policy",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "You never accept an ADR yourself",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "a resume never re-asks the person once `decision.yaml` exists",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "show the draft exactly as it will read",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "the person accepts it at the loop's final review with `/record-decision accept <file>`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/SKILL.md",
+      "quote": "it opens no issue or branch, skips the end sequence, does not stop for approval, and saves the ADR as proposed for the loop's final review",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/reference/ice.md",
+      "quote": "a pinned gate, class one-way-door: a record of a decision is the project's memory",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/scripts/apply_adr.py",
+      "quote": "the decision must be the person's own typed reply (by: person, reply)",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/scripts/apply_adr.py",
+      "quote": "the person rejected the ADR \u2014 nothing is written",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/scripts/apply_adr.py",
+      "quote": "only a proposed ADR can be accepted",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/plays/record-decision/scripts/apply_adr.py",
+      "quote": "the draft must be Proposed \u2014 only a person's word makes it accepted",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/skills/author-decision/scripts/adr.py",
+      "quote": "only a person accepts an ADR \u2014 --by names them",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/agents/adr-keeper.md",
+      "quote": "never run `adr.py accept` or `pointer`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "core/components/loops/complete-discovery/SKILL.md",
+      "quote": "You run `/discover-intent`, `/discover-domains` and `/discover-capabilities`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "Only a person moves it to `accepted` or `rejected`",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/templates/adr.md",
+      "quote": "Inside a loop, an ADR is written as `proposed` and accepted at the loop's final review; run by hand, the person accepts it before it is written as `accepted`.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/rules/gate-config.md",
+      "quote": "A pinned gate NEVER resolves off",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/memory/standards/rules/gate-config.md",
+      "quote": "only a person accepts a decision record",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+      "quote": "Only a person accepts an ADR. Only where the person does it moves.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md",
+      "quote": "the accept is carried out as Manage ADRs says",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/632.txt",
+      "quote": "write it, approve it",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/850.txt",
+      "quote": "apply writes the git user's full name in **Decided by**; the repo is public and recent ADRs use 'the product owner'.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/992.txt",
+      "quote": "A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later.",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "Sources",
+      "source": ".garura/project/issues/1021/context/bi-9-capability-4/checks/gh/992.txt",
+      "quote": "or exceptions to the principle",
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "never skipped by config or policy",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "coordinate many pieces from",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "Only a person accepts an ADR.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "Only a person moves it to `accepted` or `rejected`",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "a pinned gate, class one-way-door: a record of a decision is the project's memory",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "A pinned gate NEVER resolves off",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "the decision must be the person's own typed reply (by: person, reply)",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "You never accept an ADR yourself",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "never run `adr.py accept` or `pointer`",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "only a person accepts an ADR \u2014 --by names them",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "only a proposed ADR can be accepted",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "the draft must be Proposed \u2014 only a person's word makes it accepted",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "the person rejected the ADR \u2014 nothing is written",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "Inside a loop, an ADR is written as `proposed` and accepted at the loop's final review; run by hand, the person accepts it before it is written as `accepted`.",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "where": "body",
+      "quote": "a resume never re-asks the person once `decision.yaml` exists",
+      "in_a_sources_quote": true,
+      "in_a_named_source": true,
+      "found": true
+    }
+  ]
+}

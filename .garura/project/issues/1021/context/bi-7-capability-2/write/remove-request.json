@@ -1,0 +1,28 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+  "repoint": [
+    {
+      "id": "cap-747",
+      "kind": "capability",
+      "intents": {
+        "bi-734": "bi-7"
+      }
+    },
+    {
+      "id": "fn-748",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-7"
+      }
+    }
+  ],
+  "remove": [
+    {
+      "kind": "capability",
+      "id": "cap-747",
+      "into": "cap-upgrade-project"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: Each builder's own machine can be set up as a dev sandbox, outside the project's environments and its path, where each part of the project runs on the machine itself with no container platform or cloud service, with made-up data and its settings named from the project's example settings file, each part's setup with its reason, its source and the person who confirmed it.
+- Limit: Each part's setup is proposed from the project's own memory and code first, then from Garura memory, then from Phoenix memory; only when none of them answers is it researched, and the research is used only after a person approves it as a memory update. Nothing comes from what the AI agent knows by itself.
+- Limit: Running the sandbox needs no container platform, such as Docker, and no cloud service; a part that cannot run without one is named as not decided, never set up with one and never guessed.
+- Limit: The sandbox never holds data copied from production, a secret's value or a slice's eval, never reaches production, and is not where the path's tests are counted; only a person confirms a part's setup, and no work waits for one.
+- Fails if: Running the sandbox needs a container platform or a cloud service.
+- Fails if: A part's setup is set with no person's confirmation, or with nothing behind it but what the AI agent knows by itself, such as a made-up stand-in for a cloud service.
+- Fails if: The sandbox holds data copied from production, a secret's value or a slice's eval, or a change moves along the path because its checks passed in a sandbox.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the project's code and its settings, such as its run scripts, the commands its readme gives, its example settings file, and its test data with the steps that fill it; the approved architecture, with its parts and their technology; the declared surfaces; the deployment design; and Phoenix memory's architecture and technology learnings for running a part on a builder's machine.
+- Never read: the value of any secret, such as a password or a key; anything in production, such as its data; and a slice's eval.
+- Persona: the developer, a person or an agent who builds the project's code on their own machine.
+- Scope: In: proposing and setting up the dev sandbox on a builder's machine: how each part starts and stops there, its data and its settings, and updating the setup as the project changes. Out: the environments of the path, which tests count and where, a slice's eval, where a person's acceptance walk runs, making the code, run scripts and test data, the architecture and its technology, production, and moving a memory update into Phoenix memory.
+
+## Expectation
+- Scenario: A new developer joins a team's planning tool, one service and a browser page, on a laptop with no container platform and no cloud account. Following the sandbox setup, the service starts with one command from the project's readme and the page from the project's own development server, both with made-up records from the project's test data and settings named in its example settings file. A part that sends email through an outside service is named as not decided, and the developer builds the rest. The developer's checks pass in the sandbox, and the change still moves on only when the tests named for dev pass in dev.
+- Done means: Someone other than the one who set up the sandbox follows it on a fresh machine with no container platform and no cloud account, finds each part running or named as not decided, and finds a source and a confirmation behind each part, made-up data only, no secret's value and no eval.

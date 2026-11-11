@@ -1,0 +1,86 @@
+{
+ "pages": [
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "exit": 0
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "exit": 0
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "exit": 0
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "exit": 0
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "exit": 0
+  }
+ ],
+ "ice": [
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/ice.md",
+   "ok": true,
+   "goals": 1,
+   "limits": 4,
+   "fails_if": 4,
+   "done_means": 2,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md",
+   "ok": true,
+   "goals": 1,
+   "limits": 2,
+   "fails_if": 3,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/ice.md",
+   "ok": true,
+   "goals": 1,
+   "limits": 2,
+   "fails_if": 2,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/ice.md",
+   "ok": true,
+   "goals": 1,
+   "limits": 3,
+   "fails_if": 3,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-2/drafts/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/ice.md",
+   "ok": true,
+   "goals": 1,
+   "limits": 2,
+   "fails_if": 2,
+   "done_means": 1,
+   "problems": []
+  }
+ ]
+}

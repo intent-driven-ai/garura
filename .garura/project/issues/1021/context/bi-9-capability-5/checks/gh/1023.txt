@@ -1,0 +1,31 @@
+#1023 An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker (OPEN)
+
+## What this is
+
+A new tool, Agent-work. It reads the tracker setting and calls GitHub, GitLab, Jira or Linear behind the scenes. Plays, skills and sub-agents call the tool and never know which tracker is in use. Decided in ADR 065, rule 4, under `garura-intents#9` (Orchestration).
+
+## Why
+
+The product owner, 2026-11-02: "we need a new tool - Agent-work which knows to read a setting and then internally calls GH or GL or JIRA or linear. the sub-agents or skills or play call this tool hiding the underlying implementation." A team picks its tracker as a setting, and nothing is hard-coded.
+
+Business intents now live in `garura-intents` and agent work in `garura`. Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt.
+
+## What it covers
+
+- It reads `trackers` in the project's settings: one tracker for business intents, one for agent work.
+- The code host is its own setting, and the tool reads both, because a team on Jira still keeps pull requests on GitHub or GitLab.
+- It starts from the `platform-adapter` skill, which does this for GitHub and GitLab today.
+- It refactors the parts that reach a tracker directly: 3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub.
+- Anything in `CLAUDE.md` or `managing-work.md` that says how the tracker works comes out and into settings.
+- The older `github.owner` setting names a personal account while `trackers.work.owner` names the organization. This fixes that.
+
+## Acceptance criteria
+
+- No play, skill or sub-agent names a tracker or calls its command line.
+- Changing the setting changes the tracker, with no other edit.
+- A check fails any part that names a tracker directly.
+
+## Scope boundary
+
+Building Jira and Linear support may be its own stories. This story does not change which tracker Garura itself uses.
+

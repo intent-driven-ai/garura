@@ -1,0 +1,145 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-upgrade-project",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "upgrade-project",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.",
+      "doc": "software-delivery-planning/upgrade-project/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-upgrade-in-one-step",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-upgrade-in-one-step",
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "One run of the install engine over the earlier install shows the two versions, the notes of each release between them and the list of what changes in this project, and on the person's yes moves the project, records the new version and reports what changed.",
+      "doc": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-cut-release",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-cut-release",
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "The product owner of Garura cuts a fixed, named version from Garura's newest work, with notes in plain words, so an upgrade has a version to move to and a team can read what it changes.",
+      "doc": "software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-edits",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-edits",
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "The upgrade finds each installed part a person changed since it was laid, shows the change, and asks before replacing it.",
+      "doc": "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-bring-new-settings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-bring-new-settings",
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "New settings and settings files arrive, every value the team set stays, settings that name a renamed part follow its new name, and Garura's instructions go beside the team's own file only when a rule is missing.",
+      "doc": "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-move-model",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-move-model",
+      "capability": "cap-upgrade-project",
+      "intents": [
+        "bi-7"
+      ],
+      "one_line": "The upgrade shows each key, file name, folder and heading of the model that the new version reads differently, and on the person's yes moves them, never what they say.",
+      "doc": "software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-748",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "On an upgrade, a part under an old name goes once its new name is laid, and a part the new version no longer has goes, each only when the record or the part's own file proves Garura laid it, even in a project installed before the record existed."
+    },
+    {
+      "id": "ice-upgrade-project",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-upgrade-project",
+      "doc": "software-delivery-planning/upgrade-project/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-upgrade-in-one-step",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-upgrade-in-one-step",
+      "doc": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-cut-release",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-cut-release",
+      "doc": "software-delivery-planning/upgrade-project/fn-cut-release/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-748",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-748",
+      "doc": "features/fn-748/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-keep-edits",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-edits",
+      "doc": "software-delivery-planning/upgrade-project/fn-keep-edits/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-bring-new-settings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-bring-new-settings",
+      "doc": "software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-move-model",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-move-model",
+      "doc": "software-delivery-planning/upgrade-project/fn-move-model/ice.md",
+      "thin": false
+    }
+  ]
+}

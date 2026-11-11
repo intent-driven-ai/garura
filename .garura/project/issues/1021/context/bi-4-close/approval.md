@@ -1,0 +1,3 @@
+# Approval, BI-4's close
+
+- 2026-11-10, the product owner saw the proposal in .garura/project/issues/1021/context/bi-4-close/proposal.md: BI-4's page (Outcome, Proof it is met, Must not; Why and the first proof line kept), the domain page's last sentence, and the clean-up of the approved pages that BI-4's decisions put out of step (the 22 quotes of BI-4's Must not, "Validate its own code" on 2 BI-3 lines with its 5 quotes, and the testing owners named on 5 BI-2 lines with 2 quotes), with the older name "Test with evals the builder never sees" and BI-5's page left as they are. He replied: "yes, apply and commit and cp".

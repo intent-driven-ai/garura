@@ -1,0 +1,350 @@
+{
+  "pages": {
+    "software-delivery-planning/write-work-evals/capability.md": {
+      "equals_draft": true,
+      "bytes": 16951,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/ice.md": {
+      "equals_draft": true,
+      "bytes": 4343,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md": {
+      "equals_draft": true,
+      "bytes": 21144,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md": {
+      "equals_draft": true,
+      "bytes": 6111,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/fn-update-evals/feature.md": {
+      "equals_draft": true,
+      "bytes": 7557,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/fn-update-evals/ice.md": {
+      "equals_draft": true,
+      "bytes": 3119,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md": {
+      "equals_draft": true,
+      "bytes": 6659,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md": {
+      "equals_draft": true,
+      "bytes": 2801,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md": {
+      "equals_draft": true,
+      "bytes": 7654,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md": {
+      "equals_draft": true,
+      "bytes": 2553,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 10,
+  "thin_lines_only_on_the_two_named_ice_pages": true,
+  "new_folder_files": [
+    "software-delivery-planning/write-work-evals/capability.md",
+    "software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md",
+    "software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md",
+    "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md",
+    "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md",
+    "software-delivery-planning/write-work-evals/fn-update-evals/feature.md",
+    "software-delivery-planning/write-work-evals/fn-update-evals/ice.md",
+    "software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md",
+    "software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md",
+    "software-delivery-planning/write-work-evals/ice.md"
+  ],
+  "new_folder_holds_only_the_10_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 20,
+      "after": 21,
+      "new": [
+        "cap-write-work-evals"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 67,
+      "after": 71,
+      "new": [
+        "fn-write-work-evals",
+        "fn-update-evals",
+        "fn-add-eval-steps",
+        "fn-keep-evals-from-builder"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 42,
+      "after": 47,
+      "new": [
+        "ice-write-work-evals",
+        "ice-write-work-evals-feature",
+        "ice-update-evals",
+        "ice-add-eval-steps",
+        "ice-keep-evals-from-builder"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "profile_unchanged": true,
+    "other_top_keys": [],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-write-work-evals": {
+        "slug": "write-work-evals",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Write the evals that will check the work under a chosen plan item, before any of it is built, and keep them from everyone who builds it.",
+        "doc": "software-delivery-planning/write-work-evals/capability.md",
+        "thin": false
+      },
+      "fn-write-work-evals": {
+        "slug": "fn-write-work-evals",
+        "capability": "cap-write-work-evals",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "For the stories under the item a person names, writes each feature's entry in the slice's hidden file, one way back for each \"Fails if\" line of its two ICE, and then their story files and their slice's file, from the epic, the stories and the hidden file only, before their build starts and never for the builder.",
+        "doc": "software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md",
+        "thin": false
+      },
+      "fn-update-evals": {
+        "slug": "fn-update-evals",
+        "capability": "cap-write-work-evals",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "When the stories or their \"Fails if\" lines change, adds what is not covered yet and names what moved, and never changes or deletes a scenario that is there.",
+        "doc": "software-delivery-planning/write-work-evals/fn-update-evals/feature.md",
+        "thin": false
+      },
+      "fn-add-eval-steps": {
+        "slug": "fn-add-eval-steps",
+        "capability": "cap-write-work-evals",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Adds the fixed sentences an eval step may use on a kind of surface that has none yet, or that a scenario needs, through a memory update a person approves.",
+        "doc": "software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md",
+        "thin": false
+      },
+      "fn-keep-evals-from-builder": {
+        "slug": "fn-keep-evals-from-builder",
+        "capability": "cap-write-work-evals",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Checks that no part that builds the work is given the evals, and records in the build run's evidence each build session that read their folder.",
+        "doc": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md",
+        "thin": false
+      },
+      "ice-write-work-evals": {
+        "for": "cap-write-work-evals",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/write-work-evals/ice.md",
+        "thin": false
+      },
+      "ice-write-work-evals-feature": {
+        "for": "fn-write-work-evals",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md",
+        "thin": false
+      },
+      "ice-update-evals": {
+        "for": "fn-update-evals",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/write-work-evals/fn-update-evals/ice.md",
+        "thin": false
+      },
+      "ice-add-eval-steps": {
+        "for": "fn-add-eval-steps",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md",
+        "thin": true
+      },
+      "ice-keep-evals-from-builder": {
+        "for": "fn-keep-evals-from-builder",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md",
+        "thin": true
+      }
+    },
+    "entries_as_asked": true,
+    "thin_ice": [
+      "ice-add-eval-steps",
+      "ice-keep-evals-from-builder"
+    ],
+    "only_the_two_named_ice_thin": true,
+    "capability_one_line_as_asked": true,
+    "feature_one_lines_match_page_list": true,
+    "ice_ids_unique": true,
+    "all_ids_unique": true,
+    "each_part_one_ice": true,
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 110,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0,
+    "comments_kept": true
+  },
+  "bi_3": {
+    "lines_before": 23,
+    "lines_after": 28,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 5,
+    "added": [
+      "- [Write the evals that check the work](../software-delivery-planning/write-work-evals/capability.md) (capability) — adds",
+      "- [Write the evals of the chosen work, with what must never happen, before it is built](../software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md) (feature) — adds",
+      "- [Update the evals as the work changes](../software-delivery-planning/write-work-evals/fn-update-evals/feature.md) (feature) — adds",
+      "- [Add the steps an eval may use on a kind of surface](../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md) (feature) — adds",
+      "- [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "outcome_and_proof_lines_unchanged": true,
+    "touches_lines": 8,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/gather-work-under-item/capability.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md": true,
+      "../software-delivery-planning/write-work-evals/capability.md": true,
+      "../software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-update-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_3": 8,
+    "spine_entry_ids_naming_bi_3": [
+      "cap-gather-work-under-item",
+      "cap-write-work-evals",
+      "fn-gather-item-tree",
+      "fn-collect-story-context",
+      "fn-write-work-evals",
+      "fn-update-evals",
+      "fn-add-eval-steps",
+      "fn-keep-evals-from-builder"
+    ],
+    "other_spine_entries_naming_bi_3": [],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kinds_agree_with_spine": true
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-3.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-update-evals/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-update-evals/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/write-work-evals/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 95,
+      "counts": {
+        "domain": 1,
+        "capability": 20,
+        "feature": 67,
+        "ice": 42
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-2/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 100,
+      "counts": {
+        "domain": 1,
+        "capability": 21,
+        "feature": 71,
+        "ice": 47
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-2/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-update-evals/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-update-evals/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 5 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021."
+  },
+  "checks_run": 33,
+  "checks_passed": 33,
+  "all_checks_pass": true,
+  "before_state": "git HEAD 9f413286: the spine and intents/bi-3.md as committed (the model had no uncommitted change before this write)"
+}

@@ -1,0 +1,1840 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 324,
+  "not_found": 0,
+  "problems": [],
+  "rule": "each quote in Sources is found, whitespace collapsed, in the source it names; each quote in a page's body or its ICE page is found in one of that page's sources",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-628/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/reference/ice.md",
+          "quote": "The tree shows what is left and what is moving; finished work is a count, not a wall of lines.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/reference/ice.md",
+          "quote": "Each node shows the status its plan file gives it: no status is worked out from the nodes under it (no roll-ups).",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/reference/ice.md",
+          "quote": "so the shown node keeps its place",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/reference/ice.md",
+          "quote": "so a person sees what was finished under it and can decide on it",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/reference/ice.md",
+          "quote": "A typed number always wins.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/reference/ice.md",
+          "quote": "No line is a bare number.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/reference/ice.md",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/show-plan/scripts/resolve_args.py",
+          "quote": "The play halts and prints the error; a plan is never guessed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md",
+          "quote": "A shown node whose children are all Done or Dropped prints those children too, one level down",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "a reader coming back after two days knows where a plan stands from the tree alone",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #628",
+          "quote": "Show one plan as a tree, from its plan file alone",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #719",
+          "quote": "View plans: see every plan, and any one plan as a tree",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1005",
+          "quote": "/show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1000",
+          "quote": "Show the plan of the current branch when /show-plan is given no number",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1018",
+          "quote": "`/show-plan` has the same Step C2, so it should end the same way. This was read from its steps and not seen in a run.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "sees every plan and where it stands",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The tree shows what is left and what is moving; finished work is a count, not a wall of lines.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Each node shows the status its plan file gives it: no status is worked out from the nodes under it (no roll-ups).",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "so the shown node keeps its place",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "so a person sees what was finished under it and can decide on it",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A typed number always wins.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The play halts and prints the error; a plan is never guessed.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "No line is a bare number.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-729/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "A part of the list is never shown.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "Any other mode stops the play; it is never guessed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "A plan in the plans folder is missing from the output, or is in it twice.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/README.md",
+          "quote": "the same files print the same way every time",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/README.md",
+          "quote": "Every mark and line comes from the `plan-view.md` template",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan.py",
+          "quote": "Status and Direction are read from the plan file as a person set them, never worked out from the work.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md",
+          "quote": "Set by a person, never worked out from the work.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md",
+          "quote": "It is directional, not a ranking: several plans may share a level.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "Print one list of every plan from the plan files",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #729",
+          "quote": "List every plan, from the plan files alone",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #719",
+          "quote": "View plans: see every plan, and any one plan as a tree",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #983",
+          "quote": "/list-plans shows each plan as a card: direction, status, branch, waits on, and each epic with its progress",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1018",
+          "quote": "You didn't show me any plans. You showed me a run summary.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "sees every plan and where it stands",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the same files print the same way every time",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Every mark and line comes from the `plan-view.md` template",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Set by a person, never worked out from the work.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Status and Direction are read from the plan file as a person set them, never worked out from the work.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "It is directional, not a ranking: several plans may share a level.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A plan in the plans folder is missing from the output, or is in it twice.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A part of the list is never shown.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Any other mode stops the play; it is never guessed.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-730/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "A person sets every status and the plan's direction. Nothing is worked out from the work under an item: no roll-ups.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "What lands is exactly the list the person saw when they approved it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "The principle that a person is never stopped without a choice, and an override is recorded",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "is shown and confirmed before it joins the list",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "a stop on uncommitted work is the person's to clean up",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/SKILL.md",
+          "quote": "The plan file keeps no history; git does.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/scripts/check_entries.py",
+          "quote": "No status or direction is ever added that the draft does not name (no roll-ups).",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/scripts/closed_on_github.py",
+          "quote": "Nothing is worked out from the items under it (no roll-ups).",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan_branch.py",
+          "quote": "the one write a plan session makes before the person approves anything",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "A parent never changes because its children closed",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "whether writing `branch: null` on a pause stays owed under #730, or becomes its own issue.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md",
+          "quote": "Status, direction, branch and item kinds are operational: they live in the plan files only, never in the product model's index or pages.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+          "quote": "The same session also sets each item's status and the direction of the work. Those parts track the work, so Orchestrate agent work through planning owns them.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "gives instructions in their own words, and approves",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "Orchestration only.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #730",
+          "quote": "The /update-plan session: instructions, checks, one approval, one landing on the plan's branch",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #720",
+          "quote": "Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1007",
+          "quote": "An item's status in the plan file follows its own GitHub issue: merge-change sets it Done, and /update-plan lists items closed on GitHub",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1023",
+          "quote": "An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "closed on GitHub",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "do it anyway",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Rejected",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "closed on GitHub",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "sets the order and status of the work as it runs",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "closed on GitHub",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "rejected",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A person sets every status and the plan's direction. Nothing is worked out from the work under an item: no roll-ups.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A parent never changes because its children closed",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "What lands is exactly the list the person saw when they approved it.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "do it anyway",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The principle that a person is never stopped without a choice, and an override is recorded",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "is shown and confirmed before it joins the list",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Status, direction, branch and item kinds are operational: they live in the plan files only, never in the product model's index or pages.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The plan file keeps no history; git does.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the one write a plan session makes before the person approves anything",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "a stop on uncommitted work is the person's to clean up",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "closed on GitHub",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "do it anyway",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "rejected",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "do it anyway",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "closed on GitHub",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "rejected",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "abort",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-806/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "A number of commits ahead or behind in the graph does not come from git.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan.py",
+          "quote": "the graph's counts read ?",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan.py",
+          "quote": "the one its file names, else plan/<id>/base when git has it",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md",
+          "quote": "A plan behind main has the behind mark.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md",
+          "quote": "they are on main",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-731/feature.md",
+          "quote": "a running plan falls behind main between its issues",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "When the plan pauses, its branch merges into main through the change plays",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "the plan files do not hold them",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #806",
+          "quote": "See every plan as a graph: which plan is on which branch, compared to main",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #719",
+          "quote": "View plans: see every plan, and any one plan as a tree",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1018",
+          "quote": "/list-plans ends on a run summary instead of the plans",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "sees every plan and where it stands",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A number of commits ahead or behind in the graph does not come from git.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the graph's counts read ?",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A plan behind main has the behind mark.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "a running plan falls behind main between its issues",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "When the plan pauses, its branch merges into main through the change plays",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the one its file names, else plan/<id>/base when git has it",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the plan files do not hold them",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "running the work once it exists",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "making the plan is part of the orchestration, not this intent",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "A person always knows what's happening and what's next.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+          "quote": "choosing which work comes next belongs to Orchestrate agent work through planning",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "show plans from the plan files alone — no tracker reads, no inference.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "Orchestration only.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md",
+          "quote": "nothing works them out",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md",
+          "quote": "Status, direction, branch and item kinds are operational: they live in the plan files only, never in the product model's index or pages.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md",
+          "quote": "It is directional, not a ranking: several plans may share a level.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/README.md",
+          "quote": "the same files print the same way every time",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/README.md",
+          "quote": "Every mark and line comes from the `plan-view.md` template",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "What lands is exactly the list the person saw when they approved it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "The principle that a person is never stopped without a choice, and an override is recorded",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/SKILL.md",
+          "quote": "The plan file keeps no history; git does.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "It asks the person only about what neither of them answers.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "A slice in progress (its epic is past ready: a story is started or done) is never touched by a shaping run",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "A plan leaves the plans folder only when a person said so and when no other plan still needs it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "There is one work list, the plan; no second recommender can disagree with it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+          "quote": "A parent never changes because its children closed",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+          "quote": "Plans sit outside the model and come and go, so no model page may depend on one.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1018",
+          "quote": "/list-plans ends on a run summary instead of the plans",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1023",
+          "quote": "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #992",
+          "quote": "A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #992",
+          "quote": "or exceptions to the principle",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "running the work once it exists",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "making the plan is part of the orchestration, not this intent",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "do it anyway",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "A person always knows what's happening and what's next.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "choosing which work comes next belongs to Orchestrate agent work through planning",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "nothing works them out",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "A parent never changes because its children closed",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "Status, direction, branch and item kinds are operational: they live in the plan files only, never in the product model's index or pages.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "Plans sit outside the model and come and go, so no model page may depend on one.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "What lands is exactly the list the person saw when they approved it.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "A slice in progress (its epic is past ready: a story is started or done) is never touched by a shaping run",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "A plan leaves the plans folder only when a person said so and when no other plan still needs it.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "the same files print the same way every time",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "Every mark and line comes from the `plan-view.md` template",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "An item's status in a plan file follows its own GitHub issue.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "It is directional, not a ranking: several plans may share a level.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "The plan file keeps no history; git does.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "The principle that a person is never stopped without a choice, and an override is recorded",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "It asks the person only about what neither of them answers.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "There is one work list, the plan; no second recommender can disagree with it.",
+          "found": true
+        },
+        {
+          "where": "capability.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "approved",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "On any branch with uncommitted work — the plan's own branch included — it stops, names the files and changes nothing; the person cleans up.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "a stop on uncommitted work is the person's to clean up",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/update-plan/reference/ice.md",
+          "quote": "The session does not end on the branch the person started on.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan_branch.py",
+          "quote": "a person sets its status before work starts again",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan_branch.py",
+          "quote": "it checks that the branch holds nothing but main's commit",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan_branch.py",
+          "quote": "so a stalled origin is a stop, never a hang",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan_branch.py",
+          "quote": "the one write a plan session makes before the person approves anything",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/README.md",
+          "quote": "The one way a play gets onto a plan's branch.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "The cut itself is safe: `plan_branch.py go` decides from git, not from the file, so a stale name does not stop it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "Every cut goes through one script",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md",
+          "quote": "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-731/feature.md",
+          "quote": "deleting it loses work",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+          "quote": "Getting onto the plan's own branch and coming back. Orchestrate agent work through planning owns plan branches.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #953",
+          "quote": "The findings left by round 2 of the PR #950 review: an unsafe delete of a stale plan branch, and four wording fixes",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #730",
+          "quote": "The /update-plan session: instructions, checks, one approval, one landing on the plan's branch",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #992",
+          "quote": "or exceptions to the principle",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "sets the order and status of the work as it runs",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "On any branch with uncommitted work — the plan's own branch included — it stops, names the files and changes nothing; the person cleans up.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "a stop on uncommitted work is the person's to clean up",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The cut itself is safe: `plan_branch.py go` decides from git, not from the file, so a stale name does not stop it.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Every cut goes through one script",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "a person sets its status before work starts again",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "deleting it loses work",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "it checks that the branch holds nothing but main's commit",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "so a stalled origin is a stop, never a hang",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The session does not end on the branch the person started on.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "abort",
+          "found": true
+        },
+        {
+          "where": "ice.md body",
+          "quote": "abort",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "A person always knows what's happening and what's next.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/rules/pipeline-next.md",
+          "quote": "This file is the one place that mapping lives.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/rules/pipeline-next.md",
+          "quote": "`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in `meta_exempt`.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/rules/pipeline-next.md",
+          "quote": "every loop, which closes like a play (ADR 029)",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/rules/pipeline-next.md",
+          "quote": "the slice is shaped; make its plan, epic and stories",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/_shared/play-close.md",
+          "quote": "this play in the Next-line map",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/loops/complete-discovery/SKILL.md",
+          "quote": "its Next line comes from the Next-line map",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/lint-play/lint_play.py",
+          "quote": "unless it is meta_exempt",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "When the map names none, the play prints no Next line.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "The person picks the next piece of work from the plan, or from `/list-focus-issues`.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "There is one work list, the plan; no second recommender can disagree with it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "It is built when it is needed, from its own ICE.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #855",
+          "quote": "Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #819",
+          "quote": "After /shape-slice, agents design, build, test and check an epic until it is delivered",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1023",
+          "quote": "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "the slice is shaped; make its plan, epic and stories",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A person always knows what's happening and what's next.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "This file is the one place that mapping lives.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "When the map names none, the play prints no Next line.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The person picks the next piece of work from the plan, or from `/list-focus-issues`.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "There is one work list, the plan; no second recommender can disagree with it.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "It is built when it is needed, from its own ICE.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in `meta_exempt`.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "every loop, which closes like a play (ADR 029)",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "this play in the Next-line map",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "A plan leaves the plans folder only when a person said so and when no other plan still needs it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "One bad plan refuses the whole request.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "A plan's folder holds evals no one here may read: files are counted and deleted by name only",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "A deleted plan comes back from git, so the skill keeps no copy.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "Issues stay open or closed as they are, and the model is not touched.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "Plan ids are digits only, so no path can leave the folder.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/scripts/remove_plans.py",
+          "quote": "Every check runs before the first change.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+          "quote": "A whole plan, with its folder, may be deleted on a person's named approval, through `remove-plan`.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+          "quote": "Plans sit outside the model and come and go, so no model page may depend on one.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+          "quote": "Deleting a plan deletes its evals, and rebuilding it can make a second set of stories until `/shape-plan` is fixed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "No script writes `branch: null` when a plan's branch lands on main",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md",
+          "quote": "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1019",
+          "quote": "Three skills let an approved reorganisation remove model parts, write intent pages and delete plans",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "sees every plan and where it stands",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A plan leaves the plans folder only when a person said so and when no other plan still needs it.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "One bad plan refuses the whole request.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A plan's folder holds evals no one here may read: files are counted and deleted by name only",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "when no other plan still needs it",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A deleted plan comes back from git, so the skill keeps no copy.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Plans sit outside the model and come and go, so no model page may depend on one.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Issues stay open or closed as they are, and the model is not touched.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "Plan ids are digits only, so no path can leave the folder.",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "making the plan is part of the orchestration, not this intent",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "It asks the person only about what neither of them answers.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "The run talks to the person in one brief, by the shared rule for asking a person",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "an intent does not depend on a surface, so the run proposes the surface and the tester when it shapes the slice",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "A slice in progress (its epic is past ready: a story is started or done) is never touched by a shaping run",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "The run never sends the person back, and nothing stops.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "A stop undoes every write.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/reference/ice.md",
+          "quote": "uses personas, and names no real person",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/SKILL.md",
+          "quote": "A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/shape-slice/SKILL.md",
+          "quote": "the person decides; never skipped by config",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/author-slice/SKILL.md",
+          "quote": "a feature that another one needs comes first.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+          "quote": "A thing with no screen or surface that a person can test end to end is not a slice",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md",
+          "quote": "does not pick, rank or test slices; the person chose the slice at `/shape-slice`.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+          "quote": "the step that chooses the slice proposes a thin one where a slice needs it",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+          "quote": "the step that chooses the slice writes an intent's page from its issue when the model has none",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+          "quote": "Its hidden file part comes from the slice play, /shape-slice (fn-795).",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "a slice with no surface a person can test cannot be checked",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-capability-1/research.md",
+          "quote": "It writes no plan, no epic, no story and no eval.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #795",
+          "quote": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1023",
+          "quote": "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #1033",
+          "quote": "Plays read the whole model by one rule once its index has ICE entries, so older parts break",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "GitHub #992",
+          "quote": "or exceptions to the principle",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A person chooses what is delivered next as a slice",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "It asks the person only about what neither of them answers.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The run talks to the person in one brief, by the shared rule for asking a person",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "an intent does not depend on a surface, so the run proposes the surface and the tester when it shapes the slice",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A thing with no screen or surface that a person can test end to end is not a slice",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "a slice with no surface a person can test cannot be checked",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "a feature that another one needs comes first.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A slice in progress (its epic is past ready: a story is started or done) is never touched by a shaping run",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "does not pick, rank or test slices; the person chose the slice at `/shape-slice`.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "The run never sends the person back, and nothing stops.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "A stop undoes every write.",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "uses personas, and names no real person",
+          "found": true
+        },
+        {
+          "where": "feature.md body",
+          "quote": "It writes no plan, no epic, no story and no eval.",
+          "found": true
+        }
+      ]
+    }
+  ]
+}

@@ -30,7 +30,7 @@ While working on a plan, a person finds a feature the plan did not know about an
 - The session itself (#730) and the thin page and model entry of a part found during work (#979): this feature uses them.
 
 ## Sources
-- The approved /update-plan session on plan 717, entry 3: "A person adds a new feature found while a plan is in progress, to the model, its slice and its epic"
+- An approved /update-plan session, entry 3: "A person adds a new feature found while a plan is in progress, to the model, its slice and its epic"
 - Issue #931, the story that found it
 
 Thin: proposed from the person's words; deepen with `/discover-capabilities`.

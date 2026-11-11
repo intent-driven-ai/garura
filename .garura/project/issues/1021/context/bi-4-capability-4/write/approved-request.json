@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/test-accessibility/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/drafts/product-os/software-delivery-planning/test-accessibility/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/write/approved/test-accessibility/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/drafts/product-os/software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-test-accessibility-with-tools/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/write/approved/fn-test-accessibility-with-tools/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/drafts/product-os/software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-walk-with-keyboard-and-screen-reader/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/write/approved/fn-walk-with-keyboard-and-screen-reader/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/drafts/product-os/software-delivery-planning/test-accessibility/fn-send-accessibility-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-send-accessibility-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/write/approved/fn-send-accessibility-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/drafts/product-os/software-delivery-planning/test-accessibility/fn-retest-accessibility/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-accessibility/fn-retest-accessibility/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-4/write/approved/fn-retest-accessibility/ice.md"
+    }
+  ]
+}

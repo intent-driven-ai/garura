@@ -1,0 +1,85 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "note": "The capability page copies the approved shape of ship-every-change/capability.md: '## Directional intent' with the detailed parts as '###' sections. That approved page gives the same five errors with --stage detailed and passes with --stage directional, which is how the BI-8 runs checked it (bi-8-capability-1/checks/lint.json).",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "detailed"
+      ],
+      "ok": false,
+      "errors": [
+        ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md: missing required section '## Benefit hypothesis'",
+        ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md: missing required section '## Boundary (In / Out / Never)'",
+        ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md: missing required section '## Guiding rules'",
+        ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md: missing required section '## Features'",
+        ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md: unknown section '## Directional intent' \u2014 not in the capability contract (drift)"
+      ],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

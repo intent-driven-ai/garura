@@ -1,0 +1,110 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-test-user-experience",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "test-user-experience",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work: the running build is tested in the testing environment, by tools and by a person who walks it on each declared surface, against what Manage surfaces declares that surface offers and what every design on it must handle, and against the screen design the work was built to, and each finding goes back to the developer or to a person.",
+      "doc": "software-delivery-planning/test-user-experience/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-test-user-experience-with-tools",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-test-user-experience-with-tools",
+      "capability": "cap-test-user-experience",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Once the built work runs in the testing environment, opens on each declared surface, by a part that is not the builder, each screen the screen design shows at each screen size the surface names, keeps a picture of it with the text and the controls it shows, checks what a tool can check, and records each result with what was checked and where.",
+      "doc": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-walk-against-screen-design",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-walk-against-screen-design",
+      "capability": "cap-test-user-experience",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Once the built work runs in the testing environment, a person who is not the builder, named by the product owner, uses the slice end to end on its surface at each screen size the surface names, and judges each screen against the surface's properties, its guidelines and the screen design, recording what they found, where, and how they walked.",
+      "doc": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-send-user-experience-findings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-send-user-experience-findings",
+      "capability": "cap-test-user-experience",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Gives one verdict for the built work against each surface's properties and guidelines and the screen design, with a pass or a fail for every part, and sends each finding back as a handoff plan to the developer when the builder can fix it alone, or to the product owner when a person must decide.",
+      "doc": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-retest-user-experience",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-retest-user-experience",
+      "capability": "cap-test-user-experience",
+      "intents": [
+        "bi-4"
+      ],
+      "one_line": "Runs the tools and the walk again after a fix, when more work is built, when a surface's properties or guidelines are updated and when the screen design is updated, keeps each verdict, names what passed before and fails now, and sends a finding that keeps coming back to a person once the rounds the project allows are used up.",
+      "doc": "software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-test-user-experience",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-test-user-experience",
+      "doc": "software-delivery-planning/test-user-experience/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-test-user-experience-with-tools",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-test-user-experience-with-tools",
+      "doc": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-walk-against-screen-design",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-walk-against-screen-design",
+      "doc": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-send-user-experience-findings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-send-user-experience-findings",
+      "doc": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-retest-user-experience",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-retest-user-experience",
+      "doc": "software-delivery-planning/test-user-experience/fn-retest-user-experience/ice.md",
+      "thin": true
+    }
+  ]
+}

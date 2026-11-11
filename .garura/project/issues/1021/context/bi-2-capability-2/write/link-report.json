@@ -1,0 +1,23 @@
+{
+  "written": [
+    "cap-manage-surfaces",
+    "fn-declare-surfaces",
+    "fn-update-surfaces",
+    "ice-manage-surfaces",
+    "ice-declare-surfaces",
+    "ice-update-surfaces"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-manage-surfaces",
+    "ice-declare-surfaces",
+    "ice-update-surfaces"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/manage-surfaces/ice.md",
+    "product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md",
+    "product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md"
+  ],
+  "layout_kept": true
+}

@@ -1,0 +1,2108 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 146,
+  "not_found": 0,
+  "body_quotes_total": 131,
+  "body_quotes_not_found": 0,
+  "problems": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "- The stock-take of Install and distribute, .garura/project/issues/1021/context/",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "- The short line beside each feature: the opening words of that feature's own pa",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "- Shelf: none. No knowledge shelf in any memory tier covers what a coding tool l",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": "- The search on 2026-11-10 of the repository, of every memory tier and of every ",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "- The count of parts that name a tier: `grep \"^model:\"` over core/components on ",
+      "status": "no source path",
+      "quotes": [
+        "^model:"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": "- The issue search on 2026-11-10: no issue title or body names Copilot.",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "- The count of parts that name a tier: `grep \"^model:\"` over core/components on ",
+      "status": "no source path",
+      "quotes": [
+        "^model:"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+      "quote": "Support each coding tool: Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+      "quote": "one feature per tool, with each tool's state named",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+      "quote": "yes, record it and draft the first one",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Support each coding tool, as above, one feature per tool with each tool's state named.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Assumed: Antigravity is Google's agent IDE and Factory is Factory.ai's Droids",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "uses it on whichever coding tool it has",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Each tool gets what it supports.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "No coding tool in the engine. Each tool's shape is laid by that tool's own part.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "The install works only in the project's folder and in the machine's own Garura folders",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/ice.md",
+      "quote": "names no coding tool in its own steps",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "quote": "Each guardrail is laid in the coding tool's own form by Support each coding tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "quote": "Laying each part in each coding tool's own shape on an upgrade is Support each coding tool's",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+      "quote": "which model each part runs on belongs to Intelligent model routing",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+      "quote": "We are never touching production.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "The adapter is the seam.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "special-casing a host's model names or file layout in the orchestrator, stop \u2014 that belongs in the adapter.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/common.py",
+      "quote": "This is the seam that lets one source serve both Claude and Codex.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "never clobber the user's own",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "verified against developers.openai.com/codex, 2026",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "never clobber the user's own",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/config.yaml",
+      "quote": "Factory Droid derived locations (populated by /sud:install factory adapter)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "core/config.yaml",
+      "quote": "a coding-agent checker is Codex",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "AGENTS.md",
+      "quote": "This file provides guidance to Factory Droids when working with code in this repository.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "AGENTS.md",
+      "quote": "The sudarshan `/sud:install` factory adapter",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+      "quote": "No name is, or starts with, a built-in command of Claude Code or Codex.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "GitHub #863",
+      "quote": "leaves out each play's `reference/` folder",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "GitHub #123",
+      "quote": "Transforms Claude Code agent definitions into Factory Droid format",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "GitHub #893",
+      "quote": "The guardrails are laid by the Garura install, so every project that uses Garura gets them, not only Garura's own repo.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": "GitHub #947",
+      "quote": "no script in `core/components/` reads them",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+      "quote": "What Claude Code loads from a project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+      "quote": "can name its model",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "What Codex loads from a project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "standalone TOML files in .codex/agents/",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "There is no named-subagent file",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": "What GitHub Copilot loads from a project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "What Antigravity loads from a project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "Google Antigravity, Google's agentic coding platform",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "What Factory loads from a project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "Factory (Factory.ai)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "whose agent is Droid",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+      "quote": "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Antigravity is Google's agent IDE",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "a valid trigger",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "is silently discarded",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "available in the App and the CLI, not the IDE",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "a PreToolUse decision of deny hard-blocks the tool call",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "runs on the intended tier",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "Claude has no play type",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "A Claude skill has no model field",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "never clobber the user's own",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "Claude Code has no machine-global model/sandbox config to write.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "stripped every `model:` line, so deployed agents lost their tier",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "loads at launch, for every session and every custom sub-agent",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "memory copy .garura/project/issues/1021/context/bi-7-capability-3/memory/knowledge/review/harness.md",
+      "quote": "The installed target is `.claude`.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "memory copy .garura/project/issues/1021/context/bi-7-capability-3/memory/standards/rules/run-status.md",
+      "quote": "a plugin installed only when the install chooses Claude Code",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+      "quote": "Build the status display for Claude Code as a separate plugin, installed only for Claude Code.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": "GitHub #893",
+      "quote": "a script Claude Code runs before each tool call",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "changes the team's own coding tool settings only on the person's yes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+      "quote": "can name its model",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+      "quote": "for the rest of the current turn",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+      "quote": ".claude/settings.json is the shared project file for team permissions, hooks and plugins",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+      "quote": "a PreToolUse hook runs before a tool call and can block it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "until the redesign replaces it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "at a word boundary",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "Codex refuses to load a skill past it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "There is no named-subagent file",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "Recommended Codex profile",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "the per-skill tier can't be *pinned*",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "the user's own settings win",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "never appears",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "a project's own AGENTS.md keeps its text, and gains only the block",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "core/config.yaml",
+      "quote": "a coding-agent checker is Codex",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "CHANGELOG.md",
+      "quote": "Codex CLI installs were fixed (#503, #504, #505).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "People who use Codex cannot install Garura until the Codex installer is redesigned (#863).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "GitHub #863",
+      "quote": "the Codex adapter lays plays and skills into `.agents/skills/` but leaves out each play's `reference/` folder, so a play's own ICE and its maps are missing after the install.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "GitHub #863",
+      "quote": "a Codex install lays every part a play needs, including its `reference/` files, the shared `_shared/` files and the tools",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "GitHub #863",
+      "quote": "the installed-layout lint check passes on `.agents/`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "GitHub #863",
+      "quote": "the empty-project install test runs for Codex as it does for Claude Code",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": "GitHub #863",
+      "quote": "a project that works with Codex CLI needs a Garura install built for Codex, not a copy of the Claude Code layout.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "The install works only in the project's folder and in the machine's own Garura folders",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+      "quote": "which model each part runs on belongs to Intelligent model routing",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "is not stated on the page read",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "standalone TOML files in .codex/agents/",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "may set model and model_reasoning_effort",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "project hooks load only when the project's .codex/ layer is trusted",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "There is no named-subagent file",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+      "quote": "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": "memory copy .garura/project/issues/1021/context/bi-7-capability-3/memory/product/user-provided/project-brief.md",
+      "quote": "IDE integrations (Claude Code, Copilot, Cursor, Codex CLI, Factory.ai)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": "memory copy .garura/project/issues/1021/context/bi-7-capability-3/memory/product/user-provided/project-brief.md",
+      "quote": "Installers (npm, Claude Code, Copilot)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": "memory copy .garura/project/issues/1021/context/bi-7-capability-3/memory/knowledge/review/config-maps.md",
+      "quote": "COPILOT.md",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": "VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": "one CLAUDE.md or GEMINI.md at the root",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": ".github/skills, .claude/skills or .agents/skills",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": "a preToolUse hook can approve or deny a tool call",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md",
+      "quote": "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Factory is Factory.ai's Droids",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "GitHub #123",
+      "quote": "Transforms Claude Code agent definitions into Factory Droid format (tool names, model IDs, frontmatter).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "GitHub #256",
+      "quote": "Remove .factory/ tree from repo",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "GitHub #430",
+      "quote": "remove sync-* and unsync-* plays from the framework",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "commit 64f3ace9",
+      "quote": "remove sync-claude and sync-droids skills",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "GitHub #947",
+      "quote": "no script in `core/components/` reads them",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "core/config.yaml",
+      "quote": "Factory Droid derived locations (populated by /sud:install factory adapter)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "AGENTS.md",
+      "quote": "This file provides guidance to Factory Droids when working with code in this repository.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "AGENTS.md",
+      "quote": "The sudarshan `/sud:install` factory adapter",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "No coding tool in the engine. Each tool's shape is laid by that tool's own part.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "Factory (Factory.ai)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "whose agent is Droid, run from the Droid CLI",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "CLAUDE.md among them",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "for compatibility",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "a PreToolUse hook that exits with code 2 blocks the tool call",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "That value is a *tier* signal, not a literal host model id.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "special-casing a host's model names or file layout in the orchestrator, stop \u2014 that belongs in the adapter.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/common.py",
+      "quote": "This is the seam that lets one source serve both Claude and Codex.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "A Claude skill has no model field",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "the agent that invokes the skill carries the model",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/claude.py",
+      "quote": "stripped every `model:` line, so deployed agents lost their tier",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "Recommended Codex profile",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/codex.py",
+      "quote": "the per-skill tier can't be *pinned*",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Each tool gets what it supports.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+      "quote": "which model each part runs on belongs to Intelligent model routing",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+      "quote": "for a sub-agent and for a skill",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "for a custom agent",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+      "quote": "skills inherit from the parent",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": "the how-to names the model property for VS Code, JetBrains IDEs, Eclipse and Xcode",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": "A model field for a skill is not stated",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+      "quote": "in VS Code a prompt file names its model",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "No model field is listed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+      "quote": "inherit, flash or pro",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+      "quote": "for a custom droid, not for a skill",
+      "status": "found"
+    }
+  ],
+  "body_results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "The adapter is the seam.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "Google Antigravity, Google's agentic coding platform",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "whose agent is Droid",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "names no coding tool in its own steps",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "uses it on whichever coding tool it has",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "Each tool gets what it supports.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "leaves out each play's `reference/` folder",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "Transforms Claude Code agent definitions into Factory Droid format",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "to Factory Droids",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "The sudarshan `/sud:install` factory adapter",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "No name is, or starts with, a built-in command of Claude Code or Codex.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "can name its model",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "standalone TOML files in .codex/agents/",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "There is no named-subagent file",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "The adapter is the seam.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "special-casing a host's model names or file layout in the orchestrator, stop \u2014 that belongs in the adapter.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "never clobber the user's own",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "The install works only in the project's folder and in the machine's own Garura folders",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "We are never touching production.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "No coding tool in the engine. Each tool's shape is laid by that tool's own part.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "one feature per tool with each tool's state named",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "Each tool gets what it supports.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "verified against developers.openai.com/codex, 2026",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "This is the seam that lets one source serve both Claude and Codex.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "which model each part runs on belongs to Intelligent model routing",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "quote": "a built-in command of Claude Code or Codex",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "Antigravity is Google's agent IDE",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "a valid trigger",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "is silently discarded",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "available in the App and the CLI, not the IDE",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "a PreToolUse decision of deny hard-blocks the tool call",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "quote": "available in the App and the CLI, not the IDE",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "runs on the intended tier",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "Claude has no play type",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "loads at launch, for every session and every custom sub-agent",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "Claude Code has no machine-global model/sandbox config to write.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "a script Claude Code runs before each tool call",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "a plugin installed only when the install chooses Claude Code",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "can name its model",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "for the rest of the current turn",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": ".claude/settings.json is the shared project file for team permissions, hooks and plugins",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "a PreToolUse hook runs before a tool call and can block it",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "A Claude skill has no model field",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "can name its model",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "for the rest of the current turn",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "stripped every `model:` line, so deployed agents lost their tier",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "Claude has no play type",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "never clobber the user's own",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "quote": "changes the team's own coding tool settings only on the person's yes",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "until the redesign replaces it",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "at a word boundary",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "Codex refuses to load a skill past it",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "There is no named-subagent file",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "Recommended Codex profile",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "a project's own AGENTS.md keeps its text, and gains only the block",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "the Codex adapter lays plays and skills into `.agents/skills/` but leaves out each play's `reference/` folder, so a play's own ICE and its maps are missing after the install.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "a Codex install lays every part a play needs, including its `reference/` files, the shared `_shared/` files and the tools",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "the installed-layout lint check passes on `.agents/`",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "the empty-project install test runs for Codex as it does for Claude Code",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "standalone TOML files in .codex/agents/",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "may set model and model_reasoning_effort",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "There is no named-subagent file",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "project hooks load only when the project's .codex/ layer is trusted",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "is not stated on the page read",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "a project that works with Codex CLI needs a Garura install built for Codex, not a copy of the Claude Code layout.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "Codex CLI installs were fixed (#503, #504, #505).",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "the user's own settings win",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "`--tool codex` stops with a plain message and writes nothing.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "People who use Codex cannot install Garura until the Codex installer is redesigned (#863).",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "a play's own ICE and its maps",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "The install works only in the project's folder and in the machine's own Garura folders",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "quote": "the per-skill tier can't be *pinned*",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "IDE integrations (Claude Code, Copilot, Cursor, Codex CLI, Factory.ai)",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "Installers (npm, Claude Code, Copilot)",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "one CLAUDE.md or GEMINI.md at the root",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": ".github/skills, .claude/skills or .agents/skills",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "a preToolUse hook can approve or deny a tool call",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "quote": "its own set of customizations",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "Transforms Claude Code agent definitions into Factory Droid format (tool names, model IDs, frontmatter)",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "Remove .factory/ tree from repo",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "remove sync-* and unsync-* plays from the framework",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "remove sync-claude and sync-droids skills",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "Factory Droid derived locations (populated by /sud:install factory adapter)",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "no script in `core/components/` reads them",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "This file provides guidance to Factory Droids when working with code in this repository.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "The sudarshan `/sud:install` factory adapter",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "Factory is Factory.ai's Droids",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "whose agent is Droid, run from the Droid CLI",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "CLAUDE.md among them",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "a PreToolUse hook that exits with code 2 blocks the tool call",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "No coding tool in the engine. Each tool's shape is laid by that tool's own part.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "That value is a *tier* signal, not a literal host model id.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "This is the seam that lets one source serve both Claude and Codex.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "A Claude skill has no model field",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "Recommended Codex profile",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "the per-skill tier can't be *pinned*",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "for a sub-agent and for a skill",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "for a custom agent",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "skills inherit from the parent",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "in VS Code a prompt file names its model",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "A model field for a skill is not stated",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "inherit, flash or pro",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "No model field is listed",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "for a custom droid, not for a skill",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "Each tool gets what it supports.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "the agent that invokes the skill carries the model",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "That value is a *tier* signal, not a literal host model id.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "special-casing a host's model names or file layout in the orchestrator, stop \u2014 that belongs in the adapter.",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "which model each part runs on belongs to Intelligent model routing",
+      "status": "found in a listed source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "quote": "stripped every `model:` line, so deployed agents lost their tier",
+      "status": "found in a listed source"
+    }
+  ],
+  "approved_file_quotes_on_named_lines": {
+    "total": 43,
+    "not_on_named_lines": 0,
+    "results": [
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+        "update": "mu-20261110-001",
+        "lines": [
+          3,
+          9
+        ],
+        "quote": "What Claude Code loads from a project",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+        "update": "mu-20261110-001",
+        "lines": [
+          3,
+          9
+        ],
+        "quote": "can name its model",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          3,
+          8,
+          13
+        ],
+        "quote": "What Codex loads from a project",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          3,
+          8,
+          13
+        ],
+        "quote": "standalone TOML files in .codex/agents/",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          3,
+          8,
+          13
+        ],
+        "quote": "There is no named-subagent file",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          3
+        ],
+        "quote": "What GitHub Copilot loads from a project",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          3,
+          5
+        ],
+        "quote": "What Antigravity loads from a project",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          3,
+          5
+        ],
+        "quote": "Google Antigravity, Google's agentic coding platform",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          3,
+          5
+        ],
+        "quote": "What Factory loads from a project",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          3,
+          5
+        ],
+        "quote": "Factory (Factory.ai)",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          3,
+          5
+        ],
+        "quote": "whose agent is Droid",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          5,
+          6,
+          8,
+          9
+        ],
+        "quote": "Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          5,
+          6,
+          8,
+          9
+        ],
+        "quote": "a valid trigger",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          5,
+          6,
+          8,
+          9
+        ],
+        "quote": "is silently discarded",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          5,
+          6,
+          8,
+          9
+        ],
+        "quote": "available in the App and the CLI, not the IDE",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          5,
+          6,
+          8,
+          9
+        ],
+        "quote": "a PreToolUse decision of deny hard-blocks the tool call",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+        "update": "mu-20261110-001",
+        "lines": [
+          9,
+          10
+        ],
+        "quote": "can name its model",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+        "update": "mu-20261110-001",
+        "lines": [
+          9,
+          10
+        ],
+        "quote": "for the rest of the current turn",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+        "update": "mu-20261110-001",
+        "lines": [
+          9,
+          10
+        ],
+        "quote": ".claude/settings.json is the shared project file for team permissions, hooks and plugins",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+        "update": "mu-20261110-001",
+        "lines": [
+          9,
+          10
+        ],
+        "quote": "a PreToolUse hook runs before a tool call and can block it",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          7,
+          8,
+          10,
+          13
+        ],
+        "quote": "is not stated on the page read",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          7,
+          8,
+          10,
+          13
+        ],
+        "quote": "standalone TOML files in .codex/agents/",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          7,
+          8,
+          10,
+          13
+        ],
+        "quote": "may set model and model_reasoning_effort",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          7,
+          8,
+          10,
+          13
+        ],
+        "quote": "project hooks load only when the project's .codex/ layer is trusted",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          7,
+          8,
+          10,
+          13
+        ],
+        "quote": "There is no named-subagent file",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          5,
+          6,
+          9,
+          11
+        ],
+        "quote": "VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          5,
+          6,
+          9,
+          11
+        ],
+        "quote": "one CLAUDE.md or GEMINI.md at the root",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          5,
+          6,
+          9,
+          11
+        ],
+        "quote": ".github/skills, .claude/skills or .agents/skills",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          5,
+          6,
+          9,
+          11
+        ],
+        "quote": "a preToolUse hook can approve or deny a tool call",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          5,
+          6,
+          8,
+          10
+        ],
+        "quote": "Factory (Factory.ai)",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          5,
+          6,
+          8,
+          10
+        ],
+        "quote": "whose agent is Droid, run from the Droid CLI",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          5,
+          6,
+          8,
+          10
+        ],
+        "quote": "CLAUDE.md among them",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          5,
+          6,
+          8,
+          10
+        ],
+        "quote": "for compatibility",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          5,
+          6,
+          8,
+          10
+        ],
+        "quote": "a PreToolUse hook that exits with code 2 blocks the tool call",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md",
+        "update": "mu-20261110-001",
+        "lines": [
+          12
+        ],
+        "quote": "for a sub-agent and for a skill",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          12
+        ],
+        "quote": "for a custom agent",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md",
+        "update": "mu-20261110-002",
+        "lines": [
+          12
+        ],
+        "quote": "skills inherit from the parent",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          7,
+          9,
+          10
+        ],
+        "quote": "the how-to names the model property for VS Code, JetBrains IDEs, Eclipse and Xcode",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          7,
+          9,
+          10
+        ],
+        "quote": "A model field for a skill is not stated",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md",
+        "update": "mu-20261110-003",
+        "lines": [
+          7,
+          9,
+          10
+        ],
+        "quote": "in VS Code a prompt file names its model",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          7,
+          8
+        ],
+        "quote": "No model field is listed",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md",
+        "update": "mu-20261110-004",
+        "lines": [
+          7,
+          8
+        ],
+        "quote": "inherit, flash or pro",
+        "on_named_lines": true
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "file": ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md",
+        "update": "mu-20261110-005",
+        "lines": [
+          12
+        ],
+        "quote": "for a custom droid, not for a skill",
+        "on_named_lines": true
+      }
+    ]
+  }
+}

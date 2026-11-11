@@ -1,0 +1,79 @@
+{
+  "checked_on": "2026-11-10",
+  "round": 2,
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-3/drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

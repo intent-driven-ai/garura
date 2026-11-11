@@ -1,0 +1,186 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-profile.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:415600b717c5a8bde1bbaeab1724e701b066f28ca3be67fce795bc4fe82aa153",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/product-os/product-profile.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:14b7cb0fccab150eb2e47f3a4263ce8811b3ecab57f7fd58d1955dfb375e9a43",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/validation-floor-profile-benchmarks.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/delivery-one-shot-cleanliness.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:c16ae1b83376c0a53e41edf41dd6ba97563338bb6ebe1f18ed35f5f05fc871b5",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/delivery-one-shot-cleanliness.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pr.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e3065a238b5c5019907b729200bb2752298d8389f8ef9982ac3d27e8fa7a0392",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/pr.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/spine.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9bc65f2b6cdd25319b3086b445f228c4e4b90c08e9b4107071bbe43f9b4d539e",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/product-os/spine.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e8d36d7fa5e61e67a226b569cebb7043fe63ad02f57d40654173f2dcbd50c3f2",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/expectation-generation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/features.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9792c7e0adb9c199e5cea312fff06040523fe004b865b9e664628c43e99e5d2d",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/features.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/product.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:b99ea7af0377feb834d44687b223adcb4bb4f7ae7ac3d9641bb0823c2cacb079",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/product.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/lens/measure.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:cd3754ed095a6d6ddd0debe440efcf7eaa2375db47403fc401ba679953a76bce",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/product-os/grounding/lens/measure.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/lens/run.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:2ba6fd2682956f98762628deae3175730b80e0887960c9d13967a61497970512",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/product-os/grounding/lens/run.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/run-environments-canary-migrations.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:2bb0925b2fbd2a54a92b81f1ef2bf5e5729e999e08539daa7f67c6e3a4c7747d",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/run-environments-canary-migrations.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/gcp-modular-monolith-runtime.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e9ecf48b67d485457d81ff28fd6406749b6d702f969cb9399d07e57973febcae",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/gcp-modular-monolith-runtime.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/backend-nodejs.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:91fc02dab9b6f4bf4716072a3abac32429098752b33b3d6e1471dc78a9a010c1",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/backend-nodejs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ice.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:91fe7cd541257c9d57c2ba32dafd41a85e9a3a404d95b3b511ea0ef24f211446",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/product-os/ice.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:d61bef3f9368ca98675f960019b64b1e5ed526d55fc57b0d367674f441d4b2e4",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/surface-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/agent-deploy-dev-uat-prod.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ab92f585ae2d16993d0baf99ee7c30bf00ab111bb9d973ee38c3ef1a4dc4bd5e",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/agent-deploy-dev-uat-prod.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/agent-model-selection.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:906379bd2183e6ec1aa2abc44f24ccc09cc7a77e6be4a56de7716aa915936af4",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/agent-model-selection.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/quality.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:5214310d1dee1338c05f091601fee3b7166af1412c813ab33aa8861f7601dd24",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/product-os/lens/quality.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/epics.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:490b0e2d7f07e620b2c7bbcb3ab7e81131caf9340e3a8c4bf8a778ff46003824",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/epics.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/scenarios.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:4e2037f729cc0c25ff53691d701a08ba0972eeaf1c02ca8e045aaa60ba1e3d84",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/rules/scenarios.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/delivery-industry-frames-derived.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e3ac4d26954ce706cf1b0069b4d494bfdca57807ca5a3101fa7e6fe1f541fd83",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/delivery-industry-frames-derived.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/frontend-react-nextjs.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e6165e96530ca298067fff2a32cb3200f296d813cc44b2e7201ad899e00cf27c",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/technology/frontend-react-nextjs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/knowledge/domains/ecommerce.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/intent-epic.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:784108aa3ed0ea6b3faac9dc935522479fcb528f814eaa5e33f8d564c5a03ca5",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-3/memory/standards/schemas/intent-epic.yaml"
+    }
+  ]
+}

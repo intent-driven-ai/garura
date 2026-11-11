@@ -1,0 +1,160 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "note": "The capability page copies the approved shape of ship-every-change/capability.md, whose spine entry reads detail: directional: one '## Directional intent' holding the detailed sections as ### headings. --stage detailed asks for those sections as ## headings, so it fails on the approved shape page too (see approved_shape_page_detailed); --stage directional, the stage the spine records for the approved page, passes on this draft.",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 1,
+      "ok": false,
+      "errors": [
+        ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md: missing required section '## Benefit hypothesis'",
+        ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md: missing required section '## Boundary (In / Out / Never)'",
+        ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md: missing required section '## Guiding rules'",
+        ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md: missing required section '## Features'",
+        ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md: unknown section '## Directional intent' \u2014 not in the capability contract (drift)"
+      ],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-628/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-729/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-730/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-806/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "exit": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "approved_shape_page_detailed": {
+    "doc": ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md",
+    "args": [
+      "--kind",
+      "capability",
+      "--stage",
+      "detailed"
+    ],
+    "ok": false,
+    "errors": [
+      ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Benefit hypothesis'",
+      ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Boundary (In / Out / Never)'",
+      ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Guiding rules'",
+      ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: missing required section '## Features'",
+      ".garura/product/product-os/software-delivery-planning/ship-every-change/capability.md: unknown section '## Directional intent' \u2014 not in the capability contract (drift)"
+    ]
+  }
+}

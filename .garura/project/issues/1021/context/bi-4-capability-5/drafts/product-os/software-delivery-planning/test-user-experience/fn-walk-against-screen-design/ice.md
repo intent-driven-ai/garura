@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: Once the built work runs in the testing environment, a person who is not the builder, named by the product owner, walks the slice end to end on its surface at each screen size the surface names, with the screen design in force and the tools' pictures beside them, and records for each screen a pass or a fail against the surface's properties, its guidelines and the screen design, with the step, the screen, the size and who walked, so the product owner knows what no tool can tell.
+- Limit: The person walks only the copy in the testing environment, with its made-up data and test accounts, never production and never a builder's own machine; the builder never walks its own work.
+- Limit: What the person judges comes only from the surface's declaration and the screen design in force, read from memory first; a part a person must judge that no one walked is named as not walked, never passed, and goes to the product owner.
+- Limit: Each walk records who walked, the surface, each step, each size, the screen design it was judged against and what was found, so a second person can walk the same steps; the record never reaches a part that builds the work.
+- Fails if: A part a person must judge is counted as passed with no person's walk, or after a tool's clean run alone.
+- Fails if: The builder walked its own work, or the walk touched production or a builder's own machine.
+- Fails if: A walk's record does not name who walked, each step, each size and the screen design, or it reached a part that builds the work.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the slice's surface with who opens it, its properties, such as the screen sizes it serves, and its guidelines, such as its design system, the screen design in force with the screen design setting, the slice's steps in order, the pictures and records the tools kept, how the surface is reached in the testing environment, the person the product owner named to walk, and the testing environment's declaration with its data and test accounts.
+- Never read: the value of any secret other than the testing environment's own; anything in production, such as its data or its traffic; and any ICE page.
+- Persona: the product owner, who names who walks and wants to know whether a person meets on the surface what its declaration promises and what its screen design shows.
+- Scope: In: a person's walk of the slice end to end on its surface, at each size the surface names, judged against the surface's properties and guidelines and the screen design, in the testing environment, with the walk recorded. Out: opening the screens and keeping the pictures, the verdict and the handoff plans, the walk for accessibility, what the product does against each story, user acceptance testing, declaring the surface or writing the screen design, and fixing.
+
+## Expectation
+- Scenario: A school's timetable app runs in the testing environment. Its surface gives phones and tablets a layout of their own, and the screen design has a wireframe for each. The person the product owner named walks the slice on both: on the phone, today's lessons show as its wireframe shows; on the tablet, the room for each lesson is missing from the place the tablet's wireframe gives it. They record a pass for the phone, a fail for the tablet with the step, the screen and the size, and who walked. A part the guideline says a tool checks is left to the tools, and the walk does not pass it.
+- Done means: A second person who did not walk the first time walks the same steps at the same sizes on the same built work, and finds the same pass or fail for each part, the record naming who walked, each step, each size and the screen design, no part a person must judge passed without a walk, and no walk outside the testing environment.

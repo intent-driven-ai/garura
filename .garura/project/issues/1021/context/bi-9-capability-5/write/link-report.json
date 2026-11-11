@@ -1,0 +1,37 @@
+{
+  "written": [
+    "cap-give-every-gate-a-way-past",
+    "fn-way-past-every-gate",
+    "fn-keep-what-is-owed",
+    "fn-record-every-skip",
+    "fn-guardrail-way-past",
+    "fn-pinned-yes",
+    "ice-give-every-gate-a-way-past",
+    "ice-way-past-every-gate",
+    "ice-keep-what-is-owed",
+    "ice-record-every-skip",
+    "ice-guardrail-way-past",
+    "ice-pinned-yes"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-give-every-gate-a-way-past",
+    "ice-way-past-every-gate",
+    "ice-keep-what-is-owed",
+    "ice-record-every-skip",
+    "ice-guardrail-way-past",
+    "ice-pinned-yes"
+  ],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/give-every-gate-a-way-past/ice.md",
+    "product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/ice.md",
+    "product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/ice.md",
+    "product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/ice.md",
+    "product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/ice.md",
+    "product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/ice.md"
+  ],
+  "layout_kept": true
+}

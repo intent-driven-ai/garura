@@ -1,0 +1,27 @@
+{
+  "written": [
+    "cap-install-into-project",
+    "fn-install-in-one-step",
+    "fn-choose-parts",
+    "fn-check-install",
+    "fn-lay-guardrails",
+    "fn-update-parts",
+    "fn-take-out",
+    "ice-install-into-project",
+    "ice-install-in-one-step",
+    "ice-choose-parts",
+    "ice-check-install",
+    "ice-lay-guardrails",
+    "ice-update-parts",
+    "ice-take-out"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-lay-guardrails"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md"
+  ],
+  "layout_kept": true
+}

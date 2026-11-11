@@ -1,0 +1,49 @@
+{
+ "quotes_checked": 103,
+ "missing": [],
+ "unchecked_source_lines": [
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+   "line": "- A rewrite tried on a throwaway copy of a page saved by discovery: the Sources block was gone afterwards and only What was done was kept.",
+   "why": "no quote"
+  },
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md",
+   "line": "- The gap finder, run read only over the model on 2026-11-07: every link it found on one side only was in the index and missing from the intent's page.",
+   "why": "no quote"
+  },
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md",
+   "line": "- The product owner on 2026-11-07, on the capability: \"the internal element: how the agents are working and making sure what the agents are implementing gets updated back here, not what the user is telling.\"",
+   "why": "source not on disk"
+  }
+ ],
+ "ice": [
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/ice.md",
+   "ok": true,
+   "problems": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/ice.md",
+   "ok": true,
+   "problems": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/ice.md",
+   "ok": true,
+   "problems": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/ice.md",
+   "ok": true,
+   "problems": []
+  },
+  {
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md",
+   "ok": true,
+   "problems": []
+  }
+ ],
+ "words": []
+}

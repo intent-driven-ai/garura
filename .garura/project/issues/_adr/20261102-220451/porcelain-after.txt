@@ -1,0 +1,66 @@
+ M docs/adr/028-agentic-lifecycle-five-loops.md
+ M docs/adr/029-drives.md
+ M docs/adr/038-install-brings-no-memory.md
+ M docs/adr/045-a-drive-is-now-called-a-loop.md
+ M docs/adr/046-one-naming-standard-for-every-harness-part.md
+ M docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+ M docs/adr/_index.md
+?? .garura/product/product-os/intents/bi-1.md
+?? .garura/product/product-os/intents/bi-10.md
+?? .garura/product/product-os/intents/bi-11.md
+?? .garura/product/product-os/intents/bi-2.md
+?? .garura/product/product-os/intents/bi-3.md
+?? .garura/product/product-os/intents/bi-4.md
+?? .garura/product/product-os/intents/bi-5.md
+?? .garura/product/product-os/intents/bi-6.md
+?? .garura/product/product-os/intents/bi-7.md
+?? .garura/product/product-os/intents/bi-8.md
+?? .garura/product/product-os/intents/bi-9.md
+?? .garura/project/issues/1021/context/cap-pilot/cite-request-2.json
+?? .garura/project/issues/1021/context/cap-pilot/cite-request.json
+?? .garura/project/issues/1021/context/cap-pilot/keep-intents/enrich-manifest.yaml
+?? .garura/project/issues/1021/context/cap-pilot/keep-intents/grounding-report.json
+?? .garura/project/issues/1021/context/cap-pilot/keep-intents/seed.yaml
+?? .garura/project/issues/1021/context/cap-pilot/link-report.json
+?? .garura/project/issues/1021/context/cap-pilot/link-request.json
+?? .garura/project/issues/1021/context/cap-pilot/memory-update-request.json
+?? .garura/project/issues/1021/context/cap-pilot/orchestrate-planning/enrich-manifest.yaml
+?? .garura/project/issues/1021/context/cap-pilot/orchestrate-planning/grounding-report.json
+?? .garura/project/issues/1021/context/cap-pilot/orchestrate-planning/seed.yaml
+?? .garura/project/issues/1021/context/cap-pilot/pages/keep-intents.md
+?? .garura/project/issues/1021/context/cap-pilot/pages/orchestrate-planning.md
+?? .garura/project/issues/1021/context/capabilities.md
+?? .garura/project/issues/1021/context/citations.jsonl
+?? .garura/project/issues/1021/context/github-ops.json
+?? .garura/project/issues/1021/context/github-record.json
+?? .garura/project/issues/1021/context/intent-pages/bi-1.json
+?? .garura/project/issues/1021/context/intent-pages/bi-10.json
+?? .garura/project/issues/1021/context/intent-pages/bi-11.json
+?? .garura/project/issues/1021/context/intent-pages/bi-2.json
+?? .garura/project/issues/1021/context/intent-pages/bi-3.json
+?? .garura/project/issues/1021/context/intent-pages/bi-4.json
+?? .garura/project/issues/1021/context/intent-pages/bi-5.json
+?? .garura/project/issues/1021/context/intent-pages/bi-6.json
+?? .garura/project/issues/1021/context/intent-pages/bi-7.json
+?? .garura/project/issues/1021/context/intent-pages/bi-8.json
+?? .garura/project/issues/1021/context/intent-pages/bi-9.json
+?? .garura/project/issues/1021/context/memory/manifest.json
+?? .garura/project/issues/1021/context/memory/standards/schemas/product-os/grounding/_content-standard.md
+?? .garura/project/issues/1021/context/memory/standards/schemas/product-os/grounding/capability.md
+?? .garura/project/issues/1021/context/memory/standards/schemas/product-os/spine.yaml
+?? .garura/project/issues/1021/context/names.md
+?? .garura/project/issues/1021/review/memory-updates/mu-20261102-001.json
+?? .garura/project/issues/_adr/20261102-220451/adr-check.json
+?? .garura/project/issues/_adr/20261102-220451/adr-context.yaml
+?? .garura/project/issues/_adr/20261102-220451/adr-draft.md
+?? .garura/project/issues/_adr/20261102-220451/adr-manifest.json
+?? .garura/project/issues/_adr/20261102-220451/brief.md
+?? .garura/project/issues/_adr/20261102-220451/context/memory/manifest.json
+?? .garura/project/issues/_adr/20261102-220451/context/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/_adr/20261102-220451/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261102-220451/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261102-220451/decision.yaml
+?? .garura/project/issues/_adr/20261102-220451/hashes-before.json
+?? .garura/project/issues/_adr/20261102-220451/porcelain-after.txt
+?? .garura/project/issues/_adr/20261102-220451/porcelain-before.txt
+?? docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md

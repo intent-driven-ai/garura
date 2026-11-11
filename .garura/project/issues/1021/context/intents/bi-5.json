@@ -1,0 +1,13 @@
+{
+  "id": "bi-5",
+  "issue": 5,
+  "title": "Validation → Run",
+  "outcome": "Validated work gets its security, automated functional, performance and other testing, then user acceptance testing, and is delivered through CI and CD to its environments. The product model is evaluated too.",
+  "why": "Until people can use it, the intent isn't met, however good the code is.",
+  "asked_by": "the product owner",
+  "proof": [
+    "Each release traces to accepted work and an intent.",
+    "Its acceptance is recorded."
+  ],
+  "must_not": "Ship anything unvalidated or uncommitted."
+}

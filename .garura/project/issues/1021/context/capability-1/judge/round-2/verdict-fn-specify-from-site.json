@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Views deeper than two clicks. A journey reaches them when a person needs them: Specify from a prototype's journeys (fn-specify-from-journeys).\" \"Given a control that fails when clicked, when the site is captured, then the record lists that view as not reached, with why, and the other views are kept.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"The browser does not follow mail, phone or script links, or full links outside the folder of the page it was given.\" \"The size limit is 40 views beyond the first screen, or 160 clicks.\" \"any more pages of the same site to capture\"",
+      "fix": "Give these three items the why or the behavior that the word-list rule already has. (1) Add a reason sentence to the link rule, in the same 'The reason:' form, saying why the browser stays inside the folder of the given page. (2) Add a reason to the size limit, saying what the limit protects and why it is 40 views or 160 clicks. (3) For the optional 'more pages' input, say why a person gives one and what happens to it: whether each is captured like the first page (picture, text, page code), whether its controls are clicked for new views, and whether its views count against the 40-view limit."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a control that fails when clicked, when the site is captured, then the record lists that view as not reached, with why, and the other views are kept.\" \"A person gives a link to a deployed site.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"The browser loads the page again before each try and repeats the clicks. So each view starts from a known state.\" \"A control that shows a repeat counts as found and is not kept again.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A later step can then read the site as it was, even after the site is gone.\" \"Starting a local app before the capture. Specify from a project folder (fn-specify-from-folder) does this.\"",
+      "fix": ""
+    }
+  ]
+}

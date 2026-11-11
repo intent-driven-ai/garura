@@ -1,0 +1,108 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capabilities.md, section Standards, structure, settings and memory: the product owner's words of 2026-11-11, \"continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp\"",
+  "repoint": [
+    {
+      "id": "cap-735",
+      "kind": "capability",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "cap-739",
+      "kind": "capability",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "cap-742",
+      "kind": "capability",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-736",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-737",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-738",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-740",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-741",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-743",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-744",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-745",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    },
+    {
+      "id": "fn-746",
+      "kind": "feature",
+      "intents": {
+        "bi-734": "bi-10"
+      }
+    }
+  ],
+  "remove": [
+    {
+      "kind": "capability",
+      "id": "cap-735",
+      "into": "cap-standards"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-739",
+      "into": "cap-standards"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-742",
+      "into": "cap-standards"
+    }
+  ]
+}

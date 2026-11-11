@@ -1,0 +1,71 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-4/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/manage-adrs/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-record-adr/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-record-adr/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-accept-adr/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-linked/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-show-accepter-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/write/approved/fn-adr-in-its-change/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/write/approved/fn-keep-adrs-to-build/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/drafts/product-os/software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-take-design-choices/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-4/write/approved/fn-take-design-choices/ice.md"
+    }
+  ]
+}

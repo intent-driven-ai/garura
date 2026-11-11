@@ -1,0 +1,1312 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 129,
+  "not_found": 0,
+  "problems": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "- The short line beside each feature: the opening words of that feature's own pa",
+      "status": "no source path",
+      "quotes": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "- Shelf: none. No knowledge shelf in any memory tier covers upgrading, versionin",
+      "status": "no source path",
+      "quotes": []
+    }
+  ],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "It is an engine thing, like installation, not a play.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "an upgrade finds a person's edit to an installed part and asks before replacing it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "the model moves only in its structure, shown first and on the person's yes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "Garura's own releases and their notes sit here",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "yes, record it and draft the first one",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Support each coding tool: Each team gets an install built for its tool",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Set a project up after the install (Initialize): new on this list.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "A team can only use Garura once it's in their project, and only keeps using it if upgrades are safe.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "An upgrade loses nothing the team changed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "Upgrade a project owns them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+      "quote": "Moving to a new version is Upgrade a project's, which takes out what Garura dropped through this same step",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+      "quote": "We are never touching production.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "installer/install.sh",
+      "quote": "UPGRADE MODE \u2014 Non-destructive update",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "installer/install.sh",
+      "quote": "Updated (overwritten):",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "installer/install.sh",
+      "quote": "Preserved (not touched):",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "installer/install.sh",
+      "quote": "review and merge manually",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "README.md",
+      "quote": "A version that does not exist stops the install with a message; it never falls back to `main`.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "Only manifest-recorded paths are candidates",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "The adapter is the seam.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "proof Garura placed it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "a copy that stops part way leaves the old tool and its settings where they were",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "it puts every file and folder back as it was",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md",
+      "quote": "Initialize, seeding memory and upgrade are engine things, not plays.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #568",
+      "quote": "An upgrade of an existing install shows which version was there before and which version is there now.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #568",
+      "quote": "Cutting a release stays a manual step.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #772",
+      "quote": "The installed config still names the review gate by its old play name, so the gate that should be off is on.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #835",
+      "quote": "Who may change a project's product model during an upgrade, and with whose yes?",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #835",
+      "quote": "How does a person see what changed, and undo it?",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #938",
+      "quote": "A reinstall removes the parts Garura no longer has, even in a project installed before the install record",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #945",
+      "quote": "It shows the person what it will do before it does it, and reports what it did.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #945",
+      "quote": "The report names every part added, kept, replaced, merged and removed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #945",
+      "quote": "No part is overwritten that a person changed, unless the person says so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "source": "GitHub #945",
+      "quote": "new keys come in, the project's own values stay",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "merges into it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "A project moves to a new version knowing what changes, including its model, without losing its own work.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/product/product-os/capabilities/cap-747/capability.md",
+      "quote": "an install in a project that already has Garura removes the old names and lays the new ones, using the rename map.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/product/product-os/capabilities/cap-747/capability.md",
+      "quote": "A project never ends up with an old and a new name side by side.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/product/product-os/features/fn-748/feature.md",
+      "quote": "Never removes a component the project wrote itself.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/product/product-os/features/fn-748/feature.md",
+      "quote": "an install test over a project with old names: only new names remain, project files untouched.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+      "quote": "takes out what Garura dropped through this same step",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "only when its file still says `name: <old name>` \u2014 proof Garura placed it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "covers projects installed before the install manifest existed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "Only manifest-recorded paths are candidates",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "core/components/memory/standards/rules/rename-map.yaml",
+      "quote": "no new name to lay",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "core/components/plays/install-garura/scripts/test_install.py",
+      "quote": "test_old_names_go_and_the_project_s_own_folders_stay",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "core/components/plays/install-garura/scripts/test_install.py",
+      "quote": "test_every_old_name_of_one_new_name_goes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+      "quote": "An install removes a component left under its old name when Garura placed it.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "GitHub #938",
+      "quote": "A person who reinstalls Garura in any project, however old its last install, ends with only the parts Garura has today.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "source": "GitHub #938",
+      "quote": "They still show as commands, though the Discovery loop no longer runs them",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "without losing its own work",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "config: kept existing",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "installer/install.sh",
+      "quote": "review and merge manually",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "README.md",
+      "quote": "Review the `.new` files and merge any changes you want to keep.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "keeps settings a person edited",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "The YAML is rewritten line by line, so the file's other content and its comments stay as they are.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+      "quote": "starts again under the new name",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #945",
+      "quote": "new keys come in, the project's own values stay",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #945",
+      "quote": "a setting added to the source never reaches the project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #772",
+      "quote": "every config key that holds a play, loop, skill or agent name uses its current name, from the rename map",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #772",
+      "quote": "The installed config still names the review gate by its old play name, so the gate that should be off is on.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #782",
+      "quote": "The install writes the `.new` file only when the existing file is missing a rule from the installer's text.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #946",
+      "quote": "Every other settings file goes into one folder",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #947",
+      "quote": "Settings in config.yaml named for plays and tools that are gone are renamed or removed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "source": "GitHub #948",
+      "quote": "An upgrade over a project whose people changed its settings keeps every changed value.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "Garura's own releases and their notes sit here",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "A project moves to a new version knowing what changes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "CHANGELOG.md",
+      "quote": "Known issues at the tag:",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "CHANGELOG.md",
+      "quote": "What it set out to do:",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "CHANGELOG.md",
+      "quote": "What it delivered:",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": ".github/workflows/release.yml",
+      "quote": "generate_release_notes: true",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #568",
+      "quote": "Two people who install a week apart get different Garura.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #568",
+      "quote": "Cutting a release stays a manual step.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #568",
+      "quote": "Set up automatic releases on every merge.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #591",
+      "quote": "The blocker list is agreed and every issue on it is closed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #591",
+      "quote": "that says what changed since v2.0.0, in plain language",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #591",
+      "quote": "marked Latest",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #591",
+      "quote": "A fresh install with no version given installs v3.0.0",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "GitHub #921",
+      "quote": "Each Phoenix memory release has a version that matches the Garura release it goes with, and its own release notes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "standards/rules/git.md (Phoenix memory copy)",
+      "quote": "Release preparation",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": "standards/rules/git.md (Phoenix memory copy)",
+      "quote": "Quality gates elevated to must-have",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-5-inventory/inventory.md",
+      "quote": "Garura's own releases",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "an upgrade finds a person's edit to an installed part and asks before replacing it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "without losing its own work",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "An upgrade loses nothing the team changed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": "core/components/plays/install-garura/scripts/adapters/common.py",
+      "quote": "Replace dest with a fresh copy of src",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "Never hand-edit an installed copy",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": "GitHub #945",
+      "quote": "No part is overwritten that a person changed, unless the person says so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": "GitHub #945",
+      "quote": "what the project's people changed since;",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": "GitHub #369",
+      "quote": "locally modified components, CLAUDE.md, and core files are detected by hash mismatch and preserved across reinstall/upgrade",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-inventory/inventory.md",
+      "quote": "Keep what the team changed",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "the model moves only in its structure, shown first and on the person's yes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "including its model",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "Prose is left alone, and IDs (fn-...) never change.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "A person runs this script by hand; nothing runs it on its own",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "it puts every file and folder back as it was",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "a model folder that lies outside the project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "it never changes anything outside the project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "core/components/skills/link-model-part/scripts/model_names.py",
+      "quote": "To upgrade the model to the new names, a person runs the script that moves it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "core/components/plays/install-garura/scripts/install.py",
+      "quote": "The install never changes a product model the project already has (#813).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "docs/adr/055-installed-parts-read-only-installed-files.md",
+      "quote": "A pointer in an installed file points to another installed file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "GitHub #813",
+      "quote": "The install does not change an existing product model (product owner, 2026-10-23, review of PR #834).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "GitHub #835",
+      "quote": "Who may change a project's product model during an upgrade, and with whose yes?",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "source": "GitHub #835",
+      "quote": "Does an upgrade change only the structure (keys, file names, headings), or also meaning?",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+      "quote": "It is an engine thing, like installation, not a play.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "From:",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "To:",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "unknown (installed before versions were recorded)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "Garura upgraded successfully: $PREVIOUS_VERSION -> $INSTALLED_VERSION",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "Updated (overwritten):",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "installer/install.sh",
+      "quote": "Preserved (not touched):",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "README.md",
+      "quote": "A version that does not exist stops the install with a message; it never falls back to `main`.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "re-running re-lays the components in place",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "core/components/plays/install-garura/scripts/memory_system.py",
+      "quote": "is made whole beside the old one, then swapped in",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "core/components/plays/install-garura/scripts/migrate_model.py",
+      "quote": "it puts every file and folder back as it was",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "GitHub #568",
+      "quote": "An upgrade of an existing install shows which version was there before and which version is there now.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "GitHub #835",
+      "quote": "How does a person see what changed, and undo it?",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "GitHub #945",
+      "quote": "It shows the person what it will do before it does it, and reports what it did.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "GitHub #945",
+      "quote": "The report names every part added, kept, replaced, merged and removed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "source": "GitHub #948",
+      "quote": "the report names every part added, kept, merged, replaced or removed",
+      "status": "found"
+    }
+  ],
+  "body_quotes": {
+    "note": "quotes of three words or more in each page's body and in each ICE page, looked for in the sources that page names",
+    "total": 102,
+    "not_found": 0,
+    "results": [
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "is an engine thing, like installation, not a play",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "only keeps using it if upgrades are safe",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "Preserved (not touched):",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "Cutting a release stays a manual step.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "review and merge manually",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "Change what a project's people changed without asking them.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "an upgrade finds a person's edit to an installed part and asks before replacing it",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "the model moves only in its structure, shown first and on the person's yes",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "Who may change a project's product model during an upgrade, and with whose yes?",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "Only manifest-recorded paths are candidates",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "proof Garura placed it",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "it never falls back to `main`",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "We are never touching production.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "It is an engine thing, like installation, not a play.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "Initialize, seeding memory and upgrade are engine things, not plays.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "shows the person what it will do before it does it, and reports what it did",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "The report names every part added, kept, replaced, merged and removed.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "An upgrade of an existing install shows which version was there before and which version is there now.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "No part is overwritten that a person changed, unless the person says so.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "new keys come in, the project's own values stay",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "shown first and on the person's yes",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "a copy that stops part way leaves the old tool and its settings where they were",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "it puts every file and folder back as it was",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "The adapter is the seam.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+        "quote": "How does a person see what changed, and undo it?",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "without losing its own work",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "Installs follow the renames",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "only when its file still says `name: <old name>` \u2014 proof Garura placed it",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "covers projects installed before the install manifest existed",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "Only manifest-recorded paths are candidates",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "no new name to lay",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "They still show as commands, though the Discovery loop no longer runs them",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "A project never ends up with an old and a new name side by side.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "An install removes a component left under its old name when Garura placed it.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "Never removes a component the project wrote itself.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "proof Garura placed it",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "takes out what Garura dropped through this same step",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "A person who reinstalls Garura in any project, however old its last install, ends with only the parts Garura has today.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+        "quote": "Change what a project's people changed without asking them.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "without losing its own work",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "config: kept existing",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "review and merge manually",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "Review the `.new` files and merge any changes you want to keep.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "starts again under the new name",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "new keys come in, the project's own values stay",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "never reaches the project",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "every config key that holds a play, loop, skill or agent name uses its current name, from the rename map",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "Change what a project's people changed without asking them.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "The YAML is rewritten line by line, so the file's other content and its comments stay as they are.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+        "quote": "The install writes the `.new` file only when the existing file is missing a rule from the installer's text.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "knowing what changes",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "Garura's own releases and their notes sit here",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "Known issues at the tag",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "in plain language",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "A fresh install with no version given installs v3.0.0",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "Cutting a release stays a manual step.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "Two people who install a week apart get different Garura.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "that says what changed since v2.0.0, in plain language",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "Cutting a release stays a manual step.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "The blocker list is agreed and every issue on it is closed.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "A fresh install with no version given installs v3.0.0",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+        "quote": "Quality gates elevated to must-have",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "without losing its own work",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "An upgrade loses nothing the team changed.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "Replace dest with a fresh copy of src",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "Never hand-edit an installed copy",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "No part is overwritten that a person changed, unless the person says so.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "an upgrade finds a person's edit to an installed part and asks before replacing it",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "locally modified components, CLAUDE.md, and core files are detected by hash mismatch and preserved across reinstall/upgrade",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "No part is overwritten that a person changed, unless the person says so.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "Change what a project's people changed without asking them.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+        "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "including its model",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "the model moves only in its structure, shown first and on the person's yes",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "Prose is left alone, and IDs (fn-...) never change.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "it puts every file and folder back as it was",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "A person runs this script by hand; nothing runs it on its own",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "To upgrade the model to the new names, a person runs the script that moves it",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "The install never changes a product model the project already has (#813).",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "the model moves only in its structure, shown first and on the person's yes",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "Does an upgrade change only the structure (keys, file names, headings), or also meaning?",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "Who may change a project's product model during an upgrade, and with whose yes?",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "puts every file and folder back as it was",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "a model folder that lies outside the project",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "never changes anything outside the project",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+        "quote": "A pointer in an installed file points to another installed file.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "It is an engine thing, like installation, not a play.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "A project moves to a new version knowing what changes",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "Garura upgraded successfully: $PREVIOUS_VERSION -> $INSTALLED_VERSION",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "unknown (installed before versions were recorded)",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "Preserved (not touched):",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "re-running re-lays the components in place",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "is made whole beside the old one, then swapped in",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "How does a person see what changed, and undo it?",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "an engine thing, like installation, not a play",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "shows the person what it will do before it does it, and reports what it did",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "The report names every part added, kept, replaced, merged and removed.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "An upgrade of an existing install shows which version was there before and which version is there now.",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "it never falls back to `main`",
+        "status": "found in the page's sources"
+      },
+      {
+        "page": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+        "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+        "status": "found in the page's sources"
+      }
+    ]
+  }
+}

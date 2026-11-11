@@ -1,0 +1,68 @@
+{
+  "updated": [
+    {
+      "id": "cap-specify-product",
+      "doc": "software-delivery-planning/specify-product/capability.md",
+      "added_sections": [
+        "Directional intent",
+        "Agent intent (ICE)"
+      ],
+      "renamed": [],
+      "kept_lines": 0,
+      "new_page": true
+    }
+  ],
+  "new_features": [
+    {
+      "id": "fn-specify-intents",
+      "doc": "software-delivery-planning/specify-product/fn-specify-intents/feature.md"
+    },
+    {
+      "id": "fn-specify-domains",
+      "doc": "software-delivery-planning/specify-product/fn-specify-domains/feature.md"
+    },
+    {
+      "id": "fn-specify-capabilities",
+      "doc": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md"
+    },
+    {
+      "id": "fn-specify-from-journeys",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md"
+    },
+    {
+      "id": "fn-specify-from-video",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-video/feature.md"
+    },
+    {
+      "id": "fn-specify-from-file",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md"
+    },
+    {
+      "id": "fn-specify-from-folder",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md"
+    },
+    {
+      "id": "fn-specify-from-site",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md"
+    },
+    {
+      "id": "fn-specify-from-document",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md"
+    },
+    {
+      "id": "fn-specify-from-words",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md"
+    },
+    {
+      "id": "fn-validate-attribution",
+      "doc": "software-delivery-planning/specify-product/fn-validate-attribution/feature.md"
+    },
+    {
+      "id": "fn-specify-against-existing",
+      "doc": "software-delivery-planning/specify-product/fn-specify-against-existing/feature.md"
+    }
+  ],
+  "thin": [],
+  "fixed": [],
+  "not_mine": []
+}

@@ -1,0 +1,173 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021); the write plan and one-lines approved by the product owner",
+  "parts": [
+    {
+      "id": "cap-manage-adrs",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "manage-adrs",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.",
+      "doc": "software-delivery-planning/manage-adrs/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-record-adr",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-record-adr",
+      "capability": "cap-manage-adrs",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "From a decision brief, a decision is drafted as an ADR from the one template, naming each older ADR it supersedes or amends with the part, and what it changes by real paths.",
+      "doc": "software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-accept-adr",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-accept-adr",
+      "capability": "cap-manage-adrs",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "An ADR becomes accepted only on a person's typed word: by hand at a pinned checkpoint, or later for an ADR a loop saved as proposed.",
+      "doc": "software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-adrs-linked",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-adrs-linked",
+      "capability": "cap-manage-adrs",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Once an ADR is accepted, each older ADR it changes gains one forward pointer, its only edit, and the index of ADRs is rebuilt from the ADR folder.",
+      "doc": "software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-show-accepter-findings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-show-accepter-findings",
+      "capability": "cap-manage-adrs",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Each point found while an ADR was drafted that the brief did not ask about is written with its five parts and shown to the person before they accept.",
+      "doc": "software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-adr-in-its-change",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-adr-in-its-change",
+      "capability": "cap-manage-adrs",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Run on the branch of a change that is already open, the decision play records the ADR in that change, so a decision lands with the work it decides.",
+      "doc": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-adrs-to-build",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-adrs-to-build",
+      "capability": "cap-manage-adrs",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Every ADR is reviewed, and what is about what the product model holds moves into the model, so ADRs hold only how the project is built.",
+      "doc": "software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-take-design-choices",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-take-design-choices",
+      "capability": "cap-manage-adrs",
+      "intents": [
+        "bi-9"
+      ],
+      "one_line": "Each design choice a person confirmed in Spec → Design reaches the decision play as a decision brief and is recorded as an ADR, and an update supersedes the older one.",
+      "doc": "software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-manage-adrs",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-manage-adrs",
+      "doc": "software-delivery-planning/manage-adrs/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-record-adr",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-record-adr",
+      "doc": "software-delivery-planning/manage-adrs/fn-record-adr/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-accept-adr",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-accept-adr",
+      "doc": "software-delivery-planning/manage-adrs/fn-accept-adr/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-keep-adrs-linked",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-adrs-linked",
+      "doc": "software-delivery-planning/manage-adrs/fn-keep-adrs-linked/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-show-accepter-findings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-show-accepter-findings",
+      "doc": "software-delivery-planning/manage-adrs/fn-show-accepter-findings/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-adr-in-its-change",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-adr-in-its-change",
+      "doc": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-keep-adrs-to-build",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-adrs-to-build",
+      "doc": "software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-take-design-choices",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-take-design-choices",
+      "doc": "software-delivery-planning/manage-adrs/fn-take-design-choices/ice.md",
+      "thin": true
+    }
+  ]
+}

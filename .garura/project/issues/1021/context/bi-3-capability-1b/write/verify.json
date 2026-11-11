@@ -1,0 +1,262 @@
+{
+  "pages": {
+    "software-delivery-planning/gather-work-under-item/capability.md": {
+      "equals_draft": true,
+      "bytes": 17127,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/gather-work-under-item/ice.md": {
+      "equals_draft": true,
+      "bytes": 3641,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md": {
+      "equals_draft": true,
+      "bytes": 13282,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/ice.md": {
+      "equals_draft": true,
+      "bytes": 3092,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md": {
+      "equals_draft": true,
+      "bytes": 9455,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/gather-work-under-item/fn-collect-story-context/ice.md": {
+      "equals_draft": true,
+      "bytes": 3135,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 6,
+  "new_folder_files": [
+    "software-delivery-planning/gather-work-under-item/capability.md",
+    "software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md",
+    "software-delivery-planning/gather-work-under-item/fn-collect-story-context/ice.md",
+    "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+    "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/ice.md",
+    "software-delivery-planning/gather-work-under-item/ice.md"
+  ],
+  "new_folder_only_the_six_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 19,
+      "after": 20,
+      "new": [
+        "cap-gather-work-under-item"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 65,
+      "after": 67,
+      "new": [
+        "fn-gather-item-tree",
+        "fn-collect-story-context"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 39,
+      "after": 42,
+      "new": [
+        "ice-gather-work-under-item",
+        "ice-gather-item-tree",
+        "ice-collect-story-context"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "profile_unchanged": true,
+    "other_top_keys": [],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-gather-work-under-item": {
+        "slug": "gather-work-under-item",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Take any item a person names from the plan, and gather the whole tree of work under it.",
+        "doc": "software-delivery-planning/gather-work-under-item/capability.md",
+        "thin": false
+      },
+      "fn-gather-item-tree": {
+        "slug": "fn-gather-item-tree",
+        "capability": "cap-gather-work-under-item",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "From the item the technical lead names by its ID, at any level of the plan, gathers it and every item under it with their text and status, and nothing outside it, and splits each story so the builder's part holds no expectation, eval or test.",
+        "doc": "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+        "thin": false
+      },
+      "fn-collect-story-context": {
+        "slug": "fn-collect-story-context",
+        "capability": "cap-gather-work-under-item",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Reads the Context guidance of each story in the gathered tree and collects what it points to, from the project's code and memory first, into the story's short-term memory, so the work is read in one place and no ICE page is opened.",
+        "doc": "software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md",
+        "thin": false
+      },
+      "ice-gather-work-under-item": {
+        "for": "cap-gather-work-under-item",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/gather-work-under-item/ice.md",
+        "thin": true
+      },
+      "ice-gather-item-tree": {
+        "for": "fn-gather-item-tree",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/ice.md",
+        "thin": true
+      },
+      "ice-collect-story-context": {
+        "for": "fn-collect-story-context",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/gather-work-under-item/fn-collect-story-context/ice.md",
+        "thin": true
+      }
+    },
+    "entries_as_asked": true,
+    "feature_one_lines_match_page_list": true,
+    "ice_docs_lead_to_files": true,
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 70,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0,
+    "comments_kept": true
+  },
+  "bi_3": {
+    "lines_before": 18,
+    "lines_after": 23,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 5,
+    "added": [
+      "**Touches:**",
+      "- [Gather the work under a chosen plan item](../software-delivery-planning/gather-work-under-item/capability.md) (capability) — adds",
+      "- [Gather the whole tree under a chosen item](../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md) (feature) — adds",
+      "- [Collect each story's context from its guidance](../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md) (feature) — adds",
+      ""
+    ],
+    "inserted_after_line": "",
+    "line_before_block": "**Tracker:** #3",
+    "byte_check_other_lines": true,
+    "after_stage_and_tracker_before_what_was_done": true,
+    "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "stage_line_kept": true,
+    "outcome_and_proof_lines_unchanged": true,
+    "touches_lines_in_form": true,
+    "links": {
+      "../software-delivery-planning/gather-work-under-item/capability.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "form_matches_bi_1_and_bi_2": true,
+    "titles_match_page_titles": true,
+    "spine_parts_naming_bi_3": 3,
+    "spine_part_ids_naming_bi_3": [
+      "cap-gather-work-under-item",
+      "fn-gather-item-tree",
+      "fn-collect-story-context"
+    ],
+    "touches_lines": 3,
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kinds_agree_with_spine": true
+  },
+  "git_status": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-3.md",
+    "?? .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-collect-story-context/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/gather-work-under-item/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 92,
+      "counts": {
+        "domain": 1,
+        "capability": 19,
+        "feature": 65,
+        "ice": 39
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-1b/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 95,
+      "counts": {
+        "domain": 1,
+        "capability": 20,
+        "feature": 67,
+        "ice": 42
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-1b/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 3 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'); under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on the pages of every capability written before this one in #1021 (specify-product, turn-intents-into-work, keep-spec-matched, design-technology-architecture, manage-surfaces, deployment-design, environment-setup)."
+  },
+  "all_checks_pass": true,
+  "before_state": "git HEAD e209ebe0: the spine and intents/bi-3.md as committed (the model had no uncommitted change before this write)"
+}

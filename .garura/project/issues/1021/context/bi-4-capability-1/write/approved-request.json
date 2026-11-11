@@ -1,0 +1,39 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-1/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/test-product-with-evals/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/drafts/product-os/software-delivery-planning/test-product-with-evals/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/test-product-with-evals/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/write/approved/test-product-with-evals/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/drafts/product-os/software-delivery-planning/test-product-with-evals/fn-run-slice-eval/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/write/approved/fn-run-slice-eval/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/drafts/product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/write/approved/fn-send-handoff-plan/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/drafts/product-os/software-delivery-planning/test-product-with-evals/fn-rerun-evals/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-1/write/approved/fn-rerun-evals/ice.md"
+    }
+  ]
+}

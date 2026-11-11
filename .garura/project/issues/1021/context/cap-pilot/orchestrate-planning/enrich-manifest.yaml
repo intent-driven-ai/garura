@@ -1,0 +1,15 @@
+enrich:
+  capability_ref: cap-orchestrate-planning
+  grounded_in: "no shelf; the product owner's one line and business intent bi-9"
+  capability:
+    detail: directional
+    deepen: true
+    doc: software-delivery-planning/orchestrate-planning/capability.md
+    nfr_needs: {}
+    compliance_needs: []
+  features: []
+  implied_levels: {}
+  compliance: []
+  gaps:
+    - { about: cap-orchestrate-planning, missing: "a knowledge shelf for software delivery planning", why: "no tier holds one; raised as memory update mu-20261102-001, waiting for a person" }
+    - { about: cap-orchestrate-planning, missing: "a measurable quality or compliance need", why: "neither the one line nor bi-9 gives a target, so none is written" }

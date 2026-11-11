@@ -1,0 +1,21 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: How the product gets deployed is designed once for the whole project, with where it runs and in what form, the path a change takes to the people who use it, how a release goes live, is checked and is rolled back, how stored data survives it, where secrets are kept and what running it costs, each choice with its reason, its source and the person who confirmed it, and every release follows it, while the design is updated as the project changes.
+- Limit: Each choice is proposed from the project's own memory and code first, then from Garura memory, then from Phoenix memory; only when none of them answers is it researched, and the research is used only after a person approves it as a memory update. Nothing comes from what the AI agent knows by itself.
+- Limit: Nothing waits for the deployment design. A missing choice is named as a gap, and the work goes on from the project's code and memory.
+- Limit: Only a person confirms a choice or an update, the design never holds the value of a secret, and an update replaces what held before without editing it, so the old design stays readable with why it changed.
+- Fails if: A deployment choice is made with no person's confirmation, or with nothing behind it but what the AI agent knows by itself.
+- Fails if: A release goes out in a way the design does not hold, such as a part run on a platform the design does not name, or a release with no way back, and no gap or update explains it.
+- Fails if: Work stops because a choice of the deployment design is missing.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the project's code and its settings, such as its container files, its pipeline files, its deploy scripts, its infrastructure files and its hosting settings; the project's architecture and its surfaces as set so far; the product profile with its quality levels and its compliance needs; Phoenix memory's architecture and technology learnings for deploying, releasing and running a product, with the conditions each fits and when each is outgrown; and the deployment design as set so far, with the decisions behind it.
+- Never read: the value of any secret, such as a password or a key.
+- Persona: the devops engineer, who decides how the product is deployed, released and rolled back, and the product owner, who asked that every builder work from the same design.
+- Scope: In: proposing, setting and updating how the product is deployed for the whole project: the platform, where each part runs and in what form, the path, the release, the rollback, stored data, secrets and settings, the cost and the rules every release keeps. Out: which environments exist and how each is set up, the architecture and its technology, the surfaces, each slice's run design, building, testing, delivering and deploying the work, the files that carry out the design, the product profile, decision records, seeding memory, moving a memory update into Phoenix memory, and the lock.
+
+## Expectation
+- Scenario: The devops engineer of a new team tool, one deployable unit with a browser page, confirms a design proposed from the project's container file and a Phoenix memory learning for its architecture and stage: it runs as a container on a managed service, a release goes to one team first and then to everyone, a rollback turns the new behaviour off without losing stored data, and secrets live only in the platform's secrets store. Two slices released later follow it. When the product gains a mobile app, the design is updated, and what held before stays readable with why it changed.
+- Done means: Someone other than the one who set the design checks each choice and finds behind it a source in the project or in memory, its reasons and the person who confirmed it, and for each update, what held before and why it changed.
+- Done means: Someone other than the one who released compares two releases with the design and finds no difference that the design or a recorded update does not explain.

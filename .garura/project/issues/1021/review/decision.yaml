@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "approve but also record the p2s s that we address hem properly"
+recommended: approve
+recommended_reason: no P1 findings; confidence acceptable
+note: The reviewer was shown the categories, the grounded principles, the 32 findings by category and severity with their basis, the play's recommendation (approve) and the assistant's view (approve; the four P2s each need their own decision, outside this PR). The reviewer approved and asked that the four P2s be recorded so they are addressed properly.
+citing_findings: []
+owed_to_record: [DF-1, DG-MEM-01, DG-MEM-02, PLAN-1]
+open_findings: [L1-ADR-1, DG-MEM-03, DG-MEM-04, DG-MEM-05, DG-MEM-06, DG-MEM-07, DG-MEM-08, DG-MEM-09, DG-MEM-10, PLAN-2, PLAN-3, PLAN-4, PLAN-5, PLAN-6, PLAN-7, DF-2, DF-3, DF-4, DF-5, DF-6, DF-7, DF-8, DF-9, DF-10, DF-11, DF-12, DF-13, DF-14]

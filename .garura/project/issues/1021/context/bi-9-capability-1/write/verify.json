@@ -1,0 +1,366 @@
+{
+ "before_state": "git HEAD: the model as committed",
+ "pages": {
+  "software-delivery-planning/orchestrate-agent-work/capability.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md": {
+   "equals_draft": true,
+   "thin_lines": [
+    0
+   ]
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md": {
+   "equals_draft": true,
+   "thin_lines": [
+    0
+   ]
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md": {
+   "equals_draft": true,
+   "thin_lines": [
+    0
+   ]
+  },
+  "features/fn-729/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "features/fn-729/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "features/fn-806/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "features/fn-806/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "features/fn-628/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "features/fn-628/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "features/fn-730/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "features/fn-730/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-795/feature.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  },
+  "software-delivery-planning/orchestrate-agent-work/fn-795/ice.md": {
+   "equals_draft": true,
+   "thin_lines": []
+  }
+ },
+ "new_folder_files": [
+  "software-delivery-planning/orchestrate-agent-work/capability.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-795/feature.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-795/ice.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+  "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md",
+  "software-delivery-planning/orchestrate-agent-work/ice.md"
+ ],
+ "features_changed": [
+  "fn-628",
+  "fn-729",
+  "fn-730",
+  "fn-795",
+  "fn-806",
+  "fn-931"
+ ],
+ "mentions_of_removed_ids": [],
+ "bi_9_touches": [
+  "- [Orchestrate agent work through planning](../software-delivery-planning/orchestrate-agent-work/capability.md) (capability) — adds",
+  "- [Get onto a plan's branch for a session, and come back](../software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md) (feature) — adds",
+  "- [Know what comes next at the end of every run](../software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md) (feature) — adds",
+  "- [Remove a plan on a person's approval](../software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md) (feature) — adds",
+  "- [Choose which item is worked next](../software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md) (feature) — adds",
+  "- [Work out the plans a plan waits on](../software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md) (feature) — adds",
+  "- [Pause a plan and start it again](../software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md) (feature) — adds",
+  "- [Choose the slice that shows an intent is served](../software-delivery-planning/orchestrate-agent-work/fn-795/feature.md) (feature) — changes",
+  "- [See every plan and where it stands](../features/fn-729/feature.md) (feature) — changes",
+  "- [See every plan's branch against main](../features/fn-806/feature.md) (feature) — changes",
+  "- [See one plan as a tree](../features/fn-628/feature.md) (feature) — changes",
+  "- [Set each item's status and the plan's status and direction in one approved session](../features/fn-730/feature.md) (feature) — changes"
+ ],
+ "git_status_product": [
+  " M .garura/product/product-os/_spine.yaml",
+  " D .garura/product/product-os/capabilities/cap-719/capability.md",
+  " D .garura/product/product-os/capabilities/cap-720/capability.md",
+  " M .garura/product/product-os/features/fn-628/feature.md",
+  " M .garura/product/product-os/features/fn-725/feature.md",
+  " M .garura/product/product-os/features/fn-726/feature.md",
+  " M .garura/product/product-os/features/fn-729/feature.md",
+  " M .garura/product/product-os/features/fn-730/feature.md",
+  " M .garura/product/product-os/features/fn-806/feature.md",
+  " M .garura/product/product-os/intents/bi-788.md",
+  " M .garura/product/product-os/intents/bi-9.md",
+  " D .garura/product/product-os/software-delivery-planning/shape-slice/capability.md",
+  " D .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+  " M .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+  " M .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+  "?? .garura/product/product-os/features/fn-628/ice.md",
+  "?? .garura/product/product-os/features/fn-729/ice.md",
+  "?? .garura/product/product-os/features/fn-730/ice.md",
+  "?? .garura/product/product-os/features/fn-806/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/capability.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-795/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-795/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md",
+  "?? .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/ice.md"
+ ],
+ "structure": {
+  "before": [
+   75,
+   191
+  ],
+  "after": [
+   59,
+   193
+  ],
+  "new_errors": [],
+  "errors_gone": 16
+ },
+ "write_folder_files_naming_local_paths": [],
+ "failed_checks": [],
+ "checks_run": 163,
+ "all_checks_pass": true,
+ "checks": {
+  "page software-delivery-planning/orchestrate-agent-work/capability.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/capability.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/capability.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/ice.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/ice.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md Thin lines as it should (one, first)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md Thin lines as it should (one, first)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md Thin lines as it should (one, first)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md holds no ICE section": true,
+  "page features/fn-729/feature.md equals its approved draft byte for byte": true,
+  "page features/fn-729/feature.md Thin lines as it should (none)": true,
+  "page features/fn-729/feature.md holds no ICE section": true,
+  "page features/fn-729/ice.md equals its approved draft byte for byte": true,
+  "page features/fn-729/ice.md Thin lines as it should (none)": true,
+  "page features/fn-729/ice.md holds no ICE section": true,
+  "page features/fn-806/feature.md equals its approved draft byte for byte": true,
+  "page features/fn-806/feature.md Thin lines as it should (none)": true,
+  "page features/fn-806/feature.md holds no ICE section": true,
+  "page features/fn-806/ice.md equals its approved draft byte for byte": true,
+  "page features/fn-806/ice.md Thin lines as it should (none)": true,
+  "page features/fn-806/ice.md holds no ICE section": true,
+  "page features/fn-628/feature.md equals its approved draft byte for byte": true,
+  "page features/fn-628/feature.md Thin lines as it should (none)": true,
+  "page features/fn-628/feature.md holds no ICE section": true,
+  "page features/fn-628/ice.md equals its approved draft byte for byte": true,
+  "page features/fn-628/ice.md Thin lines as it should (none)": true,
+  "page features/fn-628/ice.md holds no ICE section": true,
+  "page features/fn-730/feature.md equals its approved draft byte for byte": true,
+  "page features/fn-730/feature.md Thin lines as it should (none)": true,
+  "page features/fn-730/feature.md holds no ICE section": true,
+  "page features/fn-730/ice.md equals its approved draft byte for byte": true,
+  "page features/fn-730/ice.md Thin lines as it should (none)": true,
+  "page features/fn-730/ice.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-795/feature.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-795/feature.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-795/feature.md holds no ICE section": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-795/ice.md equals its approved draft byte for byte": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-795/ice.md Thin lines as it should (none)": true,
+  "page software-delivery-planning/orchestrate-agent-work/fn-795/ice.md holds no ICE section": true,
+  "24 pages": true,
+  "the new capability folder holds only its 16 pages": true,
+  "features/fn-729 holds only feature.md and ice.md": true,
+  "features/fn-806 holds only feature.md and ice.md": true,
+  "features/fn-628 holds only feature.md and ice.md": true,
+  "features/fn-730 holds only feature.md and ice.md": true,
+  "capabilities/cap-719 is gone": true,
+  "capabilities/cap-720 is gone": true,
+  "software-delivery-planning/shape-slice is gone": true,
+  "capabilities: new is exactly the new one": true,
+  "capabilities: removed are exactly the three old ones": true,
+  "capabilities: no other old capability changed": true,
+  "features: new are exactly the six": true,
+  "features: none removed": true,
+  "features: changed are exactly the five old ones and fn-931": true,
+  "ices: new are exactly the twelve": true,
+  "ices: none removed or changed": true,
+  "capability entry as asked": true,
+  "fn-go-to-plan-branch: under the new capability, intents [bi-9], page at software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md": true,
+  "fn-go-to-plan-branch: one-line from the capability page's list": true,
+  "fn-go-to-plan-branch: carries no thin mark": true,
+  "fn-know-what-next: under the new capability, intents [bi-9], page at software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md": true,
+  "fn-know-what-next: one-line from the capability page's list": true,
+  "fn-know-what-next: carries no thin mark": true,
+  "fn-remove-plan: under the new capability, intents [bi-9], page at software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md": true,
+  "fn-remove-plan: one-line from the capability page's list": true,
+  "fn-remove-plan: carries no thin mark": true,
+  "fn-choose-next-item: under the new capability, intents [bi-9], page at software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md": true,
+  "fn-choose-next-item: one-line from the capability page's list": true,
+  "fn-choose-next-item: carries no thin mark": true,
+  "fn-work-out-waits-on: under the new capability, intents [bi-9], page at software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md": true,
+  "fn-work-out-waits-on: one-line from the capability page's list": true,
+  "fn-work-out-waits-on: carries no thin mark": true,
+  "fn-pause-plan: under the new capability, intents [bi-9], page at software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md": true,
+  "fn-pause-plan: one-line from the capability page's list": true,
+  "fn-pause-plan: carries no thin mark": true,
+  "fn-729: under the new capability, intents [bi-9], page at features/fn-729/feature.md": true,
+  "fn-729: one-line from the capability page's list": true,
+  "fn-729: carries no thin mark": true,
+  "fn-806: under the new capability, intents [bi-9], page at features/fn-806/feature.md": true,
+  "fn-806: one-line from the capability page's list": true,
+  "fn-806: carries no thin mark": true,
+  "fn-628: under the new capability, intents [bi-9], page at features/fn-628/feature.md": true,
+  "fn-628: one-line from the capability page's list": true,
+  "fn-628: carries no thin mark": true,
+  "fn-730: under the new capability, intents [bi-9], page at features/fn-730/feature.md": true,
+  "fn-730: one-line from the capability page's list": true,
+  "fn-730: carries no thin mark": true,
+  "fn-795: under the new capability, intents [bi-9], page at software-delivery-planning/orchestrate-agent-work/fn-795/feature.md": true,
+  "fn-795: one-line from the capability page's list": true,
+  "fn-795: carries no thin mark": true,
+  "fn-931: filed under Turn intents into agent work, intents [bi-1], page unmoved": true,
+  "ice-orchestrate-agent-work: for cap-orchestrate-agent-work, page software-delivery-planning/orchestrate-agent-work/ice.md, thin False": true,
+  "ice-orchestrate-agent-work: the only ICE of cap-orchestrate-agent-work": true,
+  "ice-go-to-plan-branch: for fn-go-to-plan-branch, page software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md, thin False": true,
+  "ice-go-to-plan-branch: the only ICE of fn-go-to-plan-branch": true,
+  "ice-know-what-next: for fn-know-what-next, page software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md, thin False": true,
+  "ice-know-what-next: the only ICE of fn-know-what-next": true,
+  "ice-remove-plan: for fn-remove-plan, page software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md, thin False": true,
+  "ice-remove-plan: the only ICE of fn-remove-plan": true,
+  "ice-choose-next-item: for fn-choose-next-item, page software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md, thin True": true,
+  "ice-choose-next-item: the only ICE of fn-choose-next-item": true,
+  "ice-work-out-waits-on: for fn-work-out-waits-on, page software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md, thin True": true,
+  "ice-work-out-waits-on: the only ICE of fn-work-out-waits-on": true,
+  "ice-pause-plan: for fn-pause-plan, page software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md, thin True": true,
+  "ice-pause-plan: the only ICE of fn-pause-plan": true,
+  "ice-729: for fn-729, page features/fn-729/ice.md, thin False": true,
+  "ice-729: the only ICE of fn-729": true,
+  "ice-806: for fn-806, page features/fn-806/ice.md, thin False": true,
+  "ice-806: the only ICE of fn-806": true,
+  "ice-628: for fn-628, page features/fn-628/ice.md, thin False": true,
+  "ice-628: the only ICE of fn-628": true,
+  "ice-730: for fn-730, page features/fn-730/ice.md, thin False": true,
+  "ice-730: the only ICE of fn-730": true,
+  "ice-795: for fn-795, page software-delivery-planning/orchestrate-agent-work/fn-795/ice.md, thin False": true,
+  "ice-795: the only ICE of fn-795": true,
+  "no page or the spine names cap-719, cap-720 or cap-shape-slice": true,
+  "software-delivery-planning/turn-intents-into-work/capability.md: one line changed, to the approved words": true,
+  "features/fn-725/feature.md: one line changed, to the approved words": true,
+  "features/fn-726/feature.md: one line changed, to the approved words": true,
+  "intents/bi-788.md: one line changed, to the approved words": true,
+  "software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md: one line changed, to the approved words": true,
+  "BI-9: 12 Touches lines": true,
+  "BI-9: each link leads to its page, and each title is its page's title": true,
+  "BI-9: 7 adds, then 5 changes": true,
+  "BI-9: Touches equal the index entries naming bi-9": true,
+  "BI-9: every line it had is kept": true,
+  "BI-9: stage kept": true,
+  "only the named files changed under .garura/product/": true,
+  "structure check: no new error": true,
+  "no file in the write folder names a home, temp or working folder, or a user name": true
+ }
+}

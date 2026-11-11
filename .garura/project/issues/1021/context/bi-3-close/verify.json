@@ -1,0 +1,384 @@
+{
+  "request": ".garura/project/issues/1021/context/bi-3-close/lines-request.json",
+  "report": ".garura/project/issues/1021/context/bi-3-close/lines-report.json",
+  "script_exit": 0,
+  "checks": {
+    "two_pages": {
+      ".garura/product/product-os/intents/bi-3.md": {
+        "equals_expected": true,
+        "outcome": true,
+        "why": true,
+        "proof_three_in_order": true,
+        "must_not": true,
+        "stage_line_kept": true,
+        "tracker_line_kept": true,
+        "touches_lines": 20,
+        "touches_kept_byte_for_byte": true,
+        "lines_before": 41,
+        "lines_after": 42,
+        "lines_changed": 5
+      },
+      ".garura/product/product-os/software-delivery-planning/domain.md": {
+        "equals_expected": true,
+        "paragraph": true,
+        "to_be_deepened_line_kept": true,
+        "sources_kept_byte_for_byte": true,
+        "title_kept": true,
+        "lines_before": 20,
+        "lines_after": 20
+      }
+    },
+    "sources_quotes": {
+      "quotes": 19,
+      "sources_lines": 18,
+      "pages": 16,
+      "all_word_for_word": true,
+      "not_in_page": [],
+      "each": [
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+          "line": 99,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+          "line": 111,
+          "of": ".garura/product/product-os/intents/bi-3.md",
+          "quote": "Tell the builder the steps, or show the builder the tests.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+          "line": 96,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "It specifies the product, sets the project's design, and builds the work test first.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+          "line": 66,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "It specifies the product, sets the project's design, and builds the work test first.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/design-work/capability.md",
+          "line": 98,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+          "line": 91,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "It specifies the product, sets the project's design, and builds the work test first.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md",
+          "line": 90,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "it never gives a builder the eval",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+          "line": 106,
+          "of": ".garura/product/product-os/intents/bi-3.md",
+          "quote": "Tell the builder the steps, or show the builder the tests.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+          "line": 108,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+          "line": 85,
+          "of": ".garura/product/product-os/intents/bi-3.md",
+          "quote": "Tell the builder the steps, or show the builder the tests.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+          "line": 74,
+          "of": ".garura/product/product-os/intents/bi-3.md",
+          "quote": "Tell the builder the steps, or show the builder the tests.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md",
+          "line": 70,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md",
+          "line": 72,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+          "line": 79,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "It specifies the product, sets the project's design, and builds the work test first.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+          "line": 75,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+          "line": 62,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+          "line": 70,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "This domain turns a business intent into working code that a check from the outside can prove.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+          "line": 70,
+          "of": ".garura/product/product-os/software-delivery-planning/domain.md",
+          "quote": "It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it.",
+          "in_page": true
+        },
+        {
+          "page": ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md",
+          "line": 71,
+          "of": ".garura/product/product-os/intents/bi-3.md",
+          "quote": "its evals are written before it is built",
+          "in_page": true
+        }
+      ]
+    },
+    "other_pages": {
+      "pages": 15,
+      "sources_lines_changed": 17,
+      "all_ok": true,
+      "each": {
+        ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            99
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            111
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            96
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            66
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/design-work/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            98
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            91
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            106,
+            108
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            85
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            74
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            70
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            72
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            79
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/specify-product/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            75
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            62
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        },
+        ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md": {
+          "same_line_count": true,
+          "changed_lines": [
+            70,
+            71
+          ],
+          "all_in_sources": true,
+          "match_request": true,
+          "only_quotes_changed": true
+        }
+      }
+    },
+    "only_named_files": {
+      "files_before": 184,
+      "files_after": 184,
+      "changed": [
+        ".garura/product/product-os/intents/bi-3.md",
+        ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+        ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+        ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+        ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+        ".garura/product/product-os/software-delivery-planning/design-work/capability.md",
+        ".garura/product/product-os/software-delivery-planning/domain.md",
+        ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md",
+        ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+        ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+        ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md"
+      ],
+      "added": [],
+      "removed": [],
+      "named_in_request": [
+        ".garura/product/product-os/intents/bi-3.md",
+        ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+        ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+        ".garura/product/product-os/software-delivery-planning/deployment-design/capability.md",
+        ".garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+        ".garura/product/product-os/software-delivery-planning/design-work/capability.md",
+        ".garura/product/product-os/software-delivery-planning/domain.md",
+        ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+        ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        ".garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md",
+        ".garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md",
+        ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+        ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+        ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+        ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md"
+      ],
+      "ok": true,
+      "git_status_matches": true,
+      "spine_unchanged": true
+    },
+    "report_names_same_pages": true,
+    "structure_check": {
+      "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+      "before": {
+        "errors": 87,
+        "warnings": 112
+      },
+      "after": {
+        "errors": 87,
+        "warnings": 112
+      },
+      "new_errors": [],
+      "new_warnings": [],
+      "files": [
+        ".garura/project/issues/1021/context/bi-3-close/lint-before.json",
+        ".garura/project/issues/1021/context/bi-3-close/lint-after.json"
+      ]
+    }
+  },
+  "ok": true
+}

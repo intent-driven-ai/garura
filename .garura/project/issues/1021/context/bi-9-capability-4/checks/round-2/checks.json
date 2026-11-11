@@ -1,0 +1,168 @@
+{
+  "checked_on": "2026-11-10",
+  "run": ".garura/project/issues/1021/context/bi-9-capability-4",
+  "capability": "manage-adrs",
+  "pages": 6,
+  "quotes_checked": 85,
+  "pages_with_problems": 0,
+  "results": [
+    {
+      "page": "fn-adr-in-its-change/feature.md",
+      "kind": "new",
+      "problems": [],
+      "quotes_checked": 30,
+      "quote_problems": [],
+      "not_decided": [
+        "when an ADR recorded in a change is accepted: before the change's pull request opens, or when the change merges.",
+        "what happens to the ADR when the change it belongs to is turned down.",
+        "how the decision play tells that the branch it runs on belongs to an open change."
+      ],
+      "feature": {
+        "example_kinds": [
+          "shop's checkout service",
+          "clinic's booking app",
+          "harness repository"
+        ],
+        "status": "not built (#822, /record-decision cannot join a change that is already open; under #968, a person records a decision as an ADR in the change it belongs to and s",
+        "rules": 9,
+        "criteria": 4,
+        "out_of_scope": 5
+      }
+    },
+    {
+      "page": "fn-adr-in-its-change/ice.md",
+      "kind": "new",
+      "problems": [],
+      "quotes_checked": 0,
+      "quote_problems": [],
+      "not_decided": [],
+      "ice": {
+        "thin_line": true,
+        "sections": [
+          "## Intent",
+          "## Context",
+          "## Expectation"
+        ],
+        "goal": 1,
+        "limit": 3,
+        "fails_if": 3,
+        "read_opening_exact": true,
+        "read_names_what": true,
+        "never_read": 1,
+        "persona": 1,
+        "scope": 1,
+        "scenario": 1,
+        "done_means": 1,
+        "done_by_other": true,
+        "part_page_has_no_ice_section": true,
+        "problems": []
+      }
+    },
+    {
+      "page": "fn-keep-adrs-to-build/feature.md",
+      "kind": "new",
+      "problems": [],
+      "quotes_checked": 26,
+      "quote_problems": [],
+      "not_decided": [
+        "how a new decision about what the model holds is kept out of the ADRs once the review is done.",
+        "how what moves into the model is taken out of an ADR, when \"An accepted ADR is never edited.\"",
+        "whether a move of the product profile is an ADR or a product fact in the model.",
+        "where the reason for a change in the model is kept, if not in an ADR.",
+        "whether the template's rule that an ADR never changes a person's business intent is reworded once the review is done."
+      ],
+      "feature": {
+        "example_kinds": [
+          "clinic's booking app",
+          "shop's checkout service",
+          "harness repository"
+        ],
+        "status": "not built (#1022, review every ADR: anything about what the product model holds moves to the model). What exists:",
+        "rules": 12,
+        "criteria": 4,
+        "out_of_scope": 5
+      }
+    },
+    {
+      "page": "fn-keep-adrs-to-build/ice.md",
+      "kind": "new",
+      "problems": [],
+      "quotes_checked": 0,
+      "quote_problems": [],
+      "not_decided": [],
+      "ice": {
+        "thin_line": true,
+        "sections": [
+          "## Intent",
+          "## Context",
+          "## Expectation"
+        ],
+        "goal": 1,
+        "limit": 3,
+        "fails_if": 3,
+        "read_opening_exact": true,
+        "read_names_what": true,
+        "never_read": 1,
+        "persona": 1,
+        "scope": 1,
+        "scenario": 1,
+        "done_means": 1,
+        "done_by_other": true,
+        "part_page_has_no_ice_section": true,
+        "problems": []
+      }
+    },
+    {
+      "page": "fn-take-design-choices/feature.md",
+      "kind": "new",
+      "problems": [],
+      "quotes_checked": 29,
+      "quote_problems": [],
+      "not_decided": [
+        "whether a person's confirm of a design choice is the same act as accepting its ADR, or two acts.",
+        "where a project keeps its own ADRs.",
+        "when, and in which run, a design choice reaches the decision play."
+      ],
+      "feature": {
+        "example_kinds": [
+          "clinic's booking app",
+          "shop's checkout service",
+          "data team's reporting service"
+        ],
+        "status": "not built. No play hands a design choice to the decision play today, and the four capabilities of Spec → Design that make the choices are not built either.",
+        "rules": 8,
+        "criteria": 4,
+        "out_of_scope": 4
+      }
+    },
+    {
+      "page": "fn-take-design-choices/ice.md",
+      "kind": "new",
+      "problems": [],
+      "quotes_checked": 0,
+      "quote_problems": [],
+      "not_decided": [],
+      "ice": {
+        "thin_line": true,
+        "sections": [
+          "## Intent",
+          "## Context",
+          "## Expectation"
+        ],
+        "goal": 1,
+        "limit": 3,
+        "fails_if": 3,
+        "read_opening_exact": true,
+        "read_names_what": true,
+        "never_read": 1,
+        "persona": 1,
+        "scope": 1,
+        "scenario": 1,
+        "done_means": 1,
+        "done_by_other": true,
+        "part_page_has_no_ice_section": true,
+        "problems": []
+      }
+    }
+  ]
+}

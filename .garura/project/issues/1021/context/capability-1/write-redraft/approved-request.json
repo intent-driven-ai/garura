@@ -1,0 +1,43 @@
+{
+  "by": "product-os-keeper (approved redrafts for #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capability-1/drafts/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/specify-product/capability.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-intents/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-domains/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-file/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-folder/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-site/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-1/redraft/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md"
+    }
+  ]
+}

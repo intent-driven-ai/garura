@@ -1,0 +1,199 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capabilities.md, section Product model, and the product owner's words of 2026-11-11 on BI-11's review, \"i want to review A as most of this is built at least as skills\"; recorded in .garura/project/issues/1021/context/bi-11-write/approval.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/define-product/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/ice.md"
+    },
+    {
+      "page": "features/fn-597/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/features/fn-597/feature.md"
+    },
+    {
+      "page": "features/fn-597/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/features/fn-597/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-change-ontology/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-change-ontology/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-change-ontology/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-change-ontology/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-ontology-in-every-project/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-ontology-in-every-project/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-ontology-in-every-project/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-ontology-in-every-project/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-readers-in-step/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-readers-in-step/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-readers-in-step/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-readers-in-step/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-check-model-on-change/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-check-model-on-change/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-check-model-on-change/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/define-product/fn-check-model-on-change/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-model-shape-version/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-model-shape-version/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-model-shape-version/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/define-product/fn-model-shape-version/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-extend-ontology/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-extend-ontology/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-extend-ontology/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/define-product/fn-extend-ontology/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-profile-decision-kinds/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/define-product/fn-profile-decision-kinds/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-approval-state-kind/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-approval-state-kind/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-approval-state-kind/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/define-product/fn-approval-state-kind/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-add-found-part/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-add-found-part/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-add-found-part/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-add-found-part/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-change-part/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-change-part/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-change-part/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-change-part/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-take-part-out/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-take-part-out/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-take-part-out/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-take-part-out/ice.md"
+    },
+    {
+      "page": "features/fn-725/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/features/fn-725/feature.md"
+    },
+    {
+      "page": "features/fn-725/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/features/fn-725/ice.md"
+    },
+    {
+      "page": "features/fn-724/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/features/fn-724/feature.md"
+    },
+    {
+      "page": "features/fn-724/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/features/fn-724/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-check-model/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-check-model/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-check-model/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-check-model/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-close-model-gaps/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-close-model-gaps/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-close-model-gaps/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-close-model-gaps/ice.md"
+    },
+    {
+      "page": "features/fn-726/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/features/fn-726/feature.md"
+    },
+    {
+      "page": "features/fn-726/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/features/fn-726/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-part-approval/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-part-approval/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-part-approval/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/manage-model/fn-part-approval/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-model-moves-with-work/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-model-moves-with-work/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-model-moves-with-work/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/manage-model/fn-model-moves-with-work/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-index-through-skills/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-index-through-skills/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-index-through-skills/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-index-through-skills/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-model-tool/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-model-tool/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-model-tool/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/manage-model/fn-model-tool/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-try-next/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-11-capability-2/drafts/product-os/software-delivery-planning/manage-model/fn-try-next/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-try-next/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-11-write/approved/software-delivery-planning/manage-model/fn-try-next/ice.md"
+    }
+  ]
+}

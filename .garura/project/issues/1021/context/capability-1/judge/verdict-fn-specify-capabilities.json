@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Out: one page for each feature, with what it does, its inputs and outputs, its rules, its acceptance criteria, what is out of scope and its sources.\" \"Writing domain pages. Specify domains (fn-specify-domains) does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"One run has one save, one checkpoint and one commit for all its capabilities.\" \"The first run firms a still-rough profile to set, with no decision record.\"",
+      "fix": "Give the reason beside each rule that only states a behavior. For the one-save rule, say why all capabilities share one save, one checkpoint and one commit (for example, so the person approves the whole result once and a partial result never lands). For the first-run profile rule, say what 'firms a still-rough profile to set' means in plain words and why the first run writes no decision record (for example, there is no earlier committed level to move from). Do the same for 'The structure check reads the label and the length of each agent intent line. No step reads the ICE rubric yet.' by stating what this leaves unchecked."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a capability at directional depth and no names, when the run is approved, then its page and entry read detailed and it has at least one feature, each with an entry and a page.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Out: each capability's quality needs, each with a level (none, low, medium, high or xhigh), a target someone can measure and how it is checked, and any compliance regimes it triggers.\" \"Quality levels only go up. Each level in the profile becomes the highest of the current level and each capability's need.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"Status: built, except checking each ICE against the rubric.\" \"The structure check reads the label and the length of each agent intent line.\" \"It is the last detailing step, so the writing is complete but still in product words, not code.\"",
+      "fix": "Let a cold reader get the what, the why and the edges from this page alone. (1) Add a short line in What it does saying why the feature exists (what a product owner gets from it and what is missing without it). (2) Explain in plain words, once, each term the page leans on but never defines: ICE, the rubric, agent intent, directional depth versus full depth, the product profile, the loop, the holding folder, the checkpoint and the save. (3) Say what 'the last detailing step' comes after, naming the earlier steps, so its place in the chain is clear."
+    }
+  ]
+}

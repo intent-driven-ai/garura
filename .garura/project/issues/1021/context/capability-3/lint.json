@@ -1,0 +1,771 @@
+{
+ "pages": [
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md",
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md",
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md",
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md",
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md",
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md",
+   "exit": 0
+  },
+  {
+   "ok": true,
+   "errors": [],
+   "warnings": [],
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md",
+   "exit": 0
+  }
+ ],
+ "ice": [
+  {
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/ice.md",
+   "ok": true,
+   "thin": false,
+   "goals": 1,
+   "limits": 4,
+   "fails_if": 4,
+   "done_means": 2,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/ice.md",
+   "ok": true,
+   "thin": false,
+   "goals": 1,
+   "limits": 2,
+   "fails_if": 2,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/ice.md",
+   "ok": true,
+   "thin": false,
+   "goals": 1,
+   "limits": 2,
+   "fails_if": 2,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/ice.md",
+   "ok": true,
+   "thin": true,
+   "goals": 1,
+   "limits": 1,
+   "fails_if": 1,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/ice.md",
+   "ok": true,
+   "thin": true,
+   "goals": 1,
+   "limits": 1,
+   "fails_if": 1,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/ice.md",
+   "ok": true,
+   "thin": false,
+   "goals": 1,
+   "limits": 2,
+   "fails_if": 3,
+   "done_means": 1,
+   "problems": []
+  },
+  {
+   "doc": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/ice.md",
+   "ok": true,
+   "thin": false,
+   "goals": 1,
+   "limits": 2,
+   "fails_if": 3,
+   "done_means": 1,
+   "problems": []
+  }
+ ],
+ "quotes": [
+  {
+   "file": ".garura/project/issues/1021/context/capabilities.md",
+   "quote": "Keep the original business intents: Everything a person gives is kept exactly as given, and the intents stay up to date as the product evolves, with no drift. (unique)",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/product/product-os/intents/bi-1.md",
+   "quote": "The original intents are kept and stay up to date as the product evolves.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/product/product-os/intents/bi-1.md",
+   "quote": "Most tools lose the intent once the work starts.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/product/product-os/intents/bi-1.md",
+   "quote": "Everything a person gave can still be read as given.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/product/product-os/intents/bi-1.md",
+   "quote": "An intent that drifts from the product gets named.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/product/product-os/software-delivery-planning/domain.md",
+   "quote": "This domain turns a business intent into work that agents can build",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+   "quote": "In: keeping what a person gives as a Source.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+   "quote": "Out: keeping intents up to date as the product changes. This capability does not do it, and no capability in the model owns it yet.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "It drafts nothing.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "It never confirms by itself.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "a rewrite with no stage goes back to proposed, whatever the old page said",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "A rewrite keeps the old page's What-was-done",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/skills/enrich-grounding/SKILL.md",
+   "quote": "change of meaning is the person's or an approved design's",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/plays/discover-domains/scripts/intent_touches.py",
+   "quote": "Any play that links a node to an intent writes both sides; this module writes the",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/skills/find-model-gaps/scripts/find_gaps.py",
+   "quote": "A link is made only when both sides hold it",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/scripts/remove_part.py",
+   "quote": "The model never loses a part by accident: a removal names the person who approved it, and it",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/persist_intent.py",
+   "quote": "lines.append(\"**Sources:**\")",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/capture_source.py",
+   "quote": "keep a Source exactly as it was when read",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/capture_source.py",
+   "quote": "def sha256(path):",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/config.yaml",
+   "quote": "# Which tracker holds what. Tools read this; plays, skills and sub-agents never name a tracker.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "Business intents and agent work each live in a tracker named in the project's settings.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "No script reads the new `trackers` settings yet",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "BI-7 means an intent and #7 means work, in text.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+   "quote": "The doctrine \"anyone writes; align later\"",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "docs/adr/031-business-intent-and-ice.md",
+   "quote": "(its own drive, not yet designed)",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md",
+   "quote": "the Alignment loop is unapproved and unnamed",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "The rules below say what holds once the product is **aligned**; they never stop a write.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "Drift between them is found and fixed by the Alignment loop.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "One thing is never left to alignment: only a person confirms or drops a business intent.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "What was delivered for it and the value each piece brought, with links to the finished work items — updated as work finishes",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "proposed → confirmed (the person who asked confirms it says the right thing) → met (its proof holds)",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "line": "- The short line beside each feature: the opening words of that feature's own pa",
+   "checked": false,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "line": "- Shelf: none. No knowledge shelf covers software delivery planning.",
+   "checked": false,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/capability.md"
+  },
+  {
+   "file": "core/config.yaml",
+   "quote": "# Which tracker holds what. Tools read this; plays, skills and sub-agents never name a tracker.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "to keep business intents in a tracker of their own, so they have their own short numbers",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "Business intents and agent work each live in a tracker named in the project's settings.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "The code host is its own setting, and the tool reads both.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "No script reads the new `trackers` settings yet",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "BI-7 means an intent and #7 means work, in text.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "Short-term memory folders belong to work issues only.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "The product owner also wants a team to be able to choose GitHub, GitLab, Jira or Linear as a setting",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "A team on Jira or Linear still has its pull requests on GitHub or GitLab.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "An id that is not `bi-<digits>`, or not `bi-<issue>`, refuses the page.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+   "quote": "It reads which tracker the project uses and the issue types that tracker already has",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-intents-tracker/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-domains/scripts/intent_touches.py",
+   "quote": "Any play that links a node to an intent writes both sides; this module writes the",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-domains/scripts/intent_touches.py",
+   "quote": "It is never written by an LLM.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/persist_intent.py",
+   "quote": "Its Touches list is written later, by the plays that link a part to the",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-domains/scripts/persist_seed.py",
+   "quote": "in this run, `changes` when it was already there",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/plays/shape-slice/scripts/persist_fills.py",
+   "quote": "import intent_touches as touches",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/skills/link-model-gaps/SKILL.md",
+   "quote": "and adds each `intents` link on both sides (the spine and the intent page's Touches list,",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/skills/find-model-gaps/scripts/find_gaps.py",
+   "quote": "A link is made only when both sides hold it",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/skills/find-model-gaps/SKILL.md",
+   "quote": "Every `one_way` entry is a gap: a link is made only when both",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/skills/link-model-part/SKILL.md",
+   "quote": "Put a domain, capability or feature into the product model's spine",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/SKILL.md",
+   "quote": "It never writes a page's words",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": "core/components/plays/update-plan/scripts/check_ice_workable.py",
+   "quote": "WORKABLE_STAGES = {\"confirmed\", \"met\"}",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "Every domain and capability it reaches into, each marked adds, changes or removes, with a link to that part's page",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "What was delivered for it and the value each piece brought, with links to the finished work items — updated as work finishes",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "met (its proof holds)",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-keep-intent-current/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capabilities.md",
+   "quote": "the intents stay up to date as the product evolves, with no drift",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": ".garura/product/product-os/intents/bi-1.md",
+   "quote": "An intent that drifts from the product gets named.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "The rules below say what holds once the product is **aligned**; they never stop a write.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "Drift between them is found and fixed by the Alignment loop.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "What a rule can stop is work, never a write",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "An ICE whose capability serves no confirmed business intent is kept, not worked on, and is drift for alignment, never a blocked write.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "Two ICE for one part are drift; the Alignment loop merges them.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": "core/components/skills/find-model-gaps/SKILL.md",
+   "quote": "Every `one_way` entry is a gap: a link is made only when both",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": "core/components/skills/find-model-gaps/scripts/find_gaps.py",
+   "quote": "`intents_unserved` — intent pages no capability or feature names in `intents`;",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": "docs/adr/031-business-intent-and-ice.md",
+   "quote": "(its own drive, not yet designed)",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": "docs/adr/031-business-intent-and-ice.md",
+   "quote": "Until the Alignment drive exists, drift is found only by the linter's warnings and the workable check.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md",
+   "quote": "the Alignment loop is unapproved and unnamed",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "Business intents and agent work each live in a tracker named in the project's settings.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-name-intent-drift/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capabilities.md",
+   "quote": "Everything a person gives is kept exactly as given",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": ".garura/product/product-os/intents/bi-1.md",
+   "quote": "Everything a person gave can still be read as given.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/capture_source.py",
+   "quote": "keep a Source exactly as it was when read",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/capture_source.py",
+   "quote": "def sha256(path):",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+   "quote": "A fingerprint is a short code worked out from a file's bytes, so any change to the file changes the code.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": ".garura/product/product-os/software-delivery-planning/specify-product/capability.md",
+   "quote": "The reason: the Source must outlive the link or the file.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/persist_intent.py",
+   "quote": "one Source record per Source (kind, read on, snapshot, what it",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/persist_intent.py",
+   "quote": "lines.append(\"**Sources:**\")",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "It is kept as it was when read; the snapshot never changes afterwards.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "line": "- A rewrite through author-intent-page, tried on a throwaway copy of a page save",
+   "checked": false,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-read-back-given/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/SKILL.md",
+   "quote": "**Never without the person's name.** A request with no `approved_by` is refused.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/SKILL.md",
+   "quote": "Every id being removed must be gone from the pages.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/SKILL.md",
+   "quote": "Two parts that shared an intent can go to",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/SKILL.md",
+   "quote": "**All or nothing.** One bad item refuses the whole request",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/SKILL.md",
+   "quote": "It never writes a page's words",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/scripts/remove_part.py",
+   "quote": "The model never loses a part by accident: a removal names the person who approved it, and it",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/scripts/remove_part.py",
+   "quote": "Each new intent must have a page at",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/remove-model-part/scripts/remove_part.py",
+   "quote": "remove an intent: its page intents/<id>.md goes, and it must be there.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+   "quote": "The same skill also repoints a part from one business intent to another, which is a change, not a take-out",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "Only a person confirms or drops it; an agent never does.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-replace-intent/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "It drafts nothing.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "It never confirms by itself.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "a rewrite with no stage goes back to proposed, whatever the old page said",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "A page that is there changes only with `rewrite`.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "A rewrite keeps the old page's What-was-done",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "An id that is not `bi-<digits>`, or not `bi-<issue>`, refuses the page.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/SKILL.md",
+   "quote": "Every Touches line can be followed and read back.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/scripts/write_page.py",
+   "quote": "It keeps the old page's What-was-done block",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/author-intent-page/scripts/write_page.py",
+   "quote": "Everything else",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/enrich-grounding/scripts/change_lines.py",
+   "quote": "exactly those lines and keeps every other line word for word",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/enrich-grounding/SKILL.md",
+   "quote": "or a real person's name to a",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/skills/enrich-grounding/SKILL.md",
+   "quote": "change of meaning is the person's or an approved design's",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": "core/components/plays/discover-intent/scripts/persist_intent.py",
+   "quote": "lines.append(\"**Sources:**\")",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "line": "- A rewrite tried on a throwaway copy of a page saved by discovery: the Sources ",
+   "checked": false,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  },
+  {
+   "file": ".garura/project/issues/1021/context/capability-3/memory/standards/schemas/product-os/ontology.md",
+   "quote": "Only a person confirms or drops it; an agent never does.",
+   "found": true,
+   "page": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-original-intents/fn-write-intent-page/feature.md"
+  }
+ ],
+ "summary": {
+  "pages_ok": true,
+  "ice_ok": true,
+  "quotes_checked": 102,
+  "quotes_missing": 0,
+  "lines_without_a_quote": [
+   "- The short line beside each feature: the opening words of that feature's own pa",
+   "- Shelf: none. No knowledge shelf covers software delivery planning.",
+   "- A rewrite through author-intent-page, tried on a throwaway copy of a page save",
+   "- A rewrite tried on a throwaway copy of a page saved by discovery: the Sources "
+  ]
+ }
+}

@@ -1,0 +1,105 @@
+{
+ "by": "product-os-keeper (reorganise business intents, #1021)",
+ "parts": [
+  {
+   "id": "cap-turn-intents-into-work",
+   "kind": "capability",
+   "mode": "new",
+   "slug": "turn-intents-into-work",
+   "domain": "dom-software-delivery-planning",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "A business intent becomes the epics, stories and other work items agents execute.",
+   "doc": "software-delivery-planning/turn-intents-into-work/capability.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-cut-intent-into-work",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-cut-intent-into-work",
+   "capability": "cap-turn-intents-into-work",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Makes one epic for each slice that serves a business intent and one story for each feature, after the product owner's yes.",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-write-story-from-ice",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-write-story-from-ice",
+   "capability": "cap-turn-intents-into-work",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Writes a story's scope of work and Context guidance from its two ICE, with the failure lines taken out.",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-change-work-items",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-change-work-items",
+   "capability": "cap-turn-intents-into-work",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Adds, moves, renames and rewrites an intent's work items in one working session, on one approval.",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "fn-add-found-feature",
+   "kind": "feature",
+   "mode": "new",
+   "slug": "fn-add-found-feature",
+   "capability": "cap-turn-intents-into-work",
+   "intents": [
+    "bi-1"
+   ],
+   "one_line": "Puts a feature found during work into the product model, its slice and its epic, on one approval.",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+   "identified_by": ""
+  },
+  {
+   "id": "ice-turn-intents-into-work",
+   "kind": "ice",
+   "mode": "new",
+   "for": "cap-turn-intents-into-work",
+   "doc": "software-delivery-planning/turn-intents-into-work/ice.md"
+  },
+  {
+   "id": "ice-cut-intent-into-work",
+   "kind": "ice",
+   "mode": "new",
+   "for": "fn-cut-intent-into-work",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/ice.md"
+  },
+  {
+   "id": "ice-write-story-from-ice",
+   "kind": "ice",
+   "mode": "new",
+   "for": "fn-write-story-from-ice",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/ice.md"
+  },
+  {
+   "id": "ice-change-work-items",
+   "kind": "ice",
+   "mode": "new",
+   "for": "fn-change-work-items",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-change-work-items/ice.md"
+  },
+  {
+   "id": "ice-add-found-feature",
+   "kind": "ice",
+   "mode": "new",
+   "for": "fn-add-found-feature",
+   "doc": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/ice.md"
+  }
+ ]
+}

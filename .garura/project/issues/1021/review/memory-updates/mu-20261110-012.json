@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261110-012",
+    "status": "applied",
+    "issue": 1021,
+    "missing": "How work in one tracker or repository is linked to work in another. No memory tier holds it; BI-9's Track execution in the team's tracker (link work across trackers) rests on it.",
+    "target_tier": "short-term",
+    "target_path": "1021/context/answers/bi9-cross-tracker-links.md",
+    "draft": "Read on each tool's own pages on 2026-11-10, for BI-9 (Orchestration). Each fact names the page it came from.\n\n# Linking work across trackers\n\n- GitHub sub-issues: a parent issue can take an existing issue from another repository as a sub-issue; a parent holds up to 100 sub-issues, nested up to eight levels; projects can group and filter by parent and show sub-issue progress. The docs do not say whether the other repository may be in another organization. https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/adding-sub-issues\n- Jira links a work item to GitHub through its key (for example JRA-123, in capitals) written in a branch name, a commit message or a pull request title; Jira then shows the branches, commits, pull requests and deployments on the work item. https://support.atlassian.com/jira-software-cloud/docs/reference-issues-in-your-development-work/ and https://support.atlassian.com/jira-cloud-administration/docs/use-the-github-for-jira-app/\n\nSo there are two kinds of link: a real parent and child link inside one platform, and a key written in the work that an integration reads.",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "general-purpose research agent (#1021, BI-9 research)",
+    "requested_at": "2026-11-10T15:57:48Z",
+    "decided_by": "the product owner",
+    "reply": "approved memory updates",
+    "decided_at": "2026-11-10T16:07:25Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "session"
+  },
+  "target_fingerprint_at_propose": null
+}

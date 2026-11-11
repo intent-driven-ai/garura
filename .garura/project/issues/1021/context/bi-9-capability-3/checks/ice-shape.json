@@ -1,0 +1,137 @@
+{
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-land-tracker-writes-once/ice.md",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read": 1,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "thin": false,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-mark-item-type/ice.md",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read": 1,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "thin": false,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-record-defect-under-story/ice.md",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read": 1,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "thin": false,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/ice.md",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read": 1,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "thin": false,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read": 1,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "thin": false,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/ice.md",
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "read": 1,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "thin": false,
+      "part_page_has_no_ice_section": true,
+      "problems": []
+    }
+  ],
+  "problems": 0
+}

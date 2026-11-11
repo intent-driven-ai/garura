@@ -1,0 +1,13 @@
+The templates index names the ADR template section for the person who accepts a decision
+Found in the review of PR #940 (issue #937). Upkeep under #930, the Story that added the section.
+
+## What
+
+The templates index, `core/components/memory/standards/templates/_index.md` (line 22, the `adr.md` row), describes the ADR template without the section #930 added: "For the Person Who Accepts This" — each point found along the way, with what and where, what is wrong, why it matters, what the decision does and what the person decides (`for_the_accepter` in the YAML shape).
+
+Agents find the template through this index. An agent reading the row alone does not learn the section exists.
+
+## Done when
+
+The row names the section; the page goes to Phoenix memory with the next promotion.
+

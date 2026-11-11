@@ -1,0 +1,38 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-3.md",
+      "changes": [
+        {
+          "after": "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds",
+          "add": "- [Build the work test first](../software-delivery-planning/build-work-test-first/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds",
+          "add": "- [Write all the tests for the work, and show each one fails](../software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds",
+          "add": "- [Build the code until every test passes, then tidy it, without seeing the tests](../software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds",
+          "add": "- [Write the usage guide that tells the eval how to reach the built work](../software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds",
+          "add": "- [Update the tests and the code as the work changes](../software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md) (feature) — adds"
+        }
+      ],
+      "lines_before": 31,
+      "lines_after": 36,
+      "lines_added": 5,
+      "lines_kept": 31
+    }
+  ],
+  "changed": [
+    "intents/bi-3.md"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+ "checked_on": "2026-11-10",
+ "request": ".garura/project/issues/1021/context/bi-6-close/write/lines-request.json",
+ "pages_changed": 5,
+ "lines_changed": 11,
+ "pages_equal_tested_copy": true,
+ "spine_unchanged": true,
+ "structure_check": {"errors_before": 87, "errors_after": 87, "warnings_before": 158, "warnings_after": 158, "new_errors": 0, "new_warnings": 0},
+ "new_domain_sentence_on_pages": 4,
+ "kept_quotes_still_on_source": ["What happens in use flows back.", "Change an intent, or promote memory, without a person.", "This domain turns a business intent into working code that a check from the outside can prove.", "It does not release the work or run the product."],
+ "open_domain_lines_left": 0,
+ "personal_paths": 0
+}

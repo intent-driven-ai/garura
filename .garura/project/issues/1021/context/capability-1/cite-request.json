@@ -1,0 +1,42 @@
+{
+ "issue": 1021,
+ "play": "reorganise business intents (no play, a run the product owner approved)",
+ "question": "What shape do the capability page and the feature pages take when they hold only the words the product owner approved?",
+ "answer": "The capability page has its title, Directional intent, then the Agent intent (ICE) last, with one-liner, unique line and Features line inside Directional intent. Each feature page has its title, What it does, then the Agent intent (ICE) last. The other four feature sections are not written, because the approved text holds no words for them.",
+ "decided_by": "product-os-keeper",
+ "trace": [
+  {
+   "asked": "the required headings of a directional capability page",
+   "found": "the directional stage requires only the title and Directional intent",
+   "source": {
+    "tier": "phoenix",
+    "path": "standards/schemas/product-os/grounding/capability.md",
+    "start": 22,
+    "end": 30,
+    "fingerprint": "sha256:56800b4cb943d31c510874807f98a0b96e6bb5d3ea42d38748d5e461cb52d314"
+   }
+  },
+  {
+   "asked": "the required headings of a feature page",
+   "found": "a feature page requires What it does, Inputs / Outputs, Rules & behavior, Acceptance criteria and Out of scope, and the linter enforces them",
+   "source": {
+    "tier": "phoenix",
+    "path": "standards/schemas/product-os/grounding/feature.md",
+    "start": 10,
+    "end": 20,
+    "fingerprint": "sha256:4e4810e61c16c59cd8a1444a54e59d99a94a7c15ef76bb6311ec5b033b2b8aea"
+   }
+  },
+  {
+   "asked": "where the agent intent sits on a feature page and what its lines are",
+   "found": "the agent intent is the last section at every stage, each line starting with one of six labels, with at least one Goal",
+   "source": {
+    "tier": "phoenix",
+    "path": "standards/schemas/product-os/grounding/feature.md",
+    "start": 49,
+    "end": 59,
+    "fingerprint": "sha256:eef6438846d30a05f08ec7e55c9531c3eb1de9cb1c5859d8a023060995a9e17e"
+   }
+  }
+ ]
+}

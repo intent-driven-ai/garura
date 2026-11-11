@@ -1,0 +1,205 @@
+{
+  "request": ".garura/project/issues/1021/context/bi-1-cleanup/change-lines-request.json",
+  "model_root": ".garura/product/product-os",
+  "pages_equal_tested_copy": {
+    "ok": true,
+    "against": "the tested copy in the session scratchpad (bi1-cleanup-copy)",
+    "pages": [
+      {
+        "page": "software-delivery-planning/turn-intents-into-work/capability.md",
+        "equals_tested_copy": true,
+        "sha256": "b3500530d32bbdfd6693c44898b3ab30e2cea229af664e8ea2607e7446ae12b0",
+        "lines_before": 74,
+        "lines_after": 74,
+        "lines_changed": 9,
+        "changed_lines": [
+          20,
+          31,
+          37,
+          42,
+          43,
+          44,
+          45,
+          51,
+          52
+        ],
+        "changes_are_the_requests": true
+      },
+      {
+        "page": "software-delivery-planning/turn-intents-into-work/ice.md",
+        "equals_tested_copy": true,
+        "sha256": "300d4867d609b9bafad71d61c1a027844b22337fbacd7e2fa52ac43a187eaff4",
+        "lines_before": 21,
+        "lines_after": 21,
+        "lines_changed": 1,
+        "changed_lines": [
+          21
+        ],
+        "changes_are_the_requests": true
+      },
+      {
+        "page": "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+        "equals_tested_copy": true,
+        "sha256": "00c2eb84f0eb284f8f9583fee15930b0ca4063ff26bb804749769f6fb4813179",
+        "lines_before": 54,
+        "lines_after": 54,
+        "lines_changed": 4,
+        "changed_lines": [
+          6,
+          23,
+          42,
+          43
+        ],
+        "changes_are_the_requests": true
+      },
+      {
+        "page": "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+        "equals_tested_copy": true,
+        "sha256": "038d688447a4fb0e80d2b02b5f58223b2aebed223ed576e44f15f9deea607e0d",
+        "lines_before": 54,
+        "lines_after": 54,
+        "lines_changed": 5,
+        "changed_lines": [
+          10,
+          24,
+          30,
+          39,
+          41
+        ],
+        "changes_are_the_requests": true
+      },
+      {
+        "page": "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+        "equals_tested_copy": true,
+        "sha256": "fea2c7fe5cd9eac6c07974c4a7467e3f7988d6692eb809d846237b2054857899",
+        "lines_before": 52,
+        "lines_after": 52,
+        "lines_changed": 3,
+        "changed_lines": [
+          29,
+          38,
+          39
+        ],
+        "changes_are_the_requests": true
+      },
+      {
+        "page": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+        "equals_tested_copy": true,
+        "sha256": "7b4fd2abb1f2589987b91db6d82eb75d45e3b1769f99b844ffb65b4813f0f8ca",
+        "lines_before": 79,
+        "lines_after": 79,
+        "lines_changed": 1,
+        "changed_lines": [
+          55
+        ],
+        "changes_are_the_requests": true
+      }
+    ],
+    "only_named_lines_changed": true,
+    "lines_changed_total": 23,
+    "lines_removed_total": 0
+  },
+  "only_these_pages_changed": {
+    "ok": true,
+    "files_hashed": 184,
+    "changed": [
+      ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/ice.md"
+    ],
+    "added": [],
+    "removed": [],
+    "git_status": [
+      " M .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+      " M .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md",
+      " M .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md",
+      " M .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md",
+      " M .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md",
+      " M .garura/product/product-os/software-delivery-planning/turn-intents-into-work/ice.md"
+    ]
+  },
+  "sources_quotes_on_the_6_pages": {
+    "checked": 83,
+    "matched": 83,
+    "not_found": [],
+    "no_file": [],
+    "lines_naming_no_file": [
+      "software-delivery-planning/turn-intents-into-work/capability.md:60",
+      "software-delivery-planning/turn-intents-into-work/capability.md:72",
+      "software-delivery-planning/turn-intents-into-work/capability.md:73",
+      "software-delivery-planning/turn-intents-into-work/capability.md:74",
+      "software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md:54",
+      "software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md:54",
+      "software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md:52",
+      "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md:64",
+      "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md:65",
+      "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md:66",
+      "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md:74"
+    ],
+    "pages_with_no_sources": [
+      "software-delivery-planning/turn-intents-into-work/ice.md"
+    ],
+    "ok": true
+  },
+  "quotes_of_the_6_pages_elsewhere": {
+    "pages_read": 180,
+    "checked": 16,
+    "matched": 16,
+    "not_found": [],
+    "no_file": [],
+    "quoting_lines": [
+      "software-delivery-planning/build-work-test-first/capability.md:106 -> software-delivery-planning/turn-intents-into-work/capability.md (1 quotes)",
+      "software-delivery-planning/fix-defects-test-first/capability.md:115 -> software-delivery-planning/turn-intents-into-work/capability.md (1 quotes)",
+      "software-delivery-planning/gather-work-under-item/capability.md:71 -> software-delivery-planning/turn-intents-into-work/capability.md (4 quotes)",
+      "software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md:54 -> software-delivery-planning/turn-intents-into-work/capability.md (2 quotes)",
+      "software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md:55 -> software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md (1 quotes)",
+      "software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md:66 -> software-delivery-planning/turn-intents-into-work/capability.md (2 quotes)",
+      "software-delivery-planning/keep-spec-matched/capability.md:74 -> software-delivery-planning/turn-intents-into-work/capability.md (2 quotes)",
+      "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md:73 -> software-delivery-planning/turn-intents-into-work/capability.md (1 quotes)",
+      "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md:61 -> software-delivery-planning/turn-intents-into-work/capability.md (1 quotes)",
+      "software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md:106 -> software-delivery-planning/turn-intents-into-work/capability.md (1 quotes)"
+    ],
+    "ok": true
+  },
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 112,
+      "counts": {
+        "domain": 1,
+        "capability": 24,
+        "feature": 80,
+        "ice": 59
+      }
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 112,
+      "counts": {
+        "domain": 1,
+        "capability": 24,
+        "feature": 80,
+        "ice": 59
+      }
+    },
+    "new_errors": [],
+    "new_warnings": [],
+    "findings_naming_the_6_pages_after": [
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "files": {
+      "before": "write/lint-before.json",
+      "after": "write/lint-after.json"
+    },
+    "ok": true
+  },
+  "ok": true
+}

@@ -1,0 +1,30 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-2.md",
+      "changes": [
+        {
+          "after": "- [Update the architecture as the project changes](../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md) (feature) — adds",
+          "add": "- [Manage surfaces](../software-delivery-planning/manage-surfaces/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Update the architecture as the project changes](../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md) (feature) — adds",
+          "add": "- [Declare a surface, its properties and its guidelines](../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Update the architecture as the project changes](../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md) (feature) — adds",
+          "add": "- [Update the surfaces as the project changes](../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md) (feature) — adds"
+        }
+      ],
+      "lines_before": 24,
+      "lines_after": 27,
+      "lines_added": 3,
+      "lines_kept": 24
+    }
+  ],
+  "changed": [
+    "intents/bi-2.md"
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/_index.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:b69406dd78ff11c712b836ba79e7fb42e95ac5a0af516f4468b7f49084c015ee",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/schemas/eval/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/steps-command-line.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:a4fc679d6e88a2b8c2984ba72bbde374e1f1269909dde39c54847285bc693b9a",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/schemas/eval/steps-command-line.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/eval-format.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:0a908a1955dc8709f8837c2c4d6b29becea9ca5ee438103408b1f2c99644206a",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/rules/eval-format.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/eval-slice.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:1d40682309f9dcd01c2f214e5828e042f88e910eb61e931fe8fbe50d595616b8",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/templates/eval-slice.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/eval-story.feature.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:32c0b256591a5c86e676b0f41658fed23f2eb961a95ca21d4e9215b03b54d848",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/templates/eval-story.feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:d61bef3f9368ca98675f960019b64b1e5ed526d55fc57b0d367674f441d4b2e4",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/rules/surface-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e8d36d7fa5e61e67a226b569cebb7043fe63ad02f57d40654173f2dcbd50c3f2",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/rules/expectation-generation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/evidence-file.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9d2ec2ea00cd54c2aa2149a395b08537bd37fa0c5924cb3aa72ef1b6db56699b",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/templates/evidence-file.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/loop-contract.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:5731bd3f35be8aa0aa6bc315ce59a41f39a63bfd9cd973b7ad90a40ac565530a",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/standards/rules/loop-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:14b7cb0fccab150eb2e47f3a4263ce8811b3ecab57f7fd58d1955dfb375e9a43",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/knowledge/technology/validation-floor-profile-benchmarks.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/tests.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:b5a2d6929776efe3d0a81018309869110edefcc4687d6db70cb8ea85cdfd06eb",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/knowledge/review/tests.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/architecture/regression-by-blast-radius.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ee31ace90baed81e8eba902c908d1d11775624670ec83ae6f8959dcf824e3d75",
+      "copy": ".garura/project/issues/1021/context/bi-4-capability-1/memory/knowledge/architecture/regression-by-blast-radius.md"
+    }
+  ]
+}

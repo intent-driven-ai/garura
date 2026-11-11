@@ -1,0 +1,15 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/capabilities.md, section Standards, structure, settings and memory: the product owner's words of 2026-11-11, \"continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp\"; the three old capabilities merge into Standards, so this line names the features whose need is kept",
+  "pages": [
+    {
+      "page": "features/fn-725/feature.md",
+      "changes": [
+        {
+          "old": "- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then cap-742 still needs cap-739, and fn-727 still needs fn-724, with no value lost.",
+          "new": "- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then fn-743 still needs fn-741, and fn-727 still needs fn-724, with no value lost."
+        }
+      ]
+    }
+  ]
+}

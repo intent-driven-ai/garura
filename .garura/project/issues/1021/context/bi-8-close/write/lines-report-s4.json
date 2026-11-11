@@ -1,0 +1,40 @@
+{
+  "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-8 (Developer tooling) close, section 4",
+  "source": "The product owner's choice of 2026-11-10, \"Let's go with dropped.\", recorded in .garura/project/issues/1021/context/bi-8-close/approval.md, which releases section 4 of the proposal in .garura/project/issues/1021/context/bi-8-close/proposal.md: BI-4's three lines that name the self-review he dropped on 2026-11-10 (\"yes, record it with self-review dropped\") lose those words, the rest of each line kept.",
+  "pages": [
+    {
+      "page": "software-delivery-planning/check-code-against-standards/capability.md",
+      "changes": [
+        {
+          "old": "Landing the change is not done here. Opening the branch, committing, raising the change with its self-review, and merging it with a person's yes stay with Ship every change the same way, in Developer tooling, whose merge reads this capability's verdict first. The tests inside the code are not run again here: Build the work test first runs them by a separate check, and this capability takes that check's record as evidence. The other capabilities of Code → Validation test security, performance, accessibility and the user experience against their own yardsticks, and each takes this capability's record of the review's rules on the lines each change adds as evidence. The builder's own word is not evidence: \"A builder believes its own work, so its opinion isn't evidence.\"",
+          "new": "Landing the change is not done here. Opening the branch, committing, raising the change and merging it with a person's yes stay with Ship every change the same way, in Developer tooling, whose merge reads this capability's verdict first. The tests inside the code are not run again here: Build the work test first runs them by a separate check, and this capability takes that check's record as evidence. The other capabilities of Code → Validation test security, performance, accessibility and the user experience against their own yardsticks, and each takes this capability's record of the review's rules on the lines each change adds as evidence. The builder's own word is not evidence: \"A builder believes its own work, so its opinion isn't evidence.\""
+        },
+        {
+          "old": "- Out: opening the branch, committing, raising the change with its self-review, and merging it with a person's yes. Ship every change the same way, in Developer tooling, owns them; its merge reads this capability's verdict.",
+          "new": "- Out: opening the branch, committing, raising the change and merging it with a person's yes. Ship every change the same way, in Developer tooling, owns them; its merge reads this capability's verdict."
+        }
+      ],
+      "lines_before": 142,
+      "lines_after": 142,
+      "lines_added": 0,
+      "lines_kept": 140
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md",
+      "changes": [
+        {
+          "old": "- Raising the change, its self-review, and merging it with a person's yes. Ship every change the same way, in Developer tooling, does them.",
+          "new": "- Raising the change and merging it with a person's yes. Ship every change the same way, in Developer tooling, does them."
+        }
+      ],
+      "lines_before": 90,
+      "lines_after": 90,
+      "lines_added": 0,
+      "lines_kept": 89
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/check-code-against-standards/capability.md",
+    "software-delivery-planning/check-code-against-standards/fn-review-each-change/feature.md"
+  ]
+}

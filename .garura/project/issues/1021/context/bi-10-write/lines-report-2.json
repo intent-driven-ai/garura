@@ -1,0 +1,52 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-10-write/approval.md: the approved pages, with the old capabilities named by title, not by id, and the old pages cited from the copies kept before the merge, so the approved merge into Standards can run",
+  "pages": [
+    {
+      "page": "software-delivery-planning/standards/capability.md",
+      "changes": [
+        {
+          "old": "This capability takes in three older capabilities, filed under the closed intent bi-734 (Garura publishes a standard for building agentic harnesses): The harness standard, written down (cap-735), The naming checks, built before any rename (cap-739), and Every name moved to the standard, one family at a time (cap-742). All three are built. Their nine features stay here, with their ids and their folders, and each is rewritten to what was built. One of them, fn-741, keeps its id also because Take out the parts Garura renamed or dropped (fn-748), in Upgrade a project, depends on it.",
+          "new": "This capability takes in three older capabilities, filed under the closed intent bi-734 (Garura publishes a standard for building agentic harnesses): The harness standard, written down; The naming checks, built before any rename; and Every name moved to the standard, one family at a time. All three are built. Their nine features stay here, with their ids and their folders, and each is rewritten to what was built. One of them, fn-741, keeps its id also because Take out the parts Garura renamed or dropped (fn-748), in Upgrade a project, depends on it."
+        },
+        {
+          "old": "- .garura/project/issues/1021/context/capabilities.md, line 117: \"the three old capabilities under bi-734 (cap-735, cap-739, cap-742) and their nine features merge into Standards, each feature kept and rewritten to what was built, fn-741 keeping its id for BI-7's fn-748\"",
+          "new": "- .garura/project/issues/1021/context/capabilities.md, line 117: \"and their nine features merge into Standards, each feature kept and rewritten to what was built, fn-741 keeping its id for BI-7's fn-748\""
+        },
+        {
+          "old": "- .garura/product/product-os/capabilities/cap-735/capability.md, line 9: \"a rule exists only in code or in a person's head.\"",
+          "new": "- .garura/project/issues/1021/context/bi-10-write/old-pages/harness-standard-written-down.md, which keeps the page of The harness standard, written down, as it was before the merge, line 9: \"a rule exists only in code or in a person's head.\""
+        },
+        {
+          "old": "- .garura/product/product-os/capabilities/cap-739/capability.md and cap-742/capability.md: the two other capabilities this one takes in",
+          "new": "- .garura/project/issues/1021/context/bi-10-write/old-pages/naming-checks.md and .garura/project/issues/1021/context/bi-10-write/old-pages/every-name-moved.md, which keep the pages of the two other capabilities this one takes in, as they were before the merge"
+        }
+      ],
+      "lines_before": 144,
+      "lines_after": 144,
+      "lines_added": 0,
+      "lines_kept": 140
+    },
+    {
+      "page": "features/fn-737/feature.md",
+      "changes": [
+        {
+          "old": "- What it took over: this feature was \"Harness principles and practices: why we build this way, and how\" (#737), under The harness standard, written down (cap-735), which asked for one standard \"in plain words a client can read\".",
+          "new": "- What it took over: this feature was \"Harness principles and practices: why we build this way, and how\" (#737), under The harness standard, written down, which asked for one standard \"in plain words a client can read\"."
+        },
+        {
+          "old": "- .garura/product/product-os/capabilities/cap-735/capability.md, lines 4 and 8: \"in plain words a client can read\", \"Says what and why; how each part is built stays in its own docs.\"",
+          "new": "- .garura/project/issues/1021/context/bi-10-write/old-pages/harness-standard-written-down.md, which keeps that page as it was before the merge, lines 4 and 8: \"in plain words a client can read\", \"Says what and why; how each part is built stays in its own docs.\""
+        }
+      ],
+      "lines_before": 76,
+      "lines_after": 76,
+      "lines_added": 0,
+      "lines_kept": 74
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/standards/capability.md",
+    "features/fn-737/feature.md"
+  ]
+}

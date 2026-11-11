@@ -1,0 +1,110 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-build-work-test-first",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "build-work-test-first",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Build the work under a chosen plan item test first: all the tests for the work are written and shown to fail, then all the code until every test passes, then the code is tidied while they stay passing. The builder never sees the tests; a separate check runs them.",
+      "doc": "software-delivery-planning/build-work-test-first/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-write-failing-tests",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-write-failing-tests",
+      "capability": "cap-build-work-test-first",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Before any code, a test writer who is not the builder writes a code-level test for each expectation of each story under the chosen item, and the separate check shows each one fails because what it checks is not built yet.",
+      "doc": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-build-code-to-pass",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-build-code-to-pass",
+      "capability": "cap-build-work-test-first",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "Once every test for the work has failed on the check's record, the builder writes all the code for the work under the chosen item from its own part, the collected context and the design, in the order it chooses, until a separate check, which runs the tests through a tool on the model or service the test model setting names, finds every test passing, then tidies the code where it needs it while every test stays passing, and never sees or changes a test.",
+      "doc": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-write-usage-guide",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-write-usage-guide",
+      "capability": "cap-build-work-test-first",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "With the build, the builder writes the slice's usage guide, what its surface is, how to reach it and the steps a person takes, in the plan's guides folder, without seeing the eval.",
+      "doc": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-tests-and-code",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-tests-and-code",
+      "capability": "cap-build-work-test-first",
+      "intents": [
+        "bi-3"
+      ],
+      "one_line": "When the design, a story or an eval's finding changes the work, the test writer updates the tests first and the check shows the new ones fail, then the builder changes the code until every test passes again.",
+      "doc": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-build-work-test-first",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-build-work-test-first",
+      "doc": "software-delivery-planning/build-work-test-first/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-write-failing-tests",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-write-failing-tests",
+      "doc": "software-delivery-planning/build-work-test-first/fn-write-failing-tests/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-build-code-to-pass",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-build-code-to-pass",
+      "doc": "software-delivery-planning/build-work-test-first/fn-build-code-to-pass/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-write-usage-guide",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-write-usage-guide",
+      "doc": "software-delivery-planning/build-work-test-first/fn-write-usage-guide/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-tests-and-code",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-tests-and-code",
+      "doc": "software-delivery-planning/build-work-test-first/fn-update-tests-and-code/ice.md",
+      "thin": true
+    }
+  ]
+}

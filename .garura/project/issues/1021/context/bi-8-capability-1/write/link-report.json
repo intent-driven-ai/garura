@@ -1,0 +1,38 @@
+{
+  "written": [
+    "cap-ship-every-change",
+    "fn-commit-by-concern",
+    "fn-raise-change",
+    "fn-land-plan-with-evidence",
+    "fn-land-several-issues",
+    "fn-scan-every-push",
+    "fn-keep-docs-in-step",
+    "ice-ship-every-change",
+    "ice-731",
+    "ice-commit-by-concern",
+    "ice-raise-change",
+    "ice-673",
+    "ice-land-plan-with-evidence",
+    "ice-land-several-issues",
+    "ice-scan-every-push",
+    "ice-keep-docs-in-step"
+  ],
+  "updated": [
+    "fn-731",
+    "fn-673"
+  ],
+  "thin": [
+    "ice-land-plan-with-evidence",
+    "ice-land-several-issues",
+    "ice-scan-every-push",
+    "ice-keep-docs-in-step"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/ice.md",
+    "product-os/software-delivery-planning/ship-every-change/fn-land-several-issues/ice.md",
+    "product-os/software-delivery-planning/ship-every-change/fn-scan-every-push/ice.md",
+    "product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/ice.md"
+  ],
+  "layout_kept": true
+}

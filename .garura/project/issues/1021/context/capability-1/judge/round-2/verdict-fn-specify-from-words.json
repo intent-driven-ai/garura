@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"A person types what they want, with no file or link.\" \"Given no working file at the path, when the capture runs, then it fails and the record names the path.\" \"A file the person attaches. Specify from a document (fn-specify-from-document) does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"A missing working file fails the capture.\" \"No name for who gave it also fails the capture.\"",
+      "fix": "Give each of the two failure rules its reason, as the What it does section does with 'The reason:'. For the missing working file, say why the capture stops instead of copying nothing (for example: there are no words to keep, and an empty copy would pass for a kept Source). For the missing name, say why the capture stops instead of only warning (for example: a Source with no name for who gave it cannot be traced back to the person who said it). A cold reader should not have to guess why these two cases stop the work."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given typed words with line breaks and odd spacing, when they are captured, then the kept text matches the working file byte for byte\" \"Given a person who answers a later question, when the answer is recorded, then the kept text's fingerprint has not changed.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"The agent writes the typed words into the working file, and then a script makes the copy. Only the second step is mechanical.\" \"What the person says later goes in the answers record.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A Source is a saved copy of what a person gave, which later steps read instead of the original.\" \"The reason: the Source is kept as it was when read, so every later step can go back to what the person said.\" \"Turning the words into intents. Specify intents (fn-specify-intents) does this.\"",
+      "fix": ""
+    }
+  ]
+}

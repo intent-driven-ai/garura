@@ -1,0 +1,79 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/track-execution/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-mark-item-type/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-mark-item-type/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-status-follows-issue/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-status-follows-issue/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-land-tracker-writes-once/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-see-issues-worth-attention/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-record-defect-under-story/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-link-work-across-trackers/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-say-what-each-type-means/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-3/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

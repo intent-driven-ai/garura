@@ -1,0 +1,42 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "results": [
+    {
+      "doc": "fn-adr-in-its-change/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": "fn-keep-adrs-to-build/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": "fn-take-design-choices/feature.md",
+      "args": [
+        "--kind",
+        "feature",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

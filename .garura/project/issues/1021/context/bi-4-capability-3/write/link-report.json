@@ -1,0 +1,31 @@
+{
+  "written": [
+    "cap-test-performance",
+    "fn-test-running-speed",
+    "fn-test-under-load",
+    "fn-send-performance-findings",
+    "fn-retest-performance",
+    "ice-test-performance",
+    "ice-test-running-speed",
+    "ice-test-under-load",
+    "ice-send-performance-findings",
+    "ice-retest-performance"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-test-performance",
+    "ice-test-running-speed",
+    "ice-test-under-load",
+    "ice-send-performance-findings",
+    "ice-retest-performance"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/test-performance/ice.md",
+    "product-os/software-delivery-planning/test-performance/fn-test-running-speed/ice.md",
+    "product-os/software-delivery-planning/test-performance/fn-test-under-load/ice.md",
+    "product-os/software-delivery-planning/test-performance/fn-send-performance-findings/ice.md",
+    "product-os/software-delivery-planning/test-performance/fn-retest-performance/ice.md"
+  ],
+  "layout_kept": true
+}

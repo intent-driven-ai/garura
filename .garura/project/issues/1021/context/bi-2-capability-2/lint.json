@@ -1,0 +1,121 @@
+{
+ "round": 2,
+ "date": "2026-11-07",
+ "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --doc <page> --kind <capability|feature> [--stage directional]",
+ "pages": [
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/capability.md",
+   "args": [
+    "--kind",
+    "capability",
+    "--stage",
+    "directional"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "capability": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  },
+  {
+   "page": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+   "args": [
+    "--kind",
+    "feature"
+   ],
+   "result": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "counts": {
+     "feature": 1
+    }
+   }
+  }
+ ],
+ "ice_check": {
+  "what": "three sections in order; exactly one Goal; at least one Limit, Fails if and Done means; at most three Limits and three Fails if on a thin ICE (ICE rubric); the fixed Read line first; Context labels in order (Read, Never read, Persona, Scope); a Done means checked by someone other than the doer; the thin mark at the top; no plan named",
+  "pages": [
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/ice.md",
+    "thin": true,
+    "limits": 3,
+    "fails_if": 3,
+    "context": [
+     "Read",
+     "Persona",
+     "Scope"
+    ],
+    "expectation": [
+     "Scenario",
+     "Done means",
+     "Done means"
+    ],
+    "ok": true,
+    "errors": []
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md",
+    "thin": true,
+    "limits": 3,
+    "fails_if": 3,
+    "context": [
+     "Read",
+     "Persona",
+     "Scope"
+    ],
+    "expectation": [
+     "Scenario",
+     "Done means"
+    ],
+    "ok": true,
+    "errors": []
+   },
+   {
+    "page": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+    "thin": true,
+    "limits": 3,
+    "fails_if": 3,
+    "context": [
+     "Read",
+     "Persona",
+     "Scope"
+    ],
+    "expectation": [
+     "Scenario",
+     "Done means"
+    ],
+    "ok": true,
+    "errors": []
+   }
+  ]
+ },
+ "part_pages_without_ice_section": true,
+ "sources_check": {
+  "what": "every quoted string on a Sources line found word for word in its file (repo file, the Phoenix memory copy under memory/, the capability list or names list of the issue, the product owner's 2026-11-07 words as held in research.md, or the GitHub issue text as read on 2026-11-07)",
+  "quotes_checked": 136,
+  "missing": [],
+  "lines_with_no_quote": [
+   "- The short line beside each feature: the opening words of that feature's own page.",
+   "- Shelf: none. No knowledge shelf covers software delivery planning."
+  ]
+ }
+}

@@ -1,0 +1,23 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021; one-lines approved by the product owner)",
+  "parts": [
+    {
+      "id": "fn-choose-next-item",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "The open items of every plan in progress are shown from the plan files, with each plan's Direction and Waits on, and the one chosen becomes Now through a session."
+    },
+    {
+      "id": "fn-work-out-waits-on",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "Each plan's Waits on list is worked out from the needs of its parts in the product model, never set by hand."
+    },
+    {
+      "id": "fn-pause-plan",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "A paused plan's branch lands on main and main's plan file says it has no branch; when its work starts again, a new branch is cut and named there."
+    }
+  ]
+}

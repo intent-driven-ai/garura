@@ -1,0 +1,13 @@
+{
+  "id": "bi-3",
+  "issue": 3,
+  "title": "Design → Code",
+  "outcome": "Each slice is designed through the lenses, with how it will be tested, and the parts of the design come together to deliver one vertical slice.",
+  "why": "Left alone, agents build horizontally, and nothing can be tested until the end. Vertical slices usually get left to people.",
+  "asked_by": "the product owner",
+  "proof": [
+    "Each slice can be tested end to end by one person on one surface.",
+    "How a slice is tested is designed before it's built."
+  ],
+  "must_not": "Tell the builder the steps, or deliver work that only a later slice makes testable."
+}

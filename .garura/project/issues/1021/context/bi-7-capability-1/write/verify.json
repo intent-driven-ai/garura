@@ -1,0 +1,519 @@
+{
+  "pages": {
+    "software-delivery-planning/install-into-project/capability.md": {
+      "equals_draft": true,
+      "bytes": 18532,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/ice.md": {
+      "equals_draft": true,
+      "bytes": 4085,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md": {
+      "equals_draft": true,
+      "bytes": 11935,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md": {
+      "equals_draft": true,
+      "bytes": 3418,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-choose-parts/feature.md": {
+      "equals_draft": true,
+      "bytes": 7518,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-choose-parts/ice.md": {
+      "equals_draft": true,
+      "bytes": 2518,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-check-install/feature.md": {
+      "equals_draft": true,
+      "bytes": 6704,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-check-install/ice.md": {
+      "equals_draft": true,
+      "bytes": 2801,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md": {
+      "equals_draft": true,
+      "bytes": 6074,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md": {
+      "equals_draft": true,
+      "bytes": 2766,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/install-into-project/fn-update-parts/feature.md": {
+      "equals_draft": true,
+      "bytes": 6329,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-update-parts/ice.md": {
+      "equals_draft": true,
+      "bytes": 2823,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-take-out/feature.md": {
+      "equals_draft": true,
+      "bytes": 7431,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/install-into-project/fn-take-out/ice.md": {
+      "equals_draft": true,
+      "bytes": 3035,
+      "thin_lines_on_page": 0
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 14,
+  "thin_lines_only_on_fn_lay_guardrails_ice": true,
+  "new_folder_files": [
+    "software-delivery-planning/install-into-project/capability.md",
+    "software-delivery-planning/install-into-project/fn-check-install/feature.md",
+    "software-delivery-planning/install-into-project/fn-check-install/ice.md",
+    "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+    "software-delivery-planning/install-into-project/fn-choose-parts/ice.md",
+    "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+    "software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md",
+    "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+    "software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md",
+    "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+    "software-delivery-planning/install-into-project/fn-take-out/ice.md",
+    "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+    "software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+    "software-delivery-planning/install-into-project/ice.md"
+  ],
+  "new_folder_holds_only_the_14_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 33,
+      "after": 34,
+      "new": [
+        "cap-install-into-project"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 117,
+      "after": 123,
+      "new": [
+        "fn-install-in-one-step",
+        "fn-choose-parts",
+        "fn-check-install",
+        "fn-lay-guardrails",
+        "fn-update-parts",
+        "fn-take-out"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 105,
+      "after": 112,
+      "new": [
+        "ice-install-into-project",
+        "ice-install-in-one-step",
+        "ice-choose-parts",
+        "ice-check-install",
+        "ice-lay-guardrails",
+        "ice-update-parts",
+        "ice-take-out"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-install-into-project": {
+        "slug": "install-into-project",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.",
+        "doc": "software-delivery-planning/install-into-project/capability.md",
+        "thin": false
+      },
+      "fn-install-in-one-step": {
+        "slug": "fn-install-in-one-step",
+        "capability": "cap-install-into-project",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "One command in the project's folder, with no copy of Garura's source, lays Garura for the team's coding tool from the version named or the default, keeps the version and every part laid in the install record, and writes over no file of the project's own.",
+        "doc": "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+        "thin": false
+      },
+      "fn-choose-parts": {
+        "slug": "fn-choose-parts",
+        "capability": "cap-install-into-project",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "The team chooses a kind of install, the full set for a product project or the harness set for a team that builds its own harness, and, once built, named plays, so the project carries the parts it uses and every chosen play arrives with the workers it calls.",
+        "doc": "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+        "thin": false
+      },
+      "fn-check-install": {
+        "slug": "fn-check-install",
+        "capability": "cap-install-into-project",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Checks that the memory tool runs and reaches the project's short-term memory and Garura memory and that every tool loads, and names whatever does not, so no team starts work on a Garura that cannot run.",
+        "doc": "software-delivery-planning/install-into-project/fn-check-install/feature.md",
+        "thin": false
+      },
+      "fn-lay-guardrails": {
+        "slug": "fn-lay-guardrails",
+        "capability": "cap-install-into-project",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Lays the guardrails that keep an agent from doing a play's work without the play, in every project, records them, and changes the team's own coding tool settings only on the person's yes.",
+        "doc": "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+        "thin": false
+      },
+      "fn-update-parts": {
+        "slug": "fn-update-parts",
+        "capability": "cap-install-into-project",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "A new run with a new choice shows what it will add and take out, lays what is newly chosen, and takes out from the record what is no longer chosen and what Garura dropped, with nothing else in the project changed.",
+        "doc": "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+        "thin": false
+      },
+      "fn-take-out": {
+        "slug": "fn-take-out",
+        "capability": "cap-install-into-project",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Shows the list of what goes and what stays, and on the person's yes removes exactly what the record names, keeping the team's work, its product model and its own files.",
+        "doc": "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+        "thin": false
+      },
+      "ice-install-into-project": {
+        "for": "cap-install-into-project",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/install-into-project/ice.md",
+        "thin": false,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-install-in-one-step": {
+        "for": "fn-install-in-one-step",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md",
+        "thin": false,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-choose-parts": {
+        "for": "fn-choose-parts",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/install-into-project/fn-choose-parts/ice.md",
+        "thin": false,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-check-install": {
+        "for": "fn-check-install",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/install-into-project/fn-check-install/ice.md",
+        "thin": false,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-lay-guardrails": {
+        "for": "fn-lay-guardrails",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md",
+        "thin": true,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-update-parts": {
+        "for": "fn-update-parts",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+        "thin": false,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      },
+      "ice-take-out": {
+        "for": "fn-take-out",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/install-into-project/fn-take-out/ice.md",
+        "thin": false,
+        "for_kind_right": true,
+        "doc_leads_to_file": true
+      }
+    },
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 157,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_7": {
+    "lines_before": 20,
+    "lines_after": 29,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 9,
+    "added": [
+      "**Touches:**",
+      "- [Install into a project](../software-delivery-planning/install-into-project/capability.md) (capability) — adds",
+      "- [Install Garura in one step, with a record of what it laid](../software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md) (feature) — adds",
+      "- [Choose what the project gets](../software-delivery-planning/install-into-project/fn-choose-parts/feature.md) (feature) — adds",
+      "- [Check that the installed Garura runs before the team uses it](../software-delivery-planning/install-into-project/fn-check-install/feature.md) (feature) — adds",
+      "- [Lay Garura's guardrails with the install](../software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md) (feature) — adds",
+      "- [Update what the project gets as the project changes](../software-delivery-planning/install-into-project/fn-update-parts/feature.md) (feature) — adds",
+      "- [Take Garura out of the project again](../software-delivery-planning/install-into-project/fn-take-out/feature.md) (feature) — adds",
+      ""
+    ],
+    "added_as_asked_in_order": true,
+    "line_before_block": "",
+    "line_two_before_block": "**Tracker:** #7",
+    "line_after_block": "**What was done:** (nothing yet)",
+    "byte_check_whole_page": true,
+    "stage_line": "**Stage:** confirmed — by the product owner, 2026-11-02",
+    "stage_line_unchanged": true,
+    "title_outcome_why_askedby_proof_mustnot_stage_tracker_whatwasdone_unchanged": true,
+    "touches_lines": 7,
+    "every_touches_line_in_form": true,
+    "form_matches_bi_6": true,
+    "links": {
+      "../software-delivery-planning/install-into-project/capability.md": true,
+      "../software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md": true,
+      "../software-delivery-planning/install-into-project/fn-choose-parts/feature.md": true,
+      "../software-delivery-planning/install-into-project/fn-check-install/feature.md": true,
+      "../software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md": true,
+      "../software-delivery-planning/install-into-project/fn-update-parts/feature.md": true,
+      "../software-delivery-planning/install-into-project/fn-take-out/feature.md": true
+    },
+    "every_link_leads_to_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_7_before": [],
+    "spine_entries_naming_bi_7": 7,
+    "spine_entry_ids_naming_bi_7": [
+      "cap-install-into-project",
+      "fn-install-in-one-step",
+      "fn-choose-parts",
+      "fn-check-install",
+      "fn-lay-guardrails",
+      "fn-update-parts",
+      "fn-take-out"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "touches_order_matches_capability_then_feature_list": true,
+    "kinds_agree_with_spine": true
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-7.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-check-install/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-choose-parts/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-take-out/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/install-into-project/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 158,
+      "counts": {
+        "domain": 1,
+        "capability": 33,
+        "feature": 117,
+        "ice": 105
+      },
+      "file": ".garura/project/issues/1021/context/bi-7-capability-1/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 165,
+      "counts": {
+        "domain": 1,
+        "capability": 34,
+        "feature": 123,
+        "ice": 112
+      },
+      "file": ".garura/project/issues/1021/context/bi-7-capability-1/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-choose-parts/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-check-install/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-update-parts/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/install-into-project/fn-take-out/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 7 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021 (the BI-6 write met 5 of them)."
+  },
+  "failed_checks": [],
+  "checks_run": 87,
+  "checks_passed": 87,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md equals draft": true,
+    "page capability.md no thin line": true,
+    "page ice.md equals draft": true,
+    "page ice.md no thin line": true,
+    "page fn-install-in-one-step/feature.md equals draft": true,
+    "page fn-install-in-one-step/feature.md no thin line": true,
+    "page fn-install-in-one-step/ice.md equals draft": true,
+    "page fn-install-in-one-step/ice.md no thin line": true,
+    "page fn-choose-parts/feature.md equals draft": true,
+    "page fn-choose-parts/feature.md no thin line": true,
+    "page fn-choose-parts/ice.md equals draft": true,
+    "page fn-choose-parts/ice.md no thin line": true,
+    "page fn-check-install/feature.md equals draft": true,
+    "page fn-check-install/feature.md no thin line": true,
+    "page fn-check-install/ice.md equals draft": true,
+    "page fn-check-install/ice.md no thin line": true,
+    "page fn-lay-guardrails/feature.md equals draft": true,
+    "page fn-lay-guardrails/feature.md no thin line": true,
+    "page fn-lay-guardrails/ice.md equals draft": true,
+    "page fn-lay-guardrails/ice.md one thin line, first, blank after, rest = approved copy": true,
+    "page fn-update-parts/feature.md equals draft": true,
+    "page fn-update-parts/feature.md no thin line": true,
+    "page fn-update-parts/ice.md equals draft": true,
+    "page fn-update-parts/ice.md no thin line": true,
+    "page fn-take-out/feature.md equals draft": true,
+    "page fn-take-out/feature.md no thin line": true,
+    "page fn-take-out/ice.md equals draft": true,
+    "page fn-take-out/ice.md no thin line": true,
+    "new folder holds only the 14 pages": true,
+    "thin line only on fn-lay-guardrails/ice.md": true,
+    "spine domains: nothing removed or changed, order kept": true,
+    "spine domains: new entries are exactly the ones asked": true,
+    "spine capabilities: nothing removed or changed, order kept": true,
+    "spine capabilities: new entries are exactly the ones asked": true,
+    "spine features: nothing removed or changed, order kept": true,
+    "spine features: new entries are exactly the ones asked": true,
+    "spine slices: nothing removed or changed, order kept": true,
+    "spine slices: new entries are exactly the ones asked": true,
+    "spine ices: nothing removed or changed, order kept": true,
+    "spine ices: new entries are exactly the ones asked": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "feature list order on the capability page = the six features in order": true,
+    "spine entry cap-install-into-project as asked": true,
+    "capability one_line = first line of Directional intent, word for word": true,
+    "spine entry fn-install-in-one-step as asked": true,
+    "feature fn-install-in-one-step one_line = list text, first letter capitalised": true,
+    "spine entry fn-choose-parts as asked": true,
+    "feature fn-choose-parts one_line = list text, first letter capitalised": true,
+    "spine entry fn-check-install as asked": true,
+    "feature fn-check-install one_line = list text, first letter capitalised": true,
+    "spine entry fn-lay-guardrails as asked": true,
+    "feature fn-lay-guardrails one_line = list text, first letter capitalised": true,
+    "spine entry fn-update-parts as asked": true,
+    "feature fn-update-parts one_line = list text, first letter capitalised": true,
+    "spine entry fn-take-out as asked": true,
+    "feature fn-take-out one_line = list text, first letter capitalised": true,
+    "spine entry ice-install-into-project as asked": true,
+    "spine entry ice-install-in-one-step as asked": true,
+    "spine entry ice-choose-parts as asked": true,
+    "spine entry ice-check-install as asked": true,
+    "spine entry ice-lay-guardrails as asked": true,
+    "spine entry ice-update-parts as asked": true,
+    "spine entry ice-take-out as asked": true,
+    "only ice-lay-guardrails thin": true,
+    "capability and features not thin themselves": true,
+    "ICE ids unique in the spine": true,
+    "all ids unique in the spine": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-7 only_insertions": true,
+    "bi-7 added_as_asked_in_order": true,
+    "bi-7 byte_check_whole_page": true,
+    "bi-7 stage_line_unchanged": true,
+    "bi-7 title_outcome_why_askedby_proof_mustnot_stage_tracker_whatwasdone_unchanged": true,
+    "bi-7 every_touches_line_in_form": true,
+    "bi-7 every_link_leads_to_a_file": true,
+    "bi-7 titles_match_page_titles": true,
+    "bi-7 kinds_agree_with_spine": true,
+    "bi-7 touches_order_matches_capability_then_feature_list": true,
+    "bi-7 form_matches_bi_6": true,
+    "bi-7 gained exactly the Touches block (9 lines: the heading, 7 entries, a blank line; one block) between Tracker and What was done": true,
+    "the 7 index entries naming bi-7 match the 7 Touches lines": true,
+    "under .garura/product only the spine, bi-7.md and the new folder changed": true,
+    "structure check: no error names a new page": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD 31fd7639: the spine and intents/bi-7.md as committed (the model had no uncommitted change before this write)"
+}

@@ -1,0 +1,27 @@
+{
+  "written": [
+    "cap-test-product-with-evals",
+    "fn-run-slice-eval",
+    "fn-send-handoff-plan",
+    "fn-rerun-evals",
+    "ice-test-product-with-evals",
+    "ice-run-slice-eval",
+    "ice-send-handoff-plan",
+    "ice-rerun-evals"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-test-product-with-evals",
+    "ice-run-slice-eval",
+    "ice-send-handoff-plan",
+    "ice-rerun-evals"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/test-product-with-evals/ice.md",
+    "product-os/software-delivery-planning/test-product-with-evals/fn-run-slice-eval/ice.md",
+    "product-os/software-delivery-planning/test-product-with-evals/fn-send-handoff-plan/ice.md",
+    "product-os/software-delivery-planning/test-product-with-evals/fn-rerun-evals/ice.md"
+  ],
+  "layout_kept": true
+}

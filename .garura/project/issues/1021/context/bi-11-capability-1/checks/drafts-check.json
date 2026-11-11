@@ -1,0 +1,235 @@
+{
+  "checked_on": "2026-11-11",
+  "pages": 20,
+  "ice": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/features/fn-597/ice.md",
+      "thin": false,
+      "limits": 4,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-approval-state-kind/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-change-ontology/ice.md",
+      "thin": false,
+      "limits": 4,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-check-model-on-change/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-extend-ontology/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-model-shape-version/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-ontology-in-every-project/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-profile-decision-kinds/ice.md",
+      "thin": true,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-readers-in-step/ice.md",
+      "thin": false,
+      "limits": 3,
+      "fails_if": 3,
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/ice.md",
+      "thin": false,
+      "limits": 4,
+      "fails_if": 3,
+      "problems": []
+    }
+  ],
+  "rules": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/features/fn-597/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "clinic's booking app",
+        "bank's payments service",
+        "game studio's build"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/features/fn-597/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/capability.md",
+      "problems": [],
+      "not_decided": 4,
+      "features_listed": [
+        "fn-597",
+        "fn-change-ontology",
+        "fn-ontology-in-every-project",
+        "fn-readers-in-step",
+        "fn-check-model-on-change",
+        "fn-model-shape-version",
+        "fn-extend-ontology",
+        "fn-profile-decision-kinds",
+        "fn-approval-state-kind"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-approval-state-kind/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "clinic's booking app",
+        "bank's payments service",
+        "game studio's build"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-approval-state-kind/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-change-ontology/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "harness repository for a bank's payments service",
+        "harness repository for a clinic's booking app",
+        "harness repository for a game studio's build"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-change-ontology/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-check-model-on-change/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "shop's checkout service",
+        "bank's payments service",
+        "news site's publishing tool"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-check-model-on-change/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-extend-ontology/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "game studio's build",
+        "hospital's records system",
+        "agency's client portal"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-extend-ontology/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-model-shape-version/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "shop's checkout service",
+        "clinic's booking app",
+        "game studio's build"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-model-shape-version/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-ontology-in-every-project/feature.md",
+      "problems": [],
+      "not_decided": 1,
+      "example_kinds": [
+        "clinic's booking app",
+        "bank's payments service",
+        "game studio's build"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-ontology-in-every-project/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md",
+      "problems": [],
+      "not_decided": 3,
+      "example_kinds": [
+        "shop's checkout service",
+        "clinic's booking app",
+        "school's internal timetable tool"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-profile-decision-kinds/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-readers-in-step/feature.md",
+      "problems": [],
+      "not_decided": 2,
+      "example_kinds": [
+        "clinic's booking app",
+        "bank's payments service",
+        "game studio's build"
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/fn-readers-in-step/ice.md",
+      "problems": [],
+      "not_decided": 0
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-11-capability-1/drafts/product-os/software-delivery-planning/define-product/ice.md",
+      "problems": [],
+      "not_decided": 0
+    }
+  ],
+  "missing_ice": []
+}

@@ -1,0 +1,1256 @@
+{
+  "checked_on": "2026-11-10",
+  "total_quotes_in_sources": 133,
+  "not_found": 0,
+  "problems": [],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Set a project up after the install (Initialize): new on this list.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/project/issues/1021/context/capabilities.md",
+      "quote": "Its capability is designed in the model with six features and names no intent",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-capability-4/page-approvals.md",
+      "quote": "yes, record it and draft the first one",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/_spine.yaml",
+      "quote": "After the install, set a project up for Garura: its memory, its review rules, and its tracker's work-item types.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "A team can only use Garura once it's in their project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/intents/bi-10.md",
+      "quote": "Name a tracker in a play, skill or sub-agent, because they only know the tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "It lays the pieces and stops.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "quote": "running the set-up again when a new version asks something new",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+      "quote": "It runs every rule group, a set of the review's rules that check one kind of thing, such as a database, on every project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+      "quote": "changing the review to read that record is a later story (#862)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/software-delivery-planning/environment-setup/capability.md",
+      "quote": "We are never touching production.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/product/product-os/_spine.yaml",
+      "quote": "a second run with every answer unchanged and no Phoenix memory change changes 0 files in the project's memory, its rule-group record and its tracker",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md",
+      "quote": "Initialize, seeding memory and upgrade are engine things, not plays.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/038-install-brings-no-memory.md",
+      "quote": "initialize is an engine thing, not a play. Its job, setting up a project's own memory by asking from Phoenix memory, stands",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/038-install-brings-no-memory.md",
+      "quote": "install finishes without any memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/038-install-brings-no-memory.md",
+      "quote": "The question here will be generated based on the Phoenix memory that it already has, because we're not pulling something random.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "The tool reads Phoenix memory. It does not copy a file from it into the project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "A project's Garura memory is built separately, from only the part the project needs: by `initialize`, and by promotion.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "You don't need to copy the entire file. You only need to bring in the context which is relevant to the checkout part of the commerce",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "It should not copy the file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/grounding/glossary.md",
+      "quote": "never a copy of a Phoenix file",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/grounding/glossary.md",
+      "quote": "NOT: a copy of Phoenix memory \u2014 checkout, not all of commerce.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "A play run after the install, `initialize`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "starts with no memory of its own",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "Only agents call the tool",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "`tier_missing` means a tier cannot be reached. Say so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/tools/memory/contract/v5.json",
+      "quote": "the tool has no command that writes Garura or Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/tools/memory/pull.py",
+      "quote": "the first command that needs Phoenix memory downloads it there from its source",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/components/plays/install-garura/SKILL.md",
+      "quote": "`initialize` (not built yet)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "installer/install.sh",
+      "quote": "initialized successfully!",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "core/components/skills/platform-adapter/reference/gitlab/verbs.md",
+      "quote": "GitLab has no issue types here.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #862",
+      "quote": "A project gets only the memory and the review rules that fit it: initialize asks after the install",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #862",
+      "quote": "after the install, one play (`initialize`) asks the person a short set of questions built from Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #862",
+      "quote": "each question has choices and a proposed answer with its source",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #862",
+      "quote": "a review in that project runs only the rule groups that fit it",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #862",
+      "quote": "a project can run `initialize` again when it changes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #862",
+      "quote": "The answers are the person's; a proposed answer always names its source.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #881",
+      "quote": "Initialize sets up the tracker's work-item types: Business Intent, Epic, Story, Bug, Chore and Spike",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #881",
+      "quote": "`initialize` (this business intent) also sets up the tracker",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #881",
+      "quote": "the organization `intent-driven-ai` got the Epic type by hand on 2026-10-25.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #883",
+      "quote": "All memory in Garura's source is Phoenix memory: one install lays it, initialize gives each project its own blocks",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #883",
+      "quote": "It lays only the pieces",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #883",
+      "quote": "It lays no memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "GitHub #883",
+      "quote": "It asks the questions that decide which memory fits the project (for example Java or .NET, a React front end or none) and sets up the project's Garura memory from Phoenix memory. It can run again to bring changes in.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": ".garura/project/issues/1021/context/bi-7-inventory/inventory.md",
+      "quote": null,
+      "status": "no quote"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "- The short line beside each feature: kept from the capability's page in the mod",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "- Shelf: none. No knowledge shelf in memory covers setting up a software project",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Initialize, seeding memory and upgrade are engine things, not plays.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "one play (`initialize`)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "A play run after the install, `initialize`",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "lays the pieces and stops",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "install finishes without any memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "running the set-up again when a new version asks something new",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "A team gets Garura into its project, upgrades it knowing what changes, and uses it on whichever coding tool it has.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "can only use Garura once it's in their project",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "`initialize` (not built yet)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "starts with no memory of its own",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "initialized successfully!",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "the tool has no command that writes Garura or Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "the first command that needs Phoenix memory downloads it there from its source",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "runs every rule group, a set of the review's rules that check one kind of thing, such as a database, on every project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "GitLab has no issue types here.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The answers are the person's; a proposed answer always names its source.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The tool reads Phoenix memory. It does not copy a file from it into the project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "It should not copy the file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "We are never touching production.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The question here will be generated based on the Phoenix memory that it already has, because we're not pulling something random.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "a project can run `initialize` again when it changes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "a second run with every answer unchanged and no Phoenix memory change changes 0 files in the project's memory, its rule-group record and its tracker",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "nothing fits",
+      "status": "the page's own words in quote marks, kept from its page in the model; not a quote of a source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "`tier_missing` means a tier cannot be reached. Say so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Name a tracker in a play, skill or sub-agent, because they only know the tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Only agents call the tool",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "GitHub #881",
+      "quote": "Garura files its work as issues of fixed types: Business Intent, Epic, Story, Bug, Chore and Spike. A tracker does not always have them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "GitHub #881",
+      "quote": "On 2026-10-25 Garura's own GitHub organization had no Epic type, so `/shape-plan` could not file an Epic as an Epic (#875).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "GitHub #881",
+      "quote": "It makes each missing type only after the person's typed yes, and records what it made",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "GitHub #881",
+      "quote": "Where a tracker cannot make a type, it says so in plain words and names the type it uses in its place; the plays read that mapping",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "GitHub #881",
+      "quote": "GitHub works first. Jira and Linear come through the same adapter, each with its own way to make a type.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "GitHub #881",
+      "quote": "A play that writes to the tracker stops with a plain message when a type it needs is missing, and points to `initialize`.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "GitHub PR #886",
+      "quote": "the #881 page must name the later story that changes the filing plays",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+      "quote": "Only the Business Intent is a product-layer tracker issue, labelled `product`.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+      "quote": "Neither has a label.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+      "quote": "An Epic is never filed as type Feature.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+      "quote": "A later change decides how these four kinds are marked.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "core/config.yaml",
+      "quote": "Tools read this; plays, skills and sub-agents never name a tracker.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "core/config.yaml",
+      "quote": "business intents",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "core/config.yaml",
+      "quote": "agent work: epics, stories, bugs, chores, spikes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "core/components/skills/platform-adapter/reference/github/verbs.md",
+      "quote": "An `issue_type` the repository does not have stops with exit 1, and nothing is made.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "core/components/skills/platform-adapter/reference/gitlab/verbs.md",
+      "quote": "GitLab has no issue types here.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": ".garura/product/product-os/intents/bi-10.md",
+      "quote": "Name a tracker in a play, skill or sub-agent, because they only know the tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "the two never write the same files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "quote": "The tracker holds each issue type Garura files, or a stand-in the product owner said yes to",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "- The issue types of Garura's own GitHub organization, read through GitHub on 20",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "- Shelf: none; no knowledge shelf in memory covers setting up a software project",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The tracker holds each issue type Garura files, or a stand-in the product owner said yes to",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "An `issue_type` the repository does not have stops with exit 1, and nothing is made.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "GitLab has no issue types here.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Cannot make",
+      "status": "the page's own words in quote marks, kept from its page in the model; not a quote of a source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "making failed",
+      "status": "the page's own words in quote marks, kept from its page in the model; not a quote of a source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Neither has a label.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Name a tracker in a play, skill or sub-agent, because they only know the tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "never write the same files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "the #881 page must name the later story that changes the filing plays",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "The memory tool reads Phoenix memory only through its own interface.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "later it points at a remote place, and nothing else changes.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "It lays only the pieces: the plays, agents, skills, tools and the memory tool. It lays no memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "It asks the questions that decide which memory fits the project (for example Java or .NET, a React front end or none) and sets up the project's Garura memory from Phoenix memory. It can run again to bring changes in.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "A person installs Phoenix once on a machine and initializes many projects, each with different memory blocks.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "`initialize` builds the project's Garura memory from Phoenix memory, with only the blocks its answers call for, and can run again to take in changes.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "Two projects on one machine, initialized with different answers, get different memory blocks from the one Phoenix memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "A play reads memory only through the memory tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub #883",
+      "quote": "How the source memory reaches the `phoenix-memory` repo without hand copying (#868).",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "GitHub PR #886",
+      "quote": "The product owner's rule: never take the whole file; read it, and build the project's memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "The tool reads Phoenix memory. It does not copy a file from it into the project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "A project's Garura memory is built separately, from only the part the project needs: by `initialize`, and by promotion.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "You don't need to copy the entire file. You only need to bring in the context which is relevant to the checkout part of the commerce",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "It should not copy the file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "core/grounding/glossary.md",
+      "quote": "never a copy of a Phoenix file",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "core/grounding/glossary.md",
+      "quote": "NOT: a copy of Phoenix memory \u2014 checkout, not all of commerce.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "core/tools/memory/pull.py",
+      "quote": "the first command that needs Phoenix memory downloads it there from its source",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "core/tools/memory/memory.py",
+      "quote": "Phoenix memory is read only at its approved version",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "names every decision whose source no longer says what it said",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": ".garura/product/product-os/intents/bi-7.md",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": ".garura/product/product-os/_spine.yaml",
+      "quote": "an install changes 0 files in any project's Garura memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/install-into-project/capability.md",
+      "quote": "the two never write the same files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "quote": "Two projects on one machine, initialized with different answers, hold different memory blocks taken from the one Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "- Shelf: none; no knowledge shelf in memory covers setting up a software project",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Two projects on one machine, initialized with different answers, hold different memory blocks taken from the one Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "whose source no longer says what it said",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "can run again to take in changes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Change what a project's people changed without asking them.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "never write the same files",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "an install changes 0 files in any project's Garura memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "no block fits",
+      "status": "the page's own words in quote marks, kept from its page in the model; not a quote of a source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "GitHub #862",
+      "quote": "the answers set up the project's Garura memory from only the part of Phoenix memory it needs, and the profile records them",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "GitHub #862",
+      "quote": "Every part reads memory only through the memory tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "GitHub #883",
+      "quote": "It lays no memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "GitHub #883",
+      "quote": "sets up the project's Garura memory from Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "GitHub #883",
+      "quote": "with only the blocks its answers call for",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "GitHub PR #886",
+      "quote": "The product owner's rule: never take the whole file; read it, and build the project's memory.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "The tool reads Phoenix memory. It does not copy a file from it into the project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "A project's Garura memory is built separately, from only the part the project needs: by `initialize`, and by promotion.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "You don't need to copy the entire file. You only need to bring in the context which is relevant to the checkout part of the commerce",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "It should not copy the file.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "how `initialize` builds a project's Garura memory from the part it needs",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "core/grounding/glossary.md",
+      "quote": "never a copy of a Phoenix file",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "core/grounding/glossary.md",
+      "quote": "NOT: a copy of Phoenix memory \u2014 checkout, not all of commerce.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "core/tools/memory/contract/v5.json",
+      "quote": "the tool has no command that writes Garura or Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "`tier_missing` means a tier cannot be reached. Say so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "quote": "The project's Garura memory holds only the memory blocks its answers call for",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "- Shelf: none; no knowledge shelf in memory covers setting up a software project",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The project's Garura memory holds only the memory blocks its answers call for",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "the tool has no command that writes Garura or Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "how `initialize` builds a project's Garura memory from the part it needs",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Every part reads memory only through the memory tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "no file fits",
+      "status": "the page's own words in quote marks, kept from its page in the model; not a quote of a source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "`tier_missing` means a tier cannot be reached. Say so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "GitHub #862",
+      "quote": "a project can run `initialize` again when it changes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "GitHub #862",
+      "quote": "The answers are the person's; a proposed answer always names its source.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "GitHub #881",
+      "quote": "It makes each missing type only after the person's typed yes",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "GitHub #881",
+      "quote": "whatever the project uses \u2014 GitHub, Jira, Linear or another tracker \u2014 it finds the work-item types the plays need, and makes the ones that are missing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "GitHub #883",
+      "quote": "It can run again to bring changes in.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "quote": "running the set-up again when a new version asks something new",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": ".garura/product/product-os/_spine.yaml",
+      "quote": "a second run with every answer unchanged and no Phoenix memory change changes 0 files in the project's memory, its rule-group record and its tracker",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "quote": "The product owner can run initialize again when the project or Phoenix memory changes, and the set-up follows the change.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "quote": "The tool reads Phoenix memory. It does not copy a file from it into the project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "- Shelf: none; no knowledge shelf in memory covers setting up a software project",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "running the set-up again when a new version asks something new",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The product owner can run initialize again when the project or Phoenix memory changes, and the set-up follows the change",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The answers are the person's; a proposed answer always names its source.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "a second run with every answer unchanged and no Phoenix memory change changes 0 files in the project's memory, its rule-group record and its tracker",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": "GitHub #862",
+      "quote": "a review in that project runs only the rule groups that fit it (for Garura itself: no front end, no back-end service, no database, no running service), and the review record names the groups it skipped",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": "GitHub #862",
+      "quote": "#860 (the review of PR #858 ran database, permission and front-end rules on Garura's own tool files)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+      "quote": "It runs every rule group, a set of the review's rules that check one kind of thing, such as a database, on every project.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+      "quote": "changing the review to read that record is a later story (#862)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md",
+      "quote": "the review's rules with which of them fit a project (memory, and Initialize's record)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "quote": "A review in the project runs only the rule groups that fit it, and the review's record names each group it skipped",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": "standards/rules/pr.md (Phoenix memory, copy .garura/project/issues/1021/context/bi-7-capability-4/memory/standards/rules/pr.md)",
+      "quote": "Deterministic mapping from KB quality standard IDs to PR severity buckets P1\u2013P4.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": "- Shelf: none; no knowledge shelf in memory covers setting up a software project",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "A review in the project runs only the rule groups that fit it, and the review's record names each group it skipped",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "no answer speaks to it",
+      "status": "the page's own words in quote marks, kept from its page in the model; not a quote of a source"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "GitHub #862",
+      "quote": "after the install, one play (`initialize`) asks the person a short set of questions built from Phoenix memory: the domains, the kinds of features, the technology standards, the tools and frameworks, the surfaces (web, mobile, CLI, API), and whether there is a database, personal data, permissions or a running service",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "GitHub #862",
+      "quote": "each question has choices and a proposed answer with its source",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "GitHub #862",
+      "quote": "The answers are the person's; a proposed answer always names its source.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "GitHub #862",
+      "quote": "Every part reads memory only through the memory tool.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "GitHub #883",
+      "quote": "It asks the questions that decide which memory fits the project (for example Java or .NET, a React front end or none)",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "core/tools/memory/GUIDE.md",
+      "quote": "`tier_missing` means a tier cannot be reached. Say so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "core/components/skills/_shared/asking-a-person.md",
+      "quote": "a brief that ends with questions",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "core/components/skills/_shared/asking-a-person.md",
+      "quote": "Each question asks one thing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "core/components/skills/_shared/asking-a-person.md",
+      "quote": "several examples from different domains, never just one",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": ".garura/product/product-os/intents/bi-9.md",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "quote": "each question shows its choices and a proposed answer that names its source",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "- Shelf: none; no knowledge shelf in memory covers setting up a software project",
+      "quote": null,
+      "status": "no source path"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "each question shows its choices and a proposed answer that names its source",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Never answer from what you already know, and never from the web, without a memory update a person approved.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "The answers are the person's; a proposed answer always names its source.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "a brief that ends with questions",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Each question asks one thing.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "several examples from different domains, never just one",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "a short set of questions built from Phoenix memory",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "`tier_missing` means a tier cannot be reached. Say so.",
+      "status": "found"
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "source": "(page body, against this page's sources)",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found"
+    }
+  ]
+}

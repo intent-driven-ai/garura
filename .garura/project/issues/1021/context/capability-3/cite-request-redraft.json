@@ -1,0 +1,32 @@
+{
+ "note": "Not run: this run writes only under capability-3/. The caller runs it with: python3 .garura/core/tools/memory/memory.py cite --request \"$(python3 -c 'import json; d=json.load(open(\".garura/project/issues/1021/context/capability-3/cite-request-redraft.json\")); d.pop(\"note\"); print(json.dumps(d))')\"",
+ "issue": 1021,
+ "play": "reorganise business intents (capability 3, the five feature pages redrafted around the capability's job, draft only)",
+ "question": "In the redraft of Keep the spec matched to what's built, which feature adds to an intent's record of what was done as work finishes, and which keeps a replaced or retired intent's issue in the tracker?",
+ "answer": "Update the spec to match what's built names adding to the record of what was done as not built, because it is the intent's side of matching the spec to what was built; the record is updated as work finishes and only a person confirms or drops an intent. Keep the tracker's words matched to the model names the issue of a replaced or retired intent as not built, because that issue is the planned side of an intent the spec no longer holds. Both are draft choices for the product owner.",
+ "decided_by": "product-os-keeper (draft for the product owner's review)",
+ "trace": [
+  {
+   "asked": "what an intent's record of what was done holds and when it changes",
+   "found": "what was delivered for it and the value each piece brought, with links to the finished work items, updated as work finishes",
+   "source": {
+    "tier": "phoenix",
+    "path": "standards/schemas/product-os/ontology.md",
+    "start": 195,
+    "end": 195,
+    "fingerprint": "sha256:5224f6dec4f27db15cd9f00c1aa042e2e1521185744a47e6fc6b838d43912926"
+   }
+  },
+  {
+   "asked": "who may replace or retire an intent",
+   "found": "only a person confirms or drops it; an agent never does",
+   "source": {
+    "tier": "phoenix",
+    "path": "standards/schemas/product-os/ontology.md",
+    "start": 223,
+    "end": 223,
+    "fingerprint": "sha256:75ebca24eb1c80c7eb861ca47cf55faf29c6884ec7307dc13da116b812d8918d"
+   }
+  }
+ ]
+}

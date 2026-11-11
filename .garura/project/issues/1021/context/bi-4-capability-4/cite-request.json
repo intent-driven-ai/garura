@@ -1,0 +1,219 @@
+[
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 4 (Test accessibility)",
+  "question": "What is an accessibility test measured against?",
+  "answer": "The product profile's accessibility level and its pass bar (the standard and how it is checked), each capability's own accessibility need under it, and each declared surface's accessibility guideline; the numbers and the standard are per product, read and never set. The drafts state it as the capability's first guiding rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what the profile holds for accessibility",
+    "found": "a level on the scale none to xhigh and a gate, with \"WCAG 2.1 AA\" as the example",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/product-profile.yaml",
+     "start": 28,
+     "end": 33,
+     "fingerprint": "sha256:515b57d75e085c0b4bb435dd451aa7768f67247ba86a2ab731a17587f8b0873f"
+    }
+   },
+   {
+    "asked": "whether a part can hold its own accessibility need",
+    "found": "a part's needs include an accessibility line",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ice.yaml",
+     "start": 31,
+     "end": 40,
+     "fingerprint": "sha256:173025ea31de4c8d249e26a439ef873b73c6f4230576b21d61712294acb5e579"
+    }
+   },
+   {
+    "asked": "where the numbers of a bar live",
+    "found": "in the product profile, per product, never in the knowledge base",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+     "start": 36,
+     "end": 37,
+     "fingerprint": "sha256:f80374b87a1cf216e3c66f3312990b7cc5b6004ac5b1dcc582ee0a2ff15a169a"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 4 (Test accessibility)",
+  "question": "When a surface's accessibility guideline and the profile's accessibility level differ, which wins?",
+  "answer": "The profile's level is the floor on every surface; a guideline meets it and may add what its surface needs; a guideline below it is named, the profile's level is tested on that surface, and the gap goes to the product owner. Followed by the drafts.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how a surface's guidelines relate to the profile",
+    "found": "a guideline meets the levels the profile commits to, such as an accessibility level, and never changes them",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+     "start": 67,
+     "end": 67,
+     "fingerprint": "sha256:044a54cf993ab32bdeb3bc9d08e74a545985ba940ba3ace5ed4519b3442823d7"
+    }
+   },
+   {
+    "asked": "what happens to a guideline that asks for less",
+    "found": "it is named as below the profile, and the profile's level stands",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+     "start": 66,
+     "end": 66,
+     "fingerprint": "sha256:94ae0b0ed2fe0fd7e66e660ef370cb5ad8a9be054565651b8d34e110514e424a"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 4 (Test accessibility)",
+  "question": "Which surfaces does an accessibility test apply to?",
+  "answer": "Lean, not decided by the product owner: every declared surface a person opens, a command line and a coding agent's surface among them, each against its own guideline; a surface only another system meets is not tested here; a surface whose guideline names nothing for accessibility, or whose kind memory has no way to test, is named as not tested and goes to the product owner.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "which surfaces memory's accessibility learning holds for",
+    "found": "any public or user-facing UI",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/ux-accessibility-floor.md",
+     "start": 19,
+     "end": 21,
+     "fingerprint": "sha256:b53d5d08cf81892c3b2e34de6b7783a013f3e7e35f384c10fa7c7f30e26cc07f"
+    }
+   },
+   {
+    "asked": "whether memory counts a command line as user-facing",
+    "found": "a command line is a user-facing surface a human runs; an endpoint is called by a human or an integration",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/surface-contract.md",
+     "start": 31,
+     "end": 35,
+     "fingerprint": "sha256:dc3eab7fed7205929482017ff2506f4644cf71595a6017c18c228dbd8230a5cf"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 4 (Test accessibility)",
+  "question": "What can a tool check, and what only a person?",
+  "answer": "Memory's one learning pairs automated checks with a person's keyboard and screen-reader pass; the drafts keep both as two features, and say that the pass bar, a need or the guideline names, for each part, whether a tool or a person checks it, and that a tool's clean run never passes a part a person must check. Which parts of a named standard a tool can check is not decided: no tier holds it.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how memory says accessibility is tested",
+    "found": "automated checks plus a manual keyboard and screen-reader pass on key flows",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/ux-accessibility-floor.md",
+     "start": 35,
+     "end": 36,
+     "fingerprint": "sha256:93a3fa317fccdb680f92ae40f8b01aa15f817e6bf37fc59e881a9c904916862f"
+    }
+   },
+   {
+    "asked": "how a check a person owns is handled by the runner of quality checks",
+    "found": "judgment is never the runner's; a person owns it and the runner skips it in view",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/lens/quality-gates.yaml",
+     "start": 20,
+     "end": 22,
+     "fingerprint": "sha256:6108148a28bcee2583e48a72a9dd3e1c2030676cf8a025c7065503a644bda8a8"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 4 (Test accessibility)",
+  "question": "Where is the line with Check the code against its standards for accessibility rules on the code?",
+  "answer": "The review's accessibility rows match words on the lines a change adds and rank as minor; they stay with Check the code against its standards, and this capability takes its record as evidence and never matches words itself.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how the review ranks accessibility",
+    "found": "accessibility is P3, highlights without blocking; no judgment by a model",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 5,
+     "end": 10,
+     "fingerprint": "sha256:ee4736ebeb7c23d434e1adfdd50b97942fd9174aa22f7db012aaa0a7365e2667"
+    }
+   },
+   {
+    "asked": "what the review's accessibility rows match",
+    "found": "word patterns on added lines, such as a picture with no alt text or a click on a plain block",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 250,
+     "end": 254,
+     "fingerprint": "sha256:cad59e8e6ef51e7fc9ae3528e2e793a4ce4bedfd71b4ed5cf54f9e0971489393"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 4 (Test accessibility)",
+  "question": "What does an accessibility failure send back, and to whom?",
+  "answer": "A handoff plan with what a person cannot do, where, in which way and the way back, never the test, its rule, its id, its tool or a figure; to the developer when the way back is code the builder controls, else to the product owner, and to a person when in doubt.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what a handoff plan may name",
+    "found": "never the failure condition, its id or the check",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 466,
+     "end": 466,
+     "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"
+    }
+   },
+   {
+    "asked": "who fixes a failure",
+    "found": "the builder only when it can fix it from what it already has; an approval or an outward-facing decision is a person's",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 53,
+     "end": 60,
+     "fingerprint": "sha256:afba5af66ffec94731bfc5b7cb98ebb177f18670a955478c4fac0f59ad171cc1"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 4 (Test accessibility)",
+  "question": "Does Garura's own profile set an accessibility level today?",
+  "answer": "No. It sets reliability, maintainability and security at medium, and nothing for accessibility; the verdict would say no accessibility level is set, neither a pass nor a fail.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "Garura's own product profile",
+    "found": "reliability, maintainability and security, each at medium; no accessibility entry",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/_spine.yaml",
+     "start": 1801,
+     "end": 1814,
+     "fingerprint": "sha256:88f5697bde1eb65e0b6184a7a05fa723da6fc123b6c1b1ed084d7f647b1dd200"
+    }
+   }
+  ]
+ }
+]

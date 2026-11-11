@@ -1,0 +1,134 @@
+{
+  "by": "product-os-keeper (draft run for issue 1021, capability 1)",
+  "source": "The product owner's decision for this draft: What it does carries a real description of what is built, and the Goal stays as its ICE line.",
+  "pages": [
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "changes": [
+        {
+          "old": "What a person gives becomes the right business intents, at the depth the product owner chooses, each confirmed by them.",
+          "new": "A person shares something that explains what they want: a prototype, a document or plain words. This feature reads it and drafts one business intent for each need the product meets for its user. A business intent names that need in its users' words, and holds an outcome, why the business wants it, who asks for it, a proof someone can measure and any limits. The person then confirms or drops each one. Each confirmed intent is saved as a page in the product model, linked to the Sources it came from."
+        }
+      ],
+      "lines_before": 14,
+      "lines_after": 14,
+      "lines_added": 0,
+      "lines_kept": 13
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "changes": [
+        {
+          "old": "Each domain the product sits in has a detailed page.",
+          "new": "This feature finds each domain the product sits in and writes a full page for it. A domain is a field the industry names, such as customer relationship management or e-commerce. The feature asks two questions in order: which field does the product serve, and which job does it do there? Each answer can be a domain, so a product often sits in more than one. It works from business intents, a typed goal, a prototype's capture or any mix of them. With none of those, it asks for a goal."
+        }
+      ],
+      "lines_before": 13,
+      "lines_after": 13,
+      "lines_added": 0,
+      "lines_kept": 12
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "changes": [
+        {
+          "old": "Each capability the product needs has a detailed page with its features and ICE.",
+          "new": "This feature writes a full page for each capability, creates the capability's features with their pages, and sets what the capability needs in quality and compliance. It takes its work from three places: the capabilities a person names, every capability in the model still at the directional depth, and the capabilities a prototype's screens show. One run does all of them together. It is the last detailing step, so the writing is complete but still in product words, not code."
+        }
+      ],
+      "lines_before": 14,
+      "lines_after": 14,
+      "lines_added": 0,
+      "lines_kept": 13
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+      "changes": [
+        {
+          "old": "Each journey through a prototype is walked and recorded, the way its people would use it.",
+          "new": "A prototype's screens show what it has, and a journey shows what it is for. A journey records who comes to the prototype, what they set out to do, each step they take with what it showed, and what they end with. This feature works out who the prototype serves, then uses it one step at a time in a browser with no window, and keeps a picture and the text of every step. It runs for a prototype only, because a document or plain words have no steps to take."
+        }
+      ],
+      "lines_before": 13,
+      "lines_after": 13,
+      "lines_added": 0,
+      "lines_kept": 12
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "changes": [
+        {
+          "old": "A file is kept, and every view it offers is captured.",
+          "new": "A person gives one web-page file, which is a file whose name ends in .html or .htm. The run saves an exact copy of it. A browser with no window then opens the file and saves the first screen and each view, each as a full-page picture and its visible text. A view is what a prototype shows after a click, such as the content of a tab. A person can then see the prototype again without the original file."
+        }
+      ],
+      "lines_before": 13,
+      "lines_after": 13,
+      "lines_added": 0,
+      "lines_kept": 12
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "changes": [
+        {
+          "old": "A project is captured from its written docs and its running app.",
+          "new": "A person gives a project folder. The run treats it as two Sources: the project's written docs and its running app. It keeps the docs first. It then starts the app the way the README (the project's main instruction file) says, captures the running app the way it captures a deployed site, and stops the app. The intent draft reads both Sources together."
+        }
+      ],
+      "lines_before": 13,
+      "lines_after": 13,
+      "lines_added": 0,
+      "lines_kept": 12
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "changes": [
+        {
+          "old": "Every view a deployed site offers is captured, up to two clicks deep.",
+          "new": "A person gives a link to a deployed site. A browser with no window opens the link and finds each view by itself. A view is what a prototype shows after a click, such as the content of a tab. The browser clicks each control on the first screen, then each new control those views add, and saves each new view as a full-page picture and its visible text. A later step can then read the site as it was, even after the site is gone."
+        }
+      ],
+      "lines_before": 13,
+      "lines_after": 13,
+      "lines_added": 0,
+      "lines_kept": 12
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "changes": [
+        {
+          "old": "A document is kept exactly as given.",
+          "new": "A person gives a document, such as a brief or a PDF. The run saves an exact copy under the document's own name, with the run's evidence, so the document outlives the original file. At this step the run does not open or read the document. A later step reads the copy and writes what it shows in a separate record beside the copy."
+        }
+      ],
+      "lines_before": 13,
+      "lines_after": 13,
+      "lines_added": 0,
+      "lines_kept": 12
+    },
+    {
+      "page": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "changes": [
+        {
+          "old": "A person's words are kept byte for byte.",
+          "new": "A person types what they want, with no file or link. The agent running the work writes those exact words into a working file. A script then copies this file byte for byte into the run's evidence. The kept text is the Source, and the run drafts its intents from it. Nothing edits the kept text after that."
+        }
+      ],
+      "lines_before": 13,
+      "lines_after": 13,
+      "lines_added": 0,
+      "lines_kept": 12
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+    "software-delivery-planning/specify-product/fn-specify-from-words/feature.md"
+  ]
+}

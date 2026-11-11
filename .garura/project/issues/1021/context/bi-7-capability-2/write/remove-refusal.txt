@@ -1,0 +1,1 @@
+remove_part.py: refused, nothing written: pages still name a part being removed; have the page skill fix these words first: features/fn-748/feature.md:59 names cap-747

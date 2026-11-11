@@ -1,0 +1,73 @@
+[
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "What may the design of the work hold and read, given that it reaches the builder?",
+  "answer": "The design starts from the builder's part and the collected context, and holds no eval, test, success scenario, story expectation or failure condition; it never reads an ICE page or the evals folder.",
+  "trace": [
+   {
+    "asked": "what the builder may receive",
+    "found": "the builder never receives success scenarios; it cannot teach to a test it cannot see",
+    "source": {"tier": "phoenix", "path": "standards/rules/builder-isolation.md", "start": 35, "end": 35, "fingerprint": "sha256:2142297c17ad74a0bb9854267a55fb3ad4768e216963e1f15852c184ec0b4cc5"}
+   },
+   {
+    "asked": "what the build reads and never reads",
+    "found": "the build's context sub-agent never opens an ICE page or the evals folder; the builder reads the story and the collected context, never an ICE page",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 734, "end": 734, "fingerprint": "sha256:af584dabfbf5d32403e57b4ffa421de63d5071f8ab566073b8accc968b115a72"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "Does any memory tier hold a standard or template for the design of a piece of work?",
+  "answer": "No. The templates index lists none for a design, and the one design rule in Phoenix memory serves the retired /design pipeline. Named on the pages as not decided (#978 asks for one).",
+  "trace": [
+   {
+    "asked": "a design template in memory (find **/templates/*design* in every tier: no match)",
+    "found": "the templates index lists issue, approval, checkpoint, evidence, knowledge, eval and plan templates, and no design template",
+    "source": {"tier": "phoenix", "path": "standards/templates/_index.md", "start": 1, "end": 46, "fingerprint": "sha256:4ce39a8c3d2789fa38a705cd79920faaa686c597cd935a090c8f204c507a9cb1"}
+   },
+   {
+    "asked": "the design rule in memory",
+    "found": "it governs personas, screen inventory, flows, wireframes and a design spec for the /design pipeline",
+    "source": {"tier": "phoenix", "path": "standards/rules/design.md", "start": 1, "end": 5, "fingerprint": "sha256:dfc4720a6c4e316a5bebace438f857128ef088df043e19ac08f3398dca3dba4b"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "How does the surface part treat the work's surface, and work with no surface?",
+  "answer": "It designs for the one surface the slice names, never re-derives it, and an item with no surface says so explicitly.",
+  "trace": [
+   {
+    "asked": "whether a later step may decide the surface again",
+    "found": "the surface is declared once and checked, never re-derived",
+    "source": {"tier": "phoenix", "path": "standards/rules/surface-contract.md", "start": 14, "end": 21, "fingerprint": "sha256:c4f0bb19fd40e5c9abbe05ef1aa9a4b428260c39fbd5439196d8c46d40d1a9ea"}
+   },
+   {
+    "asked": "work with no user surface",
+    "found": "the non-user-facing types are legitimate but must be declared explicitly",
+    "source": {"tier": "phoenix", "path": "standards/rules/surface-contract.md", "start": 39, "end": 40, "fingerprint": "sha256:23ef4c49f588d2c0234036c13b854d294fb5ba81feb5890675262820e48d86d4"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "Who picks the build order inside the work, the design or the developer?",
+  "answer": "The developer: the design names the classes, functions and patterns, and the build order stays with Build the work test first.",
+  "trace": [
+   {
+    "asked": "who picks the build order inside a slice",
+    "found": "inside a slice the agent picks the build order, in horizontal layers",
+    "source": {"tier": "phoenix", "path": "standards/schemas/product-os/ontology.md", "start": 470, "end": 470, "fingerprint": "sha256:541afcfd6eb845a2bd0364f00edb230f1ddca07f676b7764e3f04c7d83eb8e66"}
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ }
+]

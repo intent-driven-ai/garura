@@ -1,0 +1,15 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-4/page-approvals.md (the product owner, 2026-11-10: the write shown with fn-883, one line on keep-spec-matched/fn-keep-tracker-matched/feature.md changed from \"Initialize a project for Garura does it.\" to \"Set a project up after the install (Initialize) does it.\")",
+  "pages": [
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+      "changes": [
+        {
+          "old": "- Making the issue types a tracker needs, such as Business Intent. Initialize a project for Garura does it.",
+          "new": "- Making the issue types a tracker needs, such as Business Intent. Set a project up after the install (Initialize) does it."
+        }
+      ]
+    }
+  ]
+}

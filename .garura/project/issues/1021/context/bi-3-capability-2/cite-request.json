@@ -1,0 +1,144 @@
+[
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "Who may be given or read a slice's eval, its hidden file and the plan's evals folder?",
+  "answer": "No part that builds the work: not the builder, not the test writer of the code-level tests, not the context helper. A slice keeps one eval, one hidden file and one usage guide.",
+  "trace": [
+   {
+    "asked": "who reads the eval and hidden file",
+    "found": "one eval, one hidden file, one usage guide per slice; no builder agent, build skill or context sub-agent reads them or the evals folder",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 462,
+     "end": 463,
+     "fingerprint": "sha256:efcddd6d78b0a41d30e02f794b82697ff731428dae34ec2d7a03d428fc1df7e5"
+    }
+   },
+   {
+    "asked": "what the builder receives",
+    "found": "the builder never receives success scenarios; it cannot teach to a test it cannot see",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/builder-isolation.md",
+     "start": 35,
+     "end": 35,
+     "fingerprint": "sha256:2142297c17ad74a0bb9854267a55fb3ad4768e216963e1f15852c184ec0b4cc5"
+    }
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "How is an eval step written, and what happens on a kind of surface with no step library?",
+  "answer": "Every step is a sentence of the step library of the slice's kind of surface; a library for another kind is added when a slice first needs it, as a memory update a person approves.",
+  "trace": [
+   {
+    "asked": "step rules",
+    "found": "each step is a sentence of the step library; a value is a literal or a name for what the build makes; each Then exact, no score",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/eval-format.md",
+     "start": 14,
+     "end": 17,
+     "fingerprint": "sha256:65f85ec8f780097aeac81ef80ba9f603b3756102dfec11c57b7e0a1b1ba52411"
+    }
+   },
+   {
+    "asked": "libraries for other surfaces",
+    "found": "browser page, mobile app and backend endpoint libraries are added when a slice first needs one",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/eval/_index.md",
+     "start": 12,
+     "end": 12,
+     "fingerprint": "sha256:96db29b311b0ae20d0c3c8c5f6153f1970ec961981d13fb4e475e0ad5c5d3069"
+    }
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "What may a later run do to an eval that exists?",
+  "answer": "Only add scenarios, Untestable lines and recorded lines; never change or delete a scenario; name for a person each scenario whose story line moved or changed.",
+  "trace": [
+   {
+    "asked": "the yardstick rule",
+    "found": "a later run never changes or deletes a scenario and only adds",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/eval-format.md",
+     "start": 36,
+     "end": 38,
+     "fingerprint": "sha256:a080848c8092a30f7ad57e454a78e2949b009a83fc5a0491ec4ad4b5285a659b"
+    }
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "What does each entry of the hidden file hold, and who fixes?",
+  "answer": "Each Fails if line of the feature's ICE and its capability's ICE, with exactly one recovery: when, way back as guidance, and who fixes (the builder alone or a person).",
+  "trace": [
+   {
+    "asked": "a feature's recovery",
+    "found": "one recovery per Fails if line of the two ICE; when, way back, who fixes; the story never holds these lines",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 67,
+     "end": 80,
+     "fingerprint": "sha256:ddc4bc9ee7ec05d0b886fe1cf2d1039386e8aa0261d96c5f8ea055d669005763"
+    }
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "How can a check find what a build session read?",
+  "answer": "Through the session id and ledger file, with start and end offsets, that each play run's evidence names.",
+  "trace": [
+   {
+    "asked": "session stamp in evidence",
+    "found": "session_id, ledger_file, ledger_start_offset and ledger_end_offset",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/templates/evidence-file.md",
+     "start": 35,
+     "end": 38,
+     "fingerprint": "sha256:b84d4a77fe7484f21eb46609098631bd64b6bb9ea6e639d97fed4ad4a32701bc"
+    }
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ },
+ {
+  "issue": 1021,
+  "play": "none (draft for the product owner's review)",
+  "question": "Who writes the usage guide, and may the builder see the eval?",
+  "answer": "The build delivers the usage guide in the guides folder, outside the evals folder, and never sees the eval.",
+  "trace": [
+   {
+    "asked": "usage guide",
+    "found": "the build delivers it beside the evals folder, so the builder writes the guide and never sees the eval",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 469,
+     "end": 469,
+     "fingerprint": "sha256:65fa91a01da16e7a1bf087f337ec8e1a8fcd8bc4a6159d0b3e9ee3ba1e948888"
+    }
+   }
+  ],
+  "decided_by": "product-os-keeper"
+ }
+]

@@ -1,0 +1,30 @@
+{
+  "routing_result": {
+    "work": "Garura connects to the tools a product team already uses to see what happens once its product is in use and what is said in its market (web analytics, product analytics, user feedback tools, and forums such as Reddit), and takes in what they hold, as given. It reads only, never writes to those tools, never touches production, and does not interpret what it takes in.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_detail": [
+      {
+        "name": "software delivery (the field Garura serves)",
+        "why": "Garura serves teams that build software; no shelf's trigger is about building or delivering software, as the domain page of software delivery planning already records (placement-routing.json, unmatched)."
+      },
+      {
+        "name": "learning from a product's use and its market (the job this work does)",
+        "why": "The job is to take in, for a product team, what its users do and what users and the market say. No shelf's trigger covers reading another product's signals: the ten shelves are each a field a product is built for (selling, paying, content, accounts, reach and so on)."
+      }
+    ],
+    "near_but_not_placed": [
+      {
+        "domain": "analytics",
+        "why_near": "Its operator intent 'Understand product usage' and its split of 'Web analytics' from 'Product analytics' name two of the four kinds of tool this work reads.",
+        "why_not_placed": "Its trigger is 'the product needs to measure behaviour and outcomes — events, goals, funnels, product usage', and its title says how such a product is built. Garura measures nothing; it reads what a team's own analytics tool measured. User feedback and forums are on no shelf."
+      },
+      {
+        "domain": "ecommerce",
+        "why_near": "Its 'Understand' intent, 'learn from behaviour and reviews', and its 'Ratings & written reviews' feature touch user feedback.",
+        "why_not_placed": "It is about a shop showing buyers' reviews, a feature of selling goods, not a harness reading feedback for a product team."
+      }
+    ]
+  }
+}

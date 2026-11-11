@@ -1,0 +1,177 @@
+[
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 3 (Build features or update the product model, on its own or at least as recommendations)",
+    "question": "Which domain shelf covers a harness that turns findings about a product's consumers and competitors into changes to that product, recommended or made on its own?",
+    "answer": "None. The placement over the ten domain shelves is unmatched: each shelf is a field a product is built for. The drafts sit in software delivery planning with the first two capabilities of Run → Product, for now; the domain is settled at BI-6's close and is not reopened.",
+    "decided_by": "product-os-keeper (find-work-placement)",
+    "trace": [
+      {
+        "asked": "the analytics shelf's trigger",
+        "found": "the product needs to measure behaviour and outcomes; it says how measuring is built into a product, not how a product is changed",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/analytics.md",
+          "start": 2,
+          "end": 6,
+          "fingerprint": "sha256:1cc4e7b68c5e1e61439108676ae747b4f637c56de021e69014966ea544ba584e"
+        }
+      },
+      {
+        "asked": "a shelf that guides what people want",
+        "found": "experience: a front-end that helps a product's own visitors find and be guided",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/experience.md",
+          "start": 2,
+          "end": 6,
+          "fingerprint": "sha256:bbc32a7830f706e710c44d30c777fe9a3b080ca11fffd0fa5dec4409001b61b4"
+        }
+      },
+      {
+        "asked": "what the model's one domain covers",
+        "found": "turns a business intent into working code that a check from the outside can prove",
+        "source": {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/domain.md",
+          "start": 4,
+          "end": 4,
+          "fingerprint": "sha256:78aaf6f782ff672cd68045eacc0f8f62b540d99e526553e5638e5d52e4c3e627"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 3 (Build features or update the product model, on its own or at least as recommendations)",
+    "question": "May a change to a business intent ever go ahead on its own, whatever the project's setting?",
+    "answer": "No. A new business intent, an intent's words, proof, must-not or stage, and retiring or replacing an intent are always recommendations for a person; only a person confirms or drops an intent.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "who confirms or drops a business intent",
+        "found": "only a person; an agent never does",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/schemas/product-os/ontology.md",
+          "start": 223,
+          "end": 223,
+          "fingerprint": "sha256:75ebca24eb1c80c7eb861ca47cf55faf29c6884ec7307dc13da116b812d8918d"
+        }
+      },
+      {
+        "asked": "who may write parts of the model",
+        "found": "any play may write what it finds, the rules never stop a write, but only a person confirms or drops a business intent",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/schemas/product-os/ontology.md",
+          "start": 25,
+          "end": 25,
+          "fingerprint": "sha256:5f42e9382e431019d277ccb06aab48482893a8303fb06f5794ceba6df812f13a"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 3 (Build features or update the product model, on its own or at least as recommendations)",
+    "question": "Does a pinned checkpoint in memory bear on changes this capability lets go ahead on their own?",
+    "answer": "It may. Phoenix memory pins the old learning play's checkpoint because a wrong model learning bends the product model, and unpinning is an intent change to that play. Whether the pin binds this capability is named as not decided on the pages.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "which checkpoints are pinned and why",
+        "found": "learn is pinned: a wrong model learning bends the product model; unpinning is an intent change, never a config edit",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/rules/gate-config.md",
+          "start": 98,
+          "end": 103,
+          "fingerprint": "sha256:843c1625a4b762378d150f2945b8cd6e0f5437fad34448ae0dc7b4410e966d0b"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 3 (Build features or update the product model, on its own or at least as recommendations)",
+    "question": "Is there a built way for a kind of change to earn going ahead without waiting, from a person's answers?",
+    "answer": "Yes, as a pattern: the conditional checkpoint learns from a run of clean approvals of one shape, resets on any rejection or edit, and keeps a list a person pins for good. It is offered as option 3 for the line, not taken as the lean.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "how a conditional checkpoint learns",
+        "found": "a shape's last streak of clean approvals earns auto; any rejection, edit or correction resets it; never_auto is the person's permanent pin",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/rules/gate-config.md",
+          "start": 75,
+          "end": 81,
+          "fingerprint": "sha256:280149209406f8fc9292dd0e7c531a887ced26d2b1ffcda247eed197cf8cbef1"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 3 (Build features or update the product model, on its own or at least as recommendations)",
+    "question": "What must every recommendation carry?",
+    "answer": "The findings it rests on, whole, and through them every item; a change that cannot name its backing is not proposed.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "the rule for a recommendation",
+        "found": "silence beats a wrong answer; a play that recommends must name the source that backs it",
+        "source": {
+          "tier": "phoenix",
+          "path": "standards/rules/no-unbacked-recommendation.md",
+          "start": 3,
+          "end": 5,
+          "fingerprint": "sha256:a656779d27ba4a7e42874334874e0c1795481e62db98e56846108bdb1fb60925"
+        }
+      }
+    ]
+  },
+  {
+    "issue": 1021,
+    "play": "draft BI-6 capability 3 (Build features or update the product model, on its own or at least as recommendations)",
+    "question": "What keeps a change that goes ahead on its own safe?",
+    "answer": "Only reversible changes go ahead, each shown at once with a way back; setting a kind back stops it at once; the product owner's answers by kind are kept beside the setting so he can widen or narrow it. Memory is quoted as a reason only, not written as a rule.",
+    "decided_by": "product-os-keeper",
+    "trace": [
+      {
+        "asked": "when an agent may act on its own",
+        "found": "where actions are reversible or bounded, after the assistive rung; not for irreversible, high-consequence actions",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/architecture/agent-supervised-autonomous.md",
+          "start": 22,
+          "end": 25,
+          "fingerprint": "sha256:29584c5aa3252e973af365755ea0fbe7a5f6d36327c77aea8f33c0bef6f37f08"
+        }
+      },
+      {
+        "asked": "what justifies more autonomy",
+        "found": "a full record of what was suggested and what the person did with it",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/architecture/agent-assistive.md",
+          "start": 35,
+          "end": 36,
+          "fingerprint": "sha256:faba82f9999bf52ef00c9ce9d5b0f0ecd5f6ac51e2b2cfa5789c0eff8fd21e6d"
+        }
+      },
+      {
+        "asked": "the floor under every agent",
+        "found": "untrusted-content defence and a kill switch",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/architecture/agentic-guardrails-baseline.md",
+          "start": 29,
+          "end": 32,
+          "fingerprint": "sha256:ebbc81b3e5ca7b38f4d270d22f6a205c34b8af3db4f671daf41a93575677e4da"
+        }
+      }
+    ]
+  }
+]

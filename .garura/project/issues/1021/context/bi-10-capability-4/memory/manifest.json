@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:3e6146ffc55060ae284a1bf02735442e0569c42c3fad9a26467c907f0b86170f",
+      "copy": ".garura/project/issues/1021/context/bi-10-capability-4/memory/standards/rules/gate-config.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/evidence-recording.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:c9e06c897e8fbcd0d04465e8f92a0a7c77f9eab1290684433d926811a5b883a9",
+      "copy": ".garura/project/issues/1021/context/bi-10-capability-4/memory/standards/rules/evidence-recording.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/config-maps.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:95e283ea6c36541dd63428c57edaa95fca913e4814ceb5bb6453cca60d009d40",
+      "copy": ".garura/project/issues/1021/context/bi-10-capability-4/memory/knowledge/review/config-maps.md"
+    }
+  ]
+}

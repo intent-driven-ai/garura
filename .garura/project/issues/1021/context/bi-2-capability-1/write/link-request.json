@@ -1,0 +1,68 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-design-technology-architecture",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "design-technology-architecture",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "The technology and architecture for the whole project are set here and can evolve. Nothing blocks on them.",
+      "doc": "software-delivery-planning/design-technology-architecture/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-set-architecture",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-set-architecture",
+      "capability": "cap-design-technology-architecture",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "Sets the shape of the whole system and what it is built with, its style, its main parts and how they connect, and the technology of each part with its version, so every slice builds on the same architecture.",
+      "doc": "software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-architecture",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-architecture",
+      "capability": "cap-design-technology-architecture",
+      "intents": [
+        "bi-2"
+      ],
+      "one_line": "When the project outgrows its architecture, a person confirms an update, and what held before stays readable with why it changed.",
+      "doc": "software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-design-technology-architecture",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-design-technology-architecture",
+      "doc": "software-delivery-planning/design-technology-architecture/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-set-architecture",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-set-architecture",
+      "doc": "software-delivery-planning/design-technology-architecture/fn-set-architecture/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-architecture",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-architecture",
+      "doc": "software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md",
+      "thin": true
+    }
+  ]
+}

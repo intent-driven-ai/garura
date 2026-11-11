@@ -1,0 +1,56 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261102-030220/adr-draft.md",
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "026",
+      "file": "docs/adr/026-direct-to-model-writes.md",
+      "kind": "amended",
+      "part": "Decision, \"Containment split\", the sentence \"Every shared file ... is written solely by the play's deterministic keyed script\", for the spine only: the spine is changed through link-model-part and remove-model-part, and plays move onto them over time. The profile and decisions/ stay with the play's script, and the rest of the split stands"
+    },
+    {
+      "adr": "044",
+      "file": "docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md",
+      "kind": "amended",
+      "part": "\u00a72, the sentence \"Outside a drive, nothing changes. A play's keyed persist script is still the only writer of shared model files\". The rest of \u00a72, the gap-closing script inside a loop, stands for now"
+    },
+    {
+      "adr": "063",
+      "file": "docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+      "kind": "amended",
+      "part": "\u00a72, \"A plan that exists is changed only by /update-plan\": a whole plan, with its folder, may also be deleted on a person's named approval, through remove-plan; and its words \"the change reaches GitHub\" now read \"the tracker\". \u00a71 and \u00a73 stand"
+    },
+    {
+      "adr": "005",
+      "file": "docs/adr/005-skills-as-capabilities.md",
+      "kind": "amended",
+      "part": "\"Skill Execution Preferences\": `gh` in the first row of its table, and its example \"Preferred: Use gh CLI directly\". A skill reaches a tracker only through the tool. The order of preference stands for everything else"
+    },
+    {
+      "adr": "064",
+      "file": "docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md",
+      "kind": "amended",
+      "part": "\u00a71 and \u00a74, the word only: \"its own GitHub issue\" and \"closed on GitHub\" now read as its own issue in the tracker. The rule stands"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "026-direct-to-model-writes.md",
+    "044-the-shared-drive-run-owns-the-steps-between-plays.md",
+    "063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+    "005-skills-as-capabilities.md",
+    "064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

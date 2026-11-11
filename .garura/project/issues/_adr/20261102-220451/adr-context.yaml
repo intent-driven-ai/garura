@@ -1,0 +1,196 @@
+# Context gathered by adr-keeper for /record-decision, step 2 (task draft-adr)
+shape: markdown
+number: '066'
+status: proposed
+level: framework
+date: 2026-11-03
+decided_in: '#1021 (reorganising how Garura is named and built), with the five roles recorded in #1015'
+accepted_by: ''
+names_list: .garura/project/issues/1021/context/names.md
+guidance_from_the_caller:
+- The record is only about how this project is built. Keep business intents and model content out of the
+  Decision.
+- Short. The product owner reads it in one sitting.
+- Only what the person truly must decide goes under "For the Person Who Accepts This".
+- Nothing is renamed by this decision, so a play's current name in an older ADR is not a change to that
+  ADR.
+supersedes:
+- adr: '046'
+  part: in part — §1, the list of short words, which gains env, perf and uat; §2, the words "or starts
+    with" and the verbs it moved because of them; §3, loops named complete-<phase>; §4, in whole, with
+    what ADR 048 and ADR 059 changed in it
+  judged: '§2''s rule that no name IS a built-in stands. §3''s idea stands with a new word: one word marks
+    a loop and only loops use it. §1''s verb-first, one-meaning-per-verb and every-name-used-once rules
+    stand. §5 and §6 stand: skills and agents keep their verbs for now.'
+- adr: '045'
+  part: in part — §3, the five final names and the Learn loop's list of plays; §4, the name Discovery
+    loop; §2's examples "the Discovery loop" and "the Ship loop"
+  judged: '§1 (the word loop) and §5 stand. §2''s rule stands: a loop is always named in full, never a
+    bare loop, no command called just /loop; the full name is now the command.'
+- adr: 028
+  part: in part — "The agentic lifecycle is five loops" and "Later"; §2 item 3, where marketing leaves
+    the design areas; §4, that the change chain is a loop
+  judged: The chain in §4 stands as commands. What §1, §2, §3 and §5 say each stage does stands, except
+    marketing.
+amends:
+- adr: 029
+  part: 'Context, the six phases: the second is Spec, not Intent. The rest stands'
+- adr: 038
+  part: '§3, "A new play, initialize": initialize is an engine thing, not a play. Its job, setting up
+    a project''s own memory by asking from Phoenix memory, stands'
+- adr: '053'
+  part: '§4, "The seven design lens plays ... are not dropped": /shape-marketing-lens and /shape-measure-lens
+    are dropped. The other five stay as §4 says'
+read_and_left_alone:
+- adr: 049
+  how_read: in full
+  why: The three plays, their order and where evals live all stand. It holds no verb rule; two of its
+    plays take new names later and that is not a change to it. It mentions the Alignment loop, which is
+    unapproved and unnamed, so it stays as it is.
+- adr: 031, 052
+  how_read: the Alignment lines
+  why: They mention the Alignment loop, which is unapproved and unnamed, so they stay as they are.
+- adr: '065'
+  how_read: in full
+  why: None of its four rules changes. It left the verb remove undecided, so it needs no pointer; the
+    later decision on skills and agents settles it. Its work item to promote to Phoenix memory after the
+    verbs change now waits for the rename.
+- adr: '004'
+  how_read: rules section
+  why: Agents stay <domain>-<role>. The agreed list names no agent.
+- adr: 048
+  how_read: naming lines
+  why: Its amendment of ADR 046 §4 ends with §4. Its two layers and its past renames stand.
+- adr: 059
+  how_read: naming lines
+  why: Its amendment of ADR 046 §4 ends with §4. Its knowledge step stands.
+- adr: 006, 018
+  how_read: status lines
+  why: Already superseded in full by ADR 046.
+- adr: 017, 021, 022, 023, 024, 025, 026, 035, 037, 039, 040, 041, 042, 043, 044, 051, 054, 055, 060,
+    061
+  how_read: searched for verbs, built-ins, loop names and lenses, and adr.py overlaps on the draft
+  why: They share only a path, a play name or a word with this decision.
+overlaps_note: adr.py overlaps on the brief found no candidates, because the brief names no ADR and no
+  path; the candidates were judged by reading. It was run again on the draft; every candidate it named
+  is judged in this file.
+affects:
+  naming_rules:
+  - core/components/memory/standards/rules/naming.md
+  - core/components/memory/standards/rules/naming.yaml
+  - core/components/memory/standards/rules/rename-map.yaml
+  - core/tools/lint-components/lib/rules/naming.js
+  - core/tools/lint-components/test/naming.test.js
+  - core/tools/naming/
+  words_that_change:
+  - docs/standards/harness-standard.md (principle 10, "Naming, in short")
+  - CLAUDE.md (Naming)
+  - core/components/memory/standards/rules/pipeline-next.md
+  - docs/components/loops.md ("Always name a loop in full")
+  - core/grounding/glossary.md
+  - core/config.yaml (loop keys, lines 133 and 144)
+  - core/components/plays/install-garura/SKILL.md and core/tools/memory/GUIDE.md ("A play run after the
+    install, initialize")
+  - core/components/memory/standards/schemas/product-os/ontology.md (play names and the Alignment loop
+    in its text, by /edit-ontology)
+  - Phoenix memory's copies of standards/rules/naming.md and naming.yaml
+  renamed_later:
+  - every play and loop the list names, under core/components/plays/ and core/components/loops/complete-discovery/
+  - /shape-marketing-lens, /shape-measure-lens, author-marketing-lens, author-measure-lens (dropped, point
+    2)
+ice_impact: 'None now: nothing is renamed, and no play''s goal, limit or check changes. When the parts
+  are renamed, each ICE that names one changes in wording only, through /edit-play or /edit-loop, and
+  its fingerprint is stamped again. The ICE of the two dropped design plays goes when they are deleted,
+  and /build-epic and /learn-outcomes stop reading the realized stamp when those plays are rebuilt. initialize
+  has no ICE yet. The ontology (read at version 15) and the ICE kind do not change; the ontology''s wording
+  follows the rename.'
+business_intent_check:
+  value: none
+  why: A framework naming decision. No person's business intent changes, and the Business Intent kind
+    does not change.
+related: 'ADR 004, ADR 031, ADR 048, ADR 049, ADR 052, ADR 059, ADR 065, #608, #609, #610, #611, #1015,
+  #1021'
+verified_facts:
+- author starts 36 skill names in core/components/skills; 15 are marked stale, 21 are live, as the brief
+  says.
+- 'shape starts 10 play names: a slice, a plan, an eval and seven design lenses.'
+- 'No agreed name is exactly a built-in in naming.yaml. 15 agreed names start with one: design-* (8),
+  loop-* (6) and review-work.'
+- No agreed new name clashes with another part.
+- 37 plays and 1 loop exist today, and the list places all of them except /release-increment, which it
+  marks open.
+- '#608, #609, #610 and #611, the four loop-recipe issues under the old names, are all open.'
+for_the_accepter:
+- point: The list names plays and loops, but no skill and no agent, and the verb remove is still unrecorded
+  what_and_where: The skill verbs and agent endings in core/components/memory/standards/rules/naming.yaml
+    (lines 32 to 59), and ADR 046 §5. The 75 skills under core/components/skills/.
+  detail: 'The brief says the fixed verb lists are replaced, and gives author, on 21 live skills, as its
+    example. names.md names no skill and no agent, and #1015 asks that every verb, skill verbs included,
+    gets a role. Separately, remove is in the source naming.yaml (line 56), but not in ADR 046 §5 and
+    not in Phoenix memory''s naming.yaml. ADR 065 left it because the verbs change next.'
+  why_it_matters: If the skill list goes too, 72 of the 75 skill names fail the naming check, with no
+    new names to move to (commit-files and merge-pr keep a verb that stays, and platform-adapter is the
+    named exception). If it stays, author stays too, which is the brief's own example of the problem.
+    Meanwhile remove-model-part and remove-plan fail the check in any project that reads Phoenix memory's
+    copy.
+  this_decision_does: Only the play and loop lists change. ADR 046 §5 stands, and remove is not recorded.
+  you_decide: 'Decided: skills and agents keep their verbs for now, and get their own list in a later
+    decision. remove stays undecided, in that later decision.'
+- point: The list drops two design plays, and the brief gave no reason
+  what_and_where: /shape-marketing-lens and /shape-measure-lens, with their skills author-marketing-lens
+    and author-measure-lens, under core/components/. names.md line 10.
+  detail: The brief's six parts do not mention the drop. ADR 053 §4 says the seven lens plays are not
+    dropped and are rebuilt when their stage comes, and ADR 028 §2 lists marketing as a design area. Both
+    plays are stale today, so no install lays them. /shape-marketing-lens is the only play that covers
+    how a slice is found (SEO, AEO, GEO) and its reach signals. /shape-measure-lens is the only play that
+    sets a slice to realized, and the stale /build-epic still refuses a slice without it (scripts/check_ready_epic.py,
+    lines 187 to 190).
+  why_it_matters: This repo records a dropped play in an ADR with its reason (CLAUDE.md, ADR 051). Whoever
+    rebuilds /build-epic and /learn-outcomes needs to know the stamp is gone.
+  this_decision_does: It records the drop with its reason, and changes ADR 053 §4 and ADR 028 §2. Nothing
+    is deleted by this decision.
+  you_decide: 'Decided: they go. In the product owner''s words: "They didn''t have good reasons to exist.
+    They''ll be added if needed, and for now they go."'
+- point: The Alignment loop connects no two phases, so the new pattern cannot name it
+  what_and_where: ADR 031 ("Drift is found and fixed by an Alignment drive"), ADR 049 line 91, ADR 052
+    lines 63 and 97, and six lines of the ontology (25, 144, 510, 522, 524, 735). ADR 045 §3 gave /drift
+    to the Learn loop.
+  detail: These records send drift, such as a story out of date with its ICE, or two ICE for one part,
+    to an Alignment loop. It is not built. names.md lists six loops, one per transition, and neither it
+    nor /drift appears there. Under loop-<from>-<to> it has no from and no to.
+  why_it_matters: Until it is named, these records point at a loop with no name and no approval, and no
+    loop fixes drift.
+  this_decision_does: It names the six loops and leaves those records as they are.
+  you_decide: 'Decided: the Alignment loop is unapproved and unnamed. The product owner names it later.
+    It does not move into /loop-run-product, and the older ADRs that mention it stay as they are.'
+- point: The loop names call the second phase Spec, and no record said the phase was renamed
+  what_and_where: '/loop-product-spec and /loop-spec-design (names.md line 23); the open point "Phase
+    name" in #1015; the phase table in core/components/memory/standards/rules/naming.md (lines 39 to 46);
+    ADR 029''s six phases; docs/philosophy/intent.md lines 12 and 49.'
+  detail: 'The loop names and the model''s new pages say Spec, but the rule files and ADR 029 still say
+    Intent, and #1015 left the question open. docs/philosophy/intent.md says an intent sits "at a level
+    above any specification", and that in intent-driven work "the spec is an intermediate the system generates
+    from intent and memory". /loop-product-spec is the loop whose output is intents.'
+  why_it_matters: The harness standard is written for other teams to take. They would read a loop named
+    for specs next to a page saying an intent is not a spec.
+  this_decision_does: It names the second phase Spec (Decision §8). The rule files' wording changes with
+    the renames, ADR 029 gains a forward pointer, and the page stays as it is.
+  you_decide: 'Decided: Spec, not Intent. docs/philosophy/intent.md stays: an intent sits above a specification,
+    and a person''s intent becomes a spec.'
+notes:
+- naming.md and naming.yaml were read at their repo source paths as the files this decision changes. The
+  ontology and Phoenix memory's naming.yaml were read only through the memory tool.
+- The second half of the brief's part 1, about what a business intent says, and part 4's words on where
+  the work plays sit for now (that place is a business intent), are left out of the Decision at the caller's
+  word.
+- 'Slip: while checking a count, this agent listed the intents folder and read the first two lines of
+  one intent page by its path, against its own rule. The titles were then read again through the memory
+  tool, and nothing in this record rests on the direct read.'
+- The product owner's answers on the four points came through the coordinator, with the word accept. The
+  status stays proposed; the play marks it accepted.
+- ADR 046 and ADR 028 are each listed once, under supersedes, with all their parts. apply_adr.py writes
+  one pointer per older file, and a second entry for the same file would be skipped, so its part would
+  never reach the older ADR.
+- ADR 029 moved from left alone to amended. The answer says its wording changes, and an accepted ADR's
+  text is never edited, so the change reaches it only as a forward pointer.
+target: docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md

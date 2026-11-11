@@ -1,0 +1,67 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/_content-standard.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:a87ad8b9c992bb6524ea5f995693615241d5368b49df75eb0c9851b924b4025d",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/standards/schemas/product-os/grounding/_content-standard.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/capability.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:57bcd198b8344c9cba9e84739714f44d6c85eac5dcde9e67d88629c698a3609f",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/standards/schemas/product-os/grounding/capability.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/feature.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:8056d0c66a9ef96f306504087fa19aafaa16989e160c424cc497b2b073d3cd20",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/standards/schemas/product-os/grounding/feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/loop-contract.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:5731bd3f35be8aa0aa6bc315ce59a41f39a63bfd9cd973b7ad90a40ac565530a",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/standards/rules/loop-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/run-status.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:0deb695c3fcccc9594394003eb3f079a382ed87e56e20734697c58cd68b37553",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/standards/rules/run-status.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:3e6146ffc55060ae284a1bf02735442e0569c42c3fad9a26467c907f0b86170f",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/standards/rules/gate-config.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/concurrent-fanout.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:b717c8606645f240e78cb7c9bb9783d8e7d06bda8b029ea0de3d35232a72df8e",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/standards/rules/concurrent-fanout.md"
+    },
+    {
+      "tier": "short-term",
+      "path": "1021/context/answers/bi9-loop-triggers.md",
+      "version": null,
+      "fingerprint": "sha256:e086d5036bd3afe5c91392ec99053c8704a99e9c017ea627da09af054891258b",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/1021/context/answers/bi9-loop-triggers.md"
+    },
+    {
+      "tier": "short-term",
+      "path": "1021/context/answers/bi9-status-display.md",
+      "version": null,
+      "fingerprint": "sha256:7aa75a337d40fa894b6426ee403abf2d2dbf0c350cc6ca901949548ad867d304",
+      "copy": ".garura/project/issues/1021/context/bi-9-capability-2/memory/1021/context/answers/bi9-status-display.md"
+    }
+  ]
+}

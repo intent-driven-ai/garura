@@ -1,0 +1,186 @@
+[
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 2 (Test security)",
+  "question": "What is a security test measured against?",
+  "answer": "The product profile's security level and its pass bar (the standard or measure for that level), with each capability's own security need under it; the numbers and any named standard are per product, set through the profile, never in the capability. The drafts state it as the capability's first guiding rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what the profile holds for security",
+    "found": "a level on the scale none < low < medium < high < xhigh, and a gate, the standard or how it is measured",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/product-profile.yaml",
+     "start": 28,
+     "end": 31,
+     "fingerprint": "sha256:0bb40cfcce5d1de9ecf43a7738aff4a7830d2f739816abbffaecd2c339c85491"
+    }
+   },
+   {
+    "asked": "the project's own security level and pass bar",
+    "found": "medium, with a pass bar run on a test GitHub organization",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/_spine.yaml",
+     "start": 1636,
+     "end": 1640,
+     "fingerprint": "sha256:e0b930a935b1a9cd46f3370a2a4888a1d38e6b77fdd30aeaffe41c3111be983b"
+    }
+   },
+   {
+    "asked": "where the numbers of a bar live",
+    "found": "in the product profile, per product, never in the knowledge base",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+     "start": 27,
+     "end": 37,
+     "fingerprint": "sha256:9e4dfab1503c09661933bb12942fb7835bf77e53cc88591a51206617a5f55ae7"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 2 (Test security)",
+  "question": "Does a tool's own pass decide a security result, and what is an unmeasured part?",
+  "answer": "No: each result is compared with the pass bar, and a weakness the bar does not allow fails even when the tool passes; a part of the bar no test measured is a fail. The drafts state both as rules.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how a verification compares tool results",
+    "found": "green is the entry; compare with the profile's benchmark; a benchmark with no result is a finding",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/validation-floor-profile-benchmarks.md",
+     "start": 27,
+     "end": 37,
+     "fingerprint": "sha256:9e4dfab1503c09661933bb12942fb7835bf77e53cc88591a51206617a5f55ae7"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 2 (Test security)",
+  "question": "Who gets a security finding: the builder alone, or a person?",
+  "answer": "By the recovery rule's test for each finding: the developer when the way back is a change of the code the builder controls; a person when it needs judgment or authority the builder lacks (architecture, deployment design, an environment, a secret to change where it is kept, the level itself), and whenever in doubt. Lean only; open point 6 of research.md.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the rule that routes a recovery",
+    "found": "autonomous when mechanical from what the builder controls; human when it needs judgment or authority the builder does not hold, or an irreversible or outward-facing decision",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/expectation-generation.md",
+     "start": 50,
+     "end": 60,
+     "fingerprint": "sha256:dfaf0f5e402b2ab699637a2687236523129354b1fa153bb7847ea7e674ec3d36"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 2 (Test security)",
+  "question": "What may a security handoff plan name, and what may the builder see?",
+  "answer": "The weakness, where it is and the way back; never the test, its rule, its id or its tool. The builder knows the level and the design's security rules, which shape building, but never the tests, results or verdict. Lean only; open points 6 and 7.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "what a handoff plan never names",
+    "found": "the failure condition, its id or the check",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/schemas/product-os/ontology.md",
+     "start": 466,
+     "end": 466,
+     "fingerprint": "sha256:ce014111b9465e2e3c95334f63303bf8a4b8826b4a9e536ac05801d7e93ad7db"
+    }
+   },
+   {
+    "asked": "the rule that divides what the builder gets from what is checked after",
+    "found": "would knowing this change how the builder writes code: yes, a constraint the builder gets; no, a failure condition it never gets",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/builder-isolation.md",
+     "start": 53,
+     "end": 59,
+     "fingerprint": "sha256:a3f050898870ccb3ee2c19eb06131bfd78b10f276aa207440967bcbb77bd334c"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 2 (Test security)",
+  "question": "How does a security test treat secrets?",
+  "answer": "A test that needs a secret takes it at run time from where the deployment design keeps the testing environment's secrets; no finding, verdict, handoff plan or log holds a value; a finding names only where a value was found. Memory's own answer (secrets only in secrets management) is not written on the pages as a rule. Lean only; open point 8.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how the review records a secret found in code",
+    "found": "the evidence is a redacted snippet",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 122,
+     "end": 123,
+     "fingerprint": "sha256:c6aced033fcb63601dc0e1b4c174135dcc444cf4d1d5845685b92c3331ae7a78"
+    }
+   },
+   {
+    "asked": "what memory says about where secrets live",
+    "found": "credentials and provider keys live only in secrets management, never in the repo or config files",
+    "source": {
+     "tier": "phoenix",
+     "path": "knowledge/technology/run-environments-canary-migrations.md",
+     "start": 63,
+     "end": 66,
+     "fingerprint": "sha256:0ec2e62985042a75d1b197cddb418c8569986c266bb641c4cf70de1742d56c6c"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 2 (Test security)",
+  "question": "Does any running check scan the libraries a product uses for known weaknesses?",
+  "answer": "No. The review's rule for libraries asks for a list of known weaknesses but matches only the name of the file that lists them; only the stale slice check and the quality auditor, when asked, ran a scan. The code-test feature records it as not built.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "the review's rule for libraries",
+    "found": "a path rule on the dependency files with evidence 'file, cve-list'",
+    "source": {
+     "tier": "phoenix",
+     "path": "standards/rules/pr.md",
+     "start": 140,
+     "end": 140,
+     "fingerprint": "sha256:560c53e8e8f56ceb1e034c9da9e32b9815d0c464a90ec34ac87f923008ba4df5"
+    }
+   }
+  ]
+ },
+ {
+  "issue": 1021,
+  "play": "draft BI-4 capability 2 (Test security)",
+  "question": "Who moves the security level when the product cannot meet it?",
+  "answer": "Only the product owner, by an approved decision; no finding is let through any other way. The drafts state it as a rule.",
+  "decided_by": "product-os-keeper",
+  "trace": [
+   {
+    "asked": "how the project's security level was last moved",
+    "found": "a capability need above the box stops for the product owner, and the box moves only by an approved decision",
+    "source": {
+     "tier": "garura",
+     "path": "product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+     "start": 8,
+     "end": 18,
+     "fingerprint": "sha256:6f93c0f6f6c22052b6d0807a2437bcd5706dd00ee492adee115f2f987329abd8"
+    }
+   }
+  ]
+ }
+]

@@ -1,6 +1,6 @@
 # ADR 038 — The Install Brings No Memory: the Memory Tool Lives in the Project and Fetches Phoenix Memory on First Use
 
-**Status:** Accepted — amended in part by [ADR 039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md)
+**Status:** Accepted — amended in part by [ADR 039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md); and amended in part by [ADR 066](066-names-say-who-does-the-work-five-roles-own-the-verbs.md): §3, "A new play, initialize": initialize is an engine thing, not a play. Its job, setting up a project's own memory by asking from Phoenix memory, stands
 **Date:** 2026-10-19
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja

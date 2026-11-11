@@ -1,0 +1,20 @@
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+
+## Intent
+- Goal: Before any fix code is written, each wrong result the report names has at least one code-level test, written by the developer who understood the defect and is not its builder, that calls the code and checks the right result in the project's own test tool; each test that exists and expects the wrong result is corrected with its reason; and the separate check's record shows each new or corrected test failing because the defect is there.
+- Limit: The test writer reads the test writer's part of the understanding and the project's code, tests and memory; never the builder's code, an eval, the hidden file or an ICE page; and it changes no code outside the tests.
+- Limit: No fix code is written until every test for the fix has failed on the check's record; a test that passes, or cannot run because of a fault of its own, goes back to the test writer.
+- Limit: The tests are written on the model or service the test model setting names, apart from the model that fixes the code, in the test tool and the way of writing them that the project's code and memory give first, then Garura memory, then Phoenix memory.
+- Fails if: A wrong result the report names has no test and no line that says why.
+- Fails if: A test checks the text of the code, or a test counted as failing passed or could not run, or a test that expected the wrong result was left as it was.
+- Fails if: The test writer read the builder's code, an eval, the hidden file or an ICE page, or is the builder of the same fix.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the test writer's part of the understanding, with the report, the feature, the tests that exist and why they pass and the cause; the code the cause names; the project's test tool and how its tests are written and run; the project's test model setting; and the ontology's rules for what a builder reads.
+- Never read: the builder's code while it is written, the plan's evals folder, the eval, the slice's hidden file and any ICE page.
+- Persona: the developer who understood the defect and writes its tests, a person or an AI agent on the model or service the project's test model setting names, who is never the builder of the same fix.
+- Scope: In: one code-level test or more for each wrong result the report names, the tests that exist and expect the wrong result corrected, all written before any fix code and shown to fail by the separate check, and each wrong result no code-level test can show, named with the reason. Out: understanding the defect, the fix code, running the check, the tests for stories, the evals, and keeping the test model setting.
+
+## Expectation
+- Scenario: In a team's task tool, a command a person runs in a terminal, a report says a task due today is listed as late after six in the evening. The developer who understood it found the feature, List my tasks, one test for the late mark that passes because it runs at noon, and the cause: the list compares the due date with the time in another time zone. On the model the project's test model setting names, it writes two tests in the project's own test tool: one lists a task due today at seven in the evening, one at a minute before midnight, and both expect the task not to be late. The check runs them on the code as it is, and both fail because of the defect. Only then does the builder start.
+- Done means: Someone other than the test writer compares the tests with the report, the understanding and the check's record, and finds each wrong result with a test or a reason, each test calling the code and not reading its text, each test that expected the wrong result corrected with its reason, and each new or corrected test failing before any fix code because of the defect.

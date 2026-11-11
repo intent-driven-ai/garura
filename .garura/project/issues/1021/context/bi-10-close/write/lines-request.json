@@ -1,0 +1,93 @@
+{
+ "by": "product-os-keeper, for #1021 (reorganise the business intents): BI-10 (Standards, structure, settings and memory) close",
+ "source": "The product owner's reply of 2026-11-11, recorded in .garura/project/issues/1021/context/bi-10-close/approval.md: \"Yes to domains opening paragraph as Yes to the six capability pages.\"",
+ "pages": [
+  {
+   "page": "software-delivery-planning/domain.md",
+   "changes": [
+    {
+     "old": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made. It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past. It does not release the work or run the product.",
+     "new": "This domain turns a business intent into working code that a check from the outside can prove. It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it. It specifies the product, sets the project's design, and builds the work test first. It writes the eval that says if the work is met before the work is built, and it never gives a builder the eval or the tests: a check flags each build session that read them. It then tests the built work from outside the builder, by its evals and against the levels, surfaces, designs and standards set before the build. Once the product is in use, it takes in how the product is used, what people say about it and what its competitors do, works out what consumers want, and turns that into new features or changes to the model, as recommendations to the product owner or on their own where the product owner allows it. It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in. It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made. It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past. It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on. It does not release the work or run the product."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/standards/capability.md",
+   "changes": [
+    {
+     "old": "It matters because agents build from what they are given. In this intent's words: \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" And the standard is written for more than Garura's own repository: it is \"written so that a team can take it and build its own harness the same way\". It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory. The domain's first paragraph does not name them yet; widening it is owed at this intent's close.",
+     "new": "It matters because agents build from what they are given. In this intent's words: \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" And the standard is written for more than Garura's own repository: it is \"written so that a team can take it and build its own harness the same way\". It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none. No knowledge shelf in any memory tier covers how a team keeps the standards of its own harness; knowledge/review/harness.md, in Phoenix memory, covers only how a change to harness parts is reviewed: \"Reviewing harness code (plays, skills, agents, grounding)\". The rule files in memory, under standards/rules/, are the standards themselves",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/build-your-own-harness/capability.md",
+   "changes": [
+    {
+     "old": "It matters because \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\", and a play or a loop edited by hand, away from its intent, is such a loose rule: \"A part edited away from its intent stops doing what was agreed, and nobody can see that it changed.\" The intent's outcome ends: \"Teams can build their own harness on it.\" It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory. The domain's first paragraph does not name them yet; widening it is owed at this intent's close.",
+     "new": "It matters because \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\", and a play or a loop edited by hand, away from its intent, is such a loose rule: \"A part edited away from its intent stops doing what was agreed, and nobody can see that it changed.\" The intent's outcome ends: \"Teams can build their own harness on it.\" It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- Shelf: none. No knowledge shelf in any memory tier covers how a team builds its own harness; knowledge/review/harness.md, in Phoenix memory, covers only how a change to a play, a skill, a sub-agent or grounding is reviewed.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/structure/capability.md",
+   "changes": [
+    {
+     "old": "It matters because Garura's parts and people find each other's files by path. A part that reaches into the source \"works only inside Garura's own repository, and fails everywhere else\", and a run's records are \"the audit trail of the work\": \"A record kept where nothing reads it is lost without anyone noticing\". It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory. The domain's first paragraph does not name them yet; widening it is owed at this intent's close.",
+     "new": "It matters because Garura's parts and people find each other's files by path. A part that reaches into the source \"works only inside Garura's own repository, and fails everywhere else\", and a run's records are \"the audit trail of the work\": \"A record kept where nothing reads it is lost without anyone noticing\". It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- .garura/product/product-os/software-delivery-planning/domain.md: the domain this capability sits in; its first paragraph does not name the capabilities of Standards, structure, settings and memory yet.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/settings/capability.md",
+   "changes": [
+    {
+     "old": "It matters because agents act on the settings they are given, and a setting that is wrong or read by no one fails in silence. In this intent's words: \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" #946 (every settings file other than config.yaml lives in one config folder, and each setting names who reads it) says what happens today: \"Nothing says where a new settings file goes, and nothing says which play or tool reads which setting, so a setting no one reads, or one named for a play that is gone, stays unnoticed.\" #772 (the install keeps old play names in the project config) shows the cost: \"The installed config still names the review gate by its old play name, so the gate that should be off is on.\" It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory. The domain's first paragraph does not name them yet; widening it is owed at this intent's close.",
+     "new": "It matters because agents act on the settings they are given, and a setting that is wrong or read by no one fails in silence. In this intent's words: \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" #946 (every settings file other than config.yaml lives in one config folder, and each setting names who reads it) says what happens today: \"Nothing says where a new settings file goes, and nothing says which play or tool reads which setting, so a setting no one reads, or one named for a play that is gone, stays unnoticed.\" #772 (the install keeps old play names in the project config) shows the cost: \"The installed config still names the review gate by its old play name, so the gate that should be off is on.\" It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- .garura/product/product-os/software-delivery-planning/domain.md: the domain's first paragraph, which does not yet name the capabilities of this intent.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/memory/capability.md",
+   "changes": [
+    {
+     "old": "It matters because \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" In the product owner's words on #942 (a project's memory can be managed): \"if memory is wrong its a major problem\". And in the product owner's words on the memory system: \"The system should work only within the memory, but not outside of it.\" It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory. The domain's first paragraph does not name them yet; widening it is owed at this intent's close.",
+     "new": "It matters because \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" In the product owner's words on #942 (a project's memory can be managed): \"if memory is wrong its a major problem\". And in the product owner's words on the memory system: \"The system should work only within the memory, but not outside of it.\" It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- .garura/product/product-os/software-delivery-planning/domain.md, line 4: the domain's first paragraph, which does not name the capabilities of Standards, structure, settings and memory yet.",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on.\""
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/model-routing/capability.md",
+   "changes": [
+    {
+     "old": "It matters because the cost of a run, and the time a person waits for it, are set part by part by the model each part runs on. A decision record sets the knowledge step's agent on a smaller model and names the cost behind it, $4.72 for one step's run on Opus: \"The knowledge plays' agent runs on Sonnet\". The memory page on choosing a model puts it as a rule: \"Model choice is a per-task decision\". And this intent's outcome asks that \"each part runs on the right model\". It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory. The domain's first paragraph does not name them yet; widening it is owed at this intent's close.",
+     "new": "It matters because the cost of a run, and the time a person waits for it, are set part by part by the model each part runs on. A decision record sets the knowledge step's agent on a smaller model and names the cost behind it, $4.72 for one step's run on Opus: \"The knowledge plays' agent runs on Sonnet\". The memory page on choosing a model puts it as a rule: \"Model choice is a per-task decision\". And this intent's outcome asks that \"each part runs on the right model\". It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so."
+    },
+    {
+     "after": "- .garura/product/product-os/software-delivery-planning/domain.md, line 4: the domain's first paragraph, which names Install and distribute's work (\"gets Garura itself into a project\") and not yet this intent's",
+     "add": "- .garura/product/product-os/software-delivery-planning/domain.md: \"It also keeps the foundation every part stands on: the written standards and their checks, the builders a team uses for its own plays and loops, where everything lives, the settings, three tiers of memory, and the model each part runs on.\""
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,103 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-1/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/shape-slice/fn-795/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/shape-slice/fn-795/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/shape-slice/fn-795/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/shape-slice/fn-795/ice.md"
+    },
+    {
+      "page": "features/fn-729/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-729/feature.md"
+    },
+    {
+      "page": "features/fn-729/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-729/ice.md"
+    },
+    {
+      "page": "features/fn-806/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-806/feature.md"
+    },
+    {
+      "page": "features/fn-806/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-806/ice.md"
+    },
+    {
+      "page": "features/fn-628/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-628/feature.md"
+    },
+    {
+      "page": "features/fn-628/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-628/ice.md"
+    },
+    {
+      "page": "features/fn-730/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-730/feature.md"
+    },
+    {
+      "page": "features/fn-730/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/features/fn-730/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-know-what-next/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/write/approved/fn-choose-next-item/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/write/approved/fn-work-out-waits-on/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-1/write/approved/fn-pause-plan/ice.md"
+    }
+  ]
+}

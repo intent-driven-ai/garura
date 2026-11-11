@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/design-work/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-3/drafts/product-os/software-delivery-planning/design-work/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/design-work/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-3/write/approved/design-work/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/design-work/fn-design-chosen-work/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-3/drafts/product-os/software-delivery-planning/design-work/fn-design-chosen-work/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/design-work/fn-design-chosen-work/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-3/write/approved/fn-design-chosen-work/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/design-work/fn-update-work-design/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-3/drafts/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/design-work/fn-update-work-design/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-3/write/approved/fn-update-work-design/ice.md"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "written": [
+    "cap-design-work",
+    "fn-design-chosen-work",
+    "fn-update-work-design",
+    "ice-design-work",
+    "ice-design-chosen-work",
+    "ice-update-work-design"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-design-work",
+    "ice-design-chosen-work",
+    "ice-update-work-design"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/design-work/ice.md",
+    "product-os/software-delivery-planning/design-work/fn-design-chosen-work/ice.md",
+    "product-os/software-delivery-planning/design-work/fn-update-work-design/ice.md"
+  ],
+  "layout_kept": true
+}

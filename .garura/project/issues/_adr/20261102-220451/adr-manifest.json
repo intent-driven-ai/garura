@@ -1,0 +1,63 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261102-220451/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "046",
+      "file": "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+      "kind": "superseded",
+      "part": "in part \u2014 \u00a71, the list of short words, which gains env, perf and uat; \u00a72, the words \"or starts with\" and the verbs it moved because of them; \u00a73, loops named complete-<phase>; \u00a74, in whole, with what ADR 048 and ADR 059 changed in it"
+    },
+    {
+      "adr": "045",
+      "file": "docs/adr/045-a-drive-is-now-called-a-loop.md",
+      "kind": "superseded",
+      "part": "in part \u2014 \u00a73, the five final names and the Learn loop's list of plays; \u00a74, the name Discovery loop; \u00a72's examples \"the Discovery loop\" and \"the Ship loop\""
+    },
+    {
+      "adr": "028",
+      "file": "docs/adr/028-agentic-lifecycle-five-loops.md",
+      "kind": "superseded",
+      "part": "in part \u2014 \"The agentic lifecycle is five loops\" and \"Later\"; \u00a72 item 3, where marketing leaves the design areas; \u00a74, that the change chain is a loop"
+    },
+    {
+      "adr": "029",
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended",
+      "part": "Context, the six phases: the second is Spec, not Intent. The rest stands"
+    },
+    {
+      "adr": "038",
+      "file": "docs/adr/038-install-brings-no-memory.md",
+      "kind": "amended",
+      "part": "\u00a73, \"A new play, initialize\": initialize is an engine thing, not a play. Its job, setting up a project's own memory by asking from Phoenix memory, stands"
+    },
+    {
+      "adr": "053",
+      "file": "docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md",
+      "kind": "amended",
+      "part": "\u00a74, \"The seven design lens plays ... are not dropped\": /shape-marketing-lens and /shape-measure-lens are dropped. The other five stay as \u00a74 says"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "046-one-naming-standard-for-every-harness-part.md",
+    "045-a-drive-is-now-called-a-loop.md",
+    "028-agentic-lifecycle-five-loops.md",
+    "029-drives.md",
+    "038-install-brings-no-memory.md",
+    "053-shape-scope-and-shape-roadmap-are-dropped.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

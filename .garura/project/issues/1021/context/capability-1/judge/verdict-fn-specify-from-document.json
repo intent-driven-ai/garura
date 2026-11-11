@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"A person gives a document, such as a brief or a PDF.\" \"In: the file's path, and who gave it.\" \"The capture does not open the file.\" \"Given a path with no file, when the capture runs, then it fails and the record names the path.\" \"A web-page file. Specify from a file (fn-specify-from-file) does this.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"The capture does not open the file.\" \"The capture record holds the fingerprint of the saved copy. No step works out the original's fingerprint or compares the two.\"",
+      "fix": "Give the rules their why or consequence. (1) Say why the capture leaves the file unopened (what reading it would cost or who owns it), not only that it does not. (2) After the fingerprint rule, say what a fingerprint is in one sentence (a short code worked out from the file's bytes, so any change to the file changes the code) and what follows from nobody comparing it to the original: the run cannot detect a copy that differs from the original. (3) Say why the .html and .htm split exists (a web page has its own capture path), so the extension rule is not a bare fact."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a brief in a file, when it is captured, then\" \"Given a path with no file, when the capture runs, then it fails\" \"Given a file whose name ends in .html, when the capture runs, then\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Any file whose name does not end in .html or .htm counts as a document.\" \"A video counts too, so today a video is only copied.\" \"So a damaged file, or a format no later step can read, passes this step.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"No step works out the original's fingerprint or compares the two.\" \"the fingerprint of the copy equals one worked out from the original\"",
+      "fix": "Remove the apparent contradiction between the rule and the first acceptance criterion. The rule says no step works out the original's fingerprint, yet the criterion says the copy's fingerprint equals one worked out from the original. Reword the criterion to say who works it out, for example: 'when it is captured, then a fingerprint worked out from the original file by the test (not by the run) equals the fingerprint in the record'. Also define 'fingerprint' and 'the run's evidence' in a few words on this page, so a reader who has not seen the capability page can say what the saved copy holds and what the record proves."
+    }
+  ]
+}

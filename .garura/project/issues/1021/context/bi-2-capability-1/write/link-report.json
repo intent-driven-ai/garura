@@ -1,0 +1,23 @@
+{
+  "written": [
+    "cap-design-technology-architecture",
+    "fn-set-architecture",
+    "fn-update-architecture",
+    "ice-design-technology-architecture",
+    "ice-set-architecture",
+    "ice-update-architecture"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-design-technology-architecture",
+    "ice-set-architecture",
+    "ice-update-architecture"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/design-technology-architecture/ice.md",
+    "product-os/software-delivery-planning/design-technology-architecture/fn-set-architecture/ice.md",
+    "product-os/software-delivery-planning/design-technology-architecture/fn-update-architecture/ice.md"
+  ],
+  "layout_kept": true
+}

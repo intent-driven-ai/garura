@@ -1,0 +1,87 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-1/page-approvals.md",
+  "repoint": [
+    {
+      "id": "cap-719",
+      "kind": "capability",
+      "intents": {
+        "bi-717": "bi-9"
+      }
+    },
+    {
+      "id": "cap-720",
+      "kind": "capability",
+      "intents": {
+        "bi-717": "bi-9"
+      }
+    },
+    {
+      "id": "fn-729",
+      "kind": "feature",
+      "intents": {
+        "bi-717": "bi-9"
+      }
+    },
+    {
+      "id": "fn-806",
+      "kind": "feature",
+      "intents": {
+        "bi-717": "bi-9"
+      }
+    },
+    {
+      "id": "fn-628",
+      "kind": "feature",
+      "intents": {
+        "bi-717": "bi-9"
+      }
+    },
+    {
+      "id": "fn-730",
+      "kind": "feature",
+      "intents": {
+        "bi-717": "bi-9"
+      }
+    },
+    {
+      "id": "cap-shape-slice",
+      "kind": "capability",
+      "intents": {
+        "bi-788": "bi-9"
+      }
+    },
+    {
+      "id": "fn-795",
+      "kind": "feature",
+      "intents": {
+        "bi-788": "bi-9"
+      }
+    },
+    {
+      "id": "fn-931",
+      "kind": "feature",
+      "intents": {
+        "bi-717": "bi-1"
+      }
+    }
+  ],
+  "remove": [
+    {
+      "kind": "capability",
+      "id": "cap-719",
+      "into": "cap-orchestrate-agent-work"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-720",
+      "into": "cap-orchestrate-agent-work"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-shape-slice",
+      "into": "cap-orchestrate-agent-work"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "cap-connect-use-and-market",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "connect-use-and-market",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Connect to what happens in use and in the market: the project connects to the tools that hold how its product is used and what people say about it (web analytics, product analytics, user feedback and forums such as Reddit), and takes in what they hold, as given, so that what consumers want and what the competition is doing can be understood from what really happened.",
+      "doc": "software-delivery-planning/connect-use-and-market/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-connect-tools",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-connect-tools",
+      "capability": "cap-connect-use-and-market",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Proposes the connections the project should have from what the project already holds, records each one the product owner says yes to in the project's settings by name, with what it is read for and where its key is kept, and proves each with a first read that changes nothing.",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-connect-tools/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-take-in-use",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-take-in-use",
+      "capability": "cap-connect-use-and-market",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Reads from each connected analytics tool what it reports about how people reach and use the product, and keeps each figure as the tool gave it, with the connection, the time it covers and when it was read, and never the record of one person.",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-take-in-what-people-say",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-take-in-what-people-say",
+      "capability": "cap-connect-use-and-market",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Reads what users write to the team and what people say in the forums the project connects to, and keeps each message or post in its own words, with where and when it was written, and with every person's name and personal details taken out.",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-update-connections",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-update-connections",
+      "capability": "cap-connect-use-and-market",
+      "intents": [
+        "bi-6"
+      ],
+      "one_line": "Proposes a new, changed or dropped connection when the product gains a surface, its code starts or stops using a tool, or a connection keeps failing, and keeps what held before and why it changed, with the product owner's yes for each.",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-connect-use-and-market",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-connect-use-and-market",
+      "doc": "software-delivery-planning/connect-use-and-market/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-connect-tools",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-connect-tools",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-connect-tools/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-take-in-use",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-take-in-use",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-use/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-take-in-what-people-say",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-take-in-what-people-say",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-update-connections",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-update-connections",
+      "doc": "software-delivery-planning/connect-use-and-market/fn-update-connections/ice.md",
+      "thin": true
+    }
+  ]
+}

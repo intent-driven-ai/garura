@@ -1,0 +1,39 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/deployment-design/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/write/approved/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-design-how-project-runs/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/write/approved/fn-design-how-project-runs/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-cloud-cartridges/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-cloud-cartridges/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/write/approved/fn-cloud-cartridges/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/drafts/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/deployment-design/fn-update-deployment/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-3/write/approved/fn-update-deployment/ice.md"
+    }
+  ]
+}

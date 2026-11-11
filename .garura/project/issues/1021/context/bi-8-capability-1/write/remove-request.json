@@ -1,0 +1,35 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md",
+  "repoint": [
+    {
+      "id": "cap-721",
+      "kind": "capability",
+      "intents": {
+        "bi-717": "bi-8"
+      }
+    },
+    {
+      "id": "fn-731",
+      "kind": "feature",
+      "intents": {
+        "bi-717": "bi-8"
+      }
+    },
+    {
+      "id": "fn-673",
+      "kind": "feature",
+      "intents": {
+        "bi-717": "bi-8"
+      }
+    }
+  ],
+  "remove": [
+    {
+      "kind": "capability",
+      "id": "cap-721",
+      "into": "cap-ship-every-change"
+    }
+  ]
+}

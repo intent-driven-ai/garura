@@ -1,0 +1,55 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-5/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/write/approved/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/write/approved/fn-way-past-every-gate/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/write/approved/fn-keep-what-is-owed/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/write/approved/fn-record-every-skip/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/write/approved/fn-guardrail-way-past/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/drafts/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-9-capability-5/write/approved/fn-pinned-yes/ice.md"
+    }
+  ]
+}

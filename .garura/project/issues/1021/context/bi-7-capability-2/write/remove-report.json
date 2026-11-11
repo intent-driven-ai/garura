@@ -1,0 +1,29 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "repointed": [
+    "cap-747",
+    "fn-748"
+  ],
+  "removed": [
+    "cap-747"
+  ],
+  "merged": [
+    {
+      "id": "cap-747",
+      "into": "cap-upgrade-project"
+    }
+  ],
+  "moved_features": [
+    "fn-748"
+  ],
+  "needs_to_review": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "deleted": [
+    "product-os/capabilities/cap-747/capability.md",
+    "product-os/capabilities/cap-747"
+  ],
+  "layout_kept": true
+}

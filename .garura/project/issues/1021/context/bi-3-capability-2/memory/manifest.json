@@ -1,0 +1,67 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/eval-format.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:0a908a1955dc8709f8837c2c4d6b29becea9ca5ee438103408b1f2c99644206a",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/rules/eval-format.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/eval-slice.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:1d40682309f9dcd01c2f214e5828e042f88e910eb61e931fe8fbe50d595616b8",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/templates/eval-slice.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/eval-story.feature.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:32c0b256591a5c86e676b0f41658fed23f2eb961a95ca21d4e9215b03b54d848",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/templates/eval-story.feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/_index.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:b69406dd78ff11c712b836ba79e7fb42e95ac5a0af516f4468b7f49084c015ee",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/schemas/eval/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/eval/steps-command-line.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:a4fc679d6e88a2b8c2984ba72bbde374e1f1269909dde39c54847285bc693b9a",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/schemas/eval/steps-command-line.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e8d36d7fa5e61e67a226b569cebb7043fe63ad02f57d40654173f2dcbd50c3f2",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/rules/expectation-generation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/evidence-file.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9d2ec2ea00cd54c2aa2149a395b08537bd37fa0c5924cb3aa72ef1b6db56699b",
+      "copy": ".garura/project/issues/1021/context/bi-3-capability-2/memory/standards/templates/evidence-file.md"
+    }
+  ]
+}

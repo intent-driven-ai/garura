@@ -1,0 +1,23 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "intents/bi-3.md",
+      "changes": [
+        {
+          "after": "- [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds",
+          "add": "- [Design the work](../software-delivery-planning/design-work/capability.md) (capability) — adds"
+        },
+        {
+          "after": "- [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds",
+          "add": "- [Design the chosen work, how it is built and what its surface shows](../software-delivery-planning/design-work/fn-design-chosen-work/feature.md) (feature) — adds"
+        },
+        {
+          "after": "- [Keep the evals from the builder, and flag a build that read them](../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md) (feature) — adds",
+          "add": "- [Update the design as the work changes](../software-delivery-planning/design-work/fn-update-work-design/feature.md) (feature) — adds"
+        }
+      ]
+    }
+  ]
+}

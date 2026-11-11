@@ -1,0 +1,37 @@
+{
+  "written": [
+    "cap-track-execution",
+    "fn-mark-item-type",
+    "fn-status-follows-issue",
+    "fn-land-tracker-writes-once",
+    "fn-see-issues-worth-attention",
+    "fn-record-defect-under-story",
+    "fn-one-tool-knows-tracker",
+    "fn-link-work-across-trackers",
+    "fn-say-what-each-type-means",
+    "ice-track-execution",
+    "ice-mark-item-type",
+    "ice-status-follows-issue",
+    "ice-land-tracker-writes-once",
+    "ice-see-issues-worth-attention",
+    "ice-record-defect-under-story",
+    "ice-one-tool-knows-tracker",
+    "ice-link-work-across-trackers",
+    "ice-say-what-each-type-means"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-one-tool-knows-tracker",
+    "ice-link-work-across-trackers",
+    "ice-say-what-each-type-means"
+  ],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/ice.md",
+    "product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/ice.md",
+    "product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/ice.md"
+  ],
+  "layout_kept": true
+}

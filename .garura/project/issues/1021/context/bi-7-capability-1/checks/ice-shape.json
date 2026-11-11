@@ -1,0 +1,145 @@
+{
+  "checked_on": "2026-11-10",
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 4,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-update-parts/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-take-out/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-choose-parts/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-install-in-one-step/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/ice.md",
+      "thin": true,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-7-capability-1/drafts/product-os/software-delivery-planning/install-into-project/fn-check-install/ice.md",
+      "thin": false,
+      "goal": 1,
+      "limit": 3,
+      "fails_if": 3,
+      "read_fixed": true,
+      "never_read": 1,
+      "persona": 1,
+      "scope": 1,
+      "scenario": 1,
+      "done_means": 1,
+      "done_by_other": true,
+      "sections": [
+        "## Intent",
+        "## Context",
+        "## Expectation"
+      ],
+      "problems": []
+    }
+  ]
+}

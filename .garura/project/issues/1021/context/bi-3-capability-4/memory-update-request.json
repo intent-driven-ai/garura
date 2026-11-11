@@ -1,0 +1,11 @@
+{
+  "issue": 1021,
+  "missing": "The name and the steps of the test-driven development cycle that Build the work test first and Fix defects test first follow",
+  "target_tier": "short-term",
+  "target_path": "1021/context/answers/test-driven-cycle.md",
+  "draft": "Test-driven development writes a test before the code, then the code until the test passes, then refactors the code to make it well structured; the three steps are often summarized as Red - Green - Refactor, after a first step that lists the test cases. Classic practice takes one test at a time. Garura groups the steps, by the product owner's words of 2026-11-09: all the tests for the work are written and shown to fail, then all the code until every test passes, then the tidy, and the builder never sees the tests.",
+  "draft_source": "web",
+  "sources": ["https://www.martinfowler.com/bliki/TestDrivenDevelopment.html", "1021/context/bi-3-capability-4/page-approvals.md"],
+  "requested_by": "product-os-keeper (draft of BI-3 capability 4, #1021)",
+  "note": "For the caller to raise with memory.py propose; the tool writes outside this run's folder. The pages use the product owner's words for the cycle and do not use the name until a person approves this update."
+}

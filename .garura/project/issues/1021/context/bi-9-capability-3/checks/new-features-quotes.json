@@ -1,0 +1,2413 @@
+{
+  "how": "each quote in a Sources line is looked for word for word in that line's own source: a repo file, a GitHub issue (gh issue view: title, body and comments), or memory read through the memory tool; each quote in the page text, or in its ICE, in any source the feature page lists; whitespace and backticks are ignored",
+  "total": 192,
+  "not_found": 0,
+  "unreadable_sources": [],
+  "problems": [],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 5",
+      "quote": "because a team on Jira still keeps pull requests on GitHub or GitLab.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 7",
+      "quote": "3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 7",
+      "quote": "Anything in `CLAUDE.md` or `managing-work.md` that says how the tracker works comes out and into settings.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 9",
+      "quote": "The older `github.owner` setting names a personal account while `trackers.work.owner` names the organization. This fixes that.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 10",
+      "quote": "may be its own stories",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 11",
+      "quote": "through the tool that knows the tracker",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 11",
+      "quote": "must not run",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 16",
+      "quote": "in the tracker Garura connects to",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/capabilities.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 19",
+      "quote": "eight copies of `platform_adapter.py`",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 22",
+      "quote": "UNTESTED here",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/track-plan-changes/scripts/platform_adapter.py"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 34",
+      "quote": "Plays, skills and sub-agents know only the tool, never the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 34",
+      "quote": "Name a tracker in a play, skill or sub-agent, because they only know the tool.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-10.md"
+        ],
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 34",
+      "quote": "the sub-agents or skills or play call this tool hiding the underlying implementation.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 35",
+      "quote": "Tools read this; plays, skills and sub-agents never name a tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ],
+        [
+          "file",
+          "core/config.yaml"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 35",
+      "quote": "Tools read the settings and know how to reach the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 36",
+      "quote": "Business intents and agent work each live in a tracker named in the project's settings.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 37",
+      "quote": "The code host is its own setting, and the tool reads both.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 37",
+      "quote": "because a team on Jira still keeps pull requests on GitHub or GitLab.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 38",
+      "quote": "A team picks its tracker as a setting, and nothing is hard-coded.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 38",
+      "quote": "A team can choose its tracker as a setting, and a new tracker means changing one tool.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 39",
+      "quote": "A check fails any part that names a tracker directly.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 39",
+      "quote": "as not moved yet, not as broken.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 40",
+      "quote": "Parts move onto the tool over time.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 40",
+      "quote": "The tool is the Agent-work tool, starting from the platform-adapter skill, recorded as a feature.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 41",
+      "quote": "Two settings for one tracker can disagree, and on the owner they already do.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 42",
+      "quote": "stop with a plain message that points to initialize",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 42",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-9.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 44",
+      "quote": "the adapter does not normalize output across platforms",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/platform-adapter/SKILL.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 45",
+      "quote": "the Agent-work tool, recorded as a feature",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "text line 46",
+      "quote": "GitLab has no issue types here.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ],
+        [
+          "file",
+          "core/components/skills/platform-adapter/reference/gitlab/verbs.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 64",
+      "quote": "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/capabilities.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 64",
+      "quote": "Is there anything new? If so, then do research for that.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/capabilities.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "because a team on Jira still keeps pull requests on GitHub or GitLab.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "Anything in `CLAUDE.md` or `managing-work.md` that says how the tracker works comes out and into settings.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "The older `github.owner` setting names a personal account while `trackers.work.owner` names the organization. This fixes that.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "Building Jira and Linear support may be its own stories.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "This story does not change which tracker Garura itself uses.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "must not run",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "Changing the setting changes the tracker, with no other edit.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "A check fails any part that names a tracker directly.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "No play, skill or sub-agent names a tracker or calls its command line.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "A team picks its tracker as a setting, and nothing is hard-coded.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 65",
+      "quote": "the sub-agents or skills or play call this tool hiding the underlying implementation.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1023
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "Plays, skills and sub-agents know only the tool, never the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "Tools read the settings and know how to reach the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "Business intents and agent work each live in a tracker named in the project's settings.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "The code host is its own setting, and the tool reads both.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "Parts move onto the tool over time.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "The tool is the Agent-work tool, starting from the platform-adapter skill, recorded as a feature.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "Two settings for one tracker can disagree, and on the owner they already do.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "as not moved yet, not as broken.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "A team can choose its tracker as a setting, and a new tracker means changing one tool.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "eight copies of `platform_adapter.py`",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 66",
+      "quote": "the Agent-work tool, recorded as a feature",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 67",
+      "quote": "Tools read this; plays, skills and sub-agents never name a tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/config.yaml"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 68",
+      "quote": "Name a tracker in a play, skill or sub-agent, because they only know the tool.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-10.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 69",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-9.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 70",
+      "quote": "Exposes exactly 25 verbs",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/platform-adapter/SKILL.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 70",
+      "quote": "the adapter does not normalize output across platforms",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/platform-adapter/SKILL.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 70",
+      "quote": "Attach a child issue to a parent (GitHub only; GitLab falls back to related-link)",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/platform-adapter/SKILL.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 71",
+      "quote": "GitLab has no issue types here.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/platform-adapter/reference/gitlab/verbs.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 72",
+      "quote": "UNTESTED here",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/track-plan-changes/scripts/platform_adapter.py"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 73",
+      "quote": "on GitLab, the `reason` argument is silently ignored by the adapter",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/track-issue/SKILL.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 76",
+      "quote": "It reads each gathered item's text from the tracker, through the tool that knows the tracker",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 77",
+      "quote": "The plays that read the plan must not run until the Agent-work tool, the one tool that knows the tracker, lands (#1023).",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/write-work-evals/capability.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 78",
+      "quote": "stop with a plain message that points to initialize",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 79",
+      "quote": "Tools become their own component",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          620
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "where": "sources line 80",
+      "quote": "One tool knows the tracker",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 6",
+      "quote": "as that intent's sub-issue",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 7",
+      "quote": "Decided: the real link stays, as the product owner asked, including across trackers.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 8",
+      "quote": "the open work moved under the new intents with real links across the repos",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1021
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 10",
+      "quote": "a parent issue can take an existing issue from another repository as a sub-issue",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 10",
+      "quote": "The docs do not say whether the other repository may be in another organization.",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 12",
+      "quote": "So there are two kinds of link: a real parent and child link inside one platform, and a key written in the work that an integration reads.",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 19",
+      "quote": "Any work traces up to its intent and down to its result.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-9.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 22",
+      "quote": "with the epic as its parent",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/plays/shape-plan/scripts/write_work_items.py"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 23",
+      "quote": "falls back to related-link",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/platform-adapter/SKILL.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 25",
+      "quote": "Prove the real parent and child link across trackers before a team relies on it",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 36",
+      "quote": "Decided: the real link stays, as the product owner asked, including across trackers.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 37",
+      "quote": "Every Epic serves one or more business intents, every Story hangs under its Epic, and every Bug, Spike and Chore under a Story \u2014 as a real parent/child link in the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 38",
+      "quote": "A business intent has no parent;",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 39",
+      "quote": "It serves the business intent whose delivered work broke, as that intent's sub-issue.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 40",
+      "quote": "The ontology does not need one: an Epic reaches its intents through its slice",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 41",
+      "quote": "Plays, skills and sub-agents know only the tool, never the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 42",
+      "quote": "BI-7 means an intent and #7 means work, in text.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 42",
+      "quote": "(#65) in a commit links to the work tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 43",
+      "quote": "A person or play following that text tries to make a link that may fail, so it has to be proven across trackers before a team relies on it.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 44",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-9.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 48",
+      "quote": "an issue has only one parent.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "text line 49",
+      "quote": "The docs do not say whether the other repository may be in another organization.",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 66",
+      "quote": "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/capabilities.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 66",
+      "quote": "Is there anything new? If so, then do research for that.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/capabilities.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 67",
+      "quote": "a parent issue can take an existing issue from another repository as a sub-issue",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 67",
+      "quote": "a parent holds up to 100 sub-issues, nested up to eight levels",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 67",
+      "quote": "The docs do not say whether the other repository may be in another organization.",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 67",
+      "quote": "Jira links a work item to GitHub through its key",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 67",
+      "quote": "written in a branch name, a commit message or a pull request title",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 67",
+      "quote": "So there are two kinds of link: a real parent and child link inside one platform, and a key written in the work that an integration reads.",
+      "status": "found",
+      "in": [
+        [
+          "short-term",
+          "1021/context/answers/bi9-cross-tracker-links.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 68",
+      "quote": "Decided: the real link stays, as the product owner asked, including across trackers.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 68",
+      "quote": "The ontology does not need one: an Epic reaches its intents through its slice",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 68",
+      "quote": "A person or play following that text tries to make a link that may fail, so it has to be proven across trackers before a team relies on it.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 68",
+      "quote": "Prove the real parent and child link across trackers before a team relies on it",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 68",
+      "quote": "BI-7 means an intent and #7 means work, in text.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 68",
+      "quote": "(#65) in a commit links to the work tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 68",
+      "quote": "Plays, skills and sub-agents know only the tool, never the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 69",
+      "quote": "Every Epic serves one or more business intents, every Story hangs under its Epic, and every Bug, Spike and Chore under a Story \u2014 as a real parent/child link in the tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 69",
+      "quote": "A business intent has no parent;",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 69",
+      "quote": "It serves the business intent whose delivered work broke, as that intent's sub-issue.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 69",
+      "quote": "as that intent's sub-issue",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 69",
+      "quote": "an issue has only one parent.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 70",
+      "quote": "A Spike, Chore or Bug is a child of one Story. It reaches the Feature, the Epic and the Business Intent through that Story.",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 71",
+      "quote": "Any work traces up to its intent and down to its result.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-9.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 71",
+      "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/intents/bi-9.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 72",
+      "quote": "the open work moved under the new intents with real links across the repos",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          1021
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 73",
+      "quote": "the epic to `make` becomes an issue of type Epic, with no label, in one write.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/plays/shape-plan/scripts/write_work_items.py"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 73",
+      "quote": "with the epic as its parent",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/plays/shape-plan/scripts/write_work_items.py"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 75",
+      "quote": "Attach a child issue to a parent (GitHub only; GitLab falls back to related-link)",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          "core/components/skills/platform-adapter/SKILL.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "where": "sources line 76",
+      "quote": "Link work across trackers",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 5",
+      "quote": "Business Intent, Epic, Story, Bug, Chore and Spike",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/capability.md"
+        ],
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ],
+        [
+          "gh",
+          881
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 7",
+      "quote": "What each type means is for Track execution in the team's tracker, in Orchestration, to say; the brief shows its words.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 7",
+      "quote": "how a work item is marked is for Track execution in the team's tracker to decide.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 8",
+      "quote": "the list of types the plays need, each with the one-line meaning the brief shows, as Track execution in the team's tracker gives it",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 8",
+      "quote": "proposes the tracker's own type closest in meaning",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 10",
+      "quote": "What am I filing?",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 10",
+      "quote": "is evidence not to be read as rule",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          952
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 14",
+      "quote": "A question to answer under a Story. The result is a decision record, not shipped code.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 14",
+      "quote": "A Story can't be built until something is found out.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 14",
+      "quote": "A prototype or proof on something already built, started from a suggestion, that leads to more building.",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 14",
+      "quote": "it comes only after that Story is built.",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 15",
+      "quote": "No labels, for now.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ],
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 15",
+      "quote": "Each of the six types above is an issue type",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 15",
+      "quote": "an issue labelled `product`",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 15",
+      "quote": "the label `work-item` on a Spike, a Chore or a Bug only",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 16",
+      "quote": "a group of stories inside an epic",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 24",
+      "quote": "What each work item means is org memory",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          620
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 25",
+      "quote": "the issue types the tracker uses",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          952
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 35",
+      "quote": "what each tracker type means is for Track execution in the team's tracker, in Orchestration, to say; Initialize never decides those",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/capability.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 36",
+      "quote": "how a work item is marked is for Track execution in the team's tracker to decide.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ],
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 37",
+      "quote": "the brief shows its words.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 38",
+      "quote": "Each type is set up in the tracker that holds it: Business Intent in the intents tracker, the five work-item types in the work tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 39",
+      "quote": "Business Intent is the one product-layer type among them: it holds a need the product meets for its user, while the other five are work items, the work done to meet it.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 39",
+      "quote": "Tracking only: it holds no ICE and agents never build it.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 40",
+      "quote": "A defect in a feature: it behaves differently from what was intended.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 40",
+      "quote": "a missing feature is a Story.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 41",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 41",
+      "quote": "Never encode the type as a title prefix",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 42",
+      "quote": "The tracker's type Feature is not the Feature kind",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 42",
+      "quote": "(In the product model, a Feature is a different thing; it is never an issue.)",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 43",
+      "quote": "Nothing is made in the tracker and no stand-in is written to the mapping before the product owner's typed yes.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "text line 48",
+      "quote": "Neither has a label.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 64",
+      "quote": "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/capabilities.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 64",
+      "quote": "Is there anything new? If so, then do research for that.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/capabilities.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 65",
+      "quote": "what each tracker type means is for Track execution in the team's tracker, in Orchestration, to say; Initialize never decides those",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/capability.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 65",
+      "quote": "what each tracker type means and how a work item is marked (Track execution in the team's tracker, in Orchestration)",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/capability.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "Business Intent, Epic, Story, Bug, Chore and Spike",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "Business Intent is the one product-layer type among them: it holds a need the product meets for its user, while the other five are work items, the work done to meet it.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "Each type is set up in the tracker that holds it: Business Intent in the intents tracker, the five work-item types in the work tracker.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "What each type means is for Track execution in the team's tracker, in Orchestration, to say; the brief shows its words.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "the list of types the plays need, each with the one-line meaning the brief shows, as Track execution in the team's tracker gives it",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "proposes the tracker's own type closest in meaning",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "how a work item is marked is for Track execution in the team's tracker to decide.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "Neither has a label.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 66",
+      "quote": "Nothing is made in the tracker and no stand-in is written to the mapping before the product owner's typed yes.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "What am I filing?",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "How does that land in the tracker?",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "What am I filing?",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "A question to answer under a Story. The result is a decision record, not shipped code.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "A Story can't be built until something is found out.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "Tracking only: it holds no ICE and agents never build it.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "A defect in a feature: it behaves differently from what was intended.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "a missing feature is a Story.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "Type lives in the type field.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "Never encode the type as a title prefix",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "No labels, for now.",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "Each of the six types above is an issue type",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 67",
+      "quote": "(In the product model, a Feature is a different thing; it is never an issue.)",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/user-provided/managing-work.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 68",
+      "quote": "A prototype or proof on something already built, started from a suggestion, that leads to more building.",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 68",
+      "quote": "it comes only after that Story is built.",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 68",
+      "quote": "an issue labelled `product`",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 68",
+      "quote": "the label `work-item` on a Spike, a Chore or a Bug only",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 68",
+      "quote": "a group of stories inside an epic",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 68",
+      "quote": "The tracker's type Feature is not the Feature kind",
+      "status": "found",
+      "in": [
+        [
+          "phoenix",
+          "standards/schemas/product-os/ontology.md"
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 70",
+      "quote": "Initialize sets up the tracker's work-item types",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          881
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 71",
+      "quote": "Tools become a first-class Garura component; work-item meanings move to work intelligence",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          620
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 71",
+      "quote": "What each work item means is org memory",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          620
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 72",
+      "quote": "Garura's way of working is defined as engine rules and settings",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          952
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 72",
+      "quote": "the issue types the tracker uses",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          952
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 72",
+      "quote": "that is evidence not to be read as rule",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          952
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 73",
+      "quote": "Add the six work-item types to project memory, on the work-intelligence shelf, so plays and agents can read them instead of each one guessing.",
+      "status": "found",
+      "in": [
+        [
+          "gh",
+          590
+        ]
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-3/drafts/product-os/software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "where": "sources line 74",
+      "quote": "Say what each work-item type means",
+      "status": "found",
+      "in": [
+        [
+          "file",
+          ".garura/project/issues/1021/context/bi-9-research/research.md"
+        ]
+      ]
+    }
+  ]
+}

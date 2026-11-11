@@ -1,0 +1,116 @@
+{
+  "changed_on": "2026-11-10",
+  "why": "the five memory updates were approved by the product owner and applied; each page now states the approved facts it uses and cites the applied file",
+  "changes": [
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "old": "- Two of the five names are read as assumed: Antigravity as Google's agent tool, and Factory as Factory.ai's agent, Droid. Both rest on memory updates waiting for a person's approval, mu-20261110-004 and mu-20261110-005.",
+      "new": "- Two of the five names were assumed on BI-7's list and are now confirmed in approved memory: Antigravity is \"Google Antigravity, Google's agentic coding platform\", and Factory is \"Factory (Factory.ai)\", \"whose agent is Droid\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "old": "- What each tool loads from a project, beyond what Garura's own adapters lay, rests on five memory updates waiting for a person's approval: mu-20261110-001 (Claude Code), mu-20261110-002 (Codex), mu-20261110-003 (GitHub Copilot), mu-20261110-004 (Antigravity) and mu-20261110-005 (Factory).",
+      "new": "- What each tool loads from a project is in approved memory, one file for each tool. Two of its facts differ from Garura's adapters: a Claude Code skill \"can name its model\", and the Claude Code adapter drops it; and Codex has custom agents as \"standalone TOML files in .codex/agents/\", while the stopped Codex adapter says \"There is no named-subagent file\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "old": "what each tool loads now rests on the five waiting memory updates.",
+      "new": "what each tool loads now is in approved memory, read on each tool's own documentation on 2026-11-10."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/capability.md",
+      "old": "- Memory updates mu-20261110-001, mu-20261110-002, mu-20261110-003, mu-20261110-004 and mu-20261110-005, raised for issue 1021 and waiting for a person's approval: what Claude Code, Codex, GitHub Copilot, Antigravity and Factory each load from a project, read on each tool's own documentation on 2026-11-10.",
+      "new": "- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md, approved by the product owner on 2026-11-10 as mu-20261110-001, lines 3 and 9: \"What Claude Code loads from a project\", \"can name its model\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md, approved by the product owner on 2026-11-10 as mu-20261110-002, lines 3, 8 and 13: \"What Codex loads from a project\", \"standalone TOML files in .codex/agents/\", \"There is no named-subagent file\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md, approved by the product owner on 2026-11-10 as mu-20261110-003, line 3: \"What GitHub Copilot loads from a project\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md, approved by the product owner on 2026-11-10 as mu-20261110-004, lines 3 and 5: \"What Antigravity loads from a project\", \"Google Antigravity, Google's agentic coding platform\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md, approved by the product owner on 2026-11-10 as mu-20261110-005, lines 3 and 5: \"What Factory loads from a project\", \"Factory (Factory.ai)\", \"whose agent is Droid\""
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "old": "- What Claude Code loads from a project beyond what the adapter lays, such as whether a skill can name its model, rests on memory update mu-20261110-001, waiting for a person's approval.",
+      "new": "- What Claude Code loads from a project is in approved memory. Two facts this page uses: a skill \"can name its model\", \"for the rest of the current turn\"; and \".claude/settings.json is the shared project file for team permissions, hooks and plugins\", where \"a PreToolUse hook runs before a tool call and can block it\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "old": "75 of them name a tier in their source. Whether Claude Code takes a model on a skill rests on memory update mu-20261110-001, waiting for a person's approval.",
+      "new": "75 of them name a tier in their source. A Claude Code skill \"can name its model\", \"for the rest of the current turn\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "old": "- Memory update mu-20261110-001, raised for issue 1021 and waiting for a person's approval: what Claude Code loads from a project, read on its own documentation on 2026-11-10.",
+      "new": "- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md, approved by the product owner on 2026-11-10 as mu-20261110-001, lines 9 and 10: \"can name its model\", \"for the rest of the current turn\", \".claude/settings.json is the shared project file for team permissions, hooks and plugins\", \"a PreToolUse hook runs before a tool call and can block it\""
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "old": "- What Codex loads from a project today, such as whether it now has its own files for sub-agents and hooks, rests on memory update mu-20261110-002, waiting for a person's approval.",
+      "new": "- What Codex loads from a project is in approved memory. Three facts this page uses: Codex has custom agents as \"standalone TOML files in .codex/agents/\", each of which \"may set model and model_reasoning_effort\", while the stopped adapter says \"There is no named-subagent file\"; hooks sit in the project's `.codex/` folder, and \"project hooks load only when the project's .codex/ layer is trusted\"; and the 1,024-character cap the adapter names \"is not stated on the page read\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "old": "- Memory update mu-20261110-002, raised for issue 1021 and waiting for a person's approval: what Codex loads from a project, read on its own documentation on 2026-11-10.",
+      "new": "- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md, approved by the product owner on 2026-11-10 as mu-20261110-002, lines 7, 8, 10 and 13: \"is not stated on the page read\", \"standalone TOML files in .codex/agents/\", \"may set model and model_reasoning_effort\", \"project hooks load only when the project's .codex/ layer is trusted\", \"There is no named-subagent file\""
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "old": "- What GitHub Copilot loads from a project, and where it runs, rests on memory update mu-20261110-003, waiting for a person's approval. The adapter is built against that memory once a person approves it.",
+      "new": "- What GitHub Copilot loads from a project, and where it runs, is in approved memory. It runs in \"VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations\"; it reads instructions from `.github/copilot-instructions.md`, from `AGENTS.md` files or from \"one CLAUDE.md or GEMINI.md at the root\"; skills from \".github/skills, .claude/skills or .agents/skills\"; and hooks from `.github/hooks/*.json`, where \"a preToolUse hook can approve or deny a tool call\". The adapter is built against that memory."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "old": "today the facts wait in mu-20261110-003.",
+      "new": "the facts it rests on were approved on 2026-11-10 as mu-20261110-003."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "old": "- Not decided: where GitHub Copilot runs that the install serves; the brief names it among \"IDE integrations\", and what it loads, and where, rests on mu-20261110-003.",
+      "new": "- Not decided: which of the places GitHub Copilot runs the install serves; the brief names it among \"IDE integrations\", and each place has \"its own set of customizations\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+      "old": "- Memory update mu-20261110-003, raised for issue 1021 and waiting for a person's approval: what GitHub Copilot loads from a project, read on its own documentation on 2026-11-10.",
+      "new": "- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md, approved by the product owner on 2026-11-10 as mu-20261110-003, lines 5, 6, 9 and 11: \"VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations\", \"one CLAUDE.md or GEMINI.md at the root\", \".github/skills, .claude/skills or .agents/skills\", \"a preToolUse hook can approve or deny a tool call\""
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "old": "- Which product the name means was assumed on BI-7's list, \"Antigravity is Google's agent IDE\", to be confirmed with links when this capability is drafted. That confirmation, and what Antigravity loads from a project, rest on memory update mu-20261110-004, waiting for a person's approval. The adapter is built against that memory once a person approves it.",
+      "new": "- Which product the name means was assumed on BI-7's list, \"Antigravity is Google's agent IDE\", and is now confirmed in approved memory: \"Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK\". What it loads from a project is approved too: instructions and rules in `AGENTS.md`, `GEMINI.md` and `.agents/rules/`, where a rule file without \"a valid trigger\" \"is silently discarded\"; skills in `.agents/skills/`; custom sub-agents in `.agents/agents/`, \"available in the App and the CLI, not the IDE\"; and hooks in `.agents/hooks.json`, where \"a PreToolUse decision of deny hard-blocks the tool call\". The adapter is built against that memory."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "old": "today the facts, and which product the name means, wait in mu-20261110-004.",
+      "new": "the facts it rests on, and which product the name means, were approved on 2026-11-10 as mu-20261110-004."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "old": "- Not decided: where Antigravity runs that the install serves; what it loads, and where, rests on mu-20261110-004.",
+      "new": "- Not decided: which of Antigravity's App, CLI and IDE the install serves; custom sub-agents are \"available in the App and the CLI, not the IDE\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+      "old": "- Memory update mu-20261110-004, raised for issue 1021 and waiting for a person's approval: what Antigravity is and what it loads from a project, read on its own documentation on 2026-11-10.",
+      "new": "- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md, approved by the product owner on 2026-11-10 as mu-20261110-004, lines 5, 6, 8 and 9: \"Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK\", \"a valid trigger\", \"is silently discarded\", \"available in the App and the CLI, not the IDE\", \"a PreToolUse decision of deny hard-blocks the tool call\""
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "old": "- Which product the name means was assumed on BI-7's list, \"Factory is Factory.ai's Droids\". That confirmation, and what Factory's agent loads from a project, rest on memory update mu-20261110-005, waiting for a person's approval. A new adapter is built against that memory once a person approves it.",
+      "new": "- Which product the name means was assumed on BI-7's list, \"Factory is Factory.ai's Droids\", and is now confirmed in approved memory: \"Factory (Factory.ai)\", \"whose agent is Droid, run from the Droid CLI\". What Droid loads from a project is approved too: `AGENTS.md`, and other names, \"CLAUDE.md among them\"; custom droids in `.factory/droids/`; skills in `.factory/skills/` and, \"for compatibility\", in `.agents/skills/`; and hooks in `.factory/hooks.json`, where \"a PreToolUse hook that exits with code 2 blocks the tool call\". A new adapter is built against that memory."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "old": "today the facts wait in mu-20261110-005.",
+      "new": "the facts it rests on were approved on 2026-11-10 as mu-20261110-005."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "old": "- Memory update mu-20261110-005, raised for issue 1021 and waiting for a person's approval: what Factory is and what its agent loads from a project, read on its own documentation on 2026-11-10.",
+      "new": "- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md, approved by the product owner on 2026-11-10 as mu-20261110-005, lines 5, 6, 8 and 10: \"Factory (Factory.ai)\", \"whose agent is Droid, run from the Droid CLI\", \"CLAUDE.md among them\", \"for compatibility\", \"a PreToolUse hook that exits with code 2 blocks the tool call\""
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "old": "  - GitHub Copilot, Antigravity and Factory have no adapter yet. Whether each can take a model on each kind of part rests on memory updates mu-20261110-003, mu-20261110-004 and mu-20261110-005, and for Claude Code and Codex on mu-20261110-001 and mu-20261110-002, all waiting for a person's approval.",
+      "new": "  - GitHub Copilot, Antigravity and Factory have no adapter yet. Where each tool takes a model, as approved in memory: Claude Code \"for a sub-agent and for a skill\"; Codex \"for a custom agent\", while \"skills inherit from the parent\"; GitHub Copilot on a custom agent in its IDEs and on a prompt file, as \"in VS Code a prompt file names its model\", while \"A model field for a skill is not stated\"; Antigravity on a custom sub-agent, as a tier, \"inherit, flash or pro\", while for a skill \"No model field is listed\"; and Factory \"for a custom droid, not for a skill\"."
+    },
+    {
+      "page": "drafts/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+      "old": "- Memory updates mu-20261110-001 to mu-20261110-005, raised for issue 1021 and waiting for a person's approval: whether each tool can take a model on each kind of part.",
+      "new": "- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md, approved by the product owner on 2026-11-10 as mu-20261110-001, line 12: \"for a sub-agent and for a skill\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md, approved by the product owner on 2026-11-10 as mu-20261110-002, line 12: \"for a custom agent\", \"skills inherit from the parent\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md, approved by the product owner on 2026-11-10 as mu-20261110-003, lines 7, 9 and 10: \"the how-to names the model property for VS Code, JetBrains IDEs, Eclipse and Xcode\", \"A model field for a skill is not stated\", \"in VS Code a prompt file names its model\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md, approved by the product owner on 2026-11-10 as mu-20261110-004, lines 7 and 8: \"No model field is listed\", \"inherit, flash or pro\"\n- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md, approved by the product owner on 2026-11-10 as mu-20261110-005, line 12: \"for a custom droid, not for a skill\""
+    }
+  ]
+}

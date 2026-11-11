@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-2-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/manage-surfaces/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-2/write/approved/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-2/write/approved/fn-declare-surfaces/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-2/drafts/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-2-capability-2/write/approved/fn-update-surfaces/ice.md"
+    }
+  ]
+}

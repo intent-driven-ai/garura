@@ -1,0 +1,19 @@
+## Intent
+- Goal: The product's execution can be read from the tracker Garura connects to: every work item a play files or takes into a plan carries its kind's type and a real link to a parent of the right kind, with no label and no type in its title; each item's status in its plan file follows its own issue, with no roll-ups; every approved tracker write lands exactly once, also after a stop; a defect is recorded as a bug under the story that brought it in; and the issues worth attention are shown by fixed rules.
+- Limit: Nothing reaches the tracker before a person's approval of the exact list, and no label is added and no issue is deleted.
+- Limit: No status is ever worked out from the items under an item.
+- Limit: The type is never a label or a prefix in a title, and an epic or a story is found by the plan file's mark, never by its type or its title.
+- Limit: The issues view never writes to the tracker, and never names a play its fixed table does not name.
+- Fails if: A work item a play filed has no type, a wrong type, a label, or a parent of the wrong kind.
+- Fails if: The plan file and the tracker disagree on whether an item is closed, after a merge or after an approved session.
+- Fails if: An issue is made twice, or a write lands that the person did not approve.
+
+## Context
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the settings that name the trackers and the code host, the plan files, the work items with their types, labels, parents, states and close reasons as the tracker holds them, the approved list of a session and its record, the kind table of the issues view, and the types the tracker has.
+- Never read: any memory file by its path, and any ICE page.
+- Persona: the product owner, who approves each list and reads where the work stands; and the developer, a person or an AI agent who builds the code, who picks up a work item and reads it with its parent.
+- Scope: In: each item's type and parent with no label, each item's status following its own issue, landing approved writes once, the issues view, recording a defect as a bug, and, not built yet, the one tool that knows the tracker, the link to the intent across trackers and the meaning of each type. Out: making and changing the work items and keeping the plan file's list in step with the tracker, the plan views and the status a person sets, the merge that closes an issue, making the tracker's types, the tracker settings and the rule that no play names a tracker, the loops, the ADRs, the way past each gate, and finding and fixing a defect.
+
+## Expectation
+- Scenario: Two projects in one month. In a clinic's booking app, /shape-plan files an epic and two stories, each with its type and no label. The first story's change merges on the plan's branch; its issue closes and its item reads Done, while the epic stays open. The eval then finds a double booking, and in a session the product owner adds a bug under that story, with its severity as its first line. The tracker stops during the landing, and the run again makes the bug once. In a shop's checkout project, a developer asks for the issues worth attention today and sees at most ten open issues, each with its reason, and no play named for an issue with no label.
+- Done means: Someone other than the one who ran the plays reads the tracker, the plan files and the run records, and finds each item with its kind's type, under the right parent, with no label; the first story Done and the epic still open; one bug under that story, made once, with its severity line; and an issues view of at most ten entries that names no play its table does not name.

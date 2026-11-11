@@ -1,0 +1,231 @@
+{
+  "pages": {
+    "software-delivery-planning/manage-surfaces/capability.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/manage-surfaces/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    },
+    "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md": {
+      "equals_draft": true,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 6,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "capabilities": {
+      "before": 16,
+      "after": 17,
+      "new": [
+        "cap-manage-surfaces"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "features": {
+      "before": 56,
+      "after": 58,
+      "new": [
+        "fn-declare-surfaces",
+        "fn-update-surfaces"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "ices": {
+      "before": 27,
+      "after": 30,
+      "new": [
+        "ice-manage-surfaces",
+        "ice-declare-surfaces",
+        "ice-update-surfaces"
+      ],
+      "removed": [],
+      "old_entries_changed": []
+    },
+    "profile_unchanged": true,
+    "other_top_keys_unchanged": true,
+    "new_entries": {
+      "cap-manage-surfaces": {
+        "slug": "manage-surfaces",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "The project's surfaces are declared: CLI, browser, mobile or other.",
+        "doc": "software-delivery-planning/manage-surfaces/capability.md",
+        "thin": false
+      },
+      "fn-declare-surfaces": {
+        "capability": "cap-manage-surfaces",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "Declares each surface the project has, with its kind, who opens it and why, what it offers and how it behaves, and the guidelines every design on it must handle, so each design on that surface is made for it.",
+        "doc": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+        "thin": false
+      },
+      "fn-update-surfaces": {
+        "capability": "cap-manage-surfaces",
+        "intents": [
+          "bi-2"
+        ],
+        "status": "proposed",
+        "one_line": "When the project gains or drops a surface, or a surface's kind, properties or guidelines must change, a person confirms an update, and what held before stays readable with why it changed.",
+        "doc": "software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+        "thin": false
+      },
+      "ice-manage-surfaces": {
+        "for": "cap-manage-surfaces",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/manage-surfaces/ice.md",
+        "thin": true
+      },
+      "ice-declare-surfaces": {
+        "for": "fn-declare-surfaces",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md",
+        "thin": true
+      },
+      "ice-update-surfaces": {
+        "for": "fn-update-surfaces",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+        "thin": true
+      }
+    },
+    "entries_as_asked": true,
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 68,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0,
+    "comments_kept": true,
+    "layout_kept_reported_by_link_part": true
+  },
+  "bi_2": {
+    "lines_before": 24,
+    "lines_after": 27,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 3,
+    "added": [
+      "- [Manage surfaces](../software-delivery-planning/manage-surfaces/capability.md) (capability) — adds",
+      "- [Declare a surface, its properties and its guidelines](../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md) (feature) — adds",
+      "- [Update the surfaces as the project changes](../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md) (feature) — adds"
+    ],
+    "inserted_after_line": "- [Update the architecture as the project changes](../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "touches_lines": 6,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/design-technology-architecture/capability.md": true,
+      "../software-delivery-planning/design-technology-architecture/fn-set-architecture/feature.md": true,
+      "../software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md": true,
+      "../software-delivery-planning/manage-surfaces/capability.md": true,
+      "../software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md": true,
+      "../software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_parts_naming_bi_2": 6,
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "request_form": "change_lines.py checks each 'after' anchor against the page as it was before the run, so a chain (each new line after the one before it) is refused ('the line ... is not on the page'); tried on a scratch copy outside the model. The request anchors all 3 adds on the last Touches line, and the script puts them below it in request order."
+  },
+  "git_status": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-2.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-surfaces/"
+  ],
+  "git_status_only_expected": true,
+  "new_folder_files": [
+    ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+    ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md",
+    ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/ice.md",
+    ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md",
+    ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/ice.md",
+    ".garura/product/product-os/software-delivery-planning/manage-surfaces/ice.md"
+  ],
+  "new_folder_holds_only_the_6_pages": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 80,
+      "counts": {
+        "domain": 1,
+        "capability": 16,
+        "feature": 56,
+        "ice": 27
+      },
+      "file": ".garura/project/issues/1021/context/bi-2-capability-2/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 83,
+      "counts": {
+        "domain": 1,
+        "capability": 17,
+        "feature": 58,
+        "ice": 30
+      },
+      "file": ".garura/project/issues/1021/context/bi-2-capability-2/write/lint-after.json"
+    },
+    "new_errors": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "errors_gone": [],
+    "warnings_gone": [],
+    "errors_naming_a_new_part": [],
+    "warnings_naming_a_new_part": [
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 3 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'); under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning already stood on 27 pages before this write, among them the 3 pages of Design the technology and architecture."
+  },
+  "all_checks_pass": true,
+  "before_state": "git HEAD eab5b3ca: the spine and intents/bi-2.md as committed (the model had no uncommitted change before this write; both were copied aside before the first write)"
+}

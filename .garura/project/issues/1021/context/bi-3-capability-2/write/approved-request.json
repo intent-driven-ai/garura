@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-3-capability-2/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/write-work-evals/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/fn-write-work-evals/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-update-evals/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/fn-update-evals/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-update-evals/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/fn-update-evals/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-add-eval-steps/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/write/approved/fn-add-eval-steps/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/drafts/product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-3-capability-2/write/approved/fn-keep-evals-from-builder/ice.md"
+    }
+  ]
+}

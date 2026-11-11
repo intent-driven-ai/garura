@@ -1,0 +1,698 @@
+{
+  "checked_on": "2026-11-10",
+  "total": 109,
+  "not_found": 0,
+  "problems": [],
+  "rule": "each quote in Sources is found, whitespace collapsed, in the source it names; each quote in a page's body or its ICE page is found in one of that page's sources; Phoenix and short-term memory are read through the memory tool",
+  "memory_reads": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/plan-view.md",
+      "fingerprint": "sha256:272c8dbb15ca456a55b5396935ddd990617d5a8eac6c9161ceb76a0bff3105a1"
+    },
+    {
+      "tier": "short-term",
+      "path": "1021/context/answers/bi9-waits-on.md",
+      "fingerprint": "sha256:feb8dfe0715f162ae7707ba483cc06ef88cfb56ab560e634395d18a0ff8cb5d0"
+    }
+  ],
+  "results": [
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md",
+      "ice": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "A person always knows what's happening and what's next.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+          "quote": "It starts from the ID a person names and never chooses an item.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+          "quote": "choosing which work comes next belongs to Orchestrate agent work through planning",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+          "quote": "what is built next is chosen in Orchestration",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md",
+          "quote": "Out: choosing what is built next, the status of each item, the loops that run plays, and tracking the work in the tracker. Orchestrate agent work through planning owns them.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "The work item being worked on",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "It is not a ranking: several plans can have the same direction",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "while the issue is open, a person sets the item's status",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Apart from an item whose issue closed, a status or the direction changes only when a person asks for it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md (Phoenix memory)",
+          "quote": "Someone works on it in an open change right now.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md (Phoenix memory)",
+          "quote": "Cannot go on until something else is settled.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "1021/context/answers/bi9-waits-on.md (short-term memory)",
+          "quote": "It sets no order for which item is pulled first.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "is a new play that reads the plan files",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "It is built when it is needed, from its own ICE.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "There is one work list, the plan; no second recommender can disagree with it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "the link gives the order of work, not a gate on landing",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/README.md",
+          "quote": "Every mark and line comes from the `plan-view.md` template",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+          "quote": "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "sets the order and status of the work as it runs",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "A person always knows what's happening and what's next.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md",
+          "quote": "starts from the ID a person names and never chooses an item",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md",
+          "quote": "what is built next is chosen in Orchestration",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "is a new play that reads the plan files",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md",
+          "quote": "There is one work list, the plan; no second recommender can disagree with it.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "is not a ranking: several plans can have the same direction",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "1021/context/answers/bi9-waits-on.md (short-term memory)",
+          "quote": "It sets no order for which item is pulled first.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/templates/plan-view.md (Phoenix memory)",
+          "quote": "Someone works on it in an open change right now.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/templates/plan-view.md (Phoenix memory)",
+          "quote": "Cannot go on until something else is settled.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "The work item being worked on",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "the link gives the order of work, not a gate on landing",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "while the issue is open, a person sets the item's status",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Apart from an item whose issue closed, a status or the direction changes only when a person asks for it.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "core/tools/plan/README.md",
+          "quote": "Every mark and line comes from the `plan-view.md` template",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "core/components/plays/list-plans/reference/ice.md",
+          "quote": "the play writes no plan file, no issue and no branch",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "approved",
+          "found": true
+        },
+        {
+          "where": "ice",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "approved",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md",
+      "ice": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "The other plans it needs — worked out from its features' capabilities' needs, never set by hand",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "It needs another plan when a feature in it belongs to a capability that needs a capability whose features are in that plan.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Two plans that need each other are one plan.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "a play finds the Story of a Feature by the `represents` mark only",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-725/feature.md",
+          "quote": "Its field is still `depends_on`.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-725/feature.md",
+          "quote": "A need that names a node in a different plan makes this plan need that plan.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-725/feature.md",
+          "quote": "The plan plays find the needs of a plan from the needs of its nodes. Nobody sets them by hand.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-725/feature.md",
+          "quote": "To fix it, drop one need, or merge the plans of the nodes into one plan.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "the link gives the order of work, not a gate on landing",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "Plan order (`needs_plans`) no longer holds a plan off main.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+          "quote": "Plans sit outside the model and come and go, so no model page may depend on one.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/templates/plan-view.md (Phoenix memory)",
+          "quote": "each plan it needs, with its title; blank when none.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "A plan that stays and names a plan being removed in `needs_plans`",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "1021/context/answers/bi9-waits-on.md (short-term memory)",
+          "quote": "GitHub issues can be marked as blocked by, or blocking, other issues",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+          "quote": "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Needs",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "identified by",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "1021/context/answers/bi9-waits-on.md (short-term memory)",
+          "quote": "GitHub issues can be marked as blocked by, or blocking, other issues",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "sees every plan and where it stands",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Needs",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "identified by",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "The other plans it needs — worked out from its features' capabilities' needs, never set by hand",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/product/product-os/features/fn-725/feature.md",
+          "quote": "The plan plays find the needs of a plan from the needs of its nodes. Nobody sets them by hand.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "It needs another plan when a feature in it belongs to a capability that needs a capability whose features are in that plan.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "a play finds the Story of a Feature by the `represents` mark only",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+          "quote": "Plans sit outside the model and come and go, so no model page may depend on one.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "the link gives the order of work, not a gate on landing",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "Plan order (`needs_plans`) no longer holds a plan off main.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Two plans that need each other are one plan.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/product/product-os/intents/bi-9.md",
+          "quote": "Stop a person. Every gate has a way past it that records what's owed.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Needs",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "identified by",
+          "found": true
+        }
+      ]
+    },
+    {
+      "page": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md",
+      "ice": ".garura/project/issues/1021/context/bi-9-capability-1/drafts/product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md",
+      "quotes": [
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "The branch is then deleted, and the plan file says `branch: null`.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "Those issues stay open and stay in the plan.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "so it can drift from the branches",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "nothing writes a plan file's branch field yet; it is kept by hand",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "No script writes `branch: null` when a plan's branch lands on main",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "The cut itself is safe: `plan_branch.py go` decides from git, not from the file, so a stale name does not stop it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "whether writing `branch: null` on a pause stays owed under #730, or becomes its own issue.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Only two copies of the plan file count: the one on the plan's branch and main's.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Apart from an item whose issue closed, a status or the direction changes only when a person asks for it.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Cutting the plan's branch moves main's plan file to In Progress",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Branch: none — its branch merged into main when it paused.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/user-provided/managing-work.md",
+          "quote": "When the plan starts again, a new branch is cut from main.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-673/feature.md",
+          "quote": "a plan's own branch merges into main whenever the plan pauses, with issues of the plan still open; those issues stay open and stay in the plan",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/features/fn-731/feature.md",
+          "quote": "deleting it loses work",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/product/product-os/software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+          "quote": "Pausing a plan and changing its items. Turn intents into agent work, in Product → Spec, and Orchestration own them.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/tools/plan/plan.py",
+          "quote": "the graph's counts read ?",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": "core/components/skills/remove-plan/SKILL.md",
+          "quote": "A plan whose `branch` is not null is refused, naming the branch.",
+          "found": true
+        },
+        {
+          "where": "Sources",
+          "source": ".garura/project/issues/1021/context/bi-9-inventory/inventory.md",
+          "quote": "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "sees every plan and where it stands",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/project/issues/1021/context/capabilities.md",
+          "quote": "sets the order and status of the work as it runs",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "The branch is then deleted, and the plan file says `branch: null`.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "Those issues stay open and stay in the plan.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Only two copies of the plan file count: the one on the plan's branch and main's.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+          "quote": "so it can drift from the branches",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Apart from an item whose issue closed, a status or the direction changes only when a person asks for it.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/product/product-os/features/fn-731/feature.md",
+          "quote": "deleting it loses work",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": ".garura/user-provided/managing-work.md",
+          "quote": "When the plan starts again, a new branch is cut from main.",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "standards/schemas/product-os/ontology.md (Phoenix memory)",
+          "quote": "Cutting the plan's branch moves main's plan file to In Progress",
+          "found": true
+        },
+        {
+          "where": "page",
+          "source": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+          "quote": "The cut itself is safe: `plan_branch.py go` decides from git, not from the file, so a stale name does not stop it.",
+          "found": true
+        }
+      ]
+    }
+  ]
+}

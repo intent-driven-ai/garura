@@ -1,0 +1,422 @@
+{
+  "pages": {
+    "software-delivery-planning/fix-defects-test-first/capability.md": {
+      "equals_draft": true,
+      "bytes": 27687,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/fix-defects-test-first/ice.md": {
+      "equals_draft": true,
+      "bytes": 5872,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md": {
+      "equals_draft": true,
+      "bytes": 14559,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md": {
+      "equals_draft": true,
+      "bytes": 4233,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md": {
+      "equals_draft": true,
+      "bytes": 11384,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md": {
+      "equals_draft": true,
+      "bytes": 4034,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    },
+    "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md": {
+      "equals_draft": true,
+      "bytes": 16132,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md": {
+      "equals_draft": true,
+      "bytes": 5401,
+      "thin_lines_on_page": 1,
+      "equals_copy_with_thin_line_back": true,
+      "thin_line_first": true,
+      "copy_has_no_thin_line": true
+    }
+  },
+  "pages_all_equal": true,
+  "page_count": 8,
+  "thin_lines_only_on_the_four_ice_pages": true,
+  "new_folder_files": [
+    "software-delivery-planning/fix-defects-test-first/capability.md",
+    "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+    "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md",
+    "software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+    "software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md",
+    "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md",
+    "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md",
+    "software-delivery-planning/fix-defects-test-first/ice.md"
+  ],
+  "new_folder_holds_only_the_8_pages": true,
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 23,
+      "after": 24,
+      "new": [
+        "cap-fix-defects-test-first"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 77,
+      "after": 80,
+      "new": [
+        "fn-understand-defect",
+        "fn-write-defect-tests",
+        "fn-fix-defect-code"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 55,
+      "after": 59,
+      "new": [
+        "ice-fix-defects-test-first",
+        "ice-understand-defect",
+        "ice-write-defect-tests",
+        "ice-fix-defect-code"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-fix-defects-test-first": {
+        "capability": null,
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Fix a reported defect quickly and test first: the defect is understood against the product model, its tests and its code, the tests that prove it are written and shown to fail, then the code is fixed while every test of the project is run, and then tidied while they all pass. The builder never sees the tests; a separate check runs them.",
+        "doc": "software-delivery-planning/fix-defects-test-first/capability.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-understand-defect": {
+        "capability": "cap-fix-defects-test-first",
+        "domain": null,
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "From a defect reported anywhere, the developer who will write its tests finds the feature the defect breaks, the tests that already check that behaviour and why they pass, and the root cause, and writes only what the fix needs; a defect no feature covers is named as a new need and not fixed.",
+        "doc": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-write-defect-tests": {
+        "capability": "cap-fix-defects-test-first",
+        "domain": null,
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "Before any fix code, a test writer who is not the builder writes a code-level test for each wrong result the report names, and the separate check shows each one fails because the defect is there.",
+        "doc": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "fn-fix-defect-code": {
+        "capability": "cap-fix-defects-test-first",
+        "domain": null,
+        "intents": [
+          "bi-3"
+        ],
+        "status": "proposed",
+        "one_line": "The builder changes the code from the cause and what the fix changes until a separate check, which runs every test of the project through a tool on the model or service the test model setting names, finds them all passing, then tidies the code it changed while they stay passing; when a test still fails after the tries the project allows, the defect goes back to be understood again.",
+        "doc": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "deepen": true
+        }
+      },
+      "ice-fix-defects-test-first": {
+        "for": "cap-fix-defects-test-first",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/fix-defects-test-first/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-understand-defect": {
+        "for": "fn-understand-defect",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-write-defect-tests": {
+        "for": "fn-write-defect-tests",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      },
+      "ice-fix-defect-code": {
+        "for": "fn-fix-defect-code",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md",
+        "metadata": {
+          "created_by": "product-os-keeper (reorganise business intents, #1021)",
+          "thin": true
+        }
+      }
+    },
+    "only_insertions": true,
+    "insert_blocks": 3,
+    "text_lines_added": 98,
+    "text_lines_removed_or_replaced": 0,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_3": {
+    "lines_before": 36,
+    "lines_after": 40,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 4,
+    "added": [
+      "- [Fix defects test first](../software-delivery-planning/fix-defects-test-first/capability.md) (capability) — adds",
+      "- [Understand the defect: its feature in the product model, its tests and why they pass, and its root cause](../software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md) (feature) — adds",
+      "- [Write the tests that prove the defect, and show each one fails](../software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md) (feature) — adds",
+      "- [Fix the code and run every test, then tidy it, without seeing the tests](../software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "inserted_after_line": "- [Update the tests and the code as the work changes](../software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md) (feature) — adds",
+    "inserted_after_last_touches_line": true,
+    "no_blank_line_added": true,
+    "byte_check_other_lines": true,
+    "outcome_and_proof_lines_unchanged": true,
+    "touches_lines": 20,
+    "every_touches_line_in_form": true,
+    "links": {
+      "../software-delivery-planning/gather-work-under-item/capability.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md": true,
+      "../software-delivery-planning/gather-work-under-item/fn-collect-story-context/feature.md": true,
+      "../software-delivery-planning/write-work-evals/capability.md": true,
+      "../software-delivery-planning/write-work-evals/fn-write-work-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-update-evals/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md": true,
+      "../software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md": true,
+      "../software-delivery-planning/design-work/capability.md": true,
+      "../software-delivery-planning/design-work/fn-design-chosen-work/feature.md": true,
+      "../software-delivery-planning/design-work/fn-update-work-design/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/capability.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md": true,
+      "../software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md": true,
+      "../software-delivery-planning/fix-defects-test-first/capability.md": true,
+      "../software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md": true,
+      "../software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md": true,
+      "../software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md": true
+    },
+    "every_link_opens_a_file": true,
+    "titles_match_page_titles": true,
+    "spine_entries_naming_bi_3": 20,
+    "spine_entry_ids_naming_bi_3": [
+      "cap-gather-work-under-item",
+      "cap-write-work-evals",
+      "cap-design-work",
+      "cap-build-work-test-first",
+      "cap-fix-defects-test-first",
+      "fn-gather-item-tree",
+      "fn-collect-story-context",
+      "fn-write-work-evals",
+      "fn-update-evals",
+      "fn-add-eval-steps",
+      "fn-keep-evals-from-builder",
+      "fn-design-chosen-work",
+      "fn-update-work-design",
+      "fn-write-failing-tests",
+      "fn-build-code-to-pass",
+      "fn-write-usage-guide",
+      "fn-update-tests-and-code",
+      "fn-understand-defect",
+      "fn-write-defect-tests",
+      "fn-fix-defect-code"
+    ],
+    "in_spine_not_in_touches": [],
+    "in_touches_not_in_spine": [],
+    "kinds_agree_with_spine": true
+  },
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-3.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/fix-defects-test-first/ice.md"
+  ],
+  "git_status_only_expected": true,
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 87,
+      "warnings": 108,
+      "counts": {
+        "domain": 1,
+        "capability": 23,
+        "feature": 77,
+        "ice": 55
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-5/write/lint-before.json"
+    },
+    "after": {
+      "errors": 87,
+      "warnings": 112,
+      "counts": {
+        "domain": 1,
+        "capability": 24,
+        "feature": 80,
+        "ice": 59
+      },
+      "file": ".garura/project/issues/1021/context/bi-3-capability-5/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-write-defect-tests/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-fix-defect-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 4 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page (ice.md), and each of the 4 is on disk and in the index. The same warning was raised on the 5 part pages of capability 4. No error names a new page, and the error count is the same before and after (87)."
+  },
+  "failed_checks": [],
+  "checks_run": 61,
+  "checks_passed": 61,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md no thin line": true,
+    "page capability.md equals draft": true,
+    "page ice.md thin line back": true,
+    "page ice.md equals draft": true,
+    "page fn-understand-defect/feature.md no thin line": true,
+    "page fn-understand-defect/feature.md equals draft": true,
+    "page fn-understand-defect/ice.md thin line back": true,
+    "page fn-understand-defect/ice.md equals draft": true,
+    "page fn-write-defect-tests/feature.md no thin line": true,
+    "page fn-write-defect-tests/feature.md equals draft": true,
+    "page fn-write-defect-tests/ice.md thin line back": true,
+    "page fn-write-defect-tests/ice.md equals draft": true,
+    "page fn-fix-defect-code/feature.md no thin line": true,
+    "page fn-fix-defect-code/feature.md equals draft": true,
+    "page fn-fix-defect-code/ice.md thin line back": true,
+    "page fn-fix-defect-code/ice.md equals draft": true,
+    "new folder holds only the 8 pages": true,
+    "thin lines only on the four ICE pages": true,
+    "spine domains nothing removed or changed, order kept": true,
+    "spine capabilities nothing removed or changed, order kept": true,
+    "spine features nothing removed or changed, order kept": true,
+    "spine slices nothing removed or changed, order kept": true,
+    "spine ices nothing removed or changed, order kept": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "spine new entries are exactly the 8 asked": true,
+    "3 new features, 1 new capability, 4 new ICE": true,
+    "spine entry cap-fix-defects-test-first as asked": true,
+    "spine entry fn-understand-defect as asked": true,
+    "spine entry fn-write-defect-tests as asked": true,
+    "spine entry fn-fix-defect-code as asked": true,
+    "spine entry ice-fix-defects-test-first as asked": true,
+    "spine entry ice-understand-defect as asked": true,
+    "spine entry ice-write-defect-tests as asked": true,
+    "spine entry ice-fix-defect-code as asked": true,
+    "capability one_line = first line of Directional intent": true,
+    "feature fn-understand-defect one_line = list text, first letter capitalised": true,
+    "feature fn-write-defect-tests one_line = list text, first letter capitalised": true,
+    "feature fn-fix-defect-code one_line = list text, first letter capitalised": true,
+    "all four new ICE thin": true,
+    "new parts not thin themselves": true,
+    "ICE ids unique": true,
+    "all ids unique": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-3 only_insertions": true,
+    "bi-3 added_as_asked_in_order": true,
+    "bi-3 inserted_after_last_touches_line": true,
+    "bi-3 no_blank_line_added": true,
+    "bi-3 byte_check_other_lines": true,
+    "bi-3 outcome_and_proof_lines_unchanged": true,
+    "bi-3 gained exactly 4 lines in one block": true,
+    "bi-3 every Touches line in form": true,
+    "bi-3 every link opens a file": true,
+    "bi-3 titles match page titles": true,
+    "20 index entries naming bi-3 match the 20 Touches lines": true,
+    "bi-3 kinds agree with spine": true,
+    "under .garura/product only the spine, bi-3.md and the new folder changed": true,
+    "structure check: no error names a new page": true,
+    "structure check: no new error": true
+  },
+  "before_state": "git HEAD dd53f6d9: the spine and intents/bi-3.md as committed (the model had no uncommitted change before this write)"
+}

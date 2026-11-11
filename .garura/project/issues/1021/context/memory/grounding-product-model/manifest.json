@@ -1,0 +1,74 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/spine.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9bc65f2b6cdd25319b3086b445f228c4e4b90c08e9b4107071bbe43f9b4d539e",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/spine.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/_index.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:d7a79a6cb2dbd6caf8ce8e4078b718e4c38c09fcd087b087c95c024123c79b22",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ice.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:91fe7cd541257c9d57c2ba32dafd41a85e9a3a404d95b3b511ea0ef24f211446",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/ice.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/slice.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:78ad9fe6245dd44be81b9e9df4da2ebe5496b3cd1066a6a7661484211d41662e",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/slice.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/_content-standard.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:a87ad8b9c992bb6524ea5f995693615241d5368b49df75eb0c9851b924b4025d",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/grounding/_content-standard.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/capability.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:57bcd198b8344c9cba9e84739714f44d6c85eac5dcde9e67d88629c698a3609f",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/grounding/capability.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/feature.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:8056d0c66a9ef96f306504087fa19aafaa16989e160c424cc497b2b073d3cd20",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/grounding/feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/domain.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:238390b7006ae83ecfaf2ecae89bd519309a876e5a84262eec2e44676ba76a21",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/grounding/domain.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-os.yaml",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:49c05c5f9bdc2a69637f8a46050471394c6e4e1ca313500f38f2976b01b35099",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-product-model/standards/schemas/product-os/product-os.yaml"
+    }
+  ]
+}

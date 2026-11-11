@@ -1,0 +1,55 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/capability-3/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/keep-spec-matched/capability.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md",
+      "from": ".garura/project/issues/1021/context/capability-3/drafts/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/keep-spec-matched/fn-find-spec-drift/ice.md",
+      "from": ".garura/project/issues/1021/context/capability-3/write/approved/fn-find-spec-drift/ice.md"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "written": [
+    "cap-gather-work-under-item",
+    "fn-gather-item-tree",
+    "fn-collect-story-context",
+    "ice-gather-work-under-item",
+    "ice-gather-item-tree",
+    "ice-collect-story-context"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-gather-work-under-item",
+    "ice-gather-item-tree",
+    "ice-collect-story-context"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/gather-work-under-item/ice.md",
+    "product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/ice.md",
+    "product-os/software-delivery-planning/gather-work-under-item/fn-collect-story-context/ice.md"
+  ],
+  "layout_kept": true
+}

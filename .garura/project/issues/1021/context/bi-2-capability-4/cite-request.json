@@ -1,0 +1,233 @@
+{
+ "note": "Decision traces of the BI-2 capability 4 draft, for the caller to record with `python3 .garura/core/tools/memory/memory.py cite --request <one entry>`. Not recorded here, because this run writes only under bi-2-capability-4/. The persona and the overlap leans rest on Garura's code (not a memory tier) and on the product owner's words; they are in research.md.",
+ "requests": [
+  {
+   "question": "Does memory hold a declaration of a project's environments, and for what scope?",
+   "answer": "Only for one slice at a time: the run lens schema records how one slice is deployed, with each environment added one call at a time under fixed names that end in production. Nothing declares the environments of the whole project, so the capability and its three features are not built and every ICE is thin.",
+   "trace": [
+    {
+     "asked": "what the run lens schema says it covers",
+     "found": "how one slice is deployed and runs",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 3,
+      "end": 3,
+      "fingerprint": "sha256:e3bb006c0fa5c54e40df8dda6eabc82d6664d04195f2b3d2d40b439f741ce8ba"
+     }
+    },
+    {
+     "asked": "how environments are recorded",
+     "found": "one environment per call, re-run to add or edit one",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 9,
+      "end": 11,
+      "fingerprint": "sha256:f6f36d48c0962c16217ef398cfb35d62453ed163512947f9d95c708fa777d551"
+     }
+    },
+    {
+     "asked": "which environment names the schema allows",
+     "found": "local, dev, qa, stage and prod, in that order; no testing or pre-production",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 32,
+      "end": 33,
+      "fingerprint": "sha256:07a0c4030364dd922d3a74f7e2743d0041ecdf8b88f6e5415fda9fd017d67891"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 4 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "What does an environment's setup hold, as built?",
+   "answer": "Its own settings with secrets kept in a secrets store, how a builder's copy is brought up and an optional test-data step, and for a cloud one its region, size, network and firewall rules, identity and secrets binding. The drafts name the properties as data, size, network, who can reach it and its own settings, as the approved Deployment design Out line gives them.",
+   "trace": [
+    {
+     "asked": "the settings and local fields of an environment",
+     "found": "per-environment settings, secrets never in the code, bring-up and seed",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 37,
+      "end": 42,
+      "fingerprint": "sha256:c1471b6c9fe97b6f6b82210ced0fa85673fef4c4072e63cb02e120fe14d01092"
+     }
+    },
+    {
+     "asked": "the cloud fields of an environment",
+     "found": "size, managed services, network with firewalls, identity, secrets and controls",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 52,
+      "end": 63,
+      "fingerprint": "sha256:90dd55ff5d19de5a1617a291866362a7e2dff73980cacb5ef54649784d62fe56"
+     }
+    },
+    {
+     "asked": "what the approved Deployment design leaves to Environment setup",
+     "found": "which environments exist, how many and how each is set up, with its data, size, network and who can reach it",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/deployment-design/capability.md",
+      "start": 54,
+      "end": 54,
+      "fingerprint": "sha256:a1670145ae3d8cf2ef1cd0f3155a64fdcb2428a04f6baeb1a6aabc4b92139201"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 4 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Which environments, how many, and is production among them?",
+   "answer": "At least dev, testing and pre-production, in that order; never production, and nothing here touches it.",
+   "trace": [
+    {
+     "asked": "the product owner's minimum and names",
+     "found": "minimum three: dev, testing, pre-production; never touching production",
+     "source": {
+      "tier": "short-term",
+      "path": "1021/context/bi-2-capability-3/research.md",
+      "start": 161,
+      "end": 162,
+      "fingerprint": "sha256:c1bb3e00c74d9c5a15928602a63dbd3a0f8274c5902b0f1a32de5d1b4fdf6fe3"
+     }
+    },
+    {
+     "asked": "the agreed capability line",
+     "found": "which environments exist, how many, and how each is set up",
+     "source": {
+      "tier": "short-term",
+      "path": "1021/context/capabilities.md",
+      "start": 16,
+      "end": 16,
+      "fingerprint": "sha256:c353b5e4e00763ea236f8e2e18eaec4d2e761f64e87e617922d80ac2f6698952"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 4 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Does this capability build each environment, and when?",
+   "answer": "Yes: each environment is built and managed on its own, from Deployment design's one reused design, only when a deployment to it is needed. Drafted as its own feature (Build and manage an environment when a deployment needs it).",
+   "trace": [
+    {
+     "asked": "the product owner's words on building environments",
+     "found": "each built and managed separately, reused technology, only when a deployment is needed",
+     "source": {
+      "tier": "short-term",
+      "path": "1021/context/bi-2-capability-3/research.md",
+      "start": 269,
+      "end": 269,
+      "fingerprint": "sha256:e4d859891fe47fcc4e3c0585a8d3d3bb08400c79463318c98c3d924edc2c1d5b"
+     }
+    },
+    {
+     "asked": "what the approved Deployment design feature gives to Environment setup",
+     "found": "declaring the environments, and building and setting up each one when a deployment needs it",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/deployment-design/fn-design-how-project-runs/feature.md",
+      "start": 94,
+      "end": 94,
+      "fingerprint": "sha256:31793ea7d4a69f0ed0c03c85538ddfb98d9ff52f8e9e8fa0c2d80dc70a70c9cd"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 4 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Does building an environment need a person's yes?",
+   "answer": "Yes. Standing up a live environment is a pinned person's step in Garura's gate rules; the drafts keep design and build free of it, and only the build of an environment waits for that yes.",
+   "trace": [
+    {
+     "asked": "how Garura's gate rules treat standing up a live environment",
+     "found": "outward-facing, always requires a human",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "start": 103,
+      "end": 104,
+      "fingerprint": "sha256:ec5eced0eb3fd713e07561bbb422e098a98138d20ca9ad423e238a3efe84a939"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 4 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "What does Phoenix memory say about each environment's setup, and can its paths be used as they are?",
+   "answer": "It gives each environment its own data stance and a ladder of environments, but every ladder ends in production and none names testing or pre-production. Proposals use what a learning says for the other environments and leave its production environment out.",
+   "trace": [
+    {
+     "asked": "the release learning's environments",
+     "found": "local with fixtures only, staging with sanitized data, prod with real data",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/run-environments-canary-migrations.md",
+      "start": 41,
+      "end": 47,
+      "fingerprint": "sha256:1f3649ac23171c04624b2efa89d476b02a0d56bce79f045ab84b4c5d4d0458c9"
+     }
+    },
+    {
+     "asked": "the agent deployment learning's environments",
+     "found": "dev, uat, prod",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/agent-deploy-dev-uat-prod.md",
+      "start": 25,
+      "end": 30,
+      "fingerprint": "sha256:b931d36c18392771696a8e6dd76005e514306f0cf44e6204f0ba7f2f9e63b5d1"
+     }
+    },
+    {
+     "asked": "the runtime learning's environments",
+     "found": "dev, staging, prod",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/gcp-modular-monolith-runtime.md",
+      "start": 39,
+      "end": 39,
+      "fingerprint": "sha256:8364f9dac9e91e9fa8a44b6bfceae470cc16963e20fd6e7ae4be0c29667d8676"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 4 draft",
+   "decided_by": "product-os-keeper"
+  },
+  {
+   "question": "Does the product model have a kind for an environment?",
+   "answer": "No. The ontology defines no environment kind, so where the declared environments are kept is not decided.",
+   "trace": [
+    {
+     "asked": "kinds the ontology leaves undefined",
+     "found": "none; every kind is defined above, and none is an environment",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 870,
+      "end": 870,
+      "fingerprint": "sha256:6ccc0f9ba53e41dc1e3eb3247963855c95a2d833e9516406ff88b87e277ada8d"
+     }
+    }
+   ],
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 4 draft",
+   "decided_by": "product-os-keeper"
+  }
+ ]
+}

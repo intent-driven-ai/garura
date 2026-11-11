@@ -1,0 +1,12 @@
+# The person's recorded answers for this capability. Words copied, not written here.
+id: cap-keep-intents
+slug: keep-intents
+name: Keep the original business intents
+one_line: Everything a person gives is kept exactly as given, and the intents stay up to date as the product evolves, with no drift.
+why: The bottleneck is stating intent clearly and keeping it across sessions, not writing code. Most tools lose the intent once the work starts.
+domain: dom-software-delivery-planning
+intents: [bi-1]
+doc: software-delivery-planning/keep-intents/capability.md
+unique: most tools lose the intent once the work starts; here everything a person gives is kept as given, and the intents stay up to date with no drift.
+features: []
+answered_by: human

@@ -1,0 +1,43 @@
+#990 The product model moves with the work: a design approval updates it, and /propose-change lets the person update it now or leave it for Learn (OPEN)
+
+## What a person can do
+
+The product model keeps up with the work as it is done, and the person decides how fast. When a story's design is approved, the model takes it. When the build drifts from the design, the design file is brought up to what was built. Before the change is proposed, the person chooses: update the model now, or leave it for Learn. Leaving it is always allowed, and it leaves a record of what is owed.
+
+## The principle (the product owner, 2026-10-30)
+
+The harness never stops a person. It gives them choices, so they can move at the speed they want. Going fast has repercussions later, and the choice is theirs. A gate in this harness is never a hard stop: it always has a key to pass it, and using the key records what must be done later. Evidence is recorded; nothing else is enforced.
+
+## The flow
+
+1. **Start.** `/start-change` opens the change and cuts its branch, as today.
+2. **Design.** The design is written in the issue's design file (`design.md`). It is not only technical: it is built from the lenses that apply to the change. There are seven lens plays today: UX (the surface and experience), architecture (the technology), agentic, measure, marketing, quality and run. The person approves the design with a plain "approved". The record keeps who approved it, when, and a fingerprint of the exact design file approved.
+3. **Model update on approval.** When the design is approved, the model sub-agent updates the product model through its skills: domains, capabilities, features and their intent (ICE). Each piece it changes is marked in review, not approved; a person approves it later.
+4. **Build.** The build works from the approved design. It may build from the change's own in-review model pieces; they do not block it.
+5. **Drift check, before the change is proposed.** A check compares the approved design with what was built. The build is not limited by the design: when it drifts, the design file is brought up to what was built, as a new version. Both versions are kept, with who approved the first, who changed it, and why. The new version gets its own plain "approved"; the person who changed the design may approve it. When the model changes again, the person sees both model changes in order — what the first design put in, then what the drift changed. The last one stands, and the earlier one stays visible.
+6. **The choice at `/propose-change`.** It checks that the design file is complete and that any drift is recorded. Then it asks the person:
+   - **Update the model now:** the change's short-term memory is learned into the model before the change is proposed, and the person approves the model changes.
+   - **Leave it:** the change goes on. The change is written to one list of changes not yet learned (issue, branch, what was left, who chose, when), so Learn processes exactly that list later and never hunts through every issue's short-term memory.
+
+## Done means
+
+- A design approval, each design version, each drift, and who approved and changed each one are recorded in the issue's short-term memory.
+- The model takes an approved design, with each changed piece marked in review.
+- `/propose-change` never blocks on a model approval. It always offers "update the model now" or "leave it"; a "leave it" puts the change on the not-yet-learned list.
+- Learn can run from that list alone.
+
+## Decided (the product owner, 2026-10-30)
+
+- The model moves with the work (option 1), not in a batch after delivery: "it is better that the model and everything is updated as the work is getting done."
+- A build may use its own in-review model pieces.
+- The person who changed the design may approve the new version. Only the evidence is enforced.
+- `/propose-change` is a gate with a key, not a hard stop. The key records what Learn owes.
+
+## Notes
+
+- Plays this touches, each through its own intent (ICE) and `/edit-play` when built: the design play (#978, `/shape-story`), `/propose-change` (the choice and the drift check), the model skills, and Learn (to read the not-yet-learned list).
+- The design part is large: each lens brings its own design work. That is handled when the design play is built.
+- No product model page is written now. It gets one when its own design is approved, by the rule it records.
+- Related: #964 (each piece of the model carries its approval state), #977 (the Learn loop finds and fixes model drift — it reads the not-yet-learned list), #979 (a thin model page for work found during a plan), #978 (`/shape-story` and its design file).
+- Came up while designing #720 (manage a plan), 2026-10-30.
+

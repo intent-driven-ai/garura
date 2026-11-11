@@ -1,0 +1,148 @@
+{
+  "updated": [
+    {
+      "id": "cap-specify-product",
+      "doc": "software-delivery-planning/specify-product/capability.md",
+      "added_sections": [
+        "Benefit hypothesis",
+        "Boundary (In / Out / Never)",
+        "Guiding rules",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 19,
+      "replaced_by_named_lines": 0
+    },
+    {
+      "id": "fn-specify-intents",
+      "doc": "software-delivery-planning/specify-product/fn-specify-intents/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 10,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-domains",
+      "doc": "software-delivery-planning/specify-product/fn-specify-domains/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 9,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-capabilities",
+      "doc": "software-delivery-planning/specify-product/fn-specify-capabilities/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 10,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-from-journeys",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 9,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-from-file",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-file/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 9,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-from-folder",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-folder/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 9,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-from-site",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-site/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 9,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-from-document",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-document/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 9,
+      "replaced_by_named_lines": 1
+    },
+    {
+      "id": "fn-specify-from-words",
+      "doc": "software-delivery-planning/specify-product/fn-specify-from-words/feature.md",
+      "added_sections": [
+        "Inputs / Outputs",
+        "Rules & behavior",
+        "Acceptance criteria",
+        "Out of scope",
+        "Sources"
+      ],
+      "renamed": [],
+      "kept_lines": 9,
+      "replaced_by_named_lines": 1
+    }
+  ],
+  "new_features": [],
+  "thin": [],
+  "fixed": [],
+  "not_mine": [],
+  "note": "Draft-only run: the pages were written under drafts/product-os, a copy of the model's folder shape, so the live model is unchanged. cap-specify-product stays at the directional stage; its benefit hypothesis, boundary and guiding rules sit as third-level headings inside Directional intent."
+}

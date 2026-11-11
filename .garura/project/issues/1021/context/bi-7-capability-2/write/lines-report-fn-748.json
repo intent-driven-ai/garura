@@ -1,0 +1,22 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md (the product owner, 2026-11-10, last line: one Sources line of features/fn-748/feature.md now quotes the old capability's two lines from .garura/project/issues/1021/context/bi-7-capability-2/research.md, with no path to the page the merge removes)",
+  "pages": [
+    {
+      "page": "features/fn-748/feature.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/capabilities/cap-747/capability.md (merged into this capability): \"an install in a project that already has Garura removes the old names and lays the new ones, using the rename map.\", \"A project never ends up with an old and a new name side by side.\"",
+          "new": "- The older capability Installs follow the renames, merged into this capability, whose words are kept in .garura/project/issues/1021/context/bi-7-capability-2/research.md: \"an install in a project that already has Garura removes the old names and lays the new ones, using the rename map.\", \"A project never ends up with an old and a new name side by side.\""
+        }
+      ],
+      "lines_before": 69,
+      "lines_after": 69,
+      "lines_added": 0,
+      "lines_kept": 68
+    }
+  ],
+  "changed": [
+    "features/fn-748/feature.md"
+  ]
+}

@@ -1,0 +1,661 @@
+{
+  "pages": {
+    "software-delivery-planning/support-coding-tools/capability.md": {
+      "equals_draft": true,
+      "bytes": 17855,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/ice.md": {
+      "equals_draft": true,
+      "bytes": 4138,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md": {
+      "equals_draft": true,
+      "bytes": 8878,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md": {
+      "equals_draft": true,
+      "bytes": 3268,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md": {
+      "equals_draft": true,
+      "bytes": 9229,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md": {
+      "equals_draft": true,
+      "bytes": 3442,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md": {
+      "equals_draft": true,
+      "bytes": 6466,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md": {
+      "equals_draft": true,
+      "bytes": 2204,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true,
+      "line_after_blank": "## Intent"
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md": {
+      "equals_draft": true,
+      "bytes": 6205,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md": {
+      "equals_draft": true,
+      "bytes": 2170,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true,
+      "line_after_blank": "## Intent"
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md": {
+      "equals_draft": true,
+      "bytes": 7829,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md": {
+      "equals_draft": true,
+      "bytes": 2568,
+      "thin_lines_on_page": 1,
+      "thin_line_first": true,
+      "blank_after_thin_line": true,
+      "equals_copy_with_thin_line_back": true,
+      "copy_has_no_thin_line": true,
+      "line_after_blank": "## Intent"
+    },
+    "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md": {
+      "equals_draft": true,
+      "bytes": 8554,
+      "thin_lines_on_page": 0
+    },
+    "software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md": {
+      "equals_draft": true,
+      "bytes": 2502,
+      "thin_lines_on_page": 0
+    }
+  },
+  "page_count": 14,
+  "pages_all_equal": true,
+  "new_folder_files": [
+    "software-delivery-planning/support-coding-tools/capability.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md",
+    "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md",
+    "software-delivery-planning/support-coding-tools/ice.md"
+  ],
+  "spine": {
+    "domains": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "capabilities": {
+      "before": 34,
+      "after": 35,
+      "new": [
+        "cap-support-coding-tools"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "features": {
+      "before": 128,
+      "after": 134,
+      "new": [
+        "fn-install-for-claude-code",
+        "fn-install-for-codex",
+        "fn-install-for-copilot",
+        "fn-install-for-antigravity",
+        "fn-install-for-factory",
+        "fn-map-model-tier"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "slices": {
+      "before": 1,
+      "after": 1,
+      "new": [],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "ices": {
+      "before": 119,
+      "after": 126,
+      "new": [
+        "ice-support-coding-tools",
+        "ice-install-for-claude-code",
+        "ice-install-for-codex",
+        "ice-install-for-copilot",
+        "ice-install-for-antigravity",
+        "ice-install-for-factory",
+        "ice-map-model-tier"
+      ],
+      "removed": [],
+      "old_entries_changed": [],
+      "old_order_kept": true
+    },
+    "other_top_keys": [
+      "profile"
+    ],
+    "other_top_keys_unchanged": true,
+    "top_key_order_kept": true,
+    "new_entries": {
+      "cap-support-coding-tools": {
+        "slug": "support-coding-tools",
+        "domain": "dom-software-delivery-planning",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Support each coding tool: Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.",
+        "doc": "software-delivery-planning/support-coding-tools/capability.md",
+        "thin": false
+      },
+      "fn-install-for-claude-code": {
+        "slug": "fn-install-for-claude-code",
+        "capability": "cap-support-coding-tools",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Every sub-agent, play, loop and skill is laid where Claude Code reads it, each sub-agent with its tier, with the shared files, the memory guide every agent reads, and Garura's instructions beside the team's own. Built.",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+        "thin": false
+      },
+      "fn-install-for-codex": {
+        "slug": "fn-install-for-codex",
+        "capability": "cap-support-coding-tools",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Every part a play needs is laid where Codex reads it, with the memory guide as a marked block in the team's own instructions file. Stopped until its redesign (#863).",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+        "thin": false
+      },
+      "fn-install-for-copilot": {
+        "slug": "fn-install-for-copilot",
+        "capability": "cap-support-coding-tools",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Every part laid where GitHub Copilot reads it, through its own adapter. Neither built nor filed.",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+        "thin": false
+      },
+      "fn-install-for-antigravity": {
+        "slug": "fn-install-for-antigravity",
+        "capability": "cap-support-coding-tools",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Every part laid where Antigravity reads it, through its own adapter. Neither built nor filed.",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+        "thin": false
+      },
+      "fn-install-for-factory": {
+        "slug": "fn-install-for-factory",
+        "capability": "cap-support-coding-tools",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "Every part laid where Factory's agent reads it, through its own adapter. Supported once, then removed.",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+        "thin": false
+      },
+      "fn-map-model-tier": {
+        "slug": "fn-map-model-tier",
+        "capability": "cap-support-coding-tools",
+        "intents": [
+          "bi-7"
+        ],
+        "status": "proposed",
+        "one_line": "The tier a part names is read once, and each tool's adapter writes it where that tool takes a model for that kind of part, so the part runs on the tier its maker chose. Built in part.",
+        "doc": "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+        "thin": false
+      },
+      "ice-support-coding-tools": {
+        "for": "cap-support-coding-tools",
+        "for_kind": "capability",
+        "doc": "software-delivery-planning/support-coding-tools/ice.md",
+        "thin": false,
+        "intents_named": null,
+        "for_kind_right": true,
+        "doc_leads_to_file": true,
+        "doc_is_folder_of_its_part": true
+      },
+      "ice-install-for-claude-code": {
+        "for": "fn-install-for-claude-code",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md",
+        "thin": false,
+        "intents_named": null,
+        "for_kind_right": true,
+        "doc_leads_to_file": true,
+        "doc_is_folder_of_its_part": true
+      },
+      "ice-install-for-codex": {
+        "for": "fn-install-for-codex",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md",
+        "thin": false,
+        "intents_named": null,
+        "for_kind_right": true,
+        "doc_leads_to_file": true,
+        "doc_is_folder_of_its_part": true
+      },
+      "ice-install-for-copilot": {
+        "for": "fn-install-for-copilot",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md",
+        "thin": true,
+        "intents_named": null,
+        "for_kind_right": true,
+        "doc_leads_to_file": true,
+        "doc_is_folder_of_its_part": true
+      },
+      "ice-install-for-antigravity": {
+        "for": "fn-install-for-antigravity",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md",
+        "thin": true,
+        "intents_named": null,
+        "for_kind_right": true,
+        "doc_leads_to_file": true,
+        "doc_is_folder_of_its_part": true
+      },
+      "ice-install-for-factory": {
+        "for": "fn-install-for-factory",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md",
+        "thin": true,
+        "intents_named": null,
+        "for_kind_right": true,
+        "doc_leads_to_file": true,
+        "doc_is_folder_of_its_part": true
+      },
+      "ice-map-model-tier": {
+        "for": "fn-map-model-tier",
+        "for_kind": "feature",
+        "doc": "software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md",
+        "thin": false,
+        "intents_named": null,
+        "for_kind_right": true,
+        "doc_leads_to_file": true,
+        "doc_is_folder_of_its_part": true
+      }
+    },
+    "thin_entries_among_new": [
+      "ice-install-for-copilot",
+      "ice-install-for-antigravity",
+      "ice-install-for-factory"
+    ],
+    "text_lines_removed_or_replaced": 0,
+    "text_lines_added": 154,
+    "insert_blocks": 3,
+    "only_insertions": true,
+    "comment_lines_before": 0,
+    "comment_lines_after": 0
+  },
+  "bi_7": {
+    "lines_before": 35,
+    "lines_after": 42,
+    "only_insertions": true,
+    "insert_blocks": 1,
+    "lines_added": 7,
+    "added": [
+      "- [Support each coding tool](../software-delivery-planning/support-coding-tools/capability.md) (capability) — adds",
+      "- [Install Garura for Claude Code](../software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md) (feature) — adds",
+      "- [Install Garura for Codex](../software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md) (feature) — adds",
+      "- [Install Garura for GitHub Copilot](../software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md) (feature) — adds",
+      "- [Install Garura for Antigravity](../software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md) (feature) — adds",
+      "- [Install Garura for Factory](../software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md) (feature) — adds",
+      "- [Map each part's model tier onto each tool's own setting](../software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md) (feature) — adds"
+    ],
+    "added_as_asked_in_order": true,
+    "line_before_block": "- [Move the product model to the new version's shape, on the person's yes](../software-delivery-planning/upgrade-project/fn-move-model/feature.md) (feature) — adds",
+    "line_after_block": "",
+    "block_right_after_anchor": true,
+    "byte_check_whole_page": true,
+    "touches_lines": 21,
+    "every_touches_line_in_form": true,
+    "links": {
+      "software-delivery-planning/install-into-project/capability.md": true,
+      "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-choose-parts/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-check-install/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-update-parts/feature.md": true,
+      "software-delivery-planning/install-into-project/fn-take-out/feature.md": true,
+      "software-delivery-planning/upgrade-project/capability.md": true,
+      "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-cut-release/feature.md": true,
+      "features/fn-748/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md": true,
+      "software-delivery-planning/upgrade-project/fn-move-model/feature.md": true,
+      "software-delivery-planning/support-coding-tools/capability.md": true,
+      "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md": true,
+      "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md": true,
+      "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md": true,
+      "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md": true,
+      "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md": true,
+      "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md": true
+    },
+    "every_link_leads_to_a_file": true,
+    "titles_match_page_titles": true,
+    "index_entries_naming_bi_7": [
+      "cap-install-into-project",
+      "cap-upgrade-project",
+      "cap-support-coding-tools",
+      "fn-748",
+      "fn-install-in-one-step",
+      "fn-choose-parts",
+      "fn-check-install",
+      "fn-lay-guardrails",
+      "fn-update-parts",
+      "fn-take-out",
+      "fn-upgrade-in-one-step",
+      "fn-cut-release",
+      "fn-keep-edits",
+      "fn-bring-new-settings",
+      "fn-move-model",
+      "fn-install-for-claude-code",
+      "fn-install-for-codex",
+      "fn-install-for-copilot",
+      "fn-install-for-antigravity",
+      "fn-install-for-factory",
+      "fn-map-model-tier"
+    ],
+    "index_entries_naming_bi_7_count": 21,
+    "in_index_not_in_touches": [],
+    "in_touches_not_in_index": [],
+    "kinds_agree_with_index": true,
+    "new_lines_order_matches_capability_then_feature_list": true,
+    "new_lines_all_adds": true
+  },
+  "memory_files_cited": {
+    ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md": {
+      "on_disk": true,
+      "cited_by": [
+        "software-delivery-planning/support-coding-tools/capability.md",
+        "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+        "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md"
+      ],
+      "quotes": {
+        "What Claude Code loads from a project": true,
+        "can name its model": true,
+        "for the rest of the current turn": true,
+        ".claude/settings.json is the shared project file for team permissions, hooks and plugins": true,
+        "a PreToolUse hook runs before a tool call and can block it": true,
+        "for a sub-agent and for a skill": true
+      }
+    },
+    ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md": {
+      "on_disk": true,
+      "cited_by": [
+        "software-delivery-planning/support-coding-tools/capability.md",
+        "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+        "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md"
+      ],
+      "quotes": {
+        "What Codex loads from a project": true,
+        "standalone TOML files in .codex/agents/": true,
+        "There is no named-subagent file": true,
+        "is not stated on the page read": true,
+        "may set model and model_reasoning_effort": true,
+        "project hooks load only when the project's .codex/ layer is trusted": true,
+        "for a custom agent": true,
+        "skills inherit from the parent": true
+      }
+    },
+    ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md": {
+      "on_disk": true,
+      "cited_by": [
+        "software-delivery-planning/support-coding-tools/capability.md",
+        "software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+        "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md"
+      ],
+      "quotes": {
+        "What GitHub Copilot loads from a project": true,
+        "VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations": true,
+        "one CLAUDE.md or GEMINI.md at the root": true,
+        ".github/skills, .claude/skills or .agents/skills": true,
+        "a preToolUse hook can approve or deny a tool call": true,
+        "the how-to names the model property for VS Code, JetBrains IDEs, Eclipse and Xcode": true,
+        "A model field for a skill is not stated": true,
+        "in VS Code a prompt file names its model": true
+      }
+    },
+    ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md": {
+      "on_disk": true,
+      "cited_by": [
+        "software-delivery-planning/support-coding-tools/capability.md",
+        "software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+        "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md"
+      ],
+      "quotes": {
+        "What Antigravity loads from a project": true,
+        "Google Antigravity, Google's agentic coding platform": true,
+        "Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK": true,
+        "a valid trigger": true,
+        "is silently discarded": true,
+        "available in the App and the CLI, not the IDE": true,
+        "a PreToolUse decision of deny hard-blocks the tool call": true,
+        "No model field is listed": true,
+        "inherit, flash or pro": true
+      }
+    },
+    ".garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md": {
+      "on_disk": true,
+      "cited_by": [
+        "software-delivery-planning/support-coding-tools/capability.md",
+        "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+        "software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md"
+      ],
+      "quotes": {
+        "What Factory loads from a project": true,
+        "Factory (Factory.ai)": true,
+        "whose agent is Droid": true,
+        "whose agent is Droid, run from the Droid CLI": true,
+        "CLAUDE.md among them": true,
+        "for compatibility": true,
+        "a PreToolUse hook that exits with code 2 blocks the tool call": true,
+        "for a custom droid, not for a skill": true
+      }
+    }
+  },
+  "memory_quotes_all_found": true,
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-7.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/support-coding-tools/ice.md"
+  ],
+  "structure_check": {
+    "command": "python3 .claude/skills/discover-capabilities/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml",
+    "before": {
+      "errors": 83,
+      "warnings": 169,
+      "counts": {
+        "domain": 1,
+        "capability": 34,
+        "feature": 128,
+        "ice": 119
+      },
+      "file": ".garura/project/issues/1021/context/bi-7-capability-3/write/lint-before.json"
+    },
+    "after": {
+      "errors": 83,
+      "warnings": 176,
+      "counts": {
+        "domain": 1,
+        "capability": 35,
+        "feature": 134,
+        "ice": 126
+      },
+      "file": ".garura/project/issues/1021/context/bi-7-capability-3/write/lint-after.json"
+    },
+    "new_errors": [],
+    "errors_gone": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "warnings_gone": [],
+    "errors_naming_a_new_page": [],
+    "warnings_naming_a_new_page": [
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "note": "The 7 new warnings are the checker's older inline-ICE rule ('no ## Agent intent (ICE) yet'), one on each new part page; under ontology v15 the ICE has its own page and write_approved.py refuses an ICE section on a part's page. The same warning stands on every capability and feature page written earlier in #1021 (capability 1's write met 7 of them)."
+  },
+  "write_folder_private_strings": [],
+  "failed_checks": [],
+  "checks_run": 87,
+  "checks_passed": 87,
+  "all_checks_pass": true,
+  "checks": {
+    "page capability.md equals draft": true,
+    "page capability.md no thin line": true,
+    "page ice.md equals draft": true,
+    "page ice.md no thin line": true,
+    "page fn-install-for-claude-code/feature.md equals draft": true,
+    "page fn-install-for-claude-code/feature.md no thin line": true,
+    "page fn-install-for-claude-code/ice.md equals draft": true,
+    "page fn-install-for-claude-code/ice.md no thin line": true,
+    "page fn-install-for-codex/feature.md equals draft": true,
+    "page fn-install-for-codex/feature.md no thin line": true,
+    "page fn-install-for-codex/ice.md equals draft": true,
+    "page fn-install-for-codex/ice.md no thin line": true,
+    "page fn-install-for-copilot/feature.md equals draft": true,
+    "page fn-install-for-copilot/feature.md no thin line": true,
+    "page fn-install-for-copilot/ice.md equals draft": true,
+    "page fn-install-for-copilot/ice.md one thin line, first, blank after, rest = approved copy": true,
+    "page fn-install-for-antigravity/feature.md equals draft": true,
+    "page fn-install-for-antigravity/feature.md no thin line": true,
+    "page fn-install-for-antigravity/ice.md equals draft": true,
+    "page fn-install-for-antigravity/ice.md one thin line, first, blank after, rest = approved copy": true,
+    "page fn-install-for-factory/feature.md equals draft": true,
+    "page fn-install-for-factory/feature.md no thin line": true,
+    "page fn-install-for-factory/ice.md equals draft": true,
+    "page fn-install-for-factory/ice.md one thin line, first, blank after, rest = approved copy": true,
+    "page fn-map-model-tier/feature.md equals draft": true,
+    "page fn-map-model-tier/feature.md no thin line": true,
+    "page fn-map-model-tier/ice.md equals draft": true,
+    "page fn-map-model-tier/ice.md no thin line": true,
+    "new folder holds only the 14 pages": true,
+    "spine domains: nothing removed or changed, order kept": true,
+    "spine domains: new entries are exactly the ones asked": true,
+    "spine capabilities: nothing removed or changed, order kept": true,
+    "spine capabilities: new entries are exactly the ones asked": true,
+    "spine features: nothing removed or changed, order kept": true,
+    "spine features: new entries are exactly the ones asked": true,
+    "spine slices: nothing removed or changed, order kept": true,
+    "spine slices: new entries are exactly the ones asked": true,
+    "spine ices: nothing removed or changed, order kept": true,
+    "spine ices: new entries are exactly the ones asked": true,
+    "spine other top keys unchanged": true,
+    "spine top key order kept": true,
+    "spine entry cap-support-coding-tools as asked": true,
+    "spine entry fn-install-for-claude-code as asked": true,
+    "spine entry fn-install-for-codex as asked": true,
+    "spine entry fn-install-for-copilot as asked": true,
+    "spine entry fn-install-for-antigravity as asked": true,
+    "spine entry fn-install-for-factory as asked": true,
+    "spine entry fn-map-model-tier as asked": true,
+    "spine entry ice-support-coding-tools as asked": true,
+    "spine entry ice-install-for-claude-code as asked": true,
+    "spine entry ice-install-for-codex as asked": true,
+    "spine entry ice-install-for-copilot as asked": true,
+    "spine entry ice-install-for-antigravity as asked": true,
+    "spine entry ice-install-for-factory as asked": true,
+    "spine entry ice-map-model-tier as asked": true,
+    "capability one_line = first line of Directional intent, word for word": true,
+    "feature list order on the capability page = the six features in order": true,
+    "feature fn-install-for-claude-code one_line = list text, first letter capitalised": true,
+    "feature fn-install-for-codex one_line = list text, first letter capitalised": true,
+    "feature fn-install-for-copilot one_line = list text, first letter capitalised": true,
+    "feature fn-install-for-antigravity one_line = list text, first letter capitalised": true,
+    "feature fn-install-for-factory one_line = list text, first letter capitalised": true,
+    "feature fn-map-model-tier one_line = list text, first letter capitalised": true,
+    "only ice-install-for-copilot, -antigravity, -factory thin": true,
+    "capability and features not thin themselves": true,
+    "all ids unique in the spine": true,
+    "each part at most one ICE": true,
+    "spine only gained lines": true,
+    "spine comments kept": true,
+    "bi-7 only_insertions": true,
+    "bi-7 added_as_asked_in_order": true,
+    "bi-7 block_right_after_anchor": true,
+    "bi-7 byte_check_whole_page": true,
+    "bi-7 every_touches_line_in_form": true,
+    "bi-7 every_link_leads_to_a_file": true,
+    "bi-7 titles_match_page_titles": true,
+    "bi-7 kinds_agree_with_index": true,
+    "bi-7 new_lines_order_matches_capability_then_feature_list": true,
+    "bi-7 new_lines_all_adds": true,
+    "bi-7 gained exactly 7 lines in one block": true,
+    "bi-7 has 21 Touches lines": true,
+    "the 21 index entries naming bi-7 match the 21 Touches lines one for one": true,
+    "every applied memory file the pages cite is on disk under answers/": true,
+    "under .garura/product only the spine, bi-7.md and the new folder changed": true,
+    "structure check: no new error": true,
+    "structure check: no error names a new page": true,
+    "write folder holds no home folder, temp folder or user name": true
+  },
+  "before_state": "git HEAD 4ff88b84: the spine and intents/bi-7.md as committed (the product model had no uncommitted change before this write)"
+}

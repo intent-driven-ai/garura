@@ -1,0 +1,28 @@
+{
+  "written": [
+    "cap-upgrade-project",
+    "fn-upgrade-in-one-step",
+    "fn-cut-release",
+    "fn-keep-edits",
+    "fn-bring-new-settings",
+    "fn-move-model",
+    "ice-upgrade-project",
+    "ice-upgrade-in-one-step",
+    "ice-cut-release",
+    "ice-748",
+    "ice-keep-edits",
+    "ice-bring-new-settings",
+    "ice-move-model"
+  ],
+  "updated": [
+    "fn-748"
+  ],
+  "thin": [
+    "ice-keep-edits"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/upgrade-project/fn-keep-edits/ice.md"
+  ],
+  "layout_kept": true
+}

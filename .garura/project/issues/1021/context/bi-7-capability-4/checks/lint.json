@@ -1,0 +1,89 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "detailed"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/capability.md",
+      "args": [
+        "--kind",
+        "capability"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-4/drafts/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "note": "Round 2. The capability page is in the detailed shape its spine entry names (detail: detailed), as the page in the model is: the title, an opening with no heading, then '## Benefit hypothesis', '## Boundary (In / Out / Never)', '## Guiding rules', '## Features' and '## Sources'. It passes with --stage detailed, and with no --stage the checker picks the detailed shape too. The checker reads no text before the first '##' heading, so the opening (what the name means, the six jobs, the paragraphs and 'What is not built yet') is not checked by it. The round-1 page, in the directional shape, is kept at bi-7-capability-4/drafts-round-1/capability-directional-shape.md."
+}

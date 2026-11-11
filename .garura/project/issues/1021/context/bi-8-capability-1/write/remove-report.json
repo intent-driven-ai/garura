@@ -1,0 +1,31 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "repointed": [
+    "cap-721",
+    "fn-731",
+    "fn-673"
+  ],
+  "removed": [
+    "cap-721"
+  ],
+  "merged": [
+    {
+      "id": "cap-721",
+      "into": "cap-ship-every-change"
+    }
+  ],
+  "moved_features": [
+    "fn-731",
+    "fn-673"
+  ],
+  "needs_to_review": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "deleted": [
+    "product-os/capabilities/cap-721/capability.md",
+    "product-os/capabilities/cap-721"
+  ],
+  "layout_kept": true
+}

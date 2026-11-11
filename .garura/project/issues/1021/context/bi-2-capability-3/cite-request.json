@@ -1,0 +1,277 @@
+{
+ "note": "Draft run: these decisions are for the caller to record with `memory.py cite`; this run writes nothing outside bi-2-capability-3/. Facts read from code (the stale run play, the deploy plays, the persona in their scenarios) are in research.md with their paths; the memory tool cites memory tiers only.",
+ "requests": [
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 3 draft",
+   "decided_by": "product-os-keeper",
+   "question": "Does memory hold a design of how a product is deployed, and for what scope?",
+   "answer": "Only for one slice at a time: the run lens schema holds how one slice is deployed (how a release goes live, data changes, the pipeline, each environment and the cost picture). Nothing holds a deployment design for the whole project, so the capability and both features are not built and every ICE is thin.",
+   "trace": [
+    {
+     "asked": "what the run lens schema says it covers",
+     "found": "how one slice is deployed and runs",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 3,
+      "end": 3,
+      "fingerprint": "sha256:e3bb006c0fa5c54e40df8dda6eabc82d6664d04195f2b3d2d40b439f741ce8ba"
+     }
+    },
+    {
+     "asked": "what is written once and what per environment",
+     "found": "the slice-level design once, each environment one call at a time",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 9,
+      "end": 10,
+      "fingerprint": "sha256:05796bdb24f689d1d61ccfade995b239d78bfa053cf1391b6eda7cf9cde31692"
+     }
+    },
+    {
+     "asked": "the ways a release can go live",
+     "found": "blue/green, canary or rolling, chosen per slice",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 25,
+      "end": 25,
+      "fingerprint": "sha256:9ef4c7027237a7ff4459547f582cb2d703f286e064f57503fdf5b028dcc1a834"
+     }
+    },
+    {
+     "asked": "where the platform choice sits",
+     "found": "in the slice's cost picture, as the cloud the slice's environments run on",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/lens/run.yaml",
+      "start": 68,
+      "end": 68,
+      "fingerprint": "sha256:5cb7b50aac69e1c21841b2cb42fbed9e6ea937e3d5a398a803fabe7d6d62615f"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 3 draft",
+   "decided_by": "product-os-keeper",
+   "question": "Does Phoenix memory hold learnings a deployment proposal can be drawn from?",
+   "answer": "Yes, for some conditions only: one deployable unit on one cloud, a release discipline for a known group of users, agents, content sites, a web front end and a throwaway tool. None covers a product that is installed rather than kept running. The pages say proposals come from memory first and name no learning as a rule.",
+   "trace": [
+    {
+     "asked": "a runtime learning for one deployable unit",
+     "found": "how a modular monolith is deployed and run on one cloud",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/gcp-modular-monolith-runtime.md",
+      "start": 17,
+      "end": 17,
+      "fingerprint": "sha256:e2c4de98d01ebaa036dc8298b78e9261467d236d0f0e524b4c1cfe1686f4cd4e"
+     }
+    },
+    {
+     "asked": "a release discipline learning",
+     "found": "cohort canary, flags as rollback, additive migrations, for a modular monolith",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/run-environments-canary-migrations.md",
+      "start": 13,
+      "end": 13,
+      "fingerprint": "sha256:1c3f6f5994e390364ecd7d266c731c80af460ddd3ec9192477e9251d1a2f2e5c"
+     }
+    },
+    {
+     "asked": "what that learning says of a rollback and stored data",
+     "found": "a rollback that loses user data is worse than the incident",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/run-environments-canary-migrations.md",
+      "start": 58,
+      "end": 58,
+      "fingerprint": "sha256:ed8fef32a227213957e0b0422cf7f23b81a293b4863a9543b2258687ebf63f53"
+     }
+    },
+    {
+     "asked": "an agent deployment learning",
+     "found": "dev, uat, prod, promotion gated by evals",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/agent-deploy-dev-uat-prod.md",
+      "start": 13,
+      "end": 13,
+      "fingerprint": "sha256:564362354f6d38e0de87ea55c3037e303034e0833c7dfdafffcb3467e9c67ba0"
+     }
+    },
+    {
+     "asked": "a web front end deploy line",
+     "found": "deploy options weighed as zero-config against full control",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/technology/frontend-react-nextjs.md",
+      "start": 52,
+      "end": 52,
+      "fingerprint": "sha256:54033a9de93bd23552c405ac63a0b27a88d7caa17f56d7161a1e47962d0b2cbc"
+     }
+    },
+    {
+     "asked": "a throwaway tool deploy line",
+     "found": "static hosting behind a content network, no backend",
+     "source": {
+      "tier": "phoenix",
+      "path": "knowledge/architecture/single-user-throwaway.md",
+      "start": 27,
+      "end": 27,
+      "fingerprint": "sha256:9c6209b2ceb024ce5f18d88842741d0189dfe7e38d134a899071f505c49516f4"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 3 draft",
+   "decided_by": "product-os-keeper",
+   "question": "Is how the product is deployed already ruled Out of the two approved BI-2 capabilities?",
+   "answer": "Yes. Design the technology and architecture puts how the product is deployed and the platform it runs on Out, to Deployment design, and Manage surfaces puts how the product is deployed Out. The drafts take neither over.",
+   "trace": [
+    {
+     "asked": "the approved Out line of Design the technology and architecture",
+     "found": "how the product is deployed and the platform it runs on (Deployment design)",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/design-technology-architecture/capability.md",
+      "start": 44,
+      "end": 44,
+      "fingerprint": "sha256:da495d527e17fa79263866b6eb20ed71d0d2fa662ce5b95c6cda395f3e087467"
+     }
+    },
+    {
+     "asked": "the approved Out line of Manage surfaces",
+     "found": "how the product is deployed (Deployment design)",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/manage-surfaces/capability.md",
+      "start": 54,
+      "end": 54,
+      "fingerprint": "sha256:1adb688c406d26e653a17254f017fef989dfcc33a78fb3d5a9e8eeb572094081"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 3 draft",
+   "decided_by": "product-os-keeper",
+   "question": "Does the product model have a kind for the project's deployment design?",
+   "answer": "No. The ontology defines no such kind and lists nothing as not yet defined, so the pages say where the design is kept is not decided.",
+   "trace": [
+    {
+     "asked": "the ontology's list of kinds not yet defined",
+     "found": "none",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 870,
+      "end": 870,
+      "fingerprint": "sha256:6ccc0f9ba53e41dc1e3eb3247963855c95a2d833e9516406ff88b87e277ada8d"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 3 draft",
+   "decided_by": "product-os-keeper",
+   "question": "Does a product that keeps nothing running still need a deployment design?",
+   "answer": "Yes, with its own answer: the older surface contract gives a command line its command and where it runs, and a library no deploy surface, and initialize treats a project with no running service as having nothing deployed. The pages say such a product gets a design, or \"nothing to deploy\" with the reason.",
+   "trace": [
+    {
+     "asked": "what counts as a reachable deployment for a command line and a library",
+     "found": "the command and the env it runs in; n/a for a library",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "start": 68,
+      "end": 69,
+      "fingerprint": "sha256:1f16bded4ab3d691a15412aa0ee4af193f07b9627c6156640318538030771afb"
+     }
+    },
+    {
+     "asked": "whether initialize asks about a running service",
+     "found": "it asks whether there is a running service",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "start": 6,
+      "end": 6,
+      "fingerprint": "sha256:3584472660f2ff39c8c185968ed3221c858e863350a502903754124716ca4dcc"
+     }
+    },
+    {
+     "asked": "what a no answer means there",
+     "found": "nothing is deployed or kept running",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "start": 21,
+      "end": 21,
+      "fingerprint": "sha256:2acd66a4316ff19fe456d8af09d4e7c739d0475c3f02ac9b39052d9bbb4d1406"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 3 draft",
+   "decided_by": "product-os-keeper",
+   "question": "What in the product profile bounds a deployment design?",
+   "answer": "Its reliability level and its compliance regimes, among its quality levels. The pages say the profile sizes each choice and the design never changes it.",
+   "trace": [
+    {
+     "asked": "the profile's reliability dimension",
+     "found": "a level and a gate for availability",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-profile.yaml",
+      "start": 34,
+      "end": 34,
+      "fingerprint": "sha256:7c56dde528e81f2413a5b37e69bcae070f79ecf85a10b2c8e1f77b48f60cd595"
+     }
+    },
+    {
+     "asked": "the profile's compliance field",
+     "found": "the regimes the box admits",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-profile.yaml",
+      "start": 39,
+      "end": 39,
+      "fingerprint": "sha256:da22cdb8a03e8765c47b82aaf98cc7e0951b050b7feb06c7ac62d2e24f0b41d8"
+     }
+    }
+   ]
+  },
+  {
+   "issue": 1021,
+   "play": "reorganise business intents (#1021), BI-2 capability 3 draft",
+   "decided_by": "product-os-keeper",
+   "question": "Does deploying to a live environment need a person?",
+   "answer": "Yes. The deploy step is pinned: standing up a live cloud environment always requires a human. The pages say a person confirms each choice of the design that decides how releases reach people.",
+   "trace": [
+    {
+     "asked": "the gate rule for deploy",
+     "found": "deploy is pinned; a live cloud environment always requires a human",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "start": 103,
+      "end": 104,
+      "fingerprint": "sha256:ec5eced0eb3fd713e07561bbb422e098a98138d20ca9ad423e238a3efe84a939"
+     }
+    }
+   ]
+  }
+ ]
+}

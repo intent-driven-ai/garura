@@ -1,0 +1,6 @@
+# Approval, BI-8's close
+
+- 2026-11-10, the product owner saw the proposal in .garura/project/issues/1021/context/bi-8-close/proposal.md: BI-8's page with its Outcome's first sentence widened to the agreed capability line, one sentence added to its Outcome and to its Why, and one line to its Proof it is met, every quoted part kept; the decision that Ship every change the same way and Review what agents make (Argus) stay in software delivery planning, with one sentence added to the domain's first paragraph; the domain sentence on the two capability pages, each with one Sources line quoting the domain's new sentence; BI-4's three lines that name the dropped self-review; BI-3's three lines that give the review to Ship every change the same way; and what is left as it is. He replied: "Self-review is supposed to be a configuration. rest yes apply"
+- Applied: sections 1, 2, 3 and 5 of the proposal.
+- Held: section 4 (BI-4's three self-review lines), until the product owner decides how the self-review stands as a setting.
+- 2026-11-10, asked whether the self-review should be a setting (off by default, on by default) or dropped, the product owner replied: "Let's go with dropped." Section 4 (BI-4's three self-review lines) is then applied as proposed.

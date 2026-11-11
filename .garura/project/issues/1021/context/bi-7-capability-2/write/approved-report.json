@@ -1,0 +1,63 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/upgrade-project/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-cut-release/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-keep-edits/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-bring-new-settings/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-move-model/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "features/fn-748/feature.md",
+      "action": "replaced"
+    },
+    {
+      "page": "features/fn-748/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

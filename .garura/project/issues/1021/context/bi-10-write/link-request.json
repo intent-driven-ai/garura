@@ -1,0 +1,1082 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021); pages and one-lines taken as approved by the product owner",
+  "parts": [
+    {
+      "id": "cap-standards",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "standards",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them.",
+      "doc": "software-delivery-planning/standards/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-737",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "One page names each kind of part, sets out eleven principles, each with its reason and the ADR it comes from, and says how the standard is kept."
+    },
+    {
+      "id": "fn-738",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "Every change to the standard or its rule files is an accepted ADR that names each older ADR it supersedes or amends, and each older ADR points forward to it."
+    },
+    {
+      "id": "fn-build-from-ice",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-build-from-ice",
+      "capability": "cap-standards",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Each play and loop is compiled from its ICE source and records its fingerprint, so a check can tell when the compiled part no longer matches its ICE.",
+      "doc": "software-delivery-planning/standards/fn-build-from-ice/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-standard-per-kind",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-standard-per-kind",
+      "capability": "cap-standards",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Each kind of part, play, loop, sub-agent, skill, script, shared file and tool, has a written standard that says what it is and what it does.",
+      "doc": "software-delivery-planning/standards/fn-standard-per-kind/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-736",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "Every part is named by one rule: plain words, the verb first, one meaning per verb, never a coding tool's own command, with five roles owning the verbs."
+    },
+    {
+      "id": "fn-741",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "One rename map, and a read-only check that finds each use of an old name outside past records."
+    },
+    {
+      "id": "fn-743",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "The harness plays and the loop carry the standard's names, and move to each new name the standard sets."
+    },
+    {
+      "id": "fn-744",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "The change, plan, knowledge and record plays carry the standard's names, and move to each new name the standard sets."
+    },
+    {
+      "id": "fn-745",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "The lifecycle and lens plays carry the standard's names, and move to each new name the standard sets."
+    },
+    {
+      "id": "fn-746",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "Every skill carries a verb from the skill verb list, and moves to each new name the standard sets."
+    },
+    {
+      "id": "fn-740",
+      "kind": "feature",
+      "mode": "update",
+      "one_line": "The component linter, the play linter, the loop linter and the old-name check fail every part that breaks a written rule."
+    },
+    {
+      "id": "fn-rules-for-every-part",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-rules-for-every-part",
+      "capability": "cap-standards",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Each rule every part follows, such as asking a person and staying on scope, is written once and binds every part without the part naming it.",
+      "doc": "software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-one-severity",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-one-severity",
+      "capability": "cap-standards",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "One value, from written rules that start from an industry standard, says how bad a finding is and what is fixed first.",
+      "doc": "software-delivery-planning/standards/fn-one-severity/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-check-no-tracker-named",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-no-tracker-named",
+      "capability": "cap-standards",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A check names each part that names a tracker, warns while the parts move onto the Agent-work tool, and fails after.",
+      "doc": "software-delivery-planning/standards/fn-check-no-tracker-named/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "cap-build-your-own-harness",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "build-your-own-harness",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Build your own harness: You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way.",
+      "doc": "software-delivery-planning/build-your-own-harness/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-build-play",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-build-play",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "/create-play builds a play from its ICE: it works out its scripts, skills and sub-agents, adds the change plays and the shared close, records the fingerprint and runs the play linter until clean.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-build-play/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-change-play",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-change-play",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "/edit-play changes a play through its ICE first, compiles it again with a new fingerprint and runs the play linter, so the play always matches its intent.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-change-play/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-build-loop",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-build-loop",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "/create-loop builds a loop from its ICE as its own values and a pointer to the shared loop run, with its Done means, settings and fingerprint, and runs the loop linter until clean.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-build-loop/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-change-loop",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-change-loop",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "/edit-loop changes a loop through its ICE first, on the person's typed approval, carries the change through and runs the loop linter, which fails a loop whose ICE changed since it was built.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-change-loop/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-check-loop-principles",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-loop-principles",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "The loop builders ask for each part the loop principles need, such as a goal a script can check and what starts the loop, and the loop linter fails a loop that misses one.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-check-loop-principles/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-add-gate",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-add-gate",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "The builders place a play's checkpoint where its workflow puts it, with its class, and pinning or unpinning it is a change to the play's intent through /edit-play.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-add-gate/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-mark-play-running",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-mark-play-running",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Each play writes a record that it is running when it starts and clears it at its close, so the guardrails the install lays can refuse a shortcut taken without the play.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-build-agent-skill",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-build-agent-skill",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A team builds a new sub-agent or skill to the written standard for its kind, and a check holds it to that standard, with no ICE of its own.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-harness-in-own-repo",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-harness-in-own-repo",
+      "capability": "cap-build-your-own-harness",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A team installs Garura's builders in its own repository and builds its own plays and loops there, reading a written architecture of what each part may do.",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "cap-structure",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "structure",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Structure: Where everything lives, in source and once deployed.",
+      "doc": "software-delivery-planning/structure/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-source-layout",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-source-layout",
+      "capability": "cap-structure",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Garura's own repository keeps each kind of part in one known folder, each tool in the tools folder and the settings in one file, so a developer knows where a part goes.",
+      "doc": "software-delivery-planning/structure/fn-source-layout/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-installed-layout",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-installed-layout",
+      "capability": "cap-structure",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "An install lays every part in one fixed place in the project, so each installed part finds the others by an installed path and never needs Garura's source.",
+      "doc": "software-delivery-planning/structure/fn-installed-layout/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-garura-folder-list",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-garura-folder-list",
+      "capability": "cap-structure",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A project's `.garura/` folder holds only what its written list names, and a check names each folder or file the list does not hold.",
+      "doc": "software-delivery-planning/structure/fn-garura-folder-list/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-run-records-with-issue",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-run-records-with-issue",
+      "capability": "cap-structure",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Everything a play run writes goes in the folder of the issue whose work made it, nothing goes in a global file, and every path in the records starts at the repository's root.",
+      "doc": "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "cap-settings",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "settings",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Settings: Everything that can be turned on or off lives in settings.",
+      "doc": "software-delivery-planning/settings/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-one-settings-file",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-one-settings-file",
+      "capability": "cap-settings",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Every setting Garura's plays, scripts and loops read is in one settings file, written once in Garura's source and laid by the install as each project's own copy.",
+      "doc": "software-delivery-planning/settings/fn-one-settings-file/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-setting-names-reader",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-setting-names-reader",
+      "capability": "cap-settings",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A list names, for every setting, what it means and the play or tool that reads it, and a check fails a setting no one reads.",
+      "doc": "software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-settings-folder",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-settings-folder",
+      "capability": "cap-settings",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Every settings file other than the one settings file goes into one settings folder beside it, starting with the learned policy.",
+      "doc": "software-delivery-planning/settings/fn-settings-folder/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-checkpoint-settings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-checkpoint-settings",
+      "capability": "cap-settings",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Each checkpoint is turned on or off by a setting for its play, its kind of risk or the default, a conditional one passes once the learned policy allows it, and no setting reaches a pinned one.",
+      "doc": "software-delivery-planning/settings/fn-checkpoint-settings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-evidence-setting",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-evidence-setting",
+      "capability": "cap-settings",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "One setting, with a switch for each play, decides whether a play writes its evidence file at its end, and the report a person reads is always shown.",
+      "doc": "software-delivery-planning/settings/fn-evidence-setting/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-settings-others-need",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-settings-others-need",
+      "capability": "cap-settings",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "The settings that approved pages of other capabilities read are kept in the settings file, so each capability reads its choice from one place.",
+      "doc": "software-delivery-planning/settings/fn-settings-others-need/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-tools-read-settings",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-tools-read-settings",
+      "capability": "cap-settings",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Each of Garura's tools reads the settings meant for it from where they live, so a team changes what a tool does by changing a setting, never the tool.",
+      "doc": "software-delivery-planning/settings/fn-tools-read-settings/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "cap-memory",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "memory",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them.",
+      "doc": "software-delivery-planning/memory/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-find-memory",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-find-memory",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "An agent finds what it needs with one memory tool, which looks in short-term, then Garura, then Phoenix memory, stops at the first tier that answers, and names where each answer came from.",
+      "doc": "software-delivery-planning/memory/fn-find-memory/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-person-decides-update",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-person-decides-update",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "When no tier answers, an agent drafts the answer as a memory update, and only a person approves or rejects it, one at a time, with their exact reply on record.",
+      "doc": "software-delivery-planning/memory/fn-person-decides-update/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-keep-decision-trace",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-keep-decision-trace",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Each decision an agent makes keeps its trace, each step resting on memory lines with their fingerprint, and a check names the step whose source changed or is gone.",
+      "doc": "software-delivery-planning/memory/fn-keep-decision-trace/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-read-through-tool",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-read-through-tool",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Every agent reads memory through the tool by one shared protocol, and the component linter fails a part that skips it or names a memory folder.",
+      "doc": "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-phoenix-in-step",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-phoenix-in-step",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A change to a memory page in Garura's source reaches Phoenix memory in the same release, a check names every page where the two differ, and each release has a version and its notes.",
+      "doc": "software-delivery-planning/memory/fn-phoenix-in-step/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-bring-phoenix",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-bring-phoenix",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "The memory tool downloads Phoenix memory the first time a command needs it and reads it at its approved version, and one Phoenix install per machine keeps it current.",
+      "doc": "software-delivery-planning/memory/fn-bring-phoenix/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-promote-page",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-promote-page",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A page moves from short-term memory to Garura memory, or up to Phoenix memory, only on a person's yes in the Memory section of Argus, and what Run → Product learned is chosen by that person.",
+      "doc": "software-delivery-planning/memory/fn-promote-page/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-check-memory",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-check-memory",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "A page that is out of date, or whose source changed, is named before an agent uses it, and each change to a project's memory shows in the review of its change.",
+      "doc": "software-delivery-planning/memory/fn-check-memory/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-decide-inside-memory",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-decide-inside-memory",
+      "capability": "cap-memory",
+      "intents": [
+        "bi-10"
+      ],
+      "one_line": "Everything agents decide from sits inside memory: the machine-wide copy is retired, Claude Code's own memory is held to a guardrail, and the engine's rules stay in Phoenix memory.",
+      "doc": "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "cap-model-routing",
+      "kind": "capability",
+      "mode": "new",
+      "slug": "model-routing",
+      "domain": "dom-software-delivery-planning",
+      "intents": [
+        "bi-10",
+        "bi-7"
+      ],
+      "one_line": "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it. Also serves Install and distribute.",
+      "doc": "software-delivery-planning/model-routing/capability.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-tier-by-rule",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-tier-by-rule",
+      "capability": "cap-model-routing",
+      "intents": [
+        "bi-10",
+        "bi-7"
+      ],
+      "one_line": "Each part's maker names in its source the tier and the effort its job needs, by one written rule, and a project may change a part's tier in its own settings.",
+      "doc": "software-delivery-planning/model-routing/fn-tier-by-rule/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-step-on-set-model",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-step-on-set-model",
+      "capability": "cap-model-routing",
+      "intents": [
+        "bi-10",
+        "bi-7"
+      ],
+      "one_line": "A step whose model a setting names, such as the check of a finished loop or the judge of a model page, runs on that model and not on the session's own.",
+      "doc": "software-delivery-planning/model-routing/fn-step-on-set-model/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-record-run-cost",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-record-run-cost",
+      "capability": "cap-model-routing",
+      "intents": [
+        "bi-10",
+        "bi-7"
+      ],
+      "one_line": "Each run of a play or a loop records, for each part it ran, the model and effort it ran on, how long it took and what it cost in tokens.",
+      "doc": "software-delivery-planning/model-routing/fn-record-run-cost/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-move-part-tier",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-move-part-tier",
+      "capability": "cap-model-routing",
+      "intents": [
+        "bi-10",
+        "bi-7"
+      ],
+      "one_line": "When the record shows a part is slow or costly for a simple job, or falls short on a hard one, a person moves it, and an eval checks the part on its new tier before the move lands.",
+      "doc": "software-delivery-planning/model-routing/fn-move-part-tier/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "fn-choose-model-at-run",
+      "kind": "feature",
+      "mode": "new",
+      "slug": "fn-choose-model-at-run",
+      "capability": "cap-model-routing",
+      "intents": [
+        "bi-10",
+        "bi-7"
+      ],
+      "one_line": "A router reads what a step must do and chooses its model and effort, once the records of runs show it pays.",
+      "doc": "software-delivery-planning/model-routing/fn-choose-model-at-run/feature.md",
+      "identified_by": ""
+    },
+    {
+      "id": "ice-standards",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-standards",
+      "doc": "software-delivery-planning/standards/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-737",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-737",
+      "doc": "features/fn-737/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-738",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-738",
+      "doc": "features/fn-738/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-build-from-ice",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-build-from-ice",
+      "doc": "software-delivery-planning/standards/fn-build-from-ice/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-standard-per-kind",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-standard-per-kind",
+      "doc": "software-delivery-planning/standards/fn-standard-per-kind/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-736",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-736",
+      "doc": "features/fn-736/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-741",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-741",
+      "doc": "features/fn-741/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-743",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-743",
+      "doc": "features/fn-743/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-744",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-744",
+      "doc": "features/fn-744/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-745",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-745",
+      "doc": "features/fn-745/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-746",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-746",
+      "doc": "features/fn-746/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-740",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-740",
+      "doc": "features/fn-740/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-rules-for-every-part",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-rules-for-every-part",
+      "doc": "software-delivery-planning/standards/fn-rules-for-every-part/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-one-severity",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-one-severity",
+      "doc": "software-delivery-planning/standards/fn-one-severity/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-check-no-tracker-named",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-no-tracker-named",
+      "doc": "software-delivery-planning/standards/fn-check-no-tracker-named/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-build-your-own-harness",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-build-your-own-harness",
+      "doc": "software-delivery-planning/build-your-own-harness/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-build-play",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-build-play",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-build-play/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-change-play",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-change-play",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-change-play/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-build-loop",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-build-loop",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-build-loop/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-change-loop",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-change-loop",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-change-loop/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-check-loop-principles",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-loop-principles",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-check-loop-principles/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-add-gate",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-add-gate",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-add-gate/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-mark-play-running",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-mark-play-running",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-build-agent-skill",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-build-agent-skill",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-build-agent-skill/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-harness-in-own-repo",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-harness-in-own-repo",
+      "doc": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-structure",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-structure",
+      "doc": "software-delivery-planning/structure/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-source-layout",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-source-layout",
+      "doc": "software-delivery-planning/structure/fn-source-layout/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-installed-layout",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-installed-layout",
+      "doc": "software-delivery-planning/structure/fn-installed-layout/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-garura-folder-list",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-garura-folder-list",
+      "doc": "software-delivery-planning/structure/fn-garura-folder-list/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-run-records-with-issue",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-run-records-with-issue",
+      "doc": "software-delivery-planning/structure/fn-run-records-with-issue/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-settings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-settings",
+      "doc": "software-delivery-planning/settings/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-one-settings-file",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-one-settings-file",
+      "doc": "software-delivery-planning/settings/fn-one-settings-file/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-setting-names-reader",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-setting-names-reader",
+      "doc": "software-delivery-planning/settings/fn-setting-names-reader/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-settings-folder",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-settings-folder",
+      "doc": "software-delivery-planning/settings/fn-settings-folder/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-checkpoint-settings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-checkpoint-settings",
+      "doc": "software-delivery-planning/settings/fn-checkpoint-settings/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-evidence-setting",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-evidence-setting",
+      "doc": "software-delivery-planning/settings/fn-evidence-setting/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-settings-others-need",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-settings-others-need",
+      "doc": "software-delivery-planning/settings/fn-settings-others-need/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-tools-read-settings",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-tools-read-settings",
+      "doc": "software-delivery-planning/settings/fn-tools-read-settings/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-memory",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-memory",
+      "doc": "software-delivery-planning/memory/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-find-memory",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-find-memory",
+      "doc": "software-delivery-planning/memory/fn-find-memory/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-person-decides-update",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-person-decides-update",
+      "doc": "software-delivery-planning/memory/fn-person-decides-update/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-keep-decision-trace",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-keep-decision-trace",
+      "doc": "software-delivery-planning/memory/fn-keep-decision-trace/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-read-through-tool",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-read-through-tool",
+      "doc": "software-delivery-planning/memory/fn-read-through-tool/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-phoenix-in-step",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-phoenix-in-step",
+      "doc": "software-delivery-planning/memory/fn-phoenix-in-step/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-bring-phoenix",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-bring-phoenix",
+      "doc": "software-delivery-planning/memory/fn-bring-phoenix/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-promote-page",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-promote-page",
+      "doc": "software-delivery-planning/memory/fn-promote-page/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-check-memory",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-check-memory",
+      "doc": "software-delivery-planning/memory/fn-check-memory/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-decide-inside-memory",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-decide-inside-memory",
+      "doc": "software-delivery-planning/memory/fn-decide-inside-memory/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-model-routing",
+      "kind": "ice",
+      "mode": "new",
+      "for": "cap-model-routing",
+      "doc": "software-delivery-planning/model-routing/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-tier-by-rule",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-tier-by-rule",
+      "doc": "software-delivery-planning/model-routing/fn-tier-by-rule/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-step-on-set-model",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-step-on-set-model",
+      "doc": "software-delivery-planning/model-routing/fn-step-on-set-model/ice.md",
+      "thin": false
+    },
+    {
+      "id": "ice-record-run-cost",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-record-run-cost",
+      "doc": "software-delivery-planning/model-routing/fn-record-run-cost/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-move-part-tier",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-move-part-tier",
+      "doc": "software-delivery-planning/model-routing/fn-move-part-tier/ice.md",
+      "thin": true
+    },
+    {
+      "id": "ice-choose-model-at-run",
+      "kind": "ice",
+      "mode": "new",
+      "for": "fn-choose-model-at-run",
+      "doc": "software-delivery-planning/model-routing/fn-choose-model-at-run/ice.md",
+      "thin": true
+    }
+  ]
+}

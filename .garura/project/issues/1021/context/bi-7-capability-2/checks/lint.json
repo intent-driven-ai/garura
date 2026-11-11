@@ -1,0 +1,78 @@
+{
+  "checked_on": "2026-11-10",
+  "tool": ".claude/skills/discover-capabilities/scripts/lint_grounding.py",
+  "results": [
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/capability.md",
+      "args": [
+        "--kind",
+        "capability",
+        "--stage",
+        "directional"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-748/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "doc": ".garura/project/issues/1021/context/bi-7-capability-2/drafts/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "args": [
+        "--kind",
+        "feature"
+      ],
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}

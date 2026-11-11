@@ -1,0 +1,47 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/test-user-experience/capability.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/drafts/product-os/software-delivery-planning/test-user-experience/capability.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/write/approved/test-user-experience/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/drafts/product-os/software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-test-user-experience-with-tools/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/write/approved/fn-test-user-experience-with-tools/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/drafts/product-os/software-delivery-planning/test-user-experience/fn-walk-against-screen-design/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-walk-against-screen-design/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/write/approved/fn-walk-against-screen-design/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/drafts/product-os/software-delivery-planning/test-user-experience/fn-send-user-experience-findings/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-send-user-experience-findings/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/write/approved/fn-send-user-experience-findings/ice.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/drafts/product-os/software-delivery-planning/test-user-experience/fn-retest-user-experience/feature.md"
+    },
+    {
+      "page": "software-delivery-planning/test-user-experience/fn-retest-user-experience/ice.md",
+      "from": ".garura/project/issues/1021/context/bi-4-capability-5/write/approved/fn-retest-user-experience/ice.md"
+    }
+  ]
+}
