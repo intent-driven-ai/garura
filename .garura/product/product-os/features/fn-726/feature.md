@@ -1,77 +1,69 @@
-# Feature: Domains link to business intents and capabilities, outside the plan tree
+# Feature: List what serves an intent, and what sits in a domain
 
 ## What it does
-A domain lists the business intents and capabilities in it. Thus a person can ask, "Which business intents serve the commerce domain?" Domains are never in a plan or in the tracker.
-- A domain is a large area of the product. The model keeps it only for finding things.
-- The spine is the file that lists each node and its links. In the spine, the `intents` of a domain name the business intents that touch it. Each capability in the domain names it in its own `domain` field. Together, these two links answer a search by domain.
-- The link is loose. A capability can have no domain. A new or changed domain never changes whether something is ready (a play can plan or build from it), or what a plan holds.
-- It also keeps domains out of the places where work is ordered. No plan file has a domain level, and nobody files a tracker issue for a domain.
-- When it runs: the search runs on request, when a person or a play asks for a domain.
-- The keep-out check is part of the spine linter (lint_grounding.py --spine). It runs each time that linter runs, over the spine, the domain pages and the plan files. Our default — the sources do not say which check holds the keep-out rule.
+From any business intent, a person lists the capabilities, features and slices that serve it, and from any domain, the intents that touch it and the capabilities in it, read from the links the model already keeps, so a person, and not only a play, can see what serves an intent and where it sits.
+- The data is there today, in the model's index and pages:
+  - each capability's index entry names the business intents it serves, and a feature serves its capability's intents;
+  - each intent page's Touches list names the parts the intent reaches into, marked adds, changes or removes;
+  - each slice's entry names the intents it serves, on the slice's side only;
+  - each capability names its one domain, and each domain's entry names the intents that touch it, "for search only".
+- Plays read it inside their runs: /shape-slice and /shape-plan find the slices that serve an intent, and the gap finder lists the intents nothing serves.
+- No command lists it for a person, and no script searches by domain.
+- The ontology asks both questions: "Given a business intent, which ICE do agents work on for it?" and "Given a business intent, which slices serve it?"
+- A domain is for finding things. In the ontology: "It is never in a plan and never stops work." The old capability Link the product model said: "Domains do not decide when work starts, so search is their only job."
+- Examples, in different kinds of project:
+  - In a shop's checkout service, the product owner asks what serves "shoppers pay fast", and sees the Checkout and Saved cards capabilities, their features, and the one slice that serves it.
+  - In a bank's lending service, the technical lead asks what sits in the Lending domain, and sees the Loan application and Credit decision capabilities and the intents that touch it.
+  - In a clinic's booking app, a person asks what serves "patients cancel online", and sees that nothing does yet.
+- How it meets the capability: Product model's proof is "From any intent, you can list what serves it."; this feature makes that list for a person.
+
+Status: built in part. Built: the links on both sides, and the scripts inside /shape-slice, /shape-plan and the gap finder that read them. Not built, or open:
+- A command that lists what serves an intent, and a search by domain (#726, domains link to business intents and capabilities, outside the plan tree).
+- 21 links are kept on one side only, so a list from the intent and a list from the part do not agree today.
+- Six of the 16 intent pages have no Touches list, Product model's own page among them.
+- No check that no domain is in a plan file or names an issue.
+- This page once said the model had no domains; it has one today, software delivery planning.
+- Later views of the same links are planned elsewhere: the Intents view of the review tool (#643, a person can read a review: the whole model's approval state, each intent with its ICE, and the product), and a graph of the product (#541, build the Product Graph), which is not approved to build.
 
 ## Inputs / Outputs
-- In: the spine. For each domain, it reads the `id` and the `intents`. For each capability, it reads the `domain`.
-- In: the business intent pages. The Touches list on each page names the domains that the intent touches. Each name has the mark adds, changes or removes.
-- The search lists the intent under the domain for each mark, and shows the mark beside it. Thus a reader sees how the intent touches the area.
-- In: the plan files (`.garura/project/plans/*.yaml`). For each node in the `tree` of a plan (and its `children`), it reads the `kind` and the `issue` number.
-- In: the spine entry of each domain, which it checks for an `issue` field. The check never reads the tracker itself.
-- In: the page of each domain (the `doc` that its spine entry names) and its spine entry. The check reads them to see if the domain has an Agent intent (ICE), the short agent intent of a node.
-- Out: for a domain id, the search gives the business intents that touch it and the capabilities in it, each with its page link. Through those capabilities, it also gives their features.
-- Out: each listed intent shows its Touches mark (adds, changes or removes). A link that only one side holds has the flag "one-sided".
-- Out: some capabilities name a `domain` id that the spine does not hold. The search lists each one under that id, with the mark "not in the spine".
-- Out: the check gives an error when a plan file has a node of kind domain, or when a domain links to a tracker issue.
-- Out: the check gives an error when a domain page has an `## Agent intent (ICE)` section. It also gives an error when the spine entry of a domain has an ICE field.
-- Out: the check gives a warning for alignment for each link that only one side holds.
-- Out: the check gives a warning for alignment for each capability whose `domain` names an id that the spine does not hold. The warning names the capability and the id.
+- In: an intent's id, or a domain's id.
+- In: the model's index and the intent pages' Touches lists.
+- Out: for an intent, each capability and feature that serves it, and each slice that serves it, each with its page. Not built.
+- Out: for a domain, the intents that touch it and the capabilities in it, each with its page. Not built.
 
 ## Rules & behavior
-- Both sides keep the link. When the Touches list of an intent names a domain, the spine `intents` of that domain names the intent, and the reverse. A play that writes one side also writes the other side. Thus a search from the intent and a search from the domain always give the same answer.
-- A link that the check finds on one side only gives a warning for alignment, never an error. It never stops a write, because the parent capability has the rule that nothing is blocked. The Alignment loop writes the missing side.
-- The search still returns a one-sided link from the side that holds it, with the mark "one-sided". Our default — the sources say a play writes both sides but not what happens when one is missing.
-- The check finds a domain linked to a tracker issue from files only, never from the tracker. It looks for two things.
-- First, a domain entry in the spine that has an `issue` field. Garura's spine puts this field on capability and feature entries, for example `issue: 723` on cap-723.
-- Second, a node in a plan file whose `kind` is domain. A plan node always holds an `issue`, and names its kind but no node id, so the check reads the kind.
-- Either one is an error that names the domain (its spine id, or the title of the plan node) and the issue number. Our default — the sources say a domain has no issue but not how the check sees one.
-- A capability names one domain at most. A domain lists its capabilities only through those capability entries, so there is one place to change.
-- A domain that no capability names and no intent touches is still a valid domain. The search returns it with empty lists.
-- A domain id that a capability names but the spine does not hold gives a warning for alignment, never a block (see fn-724). The search shows it as "not in the spine".
-- A domain is never a level of a plan tree, never a tracker issue, and never has an ICE. Each of these is an error, because domains set which areas the product covers, not which work is done.
-- Garura's own model has no domains yet (`domains: []`). Thus the search returns nothing and the check passes. This is the expected state until /discover-domains adds domains.
-- The search reads only files and changes nothing, so it can run at any time.
+- A list is read from the links the model keeps, the same from either side. The reason: "Thus a search from the intent and a search from the domain always give the same answer."
+- The list reads files only and changes nothing. The reason: "The search reads only files and changes nothing, so it can run at any time."
+- A domain is for finding things, never a level of a plan or a work item. The reason: "It is never in a plan and never stops work.", and "they are never an issue and never part of a plan."
+- A domain never changes whether a part is ready. The reason: "A new or changed domain never changes whether something is ready".
+- A slice's link to its intents is read from the slice's side. The reason: "A slice serves it — the link is kept on the slice's side only".
+- Not decided: whether the list shows a link kept on one side only, and how it marks it.
+- Not decided: whether the list is a command of its own, a view of the review tool (#643), or both.
 
 ## Acceptance criteria
-- Given a test model with a commerce domain that two business intents touch and three capabilities name, when a search for that domain runs, then it lists exactly those two intents and three capabilities with their page links.
-- Given a business intent whose Touches list names a domain that does not name it back in `intents`, when the check runs, then it warns, names the intent and the domain, and still passes.
-- Given a business intent whose Touches list names a domain that does not name it back in `intents`, when a search for that domain runs, then the intent is listed with its Touches mark and the flag "one-sided".
-- Given a capability whose `domain` names an id that the spine does not hold, when a search for that id runs, then the capability is listed with the mark "not in the spine". When the check runs, then it warns, names the capability and the id, and still passes with no error.
-- Given a spine where a domain entry has an `issue` field, or a plan file with a node of kind domain that holds an issue number, when the check runs, then it fails with an error that names the domain and the issue number.
-- Given a plan file with a node whose kind is domain, when the check runs, then it fails with an error that names the plan and the node.
-- Given a domain whose page has an `## Agent intent (ICE)` section, or whose spine entry has an ICE field, when the check runs, then it fails with an error that names the domain and where the ICE was found.
-- Given Garura's own model with no domains, when the search and the check run, then the search returns nothing and the check passes.
-- Given a capability with an empty domain, when the ready check runs on it, then the missing domain does not change its readiness.
+- Given an intent, when /shape-plan gathers its plan, then it finds every slice that serves the intent.
+- Given an intent nothing serves, when the gap finder runs, then it names the intent.
+- Given an intent, when a person asks what serves it, then the list shows each capability and feature that serves it and each slice that serves it, each with its page. This is not built.
+- Given a test model where two intents touch a commerce domain and three capabilities name it, when a person asks for that domain, then the list shows exactly those two intents and three capabilities. This is not built.
+- Given a plan file or a domain entry, when the structure check runs, then no plan holds a domain level and no domain names an issue, or each one is named as a finding. This is not built.
 
 ## Out of scope
-- Writing domain pages and adding a domain to the spine. /discover-domains owns that.
-- Deciding readiness. fn-724 owns it, and a domain has no part in it.
-- The needs and identified-by links. fn-725 owns those.
-- Showing plans. Orchestrate agent work through planning (cap-orchestrate-agent-work) shows the plan tree, which has no domain level.
+- Keeping each link on both sides. Link the parts by the map's rules: what each serves, what it needs and what led us to find it (fn-725) does it.
+- Closing a link kept on one side only. Find and close the gaps inside the model (fn-close-model-gaps) does it.
+- Writing domain pages and filing a capability under its domain. Specify the product, in Product → Spec, owns them, through /discover-domains.
+- Showing the plans and their trees. Orchestrate agent work through planning, in Orchestration, owns it.
+- The review tool's views. Review what agents make (Argus), in Developer tooling, owns them.
 
 ## Sources
-- core/components/memory/standards/schemas/product-os/ontology.md (v5), kind Business Intent: "It touches a domain … A loose link, for finding things; a domain is never part of its plan".
-- Ontology, "Not yet defined", Domain: "It is for finding things: never part of a plan, never a tracker issue."
-- .garura/project/issues/621/specs/plan-design.md: "Domains are not in the tree. They live in the product model … They have no issue."
-- .garura/user-provided/managing-work.md: "they are never an issue and never part of a plan."
-- .garura/product/product-os/_spine.yaml: "domains: []".
-- GitHub #726: "Domains link to business intents and capabilities, outside the plan tree".
-- Shelf: none. No domain shelf holds the product model of a framework itself (routing for #723).
-
-## Agent intent (ICE)
-- Goal: A search by domain finds its business intents and capabilities.
-- Goal: Every domain link is kept on both sides — the intent's Touches list and the domain's spine `intents`.
-- Limit: A domain never gets an issue and is never a level of a plan.
-- Limit: A domain never changes whether a capability or feature is ready.
-- Fails if: a domain appears in a plan file or the tracker.
-- Fails if: the search by domain misses an intent or capability linked to it, or lists one that is not.
-- Context: serves the plan owner asking which work sits in an area, /discover-domains and the Alignment loop; touches the spine's domains and capabilities, the intent pages' Touches lists and the plan files; in are the lookup and the keep-out check, out are writing domains and readiness.
-- Checked by: a query for a domain in a test model lists its business intents and capabilities.
-- Checked by: a check over every plan file finds no domain node, and passes on Garura's own plans 717, 722 and 734.
+- .garura/product/product-os/features/fn-726/feature.md, the old page, lines 4, 7, 28 and 40: "A domain lists the business intents and capabilities in it.", "A new or changed domain never changes whether something is ready", "Thus a search from the intent and a search from the domain always give the same answer.", "The search reads only files and changes nothing, so it can run at any time."; line 39: "Garura's own model has no domains yet"
+- .garura/project/issues/1021/context/bi-11-write/old-pages/link-the-product-model.md, the copy of the old page of Link the product model, line 18: "Domains do not decide when work starts, so search is their only job."
+- .garura/product/product-os/intents/bi-11.md, line 12: "From any intent, you can list what serves it."
+- standards/schemas/product-os/ontology.md, in Phoenix memory, lines 71, 101, 205, 305 and 318: "Given a business intent, which ICE do agents work on for it?", "Given a business intent, which slices serve it?", "A slice serves it — the link is kept on the slice's side only", "for search only", "It is never in a plan and never stops work."
+- .garura/user-provided/managing-work.md, lines 26-27: "they are never an issue and never part of a plan."
+- core/components/plays/shape-slice/scripts/find_serving_slice.py and core/components/plays/shape-plan/scripts/gather_plan.py: the scripts that find the slices serving an intent
+- A read of the intent pages on 2026-11-11: 10 of 16 have a Touches list; Product model's own page, bi-11, has none
+- The gap finder, run from the repository root on 2026-11-11: 21 links kept on one side only
+- GitHub #726 (open): "Domains link to business intents and capabilities, outside the plan tree"
+- GitHub #643 (open): "A person can read a review: the whole model's approval state, each intent with its ICE, and the product"
+- GitHub #541 (open, not approved to build): "Given a business intent, every agent intent that served it is listable with its cost"
+- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 2.9 and 6 (item 2)

@@ -1,77 +1,79 @@
-# Feature: "Needs" and "identified by" link capabilities and features
+# Feature: Link the parts by the map's rules: what each serves, what it needs and what led us to find it
 
 ## What it does
-A capability or a feature can need another capability or feature. It can also be identified by one. Any mix is allowed. These links never go on work (an epic, story, spike, chore or bug). The spine is the file that lists each node and its links. Its field is still `depends_on`. This story changes that name to `needs` in all the files that use it (53 today).
-- "Needs" says that another node must be done first. It is the only link that sets an order of work, and the ready check (the script that tells if work can start) reads it.
-- "Identified by" says which node led us to find this one. It records where a node came from. It never sets an order.
-- Any play that writes a node can write these two links on it, in any order. Then the spine linter checks that each link names a capability or feature that exists.
-- The linter rejects a link that names work, a domain, a business intent or nothing.
-- The rename makes the field use the word of the ontology (the written model rules). Today the ontology and the pages say "needs", but the spine field is `depends_on`. A reader must translate between the two.
+Each capability and feature is linked by the ontology's rules, the business intents it serves kept on both sides, the capabilities it needs and the capabilities that led us to find it, and each link is to be checked to point at a part that exists, so a search from either side gives the same answer and the ready check reads true links.
+- Serves: a capability's index entry names the business intents it serves, and each intent page's Touches list names the capability back, marked adds, changes or removes. The intent page's side is written by one script, in the plays that save intents and domains, in /shape-slice and in the gap closer. A feature serves the intents its capability serves. A slice's link to its intents is kept on the slice's side only.
+- Needs: "Other capabilities that must be done first — capabilities only". It is the only link that sets an order of work, and the ready check reads it.
+- Identified by: "The other capabilities that led us to find it — capabilities only, and may name more than one; empty when it was found on its own". It records where a part came from, and never sets an order. A part found on its own is not a gap.
+- A feature needs nothing and is identified by nothing. Its order of work comes from its capability, and the order of features is kept in the slices. This page once said "A feature can need a capability or another feature"; the ontology since its version 6, and the product owner on 2026-11-11, say it cannot.
+- The rename: the index's field for needs is still `depends_on`. #725 renames it `needs`, in the index and in every file that reads it, with every value kept.
+- The check: each need and each "identified by" link is to name a capability that exists, and never work, a business intent, a domain or a feature; each one that does not is a finding, never a stop.
+- This feature comes from the old capability Link the product model, whose page said: "Each capability links to the business intents it serves. Each feature links to the capability that holds it."
+- Examples, in different kinds of project:
+  - In a shop's checkout service, the Refunds capability needs the Payments capability, so Refunds is not ready while Payments is not done. Refund to card, a feature of Refunds, holds no need of its own.
+  - In a clinic's booking app, the Reminders capability was found while Booking was built, so Reminders names Booking as what led us to find it. Timetable was asked for directly, names nothing, and that is not a gap.
+  - In a bank's lending service, Upload documents is built before Score the application inside one slice. No need is written between the two features: the slice keeps their order.
+- How it meets the capability: a living map holds together as it grows only when its parts link by one set of rules, the same on both sides.
+
+Status: built in part. Built: the serves link on both sides, with the intent page's side written by one script in the plays that save intents and domains, in /shape-slice and in the gap closer; and the rules for needs and "identified by", in the ontology. Not built, or open:
+- The rename and the check that each link points at a part that exists (#725, "Needs" and "identified by" link capabilities, open). Today the structure check does not read `depends_on` or `identified_by`.
+- 21 serves links are kept on one side only, in the gap finder's run on 2026-11-11. The two index skills and /discover-capabilities write no Touches line: "A part linked or moved through them is missing from its intent's page."
+- The index holds six needs from one feature to another: fn-727 needs fn-724, and fn-743, fn-744, fn-745, fn-746 and fn-748 need fn-741. They are facts of the index today; by the ontology and the product owner's answer, a feature does not need another feature.
+- The index holds one id for "identified by", while the ontology says it "may name more than one". One capability holds one today.
+- No skill writes a need or an "identified by" link on a part that exists. Change a part from words a person approved (fn-change-part) is to do it.
+- Orchestration's open point, "whether a feature's own needs count too, as the page of fn-725 says, or only the needs of its capability, as the ontology says", is answered by the product owner's answer of 2026-11-11: only the capability's. Its page, and its name for this feature, are reworded at this intent's close.
 
 ## Inputs / Outputs
-- In: the spine entry of each capability and feature. This is its `depends_on` list (which becomes `needs`) and its `identified_by` value. That value is one id, or empty when the node was found on its own.
-- In: the set of capability and feature ids in the same spine. Each link must point at one of these ids.
-- In: the domain ids and business intent ids in the spine. With these, the linter can tell a link to one of them from a link to a missing node.
-- In: nothing more. The linter never reads the tracker, so it knows that a link names work only from the shape of the id (see Rules).
-- Out: the result of the spine linter. It gives one error for each bad link, and names the node, the field and the value.
-- Out: the error text is "points at work" for a bare issue number. It is "points at a business intent" or "points at a domain" for those ids. It is "not in the spine" for any other id that the spine does not hold. Any mix of capability and feature gives no error.
-- Out: after the rename, each file that reads or writes the field uses `needs`. These files are the spine schema and the scripts that read it, such as the ready check. They also include the plays, the skills and the product models in this repo. Thus no reader still looks for `depends_on` on a capability or feature.
+- In: each capability's and feature's index entry: its intents, its `depends_on` list and its `identified_by`.
+- In: each business intent page's Touches list.
+- In: the ids of the capabilities, features, domains and business intents in the index.
+- Out: each serves link kept on both sides, the index's and the intent page's.
+- Out: from the structure check, one finding for each need or "identified by" link that names a part not in the index, work, a business intent, a domain or a feature, or that a feature holds, with the part, the field and the value. Not built.
+- Out: after the rename, the field `needs` in the index and in every file that reads it, every value kept. Not built.
 
 ## Rules & behavior
-- A capability can need a capability or a feature. A feature can need a capability or another feature. Every mix is allowed, because work across capabilities often needs a part of another capability.
-- A node never needs itself, and "identified by" never names the node itself. Either one is an error.
-- "Identified by" holds one id at most. Empty means that the node was found on its own. This is normal and gives no warning.
-- Work never has these links. An Epic, Story, Spike, Chore or Bug is the order to build a node, so each link goes on the node that the work tracks. A link that names the issue number of work is an error.
-- How the linter tells a node from work: today, node ids in Garura's spine start with a kind prefix. A capability is `cap-<n>` and a feature is `fn-<n>` (for example `cap-723`, `fn-724`). Business intents are `bi-<n>`.
-- A link value that is a bare issue number, such as `725` or `#725`, gives "points at work", with no tracker lookup. That error replaces "not in the spine" for the link, so each bad link gets exactly one error.
-- A value with a prefix that the spine does not hold, such as `fn-999`, gives "not in the spine".
-- Our default — the spine schema calls ids opaque strings and sets no prefix rule. The spine linter (lint_grounding.py) does not check `depends_on` or `identified_by` yet. It checks only that each named parent `domain` and `capability` exists.
-- Nothing ever needs a business intent. Business intents connect only by their own "identified by", written on the intent page. They never wait for one another.
-- A need that names a node in a different plan makes this plan need that plan. The plan plays find the needs of a plan from the needs of its nodes. Nobody sets them by hand.
-- Two nodes that need each other, directly or through other nodes, make a loop. The linter gives an error for the loop and names each node in it. A self-link is the same: it is the shortest loop.
-- A loop is an error, not a warning, unlike a missing link. A missing link is a gap that the model fills as it grows. A loop is a link that exists but can never come true. Nothing in it can ever be ready, and no later write fixes it.
-- The loop error still never stops or undoes the write that made the loop. To fix it, drop one need, or merge the plans of the nodes into one plan. Our default — the sources say only that two plans that need each other are one plan.
-- The rename keeps every value. Each `depends_on` list on a capability or feature moves to `needs` with no change.
-- Slices and epics also use `depends_on` today. The same change renames them too, so one field name has one meaning.
-- The linter tells the two phases apart by the `version` in the spine schema file that it checks against (`schema.version` in spine.yaml, 2 today). The rename raises it to 3.
-- While the schema is at version 2, the linter reads the old name `depends_on` on a capability or feature as `needs`. It gives a warning that names the old field, so an old model still loads.
-- At version 3 or higher, the old name on a capability or feature is an error that names the old field. Thus one field name has one meaning. Our default — the sources do not say how old models are carried across, nor that the schema version marks the rename.
-- How pages are saved does not change. The rename changes a field name in the spine, not the files or the folders.
+- A serves link is kept on both sides. The reason: "Any play that links a node to an intent writes both sides".
+- The intent page's side is written by a script, never by a model. The reason: "It is never written by an LLM."
+- Needs and "identified by" name capabilities only. The reason: "A capability's "needs" and "identified by" name other capabilities only — never a feature, a business intent or a work item."
+- A feature needs nothing; the slices keep the order of features. The reason: "It never needs anything and is never identified by anything. Its order of work comes from its parent capability.", and the product owner: "a feature doesn't need another feature. All of that is managed in the slices."
+- An empty "identified by" means found on its own, and is not a gap. The reason, in the product owner's words: "I'll go with your proposal of no."; this page already said: "Empty means that the node was found on its own. This is normal and gives no warning."
+- Only needs set an order. The reason: ""Identified by" says which node led us to find this one. It records where a node came from. It never sets an order."
+- Work items carry none of these links. The reason: "Work never has these links."
+- Business intents never need each other. The reason, from the old capability's page: "Business intents never need each other."
+- A slice's link to its intents is kept on the slice's side only. The reason: "A slice serves it — the link is kept on the slice's side only".
+- A link that points at nothing is a finding, never a stop. The reason: "missing links are warnings to fix later, not stops".
+- The rename keeps every value. The reason: "The rename keeps every value."
+- Not decided: what becomes of the six needs from one feature to another that the index holds today.
+- Not decided: whether the index's "identified by" holds more than one id, as the ontology allows.
 
 ## Acceptance criteria
-- Given a spine where a capability needs a feature of a different capability, when the spine linter runs, then it passes with no error for that link.
-- Given a spine where the need of a feature names a Story issue number instead of a node id, when the linter runs, then it fails with an error that names that link.
-- Given a spine where `identified_by` names an id that is not in the spine, when the linter runs, then it fails with an error that names the missing id.
-- Given a node whose `identified_by` is empty, when the linter runs, then there is no error and no warning for it.
-- Given a node that needs itself, or two nodes that need each other, when the linter runs, then it fails with an error that names the self-link or each node in the loop.
-- Given the spine schema at version 2 and a capability whose spine entry has `depends_on`, when the linter runs, then it warns, names the old field, and reads the values as needs.
-- Given the same entry with the spine schema at version 3, when the linter runs, then it fails with an error that names the old field.
-- Given the rename is done, when the repo is searched for `depends_on` on capability and feature entries, then none is left, and the ready check reads `needs`.
-- Given Garura's own model (#717, #722, #734) after the rename, when the linter and the ready check run, then fn-743 still needs fn-741, and fn-727 still needs fn-724, with no value lost.
+- Given a capability linked to an intent by a play that saves intents, when the link is written, then the capability's entry names the intent and the intent's Touches list names the capability.
+- Given a capability that serves an intent whose page does not list it, when the gap finder runs, then it reports the link as kept on one side only.
+- Given a need or an "identified by" link that names an id not in the index, when the structure check runs, then it names the part, the field and the value as a finding, and stops nothing. This is not built.
+- Given a feature whose entry needs another feature, when the structure check runs, then it names the feature and the need as a finding, and stops nothing. This is not built.
+- Given a capability whose "identified by" is empty, when the checks run, then they give no finding and no gap for it. This is not built.
+- Given the index after the rename, when it is searched, then no capability or feature entry holds `depends_on`, and every value the old field held is kept, such as fn-743's need of fn-741, a fact of the index today, though a feature does not need another feature. This is not built.
 
 ## Out of scope
-- The ready answer itself. A capability or feature is ready without a domain (fn-724) owns how needs decide readiness.
-- Finding which plans a plan needs. Work out the plans a plan waits on (fn-work-out-waits-on), in Orchestrate agent work through planning, owns it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main.
-- The links between business intents. They are on the intent pages, as the ontology defines (fn-597).
-- The links from domains. Domains link to business intents and capabilities (fn-726) owns those.
+- How needs decide the ready answer. Say whether work can start on each part: ready, partly ready or not ready, with the gaps (fn-724) does it.
+- Listing what serves an intent, and what sits in a domain. List what serves an intent, and what sits in a domain (fn-726) does it.
+- Writing a link on a part that exists. Change a part from words a person approved (fn-change-part) does it.
+- Closing a link kept on one side only. Find and close the gaps inside the model (fn-close-model-gaps) does it.
+- Keeping an intent's links current as work changes it. Keep an intent's links current (fn-keep-intent-links-current), in Keep the spec matched to what's built, does it.
+- Working out which plans a plan waits on, from the needs. Work out the plans a plan waits on (fn-work-out-waits-on), in Orchestrate agent work through planning, does it.
+- The links as rules of the ontology. Define what a product is made of, in Product model, owns them.
 
 ## Sources
-- core/components/memory/standards/schemas/product-os/ontology.md (v5), kind Capability: "\"Needs\" and \"identified by\" link only capabilities and functionalities — never work."
-- Ontology kind Work: "Work never needs anything and is never identified by anything; those links sit on its capability or functionality."
-- core/components/memory/standards/schemas/product-os/spine.yaml: "depends_on: [string] # \"needs\" (ontology v5) … Field renamed to `needs` under #725."
-- .garura/project/issues/621/specs/change-list.md: "The spine field is `depends_on` in 53 files today (epics and slices use it too)."
-- .garura/project/issues/621/specs/plan-design.md: "No loops: if A depends on B and B depends on A, they are one plan".
-- GitHub #725: "\"Needs\" and \"identified by\" link capabilities and functionalities".
-- Shelf: none. No domain shelf holds the product model of a framework itself (routing for #723).
-
-## Agent intent (ICE)
-- Goal: Anyone can see what a node needs and what led us to find it.
-- Goal: The spine field is called `needs`, matching the ontology, with no value lost in the rename.
-- Limit: Links sit only on capabilities and features.
-- Limit: The rename changes a field name only, never how pages are saved.
-- Fails if: a need or identified-by link points at work, or at a node that does not exist.
-- Fails if: a `depends_on` value is dropped or changed by the rename.
-- Context: serves the plays that write and read links (build-plan, /discover-capabilities, the ready check, the Alignment loop) and the plan owner reading a plan; touches the spine schema, lint_grounding.py's spine check, check_ice_workable.py and every file that names `depends_on`; in are the two links and the rename, out are plan needs and business intent links.
-- Checked by: the spine linter rejects a link to a story and accepts capability → feature.
-- Checked by: after the rename no capability or feature entry in the repo carries `depends_on`, and Garura's own model keeps every need it had.
-- Quality need: zero links that point at nothing or at work across Garura's own model, checked by the spine linter.
+- .garura/product/product-os/features/fn-725/feature.md, the old page, lines 6, 21, 23, 24 and 34: ""Identified by" says which node led us to find this one. It records where a node came from. It never sets an order.", "A feature can need a capability or another feature.", "Empty means that the node was found on its own. This is normal and gives no warning.", "Work never has these links.", "The rename keeps every value."; line 50, the index's needs it names
+- .garura/project/issues/1021/context/bi-11-write/old-pages/link-the-product-model.md, the copy of the old page of Link the product model, lines 6 and 29: "Each capability links to the business intents it serves. Each feature links to the capability that holds it.", "Business intents never need each other."
+- .garura/project/issues/1021/context/capabilities.md, line 125: "I don't understand question 4. I'll go with your proposal of no.", "Apart from being found on its own, no, a feature doesn't need another feature. All of that is managed in the slices."
+- standards/schemas/product-os/ontology.md, in Phoenix memory, lines 205, 344-345, 364 and 409: "A slice serves it — the link is kept on the slice's side only", "Other capabilities that must be done first — capabilities only", "The other capabilities that led us to find it — capabilities only, and may name more than one; empty when it was found on its own", "A capability's "needs" and "identified by" name other capabilities only — never a feature, a business intent or a work item.", "It never needs anything and is never identified by anything. Its order of work comes from its parent capability."
+- core/components/plays/shape-slice/scripts/intent_touches.py, lines 12-14: "Any play that links a node to an intent writes both sides", "It is never written by an LLM."
+- .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md, line 28: "A part linked or moved through them is missing from its intent's page."
+- .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md, lines 42 and 54: "Not decided: whether a feature's own needs count too, as the page of fn-725 says, or only the needs of its capability, as the ontology says."
+- docs/standards/harness-standard.md, lines 71-72: "missing links are warnings to fix later, not stops"
+- core/components/plays/create-play/references/lint_grounding.py: no line reads `depends_on` or `identified_by` (a search on 2026-11-11)
+- A read of the index, .garura/product/product-os/_spine.yaml, on 2026-11-11: six needs from one feature to another, and one capability with an "identified by"
+- The gap finder, run from the repository root on 2026-11-11: 21 links kept on one side only
+- GitHub #725 (open): "\"Needs\" and \"identified by\" link capabilities"
+- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 1.5, 2.5 and 4, and section 9, questions 4 and 5

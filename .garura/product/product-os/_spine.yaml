@@ -16,34 +16,6 @@ domains:
     deepen: true
     updated_by: 'product-os-keeper (reorganise business intents, #1021)'
 capabilities:
-- id: cap-723
-  slug: cap-723
-  domain: ''
-  intents:
-  - bi-722
-  status: proposed
-  detail: detailed
-  one_line: 'Link the product model: needs, identified by, and loose domains'
-  doc: capabilities/cap-723/capability.md
-  depends_on: []
-  identified_by: cap-718
-  issue: 723
-  nfr_needs:
-    reliability:
-      level: medium
-      target: 0 need or identified-by links that point at nothing or at work across
-        Garura's own model (plans 717, 722, 734); the same spine and intent pages
-        always give the same ready answer
-      gate: lint_grounding.py --spine on .garura/product/product-os exits 0 once the
-        link check (#725) lands; check_ice_workable.py fixture tests pass
-    maintainability:
-      level: medium
-      target: 0 new errors on any model page that passed before ontology v5 — a missing
-        domain, ICE or link is a warning, never an error; no capability or feature
-        value lost in the depends_on -> needs rename
-      gate: test_check_ice_workable.py and test_lint_grounding.py pass; a before/after
-        diff of Garura's spine shows every need kept
-  compliance_needs: []
 - id: cap-718
   slug: cap-718
   domain: dom-software-delivery-planning
@@ -753,51 +725,102 @@ capabilities:
     created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
       one-lines taken as approved by the product owner'
     deepen: true
+- id: cap-define-product
+  slug: define-product
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-11
+  status: proposed
+  detail: directional
+  one_line: 'Define what a product is made of: People and agents share one agreed
+    map of what a product is made of, changed only on purpose.'
+  doc: software-delivery-planning/define-product/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: cap-manage-model
+  slug: manage-model
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-11
+  status: proposed
+  detail: directional
+  one_line: 'Manage the model: A living map, added to, changed and pruned as work
+    is done, and the source of what to try next.'
+  doc: software-delivery-planning/manage-model/capability.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
-  capability: cap-723
+  capability: cap-manage-model
   intents:
-  - bi-722
+  - bi-11
   status: proposed
-  one_line: A capability or feature is ready without a domain
+  one_line: The ready check says for each part whether work can start, ready, partly
+    ready or not ready, with its gaps, and the same model always gives the same answer.
   doc: features/fn-724/feature.md
   depends_on: []
   identified_by: ''
   issue: 724
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-597
   slug: fn-597
-  capability: cap-723
+  capability: cap-define-product
   intents:
-  - bi-722
+  - bi-11
   status: proposed
-  one_line: Rebuild the product model as an ontology
+  one_line: The map, at version 15, defines thirteen kinds in two layers, each with
+    its properties, links, rules and a real example, answers 45 of its 47 questions,
+    and logs each version.
   doc: features/fn-597/feature.md
   depends_on: []
   identified_by: ''
   issue: 597
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-725
   slug: fn-725
-  capability: cap-723
+  capability: cap-manage-model
   intents:
-  - bi-722
+  - bi-11
   status: proposed
-  one_line: '"Needs" and "identified by" link capabilities and features'
+  one_line: Each link follows the ontology's rules, is kept on both sides, and points
+    at a part that exists.
   doc: features/fn-725/feature.md
   depends_on: []
   identified_by: ''
   issue: 725
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-726
   slug: fn-726
-  capability: cap-723
+  capability: cap-manage-model
   intents:
-  - bi-722
+  - bi-11
   status: proposed
-  one_line: Domains link to business intents and capabilities, outside the plan tree
+  one_line: From any intent, a person lists the parts and slices that serve it; from
+    a domain, its intents and capabilities.
   doc: features/fn-726/feature.md
   depends_on: []
   identified_by: ''
   issue: 726
+  metadata:
+    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
 - id: fn-731
   slug: fn-731
   capability: cap-ship-every-change
@@ -4281,6 +4304,295 @@ features:
     created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
       one-lines taken as approved by the product owner'
     deepen: true
+- id: fn-change-ontology
+  slug: fn-change-ontology
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: /edit-ontology changes only the kinds one need touches, with the product
+    owner's typed yes at three points, ends only when the map reads valid, and lands
+    through the change plays.
+  doc: software-delivery-planning/define-product/fn-change-ontology/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-ontology-in-every-project
+  slug: fn-ontology-in-every-project
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: The settings name the map by its place in memory, Phoenix memory holds
+    version 15, the same as Garura's source, and each play's agent reads it through
+    the memory tool.
+  doc: software-delivery-planning/define-product/fn-ontology-in-every-project/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-readers-in-step
+  slug: fn-readers-in-step
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: Each part that describes or checks the model's shape follows the map's
+    current version.
+  doc: software-delivery-planning/define-product/fn-readers-in-step/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-check-model-on-change
+  slug: fn-check-model-on-change
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: Each change to the map shows the product owner what it breaks in the model,
+    recorded as owed.
+  doc: software-delivery-planning/define-product/fn-check-model-on-change/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-model-shape-version
+  slug: fn-model-shape-version
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: The model says which version it is built to, so Move the product model
+    to the new version's shape (fn-move-model) knows which moves it needs.
+  doc: software-delivery-planning/define-product/fn-model-shape-version/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-extend-ontology
+  slug: fn-extend-ontology
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: A team adds its own kinds or rules to the map Garura provides, and changes
+    the plays that read them with it.
+  doc: software-delivery-planning/define-product/fn-extend-ontology/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-profile-decision-kinds
+  slug: fn-profile-decision-kinds
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: The profile and the product decision that the model already holds get
+    their kinds, properties, links and rules in the map.
+  doc: software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-approval-state-kind
+  slug: fn-approval-state-kind
+  capability: cap-define-product
+  intents:
+  - bi-11
+  status: proposed
+  one_line: The map names one approval state for every kind, and maps the states of
+    today onto it.
+  doc: software-delivery-planning/define-product/fn-approval-state-kind/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-add-found-part
+  slug: fn-add-found-part
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: The keeper writes the page of a domain, capability or feature found while
+    other work goes on, then its index entry, thin when it is thin, all or nothing.
+  doc: software-delivery-planning/manage-model/fn-add-found-part/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-change-part
+  slug: fn-change-part
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: 'A part changes only from words a person approved: named lines, a whole
+    page, an intent page, its one-line, its intents or its parent, by one edit standard.'
+  doc: software-delivery-planning/manage-model/fn-change-part/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-take-part-out
+  slug: fn-take-part-out
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: 'A part is taken out only on a person''s named approval: an old intent
+    repointed, an intent page removed, a capability merged or a slice removed.'
+  doc: software-delivery-planning/manage-model/fn-take-part-out/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-check-model
+  slug: fn-check-model
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: The structure check reads the model's pages and index for their shape
+    and links on every change, as findings, never a stop.
+  doc: software-delivery-planning/manage-model/fn-check-model/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-close-model-gaps
+  slug: fn-close-model-gaps
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: Loose parts, links on one side only, intents nothing serves and the same
+    part written twice are found, and what the model can take is closed.
+  doc: software-delivery-planning/manage-model/fn-close-model-gaps/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-part-approval
+  slug: fn-part-approval
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: Each part says whether a person approved it, it changed, or it is in progress.
+  doc: software-delivery-planning/manage-model/fn-part-approval/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-model-moves-with-work
+  slug: fn-model-moves-with-work
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: A design approval updates the model, and a change left for later is listed
+    for Learn.
+  doc: software-delivery-planning/manage-model/fn-model-moves-with-work/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-index-through-skills
+  slug: fn-index-through-skills
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: Every play adds, changes and takes out parts through the two index skills,
+    not its own script.
+  doc: software-delivery-planning/manage-model/fn-index-through-skills/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-model-tool
+  slug: fn-model-tool
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: One tool writes the model's pages and entries in the shape the ontology
+    sets, with the plays and templates it lacks.
+  doc: software-delivery-planning/manage-model/fn-model-tool/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
+- id: fn-try-next
+  slug: fn-try-next
+  capability: cap-manage-model
+  intents:
+  - bi-11
+  status: proposed
+  one_line: The model proposes an idea with its evidence, a person confirms or drops
+    it, and an experiment records what was tried and its result.
+  doc: software-delivery-planning/manage-model/fn-try-next/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    deepen: true
 profile:
   state: set
   nfr:
@@ -6012,6 +6324,183 @@ ices:
   for: fn-choose-model-at-run
   for_kind: feature
   doc: software-delivery-planning/model-routing/fn-choose-model-at-run/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-define-product
+  for: cap-define-product
+  for_kind: capability
+  doc: software-delivery-planning/define-product/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-597
+  for: fn-597
+  for_kind: feature
+  doc: features/fn-597/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-change-ontology
+  for: fn-change-ontology
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-change-ontology/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-ontology-in-every-project
+  for: fn-ontology-in-every-project
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-ontology-in-every-project/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-readers-in-step
+  for: fn-readers-in-step
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-readers-in-step/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-check-model-on-change
+  for: fn-check-model-on-change
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-check-model-on-change/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-model-shape-version
+  for: fn-model-shape-version
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-model-shape-version/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-extend-ontology
+  for: fn-extend-ontology
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-extend-ontology/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-profile-decision-kinds
+  for: fn-profile-decision-kinds
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-profile-decision-kinds/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-approval-state-kind
+  for: fn-approval-state-kind
+  for_kind: feature
+  doc: software-delivery-planning/define-product/fn-approval-state-kind/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-manage-model
+  for: cap-manage-model
+  for_kind: capability
+  doc: software-delivery-planning/manage-model/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-add-found-part
+  for: fn-add-found-part
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-add-found-part/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-change-part
+  for: fn-change-part
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-change-part/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-take-part-out
+  for: fn-take-part-out
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-take-part-out/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-725
+  for: fn-725
+  for_kind: feature
+  doc: features/fn-725/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-724
+  for: fn-724
+  for_kind: feature
+  doc: features/fn-724/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-check-model
+  for: fn-check-model
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-check-model/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-close-model-gaps
+  for: fn-close-model-gaps
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-close-model-gaps/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-726
+  for: fn-726
+  for_kind: feature
+  doc: features/fn-726/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-part-approval
+  for: fn-part-approval
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-part-approval/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-model-moves-with-work
+  for: fn-model-moves-with-work
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-model-moves-with-work/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-index-through-skills
+  for: fn-index-through-skills
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-index-through-skills/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+- id: ice-model-tool
+  for: fn-model-tool
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-model-tool/ice.md
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+      one-lines taken as approved by the product owner'
+    thin: true
+- id: ice-try-next
+  for: fn-try-next
+  for_kind: feature
+  doc: software-delivery-planning/manage-model/fn-try-next/ice.md
   metadata:
     created_by: 'product-os-keeper (reorganise business intents, #1021); pages and
       one-lines taken as approved by the product owner'
