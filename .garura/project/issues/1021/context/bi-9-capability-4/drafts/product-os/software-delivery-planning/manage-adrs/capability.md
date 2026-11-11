@@ -30,9 +30,9 @@ Features:
 - Accept an ADR only on a person's word, then or later (fn-accept-adr): run by hand, the decision play waits for the person's typed accept, reject or change; inside a loop it saves the ADR as proposed for the loop's end review; and a proposed ADR is accepted later by hand.
 - Keep older ADRs pointing forward and the index current (fn-keep-adrs-linked): once an ADR is accepted, each older ADR it changes gains one forward pointer, the only edit it ever gets, and the index is rebuilt from the ADR folder.
 - Give the person who accepts every point found on the way, and check it is whole (fn-show-accepter-findings): each thing found while the ADR was drafted that the brief did not ask about is written in its own section, with its five parts, and shown before the person decides. Built in part.
-- Record the ADR in the change it belongs to (fn-adr-in-its-change): not built, and no page yet. The decision play, run on the branch of a change that is already open, records the ADR in that change (#822, under #968).
-- Keep ADRs to how the project is built, and move what the model holds into the model (fn-keep-adrs-to-build): not built, and no page yet. Every ADR is reviewed, and what is about what the product model holds moves into the model (#1022).
-- Take in each design choice that Spec → Design hands over (fn-take-design-choices): not built, and no page yet. Each design choice of the four capabilities of Spec → Design reaches the decision play as a decision brief.
+- Record the ADR in the change it belongs to (fn-adr-in-its-change): not built. The decision play, run on the branch of a change that is already open, records the ADR in that change (#822, under #968).
+- Keep ADRs to how the project is built, and move what the model holds into the model (fn-keep-adrs-to-build): not built. Every ADR is reviewed, and what is about what the product model holds moves into the model (#1022).
+- Take in each design choice that Spec → Design hands over (fn-take-design-choices): not built. Each design choice of the four capabilities of Spec → Design reaches the decision play as a decision brief.
 
 What is not built yet:
 - An ADR cannot be recorded in the change it belongs to. Run by hand, the decision play opens its own change from main, so "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816" (#822).

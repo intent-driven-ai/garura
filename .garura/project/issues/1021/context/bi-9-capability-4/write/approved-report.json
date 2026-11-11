@@ -1,0 +1,71 @@
+{
+  "written": [
+    {
+      "page": "software-delivery-planning/manage-adrs/capability.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-record-adr/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-accept-adr/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-linked/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-show-accepter-findings/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/ice.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md",
+      "action": "created"
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-take-design-choices/ice.md",
+      "action": "created"
+    }
+  ],
+  "approved_by": "the product owner",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-4/page-approvals.md",
+  "by": "product-os-keeper (reorganise business intents, #1021)"
+}

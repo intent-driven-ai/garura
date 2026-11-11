@@ -1,0 +1,177 @@
+{
+  "before_state": "git HEAD: the model as committed",
+  "pages": {
+    "capability.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "ice.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-record-adr/feature.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-record-adr/ice.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-accept-adr/feature.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-accept-adr/ice.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-keep-adrs-linked/feature.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-keep-adrs-linked/ice.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-show-accepter-findings/feature.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-show-accepter-findings/ice.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-adr-in-its-change/feature.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-adr-in-its-change/ice.md": {
+      "equals_draft": true,
+      "thin_lines": [
+        0
+      ]
+    },
+    "fn-keep-adrs-to-build/feature.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-keep-adrs-to-build/ice.md": {
+      "equals_draft": true,
+      "thin_lines": [
+        0
+      ]
+    },
+    "fn-take-design-choices/feature.md": {
+      "equals_draft": true,
+      "thin_lines": []
+    },
+    "fn-take-design-choices/ice.md": {
+      "equals_draft": true,
+      "thin_lines": [
+        0
+      ]
+    }
+  },
+  "new_folder_files": [
+    "capability.md",
+    "fn-accept-adr/feature.md",
+    "fn-accept-adr/ice.md",
+    "fn-adr-in-its-change/feature.md",
+    "fn-adr-in-its-change/ice.md",
+    "fn-keep-adrs-linked/feature.md",
+    "fn-keep-adrs-linked/ice.md",
+    "fn-keep-adrs-to-build/feature.md",
+    "fn-keep-adrs-to-build/ice.md",
+    "fn-record-adr/feature.md",
+    "fn-record-adr/ice.md",
+    "fn-show-accepter-findings/feature.md",
+    "fn-show-accepter-findings/ice.md",
+    "fn-take-design-choices/feature.md",
+    "fn-take-design-choices/ice.md",
+    "ice.md"
+  ],
+  "bi_9_touches": [
+    "- [Orchestrate agent work through planning](../software-delivery-planning/orchestrate-agent-work/capability.md) (capability) — adds",
+    "- [Get onto a plan's branch for a session, and come back](../software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md) (feature) — adds",
+    "- [Know what comes next at the end of every run](../software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md) (feature) — adds",
+    "- [Remove a plan on a person's approval](../software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md) (feature) — adds",
+    "- [Choose which item is worked next](../software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/feature.md) (feature) — adds",
+    "- [Work out the plans a plan waits on](../software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md) (feature) — adds",
+    "- [Pause a plan and start it again](../software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md) (feature) — adds",
+    "- [Choose the slice that shows an intent is served](../software-delivery-planning/orchestrate-agent-work/fn-795/feature.md) (feature) — changes",
+    "- [See every plan and where it stands](../features/fn-729/feature.md) (feature) — changes",
+    "- [See every plan's branch against main](../features/fn-806/feature.md) (feature) — changes",
+    "- [See one plan as a tree](../features/fn-628/feature.md) (feature) — changes",
+    "- [Set each item's status and the plan's status and direction in one approved session](../features/fn-730/feature.md) (feature) — changes",
+    "- [Run plays as loops](../software-delivery-planning/run-plays-as-loops/capability.md) (capability) — adds",
+    "- [Run any loop the same way](../software-delivery-planning/run-plays-as-loops/fn-run-loop/feature.md) (feature) — adds",
+    "- [Have a checker that did not run the loop judge its result](../software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md) (feature) — adds",
+    "- [Brief the person only on what no play could close, and let them stop](../software-delivery-planning/run-plays-as-loops/fn-brief-open-points/feature.md) (feature) — adds",
+    "- [Show what a long run is doing now](../software-delivery-planning/run-plays-as-loops/fn-show-run-status/feature.md) (feature) — adds",
+    "- [Run each transition between phases as its own loop](../software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/feature.md) (feature) — adds",
+    "- [Start a loop from a schedule or a hook, and keep a record across rounds](../software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/feature.md) (feature) — adds",
+    "- [Run a round's plays side by side](../software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/feature.md) (feature) — adds",
+    "- [Track execution in the team's tracker](../software-delivery-planning/track-execution/capability.md) (capability) — adds",
+    "- [Mark each work item by its type, under the right parent, with no label](../software-delivery-planning/track-execution/fn-mark-item-type/feature.md) (feature) — adds",
+    "- [An item's status follows its own issue, with no roll-ups](../software-delivery-planning/track-execution/fn-status-follows-issue/feature.md) (feature) — adds",
+    "- [Every approved tracker write lands once, and is picked up after a stop](../software-delivery-planning/track-execution/fn-land-tracker-writes-once/feature.md) (feature) — adds",
+    "- [See the issues worth attention now](../software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md) (feature) — adds",
+    "- [Record a defect under the story that brought it in](../software-delivery-planning/track-execution/fn-record-defect-under-story/feature.md) (feature) — adds",
+    "- [One tool knows the tracker, and no play, skill or sub-agent names it](../software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md) (feature) — adds",
+    "- [Link each piece of work to its intent across trackers](../software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md) (feature) — adds",
+    "- [Say what each work-item type means, for Initialize's brief](../software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md) (feature) — adds",
+    "- [Manage ADRs](../software-delivery-planning/manage-adrs/capability.md) (capability) — adds",
+    "- [Record a decision as an ADR, with what it overrides and what it changes](../software-delivery-planning/manage-adrs/fn-record-adr/feature.md) (feature) — adds",
+    "- [Accept an ADR only on a person's word, then or later](../software-delivery-planning/manage-adrs/fn-accept-adr/feature.md) (feature) — adds",
+    "- [Keep older ADRs pointing forward and the index current](../software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md) (feature) — adds",
+    "- [Give the person who accepts every point found on the way, and check it is whole](../software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md) (feature) — adds",
+    "- [Record the ADR in the change it belongs to](../software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md) (feature) — adds",
+    "- [Keep ADRs to how the project is built, and move what the model holds into the model](../software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md) (feature) — adds",
+    "- [Take in each design choice that Spec → Design hands over](../software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md) (feature) — adds"
+  ],
+  "git_status_product": [
+    " M .garura/product/product-os/_spine.yaml",
+    " M .garura/product/product-os/intents/bi-9.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/capability.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-adr-in-its-change/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-record-adr/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/fn-take-design-choices/ice.md",
+    "?? .garura/product/product-os/software-delivery-planning/manage-adrs/ice.md"
+  ],
+  "structure": {
+    "before": [
+      59,
+      210
+    ],
+    "after": [
+      59,
+      218
+    ],
+    "new_errors": [],
+    "new_warnings": [
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/capability.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/fn-record-adr/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/fn-accept-adr/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)",
+      ".garura/product/product-os/software-delivery-planning/manage-adrs/fn-take-design-choices/feature.md: no '## Agent intent (ICE)' yet — its spine entry names a business intent, so its agent intent should be written (alignment)"
+    ],
+    "errors_gone": 0
+  },
+  "write_folder_files_naming_local_paths": [],
+  "failed_checks": [],
+  "checks_run": 99
+}

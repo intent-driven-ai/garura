@@ -1,0 +1,35 @@
+{
+  "written": [
+    "cap-manage-adrs",
+    "fn-record-adr",
+    "fn-accept-adr",
+    "fn-keep-adrs-linked",
+    "fn-show-accepter-findings",
+    "fn-adr-in-its-change",
+    "fn-keep-adrs-to-build",
+    "fn-take-design-choices",
+    "ice-manage-adrs",
+    "ice-record-adr",
+    "ice-accept-adr",
+    "ice-keep-adrs-linked",
+    "ice-show-accepter-findings",
+    "ice-adr-in-its-change",
+    "ice-keep-adrs-to-build",
+    "ice-take-design-choices"
+  ],
+  "updated": [],
+  "thin": [
+    "ice-adr-in-its-change",
+    "ice-keep-adrs-to-build",
+    "ice-take-design-choices"
+  ],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/manage-adrs/fn-adr-in-its-change/ice.md",
+    "product-os/software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/ice.md",
+    "product-os/software-delivery-planning/manage-adrs/fn-take-design-choices/ice.md"
+  ],
+  "layout_kept": true
+}
