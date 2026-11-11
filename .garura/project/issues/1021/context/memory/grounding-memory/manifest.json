@@ -1,0 +1,102 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/ice-rubric.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:66d213211ae1bcc75b093141d6040b91a11121983f093d821012b2c360f67f0b",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/ice-rubric.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/intent-depth.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:684610ca537c2c0f275d4ebdbe889594f7751823e7a8b5d7d3d68d8337b96b07",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/intent-depth.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:946c5acdcf4297bfc9fc8c74cffdf7df365aac169541291bfdea1ec802372a53",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/features.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:9792c7e0adb9c199e5cea312fff06040523fe004b865b9e664628c43e99e5d2d",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/features.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/scenarios.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:4e2037f729cc0c25ff53691d701a08ba0972eeaf1c02ca8e045aaa60ba1e3d84",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/scenarios.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/product.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:b99ea7af0377feb834d44687b223adcb4bb4f7ae7ac3d9641bb0823c2cacb079",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/product.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:e8d36d7fa5e61e67a226b569cebb7043fe63ad02f57d40654173f2dcbd50c3f2",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/expectation-generation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/resolution.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:5a353c93d28217b764076f2dc23a90f0299067da175db2472096c3d360cab54f",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/resolution.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/grounding-eval.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:994ed0d07dd743c3fab0b102aa1df5c7afdd11922c72b48591b139d556ef3459",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/grounding-eval.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/feature-catalog.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:cc1372e00fb3c38dc6baf942b473051f03205ae883ca6f569ce4d9f33d4c4a83",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/feature-catalog.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/kb-extension.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:70f25c4a7ba98c757d9bd0cb2185240c4967dcbfd1f41f5ea4c06b4d3203441c",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/kb-extension.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:678a6db2bc4dc094cd855ed28f87dbb91f2ebdcbc121103d9e66e24c55527225",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/direct-model-write.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/work-plan.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:8cec138764534e90ed4b66f0ff4779073dd3405187d4eb4b8c89bad29b7558fb",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/work-plan.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/no-unbacked-recommendation.md",
+      "version": "b2e40bff2131",
+      "fingerprint": "sha256:d1dc18abe70981cf7691e57ee7ae29ede9c647eb4481dcc17b7fd55b98e08dd5",
+      "copy": ".garura/project/issues/1021/context/memory/grounding-memory/standards/rules/no-unbacked-recommendation.md"
+    }
+  ]
+}
