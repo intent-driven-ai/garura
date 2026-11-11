@@ -45,7 +45,7 @@ Approved pages of other intents hand work here:
 - the approval state on each piece of the model (#964), from Review what agents make (Argus), in Developer tooling.
 This intent's Must not reads: "Block work because the model is incomplete, let an agent confirm an intent, or name a plan." Orchestration's reads: "Stop a person. Every gate has a way past it that records what's owed." Four stops in this capability have no way past today: removing a feature, a domain or an ICE; merging a capability that has its own ICE page; the 13 older parts the ready check calls not ready; and /shape-slice's model check, which does not go on until it reads valid. The third breaks this intent's own Must not. The way past each, and where what is owed is kept, belong to Give every gate a way past.
 It matters because agents decide from the model: "Agents decide from the model, so a model that is out of date leads them wrong." Product model's own why: "The model keeps intent connected to the product after the work closes."
-It sits in software delivery planning with the other capability of Product model. The domain's first paragraph does not name it yet; widening it is owed at this intent's close.
+It sits in software delivery planning with the other capability of Product model, and the domain's first paragraph says so.
 
 Features:
 - Add a part found during work, with its page and its index entry (fn-add-found-part): the keeper writes the page of a domain, capability or feature found while other work goes on, then its index entry, thin when it is thin, all or nothing. Built in part.
@@ -153,3 +153,4 @@ What is not built yet:
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers how a team keeps a product model; the ten domain shelves in Phoenix memory cover product fields, such as payments and e-commerce.
 - .garura/product/product-os/software-delivery-planning/domain.md, line 4: the domain's first paragraph, which does not name Product model yet
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also defines what a product is made of, and keeps each product's model as a living map: added to, changed and pruned as work is done, and the source of what to try next."

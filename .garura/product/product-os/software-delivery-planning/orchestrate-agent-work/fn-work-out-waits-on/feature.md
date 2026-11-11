@@ -11,7 +11,7 @@ Each plan's Waits on list is worked out from the needs of its parts in the produ
 - A plan file is changed where the plan's own rules say: on the plan's own branch while its work is in progress.
 - Two plans that need each other: both are named, with the needs that join them. Nothing is stopped: no session, no view and no landing waits on it.
 - It orders the work and holds nothing back. A plan's branch still lands on main when the plan pauses, whatever the plan waits on.
-- The needs links it reads sit in the model's index. Today their field there is still `depends_on`; "Needs" and "identified by" link capabilities and features (fn-725) renames it `needs`.
+- The needs links it reads sit in the model's index. Today their field there is still `depends_on`; Link the parts by the map's rules (fn-725), in Manage the model, renames it `needs`.
 - Outside Garura, a tracker can hold the same kind of link: "GitHub issues can be marked as blocked by, or blocking, other issues". Whether the plans' epics get such a link is not decided.
 - The list it writes is read by the card of every plan, by the tree of one plan, by the removal of a plan, and by the choice of the next item.
 - Examples, in different kinds of project:
@@ -39,7 +39,7 @@ Status: not built. No issue is filed for it. The plan file's list is read by /li
 - A plan file changes only where the plan's rules allow. The reason: "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there."
 - Not decided: whether a plan's Waits on is worked out from its parts' needs, set by a person, or dropped.
 - Not decided: when it is worked out: at each landing that changes a plan's items, each time a plan is shown, or on request.
-- Not decided: whether a feature's own needs count too, as the page of fn-725 says, or only the needs of its capability, as the ontology says.
+- Only the needs of a feature's capability count, never a feature's own. The reason, in the product owner's words: "a feature doesn't need another feature. All of that is managed in the slices."
 - Not decided: when two plans need each other, whether the two plans are merged into one or one need is dropped, and who does it.
 - Not decided: whether the tracker also shows the list, as a blocked-by link between the plans' epics.
 
@@ -51,7 +51,7 @@ Status: not built. No issue is filed for it. The plan file's list is read by /li
 - Given the same plan files and the same model, when it is worked out twice, then the two lists are the same. This is not built.
 
 ## Out of scope
-- The needs links on capabilities and features, and their name in the model's index. Product model owns them: "Needs" and "identified by" link capabilities and features (fn-725).
+- The needs links on capabilities and features, and their name in the model's index. Manage the model, in Product model, owns them: Link the parts by the map's rules (fn-725).
 - Showing what a plan waits on. See every plan and where it stands (fn-729) and See one plan as a tree (fn-628) do it.
 - Refusing to remove a plan that another plan needs. Remove a plan on a person's approval (fn-remove-plan) does it.
 - When a plan's branch lands on main. Ship every change the same way, in Developer tooling, owns it.
@@ -69,3 +69,4 @@ Status: not built. No issue is filed for it. The plan file's list is read by /li
 - core/components/skills/remove-plan/SKILL.md: "A plan that stays and names a plan being removed in `needs_plans`"
 - 1021/context/answers/bi9-waits-on.md, in short-term memory, from memory update mu-20261110-011, approved by the product owner on 2026-11-10: "GitHub issues can be marked as blocked by, or blocking, other issues"
 - The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, section 1.9: "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`."
+- .garura/project/issues/1021/context/capabilities.md, line 125: "a feature doesn't need another feature. All of that is managed in the slices."
