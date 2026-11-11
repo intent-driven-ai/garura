@@ -1,0 +1,766 @@
+ M CLAUDE.md
+ M README.md
+ M core/components/agents/adr-keeper.md
+ M core/components/agents/business-intent-keeper.md
+ M core/components/agents/environment-operator.md
+ M core/components/agents/evals-engineer.md
+ M core/components/agents/product-os-keeper.md
+ M core/components/agents/project-orchestrator.md
+ M core/components/agents/prototype-reader.md
+ M core/components/agents/quality-auditor.md
+ M core/components/agents/tech-designer.md
+ M core/components/agents/test-engineer.md
+ M core/components/loops/_shared/loop-run.md
+RM core/components/loops/complete-discovery/SKILL.md -> core/components/loops/loop-product-spec/SKILL.md
+RM core/components/loops/complete-discovery/reference/ice.md -> core/components/loops/loop-product-spec/reference/ice.md
+R  core/components/loops/complete-discovery/scripts/check_knowledge.py -> core/components/loops/loop-product-spec/scripts/check_knowledge.py
+RM core/components/loops/complete-discovery/scripts/check_loop_contract.py -> core/components/loops/loop-product-spec/scripts/check_loop_contract.py
+R  core/components/loops/complete-discovery/scripts/check_play_done.py -> core/components/loops/loop-product-spec/scripts/check_play_done.py
+R  core/components/loops/complete-discovery/scripts/check_prototype.py -> core/components/loops/loop-product-spec/scripts/check_prototype.py
+RM core/components/loops/complete-discovery/scripts/check_stop_condition.py -> core/components/loops/loop-product-spec/scripts/check_stop_condition.py
+R  core/components/loops/complete-discovery/scripts/commit_run_files.py -> core/components/loops/loop-product-spec/scripts/commit_run_files.py
+R  core/components/loops/complete-discovery/scripts/group_questions.py -> core/components/loops/loop-product-spec/scripts/group_questions.py
+R  core/components/loops/complete-discovery/scripts/loop_preflight.py -> core/components/loops/loop-product-spec/scripts/loop_preflight.py
+R  core/components/loops/complete-discovery/scripts/loop_status.py -> core/components/loops/loop-product-spec/scripts/loop_status.py
+R  core/components/loops/complete-discovery/scripts/prepare_check.py -> core/components/loops/loop-product-spec/scripts/prepare_check.py
+R  core/components/loops/complete-discovery/scripts/record_check.py -> core/components/loops/loop-product-spec/scripts/record_check.py
+RM core/components/loops/complete-discovery/scripts/record_confirmation.py -> core/components/loops/loop-product-spec/scripts/record_confirmation.py
+R  core/components/loops/complete-discovery/scripts/record_review.py -> core/components/loops/loop-product-spec/scripts/record_review.py
+RM core/components/loops/complete-discovery/scripts/round_state.py -> core/components/loops/loop-product-spec/scripts/round_state.py
+R  core/components/loops/complete-discovery/scripts/run_checker_codex.py -> core/components/loops/loop-product-spec/scripts/run_checker_codex.py
+RM core/components/loops/complete-discovery/scripts/run_play_headless.py -> core/components/loops/loop-product-spec/scripts/run_play_headless.py
+R  core/components/loops/complete-discovery/scripts/session_stamp.py -> core/components/loops/loop-product-spec/scripts/session_stamp.py
+R  core/components/loops/complete-discovery/scripts/test_discovery_scripts.py -> core/components/loops/loop-product-spec/scripts/test_discovery_scripts.py
+RM core/components/loops/complete-discovery/scripts/write_loop_contract.py -> core/components/loops/loop-product-spec/scripts/write_loop_contract.py
+RM core/components/loops/complete-discovery/stop-condition.yaml -> core/components/loops/loop-product-spec/stop-condition.yaml
+ M core/components/memory/knowledge/review/_index.md
+ M core/components/memory/knowledge/review/tests.md
+ M core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+ M core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+ M core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+ M core/components/memory/knowledge/technology/delivery-triangle.md
+ M core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+ M core/components/memory/knowledge/technology/ux-design-system-tokens.md
+ M core/components/memory/knowledge/technology/ux-forms-and-validation.md
+ M core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+ M core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+ M core/components/memory/knowledge/technology/ux-state-and-feedback.md
+ M core/components/memory/standards/rules/_index.md
+ M core/components/memory/standards/rules/builder-isolation.md
+ M core/components/memory/standards/rules/concurrent-fanout.md
+ M core/components/memory/standards/rules/direct-model-write.md
+ M core/components/memory/standards/rules/eval-format.md
+ M core/components/memory/standards/rules/evidence-recording.md
+ M core/components/memory/standards/rules/expectation-generation.md
+ M core/components/memory/standards/rules/gate-config.md
+ M core/components/memory/standards/rules/loop-contract.md
+ M core/components/memory/standards/rules/naming.md
+ M core/components/memory/standards/rules/naming.yaml
+ M core/components/memory/standards/rules/no-unbacked-recommendation.md
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/memory/standards/rules/pipeline-position.md
+ M core/components/memory/standards/rules/play-patterns.md
+ M core/components/memory/standards/rules/rename-map.yaml
+ M core/components/memory/standards/rules/run-status.md
+ M core/components/memory/standards/rules/self-review.md
+ M core/components/memory/standards/rules/surface-contract.md
+ M core/components/memory/standards/rules/user-facing-voice.md
+ M core/components/memory/standards/rules/user-questions.md
+ M core/components/memory/standards/rules/work-plan.md
+ M core/components/memory/standards/schemas/_index.md
+ M core/components/memory/standards/schemas/eval/_index.md
+ M core/components/memory/standards/schemas/expectation.yaml
+ M core/components/memory/standards/schemas/intent.yaml
+ M core/components/memory/standards/schemas/product-os/_index.md
+ M core/components/memory/standards/schemas/product-os/decision.yaml
+ M core/components/memory/standards/schemas/product-os/epic.yaml
+ M core/components/memory/standards/schemas/product-os/grounding/capability.md
+ M core/components/memory/standards/schemas/product-os/grounding/domain.md
+ M core/components/memory/standards/schemas/product-os/grounding/epic.md
+ M core/components/memory/standards/schemas/product-os/grounding/feature.md
+ M core/components/memory/standards/schemas/product-os/grounding/lens/agentic.md
+ M core/components/memory/standards/schemas/product-os/grounding/lens/architecture.md
+ M core/components/memory/standards/schemas/product-os/grounding/lens/quality.md
+ M core/components/memory/standards/schemas/product-os/grounding/lens/run.md
+ M core/components/memory/standards/schemas/product-os/grounding/lens/ux.md
+ M core/components/memory/standards/schemas/product-os/ice.yaml
+ M core/components/memory/standards/schemas/product-os/lens/_index.md
+ M core/components/memory/standards/schemas/product-os/lens/quality-gates.yaml
+ M core/components/memory/standards/schemas/product-os/lens/quality.yaml
+ M core/components/memory/standards/schemas/product-os/lens/run.yaml
+ M core/components/memory/standards/schemas/product-os/lens/ux.yaml
+ M core/components/memory/standards/schemas/product-os/ontology.md
+ M core/components/memory/standards/schemas/product-os/product-os.yaml
+ M core/components/memory/standards/schemas/product-os/product-profile.yaml
+ M core/components/memory/standards/schemas/product-os/slice.yaml
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/memory/standards/templates/_index.md
+ M core/components/memory/standards/templates/adr.md
+ M core/components/memory/standards/templates/eval-slice.md
+ M core/components/memory/standards/templates/eval-story.feature.md
+ M core/components/memory/standards/templates/evidence-file.md
+ M core/components/memory/standards/templates/plan-update.md
+ M core/components/memory/standards/templates/plan-view.md
+ M core/components/memory/standards/templates/work-plan.md
+ M core/components/plays/_shared/play-close.md
+RM core/components/plays/create-loop/SKILL.md -> core/components/plays/build-loop/SKILL.md
+R  core/components/plays/create-loop/references/check_knowledge.py -> core/components/plays/build-loop/references/check_knowledge.py
+R  core/components/plays/create-loop/references/check_play_done.py -> core/components/plays/build-loop/references/check_play_done.py
+R  core/components/plays/create-loop/references/commit_run_files.py -> core/components/plays/build-loop/references/commit_run_files.py
+RM core/components/plays/create-loop/references/compiled-loop-example/SKILL.md -> core/components/plays/build-loop/references/compiled-loop-example/SKILL.md
+RM core/components/plays/create-loop/references/compiled-loop-example/reference/ice.md -> core/components/plays/build-loop/references/compiled-loop-example/reference/ice.md
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/check_knowledge.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/check_knowledge.py
+RM core/components/plays/create-loop/references/compiled-loop-example/scripts/check_loop_contract.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/check_loop_contract.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/check_play_done.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/check_play_done.py
+RM core/components/plays/build-epic/scripts/check_stop_condition.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/check_stop_condition.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/commit_run_files.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/commit_run_files.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/group_questions.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/group_questions.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/loop_preflight.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/loop_preflight.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/loop_status.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/loop_status.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/prepare_check.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/prepare_check.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/record_check.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/record_check.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/record_review.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/record_review.py
+RM core/components/plays/create-loop/references/compiled-loop-example/scripts/round_state.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/round_state.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/run_checker_codex.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/run_checker_codex.py
+RM core/components/plays/create-loop/references/compiled-loop-example/scripts/run_play_headless.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/run_play_headless.py
+R  core/components/plays/build-epic/scripts/session_stamp.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/session_stamp.py
+RM core/components/plays/create-loop/references/compiled-loop-example/scripts/write_loop_contract.py -> core/components/plays/build-loop/references/compiled-loop-example/scripts/write_loop_contract.py
+RM core/components/plays/create-loop/references/compiled-loop-example/stop-condition.yaml -> core/components/plays/build-loop/references/compiled-loop-example/stop-condition.yaml
+R  core/components/plays/create-loop/references/group_questions.py -> core/components/plays/build-loop/references/group_questions.py
+R  core/components/plays/create-loop/references/loop_preflight.py -> core/components/plays/build-loop/references/loop_preflight.py
+R  core/components/plays/create-loop/references/loop_status.py -> core/components/plays/build-loop/references/loop_status.py
+R  core/components/plays/create-loop/references/prepare_check.py -> core/components/plays/build-loop/references/prepare_check.py
+R  core/components/plays/create-loop/references/record_check.py -> core/components/plays/build-loop/references/record_check.py
+R  core/components/plays/create-loop/references/record_review.py -> core/components/plays/build-loop/references/record_review.py
+RM core/components/plays/create-loop/references/round_state.py -> core/components/plays/build-loop/references/round_state.py
+R  core/components/plays/create-loop/references/run_checker_codex.py -> core/components/plays/build-loop/references/run_checker_codex.py
+RM core/components/plays/create-loop/references/run_play_headless.py -> core/components/plays/build-loop/references/run_play_headless.py
+RM core/components/plays/create-loop/references/test_lint_loop.py -> core/components/plays/build-loop/references/test_lint_loop.py
+RM core/components/plays/create-loop/references/test_loop_scripts.py -> core/components/plays/build-loop/references/test_loop_scripts.py
+RM core/components/plays/create-loop/references/write_loop_contract.py -> core/components/plays/build-loop/references/write_loop_contract.py
+RM core/components/plays/create-loop/scripts/lint_loop.py -> core/components/plays/build-loop/scripts/lint_loop.py
+RM core/components/plays/create-play/SKILL.md -> core/components/plays/build-play/SKILL.md
+R  core/components/plays/create-play/references/agent-audit.md -> core/components/plays/build-play/references/agent-audit.md
+R  core/components/plays/create-play/references/check_ice_workable.py -> core/components/plays/build-play/references/check_ice_workable.py
+RM core/components/plays/create-play/references/check_loop_contract.py -> core/components/plays/build-play/references/check_loop_contract.py
+RM core/components/plays/create-play/references/check_self_review.py -> core/components/plays/build-play/references/check_self_review.py
+RM core/components/plays/check-change/scripts/check_stop_condition.py -> core/components/plays/build-play/references/check_stop_condition.py
+RM core/components/plays/create-play/references/classify_change.py -> core/components/plays/build-play/references/classify_change.py
+RM core/components/plays/create-play/references/compiled-play-example.md -> core/components/plays/build-play/references/compiled-play-example.md
+R  core/components/plays/create-play/references/distill_gate_policy.py -> core/components/plays/build-play/references/distill_gate_policy.py
+RM core/components/plays/check-change/scripts/fetch_pr_context.py -> core/components/plays/build-play/references/fetch_pr_context.py
+R  core/components/plays/create-play/references/fixtures/stop-condition/held/run/commits.yaml -> core/components/plays/build-play/references/fixtures/stop-condition/held/run/commits.yaml
+R  core/components/plays/create-play/references/fixtures/stop-condition/held/run/gate-outcomes.json -> core/components/plays/build-play/references/fixtures/stop-condition/held/run/gate-outcomes.json
+R  core/components/plays/create-play/references/fixtures/stop-condition/held/run/verdict.yaml -> core/components/plays/build-play/references/fixtures/stop-condition/held/run/verdict.yaml
+R  core/components/plays/create-play/references/fixtures/stop-condition/held/stop-condition.yaml -> core/components/plays/build-play/references/fixtures/stop-condition/held/stop-condition.yaml
+R  core/components/plays/create-play/references/fixtures/stop-condition/unmet/run/gate-outcomes.json -> core/components/plays/build-play/references/fixtures/stop-condition/unmet/run/gate-outcomes.json
+R  core/components/plays/create-play/references/fixtures/stop-condition/unmet/run/verdict.yaml -> core/components/plays/build-play/references/fixtures/stop-condition/unmet/run/verdict.yaml
+R  core/components/plays/create-play/references/fixtures/stop-condition/unmet/stop-condition.yaml -> core/components/plays/build-play/references/fixtures/stop-condition/unmet/stop-condition.yaml
+RM core/components/plays/create-play/references/gate_eval.py -> core/components/plays/build-play/references/gate_eval.py
+RM core/components/plays/create-play/references/guidance_block.py -> core/components/plays/build-play/references/guidance_block.py
+RM core/components/plays/create-play/references/intent_touches.py -> core/components/plays/build-play/references/intent_touches.py
+RM core/components/plays/create-play/references/lint_grounding.py -> core/components/plays/build-play/references/lint_grounding.py
+RM core/components/plays/create-play/references/merge_pr.py -> core/components/plays/build-play/references/merge_pr.py
+R  core/components/plays/build-epic/scripts/model_names.py -> core/components/plays/build-play/references/model_names.py
+R  core/components/plays/create-play/references/plan_common.py -> core/components/plays/build-play/references/plan_common.py
+R  core/components/plays/check-change/scripts/platform_adapter.py -> core/components/plays/build-play/references/platform_adapter.py
+RM core/components/plays/check-change/scripts/post_verdict.py -> core/components/plays/build-play/references/post_verdict.py
+RM core/components/plays/build-epic/scripts/preflight.py -> core/components/plays/build-play/references/preflight.py
+RM core/components/plays/create-play/references/read_merge_state.py -> core/components/plays/build-play/references/read_merge_state.py
+R  core/components/plays/create-play/references/resolve_plan.py -> core/components/plays/build-play/references/resolve_plan.py
+RM core/components/plays/create-play/references/resolve_target.py -> core/components/plays/build-play/references/resolve_target.py
+R  core/components/plays/create-play/references/scoped_write_guard.py -> core/components/plays/build-play/references/scoped_write_guard.py
+R  core/components/plays/check-change/scripts/session_stamp.py -> core/components/plays/build-play/references/session_stamp.py
+RM core/components/plays/create-play/references/setup_branch.py -> core/components/plays/build-play/references/setup_branch.py
+RM core/components/plays/create-play/references/submit_pr.py -> core/components/plays/build-play/references/submit_pr.py
+R  core/components/plays/create-play/references/test_chain_checks.py -> core/components/plays/build-play/references/test_chain_checks.py
+RM core/components/plays/create-play/references/test_check_ice_workable.py -> core/components/plays/build-play/references/test_check_ice_workable.py
+R  core/components/plays/create-play/references/test_concurrent_fanout.py -> core/components/plays/build-play/references/test_concurrent_fanout.py
+R  core/components/plays/create-play/references/test_fetch_pr_context.py -> core/components/plays/build-play/references/test_fetch_pr_context.py
+RM core/components/plays/create-play/references/test_gate_learning.py -> core/components/plays/build-play/references/test_gate_learning.py
+RM core/components/plays/create-play/references/test_guidance_block.py -> core/components/plays/build-play/references/test_guidance_block.py
+R  core/components/plays/create-play/references/test_intent_touches.py -> core/components/plays/build-play/references/test_intent_touches.py
+RM core/components/plays/create-play/references/test_loop_contract.py -> core/components/plays/build-play/references/test_loop_contract.py
+R  core/components/plays/create-play/references/test_merge_plan.py -> core/components/plays/build-play/references/test_merge_plan.py
+RM core/components/plays/create-play/references/test_merge_scripts.py -> core/components/plays/build-play/references/test_merge_scripts.py
+R  core/components/plays/create-play/references/test_platform_adapter.py -> core/components/plays/build-play/references/test_platform_adapter.py
+RM core/components/plays/create-play/references/test_post_verdict.py -> core/components/plays/build-play/references/test_post_verdict.py
+RM core/components/plays/create-play/references/test_resolve_plan.py -> core/components/plays/build-play/references/test_resolve_plan.py
+R  core/components/plays/create-play/references/test_resolve_target.py -> core/components/plays/build-play/references/test_resolve_target.py
+R  core/components/plays/create-play/references/test_scoped_write_guard.py -> core/components/plays/build-play/references/test_scoped_write_guard.py
+RM core/components/plays/create-play/references/test_setup_branch.py -> core/components/plays/build-play/references/test_setup_branch.py
+R  core/components/plays/create-play/references/test_submit_pr.py -> core/components/plays/build-play/references/test_submit_pr.py
+RM core/components/plays/create-play/references/validate_issue.py -> core/components/plays/build-play/references/validate_issue.py
+R  core/components/plays/create-play/references/workflow-structures.md -> core/components/plays/build-play/references/workflow-structures.md
+RM core/components/plays/create-play/references/write_loop_review.py -> core/components/plays/build-play/references/write_loop_review.py
+R  core/components/plays/create-play/scripts/lint_play.py -> core/components/plays/build-play/scripts/lint_play.py
+RM core/components/plays/build-epic/SKILL.md -> core/components/plays/build-work/SKILL.md
+RM core/components/plays/build-epic/reference/ice.md -> core/components/plays/build-work/reference/ice.md
+RM core/components/plays/build-epic/scripts/check_box.py -> core/components/plays/build-work/scripts/check_box.py
+RM core/components/plays/build-epic/scripts/check_done.py -> core/components/plays/build-work/scripts/check_done.py
+RM core/components/plays/build-epic/scripts/check_plan_sync.py -> core/components/plays/build-work/scripts/check_plan_sync.py
+RM core/components/plays/build-epic/scripts/check_ready_epic.py -> core/components/plays/build-work/scripts/check_ready_epic.py
+RM core/components/plays/build-epic/scripts/check_spec.py -> core/components/plays/build-work/scripts/check_spec.py
+RM core/components/plays/commit-change/scripts/check_stop_condition.py -> core/components/plays/build-work/scripts/check_stop_condition.py
+RM core/components/plays/build-epic/scripts/cut_piece_context.py -> core/components/plays/build-work/scripts/cut_piece_context.py
+R  core/components/plays/create-play/references/model_names.py -> core/components/plays/build-work/scripts/model_names.py
+RM core/components/plays/check-change/scripts/preflight.py -> core/components/plays/build-work/scripts/preflight.py
+RM core/components/plays/build-epic/scripts/render_plan.py -> core/components/plays/build-work/scripts/render_plan.py
+RM core/components/plays/build-epic/scripts/run_gates.py -> core/components/plays/build-work/scripts/run_gates.py
+R  core/components/plays/commit-change/scripts/session_stamp.py -> core/components/plays/build-work/scripts/session_stamp.py
+RM core/components/plays/build-epic/scripts/update_epic_status.py -> core/components/plays/build-work/scripts/update_epic_status.py
+RM core/components/plays/build-epic/scripts/validate_plan.py -> core/components/plays/build-work/scripts/validate_plan.py
+R  core/components/plays/build-epic/stop-condition.yaml -> core/components/plays/build-work/stop-condition.yaml
+RM core/components/plays/commit-change/SKILL.md -> core/components/plays/commit-work/SKILL.md
+RM core/components/plays/commit-change/reference/ice.md -> core/components/plays/commit-work/reference/ice.md
+RM core/components/plays/commit-change/scripts/analyze_changeset.py -> core/components/plays/commit-work/scripts/analyze_changeset.py
+RM core/components/plays/create-loop/references/compiled-loop-example/scripts/check_stop_condition.py -> core/components/plays/commit-work/scripts/check_stop_condition.py
+RM core/components/plays/commit-change/scripts/execute_commits.py -> core/components/plays/commit-work/scripts/execute_commits.py
+RM core/components/plays/commit-change/scripts/preflight.py -> core/components/plays/commit-work/scripts/preflight.py
+R  core/components/plays/create-loop/references/compiled-loop-example/scripts/session_stamp.py -> core/components/plays/commit-work/scripts/session_stamp.py
+RM core/components/plays/commit-change/stop-condition.yaml -> core/components/plays/commit-work/stop-condition.yaml
+RM core/components/plays/record-decision/SKILL.md -> core/components/plays/design-adr/SKILL.md
+RM core/components/plays/record-decision/reference/ice.md -> core/components/plays/design-adr/reference/ice.md
+RM core/components/plays/record-decision/scripts/adr.py -> core/components/plays/design-adr/scripts/adr.py
+RM core/components/plays/record-decision/scripts/apply_adr.py -> core/components/plays/design-adr/scripts/apply_adr.py
+RM core/components/plays/record-decision/scripts/check_adr_scope.py -> core/components/plays/design-adr/scripts/check_adr_scope.py
+RM core/components/plays/create-play/references/check_stop_condition.py -> core/components/plays/design-adr/scripts/check_stop_condition.py
+RM core/components/plays/create-play/references/preflight.py -> core/components/plays/design-adr/scripts/preflight.py
+R  core/components/plays/create-play/references/session_stamp.py -> core/components/plays/design-adr/scripts/session_stamp.py
+RM core/components/plays/record-decision/scripts/test_apply_adr.py -> core/components/plays/design-adr/scripts/test_apply_adr.py
+R  core/components/plays/record-decision/stop-condition.yaml -> core/components/plays/design-adr/stop-condition.yaml
+RM core/components/plays/shape-agentic-lens/SKILL.md -> core/components/plays/design-agentic/SKILL.md
+RM core/components/plays/shape-agentic-lens/reference/ice.md -> core/components/plays/design-agentic/reference/ice.md
+R  core/components/plays/shape-agentic-lens/scripts/check_kb_grounding.py -> core/components/plays/design-agentic/scripts/check_kb_grounding.py
+RM core/components/plays/shape-agentic-lens/scripts/check_ready_slice.py -> core/components/plays/design-agentic/scripts/check_ready_slice.py
+RM core/components/plays/discover-capabilities/scripts/check_stop_condition.py -> core/components/plays/design-agentic/scripts/check_stop_condition.py
+RM core/components/plays/discover-capabilities/scripts/classify_change.py -> core/components/plays/design-agentic/scripts/classify_change.py
+R  core/components/plays/discover-capabilities/scripts/distill_gate_policy.py -> core/components/plays/design-agentic/scripts/distill_gate_policy.py
+RM core/components/plays/discover-capabilities/scripts/gate_eval.py -> core/components/plays/design-agentic/scripts/gate_eval.py
+R  core/components/plays/discover-capabilities/scripts/grounding_gate.py -> core/components/plays/design-agentic/scripts/grounding_gate.py
+RM core/components/plays/discover-capabilities/scripts/lint_grounding.py -> core/components/plays/design-agentic/scripts/lint_grounding.py
+R  core/components/plays/discover-capabilities/scripts/model_names.py -> core/components/plays/design-agentic/scripts/model_names.py
+RM core/components/plays/shape-agentic-lens/scripts/persist_agentic.py -> core/components/plays/design-agentic/scripts/persist_agentic.py
+RM core/components/plays/discover-capabilities/scripts/preflight.py -> core/components/plays/design-agentic/scripts/preflight.py
+R  core/components/plays/discover-capabilities/scripts/scoped_write_guard.py -> core/components/plays/design-agentic/scripts/scoped_write_guard.py
+R  core/components/plays/discover-capabilities/scripts/session_stamp.py -> core/components/plays/design-agentic/scripts/session_stamp.py
+RM core/components/plays/shape-agentic-lens/scripts/validate_agentic.py -> core/components/plays/design-agentic/scripts/validate_agentic.py
+R  core/components/plays/shape-agentic-lens/stop-condition.yaml -> core/components/plays/design-agentic/stop-condition.yaml
+RM core/components/plays/shape-architecture-lens/SKILL.md -> core/components/plays/design-architecture/SKILL.md
+RM core/components/plays/shape-architecture-lens/reference/ice.md -> core/components/plays/design-architecture/reference/ice.md
+R  core/components/plays/shape-architecture-lens/scripts/check_kb_grounding.py -> core/components/plays/design-architecture/scripts/check_kb_grounding.py
+RM core/components/plays/shape-architecture-lens/scripts/check_ready_slice.py -> core/components/plays/design-architecture/scripts/check_ready_slice.py
+RM core/components/plays/discover-domains/scripts/check_stop_condition.py -> core/components/plays/design-architecture/scripts/check_stop_condition.py
+RM core/components/plays/discover-domains/scripts/classify_change.py -> core/components/plays/design-architecture/scripts/classify_change.py
+R  core/components/plays/discover-domains/scripts/distill_gate_policy.py -> core/components/plays/design-architecture/scripts/distill_gate_policy.py
+RM core/components/plays/discover-domains/scripts/gate_eval.py -> core/components/plays/design-architecture/scripts/gate_eval.py
+R  core/components/plays/discover-domains/scripts/grounding_gate.py -> core/components/plays/design-architecture/scripts/grounding_gate.py
+RM core/components/plays/discover-domains/scripts/lint_grounding.py -> core/components/plays/design-architecture/scripts/lint_grounding.py
+R  core/components/plays/discover-domains/scripts/model_names.py -> core/components/plays/design-architecture/scripts/model_names.py
+RM core/components/plays/shape-architecture-lens/scripts/persist_arch.py -> core/components/plays/design-architecture/scripts/persist_arch.py
+RM core/components/plays/discover-domains/scripts/preflight.py -> core/components/plays/design-architecture/scripts/preflight.py
+R  core/components/plays/discover-domains/scripts/scoped_write_guard.py -> core/components/plays/design-architecture/scripts/scoped_write_guard.py
+R  core/components/plays/discover-domains/scripts/session_stamp.py -> core/components/plays/design-architecture/scripts/session_stamp.py
+RM core/components/plays/shape-architecture-lens/scripts/validate_arch.py -> core/components/plays/design-architecture/scripts/validate_arch.py
+R  core/components/plays/shape-architecture-lens/stop-condition.yaml -> core/components/plays/design-architecture/stop-condition.yaml
+RM core/components/plays/shape-run-lens/SKILL.md -> core/components/plays/design-env/SKILL.md
+RM core/components/plays/shape-run-lens/reference/ice.md -> core/components/plays/design-env/reference/ice.md
+RM core/components/plays/shape-quality-lens/scripts/check_ready_slice.py -> core/components/plays/design-env/scripts/check_ready_slice.py
+RM core/components/plays/discover-intent/scripts/check_stop_condition.py -> core/components/plays/design-env/scripts/check_stop_condition.py
+RM core/components/plays/shape-agentic-lens/scripts/classify_change.py -> core/components/plays/design-env/scripts/classify_change.py
+R  core/components/plays/shape-agentic-lens/scripts/distill_gate_policy.py -> core/components/plays/design-env/scripts/distill_gate_policy.py
+RM core/components/plays/shape-agentic-lens/scripts/gate_eval.py -> core/components/plays/design-env/scripts/gate_eval.py
+R  core/components/plays/shape-agentic-lens/scripts/grounding_gate.py -> core/components/plays/design-env/scripts/grounding_gate.py
+RM core/components/plays/discover-intent/scripts/lint_grounding.py -> core/components/plays/design-env/scripts/lint_grounding.py
+R  core/components/plays/discover-intent/scripts/model_names.py -> core/components/plays/design-env/scripts/model_names.py
+RM core/components/plays/shape-run-lens/scripts/persist_run.py -> core/components/plays/design-env/scripts/persist_run.py
+RM core/components/plays/discover-intent/scripts/preflight.py -> core/components/plays/design-env/scripts/preflight.py
+RM core/components/plays/shape-run-lens/scripts/resolve_target_env.py -> core/components/plays/design-env/scripts/resolve_target_env.py
+R  core/components/plays/discover-intent/scripts/scoped_write_guard.py -> core/components/plays/design-env/scripts/scoped_write_guard.py
+R  core/components/plays/discover-intent/scripts/session_stamp.py -> core/components/plays/design-env/scripts/session_stamp.py
+RM core/components/plays/shape-run-lens/scripts/validate_run.py -> core/components/plays/design-env/scripts/validate_run.py
+R  core/components/plays/shape-run-lens/stop-condition.yaml -> core/components/plays/design-env/stop-condition.yaml
+RM core/components/plays/shape-eval/SKILL.md -> core/components/plays/design-eval/SKILL.md
+RM core/components/plays/shape-eval/reference/ice.md -> core/components/plays/design-eval/reference/ice.md
+R  core/components/plays/shape-eval/scripts/check_eval.py -> core/components/plays/design-eval/scripts/check_eval.py
+R  core/components/plays/shape-eval/scripts/check_inputs.py -> core/components/plays/design-eval/scripts/check_inputs.py
+RM core/components/plays/edit-ontology/scripts/check_stop_condition.py -> core/components/plays/design-eval/scripts/check_stop_condition.py
+RM core/components/plays/shape-eval/scripts/eval_common.py -> core/components/plays/design-eval/scripts/eval_common.py
+RM core/components/plays/shape-eval/scripts/gather_eval.py -> core/components/plays/design-eval/scripts/gather_eval.py
+R  core/components/plays/shape-eval/scripts/place_eval.py -> core/components/plays/design-eval/scripts/place_eval.py
+R  core/components/plays/create-play/references/platform_adapter.py -> core/components/plays/design-eval/scripts/platform_adapter.py
+RM core/components/plays/edit-ontology/scripts/preflight.py -> core/components/plays/design-eval/scripts/preflight.py
+RM core/components/plays/shape-eval/scripts/record_approval.py -> core/components/plays/design-eval/scripts/record_approval.py
+R  core/components/plays/shape-eval/scripts/render_summary.py -> core/components/plays/design-eval/scripts/render_summary.py
+R  core/components/plays/shape-agentic-lens/scripts/scoped_write_guard.py -> core/components/plays/design-eval/scripts/scoped_write_guard.py
+R  core/components/plays/edit-ontology/scripts/session_stamp.py -> core/components/plays/design-eval/scripts/session_stamp.py
+RM core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py -> core/components/plays/design-eval/scripts/test_shape_eval_scripts.py
+RM core/components/plays/shape-eval/stop-condition.yaml -> core/components/plays/design-eval/stop-condition.yaml
+RM core/components/plays/shape-quality-lens/SKILL.md -> core/components/plays/design-quality/SKILL.md
+RM core/components/plays/shape-quality-lens/reference/ice.md -> core/components/plays/design-quality/reference/ice.md
+RM core/components/plays/shape-run-lens/scripts/check_ready_slice.py -> core/components/plays/design-quality/scripts/check_ready_slice.py
+RM core/components/plays/fix-bug/scripts/check_stop_condition.py -> core/components/plays/design-quality/scripts/check_stop_condition.py
+RM core/components/plays/shape-architecture-lens/scripts/classify_change.py -> core/components/plays/design-quality/scripts/classify_change.py
+R  core/components/plays/shape-architecture-lens/scripts/distill_gate_policy.py -> core/components/plays/design-quality/scripts/distill_gate_policy.py
+RM core/components/plays/shape-architecture-lens/scripts/gate_eval.py -> core/components/plays/design-quality/scripts/gate_eval.py
+R  core/components/plays/shape-architecture-lens/scripts/grounding_gate.py -> core/components/plays/design-quality/scripts/grounding_gate.py
+RM core/components/plays/shape-agentic-lens/scripts/lint_grounding.py -> core/components/plays/design-quality/scripts/lint_grounding.py
+R  core/components/plays/release-epic/scripts/model_names.py -> core/components/plays/design-quality/scripts/model_names.py
+RM core/components/plays/shape-quality-lens/scripts/persist_quality.py -> core/components/plays/design-quality/scripts/persist_quality.py
+RM core/components/plays/list-focus-issues/scripts/preflight.py -> core/components/plays/design-quality/scripts/preflight.py
+R  core/components/plays/shape-architecture-lens/scripts/scoped_write_guard.py -> core/components/plays/design-quality/scripts/scoped_write_guard.py
+R  core/components/plays/fix-bug/scripts/session_stamp.py -> core/components/plays/design-quality/scripts/session_stamp.py
+RM core/components/plays/shape-quality-lens/scripts/validate_quality.py -> core/components/plays/design-quality/scripts/validate_quality.py
+R  core/components/plays/shape-quality-lens/stop-condition.yaml -> core/components/plays/design-quality/stop-condition.yaml
+RM core/components/plays/shape-slice/SKILL.md -> core/components/plays/design-slice/SKILL.md
+RM core/components/plays/shape-slice/reference/ice.md -> core/components/plays/design-slice/reference/ice.md
+RM core/components/plays/list-focus-issues/scripts/check_stop_condition.py -> core/components/plays/design-slice/scripts/check_stop_condition.py
+RM core/components/plays/shape-slice/scripts/edit_slice.py -> core/components/plays/design-slice/scripts/edit_slice.py
+RM core/components/plays/shape-slice/scripts/find_serving_slice.py -> core/components/plays/design-slice/scripts/find_serving_slice.py
+RM core/components/plays/shape-slice/scripts/grill_budget.py -> core/components/plays/design-slice/scripts/grill_budget.py
+RM core/components/plays/discover-domains/scripts/intent_touches.py -> core/components/plays/design-slice/scripts/intent_touches.py
+RM core/components/plays/shape-architecture-lens/scripts/lint_grounding.py -> core/components/plays/design-slice/scripts/lint_grounding.py
+R  core/components/plays/shape-agentic-lens/scripts/model_names.py -> core/components/plays/design-slice/scripts/model_names.py
+RM core/components/plays/shape-slice/scripts/persist_fills.py -> core/components/plays/design-slice/scripts/persist_fills.py
+RM core/components/plays/shape-slice/scripts/persist_slice.py -> core/components/plays/design-slice/scripts/persist_slice.py
+R  core/components/plays/merge-change/scripts/platform_adapter.py -> core/components/plays/design-slice/scripts/platform_adapter.py
+RM core/components/plays/merge-change/scripts/preflight.py -> core/components/plays/design-slice/scripts/preflight.py
+RM core/components/plays/shape-slice/scripts/record_approval.py -> core/components/plays/design-slice/scripts/record_approval.py
+RM core/components/plays/shape-slice/scripts/record_questions.py -> core/components/plays/design-slice/scripts/record_questions.py
+RM core/components/plays/shape-slice/scripts/render_brief.py -> core/components/plays/design-slice/scripts/render_brief.py
+RM core/components/plays/shape-slice/scripts/safe_write.py -> core/components/plays/design-slice/scripts/safe_write.py
+R  core/components/plays/shape-eval/scripts/scoped_write_guard.py -> core/components/plays/design-slice/scripts/scoped_write_guard.py
+R  core/components/plays/list-focus-issues/scripts/session_stamp.py -> core/components/plays/design-slice/scripts/session_stamp.py
+RM core/components/plays/shape-slice/scripts/slice_check.py -> core/components/plays/design-slice/scripts/slice_check.py
+RM core/components/plays/shape-slice/scripts/spine_text.py -> core/components/plays/design-slice/scripts/spine_text.py
+RM core/components/plays/shape-slice/scripts/test_edit_slice.py -> core/components/plays/design-slice/scripts/test_edit_slice.py
+RM core/components/plays/shape-slice/scripts/test_find_serving_slice.py -> core/components/plays/design-slice/scripts/test_find_serving_slice.py
+RM core/components/plays/shape-slice/scripts/test_grill_budget.py -> core/components/plays/design-slice/scripts/test_grill_budget.py
+RM core/components/plays/shape-slice/scripts/test_persist_slice.py -> core/components/plays/design-slice/scripts/test_persist_slice.py
+RM core/components/plays/shape-slice/scripts/test_render_brief.py -> core/components/plays/design-slice/scripts/test_render_brief.py
+RM core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py -> core/components/plays/design-slice/scripts/test_shape_slice_scripts.py
+RM core/components/plays/shape-slice/scripts/test_trace_check.py -> core/components/plays/design-slice/scripts/test_trace_check.py
+RM core/components/plays/shape-slice/scripts/test_write_hidden_file.py -> core/components/plays/design-slice/scripts/test_write_hidden_file.py
+RM core/components/plays/shape-slice/scripts/trace_check.py -> core/components/plays/design-slice/scripts/trace_check.py
+RM core/components/plays/shape-slice/scripts/write_hidden_file.py -> core/components/plays/design-slice/scripts/write_hidden_file.py
+RM core/components/plays/shape-slice/scripts/write_intent_page.py -> core/components/plays/design-slice/scripts/write_intent_page.py
+RM core/components/plays/shape-slice/stop-condition.yaml -> core/components/plays/design-slice/stop-condition.yaml
+RM core/components/plays/shape-ux-lens/SKILL.md -> core/components/plays/design-surface/SKILL.md
+RM core/components/plays/shape-ux-lens/reference/ice.md -> core/components/plays/design-surface/reference/ice.md
+R  core/components/plays/shape-ux-lens/scripts/check_kb_grounding.py -> core/components/plays/design-surface/scripts/check_kb_grounding.py
+RM core/components/plays/shape-ux-lens/scripts/check_ready_slice.py -> core/components/plays/design-surface/scripts/check_ready_slice.py
+RM core/components/plays/merge-change/scripts/check_stop_condition.py -> core/components/plays/design-surface/scripts/check_stop_condition.py
+RM core/components/plays/shape-quality-lens/scripts/classify_change.py -> core/components/plays/design-surface/scripts/classify_change.py
+R  core/components/plays/shape-quality-lens/scripts/distill_gate_policy.py -> core/components/plays/design-surface/scripts/distill_gate_policy.py
+RM core/components/plays/shape-quality-lens/scripts/gate_eval.py -> core/components/plays/design-surface/scripts/gate_eval.py
+R  core/components/plays/shape-quality-lens/scripts/grounding_gate.py -> core/components/plays/design-surface/scripts/grounding_gate.py
+RM core/components/plays/shape-quality-lens/scripts/lint_grounding.py -> core/components/plays/design-surface/scripts/lint_grounding.py
+R  core/components/plays/shape-architecture-lens/scripts/model_names.py -> core/components/plays/design-surface/scripts/model_names.py
+RM core/components/plays/shape-ux-lens/scripts/persist_ux.py -> core/components/plays/design-surface/scripts/persist_ux.py
+RM core/components/plays/propose-change/scripts/preflight.py -> core/components/plays/design-surface/scripts/preflight.py
+RM core/components/plays/shape-ux-lens/scripts/render_wireframes.py -> core/components/plays/design-surface/scripts/render_wireframes.py
+R  core/components/plays/shape-quality-lens/scripts/scoped_write_guard.py -> core/components/plays/design-surface/scripts/scoped_write_guard.py
+R  core/components/plays/merge-change/scripts/session_stamp.py -> core/components/plays/design-surface/scripts/session_stamp.py
+RM core/components/plays/shape-ux-lens/scripts/validate_ux.py -> core/components/plays/design-surface/scripts/validate_ux.py
+R  core/components/plays/shape-ux-lens/stop-condition.yaml -> core/components/plays/design-surface/stop-condition.yaml
+RM core/components/plays/edit-loop/SKILL.md -> core/components/plays/fix-loop/SKILL.md
+RM core/components/plays/edit-loop/scripts/lint_loop.py -> core/components/plays/fix-loop/scripts/lint_loop.py
+RM core/components/plays/edit-play/SKILL.md -> core/components/plays/fix-play/SKILL.md
+R  core/components/plays/edit-play/references/agent-audit.md -> core/components/plays/fix-play/references/agent-audit.md
+RM core/components/plays/edit-play/references/compiled-play-example.md -> core/components/plays/fix-play/references/compiled-play-example.md
+R  core/components/plays/edit-play/references/workflow-structures.md -> core/components/plays/fix-play/references/workflow-structures.md
+R  core/components/plays/edit-play/scripts/lint_play.py -> core/components/plays/fix-play/scripts/lint_play.py
+RM core/components/plays/fix-bug/SKILL.md -> core/components/plays/fix-work/SKILL.md
+RM core/components/plays/fix-bug/reference/ice.md -> core/components/plays/fix-work/reference/ice.md
+R  core/components/plays/fix-bug/scripts/check_scope.py -> core/components/plays/fix-work/scripts/check_scope.py
+RM core/components/plays/propose-change/scripts/check_stop_condition.py -> core/components/plays/fix-work/scripts/check_stop_condition.py
+R  core/components/plays/propose-change/scripts/session_stamp.py -> core/components/plays/fix-work/scripts/session_stamp.py
+RM core/components/plays/fix-bug/stop-condition.yaml -> core/components/plays/fix-work/stop-condition.yaml
+ M core/components/plays/install-garura/SKILL.md
+ M core/components/plays/install-garura/scripts/install.py
+ M core/components/plays/install-garura/scripts/test_install.py
+ M core/components/plays/learn-outcomes/SKILL.md
+ M core/components/plays/learn-outcomes/reference/ice.md
+ M core/components/plays/learn-outcomes/scripts/check_stop_condition.py
+ M core/components/plays/learn-outcomes/scripts/lint_grounding.py
+ M core/components/plays/learn-outcomes/scripts/preflight.py
+RM core/components/plays/list-focus-issues/SKILL.md -> core/components/plays/list-issues/SKILL.md
+RM core/components/plays/list-focus-issues/reference/ice.md -> core/components/plays/list-issues/reference/ice.md
+RM core/components/plays/list-focus-issues/reference/kind-map.yaml -> core/components/plays/list-issues/reference/kind-map.yaml
+RM core/components/plays/list-focus-issues/scripts/check_output.py -> core/components/plays/list-issues/scripts/check_output.py
+RM core/components/plays/record-decision/scripts/check_stop_condition.py -> core/components/plays/list-issues/scripts/check_stop_condition.py
+RM core/components/plays/record-decision/scripts/preflight.py -> core/components/plays/list-issues/scripts/preflight.py
+RM core/components/plays/list-focus-issues/scripts/resolve_mode.py -> core/components/plays/list-issues/scripts/resolve_mode.py
+RM core/components/plays/list-focus-issues/scripts/select_focus.py -> core/components/plays/list-issues/scripts/select_focus.py
+R  core/components/plays/record-decision/scripts/session_stamp.py -> core/components/plays/list-issues/scripts/session_stamp.py
+RM core/components/plays/list-focus-issues/stop-condition.yaml -> core/components/plays/list-issues/stop-condition.yaml
+ M core/components/plays/list-plans/SKILL.md
+ M core/components/plays/list-plans/reference/ice.md
+ M core/components/plays/list-plans/scripts/check_stop_condition.py
+ M core/components/plays/list-plans/scripts/preflight.py
+RM core/components/plays/merge-change/SKILL.md -> core/components/plays/merge-work/SKILL.md
+RM core/components/plays/merge-change/reference/ice.md -> core/components/plays/merge-work/reference/ice.md
+RM core/components/plays/refactor-code/scripts/check_stop_condition.py -> core/components/plays/merge-work/scripts/check_stop_condition.py
+RM core/components/plays/merge-change/scripts/merge_pr.py -> core/components/plays/merge-work/scripts/merge_pr.py
+R  core/components/plays/propose-change/scripts/platform_adapter.py -> core/components/plays/merge-work/scripts/platform_adapter.py
+RM core/components/plays/refactor-code/scripts/preflight.py -> core/components/plays/merge-work/scripts/preflight.py
+RM core/components/plays/merge-change/scripts/read_merge_state.py -> core/components/plays/merge-work/scripts/read_merge_state.py
+RM core/components/plays/merge-change/scripts/resolve_target.py -> core/components/plays/merge-work/scripts/resolve_target.py
+R  core/components/plays/refactor-code/scripts/session_stamp.py -> core/components/plays/merge-work/scripts/session_stamp.py
+R  core/components/plays/merge-change/scripts/test_merge_pr.py -> core/components/plays/merge-work/scripts/test_merge_pr.py
+RM core/components/plays/merge-change/stop-condition.yaml -> core/components/plays/merge-work/stop-condition.yaml
+RM core/components/plays/refactor-code/SKILL.md -> core/components/plays/refactor-work/SKILL.md
+RM core/components/plays/refactor-code/reference/ice.md -> core/components/plays/refactor-work/reference/ice.md
+R  core/components/plays/refactor-code/scripts/check_behavior_preserved.py -> core/components/plays/refactor-work/scripts/check_behavior_preserved.py
+R  core/components/plays/refactor-code/scripts/check_model_untouched.py -> core/components/plays/refactor-work/scripts/check_model_untouched.py
+R  core/components/plays/refactor-code/scripts/check_refactor_scope.py -> core/components/plays/refactor-work/scripts/check_refactor_scope.py
+RM core/components/plays/release-epic/scripts/check_stop_condition.py -> core/components/plays/refactor-work/scripts/check_stop_condition.py
+RM core/components/plays/release-epic/scripts/preflight.py -> core/components/plays/refactor-work/scripts/preflight.py
+R  core/components/plays/release-epic/scripts/session_stamp.py -> core/components/plays/refactor-work/scripts/session_stamp.py
+R  core/components/plays/refactor-code/stop-condition.yaml -> core/components/plays/refactor-work/stop-condition.yaml
+ M core/components/plays/release-increment/SKILL.md
+ M core/components/plays/release-increment/reference/ice.md
+ M core/components/plays/release-increment/scripts/check_stop_condition.py
+ M core/components/plays/release-increment/scripts/preflight.py
+ M core/components/plays/release-increment/scripts/resolve_deploy_target.py
+RM core/components/plays/update-plan/SKILL.md -> core/components/plays/reshape-plan/SKILL.md
+RM core/components/plays/update-plan/reference/ice.md -> core/components/plays/reshape-plan/reference/ice.md
+R  core/components/plays/update-plan/scripts/add_entries.py -> core/components/plays/reshape-plan/scripts/add_entries.py
+R  core/components/plays/update-plan/scripts/check_agreement.py -> core/components/plays/reshape-plan/scripts/check_agreement.py
+R  core/components/plays/update-plan/scripts/check_entries.py -> core/components/plays/reshape-plan/scripts/check_entries.py
+R  core/components/plays/discover-intent/scripts/check_ice_workable.py -> core/components/plays/reshape-plan/scripts/check_ice_workable.py
+RM core/components/plays/shape-agentic-lens/scripts/check_stop_condition.py -> core/components/plays/reshape-plan/scripts/check_stop_condition.py
+R  core/components/plays/update-plan/scripts/close_session.py -> core/components/plays/reshape-plan/scripts/close_session.py
+R  core/components/plays/update-plan/scripts/closed_on_github.py -> core/components/plays/reshape-plan/scripts/closed_on_github.py
+R  core/components/plays/update-plan/scripts/commit_plan.py -> core/components/plays/reshape-plan/scripts/commit_plan.py
+RM core/components/plays/update-plan/scripts/feature_ice.py -> core/components/plays/reshape-plan/scripts/feature_ice.py
+RM core/components/plays/update-plan/scripts/find_plan.py -> core/components/plays/reshape-plan/scripts/find_plan.py
+R  core/components/plays/shape-quality-lens/scripts/model_names.py -> core/components/plays/reshape-plan/scripts/model_names.py
+RM core/components/plays/update-plan/scripts/place_feature.py -> core/components/plays/reshape-plan/scripts/place_feature.py
+R  core/components/plays/update-plan/scripts/plan_common.py -> core/components/plays/reshape-plan/scripts/plan_common.py
+R  core/components/plays/update-plan/scripts/plan_ops.py -> core/components/plays/reshape-plan/scripts/plan_ops.py
+RM core/components/plays/update-plan/scripts/plan_session.py -> core/components/plays/reshape-plan/scripts/plan_session.py
+RM core/components/plays/shape-agentic-lens/scripts/preflight.py -> core/components/plays/reshape-plan/scripts/preflight.py
+R  core/components/plays/update-plan/scripts/record_answer.py -> core/components/plays/reshape-plan/scripts/record_answer.py
+RM core/components/plays/update-plan/scripts/render_screen.py -> core/components/plays/reshape-plan/scripts/render_screen.py
+R  core/components/plays/shape-run-lens/scripts/scoped_write_guard.py -> core/components/plays/reshape-plan/scripts/scoped_write_guard.py
+RM core/components/plays/update-plan/scripts/session_files.py -> core/components/plays/reshape-plan/scripts/session_files.py
+R  core/components/plays/shape-agentic-lens/scripts/session_stamp.py -> core/components/plays/reshape-plan/scripts/session_stamp.py
+RM core/components/plays/update-plan/scripts/test_feature_ice.py -> core/components/plays/reshape-plan/scripts/test_feature_ice.py
+RM core/components/plays/update-plan/scripts/test_update_plan_scripts.py -> core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
+R  core/components/plays/update-plan/scripts/write_plan_changes.py -> core/components/plays/reshape-plan/scripts/write_plan_changes.py
+RM core/components/plays/update-plan/stop-condition.yaml -> core/components/plays/reshape-plan/stop-condition.yaml
+RM core/components/plays/propose-change/SKILL.md -> core/components/plays/review-work/SKILL.md
+RM core/components/plays/propose-change/reference/ice.md -> core/components/plays/review-work/reference/ice.md
+RM core/components/plays/propose-change/scripts/check_self_review.py -> core/components/plays/review-work/scripts/check_self_review.py
+RM core/components/plays/shape-architecture-lens/scripts/check_stop_condition.py -> core/components/plays/review-work/scripts/check_stop_condition.py
+R  core/components/plays/shape-eval/scripts/platform_adapter.py -> core/components/plays/review-work/scripts/platform_adapter.py
+RM core/components/plays/shape-architecture-lens/scripts/preflight.py -> core/components/plays/review-work/scripts/preflight.py
+R  core/components/plays/propose-change/scripts/resolve_standard.py -> core/components/plays/review-work/scripts/resolve_standard.py
+RM core/components/plays/propose-change/scripts/resolve_target.py -> core/components/plays/review-work/scripts/resolve_target.py
+R  core/components/plays/shape-architecture-lens/scripts/session_stamp.py -> core/components/plays/review-work/scripts/session_stamp.py
+RM core/components/plays/propose-change/scripts/submit_pr.py -> core/components/plays/review-work/scripts/submit_pr.py
+RM core/components/plays/propose-change/stop-condition.yaml -> core/components/plays/review-work/stop-condition.yaml
+ M core/components/plays/shape-marketing-lens/SKILL.md
+ M core/components/plays/shape-marketing-lens/reference/ice.md
+ M core/components/plays/shape-marketing-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-marketing-lens/scripts/check_stop_condition.py
+ M core/components/plays/shape-marketing-lens/scripts/classify_change.py
+ M core/components/plays/shape-marketing-lens/scripts/gate_eval.py
+ M core/components/plays/shape-marketing-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-marketing-lens/scripts/preflight.py
+ M core/components/plays/shape-measure-lens/SKILL.md
+ M core/components/plays/shape-measure-lens/reference/ice.md
+ M core/components/plays/shape-measure-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-measure-lens/scripts/check_stop_condition.py
+ M core/components/plays/shape-measure-lens/scripts/classify_change.py
+ M core/components/plays/shape-measure-lens/scripts/gate_eval.py
+ M core/components/plays/shape-measure-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-measure-lens/scripts/preflight.py
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-plan/reference/ice.md
+ M core/components/plays/shape-plan/scripts/check_plan_absent.py
+ M core/components/plays/shape-plan/scripts/check_stop_condition.py
+ M core/components/plays/shape-plan/scripts/gather_plan.py
+ M core/components/plays/shape-plan/scripts/preflight.py
+ M core/components/plays/shape-plan/scripts/test_check_plan_absent.py
+RM core/components/plays/discover-capabilities/SKILL.md -> core/components/plays/specify-capabilities/SKILL.md
+RM core/components/plays/discover-capabilities/reference/ice.md -> core/components/plays/specify-capabilities/reference/ice.md
+RM core/components/plays/discover-capabilities/scripts/check_loop_contract.py -> core/components/plays/specify-capabilities/scripts/check_loop_contract.py
+RM core/components/plays/discover-capabilities/scripts/check_sources.py -> core/components/plays/specify-capabilities/scripts/check_sources.py
+RM core/components/plays/shape-eval/scripts/check_stop_condition.py -> core/components/plays/specify-capabilities/scripts/check_stop_condition.py
+RM core/components/plays/shape-run-lens/scripts/classify_change.py -> core/components/plays/specify-capabilities/scripts/classify_change.py
+R  core/components/plays/shape-run-lens/scripts/distill_gate_policy.py -> core/components/plays/specify-capabilities/scripts/distill_gate_policy.py
+RM core/components/plays/shape-run-lens/scripts/gate_eval.py -> core/components/plays/specify-capabilities/scripts/gate_eval.py
+R  core/components/plays/shape-run-lens/scripts/grounding_gate.py -> core/components/plays/specify-capabilities/scripts/grounding_gate.py
+RM core/components/plays/discover-capabilities/scripts/guidance_block.py -> core/components/plays/specify-capabilities/scripts/guidance_block.py
+RM core/components/plays/shape-run-lens/scripts/lint_grounding.py -> core/components/plays/specify-capabilities/scripts/lint_grounding.py
+R  core/components/plays/shape-run-lens/scripts/model_names.py -> core/components/plays/specify-capabilities/scripts/model_names.py
+RM core/components/plays/discover-capabilities/scripts/persist_understand.py -> core/components/plays/specify-capabilities/scripts/persist_understand.py
+RM core/components/plays/discover-capabilities/scripts/pick_targets.py -> core/components/plays/specify-capabilities/scripts/pick_targets.py
+RM core/components/plays/shape-eval/scripts/preflight.py -> core/components/plays/specify-capabilities/scripts/preflight.py
+RM core/components/plays/discover-capabilities/scripts/rollup_box.py -> core/components/plays/specify-capabilities/scripts/rollup_box.py
+R  core/components/plays/shape-slice/scripts/scoped_write_guard.py -> core/components/plays/specify-capabilities/scripts/scoped_write_guard.py
+R  core/components/plays/shape-eval/scripts/session_stamp.py -> core/components/plays/specify-capabilities/scripts/session_stamp.py
+RM core/components/plays/discover-capabilities/scripts/test_check_sources.py -> core/components/plays/specify-capabilities/scripts/test_check_sources.py
+R  core/components/plays/discover-capabilities/scripts/test_grounding_gate.py -> core/components/plays/specify-capabilities/scripts/test_grounding_gate.py
+R  core/components/plays/discover-capabilities/scripts/test_persist_understand.py -> core/components/plays/specify-capabilities/scripts/test_persist_understand.py
+RM core/components/plays/discover-capabilities/scripts/test_pick_targets.py -> core/components/plays/specify-capabilities/scripts/test_pick_targets.py
+R  core/components/plays/discover-capabilities/scripts/test_rollup_box.py -> core/components/plays/specify-capabilities/scripts/test_rollup_box.py
+RM core/components/plays/discover-capabilities/scripts/write_loop_review.py -> core/components/plays/specify-capabilities/scripts/write_loop_review.py
+R  core/components/plays/discover-capabilities/stop-condition.yaml -> core/components/plays/specify-capabilities/stop-condition.yaml
+RM core/components/plays/discover-domains/SKILL.md -> core/components/plays/specify-domains/SKILL.md
+RM core/components/plays/discover-domains/reference/ice.md -> core/components/plays/specify-domains/reference/ice.md
+R  core/components/plays/discover-domains/scripts/check_kept.py -> core/components/plays/specify-domains/scripts/check_kept.py
+RM core/components/plays/discover-domains/scripts/check_loop_contract.py -> core/components/plays/specify-domains/scripts/check_loop_contract.py
+RM core/components/plays/shape-quality-lens/scripts/check_stop_condition.py -> core/components/plays/specify-domains/scripts/check_stop_condition.py
+RM core/components/plays/shape-ux-lens/scripts/classify_change.py -> core/components/plays/specify-domains/scripts/classify_change.py
+R  core/components/plays/shape-ux-lens/scripts/distill_gate_policy.py -> core/components/plays/specify-domains/scripts/distill_gate_policy.py
+RM core/components/plays/shape-ux-lens/scripts/gate_eval.py -> core/components/plays/specify-domains/scripts/gate_eval.py
+RM core/components/plays/discover-domains/scripts/grounding_check.py -> core/components/plays/specify-domains/scripts/grounding_check.py
+R  core/components/plays/shape-ux-lens/scripts/grounding_gate.py -> core/components/plays/specify-domains/scripts/grounding_gate.py
+RM core/components/plays/discover-domains/scripts/guidance_block.py -> core/components/plays/specify-domains/scripts/guidance_block.py
+RM core/components/plays/discover-intent/scripts/intent_touches.py -> core/components/plays/specify-domains/scripts/intent_touches.py
+RM core/components/plays/shape-slice/scripts/lint_grounding.py -> core/components/plays/specify-domains/scripts/lint_grounding.py
+R  core/components/plays/shape-slice/scripts/model_names.py -> core/components/plays/specify-domains/scripts/model_names.py
+RM core/components/plays/discover-domains/scripts/persist_seed.py -> core/components/plays/specify-domains/scripts/persist_seed.py
+RM core/components/plays/shape-quality-lens/scripts/preflight.py -> core/components/plays/specify-domains/scripts/preflight.py
+RM core/components/plays/discover-domains/scripts/read_intents.py -> core/components/plays/specify-domains/scripts/read_intents.py
+R  core/components/plays/shape-ux-lens/scripts/scoped_write_guard.py -> core/components/plays/specify-domains/scripts/scoped_write_guard.py
+R  core/components/plays/shape-quality-lens/scripts/session_stamp.py -> core/components/plays/specify-domains/scripts/session_stamp.py
+RM core/components/plays/discover-domains/scripts/test_lint_grounding.py -> core/components/plays/specify-domains/scripts/test_lint_grounding.py
+R  core/components/plays/discover-domains/scripts/test_lint_ice.py -> core/components/plays/specify-domains/scripts/test_lint_ice.py
+R  core/components/plays/discover-domains/scripts/test_lint_slice_intents.py -> core/components/plays/specify-domains/scripts/test_lint_slice_intents.py
+RM core/components/plays/discover-domains/scripts/test_model_names.py -> core/components/plays/specify-domains/scripts/test_model_names.py
+RM core/components/plays/discover-domains/scripts/test_vision_scripts.py -> core/components/plays/specify-domains/scripts/test_vision_scripts.py
+RM core/components/plays/discover-domains/scripts/write_loop_review.py -> core/components/plays/specify-domains/scripts/write_loop_review.py
+R  core/components/plays/discover-domains/stop-condition.yaml -> core/components/plays/specify-domains/stop-condition.yaml
+RM core/components/plays/discover-intent/SKILL.md -> core/components/plays/specify-intent/SKILL.md
+RM core/components/plays/discover-intent/reference/ice.md -> core/components/plays/specify-intent/reference/ice.md
+RM core/components/plays/discover-intent/scripts/capture_source.py -> core/components/plays/specify-intent/scripts/capture_source.py
+R  core/components/plays/update-plan/scripts/check_ice_workable.py -> core/components/plays/specify-intent/scripts/check_ice_workable.py
+RM core/components/plays/discover-intent/scripts/check_intent.py -> core/components/plays/specify-intent/scripts/check_intent.py
+RM core/components/plays/discover-intent/scripts/check_journeys.py -> core/components/plays/specify-intent/scripts/check_journeys.py
+RM core/components/plays/discover-intent/scripts/check_loop_contract.py -> core/components/plays/specify-intent/scripts/check_loop_contract.py
+RM core/components/plays/shape-run-lens/scripts/check_stop_condition.py -> core/components/plays/specify-intent/scripts/check_stop_condition.py
+RM core/components/plays/shape-slice/scripts/intent_touches.py -> core/components/plays/specify-intent/scripts/intent_touches.py
+RM core/components/plays/shape-ux-lens/scripts/lint_grounding.py -> core/components/plays/specify-intent/scripts/lint_grounding.py
+R  core/components/plays/shape-ux-lens/scripts/model_names.py -> core/components/plays/specify-intent/scripts/model_names.py
+RM core/components/plays/discover-intent/scripts/persist_intent.py -> core/components/plays/specify-intent/scripts/persist_intent.py
+RM core/components/plays/shape-run-lens/scripts/preflight.py -> core/components/plays/specify-intent/scripts/preflight.py
+R  core/components/plays/update-plan/scripts/scoped_write_guard.py -> core/components/plays/specify-intent/scripts/scoped_write_guard.py
+R  core/components/plays/shape-run-lens/scripts/session_stamp.py -> core/components/plays/specify-intent/scripts/session_stamp.py
+RM core/components/plays/discover-intent/scripts/test_intent_scripts.py -> core/components/plays/specify-intent/scripts/test_intent_scripts.py
+RM core/components/plays/discover-intent/scripts/walk_prototype.py -> core/components/plays/specify-intent/scripts/walk_prototype.py
+R  core/components/plays/discover-intent/stop-condition.yaml -> core/components/plays/specify-intent/stop-condition.yaml
+RM core/components/plays/edit-ontology/SKILL.md -> core/components/plays/specify-ontology/SKILL.md
+RM core/components/plays/edit-ontology/reference/ice.md -> core/components/plays/specify-ontology/reference/ice.md
+R  core/components/plays/edit-ontology/scripts/check_ontology.py -> core/components/plays/specify-ontology/scripts/check_ontology.py
+RM core/components/plays/edit-ontology/scripts/check_ontology_change.py -> core/components/plays/specify-ontology/scripts/check_ontology_change.py
+RM core/components/plays/shape-slice/scripts/check_stop_condition.py -> core/components/plays/specify-ontology/scripts/check_stop_condition.py
+RM core/components/plays/shape-slice/scripts/preflight.py -> core/components/plays/specify-ontology/scripts/preflight.py
+RM core/components/plays/edit-ontology/scripts/record_checkpoint.py -> core/components/plays/specify-ontology/scripts/record_checkpoint.py
+R  core/components/plays/shape-slice/scripts/session_stamp.py -> core/components/plays/specify-ontology/scripts/session_stamp.py
+RM core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py -> core/components/plays/specify-ontology/scripts/test_edit_ontology_scripts.py
+RM core/components/plays/edit-ontology/stop-condition.yaml -> core/components/plays/specify-ontology/stop-condition.yaml
+RM core/components/plays/start-change/SKILL.md -> core/components/plays/start-work/SKILL.md
+RM core/components/plays/start-change/reference/ice.md -> core/components/plays/start-work/reference/ice.md
+RM core/components/plays/start-change/scripts/check_plan_start.py -> core/components/plays/start-work/scripts/check_plan_start.py
+RM core/components/plays/shape-ux-lens/scripts/check_stop_condition.py -> core/components/plays/start-work/scripts/check_stop_condition.py
+RM core/components/plays/start-change/scripts/init_stm.py -> core/components/plays/start-work/scripts/init_stm.py
+RM core/components/plays/shape-ux-lens/scripts/preflight.py -> core/components/plays/start-work/scripts/preflight.py
+RM core/components/plays/start-change/scripts/resolve_args.py -> core/components/plays/start-work/scripts/resolve_args.py
+R  core/components/plays/start-change/scripts/resolve_plan.py -> core/components/plays/start-work/scripts/resolve_plan.py
+R  core/components/plays/shape-ux-lens/scripts/session_stamp.py -> core/components/plays/start-work/scripts/session_stamp.py
+RM core/components/plays/start-change/scripts/setup_branch.py -> core/components/plays/start-work/scripts/setup_branch.py
+RM core/components/plays/start-change/scripts/test_start_change.py -> core/components/plays/start-work/scripts/test_start_change.py
+RM core/components/plays/start-change/scripts/validate_issue.py -> core/components/plays/start-work/scripts/validate_issue.py
+RM core/components/plays/start-change/stop-condition-plan.yaml -> core/components/plays/start-work/stop-condition-plan.yaml
+RM core/components/plays/start-change/stop-condition.yaml -> core/components/plays/start-work/stop-condition.yaml
+ M core/components/plays/uninstall-garura/SKILL.md
+RM core/components/plays/validate-epic/SKILL.md -> core/components/plays/validate-slice/SKILL.md
+RM core/components/plays/validate-epic/reference/ice.md -> core/components/plays/validate-slice/reference/ice.md
+RM core/components/plays/validate-epic/scripts/check_gates.py -> core/components/plays/validate-slice/scripts/check_gates.py
+R  core/components/plays/validate-epic/scripts/check_kb_grounding.py -> core/components/plays/validate-slice/scripts/check_kb_grounding.py
+RM core/components/plays/validate-epic/scripts/check_ready_validate.py -> core/components/plays/validate-slice/scripts/check_ready_validate.py
+RM core/components/plays/show-plan/scripts/check_stop_condition.py -> core/components/plays/validate-slice/scripts/check_stop_condition.py
+RM core/components/plays/validate-epic/scripts/check_validate.py -> core/components/plays/validate-slice/scripts/check_validate.py
+RM core/components/plays/validate-epic/scripts/compute_verdict.py -> core/components/plays/validate-slice/scripts/compute_verdict.py
+R  core/components/plays/update-plan/scripts/model_names.py -> core/components/plays/validate-slice/scripts/model_names.py
+RM core/components/plays/show-plan/scripts/preflight.py -> core/components/plays/validate-slice/scripts/preflight.py
+RM core/components/plays/validate-epic/scripts/render_fix_report.py -> core/components/plays/validate-slice/scripts/render_fix_report.py
+RM core/components/plays/validate-epic/scripts/resolve_blast_scope.py -> core/components/plays/validate-slice/scripts/resolve_blast_scope.py
+RM core/components/plays/validate-epic/scripts/run_checks.py -> core/components/plays/validate-slice/scripts/run_checks.py
+RM core/components/plays/validate-epic/scripts/runners/_runner_common.py -> core/components/plays/validate-slice/scripts/runners/_runner_common.py
+R  core/components/plays/validate-epic/scripts/runners/runner_dotnet.py -> core/components/plays/validate-slice/scripts/runners/runner_dotnet.py
+R  core/components/plays/validate-epic/scripts/runners/runner_frontend.py -> core/components/plays/validate-slice/scripts/runners/runner_frontend.py
+R  core/components/plays/validate-epic/scripts/runners/runner_java.py -> core/components/plays/validate-slice/scripts/runners/runner_java.py
+R  core/components/plays/validate-epic/scripts/runners/runner_lint.py -> core/components/plays/validate-slice/scripts/runners/runner_lint.py
+R  core/components/plays/validate-epic/scripts/runners/runner_node.py -> core/components/plays/validate-slice/scripts/runners/runner_node.py
+R  core/components/plays/validate-epic/scripts/runners/runner_sonar.py -> core/components/plays/validate-slice/scripts/runners/runner_sonar.py
+R  core/components/plays/validate-epic/scripts/runners/runner_sql.py -> core/components/plays/validate-slice/scripts/runners/runner_sql.py
+R  core/components/plays/show-plan/scripts/session_stamp.py -> core/components/plays/validate-slice/scripts/session_stamp.py
+RM core/components/plays/validate-epic/scripts/stamp_epic.py -> core/components/plays/validate-slice/scripts/stamp_epic.py
+R  core/components/plays/validate-epic/scripts/test_run_checks.py -> core/components/plays/validate-slice/scripts/test_run_checks.py
+R  core/components/plays/validate-epic/stop-condition.yaml -> core/components/plays/validate-slice/stop-condition.yaml
+RM core/components/plays/release-epic/SKILL.md -> core/components/plays/validate-uat/SKILL.md
+RM core/components/plays/release-epic/reference/ice.md -> core/components/plays/validate-uat/reference/ice.md
+RM core/components/plays/release-epic/scripts/check_close_gate.py -> core/components/plays/validate-uat/scripts/check_close_gate.py
+RM core/components/plays/release-epic/scripts/check_launch.py -> core/components/plays/validate-uat/scripts/check_launch.py
+RM core/components/plays/release-epic/scripts/check_ready_launch.py -> core/components/plays/validate-uat/scripts/check_ready_launch.py
+RM core/components/plays/release-epic/scripts/check_scenario_coverage.py -> core/components/plays/validate-uat/scripts/check_scenario_coverage.py
+RM core/components/plays/start-change/scripts/check_stop_condition.py -> core/components/plays/validate-uat/scripts/check_stop_condition.py
+RM core/components/plays/release-epic/scripts/check_surface_contract.py -> core/components/plays/validate-uat/scripts/check_surface_contract.py
+RM core/components/plays/release-epic/scripts/deliver_epic.py -> core/components/plays/validate-uat/scripts/deliver_epic.py
+R  core/components/plays/validate-epic/scripts/model_names.py -> core/components/plays/validate-uat/scripts/model_names.py
+RM core/components/plays/start-change/scripts/preflight.py -> core/components/plays/validate-uat/scripts/preflight.py
+RM core/components/plays/release-epic/scripts/render_defect_report.py -> core/components/plays/validate-uat/scripts/render_defect_report.py
+R  core/components/plays/start-change/scripts/session_stamp.py -> core/components/plays/validate-uat/scripts/session_stamp.py
+RM core/components/plays/release-epic/scripts/stamp_fix_required.py -> core/components/plays/validate-uat/scripts/stamp_fix_required.py
+RM core/components/plays/release-epic/scripts/validate_signoff.py -> core/components/plays/validate-uat/scripts/validate_signoff.py
+R  core/components/plays/release-epic/stop-condition.yaml -> core/components/plays/validate-uat/stop-condition.yaml
+RM core/components/plays/check-change/SKILL.md -> core/components/plays/validate-work/SKILL.md
+RM core/components/plays/check-change/reference/ice.md -> core/components/plays/validate-work/reference/ice.md
+RM core/components/plays/update-plan/scripts/check_stop_condition.py -> core/components/plays/validate-work/scripts/check_stop_condition.py
+R  core/components/plays/check-change/scripts/compute_verdict.py -> core/components/plays/validate-work/scripts/compute_verdict.py
+RM core/components/plays/create-play/references/fetch_pr_context.py -> core/components/plays/validate-work/scripts/fetch_pr_context.py
+R  core/components/plays/shape-slice/scripts/platform_adapter.py -> core/components/plays/validate-work/scripts/platform_adapter.py
+RM core/components/plays/create-play/references/post_verdict.py -> core/components/plays/validate-work/scripts/post_verdict.py
+RM core/components/plays/update-plan/scripts/preflight.py -> core/components/plays/validate-work/scripts/preflight.py
+R  core/components/plays/update-plan/scripts/session_stamp.py -> core/components/plays/validate-work/scripts/session_stamp.py
+RM core/components/plays/check-change/scripts/test_fetch_pr_context.py -> core/components/plays/validate-work/scripts/test_fetch_pr_context.py
+RM core/components/plays/check-change/stop-condition.yaml -> core/components/plays/validate-work/stop-condition.yaml
+RM core/components/plays/show-plan/SKILL.md -> core/components/plays/view-plan/SKILL.md
+RM core/components/plays/show-plan/reference/ice.md -> core/components/plays/view-plan/reference/ice.md
+RM core/components/plays/validate-epic/scripts/check_stop_condition.py -> core/components/plays/view-plan/scripts/check_stop_condition.py
+RM core/components/plays/show-plan/scripts/check_tree.py -> core/components/plays/view-plan/scripts/check_tree.py
+RM core/components/plays/validate-epic/scripts/preflight.py -> core/components/plays/view-plan/scripts/preflight.py
+RM core/components/plays/show-plan/scripts/resolve_args.py -> core/components/plays/view-plan/scripts/resolve_args.py
+R  core/components/plays/validate-epic/scripts/session_stamp.py -> core/components/plays/view-plan/scripts/session_stamp.py
+R  core/components/plays/show-plan/scripts/test_check_tree.py -> core/components/plays/view-plan/scripts/test_check_tree.py
+RM core/components/plays/show-plan/scripts/test_resolve_args.py -> core/components/plays/view-plan/scripts/test_resolve_args.py
+RM core/components/plays/show-plan/stop-condition.yaml -> core/components/plays/view-plan/stop-condition.yaml
+ M core/components/skills/_shared/asking-a-person.md
+ M core/components/skills/assess-changes/SKILL.md
+ M core/components/skills/assess-changes/templates/analysis-output.md
+ M core/components/skills/author-acceptance-scenarios/SKILL.md
+ M core/components/skills/author-agentic-lens/SKILL.md
+ M core/components/skills/author-architecture-lens/SKILL.md
+ M core/components/skills/author-baseline-tests/SKILL.md
+ M core/components/skills/author-build-plan/SKILL.md
+ M core/components/skills/author-business-intent/SKILL.md
+ M core/components/skills/author-decision/SKILL.md
+ M core/components/skills/author-decision/scripts/adr.py
+ M core/components/skills/author-decision/scripts/test_adr.py
+ M core/components/skills/author-domains/SKILL.md
+ M core/components/skills/author-encrypted-evals/SKILL.md
+ M core/components/skills/author-failure-recovery/SKILL.md
+ M core/components/skills/author-intent-page/scripts/safe_write.py
+ M core/components/skills/author-intent-page/scripts/test_write_page.py
+ M core/components/skills/author-plan-changes/SKILL.md
+ M core/components/skills/author-product-ontology/SKILL.md
+ M core/components/skills/author-quality-lens/SKILL.md
+ M core/components/skills/author-run-lens/SKILL.md
+ M core/components/skills/author-slice-brief/SKILL.md
+ M core/components/skills/author-slice-eval/SKILL.md
+ M core/components/skills/author-slice/SKILL.md
+ M core/components/skills/author-steelman-evals/SKILL.md
+ M core/components/skills/author-ux-lens/SKILL.md
+ M core/components/skills/author-validation-checks/SKILL.md
+ M core/components/skills/author-verification-scenarios/SKILL.md
+ M core/components/skills/author-work-items/SKILL.md
+ M core/components/skills/check-generated-tests/SKILL.md
+ M core/components/skills/check-pr-quality/SKILL.md
+ M core/components/skills/check-pr-quality/reference/input-contract.md
+ M core/components/skills/deploy-local-environment/SKILL.md
+ M core/components/skills/derive-blast-radius/SKILL.md
+ M core/components/skills/enrich-capability-ice/SKILL.md
+ M core/components/skills/enrich-grounding/SKILL.md
+ M core/components/skills/enrich-grounding/scripts/safe_write.py
+ M core/components/skills/enrich-grounding/scripts/test_change_lines.py
+ M core/components/skills/enrich-grounding/scripts/test_write_approved.py
+ M core/components/skills/enrich-quality-profile/SKILL.md
+ M core/components/skills/find-architecture-learnings/SKILL.md
+ M core/components/skills/find-model-gaps/SKILL.md
+ M core/components/skills/find-model-gaps/scripts/intent_touches.py
+ M core/components/skills/find-slice-gaps/SKILL.md
+ M core/components/skills/find-work-placement/SKILL.md
+ M core/components/skills/judge-validation-results/SKILL.md
+ M core/components/skills/link-model-gaps/scripts/intent_touches.py
+ M core/components/skills/link-model-gaps/scripts/test_apply_links.py
+ M core/components/skills/link-model-part/SKILL.md
+ M core/components/skills/link-model-part/scripts/link_part.py
+ M core/components/skills/link-model-part/scripts/safe_write.py
+ M core/components/skills/link-model-part/scripts/spine_text.py
+ M core/components/skills/link-model-part/scripts/test_link_part.py
+ M core/components/skills/platform-adapter/reference/github/verbs.md
+ M core/components/skills/propose-answers/SKILL.md
+ M core/components/skills/remove-model-part/scripts/safe_write.py
+ M core/components/skills/remove-model-part/scripts/spine_text.py
+ M core/components/skills/scan-test-harness/SKILL.md
+ M core/components/skills/scan-test-surface/SKILL.md
+ M core/components/skills/track-plan-changes/SKILL.md
+ M core/components/skills/track-plan-changes/scripts/test_track_changes.py
+ M core/components/skills/track-plan-changes/scripts/track_changes.py
+ M core/components/skills/track-plan-changes/scripts/tracker.py
+ M core/components/skills/walk-prototype/SKILL.md
+ M core/config.yaml
+ M core/grounding/glossary.md
+ M core/grounding/rules/evidence.md
+ M core/tools/lint-components/lib/rules/asking-a-person.js
+ M core/tools/lint-components/lib/rules/installed-paths.js
+ M core/tools/lint-components/lib/rules/naming.js
+ M core/tools/lint-components/lib/rules/shared-scripts.js
+ M core/tools/lint-components/lib/rules/structural.js
+ M core/tools/lint-components/test/asking-a-person.test.js
+ M core/tools/lint-components/test/dmw-declared-exception.test.js
+ M core/tools/lint-components/test/installed-paths.test.js
+ M core/tools/lint-components/test/naming.test.js
+ M core/tools/lint-components/test/shared-scripts.test.js
+ M core/tools/memory/contract/samples/apply.json
+ M core/tools/memory/contract/samples/broken/apply-waiting-update.json
+ M core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+ M core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+ M core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+ M core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+ M core/tools/memory/contract/samples/broken/citations-other-issue.json
+ M core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+ M core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+ M core/tools/memory/contract/samples/broken/cite-absolute-path.json
+ M core/tools/memory/contract/samples/broken/decide-in-a-made-up-place.json
+ M core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+ M core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+ M core/tools/memory/contract/samples/broken/propose-answered-approved.json
+ M core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+ M core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+ M core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+ M core/tools/memory/contract/samples/citations-check.json
+ M core/tools/memory/contract/samples/citations.json
+ M core/tools/memory/contract/samples/cite.json
+ M core/tools/memory/contract/samples/decide-in-session.json
+ M core/tools/memory/contract/samples/decide.json
+ M core/tools/memory/contract/samples/propose.json
+ M core/tools/memory/contract/samples/updates.json
+ M core/tools/memory/contract/test_check_contract.py
+ M core/tools/memory/memory.py
+ M core/tools/memory/test_memory.py
+ M core/tools/naming/check_old_names.py
+ M core/tools/naming/test_naming_tools.py
+ M core/tools/plan/README.md
+ M core/tools/plan/plan_branch.py
+ M core/tools/rebuild-eval/README.md
+ M docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md
+ M docs/adr/_index.md
+ M docs/components/agents.md
+ M docs/components/loops.md
+ M docs/components/memory.md
+ M docs/components/plays.md
+ M docs/design/playbook-catalog.md
+ M docs/philosophy/architecture.md
+ M docs/philosophy/garura-reference-implementation.md
+ M docs/philosophy/idsd.md
+ M docs/philosophy/intent-and-adlc.md
+ M docs/philosophy/intent-driven-development.md
+ M docs/standards/harness-standard.md
+?? .garura/project/issues/1044/context/commit-change/
+?? .garura/project/issues/1044/evidence/eval/result-after.json
