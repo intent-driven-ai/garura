@@ -31,7 +31,7 @@ Gates that stop a person today with no way past:
 - The plays that make plans, until the Agent-work tool lands (#1023): "the plays that make plans must not run".
 - A stop written on an approved page and not built yet: when a tracker type a play needs is missing and not mapped, the play is to "stop with a plain message that points to initialize".
 - The other four capabilities of Orchestration name the stops in their own parts, such as a loop's halts and a plan view's stop on a plan file it cannot read, and hand each way past here.
-It matters because a person moves at the speed they choose only when no gate holds them, and because what they skip must stay in sight: in the outside tools a person approved as memory, "the way past is offered, never hidden; using it records who, when, why and what was skipped". It sits in software delivery planning with the other capabilities of Orchestration. The domain's first paragraph does not name Orchestration yet; widening it is owed at this intent's close.
+It matters because a person moves at the speed they choose only when no gate holds them, and because what they skip must stay in sight: in the outside tools a person approved as memory, "the way past is offered, never hidden; using it records who, when, why and what was skipped". It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so.
 
 Features:
 - Give every gate a way past, and name what using it records (fn-way-past-every-gate): every gate a play declares names its kind, its way past and what using the way past records; the person sees the way past at the gate; and today's gates that offer none are listed for the ADR that #992 asks for.
@@ -107,3 +107,4 @@ What is not built yet:
 - The research for this capability, .garura/project/issues/1021/context/bi-9-research/research.md, G1 to G5, and the stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 5, 9 and 11.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none covers ways past a gate in an agent harness. The experience shelf in Phoenix memory, knowledge/domains/experience.md, names "HITL queues & approvals — human review gates for agent actions." and "Guardrail & memory policy — scope what agents may do/remember." among the parts that govern the agents built into a product, a loose match only.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."

@@ -25,7 +25,7 @@ A loop owns its change: one issue, one branch and one pull request. The plays in
 A loop carries no rule about the product. Every product rule stays in its plays, and each loop's plays belong to the transition the loop serves.
 A loop ends through the change plays of Developer tooling, and the merge always waits for a person's typed yes. Reviewing what the loop made, and the merge, are Developer tooling's.
 Where a built part stops a person with no way past, this page says so. Today a checker's reject, a play that misses its done check, an unclean tree, a knowledge step that cannot get clean and a failed pre-flight each halt the loop. The person can run it again, and it picks up from the first play not done, but nothing lets a person pass a halt and record what is owed. The way past is Give every gate a way past's.
-It matters because one goal is enough: the work between plays is done without the person, the person is asked only what nothing else could answer, and the result is judged by someone who did not make it. It sits in software delivery planning. The domain's opening does not say yet that the domain runs its work in loops; that line is owed at BI-9's close.
+It matters because one goal is enough: the work between plays is done without the person, the person is asked only what nothing else could answer, and the result is judged by someone who did not make it. It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so.
 
 Features:
 - Run any loop the same way (fn-run-loop): one issue and one branch, questions first, then the plays in rounds, each round decided as done, again or ask, until the goal is met or a person is asked, and the change landed at the end.
@@ -122,3 +122,4 @@ What is not built yet:
 - The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 2, 5, 7, 9, 10 and 11 (lean 4), and section 12, questions 7 and 12: "Who owns each loop: Run plays as loops, or the transition whose plays it runs?", "Should Garura's own repository run its own loops?"
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge page in any memory tier covers how a team runs its work in loops; Phoenix memory's pages on agent orchestration are written for a product that has agents, not for running a team's plays.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."

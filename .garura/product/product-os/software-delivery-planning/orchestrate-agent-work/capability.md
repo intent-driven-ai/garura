@@ -27,7 +27,7 @@ One play, /update-plan, serves two capabilities. Its changes to the work items t
 Cutting a plan's branch when its work starts, and landing it on main, belong to Ship every change the same way, in Developer tooling. A session gets onto a plan's branch through the same one script, which also makes that cut when a session opens on a plan with no branch, and at the end it comes back.
 The slice's hidden file of failure and recovery conditions, and the evals, belong to Write the evals that check the work, in Design → Code, though the same run of /shape-slice writes the hidden file today.
 Against Orchestration's Must not, "Stop a person. Every gate has a way past it that records what's owed.", one way past is built here: in a session, a rule break is shown with what works instead, and "do it anyway" lands it with the override recorded in the commit. These stop a person with no way past today: uncommitted work stops a session; a plan file with a status the views do not know stops the view; a request to remove a plan that is on a branch, or that another plan needs, is refused; and /shape-slice must not run until the Agent-work tool lands (#1023). The way past each gate is Give every gate a way past's, in Orchestration.
-It matters because a person can then always say what is happening and what comes next: in the intent's words, "A person always knows what's happening and what's next." It sits in software delivery planning for now. The domain's first paragraph does not yet say that the domain also runs the work; that is owed at the close of Orchestration.
+It matters because a person can then always say what is happening and what comes next: in the intent's words, "A person always knows what's happening and what's next." It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so.
 
 Features:
 - Choose the slice that shows an intent is served (fn-795): a person names a business intent, and the features in build order, the one surface and the tester are chosen from the model and memory, shown in one brief and kept only on the person's yes.
@@ -121,3 +121,4 @@ What is not built yet:
 - The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 1, 5, 6, 9, 10 and 11.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers software delivery planning.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."

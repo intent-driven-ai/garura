@@ -22,7 +22,7 @@ This capability does eight jobs:
 The first five are built, in full or in part. The last three are not built.
 What is built today: the adapter, with 25 named actions over the command lines of GitHub and GitLab; the plan plays /shape-plan and /update-plan, which file each epic and story by its type with no label; the plan tool, which sets an item Done or Dropped from its own issue; the writer of an approved session, which records each write as it is made; and /list-focus-issues, the read-only view of the issues worth attention. The adapter reads the settings' `platform:` line, which names GitHub here; the GitLab path is written but "UNTESTED here".
 The line with the other capabilities of Orchestration: Orchestrate agent work through planning shows the plans, and there a person sets the plan's status and direction and the status of an open item; this capability keeps the tracker side true. Making the epics and stories, and keeping the plan file's list of work items in step with the tracker, is Turn intents into agent work's, in Product → Spec.
-It matters because a person and an agent can only read where the work stands from the tracker when each item says what it is, where it hangs and whether it is done, and when what the plays write there is exactly what a person approved. It sits in software delivery planning for now; the domain's first paragraph is widened at BI-9's close.
+It matters because a person and an agent can only read where the work stands from the tracker when each item says what it is, where it hangs and whether it is done, and when what the plays write there is exactly what a person approved. It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so.
 
 Features:
 - Mark each work item by its type, under the right parent, with no label (fn-mark-item-type): when a play files a work item or takes one into a plan, the item gets its kind's type and a parent of the right kind by a real link, with no label and no type in its title.
@@ -117,3 +117,4 @@ What is not built yet:
 - The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 3, 6.3, 6.4, 9, 10 and 11 (lean 5).
 - The short line beside each built feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers how a team tracks its work in a tracker.
+- .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."
