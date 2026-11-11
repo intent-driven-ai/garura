@@ -1,0 +1,78 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "source": ".garura/project/issues/1021/context/bi-9-capability-1/page-approvals.md",
+  "pages": [
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/capability.md",
+      "changes": [
+        {
+          "old": "- The old model parts this capability takes in: Build a plan (cap-718) with fn-727, fn-728 and fn-818, and from Manage a plan (cap-720) the work-item changes of fn-730 and fn-931.",
+          "new": "- The old model parts this capability takes in: Build a plan (cap-718) with fn-727, fn-728 and fn-818, and from Manage a plan the work-item changes of fn-730 and fn-931; fn-931 is filed under this capability, and the rest of Manage a plan merged into Orchestrate agent work through planning (cap-orchestrate-agent-work)."
+        }
+      ],
+      "lines_before": 74,
+      "lines_after": 74,
+      "lines_added": 0,
+      "lines_kept": 73
+    },
+    {
+      "page": "features/fn-725/feature.md",
+      "changes": [
+        {
+          "old": "- Finding which plans a plan needs. Build a plan (cap-718) and Manage a plan (cap-720) own it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main.",
+          "new": "- Finding which plans a plan needs. Work out the plans a plan waits on (fn-work-out-waits-on), in Orchestrate agent work through planning, owns it. Where and when a plan's branch lands is Ship every change the same way's (cap-ship-every-change), in Developer tooling; plan order no longer holds a plan's branch off main."
+        }
+      ],
+      "lines_before": 77,
+      "lines_after": 77,
+      "lines_added": 0,
+      "lines_kept": 76
+    },
+    {
+      "page": "features/fn-726/feature.md",
+      "changes": [
+        {
+          "old": "- Showing plans. View plans (cap-719) shows the plan tree, which has no domain level.",
+          "new": "- Showing plans. Orchestrate agent work through planning (cap-orchestrate-agent-work) shows the plan tree, which has no domain level."
+        }
+      ],
+      "lines_before": 77,
+      "lines_after": 77,
+      "lines_added": 0,
+      "lines_kept": 76
+    },
+    {
+      "page": "intents/bi-788.md",
+      "changes": [
+        {
+          "old": "- [shape-slice](../software-delivery-planning/shape-slice/capability.md) (capability) — adds",
+          "new": "- [Orchestrate agent work through planning](../software-delivery-planning/orchestrate-agent-work/capability.md) (capability) — changes"
+        }
+      ],
+      "lines_before": 33,
+      "lines_after": 33,
+      "lines_added": 0,
+      "lines_kept": 32
+    },
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/features/fn-730/feature.md: \"Changing an epic's or a story's text is one more instruction\"",
+          "new": "- .garura/project/issues/1021/context/bi-9-capability-1/research.md, which keeps the earlier page of features/fn-730/feature.md: \"Changing an epic's or a story's text is one more instruction\""
+        }
+      ],
+      "lines_before": 56,
+      "lines_after": 56,
+      "lines_added": 0,
+      "lines_kept": 55
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/turn-intents-into-work/capability.md",
+    "features/fn-725/feature.md",
+    "features/fn-726/feature.md",
+    "intents/bi-788.md",
+    "software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md"
+  ]
+}

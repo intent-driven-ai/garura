@@ -19,3 +19,8 @@ His words are kept as given.
 - On the feature Choose which item is worked next (fn-choose-next-item), its page and its thin ICE, with its two open points left open: "approved"
 - On the feature Work out the plans a plan waits on (fn-work-out-waits-on), its page and its thin ICE, with its five open points left open: "approved"
 - On the feature Pause a plan and start it again (fn-pause-plan), its page and its thin ICE, with its four open points left open: "approved"
+- On the write plan in write/plan.md (the five lines changed first; the thin mark off fn-729, fn-806, fn-628 and fn-795; the 24 approved pages; the index with 12 ICE entries, three thin, fn-795 re-filed and moved and fn-931 re-filed under Turn intents into agent work; the repoints and the merge of View plans, Manage a plan and Shape a slice into the new capability; BI-9's first Touches list of 12 lines; then the checks and the tree): "yes"
+
+## One-lines of the three unbuilt features (2026-11-11)
+
+The index one-lines of fn-choose-next-item, fn-work-out-waits-on and fn-pause-plan began "Not built." (copied from the capability page's list). New one-lines, from each approved page's opening, shown as old/new and approved: "yes". Applied through link-model-part update (write/link-request-3.json).

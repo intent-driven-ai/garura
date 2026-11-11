@@ -1,0 +1,29 @@
+{
+  "by": "product-os-keeper (reorganise business intents, #1021)",
+  "parts": [
+    {
+      "id": "fn-729",
+      "kind": "feature",
+      "mode": "update",
+      "thin": false
+    },
+    {
+      "id": "fn-806",
+      "kind": "feature",
+      "mode": "update",
+      "thin": false
+    },
+    {
+      "id": "fn-628",
+      "kind": "feature",
+      "mode": "update",
+      "thin": false
+    },
+    {
+      "id": "fn-795",
+      "kind": "feature",
+      "mode": "update",
+      "thin": false
+    }
+  ]
+}

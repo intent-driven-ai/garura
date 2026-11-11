@@ -1,0 +1,58 @@
+{
+  "written": [
+    "cap-orchestrate-agent-work",
+    "fn-go-to-plan-branch",
+    "fn-know-what-next",
+    "fn-remove-plan",
+    "fn-choose-next-item",
+    "fn-work-out-waits-on",
+    "fn-pause-plan",
+    "ice-795",
+    "ice-orchestrate-agent-work",
+    "ice-729",
+    "ice-806",
+    "ice-628",
+    "ice-730",
+    "ice-go-to-plan-branch",
+    "ice-know-what-next",
+    "ice-remove-plan",
+    "ice-choose-next-item",
+    "ice-work-out-waits-on",
+    "ice-pause-plan"
+  ],
+  "updated": [
+    "fn-729",
+    "fn-806",
+    "fn-628",
+    "fn-730",
+    "fn-795",
+    "fn-931"
+  ],
+  "thin": [
+    "ice-choose-next-item",
+    "ice-work-out-waits-on",
+    "ice-pause-plan"
+  ],
+  "unthin": [],
+  "moved": [
+    {
+      "from": "software-delivery-planning/shape-slice/fn-795/feature.md",
+      "to": "software-delivery-planning/orchestrate-agent-work/fn-795/feature.md"
+    },
+    {
+      "from": "software-delivery-planning/shape-slice/fn-795/ice.md",
+      "to": "software-delivery-planning/orchestrate-agent-work/fn-795/ice.md"
+    }
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/orchestrate-agent-work/fn-795/feature.md",
+    "product-os/software-delivery-planning/orchestrate-agent-work/fn-795/ice.md",
+    "product-os/software-delivery-planning/orchestrate-agent-work/fn-choose-next-item/ice.md",
+    "product-os/software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/ice.md",
+    "product-os/software-delivery-planning/orchestrate-agent-work/fn-pause-plan/ice.md",
+    "product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+    "product-os/software-delivery-planning/shape-slice/fn-795/ice.md"
+  ],
+  "layout_kept": true
+}

@@ -1,0 +1,25 @@
+{
+  "written": [],
+  "updated": [
+    "fn-729",
+    "fn-806",
+    "fn-628",
+    "fn-795"
+  ],
+  "thin": [],
+  "unthin": [
+    "fn-729",
+    "fn-806",
+    "fn-628",
+    "fn-795"
+  ],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/features/fn-729/feature.md",
+    "product-os/features/fn-806/feature.md",
+    "product-os/features/fn-628/feature.md",
+    "product-os/software-delivery-planning/shape-slice/fn-795/feature.md"
+  ],
+  "layout_kept": true
+}
