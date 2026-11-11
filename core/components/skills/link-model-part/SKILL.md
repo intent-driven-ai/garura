@@ -68,7 +68,13 @@ written when the script exits 2; its error names the part and why.
 - **Re-file only what a person approved.** A part's parent is set when it is new, and a loose
   part gets its parent from `link-model-gaps`. A feature that already has a capability moves to
   another only through `capability` on `update`, when a person approved taking in an old part
-  (#1037); `link-model-gaps` leaves that move as alignment work.
+  (#1037); `link-model-gaps` leaves that move as alignment work. The request's `by` names the
+  play or run that asks; that caller records the person's approval before it calls, as the
+  `/shape-slice` brief and a reviewed take-in do. This skill does not check a name.
+- **A re-file moves the page too.** A feature lives under its capability's folder, so give
+  `capability` with `doc` naming the new folder under that capability. `capability` alone files
+  the entry and leaves the page where it is, which suits only a page in the holding folder
+  `features/<id>/`.
 - **A move breaks no link.** `doc` moves a page and the ice.md beside it, and the ICE's entry
   follows. It is refused while any page or record in the model names an old path, from the
   model root or as a link relative to the page, and while the old folder holds any other file;

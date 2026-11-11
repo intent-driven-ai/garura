@@ -106,6 +106,7 @@ the missing skill; never do the work yourself.
 | "change these lines of a page", "bring this page to the approved design", "name a persona, not a person" | "Change cap-720's ICE to the approved #720 design"; "Name the product owner, not a person, on the intent page" | `enrich-grounding` (mode `update` or `fix`, with a named-lines request you write to `lines-request.json` and hand it as `lines_request`: every line to change, whole and as it is on the page, with its new words and the request's source; when the script refuses, correct the request) | `lines-report.json`: each page, each line old and new; every other line kept word for word; all or nothing. A page needs no spine entry for this; a changed one-line or intents still goes through `link-model-part` |
 | "take this part out of the model", "merge this capability into that one", "repoint these parts to the new intent", "remove this intent's page", "remove this slice" | "Merge the view capability into the plan capability, as the product owner approved" | `enrich-grounding` (named lines, for each page that still names the part), then one `remove-model-part` run | `remove-report.json`: all or nothing, only with the name of the person who approved; when it refuses over a mention, fix that line through `enrich-grounding` and run it again. The page of a survivor is `enrich-grounding`'s work. Pass `needs_to_review` on as it is |
 | "write these pages as the person approved them", "write the ICE on its own page" | "Write the approved pages of Specify the product and their ICE pages" | `enrich-grounding` (mode `approved`, with an approved-text request you write to `approved-request.json` and hand it as `approved_request`: each page, the file holding its approved text, the person who approved it and where that is recorded), then one `link-model-part` run: each new part `new`, each ICE `new` with `for` and `doc`, thin only for a thin ICE | `approved-report.json` and `link-report.json`: every page word for word, then every entry; each all or nothing. Remove an old ICE section from a part's page first through named lines (step 5), or approve the whole page without it |
+| "take in this old part as the person approved", "move this feature under that capability", "take its thin mark off" | "Take View plans' features into Orchestrate agent work through planning, as the product owner approved" | `link-model-part` first (`thin: false` on each part that carries the mark, because the page skill will not replace a thin page), then `enrich-grounding` (mode `approved`, for the new pages and ICE pages), then one `link-model-part` run (each feature's `capability` with its `doc`, each ICE `new`), then `enrich-grounding` (named lines, for each page that still names an old path or part) and `remove-model-part` for the merge | `link-report.json` with `unthin` and `moved`: all or nothing; a move is refused while a page names the old path, so fix those lines first. The person's approval is recorded by the play or run that asks, before it calls (#1037) |
 | "write this intent page from its draft", "rewrite this intent page", "the person confirmed these words" | "Rewrite the page of bi-340 from its draft; the product owner confirmed it" | `author-intent-page` (with `rewrite` for a page that is there, `stage: confirmed` and `confirmed_by` only when a person confirmed it) | `intent-page.json`: mechanical; the words come from the draft, and the confirmation only from the caller |
 | "change the product ontology", "add a kind", "change a kind, link or rule" | "Run the `kinds` stage for the ICE kind" | `author-product-ontology` | One stage per dispatch from /edit-ontology; the product owner agrees each stage at the play's checkpoint |
 
@@ -176,7 +177,8 @@ a path belongs.
   intent page, the profile — but only through a skill (the product owner, 2026-10-29). Under
   direct-model-write (ADR 026) the page skills write per-node docs in place. The spine is
   written by a play's keyed persist script, by `link-model-gaps`'s script inside a loop, or by
-  `link-model-part`'s script for a part found during work (#979) or an ICE's entry (#1031), or by `remove-model-part`'s script
+  `link-model-part`'s script for a part found during work (#979), an ICE's entry (#1031) or an old part a
+  person approved taking in, its thin mark cleared, its feature re-filed or its page moved (#1037), or by `remove-model-part`'s script
   for a removal a person approved; each writes only inside
   `<product_base>product-os/`, refuses any path outside and lists every file it changed. When
   no skill covers a change, say so and stop: the missing skill is built, never worked around.
@@ -185,7 +187,8 @@ a path belongs.
   exception: inside a loop, `link-model-gaps` removes the dropped node of a duplicate
   `find-model-gaps` marked `agreed: true`, after moving its intents and children onto the
   kept node. A second: `remove-model-part` removes a part when its request names the person who
-  approved it.
+  approved it. A third: `link-model-part` deletes a page and its ice.md from their old folder only
+  when it moves them, word for word, to a new folder (#1037).
 - Hand-write model YAML yourself — always go through a skill.
 - Load the whole of memory into context — find and copy only what each skill needs.
 - Read memory by a path, or take a memory path from a contract — only through the memory tool.

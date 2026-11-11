@@ -71,8 +71,11 @@ link-request.json:
   ICE is added.
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
-writes nothing. When a write itself fails part way, every file already written is put back as
-it was, so the spine and the pages never disagree (exit 2). Paths that leave the model folder are refused. Every intent a part names must
+writes nothing. When a write itself fails part way, every file already written, deleted or
+moved, and every folder made or removed, is put back as it was, so the spine and the pages never
+disagree (exit 2). Each undo step is tried on its own; when one of them fails too, the others
+still run and the error names every path that is not back, to be put back from git (exit 2).
+Paths that leave the model folder are refused. Every intent a part names must
 have its page. The spine keeps its comments and layout (spine_text.py); every file is written
 through safe_write.atomic_write. Reads and writes files on disk only; no git, no network.
 Exit 0 written, 2 refused or bad input.
@@ -269,6 +272,12 @@ def plan_move(root, pid, kind, entry, new_doc, index, ices, ice_for, pages, dele
     new_dir = os.path.dirname(new_full)
     if os.path.exists(new_dir) and (not os.path.isdir(new_dir) or os.listdir(new_dir)):
         raise Refused(f"{pid}: {os.path.dirname(new)} already holds a file")
+    new_ice_full = inside(root, os.path.join(os.path.dirname(new), ICE_PAGE))
+    sharing = sorted(e["id"] for k in HOLDING for e in index[k].values()
+                     if e is not entry and os.path.dirname(e.get("doc") or "") == os.path.dirname(new))
+    if sharing or new_full in pages or new_ice_full in pages:
+        raise Refused(f"{pid}: {os.path.dirname(new)} is already the folder of "
+                      f"{', '.join(sharing) or 'a page this request writes'}; two parts never share a folder")
     old_dir = os.path.dirname(old_full)
     if not os.path.isfile(old_full):
         raise Refused(f"{pid}: its page {old} is not on disk")
@@ -485,10 +494,19 @@ def missing_dirs(path):
     return list(reversed(out))
 
 
+class UndoFailed(OSError):
+    """A write failed, and putting the files back failed too: `left` names what is not back."""
+
+    def __init__(self, cause, left):
+        super().__init__(f"{cause}; not put back: {'; '.join(left)}")
+        self.cause, self.left = cause, left
+
+
 def write_all(writes, deletes=(), rmdirs=()):
     """Write every (path, text), then delete each moved-away file and its emptied folder; when one
     step fails, put back every file and folder as it was (old text, no file when it was new, no
-    folder that was made) and raise the error."""
+    folder that was made) and raise the error. Each step of the undo is tried on its own; when any
+    of them fails, the rest still run and UndoFailed names every path that is not back."""
     done, made, removed, gone = [], [], [], []
     try:
         for path, text in writes:
@@ -507,20 +525,36 @@ def write_all(writes, deletes=(), rmdirs=()):
             if os.path.isdir(d) and not os.listdir(d):
                 os.rmdir(d)
                 gone.append(d)
-    except OSError:
-        for d in reversed(gone):
-            os.makedirs(d, exist_ok=True)
-        for path, text in reversed(removed):
-            safe_write.atomic_write(path, text)
-        for path, old in reversed(done):
-            if old is None:
-                if os.path.exists(path):
-                    os.remove(path)
-            else:
-                safe_write.atomic_write(path, old)
-        for d in reversed(made):
+    except OSError as cause:
+        left = []
+
+        def attempt(what, step):
+            try:
+                step()
+            except OSError as e:
+                left.append(f"{what} ({e})")
+
+        def drop(path):
+            if os.path.exists(path):
+                os.remove(path)
+
+        def prune(d):
             if os.path.isdir(d) and not os.listdir(d):
                 os.rmdir(d)
+
+        for d in reversed(gone):
+            attempt(d, lambda d=d: os.makedirs(d, exist_ok=True))
+        for path, text in reversed(removed):
+            attempt(path, lambda p=path, t=text: safe_write.atomic_write(p, t))
+        for path, old in reversed(done):
+            if old is None:
+                attempt(path, lambda p=path: drop(p))
+            else:
+                attempt(path, lambda p=path, o=old: safe_write.atomic_write(p, o))
+        for d in reversed(made):
+            attempt(d, lambda d=d: prune(d))
+        if left:
+            raise UndoFailed(cause, left) from cause
         raise
 
 
@@ -547,6 +581,10 @@ def main():
     text, kept = spine_text.dump(old_text, spine, new_spine)
     try:
         write_all([(spine_path, text)] + list(pages.items()), deletes, rmdirs)
+    except UndoFailed as e:
+        sys.stderr.write(f"link_part.py: a write failed ({e.cause}), and these are NOT back as they were: "
+                         f"{'; '.join(e.left)}. Put them back from git before anything else runs.\n")
+        return 2
     except OSError as e:
         sys.stderr.write(f"link_part.py: a write failed, every file is back as it was: {e}\n")
         return 2
