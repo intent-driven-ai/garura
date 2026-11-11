@@ -1,6 +1,6 @@
 'use strict';
 
-// Naming rules (harness standard, ADR 046, #740). Every rule's data lives in
+// Naming rules (harness standard, ADR 046, #740; ADR 066, #1044). Every rule's data lives in
 // memory/standards/rules/naming.yaml; this file holds no rule of its own.
 
 const fs = require('fs');
@@ -36,13 +36,14 @@ function checkName(component, std) {
   const terms = new Set(std.industry_terms || []);
   const reserved = new Set(std.reserved || []);
   const loopVerb = (std.loop || {}).verb;
+  const phases = (std.loop || {}).phases || [];
 
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name) || name.length > 64) {
     out.push(violation(component, 'naming-shape', `"${name}" must be lowercase words joined by "-", at most 64 characters`));
   }
-  if (reserved.has(name) || reserved.has(first)) {
-    out.push(violation(component, 'naming-reserved',
-      `"${name}" is, or starts with, a Claude Code or Codex built-in command ("${reserved.has(name) ? name : first}")`));
+  // A name may start with a built-in command, but may not be one (ADR 066).
+  if (reserved.has(name)) {
+    out.push(violation(component, 'naming-reserved', `"${name}" is a Claude Code or Codex built-in command`));
   }
   for (const w of words) {
     if (SHORTENED.includes(w) && !terms.has(w)) {
@@ -51,8 +52,11 @@ function checkName(component, std) {
   }
 
   if (component.type === 'loop') {
-    if (first !== loopVerb || words.length < 2) {
-      out.push(violation(component, 'naming-loop', `loop "${name}" must be "${loopVerb}-<phase>"`));
+    // loop-<from>-<to>: one transition between two different phases (ADR 066).
+    const [, from, to] = words;
+    if (first !== loopVerb || words.length !== 3 || !phases.includes(from) || !phases.includes(to) || from === to) {
+      out.push(violation(component, 'naming-loop',
+        `loop "${name}" must be "${loopVerb}-<from>-<to>", with two different phases (${phases.join(', ')})`));
     }
     return out;
   }
