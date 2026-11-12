@@ -1,0 +1,123 @@
+# Layer 2 design-grounding, category: memory. PR #1058 (product ontology v18, issue 1056). Base ref: main (97e8b5f4).
+# Every basis is a committed source on the base ref (git show main:<path>) or a memory-tool copy; none is taken from the
+# branch's new ontology text. Severity per .garura/project/issues/1056/context/memory/standards/rules/pr.md (P1 blocker,
+# P2 major, P3 minor, P4 nit). The pr.md rows are mechanical for path/grep rules; these are design-conformance judgements
+# graded on the same four buckets. No finding blocks merge.
+category: memory
+layer: 2
+pr: 1058
+changed_artifact: core/components/memory/standards/schemas/product-os/ontology.md
+grounding:
+  principles:
+    - id: G1
+      principle: "Each feature records its own state, `status`, one of five (Unplanned, Planned, In progress, Completed, Dropped); the state names no plan, tracker issue or decision record."
+      source: "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md (main) Decision section 1 (line 46) and section 8 (line 90)"
+    - id: G2
+      principle: "A domain, a capability and a business intent have no state of their own; nothing rolls up from features; a capability's done is computed (every feature Completed or Dropped), never stored."
+      source: "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md (main) Decision sections 2 and 3 (lines 56 and 64)"
+    - id: G3
+      principle: "Who sets each state: the adding play sets Unplanned; /shape-plan or /reshape-plan sets Planned; only /start-work sets In progress; the Feature issue closing as completed (and once the clean-up) sets Completed; the person sets Dropped through /reshape-plan; a Dropped feature comes back as Unplanned; a reopened Completed feature goes to In progress; the state is written on the work's branch."
+      source: "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md (main) Decision sections 4 to 7 and 9 (lines 66 to 94)"
+    - id: G4
+      principle: "The model knows no plan, no epic, no tracker issue and no decision record; the spine has no epics list; whether a slice is in progress is read from the plan files. ADR 070 amends only the words 'no part of the model holds a work status' in section 2, third bullet."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md (main) Decision section 2 (line 97) and section 5 (line 121); docs/adr/070-... (main) header lines 7 and 101-108"
+    - id: G5
+      principle: "A slice pulls in only features that are not yet built; a built feature counts complete in every slice and plan that holds it; no roll-up."
+      source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md (main) Decision sections 4 and 5 (lines 97 and 101)"
+    - id: G6
+      principle: "An accepted ADR is never edited; each new decision is a new ADR; an ADR records a decision about how the agents and plays work, a product decision is the person's answer kept as the content of the part it decides."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md (main) Decision section 2, ADR bullets (lines 103-108)"
+    - id: G7
+      principle: "A kind page follows the product-ontology template: Properties, Relationships, Rules, optional States, Example."
+      source: "standards/templates/product-ontology.md (Phoenix memory, through the memory tool; copy at .garura/project/issues/1056/context/memory/standards/templates/product-ontology.md, lines 38 to 60)"
+    - id: G8
+      principle: "Base ontology (version 17) names the work status carve-out in one sentence and keeps Business Intent `Stage` (proposed, confirmed, met, dropped), Plan `Status` and the work-layer `State` as separate, existing properties."
+      source: "core/components/memory/standards/schemas/product-os/ontology.md on main (git show main:...) line 23 and line 242"
+  grounding_notes:
+    - "ADR 070 is on the base ref (commit ae368a95, accepted by its own PR), so it is a valid committed source."
+    - "docs/philosophy/** and the Phoenix standards/rules copies (features.md, direct-model-write.md, epics.md, product.md, copied under .garura/project/issues/1056/context/memory/grounding-memory/) hold nothing about a feature's stored state: they describe the older product model (version 15 era). They gave no principle for this change, so none is cited from them. The grounding rests on ADR 070, 069, 068 and the base ontology."
+    - "Memory-integrity linter is a known gap (playbook review/memory). The ontology structure check was re-run on the PR head: valid, 14 kinds, Q1-Q71 present, no problems."
+conformance_summary:
+  matches_adr_070:
+    - "Five states and their meanings agree word for word with ADR 070 section 1 (Feature Status property, line 470)."
+    - "Who sets each state, the 'Dropped -> Unplanned' way back, 'Completed -> In progress' on reopen, 'start with no plan only on the person's yes, never blocks', the branch rule, and the clean-up once agree with ADR 070 sections 4 to 7 and 9."
+    - "Every ontology place that ADR 070 Affects names was changed: line 23 rule, the Feature kind, Q50, Q52, Capability Done, Q10, ICE ready check, Slice rule, Plan rule, Feature issue kind, Log."
+    - "No leftover 'not yet built' or 'built' as a tracker-read in an edited place (searched the PR head). Remaining 'built' wording is the Feature's own 'Completed (it is built)' and unrelated uses (a built product, a Story 'built')."
+    - "Only ADR 069 section 2 (third bullet) and ADR 068 section 5 and its /design-slice ICE impact are amended; the model still names no plan, epic, tracker issue or decision record, and the slice's progress is still read from the plan files (ADR 069 section 5 stands)."
+findings:
+  - id: MEM-001
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "The only carve-out ADR 070 makes is a feature's own state. The base rule it amends says 'no part of the model holds a work status'. A rule that says 'no other part holds one' must still leave room for the states the ontology already keeps on other kinds."
+    basis: "core/components/memory/standards/schemas/product-os/ontology.md on main line 242 (Business Intent `Stage`: proposed, confirmed, met, or dropped) and line 23; docs/adr/069-... (main) line 97; docs/adr/070-... (main) line 58 ('a business intent [has] no state of their own') and header line 7 ('no other part holds one')."
+    detail: "v18 rewrites the whole-model rule (line 23) to 'Only a feature holds a state ... No other part holds one', says in the Feature kind (line 494) that 'its capability, its domain and its business intents have no state', and Q66 answers 'no domain and no business intent holds a state'. But the same file keeps Business Intent `Stage` (proposed, confirmed, met, dropped, line 266), the Plan `Status` (line 673) and a `State` on every work-layer kind (lines 761, 811, 871, 915, 959, 1001). The base rule said 'work status'; the word 'work' was dropped and the new sentence now contradicts the file's own Business Intent kind. The same wording is in ADR 070 section 2, so the ADR is the source of the imprecision, not a deviation from it."
+    suggested_fix: "Restore the qualifier in the whole-model rule, the Feature kind rule and Q66: 'Only a feature holds a work state ... no other part of the product layer holds one', and name that the Business Intent's Stage and the plan's and work items' own states are different things. If ADR 070 is to be read the same way, record it in a new ADR or a forward pointer, never by editing ADR 070."
+    blocks_merge: false
+    category: memory
+    layer: 2
+  - id: MEM-002
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "A state rule must cover every state it can meet. ADR 070 section 6 gives Dropped and Completed their own moves, and ADR 068 section 5 says a built feature counts complete in every plan that holds it."
+    basis: "docs/adr/070-... (main) Decision sections 1 and 6 (lines 46 to 82); docs/adr/068-... (main) Decision section 5 (line 101)."
+    detail: "The Plan rule (line 707), Q68 (line 232) and the Feature States line (line 499) say what a feature that leaves a plan 'without being dropped' becomes: Unplanned when no other plan holds it, Planned when another does, In progress when its work started. A Completed feature that leaves a plan is not named. Read literally it falls under 'Unplanned when no other plan holds it', which would undo a built feature, and contradicts ADR 068 section 5 (a built feature counts complete) and ADR 070 section 6 (only a reopened issue moves Completed back)."
+    suggested_fix: "Add one clause to the Plan rule, Q68 and the States line: a Completed feature keeps Completed when it leaves a plan (a Dropped feature is not 'without being dropped')."
+    blocks_merge: false
+    category: memory
+    layer: 2
+  - id: MEM-003
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "A feature in a slice or plan that later becomes Dropped is not covered by ADR 070: sections 6 and 8 say only that a Dropped feature stays out of every new slice and plan. The ontology must not decide the gap silently."
+    basis: "docs/adr/070-... (main) Decision sections 6 and 8 (lines 82 and 90); docs/adr/068-... (main) Decision sections 4 and 5 (lines 97 to 101); docs/adr/069-... (main) section 5 (line 121)."
+    detail: "The Slice kind (line 543) and the Plan rules (lines 705 and 707) leave out Completed and Dropped features only 'in a new slice or plan'. A feature already held by a slice and a plan that is then Dropped has no stated treatment: the plan's eval 'tests every feature of every slice it holds' (line 661) and the Slice and Plan rules say a feature that becomes Completed 'counts complete' but say nothing for Dropped, while the Capability's Done treats Dropped as done. The ontology neither contradicts the ADR nor settles the case."
+    suggested_fix: "Either state that a feature Dropped after it joined a slice or plan leaves the plan's tree and the eval's scope (and who does it), or list it as an open point in a decision record. Do not leave it unsaid in a standard the plays read."
+    blocks_merge: false
+    category: memory
+    layer: 2
+  - id: MEM-004
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "A decision about how plays behave is recorded in an ADR, and an accepted ADR is not edited: each new decision is a new ADR. A rule in the ontology that no ADR carries has no committed source."
+    basis: "docs/adr/069-... (main) Decision section 2, ADR bullets (lines 103 to 108); docs/adr/070-... (main) Decision sections 4 to 6 (lines 66 to 82) and 'What this changes' (lines 96 to 108)."
+    detail: "Four behaviours in v18 are not in ADR 070 or in any ADR on main: (1) the drop check that warns and never blocks (Feature rule line 492, Q70 line 238); (2) a feature that leaves its last plan goes back to Unplanned unless its work started (Plan rule line 707, Q68); (3) a hand close of a Feature issue as not planned changes no state and no play looks for it, whereas a hand close as completed is caught by /reshape-plan (Feature issue lines 837 to 839, Q70); (4) the plan play opens the same closed Feature issue again, which ADR 068 does for a not-planned issue but ADR 070 does not extend to a Dropped feature brought back. The only record is the person's replies in the run's decisions.json, which is the branch's own record. The behaviours do not contradict ADR 070 (they refine it), but they bind /reshape-plan, /start-work and merge-work and the ADR's own Work Creates list does not carry them."
+    suggested_fix: "Record the four behaviours in a new ADR (or a forward pointer from ADR 070 to a new one), so /fix-play on /reshape-plan and /start-work can ground them. Do not edit ADR 070."
+    blocks_merge: false
+    category: memory
+    layer: 2
+  - id: MEM-005
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "A rule should say what ADR 070 says: more than one step can set a state, and Completed has one exception for features built before ADR 068; a rule that says 'one' or 'only' must not be narrower than its own list."
+    basis: "docs/adr/070-... (main) Decision sections 4 and 9 (lines 66 to 94)."
+    detail: "Three wording points. (a) The Feature `Status` row (line 470) says 'Each state has one named step that sets it', but its own States line (line 499) and ADR 070 section 4 give Planned two plays, Completed three steps and the clean-up. (b) The Feature issue rule (line 839) says 'Only closed as completed makes its feature Completed', which omits the one-time clean-up the Feature kind and ADR 070 section 9 allow. (c) The flow line (line 11) says the plan play 'sets each Feature it takes in to Planned', while the Plan rule (line 706) and the Feature rule keep In progress and Planned features as they are."
+    suggested_fix: "(a) 'Each state has named steps that set it'; (b) add 'and the one-time clean-up' to the Feature issue rule; (c) 'sets each Unplanned Feature it takes in to Planned'."
+    blocks_merge: false
+    category: memory
+    layer: 2
+  - id: MEM-006
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "One name for one meaning: ADR 070 gives the field `status` to the feature's state only. The Plan kind keeps its own `Status` with a different value list."
+    basis: "docs/adr/070-... (main) Decision section 2 (line 58: 'The name status then belongs to the feature's state only'); core/components/memory/standards/schemas/product-os/ontology.md on main (the Plan kind, its Status row, 'Not Started, In Progress, Paused, Done or Dropped')."
+    detail: "The Feature `Status` row (line 470: Unplanned, Planned, In progress, Completed, Dropped) and the Plan `Status` row (line 673: Not Started, In Progress, Paused, Done, Dropped) share a name and two values with different casing ('In progress' and 'In Progress', 'Dropped' on both). A reader or a script reading 'status' across kinds can mix them. The ADR's sentence is about the spine field, so the file is not wrong, but the shared word is a trap in a standard both humans and agents read."
+    suggested_fix: "No change needed to ship. When the ontology is next changed, say once in the Feature and Plan kinds that the two Status words are separate (the feature's is stored in the spine; the plan's lives in the plan file), or align the casing."
+    blocks_merge: false
+    category: memory
+    layer: 2
+  - id: MEM-007
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "Memory standards that name each other must not contradict each other: the ontology and the spine schema sit in the same folder and are read together."
+    basis: "core/components/memory/standards/schemas/product-os/spine.yaml on main lines 45, 74 and 110 (`status: string # proposed | active | deprecated`); docs/adr/070-... (main) 'Work This Creates' (lines 136 to 148) and Consequences risks (line 126)."
+    detail: "v18 says a feature's state is the `status` of its spine entry, one of five values, required, and that no domain, capability or business intent has one. The spine schema on main (unchanged by this PR) still gives domain, capability and feature entries `status: proposed | active | deprecated`, and link-model-part still writes `proposed`. Until the follow-up lands, two memory standards disagree on the field's values and on which kinds carry it. ADR 070 names the spine schema, link-model-part and the play scripts as later work and accepts the order as a known risk, so this is the planned sequence, not a defect in v18."
+    suggested_fix: "None for this PR. Keep the spine schema, link-model-part and the old-status removal as the next change, before the next plan is made (ADR 070 'Work This Creates')."
+    blocks_merge: false
+    category: memory
+    layer: 2
+counts:
+  P1: 0
+  P2: 0
+  P3: 4
+  P4: 3
+  total: 7

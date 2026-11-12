@@ -1,0 +1,3 @@
+[ENH] The product model records each feature's state
+
+Note: specify-ontology: the feature's state in the model (v18)

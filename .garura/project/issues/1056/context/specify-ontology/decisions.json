@@ -1,0 +1,42 @@
+{
+  "history": [
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "Open 1. I agree. It goes to one bland. Open 2. I'm not building as a workflow. I'm just tracking the four states. If somebody is to go back and, let's say, update a feature to not planned, you can run a check at that point in time. You are a model: whether it was built or not built, what things are happening, and you can warn the user. I'm not building a workflow. That step 1, 2, and then start making reshape plan complicated If a user overrides it, you can always check and say some work was done. It's sitting in there, but there are multiple correlations, right? You could be sitting in a branch, the branch is sitting idle, and things like that. Let's not build in a complex workflow. Open 3. Yeah, the same issue should be open. Open 4. Yeah, single source of truth in this pine",
+      "draft": ".garura/project/issues/1056/context/specify-ontology/draft-questions.md",
+      "draft_sha256": "c99b962e5340953653101369c3a3c737cd8225f6c173586cad2477bafce7100a",
+      "at": "2026-11-12T18:13:31+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/1056/context/specify-ontology/draft-questions.md",
+      "draft_sha256": "0132b37e011374489bb57a0826d2179280ba3de3b939954c7cd09ca4528dfa64",
+      "at": "2026-11-12T18:15:06+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/1056/context/specify-ontology/draft-kinds.md",
+      "draft_sha256": "5bb9a1539f92d668b08f59c9db83e566a9644848fbe4a36d65eba4dc7d4c5eee",
+      "at": "2026-11-12T18:19:02+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/1056/context/specify-ontology/draft-links.md",
+      "draft_sha256": "a049e6682439e006c8929399fcadbb593caa81085a92e066f3acd88ebd056850",
+      "at": "2026-11-12T18:22:37+00:00"
+    }
+  ],
+  "agreed": {
+    "questions": true,
+    "kinds": true,
+    "links": true
+  },
+  "all_agreed": true
+}
