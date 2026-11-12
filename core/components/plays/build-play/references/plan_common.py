@@ -316,7 +316,19 @@ def _issue(raw):
     return {"number": int(raw["number"]), "title": raw.get("title") or "",
             "type": raw.get("type"), "labels": list(raw.get("labels") or []),
             "state": (raw.get("state") or "open").lower(), "body": raw.get("body") or "",
-            "sub_issues": [int(n) for n in raw.get("sub_issues") or []]}
+            "sub_issues": [int(n) for n in raw.get("sub_issues") or []],
+            "parent": _parent(raw.get("parent"))}
+
+
+def _parent(raw):
+    """The issue's parent as {number, title, repo}, or None. repo is "owner/name" when the
+    tracker gives the parent's address (it may sit in another repository), else None (#1025)."""
+    if not isinstance(raw, dict) or raw.get("number") is None:
+        return None
+    url = str(raw.get("url") or "")
+    parts = url.split("/")
+    repo = f"{parts[3]}/{parts[4]}" if url.startswith("https://") and len(parts) > 6 else raw.get("repo")
+    return {"number": int(raw["number"]), "title": raw.get("title") or "", "repo": repo}
 
 
 class FileTracker:
@@ -337,7 +349,14 @@ class FileTracker:
 
     def get(self, number):
         it = self.issues.get(int(number)) if number is not None else None
-        return json.loads(json.dumps(it)) if it else None
+        if not it:
+            return None
+        it = json.loads(json.dumps(it))
+        if it.get("parent") is None:
+            owner = next((o for o in self.issues.values() if int(number) in o["sub_issues"]), None)
+            it["parent"] = ({"number": owner["number"], "title": owner["title"], "repo": None}
+                            if owner else None)
+        return it
 
     def _must(self, number):
         it = self.issues.get(int(number))
@@ -441,7 +460,8 @@ class HostTracker:
                        "type": itype.get("name") if isinstance(itype, dict) else itype,
                        "labels": [lb.get("name") for lb in raw.get("labels") or []],
                        "state": raw.get("state"), "body": raw.get("body"),
-                       "sub_issues": [s.get("number") for s in subs if isinstance(s, dict)]})
+                       "sub_issues": [s.get("number") for s in subs if isinstance(s, dict)],
+                       "parent": raw.get("parent")})
 
     def create(self, title, body, type_, parent=None):
         args = {"title": title, "body": body, "issue_type": type_}
