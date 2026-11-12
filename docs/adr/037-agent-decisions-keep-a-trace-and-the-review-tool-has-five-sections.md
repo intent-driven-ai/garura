@@ -1,6 +1,6 @@
 # ADR 037 — Every Agent Decision Keeps a Trace of the Memory It Rested On, and the Review Tool Has Five Sections
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Negative / Risks, 'Not decided here', third item, its first half, 'whether a product decision (a decision.yaml record) waiting for a person is reviewed in ADRs or under Decisions in the Product view': settled as for ADR 036. Its second half, 'who writes the approval when a person accepts a card (ADR 033 §6)', stays open.
 **Date:** 2026-10-19
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja

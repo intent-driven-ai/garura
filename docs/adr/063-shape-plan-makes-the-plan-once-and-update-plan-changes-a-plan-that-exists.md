@@ -1,6 +1,6 @@
 # ADR 063 — /shape-plan Makes a Business Intent's One Plan Once; a Plan That Exists Is Changed Only by /update-plan
 
-**Status:** Accepted — amended in part by [ADR 065](065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md): §2, "A plan that exists is changed only by /update-plan": a whole plan, with its folder, may also be deleted on a person's named approval, through remove-plan; and its words "the change reaches GitHub" now read "the tracker". §1 and §3 stand
+**Status:** Accepted — amended in part by [ADR 065](065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md): §2, "A plan that exists is changed only by /update-plan": a whole plan, with its folder, may also be deleted on a person's named approval, through remove-plan; and its words "the change reaches GitHub" now read "the tracker". §1 and §3 stand; and amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Decision §2, 'the person may add a bug, a story or a feature to the plan': also a slice (its features' Feature issues go under the plan's one epic). §3, 'that slice's eval is out of date': the plan's eval is out of date. §1 stands.
 **Date:** 2026-10-31
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #896 (/shape-plan stops when the business intent already has a plan), PR #1003 on plan 717's branch; the review of PR #1003, finding HF-1

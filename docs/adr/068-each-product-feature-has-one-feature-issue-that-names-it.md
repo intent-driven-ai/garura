@@ -1,6 +1,6 @@
 # ADR 068 — Each Product Feature Has One Feature Issue That Names It and Holds Its Scope of Work, and No Feature in the Model Carries an Issue Number
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Decision §1, last sentence, 'The business intent pages keep their Tracker line': the Business Intent kind loses the Tracker line, through /specify-ontology. 'every id stays as it is (for example bi-1 and fn-724)' stands: the ids stay as names (settled at acceptance). §2 to §6 stand; 'a second epic' in §4 now means another plan's epic.
 **Date:** 2026-11-12
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #1051 (a Chore under #1025, "/shape-plan reuses an open story for a feature instead of filing a second one"), from checkpoint 1 of the ontology change for #1050
