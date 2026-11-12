@@ -1,0 +1,70 @@
+{
+  "task_id": "draft-adr",
+  "round": 5,
+  "draft": ".garura/project/issues/_adr/20261112T093635Z/adr-draft.md",
+  "number": "069",
+  "lint": {
+    "exit": 0,
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "exit": 0,
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes",
+    "agrees_with_declared": true,
+    "keeper_reading": "The guard reads Affects for intent page paths and ids, and the whole text for intent titles. The record changes no business intent page. Two things it does not read: Work This Creates still names the eleven intent pages whose Tracker line comes off after the kind changes; and the feature 'Define the product profile and the product decision as kinds of the map' may get a new title, so the link text to it in its business intent's Touches list follows (Touches is not one of the intent's own fields). No intent's title, outcome, why, asked by, proof, must not, rules or stage changes. Fourth change: a product decision is the content of the part it decides (for example an intent's proof); the record states where such answers sit and changes no intent's own field."
+  },
+  "overlaps_judged": {
+    "superseded_in_full": [
+      "049",
+      "057"
+    ],
+    "amended_in_part": [
+      "017",
+      "026",
+      "032",
+      "033",
+      "036",
+      "037",
+      "048",
+      "052",
+      "058",
+      "060",
+      "062",
+      "063",
+      "065",
+      "068"
+    ],
+    "not_affected": [
+      "056",
+      "064",
+      "067",
+      "051",
+      "053",
+      "061",
+      "066",
+      "019",
+      "022",
+      "024",
+      "028",
+      "059",
+      "030",
+      "035",
+      "044",
+      "031",
+      "039",
+      "043",
+      "047",
+      "035",
+      "045"
+    ]
+  },
+  "retries": 0,
+  "fourth_change": {
+    "open_points_for_accepter": 1,
+    "shown_points": 2,
+    "removed_point": "what 'as for ADRs, the rule stays' means for a decision about the product (settled by the split)"
+  }
+}

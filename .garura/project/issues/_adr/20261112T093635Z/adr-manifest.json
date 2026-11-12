@@ -1,0 +1,133 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261112T093635Z/adr-draft.md",
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "049",
+      "file": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+      "kind": "superseded",
+      "part": "full"
+    },
+    {
+      "adr": "057",
+      "file": "docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md",
+      "kind": "superseded",
+      "part": "full"
+    },
+    {
+      "adr": "048",
+      "file": "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+      "kind": "amended",
+      "part": "Decision \u00a71, third bullet ('an Epic stands for a Slice') and \u00a73, first bullet ('An Epic represents one slice'): an Epic stands for its plan. And \u00a75 ('Until then they stay on disk'): the spine's epics list leaves the model with this record's schema change, not with each play's story. \u00a72's first paragraph stays superseded; its replacement is restated in Decision \u00a79.1. The rest stands, as amended by ADR 056 and ADR 068; \u00a71's 'Only the Business Intent is a product-layer tracker issue' stands."
+    },
+    {
+      "adr": "017",
+      "file": "docs/adr/017-folder-whitelist.md",
+      "kind": "amended",
+      "part": "\u00a71, the plans/ entry that ADR 049 added under .garura/project/: plans/<id>.yaml and its folder <id>/ with evals/ (the plan's one eval, and evals/<slug>/ with the hidden file of each slice the plan holds that was first shaped for its intent) and guides/. The principle does not reach \u00a71 otherwise: plans/ is on the work side."
+    },
+    {
+      "adr": "052",
+      "file": "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+      "kind": "amended",
+      "part": "Decision \u00a73: the epic that keeps the map is the plan's one epic, with one line for each feature of each slice the plan holds. \u00a71 (the play makes evals/<slug>/ in the plan's folder) is play-side, so the principle does not reach it; the rest stands."
+    },
+    {
+      "adr": "058",
+      "file": "docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md",
+      "kind": "amended",
+      "part": "Decision \u00a73, 'It names each epic past ready, with its status, as out of date': a slice is in progress when a plan file that holds it records it so; the brief names that plan and its epic as out of date. \u00a71 reads with the same test. \u00a72 stands."
+    },
+    {
+      "adr": "060",
+      "file": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+      "kind": "amended",
+      "part": "Decision \u00a74, 'The only reason to hold it back is that it would break main': a done plan is also held off main until its eval passes; until the eval runner (#801) exists, the Garura harness runs the plan's eval by hand before a done plan lands. \u00a71, \u00a72 (a paused plan merges), \u00a73 and \u00a75 stand."
+    },
+    {
+      "adr": "062",
+      "file": "docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md",
+      "kind": "amended",
+      "part": "Decision \u00a72, 'its epic is past ready (in_delivery, validated, fix_required or delivered \u2014 the rule /shape-slice uses)' and 'names each epic past ready, with its status': a slice is in progress when a plan file that holds it records it so; the confirm screen names that plan and its epic. \u00a71 and the rest of \u00a72 stand."
+    },
+    {
+      "adr": "063",
+      "file": "docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+      "kind": "amended",
+      "part": "Decision \u00a72, 'the person may add a bug, a story or a feature to the plan': also a slice (its features' Feature issues go under the plan's one epic). \u00a73, 'that slice's eval is out of date': the plan's eval is out of date. \u00a71 stands."
+    },
+    {
+      "adr": "065",
+      "file": "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+      "kind": "amended",
+      "part": "Rule 3, 'The product model never names a plan ... Naming a plan means naming one particular plan': widened \u2014 the model holds no reference to a plan, a plan's folder, an eval, a hidden file, an epic, a tracker issue or the tracker; this includes an issue number cited as a source and a created_by or updated_by line that names an issue. Its last sentence, 'A part about plans may still describe them', stands. Rules 1, 2 and 4 stand. Also its line on ADR 026, 'The profile and decisions/ stay with the play's script' (\u00a7 What this decision does, line 50; What this changes, line 147): decisions/ leaves the model; the profile stays with the play's script."
+    },
+    {
+      "adr": "068",
+      "file": "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
+      "kind": "amended",
+      "part": "Decision \u00a71, last sentence, 'The business intent pages keep their Tracker line': the Business Intent kind loses the Tracker line, through /specify-ontology. 'every id stays as it is (for example bi-1 and fn-724)' stands: the ids stay as names (settled at acceptance). \u00a72 to \u00a76 stand; 'a second epic' in \u00a74 now means another plan's epic."
+    },
+    {
+      "adr": "026",
+      "file": "docs/adr/026-direct-to-model-writes.md",
+      "kind": "amended",
+      "part": "Decision, 'Consequent mechanics', 'Containment split', 'Every shared file \u2014 the spine _spine.yaml, profile.yaml, decisions/ \u2014': decisions/ is no longer a model file; the model holds no decision record. The rest of the split, as amended by ADR 044 and ADR 065, stands."
+    },
+    {
+      "adr": "032",
+      "file": "docs/adr/032-drive-review-of-outcomes.md",
+      "kind": "amended",
+      "part": "\u00a72, 'in the product model: domains, capabilities, functionalities, product limits and decisions': the model holds no decision records; a product decision is the content of the part it decides. \u00a77, 'Inside a drive, /understand writes its decision as proposed' and 'it rejects the decision': a box-move writes no decision record and no ADR; the person's answer is the raised level and its gate on the profile, and the reason it moved is in git history. Lowering the limit and sending the capability back stand. The rest stands."
+    },
+    {
+      "adr": "033",
+      "file": "docs/adr/033-approval-in-the-product-model.md",
+      "kind": "amended",
+      "part": "\u00a71, the item 'each decision', and \u00a75, 'An approved decision is accepted': the model holds no decision record; a product decision is approved as the content of the part it decides; an ADR, a decision about the code, is accepted on a person's word through /design-adr. The rest of \u00a71 and \u00a75 stands."
+    },
+    {
+      "adr": "036",
+      "file": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+      "kind": "amended",
+      "part": "Negative / Risks, 'Not decided here', first item, 'whether a product decision (a decision.yaml record, also an ADR) waiting for a person is reviewed in Memory and ADRs or stays under Decisions in the Product view': settled. No product decision record exists: a product decision is the content of the part it decides, and is seen with that part in the Product view; an ADR that waits for a person is reviewed with the ADRs. The other items stand."
+    },
+    {
+      "adr": "037",
+      "file": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+      "kind": "amended",
+      "part": "Negative / Risks, 'Not decided here', third item, its first half, 'whether a product decision (a decision.yaml record) waiting for a person is reviewed in ADRs or under Decisions in the Product view': settled as for ADR 036. Its second half, 'who writes the approval when a person accepts a card (ADR 033 \u00a76)', stays open."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md",
+    "048-the-product-model-and-the-work-are-two-layers.md",
+    "017-folder-whitelist.md",
+    "052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+    "058-an-edit-the-person-approves-may-change-a-slice-in-progress.md",
+    "060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+    "062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md",
+    "063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+    "065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md",
+    "068-each-product-feature-has-one-feature-issue-that-names-it.md",
+    "026-direct-to-model-writes.md",
+    "032-drive-review-of-outcomes.md",
+    "033-approval-in-the-product-model.md",
+    "036-approved-answer-lands-in-short-term-memory.md",
+    "037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}
