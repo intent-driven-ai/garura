@@ -1,0 +1,34 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261112T061525Z/adr-check.json",
+    ".garura/project/issues/_adr/20261112T061525Z/adr-context.yaml",
+    ".garura/project/issues/_adr/20261112T061525Z/adr-draft.md",
+    ".garura/project/issues/_adr/20261112T061525Z/adr-manifest.json",
+    ".garura/project/issues/_adr/20261112T061525Z/apply-out.json",
+    ".garura/project/issues/_adr/20261112T061525Z/brief.md",
+    ".garura/project/issues/_adr/20261112T061525Z/decision.yaml",
+    ".garura/project/issues/_adr/20261112T061525Z/hashes-before.json",
+    ".garura/project/issues/_adr/20261112T061525Z/porcelain-after.txt",
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+    "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md",
+    "docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md",
+    "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+    "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md",
+    "docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md",
+    "docs/adr/_index.md",
+    "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
+    ".garura/project/issues/*"
+  ]
+}

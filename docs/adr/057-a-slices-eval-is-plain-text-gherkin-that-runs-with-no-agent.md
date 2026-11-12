@@ -1,6 +1,6 @@
 # ADR 057 — A Slice's Eval Is Plain-Text Gherkin, One File for Each Story and One for the Slice, That Runs With No Agent and Is Not Encrypted
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 068](068-each-product-feature-has-one-feature-issue-that-names-it.md)
 **Date:** 2026-10-26
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #798 (the eval play, `/shape-eval`), in the shaping loop of business intent #788, slice sl-intent-to-design
