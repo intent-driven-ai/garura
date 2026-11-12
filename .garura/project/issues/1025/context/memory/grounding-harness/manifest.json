@@ -1,4 +1,12 @@
 {
-  "files": [],
-  "note": "No extra memory copied. Grounding came from the base ref (git show main:<path>) and the shared review-shelf and severity-taxonomy copies Step 2 made."
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:6c1e305360bb9fa5d20bfb5d51d48f1ea3116571eb12e16a02e993679e6652f5",
+      "copy": ".garura/project/issues/1025/context/memory/grounding-harness/standards/rules/direct-model-write.md"
+    }
+  ],
+  "note": "One standards file copied through the memory tool (Phoenix tier, as no Garura tier holds it): standards/rules/direct-model-write.md. Phoenix's copy is older than main's (it lacks the 'Outside a play' paragraph on link-model-part and remove-model-part), so where they differ the base ref (git show origin/main:core/components/memory/standards/rules/direct-model-write.md) was used. The other grounding came from the base ref only: docs/adr/068, 069, 070, docs/standards/harness-standard.md, ontology v18, CLAUDE.md, and the committed ICE of specify-capabilities and design-slice. The shared review-shelf and severity-taxonomy copies were read, not copied again."
 }
