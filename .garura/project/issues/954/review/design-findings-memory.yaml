@@ -1,0 +1,156 @@
+# Layer 2 design-grounding for the category "memory" — PR #1055, issue 954.
+# Artifact graded: core/components/memory/standards/schemas/product-os/ontology.md (v16 on main -> v17 on the branch).
+# Severity buckets from the taxonomy copy (.garura/project/issues/954/context/memory/standards/rules/pr.md, lines 8-11):
+#   P1 blocker, P2 major (structural violation), P3 minor (missing docs, naming, a stale pointer), P4 nit.
+# Grounding rule: every principle below is read from a committed source on main (git show main:<path>) or from the
+# shared memory copies the assessment made. No principle is taken from the v17 text the branch adds. The product
+# owner's agreed answers (decisions.json and the three drafts) were read only to see what was agreed, not as a standard.
+
+grounding:
+  status: available
+  principles:
+    - id: G1
+      principle: "ADR 069 Decision part 1: the Plan is where the product model meets the work; a Plan holds one or more slices of its business intent, plus chores."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, lines 87-89 (on main, merged with PR #1054)"
+    - id: G2
+      principle: "ADR 069 Decision part 2: the model holds no reference to plans, epics, tracker issues or the tracker; links run one way, from the work side to the model; the Business Intent kind has no Tracker line and its What was done links no work item; no page cites a tracker issue; the spine has no epics list and no part holds a work status; ids stay as names; a part about plans may describe plans in general; decision records leave the model, a product decision is the content of the part it decides, an ADR records a decision about the code."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, lines 91-111"
+    - id: G3
+      principle: "ADR 069 Decision part 3: a plan has one Epic that holds the Feature issues of all its slices with their Stories; its map has one line for each feature of each slice; a plan's chores sit in the plan under its one epic; a bug still sits under the Story that introduced it."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, lines 113-115"
+    - id: G4
+      principle: "ADR 069 Decision part 4: one eval for each plan, covering every feature of every slice including held_by features; a done plan lands on main only when it passes (by hand until #801); a paused plan still merges; the eval's index file is left to the /design-eval rework."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, lines 117-119"
+    - id: G5
+      principle: "ADR 069 Decision parts 5 to 7: the plan file records each slice and its status (a slice is in progress when the plan file says so; each plan file records its own status when two plans hold a slice); /reshape-plan gets 'add a slice' for a plan that exists; the unplanned epic goes."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, lines 121-131"
+    - id: G6
+      principle: "ADR 069 Decision part 8 (what goes) and parts 9 and 10 (what still holds from ADR 049 and ADR 057, restated from the plan's side): the shaping loop, one plan for each business intent, where the files live (evals/<slug>/ hidden file of each slice first shaped for the plan's intent; a plan never copies another plan's file; the plays work the place out and nothing in the model stores it), how the ICE reaches the work, the eval and the builder, the recovery rule, plain-text eval with one file for each Feature issue, deterministic steps, fixed yardstick, summary not eval."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, lines 133-167"
+    - id: G7
+      principle: "ADR 069 'What this changes in older ADRs' and 'What this does not change': ADR 048 section 1 third bullet and section 3 first bullet and section 5 are amended; ADR 056, ADR 064, ADR 065 rules 1, 2 and 4, ADR 068 sections 2 to 6 stand; ADR 068 section 1 is amended (the Tracker line goes; ids stay)."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, lines 169-198"
+    - id: G8
+      principle: "ADR 068: no feature carries a tracker issue number; three units of work (Epic, Feature issue, Story); a play finds a Feature issue by the plan file's mark, else by the exact 'Represents:' line, never by title; slices and plans only group features; a Feature issue sits under one epic at a time ('a second epic' now means another plan's epic); an orphan Story is matched to its feature."
+      source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md, Status line 3 and Decision sections 1 to 6 (lines 73-105)"
+    - id: G9
+      principle: "ADR 048 section 3: an Epic is long-lived and has no ICE; 'A Spike, Chore or Bug is a child of one story'; a bug sits under the story that introduced the defect. Amended only where ADR 069 names it (section 1 third bullet, section 3 first bullet, section 5)."
+      source: "docs/adr/048-the-product-model-and-the-work-are-two-layers.md, lines 3 and 42-47"
+    - id: G10
+      principle: "ADR 064 (not amended by ADR 069): an item's status in a plan follows its own issue; a status with no issue is set by a person; no roll-ups. ADR 060 sections 1, 2, 3 and 5 (plan branch, paused plan merges) stand. ADR 063 section 1 (a plan is made once)."
+      source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, line 53 and line 198; docs/adr/063-*.md"
+    - id: G11
+      principle: "The ontology's own format: a fixed template (front matter with a bumped version, intro, Questions it must answer, Kinds each with the same fields, Not yet defined, Log); every relationship and question must name a defined kind or a kind listed under Not yet defined."
+      source: "standards/templates/product-ontology.md, short-term copy .garura/project/issues/954/context/memory/standards/templates/product-ontology.md (the Format block; same content as core/components/memory/standards/templates/product-ontology.md on main); and the v16 ontology on main, core/components/memory/standards/schemas/product-os/ontology.md"
+    - id: G12
+      principle: "The plan view shows the plan's business intent on the first line, above the tree (the committed behaviour the plan template describes)."
+      source: "core/components/memory/standards/templates/plan-view.md on main, line 28"
+    - id: G13
+      principle: "docs/philosophy/idd-principles.md routing table: the eval is kept in plain text in the slice's evals folder and the builder never sees it; the table itself stays (ADR 069 'does not change'). Nothing in docs/philosophy conflicts with v17."
+      source: "docs/philosophy/idd-principles.md on main, lines 121-124"
+
+conformance_checks_passed:
+  - check: "ADR 069 part 1 (G1): the Plan kind and the opening call the Plan the one place where the model meets the work; the Plan holds one or more slices of its intent and the plan's chores."
+    where: "ontology.md lines 9, 11, 15, 627 (Plan kind: What it is)"
+  - check: "ADR 069 part 2 (G2): a rule for the whole model is added after the tracker paragraph, and it carries every clause of part 2 (no plan, plan folder, eval, hidden file, epic, tracker issue number or link; one-way links; created_by and updated_by name the play or agent; git history keeps provenance; no spine epics list and no work status; ids stay as names; plans may be described in general; no decision record; product decision = content of the part; ADR = decision about the code)."
+    where: "ontology.md line 23; Q54 (line 190), Q61 (211), Q62 (214), Q63 (217)"
+  - check: "ADR 069 part 2: the Business Intent kind has no Tracker line, and What was done links no work item."
+    where: "ontology.md lines 225, 228, 245 (What was done row), 266 (Rules), 299, 301"
+  - check: "ADR 069 part 2: the Slice kind names no plan, plan folder, epic, eval, hidden file or guide; it is model only; the Epic relationship is gone; status is not on the slice."
+    where: "ontology.md lines 477, 480-481, 500, 506, 511-513 (Slice kind)"
+  - check: "ADR 069 parts 3 and 4 (G3, G4): one Epic for each plan; map has one line for each feature of each slice; one eval for each plan covering held_by features; done plan lands only when the eval passes, by hand until #801; a paused plan still merges; eval index left to /design-eval rework."
+    where: "ontology.md Plan kind lines 627-708, Q55-Q57 (lines 193-201), Epic kind lines 712-760"
+  - check: "ADR 069 parts 5 to 7 (G5): Slices list with a status a person sets; each plan file records its own status when two plans hold a slice; /reshape-plan adds a slice (status Not Started, Feature issues under the one epic, no second epic or plan); no unplanned epic."
+    where: "ontology.md lines 643, 667, 674, 743, Q30 (line 118), Q58 (202)"
+  - check: "ADR 069 parts 9 and 10 (G6): where the files live (evals/<slug>/ for slices first shaped for the plan's intent; another plan's file is read, never copied; the place is stored nowhere), the two read times of the eval, the recovery rule, the guide in guides/ beside evals/."
+    where: "ontology.md lines 631, 649-651, 673, 677-681, Q29 (line 115), Q31, Q33, Q40"
+  - check: "ADR 069 'what this changes' (G7): the ontology states an Epic stands for its plan (ADR 048 sections 1 and 3 first bullets), the spine epics list and epic.md pages leave the model (ADR 048 section 5), Tracker line goes (ADR 068 section 1), ids stay as names."
+    where: "ontology.md lines 266, 712, 718 (Epic: leaves the model), 228"
+  - check: "ADR 068 (G8): no feature holds an issue number (Q49), Feature issue and its 'Represents:' line are unchanged, 'sits under one epic' now reads 'under one plan's epic', held_by retained, an orphan Story is still matched (Q53); Feature issue kind changes in wording only, as the Log says."
+    where: "ontology.md Feature issue kind lines 760-817, Q19, Q48-Q53"
+  - check: "ADR 064 and ADR 060 (G10): a slice status is set by a person with no roll-ups; item statuses still follow their issue; a paused plan merges; the plan's branch rules are unchanged."
+    where: "ontology.md lines 674, 685-686, example at 706"
+  - check: "No ADR in force is contradicted except the one point in finding DF-1 (ADR 048 section 3 third bullet). ADR 056 (the plan file marks the plan's epic): the mark is now 'epic'. ADR 065 rule 3 (plans described in general): kept. ADR 017 section 1 (plans/ folder): the Lives-at line matches the amendment."
+    where: "ontology.md lines 631, 750, 690; Q20 (line 88)"
+  - check: "Template structure (G11): the heading and bold-label skeleton is identical to v16 (diffed: only the values after the labels differ); front matter version 17, updated 2026-11-12; Log line added for v17; Not yet defined lists Product Profile; every question and relationship names a defined kind; Q62 is 'partly' because it names Product Profile. The source-only checker (check_ontology.py) was run read-only and reports valid, 14 kinds, 63 questions, no problems."
+    where: "ontology.md lines 1-5, 987-989, 991 and 1014"
+  - check: "Checkpoint answers reflected: L1 (epic mark 'epic: <issue number>', one line at the top of the plan file, matched to the tree's epic; 'represents' stays for a Feature issue; an old epic with 'represents' is drift) at lines 642, 750, 690, 684; L2 (four slice statuses Not Started, In Progress, Done, Dropped; Paused, Now and Blocked left out) at lines 643, 674, Q58 (line 202); L3 (a chore under a story when the upkeep is for that story's work, else under the plan's epic; never under a Feature issue; no Feature issue or slice counts it and the eval does not test it) at lines 907-945, Q43 (line 157), link 4 at line 18; the change at the links checkpoint (tree starts at the epic; the plan shows its business intent at the top) at lines 638, 645, 704, 706, 708 and Q59 (line 205). The plan-view template on main already prints the business intent on the first line (G12), so the Plan property is true."
+    where: ".garura/project/issues/954/context/specify-ontology/decisions.json (read only to see what was agreed)"
+
+findings:
+  - id: DF-1
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "18 (link 4), 662, 735, 907-945 (Chore kind), Q43 (line 157)"
+    principle: "A decision recorded in an accepted ADR is changed only by a later ADR with a forward pointer (ADR rule, restated in ADR 069 Decision part 2). ADR 048 section 3, third bullet, says a Chore is a child of one story, and ADR 069's 'what this changes' list amends only ADR 048 section 1 third bullet, section 3 first bullet and section 5."
+    basis:
+      - source: "docs/adr/048-the-product-model-and-the-work-are-two-layers.md, line 46 ('A Spike, Chore or Bug is a child of one story') and Status line 3 (no pointer on that bullet)"
+      - source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, line 115 ('A plan's chores sit in the plan, under its one epic') and lines 173-174 (the ADR 048 amendment lists no Chore bullet)"
+    detail: >
+      v17 gives a Chore two possible parents (a Story, or the plan's one Epic) and adds Plan and Epic relationships for it.
+      This follows ADR 069 part 3 and the product owner's L3 answer, so the ontology is right to say it. The gap is in the
+      ADRs: ADR 048 section 3, third bullet stays in force with no forward pointer, and a reader of ADR 048 alone still
+      learns that a Chore has only a Story as parent. The ontology also goes one step past ADR 069 part 3 by keeping the
+      Story parent and adding the 'is the upkeep for that story's work' test; that refinement rests on the L3 answer, which
+      the product owner agreed at the links checkpoint, and not on an ADR.
+    suggested_fix: "Not a change to this file. Add ADR 048 section 3, third bullet, to the pointers owed on ADR 048's Status line (a forward pointer to ADR 069), or record the L3 rule in a follow-up ADR. The ADR is merged on main, so this is a follow-up."
+    blocks_merge: false
+  - id: DF-2
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Plan kind, Business intent property (line 638): 'The plan-view template (standards/templates/plan-view.md), which /view-plan and /list-plans use, shows it at the top of each plan, above the tree'"
+    principle: "The ontology must agree with the committed files it names. The Plan kind now says a plan has exactly one Epic (ADR 069 Decision part 3), but the template the ontology cites for the plan views still describes several epics for each plan."
+    basis:
+      - source: "core/components/memory/standards/templates/plan-view.md on main, lines 65-67 ('each of the plan's epics ... A dotted rule separates the epics of one plan')"
+      - source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, line 9 (Affects) lists no plan-view template, and line 113-115 (one Epic for each plan)"
+    detail: >
+      The Business-intent-at-the-top claim in the ontology is true (plan-view.md line 28 prints the business intent on the
+      first line). What is stale is the list card, which still draws one block for each epic of a plan. ADR 069 Affects does
+      not list the template, and its Work This Creates names the plan tool (slice status) but not this template, so no
+      scheduled work covers it.
+    suggested_fix: "Not a change to this file. Add plan-view.md (list card, 'each of the plan's epics') to the follow-up for the plan tool, or file it as its own chore."
+    blocks_merge: false
+  - id: DF-3
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "428 (Capability example), 469 and 471 (Feature examples), 473 (Feature example), 276 (Business Intent rule)"
+    principle: "ADR 069 Decision part 2 and the new rule for the whole model (line 23, Q54): no part of the model cites a tracker issue number or names a plan, in its lines or its Sources."
+    basis:
+      - source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, line 97 ('No page cites a tracker issue, in its lines or in its Sources')"
+      - source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, line 9 (Affects): it names only the Business Intent, Slice, Plan and Epic kinds in the ontology, and says line 227 and line 615 are read, not changed"
+    detail: >
+      The examples for Capability 'Loan application' (line 428) and Feature 'Upload documents' (line 473) state a Feature issue
+      number in a sentence that reads as the page. The Feature examples at lines 469 and 471 say 'In the tracker: one Feature
+      issue, #122' and (line 469) that the feature 'counts complete in plan #120 and in plan #150', though they also say the
+      page and spine entry name no issue. The Business Intent rule at line 276 still says 'Plan files use it: for example,
+      #722 is identified by #717'. These lines are carried over from v16 (line 243 on main) and are outside the ADR 069 Affects
+      list, so the change does not violate the ADR; they only blur the rule the same file now states. Plan and Epic examples
+      correctly keep issue numbers (they are work-side kinds).
+    suggested_fix: "Optional wording pass in a later ontology version: make each of these examples say that the number is on the tracker side, or drop it."
+    blocks_merge: false
+  - id: DF-4
+    severity: P4
+    file: core/grounding/glossary.md (not changed by this PR)
+    lines: "line 57 ('keeps only three things forever — structure, intent, decisions'), line 70 (Slice row: 'in the tracker an Epic stands for it')"
+    principle: "The glossary is the canonical definition of every concept; it should not keep a definition that v17 and ADR 069 reverse."
+    basis:
+      - source: "core/grounding/glossary.md on main, lines 57 and 70"
+      - source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, line 9 (Affects) names glossary lines 44, 69, 72 and 120 only, and Work This Creates (the bullet that closes with 'the glossary follows') schedules those lines"
+    detail: >
+      Lines 44, 69, 72 and 120 of the glossary are scheduled. Line 57 (the product model keeps decisions) and line 70 (a Slice
+      is represented by an Epic) say the opposite of ADR 069 part 2 and part 3 and are not on the list. Not a defect of this PR;
+      an item for the glossary work that ADR 069 already owes.
+    suggested_fix: "Add glossary lines 57 and 70 to the glossary follow-up."
+    blocks_merge: false
+
+notes_not_findings:
+  - "Checkpoint wording 'business intent(s)' (links checkpoint): v17 shows one business intent for each plan ('A plan serves one business intent: the one it is given'). That follows ADR 069 part 9.2 ('A business intent has one plan, and never a second') and ADR 063; the ontology's Epic and Plan rows also say 'one'. No conflict; the word '(s)' in the product owner's reply is read as plan files in general."
+  - "v16 and v17 both leave Q3 'partly' and Q4 'not yet'; neither is touched by this change."
+  - "The ontology Log (including the new v17 line) cites issue numbers (#954, #1050 and older). It is the schema's change log, not a model page, and ADR 069 part 2 says git history is the provenance of model parts; no finding."
+  - "Phoenix memory holds ontology version 15 (ADR 069 Negative / Risks, last bullet); agents still read one Epic for each Slice until the source is promoted. Already named in the ADR's Work This Creates (promote after the change lands)."
+
+summary:
+  design_bearing_category: memory
+  artifacts_checked: 1
+  findings: {P1: 0, P2: 0, P3: 2, P4: 2}
+  verdict_hint: "v17 conforms to ADR 069 parts 1 to 10 and ADR 068, contradicts no ADR in force on any point the ADRs left open except the un-pointered ADR 048 Chore bullet (DF-1, ADR-side), keeps the template structure, and reflects L1, L2, L3 and the business-intent-at-the-top answer. No finding is in the changed file itself at P2 or above."

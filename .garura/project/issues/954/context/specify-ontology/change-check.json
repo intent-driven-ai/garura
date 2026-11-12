@@ -1,0 +1,32 @@
+{
+  "changed_kinds": [
+    "Business Intent",
+    "Chore",
+    "Epic",
+    "Feature issue",
+    "Plan",
+    "Slice"
+  ],
+  "allowed_kinds": [
+    "Business Intent",
+    "Capability",
+    "Chore",
+    "Domain",
+    "Epic",
+    "Feature",
+    "Feature issue",
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "16",
+  "version_after": "17",
+  "updated": "2026-11-12",
+  "date": "2026-11-12",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}

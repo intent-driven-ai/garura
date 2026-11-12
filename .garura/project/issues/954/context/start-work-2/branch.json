@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/954-ontology-plan-meets-work",
+  "base_sha": "8b75e5dc207cee4b9dd84ae82c029ce0ceec0852",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}
