@@ -40,9 +40,16 @@ def story_text(story):
 
 
 def named_by_model(st):
-    """The words that say the story is the one the model names for its feature (C3, #1025)."""
-    return (" (the story the model names for this feature; no new story is made, and it leaves "
-            "any other parent)") if st.get("source") == "model" else ""
+    """The words that say the story is the one the model names for its feature, and, when it
+    moves, the parent it leaves (C3, F14, #1025)."""
+    if st.get("source") != "model":
+        return ""
+    words = " (the story the model names for this feature; no new story is made"
+    parent = st.get("parent")
+    if parent and not st.get("attached"):
+        where = f" in {parent['repo']}" if parent.get("repo") else ""
+        words += f"; it leaves its parent #{parent['number']} \"{parent.get('title') or ''}\"{where}"
+    return words + ")"
 
 
 def fix_lines(item, type_):

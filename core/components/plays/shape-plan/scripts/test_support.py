@@ -328,6 +328,10 @@ def main():
         data = {i["number"]: i for i in read_json(path)["issues"]}
         check("the file tracker moves a sub-issue: it leaves its old parent",
               data[2]["sub_issues"] == [5] and data[1]["sub_issues"] == [])
+        check("the file tracker reports an issue's parent", ft.get(5)["parent"]["number"] == 2)
+    check("a parent in another repository is read with its repository (#1025)",
+          pc._parent({"number": 1, "title": "Product", "url": "https://github.com/acme/intents/issues/1"})
+          == {"number": 1, "title": "Product", "repo": "acme/intents"} and pc._parent(None) is None)
     with tempfile.TemporaryDirectory() as tmp:
         root = make_model(tmp)
         check("the fixture model loads", os.path.isfile(os.path.join(root, "_spine.yaml")))

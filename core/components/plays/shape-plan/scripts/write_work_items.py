@@ -38,7 +38,7 @@ Record:
     {ok, plan_id, approval_at, created: [{issue, kind, represents, title}],
      updated: [{issue, kind, represents, changes: [..], lines_kept}],
      moved_out: [{issue, feature, epic}], epics: {slice: issue}, stories: {feature: issue},
-     maps: {slice: {feature: issue}}, titles: {issue: title}, skipped: [{feature, reason, issue}],
+     maps: {slice: {feature: issue}}, titles: {issue: title}, skipped: [{feature, reason, issue, built}],
      failed, error}
 
 Exit 0 written; 1 the tracker failed part way (the record reads `ok: false`); 2 refused
@@ -171,7 +171,8 @@ def write_slice(w, sl, d, pages, plan_id):
     for st in sl.get("stories") or []:
         fid, act = st["feature"], st["action"]
         if act == "skip":
-            rec["skipped"].append({"feature": fid, "reason": st.get("reason"), "issue": st.get("issue")})
+            rec["skipped"].append({"feature": fid, "reason": st.get("reason"), "issue": st.get("issue"),
+                                   "built": st.get("built")})
             if st.get("issue") is not None:
                 rec["stories"][fid] = int(st["issue"])
             continue

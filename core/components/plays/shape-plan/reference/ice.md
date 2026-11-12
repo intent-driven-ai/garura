@@ -24,11 +24,14 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
   `represents: <feature id>` on the story). When the plan file marks no story for a feature, the
   feature's story is the issue that the feature's entry in the product model names (its
   `issue`), when the tracker holds that issue open with type Story: the play uses it, makes it a
-  sub-issue of its slice's epic (it leaves any other parent) and adds only the sections it lacks.
-  It never makes a second story for that feature. An issue the model names that the tracker does
-  not have, that is closed, that is not of type Story, or that the model names for two features
-  is a problem: the run names it and stops before any tracker write. The play never matches a
-  work item by its title.
+  sub-issue of its slice's epic (it leaves its other parent, which the brief names) and adds only
+  the sections it lacks. When that Story is closed, the feature is already built: the play makes
+  no story for it, leaves the closed story as it is, names it in the brief as already built, and
+  goes on. A feature whose ICE is not ready never takes the model's story, so nothing about it
+  moves. It never makes a second story for a feature the model names a story for. An issue the
+  model names that the tracker does not have, that is not of type Story, that the model names for
+  two features, or whose feature sits in two slices of the plan is a problem: the run names it
+  and stops before any tracker write. The play never matches a work item by its title.
 - C5 — Each story holds its scope of work (the goals, the limits and the expectations) and its
   Context guidance (the four Context lines: what to read, what never to read, the persona, what
   is in and what is out), in its own words, written from every line of its feature's ICE and its
@@ -85,10 +88,12 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
   tracker, or did not name that item with its title.
 - F13 — The intent already had a plan file, and the run went on past pre-flight: it opened a
   change, read the model, or wrote anything; or it stopped without naming /reshape-plan.
-- F14 — A feature whose model entry names an open issue of type Story got a new story; or the
-  run used an issue the model names that the tracker does not have, that is closed, that is not
-  of type Story, or that the model names for two features, or wrote to the tracker without
-  naming that problem.
+- F14 — A feature whose model entry names a Story (open or closed) got a new story; a closed
+  story was changed or moved, or its feature was not named as already built; a story moved
+  without the brief naming the move and the parent it leaves; a feature whose ICE is not ready
+  took the model's story; or the run used an issue the model names that the tracker does not
+  have, that is not of type Story, that the model names for two features, or whose feature sits
+  in two slices of the plan, or wrote to the tracker without naming that problem.
 
 ## Context
 
@@ -96,8 +101,8 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
   Story, Slice, Feature, ICE), read through the memory tool; the spine (`_spine.yaml`: `slices`
   with `feature_refs` in build order and `intents`, `features` with their `capability` and the
   `issue` of their story when one was filed, `ices` with their thin mark) and each slice's
-  record (`slices/<id>.yaml`). All plan files were deleted on 2026-11-02 (#1025), so the
-  model's `issue` is how a run finds a story filed before it.
+  record (`slices/<id>.yaml`). All plan files were deleted on 2026-11-02 (#1021), so the
+  model's `issue` is how a run finds a story filed before it (#1025).
 - ADR 049 (the shaping loop: /design-slice, then /shape-plan, then /design-eval; one plan for each
   business intent; how the ICE reaches the story and the hidden file), ADR 052 (/design-slice
   writes the hidden file), ADR 047 (the ICE and its ready check).
@@ -152,6 +157,13 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
   for that feature. Measure: `work-items.json` lists the story as `use` or `add-sections` with
   the model's issue and `source: model`; `tracker-record.json` `created` holds no story for that
   feature; the epic's map names the model's issue; and the plan check reads ok.
+- S11 — (product owner, a feature already built) Given no plan file and a slice where one
+  feature's model entry names a closed Story, when the product owner runs /shape-plan and types
+  yes, then that feature gets no story, the closed story is not changed or moved, the brief
+  names the feature as already built with its story, and the other stories are made. Measure:
+  `work-items.json` lists the feature as `skip` with `built: <issue>` and no `issue`;
+  `tracker-record.json` writes nothing to the closed story; `brief.md` names it as already built;
+  and the plan check reads ok with the feature in `skipped`.
 
 ### Done means
 
@@ -195,7 +207,9 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
 - REC13 (F13) — stop the run, undo whatever it opened or wrote after pre-flight (the change
   issue's branch and short-term folder, any tracker write), and show the product owner that the
   plan exists and that `/reshape-plan <id>` changes it. Handoff: human.
-- REC14 (F14) — take back the new story and use the one the model names; for an issue the model
-  names that the tracker does not have, that is closed, that is not of type Story, or that is
-  named for two features, stop before any tracker write and name it; a person fixes the model's
-  link or the issue, then runs the play again. Handoff: human.
+- REC14 (F14) — take back the new story and use the one the model names, or, for a closed one,
+  none; put back a closed story or a not-ready feature's story that was moved, and name the
+  move or the built feature in the brief; for an issue the model names that the tracker does not
+  have, that is not of type Story, that is named for two features, or whose feature sits in two
+  slices, stop before any tracker write and name it; a person fixes the model's link or the
+  issue, then runs the play again. Handoff: human.

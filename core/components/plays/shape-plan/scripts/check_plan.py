@@ -13,7 +13,8 @@
   - each epic's map in the record names the same story for each feature as the tree, and the
     tree has no story node the map leaves out;
   - the plan file holds no "Fails if" line, the words "Fails if", or a recovery phrase.
-Features that are not ready are listed in `skipped`, with their reasons; they do not fail
+Features that are not ready, and features already built (the record's `skipped` names a
+`built` story, #1025), are listed in `skipped`, with their reasons; they do not fail
 the check.
 
 Output: {ok, problems: [..], skipped: [{slice, feature, reason}], slices: [{slice, epic, stories}]}
@@ -59,9 +60,14 @@ def check(plan_path, gather, rec):
             if fid in tree_map:
                 problems.append(f"{fid} has two story nodes under the epic of {sid}")
             tree_map[fid] = int(k.get("issue") or -1)
+        built = {str(b.get("feature")): b for b in rec.get("skipped") or []
+                 if isinstance(b, dict) and b.get("built") is not None}
         for fid, f in features.items():
             if not f.get("ready"):
                 skipped.append({"slice": sid, "feature": fid, "reason": f.get("reason")})
+                continue
+            if fid in built and fid not in tree_map:
+                skipped.append({"slice": sid, "feature": fid, "reason": built[fid].get("reason")})
                 continue
             if fid not in tree_map:
                 problems.append(f"the ready feature {fid} has no story node under the epic of {sid}")
