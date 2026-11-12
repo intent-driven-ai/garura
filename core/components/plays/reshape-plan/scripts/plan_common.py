@@ -7,8 +7,10 @@ Not run on its own. The scripts beside it import it for four jobs:
     then move it into place with os.replace. A run that stops half way never leaves half a
     file.
   - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
-    `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
-    the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
+    `## Agent intent (ICE)` section of the part's page, or, when the part has an entry in the
+    spine's `ices` list, the `## Intent`, `## Context` and `## Expectation` sections of its
+    ice.md. Each part is read by its own shape (#1034): a part with no `ices` entry is read
+    inline even when other parts have moved.
     `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
     under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
   - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
@@ -162,15 +164,21 @@ def _section(lines, heading):
     return lines[at + 1:end]
 
 
-def ice_page(spine, part):
-    """The page (relative to the model folder) that holds the part's ICE, or None."""
+def ice_entry(spine, part):
+    """The part's entry in the spine's `ices` list, or None (none, or not moved yet)."""
     if part is None:
         return None
-    if "ices" in spine:
-        ice = next((i for i in spine.get("ices") or [] if isinstance(i, dict)
-                    and i.get("for") == part.get("id")), None)
-        return ice.get("doc") if ice else None
-    return part.get("doc")
+    return next((i for i in spine.get("ices") or [] if isinstance(i, dict)
+                 and i.get("for") == part.get("id")), None)
+
+
+def ice_page(spine, part):
+    """The page (relative to the model folder) that holds the part's ICE, or None: its ice.md
+    when it has an `ices` entry, else its own page, where the ICE is inline (#1034)."""
+    if part is None:
+        return None
+    ice = ice_entry(spine, part)
+    return ice.get("doc") if ice else part.get("doc")
 
 
 def ice_lines(root, spine, part):
@@ -182,7 +190,7 @@ def ice_lines(root, spine, part):
     if not os.path.isfile(path):
         return None
     lines = read_text(path).splitlines()
-    if "ices" in spine:
+    if ice_entry(spine, part) is not None:
         out = []
         for head in ICE_PARTS:
             body = _section(lines, head)
@@ -377,9 +385,14 @@ class FileTracker:
         self._keep()
 
     def add_sub(self, parent, child):
+        """Make child a sub-issue of parent. Like the real tracker's replace_parent, a child
+        has one parent: it leaves any other parent first (#1025)."""
         self._write("add a sub-issue")
         self._must(child)
         subs = self._must(parent)["sub_issues"]
+        for other in self.issues.values():
+            if other is not self.issues[int(parent)] and int(child) in other["sub_issues"]:
+                other["sub_issues"] = [n for n in other["sub_issues"] if n != int(child)]
         if int(child) not in subs:
             subs.append(int(child))
         self._keep()
@@ -451,7 +464,9 @@ class HostTracker:
             self._adapter("remove-label", {"issue_number": str(number), "label": label})
 
     def add_sub(self, parent, child):
-        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
+        """Make child a sub-issue of parent; it leaves any other parent (#1025)."""
+        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child),
+                                           "replace_parent": "true"})
 
     def remove_sub(self, parent, child):
         self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})

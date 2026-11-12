@@ -18,6 +18,14 @@ gap names the drift. The ICE's own approval is not a condition (§8).
 Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
 `ices` list keeps the v5 rule below, written in the same three answers.
 
+Each part is read by its own shape (#1034): in a spine with an `ices` list, a part that has no
+`ices` entry yet but keeps its ICE inline (`## Agent intent (ICE)` on its own page, with lines)
+is not "no ICE". Its capability, intents and needs are judged as above, its ICE is taken as it
+is (the three-part rule is for an ice.md), its thin mark is its own `metadata.thin`, and the
+answer carries the gap "ICE still inside its page", so the part is at most partly_ready. Only a
+part with neither an `ices` entry nor an inline ICE stops with "has no ICE". When every part
+has moved (#765), no part takes this path.
+
 The v5 rule (#724):
 
 An ICE lives inline in its capability's or feature's grounding doc; the node's spine
@@ -205,11 +213,35 @@ def thin_gaps(ice, path):
     return bool(gaps), gaps
 
 
+INLINE_ICE = "## Agent intent (ICE)"
+
+
+def inline_ice(root, part):
+    """The lines of the part's inline ICE section (`## Agent intent (ICE)` on its own page), or
+    None when the page cannot be read or has no such section with lines (#1034)."""
+    try:
+        with open(os.path.join(root, part.get("doc") or ""), encoding="utf-8") as fh:
+            lines = fh.read().splitlines()
+    except OSError:
+        return None
+    if INLINE_ICE not in lines:
+        return None
+    at = lines.index(INLINE_ICE)
+    end = next((i for i in range(at + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
+    body = [ln for ln in lines[at + 1:end] if ln.strip()]
+    return body or None
+
+
 def assess_ice(ice, part, kind, spine, root, intents_dir, done):
     """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
     caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
     stops, gaps, thin = [], [], False
-    if ice is None:
+    if ice is None and inline_ice(root, part) is not None:
+        gaps.append("ICE still inside its page")
+        if (part.get("metadata") or {}).get("thin") is True:
+            thin = True
+            gaps.append("thin ICE")
+    elif ice is None:
         stops.append(f"{kind} `{part.get('id')}` has no ICE")
     else:
         page_path = os.path.join(root, ice.get("doc") or "")
