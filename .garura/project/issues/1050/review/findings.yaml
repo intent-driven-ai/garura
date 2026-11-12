@@ -1,0 +1,149 @@
+pr: 1053
+issue: 1050
+base: main
+categories:
+- memory
+- run-records
+layer1_checks:
+  ontology check (check_ontology.py, re-run): valid, 0 problems
+  change check (check_ontology_change.py vs main, re-run): scope_ok, version_ok, names_ok all true
+  run-records: every .json/.jsonl parses; no home-folder path, temp path, secret or token in added lines
+findings:
+- id: MEM-D1
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Feature issue R4 (767), Plan rules (650-651), Feature issue States (771), Q20 (87), Q51 (186-188), Log
+    (970)
+  principle: A design choice that ADR 068 expressly left undecided is made only in the ontology and the run record,
+    with no committed decision record (ADR 068 leaves the label undecided, and says it 'says nothing about the other
+    plan's file'; the held_by mark, the owed-commit rule, 'no label' and the 'drop' close are new).
+  basis:
+  - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 62 ('It says nothing about the
+    other plan's file'), line 110 ('This record does not decide whether a Feature issue carries a label')
+  - docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md line 31 (the other labels stay
+    for now; a later change decides)
+  detail: 'The product owner agreed all four at the links checkpoint, so v16 does not contradict ADR 068. But the
+    decisions change play and tool behaviour (reshape-plan''s agreement check and move, the plan file node fields,
+    the label an author-work-items filing carries) and none is in ADR 068''s Affects or ICE impact. An agent that
+    reads only the committed ADRs will not find them.
+
+    '
+  fix_suggestion: Record them in a new ADR (an accepted ADR is not edited), or file the follow-up that lists the
+    plays and tools they change.
+  category: memory
+  layer: 2
+- id: MEM-D2
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Plan Tree and Item kinds (619-620), Plan rules (648-652)
+  principle: 'The committed plan tool describes items the new Plan kind now contradicts: a story sits under ''an
+    epic or a feature'', and a node has no held_by field. v16 allows a story only under a Feature issue and adds
+    held_by. ADR 068 does not list core/tools/plan among the parts it changes.'
+  basis:
+  - core/tools/plan/README.md on main lines 33-46 (node fields issue, kind, title, status, represents, children;
+    story sits under an epic or a feature)
+  - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 9 (Affects list names no file
+    under core/tools/plan)
+  detail: 'This is owed work, not a defect of the ontology text. Related follow-ups that ADR 068 does list and that
+    are not in this PR: core/grounding/glossary.md lines 63, 64, 72 (still define Feature item and ''a Story stands
+    for it''), CLAUDE.md Work Tracking, managing-work.md.
+
+    '
+  fix_suggestion: Add the plan tool (README and node check) to the follow-ups with the held_by mark.
+  category: memory
+  layer: 2
+- id: MEM-D3
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Plan rule 'plan file and the tracker always agree' (646) against the move rule (651) and the held_by rule
+    (650)
+  principle: The base ontology states that a plan's file and the tracker always agree; v16 keeps that sentence with
+    no exception while its own move rule leaves the source plan's file out of date until its next session (named
+    as owed).
+  basis:
+  - core/components/memory/standards/schemas/product-os/ontology.md on main line 622 ('Its plan file and the tracker
+    always agree')
+  - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 138 (a move can leave the other
+    plan out of date)
+  - docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md (a plan changes only on its
+    own branch, which is why the source plan stays owed)
+  detail: The two rules cannot both hold in the interval. The held_by rule already tells the agreement check to
+    read the held_by epic as the tracker parent for a marked item; an unmarked item in the owed plan breaks the
+    'always' sentence.
+  fix_suggestion: 'State the exception in the agreement rule: until the owed session, the plan left is allowed to
+    disagree on that one item, and the next session names it.'
+  category: memory
+  layer: 2
+- id: MEM-D4
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Feature rules (430-431); Feature kind Garura-model note (line 432)
+  principle: 'The new Feature rule ''no property, page or spine entry of a feature names an issue'' is stated without
+    the transition ADR 068 requires: Garura''s own model holds 23 such values until the clean-up has run, and they
+    go only after it.'
+  basis:
+  - 'docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 77-79 (Decision 1: the 23 values
+    are deleted after the clean-up), line 134 (if the order slips, 23 stories lose their only link), line 153'
+  - .garura/product/product-os/_spine.yaml on main (23 `issue:` values on features, first at line 737, fn-724)
+  - core/components/memory/standards/schemas/product-os/ontology.md on main line 412 (the same kind already carries
+    a Garura-model transitional note, so a note is the established place)
+  detail: An agent that applies the rule literally could delete the 23 values before the clean-up.
+  fix_suggestion: 'Add one line to the Feature kind: until the clean-up of #1051 has mapped the 23, those values
+    stay and are not removed by hand.'
+  category: memory
+  layer: 2
+- id: MEM-D5
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: ICE kind (527, 535-536), Capability kind (349, 383-384, 395), Slice kind (444, 479-481)
+  principle: ADR 068 says 'the ICE kind does not change' and lists the Feature, Story, Epic and Plan kinds, the
+    tracker paragraph and Q20 as the ontology work. v16 also edits the ICE, Capability and Slice kinds (wording;
+    Slice also gains the unbuilt-only rule that Decision 4 requires).
+  basis:
+  - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md ICE impact (line 10) and Work This
+    Creates (line ~155)
+  detail: The edits are necessary (the ICE relationship row named the Story; Decision 2 moves the scope of work)
+    and the v16 Log line says 'Capability and ICE change in wording only'. The product owner agreed the kinds draft.
+    Traceability note only.
+  category: memory
+  layer: 2
+- id: MEM-D6
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Story rules 1 and 4 (809, 812)
+  principle: Rule 1 says a Story 'is never straight under an epic'; rule 4 (ADR 068 Decision 6) handles a Story
+    that is exactly that. The Plan kind calls a story straight under an epic 'drift' (652); the Story kind does
+    not.
+  basis:
+  - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 103-105
+  fix_suggestion: Word rule 4 as 'a Story found with no Feature issue is drift, and is matched ...'.
+  category: memory
+  layer: 2
+- id: MEM-D7
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Q4 (39), Spike kind (827), Capability rule (384)
+  principle: '''Built'' is now defined only for a Feature (its Feature issue closed as completed); ''a Bug needs
+    a built Story'' and ''after that Story is built'' still use it for a Story, whose closed state means ''its piece
+    of work is done''. The Capability rule puts an open Bug, Chore or Spike ''inside a closed Feature issue'', while
+    those kinds are children of a Story.'
+  basis:
+  - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md Decision 5 (built belongs to the Feature)
+    and Decision 2 (Story is a piece of work inside it)
+  category: memory
+  layer: 2
+- id: MEM-D8
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Feature issue rule 'The plan play files one only ...' (758), Slice rule (489), Plan rule (637)
+  principle: The rules name only the plan play as the one that files a Feature issue. ADR 068's ICE impact also
+    gives /reshape-plan the job of landing a new feature with its Feature issue (C11, F10).
+  basis:
+  - 'docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 10 (/reshape-plan: C11 and F10,
+    a new feature lands with a Feature issue that names it)'
+  detail: Inherited phrasing from v15 (the plan play made the story); no conflict with a rule in force.
+  category: memory
+  layer: 2
+counts:
+  P3: 4
+  P4: 4

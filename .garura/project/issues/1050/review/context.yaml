@@ -1,0 +1,35 @@
+{
+  "pr_number": "1053",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/1050/context/args.json",
+    ".garura/project/issues/1050/context/branch.json",
+    ".garura/project/issues/1050/context/citations.jsonl",
+    ".garura/project/issues/1050/context/issue.json",
+    ".garura/project/issues/1050/context/memory/manifest.json",
+    ".garura/project/issues/1050/context/memory/standards/templates/product-ontology.md",
+    ".garura/project/issues/1050/context/plan.json",
+    ".garura/project/issues/1050/context/pr-body.md",
+    ".garura/project/issues/1050/context/pr.json",
+    ".garura/project/issues/1050/context/resolved-rules.json",
+    ".garura/project/issues/1050/context/self-review.md",
+    ".garura/project/issues/1050/context/specify-ontology/change-check.json",
+    ".garura/project/issues/1050/context/specify-ontology/decisions.json",
+    ".garura/project/issues/1050/context/specify-ontology/draft-kinds.md",
+    ".garura/project/issues/1050/context/specify-ontology/draft-links.md",
+    ".garura/project/issues/1050/context/specify-ontology/draft-questions.md",
+    ".garura/project/issues/1050/context/specify-ontology/need.md",
+    ".garura/project/issues/1050/context/specify-ontology/ontology-before.md",
+    ".garura/project/issues/1050/context/specify-ontology/ontology-check.json",
+    ".garura/project/issues/1050/context/target.json",
+    ".garura/project/issues/1050/context/work-description.txt",
+    "core/components/memory/standards/schemas/product-os/ontology.md"
+  ],
+  "changed_files_reported": 22,
+  "diff_source": "diff-pr",
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}

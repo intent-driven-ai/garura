@@ -1,0 +1,150 @@
+# Layer-2 design-grounding, category: memory (product ontology), PR #1053, issue 1050, base main.
+# Grounded only in committed sources on main (ADR 068, ADRs 048/049/052/056/057/060/061/063/064/065,
+# the prior ontology v15, core/tools/plan/README.md, the ontology template, the model spine).
+# The branch's new ontology text is the thing under test, never a source of principles.
+category: memory
+pr: 1053
+issue: 1050
+base: main
+artifact: core/components/memory/standards/schemas/product-os/ontology.md
+version_change: "15 -> 16"
+severity_note: >
+  The taxonomy copy (.garura/project/issues/1050/context/memory/standards/rules/pr.md) has bucket
+  definitions P1-P4 and no design-finding rows. Used: P2 = a contradiction with a decision in force;
+  P3 = a gap or missing record that leaves two committed texts disagreeing or a decision unrecorded;
+  P4 = wording or traceability nit. No P1 (no security, data-loss or breaking-contract defect).
+grounded_principles:
+  - id: G1
+    principle: "Each product feature has one Feature issue that names it by the exact line Represents: <feature id>; no feature carries an issue number (ADR 068 Decision 1, 2)"
+    source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 77-89"
+  - id: G2
+    principle: "A play finds a feature's issue by the plan file mark, else by type Feature plus the exact line, never by title; two matches stop the run (ADR 068 Decision 3)"
+    source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 91-93"
+  - id: G3
+    principle: "Slices and plans group features many to many; a slice takes in only unbuilt features; a Feature issue sits under one epic at a time and a second epic asks the person (ADR 068 Decision 4)"
+    source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 95-97"
+  - id: G4
+    principle: "A feature is built when a person closes its Feature issue, through /reshape-plan finish; no roll-up (ADR 068 Decision 5; ADR 064 Decision 1-2)"
+    source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 99-101; docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md (Decision 1: closed as completed = Done, closed as not planned = Dropped; Decision 2)"
+  - id: G5
+    principle: "An orphan Story is matched to its feature by research in the model; a missing feature is created with its Feature issue (ADR 068 Decision 6)"
+    source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 103-105"
+  - id: G6
+    principle: "The what-this-changes list: ADR 056 s1,s2; ADR 048 s1,s3 (+Consequences, Alternatives); ADR 049 s1.2,s4; ADR 052 s3,s4,s7; ADR 057 s2,s3,s6"
+    source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 107-118"
+  - id: G7
+    principle: "Only tools know the tracker; the model never names a plan (ADR 065 rules 3 and 4)"
+    source: "docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md (Decision rules 3, 4)"
+  - id: G8
+    principle: "A plan changes only on its own branch (ADR 060, 061); a plan that exists is changed only through the manage-plan play (ADR 063 s2)"
+    source: "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md; docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md Decision 2"
+  - id: G9
+    principle: "Ontology template: front matter, Questions (Answered by, Status), Kinds with What it is / Who reads it / Layer / In the tracker as / Lives at / Properties / Relationships / Rules / States / Example, Not yet defined, Log"
+    source: "core/components/memory/standards/templates/product-ontology.md on main (lines 36-37 hold Layer and In the tracker as); a copy is in the grounding folder, see grounding_notes"
+  - id: G10
+    principle: "Prior ontology Plan rule: its plan file and the tracker always agree"
+    source: "core/components/memory/standards/schemas/product-os/ontology.md on main, line 622"
+conformance:
+  adr_068_decision_parts:
+    part_1_no_feature_issue_number: "conforms - Feature kind rule (new ontology lines 430-431), Q49 (line 174), Feature property table has no Issue row, five links item 3 (line 17)"
+    part_2_three_units_of_work: "conforms - Feature issue kind (lines 722-772): type Feature, scope of work and Context guidance, one feature, Stories inside, epic map names Feature issues; Spike, Chore, Bug kinds unchanged"
+    part_3_how_a_play_finds_it: "conforms - Feature issue R3 and the duplicate rule (lines 756-758), Q48 and Q20: mark first, then type Feature plus exact line, open or closed, never by title, duplicate stops and asks"
+    part_4_slices_and_plans_are_groups: "conforms - Slice rules (lines 479-481), Plan rule (line 643), Epic rule (line 705), Q19, Q50, Q51: many to many, unbuilt only, one epic at a time, the person is asked"
+    part_5_a_built_feature: "conforms - Feature rule (line 431), Feature issue rules (lines 763-765), Q52: closed as completed through /reshape-plan finish, no roll-up; closed as not planned is not built (matches ADR 064 Decision 1)"
+    part_6_orphan_story: "conforms - Story rule (line 812) and Q53"
+  what_this_changes_list: "every listed amendment is reflected in v16 (ADR 056 s1/s2 in the Feature issue kind and Q20; ADR 048 s1/s3 in the tracker paragraph, five links, Epic kind; ADR 049 s1.2/s4 in the Plan, ICE and Feature issue kinds; ADR 052 s3/s4/s7 in the Epic map, ICE kind and drift rule; ADR 057 s2/s3/s6 in the Slice Eval and Hidden file rows). ADR 067 is not cited anywhere in v16."
+  adrs_still_in_force: "no contradiction found with ADR 064 (no roll-up, completed/not planned), ADR 065 (built is computed through the tracker tool, no plan named in the model), ADR 060/061 (the move is made on the target plan's branch and the source plan is left owed), ADR 056 s1 (an Epic is never type Feature stands, Epic R1 and Feature issue R4) or ADR 048 s1 (Domain, Capability, Slice, Source, ICE still never issues)."
+  template_structure: "holds - the new Feature issue kind has all template sections; version 16 and updated date are consistent; 14 kinds; Q48-Q53 each have Answered by and Status. Re-run of the repo's check (check_ontology.py) valid, 0 problems; check_ontology_change.py scope_ok, version_ok, names_ok, 1 new log line (re-run on base copy, not taken from the run record)."
+  relationships_and_questions_name_defined_kinds: "holds - every relationship pair is symmetric (Feature issue <-> Feature, Epic, ICE, Story, Plan; Story -> Feature issue; Epic <- Feature issue; Plan -> Feature issue; ICE <- Feature issue); every Answered-by of Q1-Q53 names one of the 14 defined kinds; not_yet_defined is empty."
+  checkpoint_answers_reflected:
+    - "Q19 (reply: a plan or epic should not include a feature already built) -> Q50, Slice and Plan rules: reflected"
+    - "Q20 (reply: explain it more clearly) -> Q20 rewritten with the type-is-the-kind rule: reflected"
+    - "Q49 (reply: rephrase) -> Q49 now reads 'Does a feature in the product model name its tracker issue?': reflected"
+    - "links stage L1-L4 (held_by, move in the target plan's session with the source left owed, no label, not planned is not built) -> Plan rules (lines 650-651), Feature issue R4 and States, Q51, Q52: reflected as agreed"
+    - "kinds and links stage: yes with no change request; final drafts match the text"
+    - "first-round remark on the earlier Q48 (keep the issue number to link a feature to its issue) answered the ADR 067-era draft; ADR 068 and the re-drafted questions replaced it, and the final yes was given on the re-drafted set. Not a conflict."
+findings:
+  - id: MEM-D1
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Feature issue R4 (767), Plan rules (650-651), Feature issue States (771), Q20 (87), Q51 (186-188), Log (970)"
+    principle: "A design choice that ADR 068 expressly left undecided is made only in the ontology and the run record, with no committed decision record (ADR 068 leaves the label undecided, and says it 'says nothing about the other plan's file'; the held_by mark, the owed-commit rule, 'no label' and the 'drop' close are new)."
+    basis:
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 62 ('It says nothing about the other plan's file'), line 110 ('This record does not decide whether a Feature issue carries a label')"
+      - "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md line 31 (the other labels stay for now; a later change decides)"
+    detail: >
+      The product owner agreed all four at the links checkpoint, so v16 does not contradict ADR 068. But the
+      decisions change play and tool behaviour (reshape-plan's agreement check and move, the plan file node
+      fields, the label an author-work-items filing carries) and none is in ADR 068's Affects or ICE impact.
+      An agent that reads only the committed ADRs will not find them.
+    fix_suggestion: "Record them in a new ADR (an accepted ADR is not edited), or file the follow-up that lists the plays and tools they change."
+  - id: MEM-D2
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Plan Tree and Item kinds (619-620), Plan rules (648-652)"
+    principle: "The committed plan tool describes items the new Plan kind now contradicts: a story sits under 'an epic or a feature', and a node has no held_by field. v16 allows a story only under a Feature issue and adds held_by. ADR 068 does not list core/tools/plan among the parts it changes."
+    basis:
+      - "core/tools/plan/README.md on main lines 33-46 (node fields issue, kind, title, status, represents, children; story sits under an epic or a feature)"
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 9 (Affects list names no file under core/tools/plan)"
+    detail: >
+      This is owed work, not a defect of the ontology text. Related follow-ups that ADR 068 does list and
+      that are not in this PR: core/grounding/glossary.md lines 63, 64, 72 (still define Feature item and 'a
+      Story stands for it'), CLAUDE.md Work Tracking, managing-work.md.
+    fix_suggestion: "Add the plan tool (README and node check) to the follow-ups with the held_by mark."
+  - id: MEM-D3
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Plan rule 'plan file and the tracker always agree' (646) against the move rule (651) and the held_by rule (650)"
+    principle: "The base ontology states that a plan's file and the tracker always agree; v16 keeps that sentence with no exception while its own move rule leaves the source plan's file out of date until its next session (named as owed)."
+    basis:
+      - "core/components/memory/standards/schemas/product-os/ontology.md on main line 622 ('Its plan file and the tracker always agree')"
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 138 (a move can leave the other plan out of date)"
+      - "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md (a plan changes only on its own branch, which is why the source plan stays owed)"
+    detail: "The two rules cannot both hold in the interval. The held_by rule already tells the agreement check to read the held_by epic as the tracker parent for a marked item; an unmarked item in the owed plan breaks the 'always' sentence."
+    fix_suggestion: "State the exception in the agreement rule: until the owed session, the plan left is allowed to disagree on that one item, and the next session names it."
+  - id: MEM-D4
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Feature rules (430-431); Feature kind Garura-model note (line 432)"
+    principle: "The new Feature rule 'no property, page or spine entry of a feature names an issue' is stated without the transition ADR 068 requires: Garura's own model holds 23 such values until the clean-up has run, and they go only after it."
+    basis:
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 77-79 (Decision 1: the 23 values are deleted after the clean-up), line 134 (if the order slips, 23 stories lose their only link), line 153"
+      - ".garura/product/product-os/_spine.yaml on main (23 `issue:` values on features, first at line 737, fn-724)"
+      - "core/components/memory/standards/schemas/product-os/ontology.md on main line 412 (the same kind already carries a Garura-model transitional note, so a note is the established place)"
+    detail: "An agent that applies the rule literally could delete the 23 values before the clean-up."
+    fix_suggestion: "Add one line to the Feature kind: until the clean-up of #1051 has mapped the 23, those values stay and are not removed by hand."
+  - id: MEM-D5
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "ICE kind (527, 535-536), Capability kind (349, 383-384, 395), Slice kind (444, 479-481)"
+    principle: "ADR 068 says 'the ICE kind does not change' and lists the Feature, Story, Epic and Plan kinds, the tracker paragraph and Q20 as the ontology work. v16 also edits the ICE, Capability and Slice kinds (wording; Slice also gains the unbuilt-only rule that Decision 4 requires)."
+    basis:
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md ICE impact (line 10) and Work This Creates (line ~155)"
+    detail: "The edits are necessary (the ICE relationship row named the Story; Decision 2 moves the scope of work) and the v16 Log line says 'Capability and ICE change in wording only'. The product owner agreed the kinds draft. Traceability note only."
+  - id: MEM-D6
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Story rules 1 and 4 (809, 812)"
+    principle: "Rule 1 says a Story 'is never straight under an epic'; rule 4 (ADR 068 Decision 6) handles a Story that is exactly that. The Plan kind calls a story straight under an epic 'drift' (652); the Story kind does not."
+    basis:
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md lines 103-105"
+    fix_suggestion: "Word rule 4 as 'a Story found with no Feature issue is drift, and is matched ...'."
+  - id: MEM-D7
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Q4 (39), Spike kind (827), Capability rule (384)"
+    principle: "'Built' is now defined only for a Feature (its Feature issue closed as completed); 'a Bug needs a built Story' and 'after that Story is built' still use it for a Story, whose closed state means 'its piece of work is done'. The Capability rule puts an open Bug, Chore or Spike 'inside a closed Feature issue', while those kinds are children of a Story."
+    basis:
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md Decision 5 (built belongs to the Feature) and Decision 2 (Story is a piece of work inside it)"
+  - id: MEM-D8
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Feature issue rule 'The plan play files one only ...' (758), Slice rule (489), Plan rule (637)"
+    principle: "The rules name only the plan play as the one that files a Feature issue. ADR 068's ICE impact also gives /reshape-plan the job of landing a new feature with its Feature issue (C11, F10)."
+    basis:
+      - "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md line 10 (/reshape-plan: C11 and F10, a new feature lands with a Feature issue that names it)"
+    detail: "Inherited phrasing from v15 (the plan play made the story); no conflict with a rule in force."
+grounding_notes:
+  - "No principle was taken from the branch's added text. The run records (decisions.json and the three drafts) were read only to see what the product owner agreed."
+  - "Extra memory copied through the memory tool: the ontology template (grounding-memory folder, manifest.json). The copy the tool returned is out of date against the committed template on main: it lacks the Layer and In the tracker as lines (main lines 36-37). The committed template on main was used as the standard; v16's Feature issue kind has both lines. Worth checking where the template copy that the run's memory serves from was last refreshed (a process note, not a defect of the ontology)."
+  - "Pre-existing, not caused by this diff and so not a finding: the Plan kind still says the plan play 'adds the slice and its epic' to an existing plan (ADR 063 Decision 2 and its 'What this changes in ADR 049' removed that sentence from ADR 049 s2)."
