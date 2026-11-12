@@ -137,9 +137,13 @@ def test_fills(tmp, root):
                        "--intent", "bi-340")
     s = yaml.safe_load(read(spine))
     cap = next(c for c in s["capabilities"] if c["id"] == "cap-reminders")
+    dom = next(d for d in s["domains"] if d["id"] == "dm-notify")
+    feat = next(f for f in s["features"] if f["id"] == "ft-send-reminder")
     check("fills: written (exit 0)", code == 0 and out["ok"] is True)
     check("fills: each new part is marked to be deepened",
-          cap["status"] == "proposed" and cap["detail"] == "directional" and cap["metadata"]["deepen"] is True)
+          cap["detail"] == "directional" and cap["metadata"]["deepen"] is True)
+    check("fills: a new feature is Unplanned, and a new domain or capability has no status",
+          feat["status"] == "Unplanned" and "status" not in cap and "status" not in dom)
     check("fills: the new parts serve the intent", cap["intents"] == ["bi-340"])
     check("fills: the ICE entry is added", any(i["id"] == "ice-send-reminder" for i in s["ices"]))
     check("fills: the result's allow list names each page and the intent page",

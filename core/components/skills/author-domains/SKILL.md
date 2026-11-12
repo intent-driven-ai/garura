@@ -120,7 +120,7 @@ levels — is yours. Template conformance and the content bar are non-negotiable
 
 4. **Emit the spine-delta into the manifest (never `_spine.yaml`).** In the manifest's
    `spine_delta` block record, as structured data the keyed persist script applies:
-   - for a NEW domain, one **`domains`** entry — `id`, `slug`, `status: proposed`,
+   - for a NEW domain, one **`domains`** entry — `id`, `slug`,
      `detail: detailed`, a one-sentence `one_line`, `doc` pointing at its `domain.md`, and
      `intents` = the input intents it serves.
    - **`updates`** for domain entries already in the spine — only these fields:
@@ -168,7 +168,7 @@ seed:
     - { section: "Releases", domain: software-delivery, evidence: "release management plans and ships software versions", source: "https://example.org/release-management" }
   spine_delta:                                     # persist merges this into the live _spine.yaml additively
     domains:
-      - { id: software-delivery, slug: software-delivery, status: proposed, detail: detailed, one_line: "Build and ship software as a team", doc: software-delivery/domain.md, intents: [plan-the-week] }
+      - { id: software-delivery, slug: software-delivery, detail: detailed, one_line: "Build and ship software as a team", doc: software-delivery/domain.md, intents: [plan-the-week] }
     updates:                                       # named updates to domain entries already in the spine
       - { kind: domain, id: work-management, detail: detailed, intents: [plan-the-week] }
     profile:                                       # omitted entirely when a live profile already exists, or with profile: false

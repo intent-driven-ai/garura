@@ -12,7 +12,8 @@ and features are /specify-capabilities's, so a delta that adds, updates or place
 whole run before anything is written.
 
   - new `domains` entries: added ONLY when their id is absent; an id already present is left
-    untouched (recorded as skipped).
+    untouched (recorded as skipped). A `status` the delta gives is dropped: only a feature has a
+    state (ontology v18, ADR 070), so a domain has no status.
   - `updates` to existing domains — ONLY these (C6): raise `detail` (directional → detailed,
     never lower); refresh `one_line`; add to `intents`. Any other field, an unknown id, a
     lowered `detail`, or an update of any other kind refuses the whole run.
@@ -88,7 +89,7 @@ def merge_new(delta, live, rec):
         if eid in have:
             rec["skipped"].append(tag)
         else:
-            live_list.append(e)
+            live_list.append({k: v for k, v in e.items() if k != "status"})
             have.add(eid)
             rec["written"].append(tag)
             rec["new"].add(("domain", str(eid)))

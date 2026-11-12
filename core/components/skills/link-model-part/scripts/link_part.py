@@ -34,11 +34,17 @@ link-request.json:
                 `<folder of its domain's page>/<folder>/capability.md`;
     feature     the holding folder `features/<id>/feature.md`, or
                 `<folder of its capability's page>/<folder>/feature.md`.
-  The entry gets status proposed (and detail directional for a domain or capability), its
-  empty lists, and metadata {created_by, deepen: true, thin when thin}.
+  A new feature's entry gets its state, `status: Unplanned` (ontology v18, ADR 070); a domain
+  or capability gets no status, because only a feature has a state. A `status` key on a new
+  part is refused: set a feature's state later with mode `update`. The entry also gets detail
+  directional for a domain or capability, its empty lists, and metadata {created_by, deepen:
+  true, thin when thin}.
 - mode `update`: the id must be in the spine under its kind. `one_line` replaces its one-line,
   `add_intents` are added to its intents, `issue` names its issue when it names none yet, `thin:
-  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. Three more
+  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. On a
+  feature only, `status` sets its state, one of Unplanned, Planned, In progress, Completed or
+  Dropped; any state may follow any other (there is no workflow). A `status` on any other kind,
+  or a value outside the five, is refused. Three more
   keys take in old parts once a person approved it (#1037):
     `thin: false`        takes the thin mark off a capability or feature: `metadata.thin` leaves its
                          entry and every Thin line leaves its page. Give it before the part's ICE in
@@ -69,6 +75,15 @@ link-request.json:
   never marked thin itself; its mark belongs on its ICE, so an ICE is refused for a part that
   carries the mark. The `ices` list is made only when an
   ICE is added.
+
+A one-time migration request moves a model off the old `status` (proposed, active,
+deprecated) to the feature's state (ADR 070):
+    {"by": "<the play or run that asks>", "migrate_status": true}
+It carries no `parts` or `features`. It removes `status` from every domain and capability
+entry, whatever it holds; on every feature whose status is not one of the five it sets
+Unplanned (in place, or after its intents when it has none); a feature that already holds one
+of the five keeps it. The report's `migrated` gives the counts. Run on a model already moved,
+it changes nothing and writes nothing.
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
 writes nothing. When a write itself fails part way, every file already written, deleted or
@@ -103,6 +118,7 @@ PAGE = {"domain": "domain.md", "capability": "capability.md", "feature": "featur
 ICE_HEADINGS = ("## Agent intent (ICE)", "## Intent")
 OLD_THIN = re.compile(r"^\s*(?:>\s*)?\**Thin(?: ICE)?\**\s*:", re.I)
 NEW_KEYS = ("id", "slug", "intents", "one_line", "doc")
+STATES = ("Unplanned", "Planned", "In progress", "Completed", "Dropped")  # ontology v18, ADR 070
 ICE_PAGE = "ice.md"
 ICE_PARTS = ("Intent", "Context", "Expectation")
 ICE_KIND = {"capability": "capability", "feature": "feature"}
@@ -328,7 +344,8 @@ def new_entry(kind, p, by):
     if kind in PARENT:
         e[PARENT[kind]] = p.get(PARENT[kind], "")
     e["intents"] = list(p["intents"])
-    e["status"] = "proposed"
+    if kind == "feature":
+        e["status"] = "Unplanned"
     if kind in ("domain", "capability"):
         e["detail"] = "directional"
     e["one_line"] = p["one_line"]
@@ -343,9 +360,56 @@ def new_entry(kind, p, by):
     return e
 
 
+def with_state(entry, state):
+    """The entry with `status` set to `state`: in place when it has one, else after its intents
+    (or at the end, before its metadata, when it has no intents)."""
+    if "status" in entry:
+        return {k: (state if k == "status" else v) for k, v in entry.items()}
+    keys = list(entry)
+    at = keys.index("intents") + 1 if "intents" in keys else \
+        (keys.index("metadata") if "metadata" in keys else len(keys))
+    out = {k: entry[k] for k in keys[:at]}
+    out["status"] = state
+    out.update({k: entry[k] for k in keys[at:]})
+    return out
+
+
+def plan_migration(spine, request):
+    """The one-time move off the old `status` (ADR 070): no status on a domain or capability, and
+    every feature whose status is not one of the five set to Unplanned."""
+    if set(request) - {"by", "migrate_status"}:
+        raise Refused("a migration request carries only `by` and `migrate_status`; "
+                      "link parts in a request of their own")
+    new_spine = copy.deepcopy(spine)
+    counts = {"domains_cleared": 0, "capabilities_cleared": 0, "features_set_unplanned": 0,
+              "features_kept": 0}
+    for kind, key in (("domain", "domains"), ("capability", "capabilities")):
+        for e in new_spine.get(key) or []:
+            if isinstance(e, dict) and "status" in e:
+                del e["status"]
+                counts[f"{key}_cleared"] += 1
+    features = new_spine.get("features") or []
+    for n, e in enumerate(features):
+        if not isinstance(e, dict):
+            continue
+        if e.get("status") in STATES:
+            counts["features_kept"] += 1
+        else:
+            features[n] = with_state(e, "Unplanned")
+            counts["features_set_unplanned"] += 1
+    report = {"written": [], "updated": [], "thin": [], "unthin": [], "moved": [], "changed": [],
+              "migrated": counts}
+    return new_spine, report
+
+
 def plan(root, spine, request):
     if not isinstance(request, dict):
         raise Refused("the request is not a JSON object")
+    if "migrate_status" in request:
+        if request["migrate_status"] is not True:
+            raise Refused("`migrate_status` must be true")
+        new_spine, report = plan_migration(spine, request)
+        return new_spine, {}, report, [], []
     by = request.get("by") or "a play"
     parts = request.get("parts")
     if parts is None:
@@ -374,6 +438,13 @@ def plan(root, spine, request):
         if pid in seen:
             raise Refused(f"{pid} is given twice")
         seen.add(pid)
+        if "status" in p:
+            if kind != "feature":
+                raise Refused(f"{pid}: only a feature has a state; a {kind} takes no status")
+            if mode != "update":
+                raise Refused(f"{pid}: a new feature is Unplanned; set its state with mode update")
+            if p["status"] not in STATES:
+                raise Refused(f"{pid}: its status {p['status']!r} is not one of {', '.join(STATES)}")
         if kind == "ice":
             had = set(ices)
             plan_ice(root, p, by, index, ices, ice_for, before_ids, pages, report)
@@ -429,6 +500,10 @@ def plan(root, spine, request):
             entry = index[kind][pid]
             if "one_line" in p:
                 entry["one_line"] = p["one_line"]
+            if "status" in p:
+                new = with_state(entry, p["status"])
+                entry.clear()
+                entry.update(new)
             if p.get("issue") is not None and kind != "domain":
                 if entry.get("issue") not in (None, "", p["issue"]):
                     raise Refused(f"{pid} already names issue {entry['issue']}")
@@ -578,6 +653,12 @@ def main():
     except (Refused, OSError, ValueError, json.JSONDecodeError, yaml.YAMLError) as e:
         sys.stderr.write(f"link_part.py: refused, nothing written: {e}\n")
         return 2
+    if new_spine == spine and not pages and not deletes:
+        report["layout_kept"] = True
+        with open(a.out, "w", encoding="utf-8") as fh:
+            json.dump(report, fh, indent=2)
+        print(json.dumps(report))
+        return 0
     text, kept = spine_text.dump(old_text, spine, new_spine)
     try:
         write_all([(spine_path, text)] + list(pages.items()), deletes, rmdirs)

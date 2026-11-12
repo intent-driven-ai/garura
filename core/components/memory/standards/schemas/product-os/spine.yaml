@@ -1,7 +1,7 @@
 # Product-OS Spine Schema — v2
 #
 # The SPINE is the single structured map of the product model. You read it FIRST —
-# one read tells you the whole tree, every entry's id/slug/status, the refs that connect
+# one read tells you the whole tree, every entry's id/slug, each feature's state, the refs that connect
 # everything, the profile, and for every entry a one-line descriptor plus a pointer to
 # its grounding doc. You open a grounding doc (domain.md /
 # capability.md / feature.md / epic.md) ONLY when you need to understand that
@@ -42,7 +42,6 @@ schema:
 domains:
   - id: string            # opaque, stable — never changes once assigned
     slug: string          # human slug (the path is derived from slugs)
-    status: string        # proposed | active | deprecated
     detail: string        # directional (a light page, e.g. from /specify-intent) | detailed (the
                           # full page, /specify-domains) — drives which domain.md shape the linter
                           # requires; absent → read from the page's headings
@@ -71,7 +70,6 @@ capabilities:
                           # capability's ICE is built from. Its ICE is workable only when at
                           # least one of them is confirmed; with none, the ICE is kept but no
                           # play works on it (ontology v3).
-    status: string        # proposed | active | deprecated
     detail: string        # directional (/specify-intent or /specify-domains) | detailed (/specify-capabilities) — drives which
                           # capability.md shape the linter requires
     one_line: string
@@ -107,7 +105,12 @@ features:
                           # proposed: a feature is written on its own (ADR 043), in the
                           # holding folder, and is not ready until it is attributed.
     intents: [string]     # business intent ids its ICE is built from (as on capabilities)
-    status: string        # proposed | active | deprecated
+    status: string        # Unplanned | Planned | In progress | Completed | Dropped — the feature's
+                          # state (ontology v18, ADR 070); only a feature has one. A play that adds
+                          # a feature sets Unplanned; the plan that takes it in sets Planned;
+                          # /start-work sets In progress; the close of its Feature issue as
+                          # completed sets Completed; a person sets Dropped. It names no plan,
+                          # no issue and no decision record.
     one_line: string
     doc: string           # pointer to its feature.md
     depends_on: [string]  # "needs" (ontology v5): ids of capabilities or OTHER features this

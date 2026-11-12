@@ -6,8 +6,9 @@ The fill skills already wrote each new part's page, and the edits to each existi
 page, in the live model. This script writes the shared file and does the mechanical rest:
 
   - a NEW part (domain, capability, feature, ICE) gets one spine entry, marked to be deepened
-    later (status proposed, detail directional where the kind has a detail field,
-    metadata.deepen true);
+    later (detail directional where the kind has a detail field, metadata.deepen true); a new
+    feature gets its state, `status: Unplanned` (ontology v18, ADR 070), and a new domain or
+    capability gets no status, because only a feature has a state;
   - an EXISTING part is filled (`updates`): the intent is added to its `intents`, its domain
     (a capability) or its capability (a feature) is set when it has none, its spine one-line
     is replaced when the update gives one (`one_line`, from the person's change), and its page
@@ -365,7 +366,8 @@ def plan_new(p, seen, given):
                 else:
                     new[parent] = ""
             new["intents"] = [p.intent]
-            new["status"] = "proposed"
+            if kind == "feature":
+                new["status"] = "Unplanned"
             if fkey in ("domains", "capabilities"):
                 new["detail"] = "directional"
             new["one_line"] = e["one_line"]

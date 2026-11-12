@@ -62,7 +62,7 @@ Everything conforms to its template (`standards/schemas/product-os/grounding/`, 
 - the **enrich-manifest** (STM, non-model) carrying the **spine-delta as structured data**:
   the target capability entry fields (`detail: detailed`, structured `nfr_needs` +
   `compliance_needs`, its `doc` pointer), the new `features` entries (id, slug,
-  `capability` ref, status proposed, one_line, doc pointer), the roll-up input (per-dimension
+  `capability` ref, status Unplanned, one_line, doc pointer), the roll-up input (per-dimension
   implied levels + compliance), and the KB shelf grounding used. NO `_spine.yaml` is written.
 
 ## Input
@@ -146,7 +146,7 @@ conformance and the content bar are non-negotiable.
    seen on and the exact words a person reads there, in double quotes) as a NEW file in the
    live model,
    and record a spine `features` entry in the manifest (id, slug, `capability` = the
-   target id, status proposed, one_line, doc pointer) — you write the entry to the MANIFEST,
+   target id, status Unplanned, one_line, doc pointer) — you write the entry to the MANIFEST,
    never to `_spine.yaml`. Detail increases here — a feature reads richer than its
    capability, never leaner.
 
@@ -195,8 +195,8 @@ enrich:
       reliability:  { level: high, target: "99.9% uptime", gate: "uptime SLO monitor" }
     compliance_needs: [PCI-DSS]
   features:                                # NEW spine entries — persist adds them to _spine.yaml
-    - { id: func-guest-checkout, slug: guest-checkout, capability: cap-checkout, status: proposed, one_line: "Buy without an account", doc: ecommerce/checkout/func-guest-checkout/feature.md }
-    - { id: func-address-validation, slug: address-validation, capability: cap-checkout, status: proposed, one_line: "Validate shipping addresses", doc: ecommerce/checkout/func-address-validation/feature.md }
+    - { id: func-guest-checkout, slug: guest-checkout, capability: cap-checkout, status: Unplanned, one_line: "Buy without an account", doc: ecommerce/checkout/func-guest-checkout/feature.md }
+    - { id: func-address-validation, slug: address-validation, capability: cap-checkout, status: Unplanned, one_line: "Validate shipping addresses", doc: ecommerce/checkout/func-address-validation/feature.md }
   implied_levels:                                 # roll-up input (== the nfr_needs levels)
     performance: { level: high, gate: "load test" }
     reliability: { level: high, gate: "uptime SLO monitor" }

@@ -520,7 +520,7 @@ accepts or drops it. The persist runs before the gate resolves, so `in_loop` —
 outcome — decides the status.
 
 With its `--seed`, an absent target is first added as a thin seed from the person's answers
-(status `proposed`, `detail: directional`, under the named domain) — or, for a `found` target,
+(`detail: directional`, no status, under the named domain) — or, for a `found` target,
 from the screens' reading (`answered_by: screens`, with its intents; under its domain, or in
 the holding folder with its domain empty) — then promoted like any seed; the persist record lists it in `seeded`. Without one, an absent target is refused, and
 an already-detailed target is always refused.
