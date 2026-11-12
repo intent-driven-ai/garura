@@ -1,23 +1,16 @@
 Harness verdict (gate off per gates.plays.validate-work): approve
 
-No P1 finding, so the fixed rule approves. The four P2 findings below are real and are listed for the person who decides the merge.
+Recommended from the findings; no person decided this.
 
-**Categories reviewed:** harness (the play's ICE and compiled SKILL.md), executable code (the shared scripts), tests, run records.
+**What was checked**
+- Layer 1: the installed component linter (36 errors, none in a changed file, there before); the installed play linter on shape-plan, design-eval, design-slice and specify-capabilities (PASS, 0 gaps); 18 test suites green (628 plain checks, 79 unit tests); ruff (3 violations, none on changed lines); the shared helper copies byte-identical; the product-model swap (280 old status lines off, 239 features Unplanned, nothing else); run records free of home or temp paths.
+- Layer 2, grounded on main only (ADR 068, 069, 070, ontology v18, the harness standard): shape-plan and design-eval changed through their ICE; design-eval never reads the model; shape-plan's one model write follows the declared-exception shape.
 
-**Checks run:**
-- Installed component linter on the source layout: 0 findings in changed files (37 there before).
-- Installed play linter on shape-plan with the Next-line map: PASS, 0 gaps.
-- ruff on the 18 changed Python files: clean.
-- Tests run: test_find_work_items 23/0, test_gather_plan 27/0, test_support 21/0, test_check_ice_workable 49/0.
-- Copies of each shared script are byte-identical. No personal references in the run records.
+**Findings (none block)**
+- H1 (P2): shape-plan's state write stamps "shape-plan (#<plan id>)" into the spine's updated_by, which puts an issue number in the model (ADR 069, ontology v18 line 23).
+- H2 (P3): specify-capabilities' play file now says "no status" but its ICE still says status: proposed; a rebuild would bring the old field back.
+- H3 (P3): shape-plan also reopens a Feature issue closed as completed while the feature is not Completed; no committed record gives that case to shape-plan (ADR 070 gives it to reshape-plan).
+- M-1, M-2, M-3 (P3): the spine schema still carries the old epics list; the direct-model-write exception does not name its branch; the eval leaves dropped slices out (the product owner's decision) while ADR 069 and ontology v18 still say every slice.
+- Nine P4 wording and naming points (H4-H6, M-4-M-9).
 
-**Findings**
-- **P2 · H1:** the new rule finds a story by the model's `issue` and by type. ADR 056 §2 and ontology R3 say a play finds a story only by the plan file's `represents` mark. ADR 065 sanctions fixing /shape-plan but leaves ADR 056 as it is. Fix: an ADR amending ADR 056 §2, plus the ontology change.
-- **P2 · H2:** nothing committed defines a feature's `issue` as its story. Tracker check: of 239 features, 23 name an issue, and 21 of those are closed Stories. A slice holding any of them stops the run as "closed".
-- **P2 · H3:** a feature in two slices of one plan would reuse one story for two epics. The second use moves it out of the first epic, and the duplicate-name check does not catch this.
-- **P2 · OBS-1:** a not-ready (skipped) feature whose model entry names an open Story gets that story moved under the epic, but the brief says "no story is made or changed". That breaks C8 of the base ICE. Fix: leave skipped stories where they are, or show the move; add a test.
-- **P3 · H4:** the parent change edits the old parent, which C7 does not list, and the brief does not name the old parent.
-- **P3 · H5:** the `replace_parent` option is not in the platform-adapter verb reference, and its GitLab behaviour is undefined.
-- **P4 · H6:** ice.md attributes the deletion of the plan files to #1025. It was #1021.
-
-Full record: `.garura/project/issues/1025/review/findings.yaml`.
+Next: merge-work, after the product owner's approval.
