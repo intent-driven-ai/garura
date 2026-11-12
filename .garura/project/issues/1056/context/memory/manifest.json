@@ -62,6 +62,13 @@
       "version": "e1cd70d61775",
       "fingerprint": "sha256:e3065a238b5c5019907b729200bb2752298d8389f8ef9982ac3d27e8fa7a0392",
       "copy": ".garura/project/issues/1056/context/memory/standards/rules/pr.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/product-ontology.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:7a4f867c7ceb4097ffa37f4d63d566eb631974d780e339dc177cd4a325d6fd82",
+      "copy": ".garura/project/issues/1056/context/memory/standards/templates/product-ontology.md"
     }
   ]
 }
