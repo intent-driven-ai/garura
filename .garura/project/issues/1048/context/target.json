@@ -1,0 +1,7 @@
+{
+  "branch": "feature/1048-adr-find-story-through-model",
+  "kind": "one-off",
+  "plan_id": null,
+  "issue": "1048",
+  "base": "main"
+}
