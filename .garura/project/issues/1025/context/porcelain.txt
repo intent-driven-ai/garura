@@ -1,0 +1,2 @@
+ M .garura/project/issues/1025/context/commit-work/exec-out.json
+?? .garura/project/issues/1025/context/porcelain.txt
