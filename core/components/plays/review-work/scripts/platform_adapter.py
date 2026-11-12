@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
         argv += [flag, str(val)]
 
 
+def _replace_parent(a):
+    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
+    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
+    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
+
+
 def _gh(verb, args, repo):
     a = args
     if verb == "view-pr":
@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
         owner, name = repo
         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
                  "sub_issues", "-X", "POST", "-F",
-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
+                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
     if verb == "view-user":
         return [["gh", "api", "user", "--jq", ".login"]]
     if verb == "update-comment":
@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
         args = dict(args, _child_id=out.strip())
         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
-                 f"sub_issue_id={out.strip()}"]]
+                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
     else:
         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
             rc, out, _ = _run(["gh", "--version"])
