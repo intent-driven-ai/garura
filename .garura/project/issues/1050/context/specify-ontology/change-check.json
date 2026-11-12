@@ -1,0 +1,32 @@
+{
+  "changed_kinds": [
+    "Capability",
+    "Epic",
+    "Feature",
+    "Feature issue",
+    "ICE",
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "allowed_kinds": [
+    "Capability",
+    "Epic",
+    "Feature",
+    "Feature issue",
+    "ICE",
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "15",
+  "version_after": "16",
+  "updated": "2026-11-12",
+  "date": "2026-11-12",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}

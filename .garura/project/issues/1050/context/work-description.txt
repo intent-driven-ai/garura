@@ -1,0 +1,10 @@
+Change the product ontology so it matches ADR 067 (accepted 2026-11-12, #1048).
+
+ADR 067 decided that when no plan file marks a feature's story, a play finds it by the `issue` the feature's entry in the product model names. The ontology does not yet hold that field or that route, so the agents that read it get the old rule.
+
+What changes, through /specify-ontology:
+- The Feature kind gains the property `issue`: the Story filed for that feature in the tracker (optional, one value).
+- Story R3, Q20 and the Plan rule: a play finds a feature's Story by the plan file's `represents` mark, or, when the plan file marks none, by the feature's `issue` (of type Story; open means it is used and moved under the slice's epic, shown before the yes; closed means the feature is already built; never by title).
+- The Story kind's "one Story for each Feature in each Epic", and the Feature kind's "In the tracker as" line and its Clinic example: not for a feature whose `issue` names a closed Story.
+
+Done when: the ontology carries the change, its check reads valid, the version is up by one with one log line, and the change lands on main.
