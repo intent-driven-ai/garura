@@ -1,0 +1,15 @@
+{
+  "task_id": "draft-adr",
+  "round": 2,
+  "draft": ".garura/project/issues/_adr/20261112T174237Z/adr-draft.md",
+  "first_draft_kept": ".garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md",
+  "number": "070",
+  "lint": {"command": "adr.py lint --adr adr-draft.md", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --adr adr-draft.md", "exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_declared": true},
+  "amends": {"069": "Decision §2, 'no part of the model holds a work status'", "068": "Decision §5 and its /design-slice C6/C7 ICE impact"},
+  "not_affected": ["064", "065", "062", "061", "063", "026/044"],
+  "person_answers_written_as_rules": [1, 2, 3, 4, 5, 6, 7],
+  "for_the_accepter_open": ["learn-outcomes (source only, not installed) writes the old status field: persist_learn.py lines 16, 117-118; validate_learn.py lines 40, 110-116"],
+  "names_check": "no real names, no attribution line",
+  "retries": 0
+}

@@ -1,6 +1,6 @@
 # ADR 069 — The Plan Is Where the Product Model Meets the Work: the Model Knows No Plan, No Tracker and No Decision Record, One Epic and One Eval for Each Plan, and a Done Plan Lands on Main Only When Its Eval Passes
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 070](070-each-feature-in-the-product-model-records-its-own-state.md): Decision §2, third bullet, the words "and no part of the model holds a work status": each feature holds its own state, named `status`, one of five. No other part holds one, and the spine still has no `epics` list. The rest of §2 stands (the model names no plan, epic, tracker issue or decision record, and the state names none). §5 stands (whether a slice is in progress is read from the plan files).
 **Date:** 2026-11-12
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #954 (/shape-plan makes an Epic for each slice; a plan should have one Epic that holds all its slices)
