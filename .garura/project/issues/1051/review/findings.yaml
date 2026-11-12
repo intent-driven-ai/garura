@@ -1,0 +1,13 @@
+pr: 1052
+issue: 1051
+base: main
+categories: [decision-records, run-records]
+layer1_checks:
+  decision-records (review/adrs playbook, hand checklist): "ADR 068 has Context, Decision, Consequences and Alternatives Considered; it reads Accepted; ADR 067 reads Superseded by ADR 068; 068 is in the index; ADRs 048, 049, 052, 056, 057 and 067 each change by one line (the Status pointer); the installed ADR lint (adr.py lint --adr) finds no problems"
+  run-records (no playbook): "every changed JSON file parses; no home-folder path, temp path, secret or token in added lines"
+layer2: "none — no design-bearing category"
+findings: []
+counts: {}
+notes:
+  - "The new pointers on ADRs 048 and 049 name only ADR 068; ADR 068's own list says what each part changes."
+  - "The review shelf has no playbook for run records."
