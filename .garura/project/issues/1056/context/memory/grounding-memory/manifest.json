@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/features.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:9792c7e0adb9c199e5cea312fff06040523fe004b865b9e664628c43e99e5d2d",
+      "copy": ".garura/project/issues/1056/context/memory/grounding-memory/standards/rules/features.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:6c1e305360bb9fa5d20bfb5d51d48f1ea3116571eb12e16a02e993679e6652f5",
+      "copy": ".garura/project/issues/1056/context/memory/grounding-memory/standards/rules/direct-model-write.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/epics.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:490b0e2d7f07e620b2c7bbcb3ab7e81131caf9340e3a8c4bf8a778ff46003824",
+      "copy": ".garura/project/issues/1056/context/memory/grounding-memory/standards/rules/epics.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/product.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:cfb241400417428dafb5cd67898250c693bd17cca7ab4c12bc42882b89c5bf57",
+      "copy": ".garura/project/issues/1056/context/memory/grounding-memory/standards/rules/product.md"
+    }
+  ]
+}
