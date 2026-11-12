@@ -1,0 +1,17 @@
+{
+  "written": [],
+  "updated": [],
+  "thin": [],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "migrated": {
+    "domains_cleared": 1,
+    "capabilities_cleared": 40,
+    "features_set_unplanned": 239,
+    "features_kept": 0
+  },
+  "layout_kept": true
+}

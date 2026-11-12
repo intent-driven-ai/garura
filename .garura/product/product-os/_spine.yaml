@@ -3,7 +3,6 @@ domains:
   slug: software-delivery-planning
   intents:
   - bi-1
-  status: proposed
   detail: directional
   one_line: 'Turn a business intent into work that agents can build and that an outside
     check can prove: a slice to test, a plan of work items, and an eval kept from
@@ -19,7 +18,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-7
-  status: proposed
   detail: detailed
   one_line: 'After the install, set a project up for Garura: its memory, its review
     rules, and its tracker''s work-item types.'
@@ -58,7 +56,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-1
-  status: proposed
   detail: directional
   one_line: The product is understood from what a person gives, whether a video, a
     prototype, a brief or all of those, and becomes confirmed intents, domains, capabilities
@@ -75,7 +72,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-1
-  status: proposed
   detail: directional
   one_line: A business intent becomes the epics, stories and other work items agents
     execute.
@@ -91,7 +87,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-1
-  status: proposed
   detail: directional
   one_line: As the product is built and changed, the spec is kept matched to what's
     implemented and planned, and any drift is named and fixed.
@@ -107,7 +102,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-2
-  status: proposed
   detail: directional
   one_line: The technology and architecture for the whole project are set here and
     can evolve. Nothing blocks on them.
@@ -123,7 +117,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-2
-  status: proposed
   detail: directional
   one_line: 'The project''s surfaces are declared: CLI, browser, mobile or other.'
   doc: software-delivery-planning/manage-surfaces/capability.md
@@ -138,7 +131,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-2
-  status: proposed
   detail: directional
   one_line: How the product gets deployed is designed.
   doc: software-delivery-planning/deployment-design/capability.md
@@ -153,7 +145,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-2
-  status: proposed
   detail: directional
   one_line: Which environments exist, how many, and how each is set up.
   doc: software-delivery-planning/environment-setup/capability.md
@@ -168,7 +159,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-3
-  status: proposed
   detail: directional
   one_line: Take any item a person names from the plan, and gather the whole tree
     of work under it.
@@ -184,7 +174,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-3
-  status: proposed
   detail: directional
   one_line: Write the evals that will check the work under a chosen plan item, before
     any of it is built, and keep them from everyone who builds it.
@@ -200,7 +189,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-3
-  status: proposed
   detail: directional
   one_line: 'Design the work under a chosen plan item before it is built: how it is
     built, and what a person meets on its surface, against the project''s standards.'
@@ -216,7 +204,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-3
-  status: proposed
   detail: directional
   one_line: 'Build the work under a chosen plan item test first: all the tests for
     the work are written and shown to fail, then all the code until every test passes,
@@ -234,7 +221,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-3
-  status: proposed
   detail: directional
   one_line: 'Fix a reported defect quickly and test first: the defect is understood
     against the product model, its tests and its code, the tests that prove it are
@@ -253,7 +239,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-4
-  status: proposed
   detail: directional
   one_line: 'Test what the product does, with evals the builder never sees: each slice''s
     eval runs on the built work, and every goal, expectation and failure condition
@@ -270,7 +255,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-4
-  status: proposed
   detail: directional
   one_line: 'Test security, against the product profile''s security level: the built
     work is tested for security, at rest and while it runs in the testing environment,
@@ -288,7 +272,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-4
-  status: proposed
   detail: directional
   one_line: 'Test performance, against the product profile''s performance level: the
     running build is measured in the testing environment, as one person meets it and
@@ -306,7 +289,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-4
-  status: proposed
   detail: directional
   one_line: 'Test accessibility, against the product profile''s accessibility level
     and each surface''s accessibility guideline: the running build is tested in the
@@ -326,7 +308,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-4
-  status: proposed
   detail: directional
   one_line: 'Test the user experience on each surface, against the surface''s properties
     and guidelines (for a browser page, how it lays out across screen sizes) and the
@@ -347,7 +328,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-4
-  status: proposed
   detail: directional
   one_line: 'Check the code against its standards: every change, before it is merged,
     and the whole of each piece of built work, are checked by a part that is not their
@@ -365,7 +345,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-6
-  status: proposed
   detail: directional
   one_line: 'Connect to what happens in use and in the market: the project connects
     to the tools that hold how its product is used and what people say about it (web
@@ -384,7 +363,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-6
-  status: proposed
   detail: directional
   one_line: 'Understand what consumers want and what the competition is doing: from
     what the first capability of Run → Product took in, the needs and problems of
@@ -405,7 +383,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-6
-  status: proposed
   detail: directional
   one_line: 'Build features or update the product model, on its own or at least as
     recommendations: from the findings the second capability of Run → Product hands
@@ -426,7 +403,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-7
-  status: proposed
   detail: directional
   one_line: 'Install into a project: A team installs Garura, chooses what it gets,
     and can take it out again.'
@@ -442,7 +418,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-7
-  status: proposed
   detail: directional
   one_line: 'Upgrade a project: A project moves to a new version knowing what changes,
     including its model, without losing its own work.'
@@ -458,7 +433,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-7
-  status: proposed
   detail: directional
   one_line: 'Support each coding tool: Each team gets an install built for its tool:
     Claude Code, Codex, GitHub Copilot, Antigravity or Factory.'
@@ -474,7 +448,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-8
-  status: proposed
   detail: directional
   one_line: 'Ship every change the same way: Every change goes from opening to merge
     through the same steps, with an outside review and a person''s yes.'
@@ -490,7 +463,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-8
-  status: proposed
   detail: directional
   one_line: 'Review what agents make (Argus): People review business intents, ADRs,
     memories, domains, capabilities, ICE and agent decisions in one tool.'
@@ -506,7 +478,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-9
-  status: proposed
   detail: directional
   one_line: 'Orchestrate agent work through planning: A person chooses what is delivered
     next as a slice, sees every plan and where it stands, and sets the order and status
@@ -523,7 +494,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-9
-  status: proposed
   detail: directional
   one_line: 'Run plays as loops: A person gives one goal, and a loop runs its plays
     until the goal is met.'
@@ -540,7 +510,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-9
-  status: proposed
   detail: directional
   one_line: 'Track execution in the team''s tracker: The product''s execution is tracked
     in the tracker Garura connects to, for completion status and the backlog.'
@@ -557,7 +526,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-9
-  status: proposed
   detail: directional
   one_line: 'Manage ADRs: Decisions on how the project is built are recorded closely
     as they''re made, so agents can coordinate many pieces from them.'
@@ -574,7 +542,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-9
-  status: proposed
   detail: directional
   one_line: 'Give every gate a way past: No gate stops a person; each has a way past
     it, and using it records what is owed where a later play finds it.'
@@ -591,7 +558,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-10
-  status: proposed
   detail: directional
   one_line: 'Standards: Everything is built on the ICE model, with written standards
     for parts, sub-agents and naming, and checks that hold them.'
@@ -608,7 +574,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-10
-  status: proposed
   detail: directional
   one_line: 'Build your own harness: You can keep building your harness with your
     own plays, loops, sub-agents and skills, in a consistent way.'
@@ -625,7 +590,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-10
-  status: proposed
   detail: directional
   one_line: 'Structure: Where everything lives, in source and once deployed.'
   doc: software-delivery-planning/structure/capability.md
@@ -641,7 +605,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-10
-  status: proposed
   detail: directional
   one_line: 'Settings: Everything that can be turned on or off lives in settings.'
   doc: software-delivery-planning/settings/capability.md
@@ -657,7 +620,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-10
-  status: proposed
   detail: directional
   one_line: 'Memory: Agents decide from three tiers of memory (Phoenix global, Garura
     project, short-term), and people control what enters them.'
@@ -675,7 +637,6 @@ capabilities:
   intents:
   - bi-10
   - bi-7
-  status: proposed
   detail: directional
   one_line: 'Intelligent model routing: Each part runs on the right model and effort
     for its job, for speed and token cost, on each harness that supports it. Also
@@ -693,7 +654,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-11
-  status: proposed
   detail: directional
   one_line: 'Define what a product is made of: People and agents share one agreed
     map of what a product is made of, changed only on purpose.'
@@ -710,7 +670,6 @@ capabilities:
   domain: dom-software-delivery-planning
   intents:
   - bi-11
-  status: proposed
   detail: directional
   one_line: 'Manage the model: A living map, added to, changed and pruned as work
     is done, and the source of what to try next.'
@@ -728,7 +687,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The ready check says for each part whether work can start, ready, partly
     ready or not ready, with its gaps, and the same model always gives the same answer.
   doc: features/fn-724/feature.md
@@ -743,7 +702,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The map, at version 15, defines thirteen kinds in two layers, each with
     its properties, links, rules and a real example, answers 45 of its 47 questions,
     and logs each version.
@@ -759,7 +718,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: Each link follows the ontology's rules, is kept on both sides, and points
     at a part that exists.
   doc: features/fn-725/feature.md
@@ -774,7 +733,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: From any intent, a person lists the parts and slices that serve it; from
     a domain, its intents and capabilities.
   doc: features/fn-726/feature.md
@@ -789,7 +748,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: A person names the change, and its issue is found or filed, its branch
     is cut from the branch it will land on, and its working folder is made.
   doc: features/fn-731/feature.md
@@ -803,7 +762,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: Once the review approved the change and a person typed yes, it is merged
     where its branch lands, its branch is deleted, and an issue in a plan is closed
     with its item set Done.
@@ -818,7 +777,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Build the plan tree from a business intent
   doc: software-delivery-planning/turn-intents-into-work/fn-727/feature.md
   depends_on:
@@ -833,7 +792,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Create or link the epic and the story issues of a plan
   doc: software-delivery-planning/turn-intents-into-work/fn-728/feature.md
   depends_on: []
@@ -847,7 +806,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: One card for each plan, from the plan files alone, with its direction,
     Status, Branch, the plans it waits on, and each epic's progress.
   doc: features/fn-729/feature.md
@@ -861,7 +820,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: One plan's open work shown, its Done and Dropped work hidden and counted,
     and each plan it needs printed after it.
   doc: features/fn-628/feature.md
@@ -875,7 +834,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: In /update-plan, a person sets statuses and the direction in their own
     words, and on one plain "approved" they land in the tracker and the plan file
     in one commit on the plan's branch.
@@ -890,7 +849,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: 'Every part is named by one rule: plain words, the verb first, one meaning
     per verb, never a coding tool''s own command, with five roles owning the verbs.'
   doc: features/fn-736/feature.md
@@ -905,7 +864,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: One page names each kind of part, sets out eleven principles, each with
     its reason and the ADR it comes from, and says how the standard is kept.
   doc: features/fn-737/feature.md
@@ -920,7 +879,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Every change to the standard or its rule files is an accepted ADR that
     names each older ADR it supersedes or amends, and each older ADR points forward
     to it.
@@ -936,7 +895,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The component linter, the play linter, the loop linter and the old-name
     check fail every part that breaks a written rule.
   doc: features/fn-740/feature.md
@@ -951,7 +910,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: One rename map, and a read-only check that finds each use of an old name
     outside past records.
   doc: features/fn-741/feature.md
@@ -966,7 +925,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The harness plays and the loop carry the standard's names, and move to
     each new name the standard sets.
   doc: features/fn-743/feature.md
@@ -982,7 +941,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The change, plan, knowledge and record plays carry the standard's names,
     and move to each new name the standard sets.
   doc: features/fn-744/feature.md
@@ -998,7 +957,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The lifecycle and lens plays carry the standard's names, and move to each
     new name the standard sets.
   doc: features/fn-745/feature.md
@@ -1014,7 +973,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Every skill carries a verb from the skill verb list, and moves to each
     new name the standard sets.
   doc: features/fn-746/feature.md
@@ -1030,7 +989,7 @@ features:
   capability: cap-upgrade-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: On an upgrade, a part under an old name goes once its new name is laid,
     and a part the new version no longer has goes, each only when the record or the
     part's own file proves Garura laid it, even in a project installed before the
@@ -1047,7 +1006,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A person names a business intent, and the features in build order, the
     one surface and the tester are chosen from the model and memory, shown in one
     brief and kept only on the person's yes.
@@ -1061,7 +1020,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: From a shaped slice, /shape-plan writes the intent's one plan file, one
     epic for the slice and one story for each feature.
   doc: software-delivery-planning/turn-intents-into-work/fn-818/feature.md
@@ -1076,7 +1035,7 @@ features:
   capability: cap-write-work-evals
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: From the plan's epic and stories, /shape-eval writes the eval of the business
     intent in the plan's evals folder. The build is given the intent, never the eval.
   doc: software-delivery-planning/write-work-evals/fn-798/feature.md
@@ -1091,7 +1050,7 @@ features:
   capability: cap-initialize
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Ask the product owner the short set of setup questions built from Phoenix
     memory, each with choices and a proposed answer that names its source, and keep
     the confirmed answers for the other features.
@@ -1103,7 +1062,7 @@ features:
   capability: cap-initialize
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Set up the project's Garura memory from only the memory blocks the answers
     call for, and record the answers in the product profile.
   doc: software-delivery-planning/initialize/fn-project-memory/feature.md
@@ -1114,7 +1073,7 @@ features:
   capability: cap-initialize
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Record which review rule groups fit the project, so a review runs only
     those and names the groups it skipped.
   doc: software-delivery-planning/initialize/fn-review-rule-groups/feature.md
@@ -1125,7 +1084,7 @@ features:
   capability: cap-initialize
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Find which of the issue types Garura files (Business Intent, Epic, Story,
     Bug, Chore, Spike) the tracker has, make each missing one after a typed yes, and
     record a stand-in, also after a typed yes, where one cannot be made.
@@ -1137,7 +1096,7 @@ features:
   capability: cap-initialize
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Lets the product owner run initialize again when the project changes,
     with the earlier answers proposed, so the set-up follows the project.
   doc: software-delivery-planning/initialize/fn-rerun-initialize/feature.md
@@ -1148,7 +1107,7 @@ features:
   capability: cap-initialize
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Keeps each project's blocks its own, taken from the one Phoenix memory
     on the machine, and on each run compares them with Phoenix memory so the project
     learns when a block changed.
@@ -1160,7 +1119,7 @@ features:
   capability: cap-write-work-evals
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: A build is given the business intent, never the eval, and a check flags
     each build session that read the plan's evals folder.
   doc: software-delivery-planning/write-work-evals/fn-898/feature.md
@@ -1175,7 +1134,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Each plan's branch drawn against main with the commits git counts ahead
     and behind, and the plans with no branch named as on main.
   doc: features/fn-806/feature.md
@@ -1192,7 +1151,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: A person names a feature found while a plan is in progress, and on approval
     it joins the product model, its slice and its epic together with the plan file
     and GitHub.
@@ -1211,7 +1170,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: What a person gives becomes the right business intents, at the depth the
     product owner chooses, each confirmed by them.
   doc: software-delivery-planning/specify-product/fn-specify-intents/feature.md
@@ -1226,7 +1185,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Each domain the product sits in has a detailed page.
   doc: software-delivery-planning/specify-product/fn-specify-domains/feature.md
   depends_on: []
@@ -1240,7 +1199,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Each capability the product needs has a detailed page with its features
     and ICE.
   doc: software-delivery-planning/specify-product/fn-specify-capabilities/feature.md
@@ -1255,7 +1214,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Each journey through a prototype is walked and recorded, the way its people
     would use it.
   doc: software-delivery-planning/specify-product/fn-specify-from-journeys/feature.md
@@ -1270,7 +1229,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: What a video shows is captured, so intents can trace to moments in it.
   doc: software-delivery-planning/specify-product/fn-specify-from-video/feature.md
   depends_on: []
@@ -1284,7 +1243,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: A file is kept, and every view it offers is captured.
   doc: software-delivery-planning/specify-product/fn-specify-from-file/feature.md
   depends_on: []
@@ -1298,7 +1257,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: A project is captured from its written docs and its running app.
   doc: software-delivery-planning/specify-product/fn-specify-from-folder/feature.md
   depends_on: []
@@ -1312,7 +1271,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Every view a deployed site offers is captured, up to two clicks deep.
   doc: software-delivery-planning/specify-product/fn-specify-from-site/feature.md
   depends_on: []
@@ -1326,7 +1285,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: A document is kept exactly as given.
   doc: software-delivery-planning/specify-product/fn-specify-from-document/feature.md
   depends_on: []
@@ -1340,7 +1299,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: A person's words are kept byte for byte.
   doc: software-delivery-planning/specify-product/fn-specify-from-words/feature.md
   depends_on: []
@@ -1354,7 +1313,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: A judge with no context says whether what was given was fully and correctly
     used.
   doc: software-delivery-planning/specify-product/fn-validate-attribution/feature.md
@@ -1369,7 +1328,7 @@ features:
   capability: cap-specify-product
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: 'What''s given is sorted against what exists: a new intent, an enhancement,
     a new feature under one, or a clash.'
   doc: software-delivery-planning/specify-product/fn-specify-against-existing/feature.md
@@ -1384,7 +1343,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Makes one epic for each slice that serves a business intent and one story
     for each feature, after the product owner's yes.
   doc: software-delivery-planning/turn-intents-into-work/fn-cut-intent-into-work/feature.md
@@ -1399,7 +1358,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Writes a story's scope of work and Context guidance from its two ICE,
     with the failure lines taken out.
   doc: software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md
@@ -1414,7 +1373,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Adds, moves, renames and rewrites an intent's work items in one working
     session, on one approval.
   doc: software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md
@@ -1429,7 +1388,7 @@ features:
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Puts a feature found during work into the product model, its slice and
     its epic, on one approval.
   doc: software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md
@@ -1444,7 +1403,7 @@ features:
   capability: cap-keep-spec-matched
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: When the work changes what the product does, the pages of the spec that
     it makes out of date are updated to say what the product now does.
   doc: software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md
@@ -1459,7 +1418,7 @@ features:
   capability: cap-keep-spec-matched
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: As parts are built, moved or removed, the link between each business intent
     and the parts that serve it stays matched, on both of its sides.
   doc: software-delivery-planning/keep-spec-matched/fn-keep-intent-links-current/feature.md
@@ -1474,7 +1433,7 @@ features:
   capability: cap-keep-spec-matched
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: When the work shows that an intent has been replaced or is no longer wanted,
     and the person approves it, the spec is changed to match.
   doc: software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md
@@ -1489,7 +1448,7 @@ features:
   capability: cap-keep-spec-matched
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Each intent's issue in the tracker says what the intent's page in the
     product model says.
   doc: software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md
@@ -1504,7 +1463,7 @@ features:
   capability: cap-keep-spec-matched
   intents:
   - bi-1
-  status: proposed
+  status: Unplanned
   one_line: Finds the places where the spec no longer matches what the agents built
     and planned, and names each one to a person.
   doc: software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md
@@ -1519,7 +1478,7 @@ features:
   capability: cap-design-technology-architecture
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: Sets the shape of the whole system and what it is built with, its style,
     its main parts and how they connect, and the technology of each part with its
     version, so every slice builds on the same architecture.
@@ -1535,7 +1494,7 @@ features:
   capability: cap-design-technology-architecture
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: When the project outgrows its architecture, a person confirms an update,
     and what held before stays readable with why it changed.
   doc: software-delivery-planning/design-technology-architecture/fn-update-architecture/feature.md
@@ -1550,7 +1509,7 @@ features:
   capability: cap-manage-surfaces
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: Declares each surface the project has, with its kind, who opens it and
     why, what it offers and how it behaves, and the guidelines every design on it
     must handle, so each design on that surface is made for it.
@@ -1566,7 +1525,7 @@ features:
   capability: cap-manage-surfaces
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: When the project gains or drops a surface, or a surface's kind, properties
     or guidelines must change, a person confirms an update, and what held before stays
     readable with why it changed.
@@ -1582,7 +1541,7 @@ features:
   capability: cap-deployment-design
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: Turns the approved architecture into a physical architecture, which services
     run, on what container platform and on which cloud, and designs the path through
     the environments Environment setup declares, with the one design each environment
@@ -1602,7 +1561,7 @@ features:
   capability: cap-deployment-design
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: Prepares one ready cartridge for each of the three clouds, with its services,
     its container platforms and how to work out what running on it costs, so the design
     can map the project onto any of them and set the three costs side by side.
@@ -1618,7 +1577,7 @@ features:
   capability: cap-deployment-design
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: When the project outgrows how it runs, or a part of the design or a cloud's
     cartridge must change, a person confirms an update, and what held before stays
     readable with why it changed.
@@ -1634,7 +1593,7 @@ features:
   capability: cap-environment-setup
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: Declares which environments the project has, at least dev, testing and
     pre-production and never production, and for each one its data, its size, its
     network, who can reach it and its own settings, so every deployment and every
@@ -1651,7 +1610,7 @@ features:
   capability: cap-environment-setup
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: When a deployment needs an environment that is not built yet, builds it
     on its own from the one design of the underlying technology and its declaration,
     after a person's yes, checks that it answers, and from then on keeps it apart
@@ -1668,7 +1627,7 @@ features:
   capability: cap-environment-setup
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: When the project needs another environment, or an environment's data,
     size, network, access or settings must change, a person confirms an update, and
     what held before stays readable with why it changed.
@@ -1684,7 +1643,7 @@ features:
   capability: cap-environment-setup
   intents:
   - bi-2
-  status: proposed
+  status: Unplanned
   one_line: Sets up a place on a builder's own machine where the builder runs the
     project's code while building it, with each part running on the machine itself
     and no container platform or cloud service needed, so a builder can try a change
@@ -1701,7 +1660,7 @@ features:
   capability: cap-gather-work-under-item
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: From the item the technical lead names by its ID, at any level of the
     plan, gathers it and every item under it with their text and status, and nothing
     outside it, and splits each story so the builder's part holds no expectation,
@@ -1718,7 +1677,7 @@ features:
   capability: cap-gather-work-under-item
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: Reads the Context guidance of each story in the gathered tree and collects
     what it points to, from the project's code and memory first, into the story's
     short-term memory, so the work is read in one place and no ICE page is opened.
@@ -1734,7 +1693,7 @@ features:
   capability: cap-write-work-evals
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: For the stories under the item a person names, writes each feature's entry
     in the slice's hidden file, one way back for each "Fails if" line of its two ICE,
     and then their story files and their slice's file, from the epic, the stories
@@ -1751,7 +1710,7 @@ features:
   capability: cap-write-work-evals
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: When the stories or their "Fails if" lines change, adds what is not covered
     yet and names what moved, and never changes or deletes a scenario that is there.
   doc: software-delivery-planning/write-work-evals/fn-update-evals/feature.md
@@ -1766,7 +1725,7 @@ features:
   capability: cap-write-work-evals
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: Adds the fixed sentences an eval step may use on a kind of surface that
     has none yet, or that a scenario needs, through a memory update a person approves.
   doc: software-delivery-planning/write-work-evals/fn-add-eval-steps/feature.md
@@ -1781,7 +1740,7 @@ features:
   capability: cap-write-work-evals
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: Checks that no part that builds the work is given the evals, and records
     in the build run's evidence each build session that read their folder.
   doc: software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md
@@ -1796,7 +1755,7 @@ features:
   capability: cap-design-work
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: For the tree gathered under the item the technical lead names, designs
     each story, chore and spike in one design with a technical part, its components,
     classes, functions, data model, interfaces, libraries and patterns, drawn as diagrams
@@ -1815,7 +1774,7 @@ features:
   capability: cap-design-work
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: When the work, a project standard or what the build finds no longer matches
     the design, the technical lead confirms an update, and what held before stays
     readable with why it changed.
@@ -1831,7 +1790,7 @@ features:
   capability: cap-build-work-test-first
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: Before any code, a test writer who is not the builder writes a code-level
     test for each expectation of each story under the chosen item, and the separate
     check shows each one fails because what it checks is not built yet.
@@ -1847,7 +1806,7 @@ features:
   capability: cap-build-work-test-first
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: Once every test for the work has failed on the check's record, the builder
     writes all the code for the work under the chosen item from its own part, the
     collected context and the design, in the order it chooses, until a separate check,
@@ -1866,7 +1825,7 @@ features:
   capability: cap-build-work-test-first
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: With the build, the builder writes the slice's usage guide, what its surface
     is, how to reach it and the steps a person takes, in the plan's guides folder,
     without seeing the eval.
@@ -1882,7 +1841,7 @@ features:
   capability: cap-build-work-test-first
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: When the design, a story or an eval's finding changes the work, the test
     writer updates the tests first and the check shows the new ones fail, then the
     builder changes the code until every test passes again.
@@ -1898,7 +1857,7 @@ features:
   capability: cap-fix-defects-test-first
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: From a defect reported anywhere, the developer who will write its tests
     finds the feature the defect breaks, the tests that already check that behaviour
     and why they pass, and the root cause, and writes only what the fix needs; a defect
@@ -1915,7 +1874,7 @@ features:
   capability: cap-fix-defects-test-first
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: Before any fix code, a test writer who is not the builder writes a code-level
     test for each wrong result the report names, and the separate check shows each
     one fails because the defect is there.
@@ -1931,7 +1890,7 @@ features:
   capability: cap-fix-defects-test-first
   intents:
   - bi-3
-  status: proposed
+  status: Unplanned
   one_line: The builder changes the code from the cause and what the fix changes until
     a separate check, which runs every test of the project through a tool on the model
     or service the test model setting names, finds them all passing, then tidies the
@@ -1949,7 +1908,7 @@ features:
   capability: cap-test-product-with-evals
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once a slice's work is built, runs the slice's eval on it step by step
     with no agent, through the usage guide, in the testing environment, and gives
     every goal, expectation and failure condition it covers a pass or a fail, trusting
@@ -1966,7 +1925,7 @@ features:
   capability: cap-test-product-with-evals
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: For each failure the eval finds, writes what the product does wrong and
     the way back, from the recovery parts of the hidden file only, and sends it to
     the builder when the builder can fix it alone, or to a person when a person must
@@ -1983,7 +1942,7 @@ features:
   capability: cap-test-product-with-evals
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: When the built product changes, runs a slice's whole eval again after
     a fix and the evals of the slices that passed before, names each scenario that
     passed before and fails now, and hands a failure to a person once the rounds the
@@ -2000,7 +1959,7 @@ features:
   capability: cap-test-security
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once the work is built, tests the whole built code at rest, by a part
     that is not the builder, for weaknesses in how it is written, for libraries with
     known weaknesses and for any secret's value, and compares each result with the
@@ -2017,7 +1976,7 @@ features:
   capability: cap-test-security
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once the built work runs in the testing environment, tries on its declared
     surfaces what the pass bar and each capability's security need say to try, with
     the environment's made-up data and test accounts, and never touches anything outside
@@ -2034,7 +1993,7 @@ features:
   capability: cap-test-security
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Gives one verdict for the built work against the profile's security level,
     with a pass or a fail for every part of the pass bar and each capability's security
     need, and sends each finding back as a handoff plan to the developer when the
@@ -2051,7 +2010,7 @@ features:
   capability: cap-test-security
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Runs the security tests again after a fix, when more work is built, and
     when an approved decision raises the security level, keeps each verdict, names
     what passed before and fails now, and sends a finding that keeps coming back to
@@ -2068,7 +2027,7 @@ features:
   capability: cap-test-performance
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once the built work runs in the testing environment, measures on each
     declared surface, by a part that is not the builder, what the pass bar and each
     capability's performance need name, as one person or one other system meets the
@@ -2085,7 +2044,7 @@ features:
   capability: cap-test-performance
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: When the pass bar or a capability's performance need names a load, puts
     that load on the running build with made-up users, in the environment the deployment
     design places the load tests in and at its declared size, measures what the bar
@@ -2102,7 +2061,7 @@ features:
   capability: cap-test-performance
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Gives one verdict for the built work against the profile's performance
     level, with a pass or a fail for every part of the pass bar and each capability's
     performance need, and sends each finding back as a handoff plan to the developer
@@ -2120,7 +2079,7 @@ features:
   capability: cap-test-performance
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Runs the performance tests again after a fix, when more work is built,
     when an approved decision raises the performance level, and when the environment
     the tests run in changes size, keeps each verdict, names what passed before and
@@ -2138,7 +2097,7 @@ features:
   capability: cap-test-accessibility
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once the built work runs in the testing environment, runs on each declared
     surface a person opens, by a part that is not the builder, the tools that check
     what the pass bar, each capability's accessibility need and the surface's accessibility
@@ -2156,7 +2115,7 @@ features:
   capability: cap-test-accessibility
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once the built work runs in the testing environment, a person who is not
     the builder, named by the product owner, uses the slice end to end on its surface
     with a keyboard alone, with a screen reader and in any other way the surface's
@@ -2174,7 +2133,7 @@ features:
   capability: cap-test-accessibility
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Gives one verdict for the built work against the profile's accessibility
     level and each surface's accessibility guideline, with a pass or a fail for every
     part, and sends each finding back as a handoff plan to the developer when the
@@ -2191,7 +2150,7 @@ features:
   capability: cap-test-accessibility
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Runs the tools and the walk again after a fix, when more work is built,
     when an approved decision raises the accessibility level and when a surface's
     accessibility guideline is updated, keeps each verdict, names what passed before
@@ -2209,7 +2168,7 @@ features:
   capability: cap-test-user-experience
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once the built work runs in the testing environment, opens on each declared
     surface, by a part that is not the builder, each screen the screen design shows
     at each screen size the surface names, keeps a picture of it with the text and
@@ -2227,7 +2186,7 @@ features:
   capability: cap-test-user-experience
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once the built work runs in the testing environment, a person who is not
     the builder, named by the product owner, uses the slice end to end on its surface
     at each screen size the surface names, and judges each screen against the surface's
@@ -2245,7 +2204,7 @@ features:
   capability: cap-test-user-experience
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Gives one verdict for the built work against each surface's properties
     and guidelines and the screen design, with a pass or a fail for every part, and
     sends each finding back as a handoff plan to the developer when the builder can
@@ -2262,7 +2221,7 @@ features:
   capability: cap-test-user-experience
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Runs the tools and the walk again after a fix, when more work is built,
     when a surface's properties or guidelines are updated and when the screen design
     is updated, keeps each verdict, names what passed before and fails now, and sends
@@ -2280,7 +2239,7 @@ features:
   capability: cap-check-code-against-standards
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Before a change is merged, a part that is not its builder reads which
     kinds of work the change holds, runs the checks the standards of each kind name
     on what the change adds, judges each part that carries a design against what was
@@ -2298,7 +2257,7 @@ features:
   capability: cap-check-code-against-standards
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Once a piece of work is built, checks the whole of its code, not only
     one change's lines, by a part that is not the builder, against the project's coding
     standards, the architecture and the design in force, and the profile's maintainability
@@ -2315,7 +2274,7 @@ features:
   capability: cap-check-code-against-standards
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Gives one verdict for each change and for the whole built work by one
     fixed rule over the findings, decided by a person or by that rule as the project's
     setting says, and sends each finding back as a handoff plan to the developer when
@@ -2333,7 +2292,7 @@ features:
   capability: cap-check-code-against-standards
   intents:
   - bi-4
-  status: proposed
+  status: Unplanned
   one_line: Reviews a change again after a fix, checks the whole built work again
     when more work is built, when a standard changes and when an approved decision
     raises a level, keeps each verdict, names what passed before and fails now, and
@@ -2351,7 +2310,7 @@ features:
   capability: cap-connect-use-and-market
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Proposes the connections the project should have from what the project
     already holds, records each one the product owner says yes to in the project's
     settings by name, with what it is read for and where its key is kept, and proves
@@ -2368,7 +2327,7 @@ features:
   capability: cap-connect-use-and-market
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Reads from each connected analytics tool what it reports about how people
     reach and use the product, and keeps each figure as the tool gave it, with the
     connection, the time it covers and when it was read, and never the record of one
@@ -2385,7 +2344,7 @@ features:
   capability: cap-connect-use-and-market
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Reads what users write to the team and what people say in the forums the
     project connects to, and keeps each message or post in its own words, with where
     and when it was written, and with every person's name and personal details taken
@@ -2402,7 +2361,7 @@ features:
   capability: cap-connect-use-and-market
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Proposes a new, changed or dropped connection when the product gains a
     surface, its code starts or stops using a tool, or a connection keeps failing,
     and keeps what held before and why it changed, with the product owner's yes for
@@ -2419,7 +2378,7 @@ features:
   capability: cap-understand-consumers-and-competition
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: 'Sorts the items the first capability took in into wants, the needs and
     problems that come up across many items, and sums each one: every item it rests
     on, quoted as taken in, how many items from which connections, how the count moved
@@ -2436,7 +2395,7 @@ features:
   capability: cap-understand-consumers-and-competition
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: For each competitor the product owner follows, proposed from memory and
     from the rivals people name, draws from the same items what people say it does,
     offers or lacks, each finding with every item it rests on.
@@ -2452,7 +2411,7 @@ features:
   capability: cap-understand-consumers-and-competition
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Names the business intents, capabilities and features each finding bears
     on, with why, or names it as fitting none, a possible new need, and names a defect
     or a part no page names for its owner.
@@ -2468,7 +2427,7 @@ features:
   capability: cap-understand-consumers-and-competition
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Shows the product owner one current report of what consumers want and
     what the competition is doing, with what is new or has moved and the weak findings
     marked as weak, and hands the same findings, whole, to the next capability of
@@ -2485,7 +2444,7 @@ features:
   capability: cap-understand-consumers-and-competition
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: As new items come in, the model changes, or the product owner changes
     which competitors are followed, updates each finding and its place, marks a want
     that stops coming up as fading, and keeps what held before readable with why it
@@ -2502,7 +2461,7 @@ features:
   capability: cap-build-or-update-product
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: For each finding handed on, works out the change it calls for, a new feature,
     new words on a page, a new business intent, a part retired, or none yet, each
     with the findings and items it rests on, why, how sure, who decides and which
@@ -2519,7 +2478,7 @@ features:
   capability: cap-build-or-update-product
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Shows each change that may not go ahead on its own as a recommendation,
     and keeps his answer, approve, change or turn down, word for word, with who, when
     and where; a turned-down one is kept and raised again only when its findings move.
@@ -2535,7 +2494,7 @@ features:
   capability: cap-build-or-update-product
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Reads the project's setting for which kinds of change may go ahead on
     their own, lets a change of such a kind go ahead when it rests on a clear want
     of the product's own consumers, and shows it to him at once, waiting for his review,
@@ -2552,7 +2511,7 @@ features:
   capability: cap-build-or-update-product
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: Hands each approved or allowed change to the part that owns its first
     step, with its findings and the words approved, and follows it until its owner
     lands it or turns it down, writing nothing itself.
@@ -2568,7 +2527,7 @@ features:
   capability: cap-build-or-update-product
   intents:
   - bi-6
-  status: proposed
+  status: Unplanned
   one_line: As findings move, the model changes or the setting changes, updates or
     withdraws each recommendation and each change in flight, with why, and keeps what
     held before readable.
@@ -2584,7 +2543,7 @@ features:
   capability: cap-install-into-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: One command in the project's folder, with no copy of Garura's source,
     lays Garura for the team's coding tool from the version named or the default,
     keeps the version and every part laid in the install record, and writes over no
@@ -2601,7 +2560,7 @@ features:
   capability: cap-install-into-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: The team chooses a kind of install, the full set for a product project
     or the harness set for a team that builds its own harness, and, once built, named
     plays, so the project carries the parts it uses and every chosen play arrives
@@ -2618,7 +2577,7 @@ features:
   capability: cap-install-into-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Checks that the memory tool runs and reaches the project's short-term
     memory and Garura memory and that every tool loads, and names whatever does not,
     so no team starts work on a Garura that cannot run.
@@ -2634,7 +2593,7 @@ features:
   capability: cap-install-into-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Lays the guardrails that keep an agent from doing a play's work without
     the play, in every project, records them, and changes the team's own coding tool
     settings only on the person's yes.
@@ -2650,7 +2609,7 @@ features:
   capability: cap-install-into-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: A new run with a new choice shows what it will add and take out, lays
     what is newly chosen, and takes out from the record what is no longer chosen and
     what Garura dropped, with nothing else in the project changed.
@@ -2666,7 +2625,7 @@ features:
   capability: cap-install-into-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Shows the list of what goes and what stays, and on the person's yes removes
     exactly what the record names, keeping the team's work, its product model and
     its own files.
@@ -2682,7 +2641,7 @@ features:
   capability: cap-upgrade-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: One run of the install engine over the earlier install shows the two versions,
     the notes of each release between them and the list of what changes in this project,
     and on the person's yes moves the project, records the new version and reports
@@ -2699,7 +2658,7 @@ features:
   capability: cap-upgrade-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: The product owner of Garura cuts a fixed, named version from Garura's
     newest work, with notes in plain words, so an upgrade has a version to move to
     and a team can read what it changes.
@@ -2715,7 +2674,7 @@ features:
   capability: cap-upgrade-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: The upgrade finds each installed part a person changed since it was laid,
     shows the change, and asks before replacing it.
   doc: software-delivery-planning/upgrade-project/fn-keep-edits/feature.md
@@ -2730,7 +2689,7 @@ features:
   capability: cap-upgrade-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: New settings and settings files arrive, every value the team set stays,
     settings that name a renamed part follow its new name, and Garura's instructions
     go beside the team's own file only when a rule is missing.
@@ -2746,7 +2705,7 @@ features:
   capability: cap-upgrade-project
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: The upgrade shows each key, file name, folder and heading of the model
     that the new version reads differently, and on the person's yes moves them, never
     what they say.
@@ -2762,7 +2721,7 @@ features:
   capability: cap-support-coding-tools
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Every sub-agent, play, loop and skill is laid where Claude Code reads
     it, each sub-agent with its tier, with the shared files, the memory guide every
     agent reads, and Garura's instructions beside the team's own. Built.
@@ -2778,7 +2737,7 @@ features:
   capability: cap-support-coding-tools
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Every part a play needs is laid where Codex reads it, with the memory
     guide as a marked block in the team's own instructions file. Stopped until its
     redesign (#863).
@@ -2794,7 +2753,7 @@ features:
   capability: cap-support-coding-tools
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Every part laid where GitHub Copilot reads it, through its own adapter.
     Neither built nor filed.
   doc: software-delivery-planning/support-coding-tools/fn-install-for-copilot/feature.md
@@ -2809,7 +2768,7 @@ features:
   capability: cap-support-coding-tools
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Every part laid where Antigravity reads it, through its own adapter. Neither
     built nor filed.
   doc: software-delivery-planning/support-coding-tools/fn-install-for-antigravity/feature.md
@@ -2824,7 +2783,7 @@ features:
   capability: cap-support-coding-tools
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Every part laid where Factory's agent reads it, through its own adapter.
     Supported once, then removed.
   doc: software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md
@@ -2839,7 +2798,7 @@ features:
   capability: cap-support-coding-tools
   intents:
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: The tier a part names is read once, and each tool's adapter writes it
     where that tool takes a model for that kind of part, so the part runs on the tier
     its maker chose. Built in part.
@@ -2855,7 +2814,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: Every changed file is committed on the change's branch in commits of one
     concern each, each naming its issue, and a sensitive file stops the commit.
   doc: software-delivery-planning/ship-every-change/fn-commit-by-concern/feature.md
@@ -2870,7 +2829,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: After the machine checks, the branch is pushed and one pull request is
     opened against the branch the change will land on, naming its issue.
   doc: software-delivery-planning/ship-every-change/fn-raise-change/feature.md
@@ -2885,7 +2844,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: When a plan pauses, its landing shows that every commit on its branch
     was reviewed and that the plan, its epics and the commits agree.
   doc: software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md
@@ -2900,7 +2859,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: A person groups several ready issues, and one run of the path lands them
     all and closes each.
   doc: software-delivery-planning/ship-every-change/fn-land-several-issues/feature.md
@@ -2915,7 +2874,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: Every push a change play makes is scanned first, and a reference stops
     it.
   doc: software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md
@@ -2930,7 +2889,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: A change that adds, renames, retires or changes a command brings the docs
     and command pages it alters, and a check fails it while they disagree.
   doc: software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md
@@ -2945,7 +2904,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: At a loop's end, Garura works out by meaning what the run changed, sends
     it to Argus as a review pack, opens the review for the person, and keeps each
     action as a file on the run's branch as it happens, so no agent reads the web
@@ -2962,7 +2921,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: One calm page shows the whole model's approval state first, then each
     changed intent with its ICE and each changed domain, capability, feature, limit
     and decision, in plain words with why it changed, never as files.
@@ -2978,7 +2937,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: The person accepts, sends back with a comment or drops each changed piece,
     and may comment on, edit or remove words, in the page or on Catch up cards, where
     a swipe right accepts and any change is typed.
@@ -2994,7 +2953,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: The ADRs section lists the ADRs that wait and those accepted, and a person's
     accept is carried out as Manage ADRs says.
   doc: software-delivery-planning/review-agent-work/fn-review-adrs/feature.md
@@ -3009,7 +2968,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: The Memory section shows Garura memory and a picked issue's short-term
     memory, and each waiting update gets its own approve or reject, in the person's
     words; Ask memory, a question box in plain words, is mocked only.
@@ -3025,7 +2984,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: The Agent decisions section shows each decision with its trace, each step's
     source in its place and checked again, and the person marks it as looking right
     or sends it back so the agent decides again.
@@ -3041,7 +3000,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: The play that writes that kind of piece reworks that one piece on the
     run's branch, from the person's comment, and the new version comes back with a
     reply while the review goes on.
@@ -3057,7 +3016,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: The review step applies all the answers in one commit on the run's branch,
     writes approval from them, and hands the change to Ship every change the same
     way.
@@ -3073,7 +3032,7 @@ features:
   capability: cap-review-agent-work
   intents:
   - bi-8
-  status: proposed
+  status: Unplanned
   one_line: Argus runs as a small server that a person starts once, holds no Garura
     code, and meets Garura only through the written contract, at the one address Garura's
     settings name, so it can move later.
@@ -3089,7 +3048,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A session stops on uncommitted work, gets onto the plan's branch, and
     at the end goes back, or undoes a branch it cut.
   doc: software-delivery-planning/orchestrate-agent-work/fn-go-to-plan-branch/feature.md
@@ -3104,7 +3063,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Every play and loop ends by naming the one command that comes next from
     one map, or names none.
   doc: software-delivery-planning/orchestrate-agent-work/fn-know-what-next/feature.md
@@ -3119,7 +3078,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Plans a person approved removing are deleted from the plans folder, whole,
     with a report of what each held.
   doc: software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md
@@ -3134,7 +3093,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: The open items of every plan in progress are shown from the plan files,
     with each plan's Direction and Waits on, and the one chosen becomes Now through
     a session.
@@ -3152,7 +3111,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Each plan's Waits on list is worked out from the needs of its parts in
     the product model, never set by hand.
   doc: software-delivery-planning/orchestrate-agent-work/fn-work-out-waits-on/feature.md
@@ -3169,7 +3128,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A paused plan's branch lands on main and main's plan file says it has
     no branch; when its work starts again, a new branch is cut and named there.
   doc: software-delivery-planning/orchestrate-agent-work/fn-pause-plan/feature.md
@@ -3186,7 +3145,7 @@ features:
   capability: cap-run-plays-as-loops
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: 'Every loop takes the same steps: a check before anything opens, one change,
     questions first, its plays in rounds decided done, again or ask, then the checker
     and the landing.'
@@ -3203,7 +3162,7 @@ features:
   capability: cap-run-plays-as-loops
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A model or coding agent that did not run the loop judges every criterion
     from the loop's outputs only, and a reject halts the loop before any pull request.
   doc: software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md
@@ -3219,7 +3178,7 @@ features:
   capability: cap-run-plays-as-loops
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: When a round closes nothing new or the round limit is reached, the loop
     closes what it can, then briefs the person once with proposed answers; they reply
     or type stop.
@@ -3236,7 +3195,7 @@ features:
   capability: cap-run-plays-as-loops
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: While a loop runs, one status file always says its state, round, play
     and step in plain words, so a person can see what a long run is doing.
   doc: software-delivery-planning/run-plays-as-loops/fn-show-run-status/feature.md
@@ -3252,7 +3211,7 @@ features:
   capability: cap-run-plays-as-loops
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Each of the six transitions between phases has one loop of its own, named
     for the two phases it joins, that runs that transition's plays.
   doc: software-delivery-planning/run-plays-as-loops/fn-loop-per-transition/feature.md
@@ -3268,7 +3227,7 @@ features:
   capability: cap-run-plays-as-loops
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A loop is started by a person, a schedule or a hook, as the loop says,
     and keeps one record across rounds that tells the next round what was tried.
   doc: software-delivery-planning/run-plays-as-loops/fn-start-loop-on-trigger/feature.md
@@ -3284,7 +3243,7 @@ features:
   capability: cap-run-plays-as-loops
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A round's plays run at the same time when all five conditions of the scoped-write
     rule hold, and in turn when they do not, with the same result.
   doc: software-delivery-planning/run-plays-as-loops/fn-run-plays-side-by-side/feature.md
@@ -3300,7 +3259,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Every work item a play files or takes into a plan gets its kind's type
     and a parent of the right kind by a real link, with no label and no type in its
     title.
@@ -3317,7 +3276,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: When a work item's own issue closes, its item in the plan file reads Done
     or Dropped, and nothing is worked out from the items under it.
   doc: software-delivery-planning/track-execution/fn-status-follows-issue/feature.md
@@ -3333,7 +3292,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: The tracker writes of an approved session are made one by one and recorded
     as made, so a run after a stop goes on from its record and never makes an issue
     twice.
@@ -3350,7 +3309,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: One of three fixed modes cuts the work tracker's issues to at most ten,
     each with a reason, its kind and a play only where a fixed table names one.
   doc: software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md
@@ -3366,7 +3325,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A defect is recorded as an issue of type Bug under the story whose work
     brought it in, with its severity as its first line and a text that never names
     the test.
@@ -3383,7 +3342,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: One tool reads the settings and reaches the trackers they name, so no
     play, skill or sub-agent names a tracker, and a team changes its tracker by a
     setting.
@@ -3400,7 +3359,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Each piece of work hangs under the business intent it serves by the tracker's
     own parent and child link, also when the intents live in another tracker.
   doc: software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md
@@ -3416,7 +3375,7 @@ features:
   capability: cap-track-execution
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: One agreed list gives each type Garura files its one-line meaning, its
     tracker and how it is marked, and Initialize's brief shows it word for word.
   doc: software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md
@@ -3432,7 +3391,7 @@ features:
   capability: cap-manage-adrs
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: From a decision brief, a decision is drafted as an ADR from the one template,
     naming each older ADR it supersedes or amends with the part, and what it changes
     by real paths.
@@ -3449,7 +3408,7 @@ features:
   capability: cap-manage-adrs
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: 'An ADR becomes accepted only on a person''s typed word: by hand at a
     pinned checkpoint, or later for an ADR a loop saved as proposed.'
   doc: software-delivery-planning/manage-adrs/fn-accept-adr/feature.md
@@ -3465,7 +3424,7 @@ features:
   capability: cap-manage-adrs
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Once an ADR is accepted, each older ADR it changes gains one forward pointer,
     its only edit, and the index of ADRs is rebuilt from the ADR folder.
   doc: software-delivery-planning/manage-adrs/fn-keep-adrs-linked/feature.md
@@ -3481,7 +3440,7 @@ features:
   capability: cap-manage-adrs
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Each point found while an ADR was drafted that the brief did not ask about
     is written with its five parts and shown to the person before they accept.
   doc: software-delivery-planning/manage-adrs/fn-show-accepter-findings/feature.md
@@ -3497,7 +3456,7 @@ features:
   capability: cap-manage-adrs
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Run on the branch of a change that is already open, the decision play
     records the ADR in that change, so a decision lands with the work it decides.
   doc: software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md
@@ -3513,7 +3472,7 @@ features:
   capability: cap-manage-adrs
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Every ADR is reviewed, and what is about what the product model holds
     moves into the model, so ADRs hold only how the project is built.
   doc: software-delivery-planning/manage-adrs/fn-keep-adrs-to-build/feature.md
@@ -3529,7 +3488,7 @@ features:
   capability: cap-manage-adrs
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Each design choice a person confirmed in Spec → Design reaches the decision
     play as a decision brief and is recorded as an ADR, and an update supersedes the
     older one.
@@ -3546,7 +3505,7 @@ features:
   capability: cap-give-every-gate-a-way-past
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Every gate a play declares names its kind, its way past and what using
     it records, and the person sees the way past at the gate.
   doc: software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md
@@ -3562,7 +3521,7 @@ features:
   capability: cap-give-every-gate-a-way-past
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: Each use of a way past writes one owed entry in the issue folder of the
     work that made it, and a tool reads every issue's entries back as one list.
   doc: software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md
@@ -3578,7 +3537,7 @@ features:
   capability: cap-give-every-gate-a-way-past
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: A checkpoint the settings turn off writes one record in its issue's folder,
     naming the setting that skipped it, whatever the evidence setting says.
   doc: software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md
@@ -3594,7 +3553,7 @@ features:
   capability: cap-give-every-gate-a-way-past
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: One list of the guardrails names, for each, the shortcut it guards, the
     play that owns that work and its way past, and each pass is recorded as owed.
   doc: software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md
@@ -3610,7 +3569,7 @@ features:
   capability: cap-give-every-gate-a-way-past
   intents:
   - bi-9
-  status: proposed
+  status: Unplanned
   one_line: One list names every pinned yes, such as the merge onto main, with why
     it is pinned, where it is asked and what happens to it inside a loop.
   doc: software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md
@@ -3626,7 +3585,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Each play and loop is compiled from its ICE source and records its fingerprint,
     so a check can tell when the compiled part no longer matches its ICE.
   doc: software-delivery-planning/standards/fn-build-from-ice/feature.md
@@ -3642,7 +3601,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Each kind of part, play, loop, sub-agent, skill, script, shared file and
     tool, has a written standard that says what it is and what it does.
   doc: software-delivery-planning/standards/fn-standard-per-kind/feature.md
@@ -3658,7 +3617,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Each rule every part follows, such as asking a person and staying on scope,
     is written once and binds every part without the part naming it.
   doc: software-delivery-planning/standards/fn-rules-for-every-part/feature.md
@@ -3674,7 +3633,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: One value, from written rules that start from an industry standard, says
     how bad a finding is and what is fixed first.
   doc: software-delivery-planning/standards/fn-one-severity/feature.md
@@ -3690,7 +3649,7 @@ features:
   capability: cap-standards
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A check names each part that names a tracker, warns while the parts move
     onto the Agent-work tool, and fails after.
   doc: software-delivery-planning/standards/fn-check-no-tracker-named/feature.md
@@ -3706,7 +3665,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: '/create-play builds a play from its ICE: it works out its scripts, skills
     and sub-agents, adds the change plays and the shared close, records the fingerprint
     and runs the play linter until clean.'
@@ -3723,7 +3682,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: /edit-play changes a play through its ICE first, compiles it again with
     a new fingerprint and runs the play linter, so the play always matches its intent.
   doc: software-delivery-planning/build-your-own-harness/fn-change-play/feature.md
@@ -3739,7 +3698,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: /create-loop builds a loop from its ICE as its own values and a pointer
     to the shared loop run, with its Done means, settings and fingerprint, and runs
     the loop linter until clean.
@@ -3756,7 +3715,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: /edit-loop changes a loop through its ICE first, on the person's typed
     approval, carries the change through and runs the loop linter, which fails a loop
     whose ICE changed since it was built.
@@ -3773,7 +3732,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The loop builders ask for each part the loop principles need, such as
     a goal a script can check and what starts the loop, and the loop linter fails
     a loop that misses one.
@@ -3790,7 +3749,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The builders place a play's checkpoint where its workflow puts it, with
     its class, and pinning or unpinning it is a change to the play's intent through
     /edit-play.
@@ -3807,7 +3766,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Each play writes a record that it is running when it starts and clears
     it at its close, so the guardrails the install lays can refuse a shortcut taken
     without the play.
@@ -3824,7 +3783,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A team builds a new sub-agent or skill to the written standard for its
     kind, and a check holds it to that standard, with no ICE of its own.
   doc: software-delivery-planning/build-your-own-harness/fn-build-agent-skill/feature.md
@@ -3840,7 +3799,7 @@ features:
   capability: cap-build-your-own-harness
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A team installs Garura's builders in its own repository and builds its
     own plays and loops there, reading a written architecture of what each part may
     do.
@@ -3857,7 +3816,7 @@ features:
   capability: cap-structure
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Garura's own repository keeps each kind of part in one known folder, each
     tool in the tools folder and the settings in one file, so a developer knows where
     a part goes.
@@ -3874,7 +3833,7 @@ features:
   capability: cap-structure
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: An install lays every part in one fixed place in the project, so each
     installed part finds the others by an installed path and never needs Garura's
     source.
@@ -3891,7 +3850,7 @@ features:
   capability: cap-structure
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A project's `.garura/` folder holds only what its written list names,
     and a check names each folder or file the list does not hold.
   doc: software-delivery-planning/structure/fn-garura-folder-list/feature.md
@@ -3907,7 +3866,7 @@ features:
   capability: cap-structure
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Everything a play run writes goes in the folder of the issue whose work
     made it, nothing goes in a global file, and every path in the records starts at
     the repository's root.
@@ -3924,7 +3883,7 @@ features:
   capability: cap-settings
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Every setting Garura's plays, scripts and loops read is in one settings
     file, written once in Garura's source and laid by the install as each project's
     own copy.
@@ -3941,7 +3900,7 @@ features:
   capability: cap-settings
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A list names, for every setting, what it means and the play or tool that
     reads it, and a check fails a setting no one reads.
   doc: software-delivery-planning/settings/fn-setting-names-reader/feature.md
@@ -3957,7 +3916,7 @@ features:
   capability: cap-settings
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Every settings file other than the one settings file goes into one settings
     folder beside it, starting with the learned policy.
   doc: software-delivery-planning/settings/fn-settings-folder/feature.md
@@ -3973,7 +3932,7 @@ features:
   capability: cap-settings
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Each checkpoint is turned on or off by a setting for its play, its kind
     of risk or the default, a conditional one passes once the learned policy allows
     it, and no setting reaches a pinned one.
@@ -3990,7 +3949,7 @@ features:
   capability: cap-settings
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: One setting, with a switch for each play, decides whether a play writes
     its evidence file at its end, and the report a person reads is always shown.
   doc: software-delivery-planning/settings/fn-evidence-setting/feature.md
@@ -4006,7 +3965,7 @@ features:
   capability: cap-settings
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The settings that approved pages of other capabilities read are kept in
     the settings file, so each capability reads its choice from one place.
   doc: software-delivery-planning/settings/fn-settings-others-need/feature.md
@@ -4022,7 +3981,7 @@ features:
   capability: cap-settings
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Each of Garura's tools reads the settings meant for it from where they
     live, so a team changes what a tool does by changing a setting, never the tool.
   doc: software-delivery-planning/settings/fn-tools-read-settings/feature.md
@@ -4038,7 +3997,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: An agent finds what it needs with one memory tool, which looks in short-term,
     then Garura, then Phoenix memory, stops at the first tier that answers, and names
     where each answer came from.
@@ -4055,7 +4014,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: When no tier answers, an agent drafts the answer as a memory update, and
     only a person approves or rejects it, one at a time, with their exact reply on
     record.
@@ -4072,7 +4031,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Each decision an agent makes keeps its trace, each step resting on memory
     lines with their fingerprint, and a check names the step whose source changed
     or is gone.
@@ -4089,7 +4048,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: Every agent reads memory through the tool by one shared protocol, and
     the component linter fails a part that skips it or names a memory folder.
   doc: software-delivery-planning/memory/fn-read-through-tool/feature.md
@@ -4105,7 +4064,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A change to a memory page in Garura's source reaches Phoenix memory in
     the same release, a check names every page where the two differ, and each release
     has a version and its notes.
@@ -4122,7 +4081,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: The memory tool downloads Phoenix memory the first time a command needs
     it and reads it at its approved version, and one Phoenix install per machine keeps
     it current.
@@ -4139,7 +4098,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A page moves from an issue's short-term memory to the project's Garura
     memory only on a person's yes in Argus, and what Run → Product learned is chosen
     by that person.
@@ -4157,7 +4116,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: A page that is out of date, or whose source changed, is named before an
     agent uses it, and each change to a project's memory shows in the review of its
     change.
@@ -4174,7 +4133,7 @@ features:
   capability: cap-memory
   intents:
   - bi-10
-  status: proposed
+  status: Unplanned
   one_line: 'Everything agents decide from sits inside memory: the machine-wide copy
     is retired, Claude Code''s own memory is held to a guardrail, and the engine''s
     rules stay in Phoenix memory.'
@@ -4192,7 +4151,7 @@ features:
   intents:
   - bi-10
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Each part's maker names in its source the tier and the effort its job
     needs, by one written rule, and a project may change a part's tier in its own
     settings.
@@ -4210,7 +4169,7 @@ features:
   intents:
   - bi-10
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: A step whose model a setting names, such as the check of a finished loop
     or the judge of a model page, runs on that model and not on the session's own.
   doc: software-delivery-planning/model-routing/fn-step-on-set-model/feature.md
@@ -4227,7 +4186,7 @@ features:
   intents:
   - bi-10
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: Each run of a play or a loop records, for each part it ran, the model
     and effort it ran on, how long it took and what it cost in tokens.
   doc: software-delivery-planning/model-routing/fn-record-run-cost/feature.md
@@ -4244,7 +4203,7 @@ features:
   intents:
   - bi-10
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: When the record shows a part is slow or costly for a simple job, or falls
     short on a hard one, a person moves it, and an eval checks the part on its new
     tier before the move lands.
@@ -4262,7 +4221,7 @@ features:
   intents:
   - bi-10
   - bi-7
-  status: proposed
+  status: Unplanned
   one_line: A router reads what a step must do and chooses its model and effort, once
     the records of runs show it pays.
   doc: software-delivery-planning/model-routing/fn-choose-model-at-run/feature.md
@@ -4278,7 +4237,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: /edit-ontology changes only the kinds one need touches, with the product
     owner's typed yes at three points, ends only when the map reads valid, and lands
     through the change plays.
@@ -4295,7 +4254,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The settings name the map by its place in memory, Phoenix memory holds
     version 15, the same as Garura's source, and each play's agent reads it through
     the memory tool.
@@ -4312,7 +4271,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: Each part that describes or checks the model's shape follows the map's
     current version.
   doc: software-delivery-planning/define-product/fn-readers-in-step/feature.md
@@ -4328,7 +4287,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: Each change to the map shows the product owner what it breaks in the model,
     recorded as owed.
   doc: software-delivery-planning/define-product/fn-check-model-on-change/feature.md
@@ -4344,7 +4303,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The model says which version it is built to, so Move the product model
     to the new version's shape (fn-move-model) knows which moves it needs.
   doc: software-delivery-planning/define-product/fn-model-shape-version/feature.md
@@ -4360,7 +4319,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: A team adds its own kinds or rules to the map Garura provides, and changes
     the plays that read them with it.
   doc: software-delivery-planning/define-product/fn-extend-ontology/feature.md
@@ -4376,7 +4335,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The profile and the product decision that the model already holds get
     their kinds, properties, links and rules in the map.
   doc: software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md
@@ -4392,7 +4351,7 @@ features:
   capability: cap-define-product
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The map names one approval state for every kind, and maps the states of
     today onto it.
   doc: software-delivery-planning/define-product/fn-approval-state-kind/feature.md
@@ -4408,7 +4367,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The keeper writes the page of a domain, capability or feature found while
     other work goes on, then its index entry, thin when it is thin, all or nothing.
   doc: software-delivery-planning/manage-model/fn-add-found-part/feature.md
@@ -4424,7 +4383,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: 'A part changes only from words a person approved: named lines, a whole
     page, an intent page, its one-line, its intents or its parent, by one edit standard.'
   doc: software-delivery-planning/manage-model/fn-change-part/feature.md
@@ -4440,7 +4399,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: 'A part is taken out only on a person''s named approval: an old intent
     repointed, an intent page removed, a capability merged or a slice removed.'
   doc: software-delivery-planning/manage-model/fn-take-part-out/feature.md
@@ -4456,7 +4415,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The structure check reads the model's pages and index for their shape
     and links on every change, as findings, never a stop.
   doc: software-delivery-planning/manage-model/fn-check-model/feature.md
@@ -4472,7 +4431,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: Loose parts, links on one side only, intents nothing serves and the same
     part written twice are found, and what the model can take is closed.
   doc: software-delivery-planning/manage-model/fn-close-model-gaps/feature.md
@@ -4488,7 +4447,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: Each part says whether a person approved it, it changed, or it is in progress.
   doc: software-delivery-planning/manage-model/fn-part-approval/feature.md
   depends_on: []
@@ -4503,7 +4462,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: A design approval updates the model, and a change left for later is listed
     for Learn.
   doc: software-delivery-planning/manage-model/fn-model-moves-with-work/feature.md
@@ -4519,7 +4478,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: Every play adds, changes and takes out parts through the two index skills,
     not its own script.
   doc: software-delivery-planning/manage-model/fn-index-through-skills/feature.md
@@ -4535,7 +4494,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: One tool writes the model's pages and entries in the shape the ontology
     sets, with the plays and templates it lacks.
   doc: software-delivery-planning/manage-model/fn-model-tool/feature.md
@@ -4551,7 +4510,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: proposed
+  status: Unplanned
   one_line: The model proposes an idea with its evidence, a person confirms or drops
     it, and an experiment records what was tried and its result.
   doc: software-delivery-planning/manage-model/fn-try-next/feature.md
