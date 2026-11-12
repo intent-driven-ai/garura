@@ -9,8 +9,8 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from test_support import (check, empty_tracker, finish, gather, make_model, paths, read_json,  # noqa: E402
-                          run, set_slice, write)
+from test_support import (check, empty_tracker, finish, flow, gather, make_model, paths,  # noqa: E402
+                          read_json, run, set_issue, set_slice, write)
 
 FULL = "Represents: ft-pick\n\n## Scope of work\n\nGoals:\n- x\n\n## Context guidance\n\n- Read: y\n"
 PLAN = """# A plan kept by hand.
@@ -132,6 +132,68 @@ def main():
         code, _, _ = run("find_work_items.py", "--gather", os.path.join(tmp, "none.json"), "--plan-file",
                          p["plan_file"], "--tracker-file", p["tracker"], "--out", p["items"])
         check("a missing gather.json: exit 2", code == 2)
+
+    # The story the model names (C3, F14, #1025): no plan file, so the model's `issue` is the link.
+    bi = {"number": 1, "title": "Patients book online", "type": None, "labels": [], "state": "open",
+          "body": "", "sub_issues": [50]}
+
+    def story(n, body=FULL, state="open", type_="Story"):
+        return {"number": n, "title": f"Story {n}", "type": type_, "labels": [], "state": state, "body": body}
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp), paths(tmp)
+        set_issue(root, {"ft-pick": 50, "ft-remind": 51})
+        gather(root, p)
+        empty_tracker(p, [bi, story(50), story(51, body="Written by a person.\n")])
+        code, _, _ = find(p)
+        items = read_json(p["items"])
+        st = {s["feature"]: s for s in items["slices"][0]["stories"]}
+        check("no plan file: a feature whose model entry names an open Story uses it, never make",
+              code == 0 and st["ft-pick"]["action"] == "use" and st["ft-pick"]["issue"] == 50
+              and st["ft-pick"]["source"] == "model" and st["ft-pick"]["attached"] is False)
+        check("a model-named story missing its sections is add-sections",
+              st["ft-remind"]["action"] == "add-sections" and st["ft-remind"]["issue"] == 51
+              and st["ft-remind"]["missing"] == ["Scope of work", "Context guidance"])
+        check("a feature the model names no story for is still make",
+              st["ft-pay"]["action"] == "make" and st["ft-pay"]["source"] is None)
+
+        for label, issues, words in (
+                ("closed", [bi, story(50, state="closed"), story(51)], "#50 is closed"),
+                ("not a Story", [bi, story(50, type_="Bug"), story(51)], "#50 is of type Bug"),
+                ("not in the tracker", [bi, story(51)], "the tracker has no such issue")):
+            empty_tracker(p, issues)
+            code, _, _ = find(p)
+            items = read_json(p["items"])
+            check(f"a model-named issue that is {label}: exit 1, named, never used",
+                  code == 1 and items["ok"] is False and any(words in pr for pr in items["problems"])
+                  and {s["feature"]: s for s in items["slices"][0]["stories"]}["ft-pick"]["issue"] is None)
+
+        set_issue(root, {"ft-pick": 50, "ft-remind": 50})
+        gather(root, p)
+        empty_tracker(p, [bi, story(50)])
+        code, _, _ = find(p)
+        items = read_json(p["items"])
+        check("one issue the model names for two features: exit 1, named, used for neither",
+              code == 1 and any("more than one feature" in pr for pr in items["problems"])
+              and all(s["issue"] is None for s in items["slices"][0]["stories"]))
+
+    # S10 — the whole flow: the story filed before the plan is used and moved under the epic.
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp), paths(tmp)
+        set_issue(root, {"ft-pick": 50})
+        empty_tracker(p, [bi, story(50)])
+        codes = flow(root, p)
+        rec = read_json(p["record"])
+        data = {i["number"]: i for i in read_json(p["tracker"])["issues"]}
+        epic = rec["epics"]["sl-self-booking"]
+        check("S10: the run goes through and the plan check reads ok",
+              codes.get("write") == 0 and codes.get("check_plan") == 0 and codes.get("check_tracker") == 0)
+        check("S10: no new story is made for the feature the model names; the others are made",
+              sorted(c["represents"] for c in rec["created"] if c["kind"] == "story") == ["ft-pay", "ft-remind"])
+        check("S10: the epic's map names the model's story, and the story left its old parent",
+              rec["stories"]["ft-pick"] == 50 and 50 in data[epic]["sub_issues"] and 50 not in data[1]["sub_issues"])
+        check("S10: the brief says the story is the one the model names",
+              "the story the model names for this feature" in open(p["brief"]).read())
     return finish()
 
 

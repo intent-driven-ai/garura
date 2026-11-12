@@ -11,7 +11,7 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from test_support import (check, finish, gather, make_model, paths, read, read_json,  # noqa: E402
-                          set_slice, write, FAILS)
+                          set_issue, set_slice, write, FAILS)
 
 
 def main():
@@ -21,6 +21,14 @@ def main():
         code, out, _ = gather(root, p)
         g = read_json(p["gather"])
         check("exit 0 with one slice", code == 0 and out["ok"] and len(g["slices"]) == 1)
+        set_issue(root, {"ft-pick": "#50", "ft-remind": 51})
+        gather(root, p)
+        named = {f["id"]: f["issue"] for f in read_json(p["gather"])["slices"][0]["features"]}
+        check("each feature carries the story the model names, as a number (#1025)",
+              named == {"ft-pick": 50, "ft-remind": 51, "ft-pay": None})
+        set_issue(root, {"ft-pick": None, "ft-remind": None})
+        code, out, _ = gather(root, p)
+        g = read_json(p["gather"])
         check("the plan id is the intent's number and the plan file is <plans>/<id>.yaml",
               g["plan_id"] == "340" and g["plan_file"] == os.path.join(p["plans"], "340.yaml"))
         check("the intent's title is read from its page",
@@ -32,6 +40,7 @@ def main():
         check("each feature names its capability and its two ICE pages",
               sl["features"][2]["capability"] == "cap-payment" and len(sl["features"][2]["ice_pages"]) == 2)
         check("every feature is ready", all(f["ready"] for f in sl["features"]))
+        check("a feature the model names no story for has issue null", all(f["issue"] is None for f in sl["features"]))
         copies = sorted(glob.glob(os.path.join(p["working"], "ice", "*.md")))
         check("one clean copy for each ready feature", [os.path.basename(c) for c in copies]
               == ["ft-pay.md", "ft-pick.md", "ft-remind.md"])
@@ -107,6 +116,30 @@ def main():
               code == 0 and f["ready"] and f["ice_pages"][0].endswith("ices/pick.md")
               and "### Intent" in text and "### Expectation" in text and "Goal" in text)
         check("and their failure lines are taken out", "fails if" not in text.lower() and "two patients" not in text)
+    with tempfile.TemporaryDirectory() as tmp:
+        # #1034: a model part way through the move. ft-pick and its capability have ice.md
+        # pages; ft-remind has no `ices` entry yet and keeps its ICE inline on its page.
+        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
+        import yaml
+        spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+        ice = ("# ICE\n\n## Intent\n- **Goal:** a patient picks a slot.\n- **Fails if:** two patients get one slot.\n\n"
+               "## Context\n- **Persona:** the patient.\n\n## Expectation\n- **Scenario:** a slot is booked.\n")
+        spine["ices"] = [{"id": "ice-pick", "for": "ft-pick", "doc": "ices/pick.md"},
+                         {"id": "ice-booking", "for": "cap-booking", "doc": "ices/booking.md"}]
+        write(os.path.join(root, "_spine.yaml"), spine)
+        write(os.path.join(root, "ices", "pick.md"), ice)
+        write(os.path.join(root, "ices", "booking.md"), ice)
+        code, _, _ = gather(root, p)
+        fs = {f["id"]: f for f in read_json(p["gather"])["slices"][0]["features"]}
+        remind = fs["ft-remind"]
+        check("#1034: a feature not moved yet is read by its own shape — ready, its ICE read inline",
+              code == 0 and remind["ready"] and remind["ice_pages"][0].endswith("ft-remind/feature.md")
+              and remind["ice_pages"][1].endswith("ices/booking.md"))
+        text = read(os.path.join(p["working"], "ice", "ft-remind.md"))
+        check("#1034: its clean copy holds its inline ICE and its capability's ice.md, with no failure line",
+              "Feature ICE — ft-remind" in text and "### Intent" in text and "fails if" not in text.lower())
+        check("#1034: the moved feature beside it still reads its ice.md",
+              fs["ft-pick"]["ready"] and fs["ft-pick"]["ice_pages"][0].endswith("ices/pick.md"))
     return finish()
 
 

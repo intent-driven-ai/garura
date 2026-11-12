@@ -20,11 +20,15 @@ It also writes `<working>/skill-input.json`, the only file the skill reads besid
 copies: the intent and its title, and for each slice its id, name and outcome, and for each
 ready feature its id, name, one line and its clean copy's path. It holds no ICE page path.
 
+Each feature also carries `issue`: the story the feature's entry in the model names (its
+`issue`), as a number, or null. find_work_items.py uses it when the plan file marks no story for
+the feature (C3, #1025).
+
 Output:
     {intent, intent_title, plan_id, plan_file,
      slices: [{id, slug, name, outcome,
-               features: [{id, name, one_line, capability, ready, reason, ice_pages: [..],
-                           clean_ice}]}]}
+               features: [{id, name, one_line, capability, issue, ready, reason,
+                           ice_pages: [..], clean_ice}]}]}
 
 skill-input.json:
     {intent, intent_title, slices: [{id, name, outcome, features: [{id, name, one_line, clean_ice}]}]}
@@ -45,6 +49,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plan_common as pc  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def model_issue(value):
+    """The issue number a feature's model entry names, or None. "#12", "12" and 12 all read 12."""
+    if value is None or isinstance(value, bool):
+        return None
+    text = str(value).strip().lstrip("#")
+    return int(text) if text.isdigit() else None
 
 
 def ready_check(spine_path, intents_dir, node):
@@ -102,7 +114,7 @@ def gather(args):
             f = pc.entry(spine, "features", fid)
             if f is None:
                 features.append({"id": fid, "name": fid, "one_line": "", "capability": None,
-                                 "ready": False, "reason": "the feature is not in the spine",
+                                 "issue": None, "ready": False, "reason": "the feature is not in the spine",
                                  "ice_pages": [], "clean_ice": None})
                 continue
             cap = pc.entry(spine, "capabilities", f.get("capability")) if f.get("capability") else None
@@ -123,6 +135,7 @@ def gather(args):
                     reasons.append(f"the {label} ICE ({part['id']}) has no lines")
             item = {"id": fid, "name": pc.page_title(args.root, f.get("doc"), "Feature:") or fid,
                     "one_line": f.get("one_line") or "", "capability": f.get("capability"),
+                    "issue": model_issue(f.get("issue")),
                     "ready": not reasons, "reason": "; ".join(reasons), "ice_pages": pages,
                     "clean_ice": None}
             if not reasons:

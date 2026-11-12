@@ -39,6 +39,12 @@ def story_text(story):
     return out
 
 
+def named_by_model(st):
+    """The words that say the story is the one the model names for its feature (C3, #1025)."""
+    return (" (the story the model names for this feature; no new story is made, and it leaves "
+            "any other parent)") if st.get("source") == "model" else ""
+
+
 def fix_lines(item, type_):
     out = []
     if item.get("type") != type_:
@@ -97,7 +103,10 @@ def render(gather, items, drafts):
             elif act == "add-sections":
                 writes += 1
                 fixes = fix_lines(st, pc.STORY_TYPE)
-                lines += [f"- Use story #{st.get('issue')} \"{st.get('title') or ''}\" for {fid}: add "
+                if not st.get("attached"):
+                    fixes.append("make it a sub-issue of the epic")
+                lines += [f"- Use story #{st.get('issue')} \"{st.get('title') or ''}\" for {fid}"
+                          f"{named_by_model(st)}: add "
                           "the section" + ("s " if len(st.get("missing") or []) > 1 else " ")
                           + " and ".join(f"\"{m}\"" for m in st.get("missing") or [])
                           + " at the end; every line a person wrote stays"
@@ -110,6 +119,7 @@ def render(gather, items, drafts):
                     fixes.append(f"add the line \"Represents: {fid}\" at the end of its text")
                 writes += bool(fixes)
                 lines.append(f"- Use story #{st.get('issue')} \"{st.get('title') or ''}\" for {fid}"
+                             + named_by_model(st)
                              + (": " + "; ".join(fixes) + "." if fixes else ", as it is."))
             elif act == "skip":
                 skipped.append((sl["id"], fid, st.get("reason"), st.get("issue")))

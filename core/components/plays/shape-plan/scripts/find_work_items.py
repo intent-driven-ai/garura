@@ -15,6 +15,10 @@ For each slice of gather.json:
     `add-sections` (marked, but one of the two sections is missing; `missing` names it),
     `make` (no marked story), or `skip` (the feature is not ready; `reason` says why, and a
     marked story is left as it is);
+  - when the plan file marks no story for a feature, the story is the issue the feature's entry
+    in the model names (gather.json `issue`, C3, #1025), with `source: model`: `use` or
+    `add-sections` the same way, never `make`. The issue must be in the tracker, open and of
+    type Story, and named for one feature only; else it is a problem and nothing is written;
   - `move_out` lists each marked story under the epic whose feature is no longer in the slice;
   - `misplaced` lists each sub-issue of a used epic that is neither a story of its slice nor a
     moved-out story, with its title: an epic stands for its slice, so such work is not its
@@ -28,8 +32,8 @@ Output:
     {ok, plan_file_exists, problems: [..], duplicates: [..],
      misplaced: [{slice, epic, issue, title}],
      slices: [{slice, epic: {action, issue, title, type, labels, represents_line, map},
-               stories: [{feature, action, issue, missing, reason, title, type, labels,
-                          represents_line, attached}],
+               stories: [{feature, action, issue, source, missing, reason, title, type,
+                          labels, represents_line, attached}],
                move_out: [{issue, feature, title}]}]}
 
 Exit 0 written; 1 written, with a problem (a marked issue the tracker does not have), a
@@ -58,9 +62,48 @@ def tracker_facts(tracker, number, represents, problems, what):
     return it
 
 
+def model_story(tracker, f, problems):
+    """The issue a feature's model entry names, when the tracker holds it open with type Story;
+    else None, with the problem named (C3, F14, #1025)."""
+    number = f.get("issue")
+    if number is None:
+        return None
+    fid = f["id"]
+    it = tracker.get(int(number))
+    if it is None:
+        problems.append(f"the model names #{number} as the story of {fid}, but the tracker has no "
+                        "such issue")
+        return None
+    if (it.get("state") or "open").lower() != "open":
+        problems.append(f"the model names #{number} as the story of {fid}, but #{number} is closed")
+        return None
+    if it.get("type") != pc.STORY_TYPE:
+        problems.append(f"the model names #{number} as the story of {fid}, but #{number} is of type "
+                        f"{it.get('type') or 'none'}, not {pc.STORY_TYPE}")
+        return None
+    return int(number)
+
+
+def named_twice(gather, problems):
+    """Each issue the model names as the story of two features or more is a problem (C3, F14)."""
+    seen = {}
+    for sl in gather.get("slices") or []:
+        for f in sl.get("features") or []:
+            if f.get("issue") is not None:
+                seen.setdefault(int(f["issue"]), []).append(f["id"])
+    twice = set()
+    for number, fids in sorted(seen.items()):
+        if len(set(fids)) > 1:
+            problems.append(f"the model names #{number} as the story of more than one feature: "
+                            + ", ".join(sorted(set(fids))))
+            twice.add(number)
+    return twice
+
+
 def find(gather, plan, tracker):
     tree = (plan or {}).get("tree") or []
     problems, duplicates, misplaced, out = [], [], [], []
+    twice = named_twice(gather, problems)
     for sl in gather.get("slices") or []:
         sid = sl["id"]
         feature_ids = [f["id"] for f in sl.get("features") or []]
@@ -89,16 +132,27 @@ def find(gather, plan, tracker):
                 duplicates.append({"kind": "story", "represents": fid, "epic": epic["issue"],
                                    "kept": mine[0].get("issue"),
                                    "copies": [k.get("issue") for k in mine[1:]]})
-            story = {"feature": fid, "action": "make", "issue": None, "missing": [], "reason": "",
-                     "title": None, "type": None, "labels": [], "represents_line": False,
-                     "attached": False}
+            story = {"feature": fid, "action": "make", "issue": None, "source": None, "missing": [],
+                     "reason": "", "title": None, "type": None, "labels": [],
+                     "represents_line": False, "attached": False}
             if mine:
-                story["issue"] = mine[0].get("issue")
+                story.update(issue=mine[0].get("issue"), source="plan file")
+            elif f.get("issue") is not None and int(f["issue"]) not in twice:
+                named = model_story(tracker, f, problems)
+                if named is not None:
+                    story.update(issue=named, source="model")
             if not f.get("ready"):
                 story.update(action="skip", reason=f.get("reason") or "its ICE is not ready")
                 stories.append(story)
                 continue
-            if mine:
+            if story["source"] == "model":
+                it = tracker.get(story["issue"])
+                missing = [s for s in SECTIONS if not pc.has_heading(it["body"], s)]
+                story.update(action="add-sections" if missing else "use", missing=missing,
+                             title=it["title"], type=it["type"], labels=it["labels"],
+                             represents_line=pc.has_line(it["body"], f"Represents: {fid}"),
+                             attached=int(story["issue"]) in sub_issues)
+            elif mine:
                 it = tracker_facts(tracker, story["issue"], fid, problems, "story")
                 if it:
                     missing = [s for s in SECTIONS if not pc.has_heading(it["body"], s)]

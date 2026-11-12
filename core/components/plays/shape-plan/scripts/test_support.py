@@ -142,6 +142,18 @@ def set_slice(root, slice_id, features):
     write(os.path.join(root, "_spine.yaml"), spine)
 
 
+def set_issue(root, issues):
+    """Set (or, with None, clear) the `issue` a feature's spine entry names."""
+    spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+    for f in spine["features"]:
+        if f["id"] in issues:
+            if issues[f["id"]] is None:
+                f.pop("issue", None)
+            else:
+                f["issue"] = issues[f["id"]]
+    write(os.path.join(root, "_spine.yaml"), spine)
+
+
 def paths(tmp):
     working = os.path.join(tmp, "working")
     os.makedirs(working, exist_ok=True)
@@ -295,6 +307,27 @@ def main():
     check("every other write is an adapter verb",
           [c[0] for c in calls[1:]] == ["set-issue-type", "edit-issue-body", "remove-label",
                                          "attach-sub-issue", "remove-sub-issue"])
+    check("a sub-issue is attached with replace_parent, so it leaves any other parent (#1025)",
+          calls[4][1].get("replace_parent") == "true")
+    import platform_adapter as pa
+    with_flag = pa._gh("attach-sub-issue", {"parent_number": "40", "child_number": "41",
+                                            "replace_parent": "true"}, ("o", "n"))[0]
+    without = pa._gh("attach-sub-issue", {"parent_number": "40", "child_number": "41"}, ("o", "n"))[0]
+    check("the adapter sends replace_parent only when asked",
+          with_flag[-2:] == ["-F", "replace_parent=true"] and "replace_parent=true" not in without)
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "t.json")
+        write(path, {"issues": [{"number": 1, "title": "BI", "type": None, "labels": [], "state": "open",
+                                 "body": "", "sub_issues": [5]},
+                                {"number": 2, "title": "Epic", "type": "Epic", "labels": [], "state": "open",
+                                 "body": "", "sub_issues": []},
+                                {"number": 5, "title": "S", "type": "Story", "labels": [], "state": "open",
+                                 "body": ""}]})
+        ft = pc.open_tracker(path)
+        ft.add_sub(2, 5)
+        data = {i["number"]: i for i in read_json(path)["issues"]}
+        check("the file tracker moves a sub-issue: it leaves its old parent",
+              data[2]["sub_issues"] == [5] and data[1]["sub_issues"] == [])
     with tempfile.TemporaryDirectory() as tmp:
         root = make_model(tmp)
         check("the fixture model loads", os.path.isfile(os.path.join(root, "_spine.yaml")))
