@@ -1,18 +1,3 @@
 [ENH] The product model records each feature's state
 
-What: each feature in the product model records its own state, one of five:
-- Unplanned: the feature is in the model and no plan holds it yet; no work starts on it.
-- Planned: a plan holds it and no work on it has started.
-- In progress: some of its work is done and some is open.
-- Completed: the feature is built.
-- Dropped: the feature will not be built.
-
-Only a feature has a state. A domain, a capability and a business intent have none of their own, and nothing rolls up from features.
-
-Who sets it: a play that adds a feature sets Unplanned; /shape-plan sets Planned when the plan takes the feature in; only /start-work sets In progress, when work on the feature first starts (designing, slicing, shaping or editing a plan is not work); the plan sets Completed when the feature's Feature issue closes as completed, and Dropped when the person drops it.
-
-The model records the state only. It still names no plan, no tracker issue and no decision record. Plays read "built" from the model, not from the tracker.
-
-Why: the product model is the state of the product that can be sent to someone, so it must know whether each feature is done. The issue tracker is only the working space of the agents. It also makes features built before ADR 068 visible: the model clean-up marks them Completed once.
-
-This change: a decision record that amends ADR 069 on its rule that no part of the model holds a work status, then the ontology change (v18). The /shape-plan and /design-eval rework (#1025) then reads and writes the state.
+Note: specify-ontology: the feature's state in the model (v18)
