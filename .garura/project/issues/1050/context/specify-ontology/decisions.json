@@ -1,0 +1,18 @@
+{
+  "history": [
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "20 - explain as what you showed to me is not clear\n19 - when a slice holds a feature that already builds it, the plan and epic should not include it. a plan when created or updated should only look at whats pending and not what is completed\n48 - yeah that is fine. we can keep the issue number to keep a link between feature and its issue id\n49 - your wording is crap, rephrase",
+      "draft": ".garura/project/issues/1050/context/specify-ontology/draft-questions.md",
+      "draft_sha256": "1189e063038f249cd8801be063dafb0fe42e1e49533ceb35543cb2f528cb7b80",
+      "at": "2026-11-12T05:52:12+00:00"
+    }
+  ],
+  "agreed": {
+    "questions": false,
+    "kinds": false,
+    "links": false
+  },
+  "all_agreed": false
+}
