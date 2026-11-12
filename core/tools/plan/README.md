@@ -23,15 +23,20 @@ A plan file with any other status is refused (exit 2), so an old file is never s
 
 ## The plan file
 
-A plan file holds, at the top: `id` (the business intent's issue number), `title`, `status`
+A plan file holds, at the top: `intent` (the business intent it serves, `bi-<id>`) and `title`
+(that intent's title), on its first lines; `id` (the business intent's issue number), `status`
 (Not Started, In Progress, Paused, Done or Dropped — set by a person), `direction` (1, 2, 3 or
 none — set by a person), `branch` (`plan/<id>/base` while its work is in progress), `started`,
-`updated`, `epic`, `identified_by`, `needs_plans` and `tree`. It keeps no history: each
+`updated`, `epic` (the issue number of the plan's one epic), `slices` (each slice the plan holds,
+`id` and `status`: Not Started, In Progress, Done or Dropped — set by a person),
+`identified_by`, `needs_plans` and `tree`. The tool prints `title`, the tree and its statuses;
+it reads `intent` and `slices` as they are and prints neither. It keeps no history: each
 `/reshape-plan` landing is one commit whose message names what was asked, the overrides and what
 is owed.
 
 Each node of the tree has `issue`, `kind`, `title` and `status`, and may have `represents` (the
-slice or feature it stands for) and `children`. A plan may hold six kinds of item, each under one
+feature a `feature` node stands for), `held_by` (the epic of another plan that holds that Feature
+issue) and `children`. A plan may hold six kinds of item, each under one
 kind of parent (#917):
 
 | Kind | Sits under |

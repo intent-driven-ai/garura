@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gather_plan.py — what the plan of one business intent holds (/shape-plan, C1, C2, C5, C9).
+"""gather_plan.py — what the plan of one business intent holds (/shape-plan, C1, C2, C3, C5, C9).
 
     python3 gather_plan.py --root <model dir> --spine <spine> --intent bi-<n> \
         --plans <plans dir> --out <working>/gather.json
@@ -17,21 +17,22 @@ bullets, wrapped text). The clean copy names no ICE page. A clean copy left from
 run for a feature that is not ready now is deleted.
 
 It also writes `<working>/skill-input.json`, the only file the skill reads besides the clean
-copies: the intent and its title, and for each slice its id, name and outcome, and for each
-ready feature its id, name, one line and its clean copy's path. It holds no ICE page path.
+copies: the intent and its title, each slice's id, name and outcome, and each ready feature
+once (a feature in two slices of the plan is listed once, with both slices), with its id,
+name, one line and its clean copy's path. It holds no ICE page path.
 
-Each feature also carries `issue`: the story the feature's entry in the model names (its
-`issue`), as a number, or null. find_work_items.py uses it when the plan file marks no story for
-the feature (C3, #1025).
+The model holds no issue number (ADR 069): nothing here reads one. find_work_items.py finds
+each feature's Feature issue in the tracker (C3).
 
 Output:
     {intent, intent_title, plan_id, plan_file,
      slices: [{id, slug, name, outcome,
-               features: [{id, name, one_line, capability, issue, ready, reason,
+               features: [{id, name, one_line, capability, ready, reason,
                            ice_pages: [..], clean_ice}]}]}
 
 skill-input.json:
-    {intent, intent_title, slices: [{id, name, outcome, features: [{id, name, one_line, clean_ice}]}]}
+    {intent, intent_title, slices: [{id, name, outcome, features: [feature ids]}],
+     features: [{id, name, one_line, clean_ice, slices: [slice ids]}]}
 
 Exit 0 written; 2 when no slice serves the intent, or an input is wrong (nothing written).
 No git, no network.
@@ -49,14 +50,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plan_common as pc  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-
-
-def model_issue(value):
-    """The issue number a feature's model entry names, or None. "#12", "12" and 12 all read 12."""
-    if value is None or isinstance(value, bool):
-        return None
-    text = str(value).strip().lstrip("#")
-    return int(text) if text.isdigit() else None
 
 
 def ready_check(spine_path, intents_dir, node):
@@ -114,7 +107,7 @@ def gather(args):
             f = pc.entry(spine, "features", fid)
             if f is None:
                 features.append({"id": fid, "name": fid, "one_line": "", "capability": None,
-                                 "issue": None, "ready": False, "reason": "the feature is not in the spine",
+                                 "ready": False, "reason": "the feature is not in the spine",
                                  "ice_pages": [], "clean_ice": None})
                 continue
             cap = pc.entry(spine, "capabilities", f.get("capability")) if f.get("capability") else None
@@ -135,7 +128,6 @@ def gather(args):
                     reasons.append(f"the {label} ICE ({part['id']}) has no lines")
             item = {"id": fid, "name": pc.page_title(args.root, f.get("doc"), "Feature:") or fid,
                     "one_line": f.get("one_line") or "", "capability": f.get("capability"),
-                    "issue": model_issue(f.get("issue")),
                     "ready": not reasons, "reason": "; ".join(reasons), "ice_pages": pages,
                     "clean_ice": None}
             if not reasons:
@@ -158,13 +150,23 @@ def gather(args):
 
 
 def skill_input(result):
-    """What the skill may read: no ICE page path, no feature that is not ready."""
+    """What the skill may read: no ICE page path, no feature that is not ready, and each
+    feature once, with the slices of the plan that hold it."""
+    features, order = {}, []
+    for sl in result["slices"]:
+        for f in sl["features"]:
+            if not f["ready"]:
+                continue
+            if f["id"] not in features:
+                order.append(f["id"])
+                features[f["id"]] = {"id": f["id"], "name": f["name"], "one_line": f["one_line"],
+                                     "clean_ice": f["clean_ice"], "slices": []}
+            features[f["id"]]["slices"].append(sl["id"])
     return {"intent": result["intent"], "intent_title": result["intent_title"],
             "slices": [{"id": sl["id"], "name": sl["name"], "outcome": sl["outcome"],
-                        "features": [{"id": f["id"], "name": f["name"], "one_line": f["one_line"],
-                                      "clean_ice": f["clean_ice"]}
-                                     for f in sl["features"] if f["ready"]]}
-                       for sl in result["slices"]]}
+                        "features": [f["id"] for f in sl["features"] if f["ready"]]}
+                       for sl in result["slices"]],
+            "features": [features[fid] for fid in order]}
 
 
 def main(argv=None):

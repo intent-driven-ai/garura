@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_gather_plan.py — gather_plan.py finds the slices of an intent and writes clean ICE copies (C2, C5, C9).
+"""test_gather_plan.py — gather_plan.py finds the slices of an intent and writes clean ICE copies (C2, C3, C5, C9).
 
     python3 test_gather_plan.py
 """
@@ -11,7 +11,7 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from test_support import (check, finish, gather, make_model, paths, read, read_json,  # noqa: E402
-                          set_issue, set_slice, write, FAILS)
+                          set_slice, write, FAILS)
 
 
 def main():
@@ -21,12 +21,13 @@ def main():
         code, out, _ = gather(root, p)
         g = read_json(p["gather"])
         check("exit 0 with one slice", code == 0 and out["ok"] and len(g["slices"]) == 1)
-        set_issue(root, {"ft-pick": "#50", "ft-remind": 51})
+        import yaml
+        spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+        spine["features"][0]["issue"] = 50
+        write(os.path.join(root, "_spine.yaml"), spine)
         gather(root, p)
-        named = {f["id"]: f["issue"] for f in read_json(p["gather"])["slices"][0]["features"]}
-        check("each feature carries the story the model names, as a number (#1025)",
-              named == {"ft-pick": 50, "ft-remind": 51, "ft-pay": None})
-        set_issue(root, {"ft-pick": None, "ft-remind": None})
+        check("no feature carries an issue number from the model (ADR 069)",
+              all("issue" not in f for f in read_json(p["gather"])["slices"][0]["features"]))
         code, out, _ = gather(root, p)
         g = read_json(p["gather"])
         check("the plan id is the intent's number and the plan file is <plans>/<id>.yaml",
@@ -40,7 +41,6 @@ def main():
         check("each feature names its capability and its two ICE pages",
               sl["features"][2]["capability"] == "cap-payment" and len(sl["features"][2]["ice_pages"]) == 2)
         check("every feature is ready", all(f["ready"] for f in sl["features"]))
-        check("a feature the model names no story for has issue null", all(f["issue"] is None for f in sl["features"]))
         copies = sorted(glob.glob(os.path.join(p["working"], "ice", "*.md")))
         check("one clean copy for each ready feature", [os.path.basename(c) for c in copies]
               == ["ft-pay.md", "ft-pick.md", "ft-remind.md"])
@@ -54,8 +54,10 @@ def main():
         si = read(os.path.join(p["working"], "skill-input.json"))
         sij = read_json(os.path.join(p["working"], "skill-input.json"))
         check("skill-input.json names each ready feature and its clean copy, and no ICE page",
-              [f["id"] for f in sij["slices"][0]["features"]] == ["ft-pick", "ft-remind", "ft-pay"]
-              and all(f["clean_ice"].endswith(f"ice/{f['id']}.md") for f in sij["slices"][0]["features"])
+              [f["id"] for f in sij["features"]] == ["ft-pick", "ft-remind", "ft-pay"]
+              and sij["slices"][0]["features"] == ["ft-pick", "ft-remind", "ft-pay"]
+              and all(f["clean_ice"].endswith(f"ice/{f['id']}.md") and f["slices"] == ["sl-self-booking"]
+                      for f in sij["features"])
               and "feature.md" not in si and "capability.md" not in si and "ice_pages" not in si)
         check("the clean copy names no ICE page", not any("feature.md" in read(c) or "capability.md" in read(c)
                                                           for c in copies))
@@ -75,7 +77,7 @@ def main():
         check("a feature whose ICE is not ready is ready false, with a reason",
               code == 0 and wait["ready"] is False and "not ready" in wait["reason"] and wait["clean_ice"] is None)
         check("skill-input.json leaves out a feature that is not ready",
-              [f["id"] for f in read_json(os.path.join(p["working"], "skill-input.json"))["slices"][0]["features"]]
+              [f["id"] for f in read_json(os.path.join(p["working"], "skill-input.json"))["features"]]
               == ["ft-pick"])
         check("no clean copy for it, and old copies of features not ready now are gone",
               sorted(os.path.basename(c) for c in glob.glob(os.path.join(p["working"], "ice", "*.md"))) == ["ft-pick.md"])
@@ -91,13 +93,17 @@ def main():
         code, _, _ = gather(root, p, intent="340")
         check("an intent not of the form bi-<n>: exit 2", code == 2)
     with tempfile.TemporaryDirectory() as tmp:
-        extra = [{"id": "sl-cancel", "slug": "cancel-online", "feature_refs": ["ft-cancel"],
+        extra = [{"id": "sl-cancel", "slug": "cancel-online", "feature_refs": ["ft-cancel", "ft-pick"],
                   "intents": ["bi-340"], "vertical": "the booking page"}]
         root, p = make_model(tmp, extra_slices=extra), paths(tmp)
         gather(root, p)
         g = read_json(p["gather"])
         check("every slice that serves the intent, in spine order",
               [s["id"] for s in g["slices"]] == ["sl-self-booking", "sl-cancel"])
+        sij = read_json(os.path.join(p["working"], "skill-input.json"))
+        check("a feature in two slices is in skill-input.json once, with both slices (S12)",
+              [f["id"] for f in sij["features"]] == ["ft-pick", "ft-remind", "ft-pay", "ft-cancel"]
+              and sij["features"][0]["slices"] == ["sl-self-booking", "sl-cancel"])
     with tempfile.TemporaryDirectory() as tmp:
         root, p = make_model(tmp, features=("ft-pick",)), paths(tmp)
         import yaml

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_write_work_items.py — write_work_items.py writes after a yes only, finds before it makes, keeps a person's lines (C3–C6, C8, C12, C13).
+"""test_write_work_items.py — write_work_items.py writes after a yes only, finds before it makes, keeps a person's lines (C3, C5, C6, C8, C13, C16).
 
     python3 test_write_work_items.py
 """
@@ -9,8 +9,8 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from test_support import (check, empty_tracker, finish, flow, make_model, paths, read,  # noqa: E402
-                          read_json, run, set_slice, write, write_items)
+from test_support import (check, empty_tracker, finish, flow, full_body, issue, make_model,  # noqa: E402
+                          paths, read, read_json, run, set_slice, write, write_items)
 
 
 def issues(p):
@@ -29,64 +29,71 @@ def main():
 
         codes = flow(root, p)
         rec, its = read_json(p["record"]), issues(p)
-        check("first plan: exit 0, one epic and three stories made", codes["write"] == 0
-              and [c["kind"] for c in rec["created"]] == ["epic", "story", "story", "story"])
-        epic = its[rec["epics"]["sl-self-booking"]]
-        stories = [its[n] for n in rec["maps"]["sl-self-booking"].values()]
-        check("the epic is type Epic with no label, and says what it represents",
-              epic["type"] == "Epic" and epic["labels"] == [] and "Represents: sl-self-booking" in epic["body"])
-        check("each story is type Story with no label, a sub-issue of the epic",
-              all(s["type"] == "Story" and s["labels"] == [] for s in stories)
-              and sorted(epic["sub_issues"]) == sorted(s["number"] for s in stories))
-        check("each story has its two sections and its Represents line, and no failure words",
+        check("first plan: exit 0, one epic and three Feature issues filed, no Story (S1)", codes["write"] == 0
+              and [c["kind"] for c in rec["created"]] == ["epic", "feature", "feature", "feature"]
+              and not any(i["type"] == "Story" for i in its.values()))
+        epic = its[rec["epic"]]
+        feats = [its[n] for n in rec["map"].values()]
+        check("the epic is type Epic with no label, and stands for the plan, not a slice",
+              epic["type"] == "Epic" and epic["labels"] == [] and "Plan: 340" in epic["body"]
+              and "Represents:" not in epic["body"])
+        check("each Feature issue is type Feature with no label, a sub-issue of the epic",
+              all(s["type"] == "Feature" and s["labels"] == [] for s in feats)
+              and sorted(epic["sub_issues"]) == sorted(s["number"] for s in feats))
+        check("each Feature issue has its exact Represents line and its two sections, and no failure words",
               all("## Scope of work" in s["body"] and "## Context guidance" in s["body"]
-                  and f"Represents: {f}" in s["body"] and "fails if" not in s["body"].lower()
-                  for f, s in zip(rec["maps"]["sl-self-booking"], stories)))
-        check("each story says the two ICE pages it was written from, taken from gather.json",
+                  and f"Represents: {f}" in s["body"].splitlines() and "fails if" not in s["body"].lower()
+                  for f, s in zip(rec["map"], feats)))
+        check("each Feature issue says the two ICE pages it was written from, taken from gather.json",
               all("Written from: " in s["body"] and "feature.md" in s["body"] and "capability.md" in s["body"]
-                  for s in stories))
+                  for s in feats))
         check("the epic's map has one line for each feature",
-              all(f"- {f} → #{n}" in epic["body"] for f, n in rec["maps"]["sl-self-booking"].items()))
+              all(f"- {f} → #{n}" in epic["body"] for f, n in rec["map"].items()))
 
         tracker_before = read(p["tracker"])
         flow(root, p)
         rec = read_json(p["record"])
-        check("second run: nothing made, nothing changed", rec["created"] == [] and rec["updated"] == []
-              and read(p["tracker"]) == tracker_before)
+        check("second run: the plan's epic and Feature issues are found; nothing made, nothing changed",
+              rec["created"] == [] and rec["updated"] == [] and read(p["tracker"]) == tracker_before)
 
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-cancel"])
         flow(root, p)
         rec, its = read_json(p["record"]), issues(p)
         pay = next(c for c in rec["moved_out"] if c["feature"] == "ft-pay")["issue"]
-        epic = its[rec["epics"]["sl-self-booking"]]
-        check("a feature that left: its story is off the epic and the map, and still open",
+        epic = its[rec["epic"]]
+        check("a feature that left: its Feature issue is off the epic and the map, and still open",
               its[pay]["state"] == "open" and pay not in epic["sub_issues"] and "ft-pay" not in epic["body"])
-        check("a feature that came in: one new story and one new map line",
+        check("a feature that came in: one new Feature issue and one new map line",
               [c["represents"] for c in rec["created"]] == ["ft-cancel"] and "- ft-cancel → #" in epic["body"])
 
     with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
-        write(p["plan_file"], "id: 340\ntitle: x\nstatus: Not Started\ntree:\n- issue: 10\n  kind: epic\n"
-              "  title: Self-booking\n  represents: sl-self-booking\n  children:\n  - issue: 11\n"
-              "    kind: story\n    represents: ft-pick\n  - issue: 12\n    kind: story\n    represents: ft-remind\n")
+        root, p = make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay")), paths(tmp)
         person = "A person wrote this.\n\nAnd this line too.\n"
         empty_tracker(p, [
-            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": "The epic, by hand."},
-            {"number": 11, "title": "Pick a free slot", "type": "Story", "body": person},
-            {"number": 12, "title": "Send a reminder", "type": "Story", "body": person + "\n## Scope of work\n\n- kept\n"}])
+            issue(1, "Patients book online", None, "The business intent.", subs=[11]),
+            issue(11, "Pick a free slot", "Feature", "Represents: ft-pick\n" + person, labels=["work-item"]),
+            issue(40, "Another plan's epic", "Epic", "", subs=[12]),
+            issue(12, "Send a reminder", "Feature", full_body("ft-remind")),
+            issue(13, "Pay the fee", "Feature", full_body("ft-pay"), state="closed", reason="completed")])
         codes = flow(root, p)
         rec, its = read_json(p["record"]), issues(p)
-        check("items made by hand: nothing new is made", codes["write"] == 0 and rec["created"] == [])
-        check("each found story gains only its missing sections, and keeps every line a person wrote",
-              its[11]["body"].startswith(person) and "## Scope of work" in its[11]["body"]
-              and "## Context guidance" in its[11]["body"]
-              and its[12]["body"].count("## Scope of work") == 1 and "- kept" in its[12]["body"]
-              and its[12]["body"].startswith(person))
-        check("the found epic gets type Epic, loses its label, keeps its text and gains its map",
-              its[10]["type"] == "Epic" and its[10]["labels"] == [] and its[10]["body"].startswith("The epic, by hand.")
-              and "- ft-pick → #11" in its[10]["body"] and sorted(its[10]["sub_issues"]) == [11, 12])
-        check("the record lists each change", {u["issue"] for u in rec["updated"]} == {10, 11, 12}
+        epic = its[rec["epic"]]
+        check("found Feature issues: only the epic is new", codes["write"] == 0
+              and [c["kind"] for c in rec["created"]] == ["epic"])
+        check("a found Feature issue gains only its missing sections, keeps every line a person wrote, "
+              "loses its label and moves under the epic",
+              its[11]["body"].startswith("Represents: ft-pick\n" + person) and "## Scope of work" in its[11]["body"]
+              and "## Context guidance" in its[11]["body"] and its[11]["labels"] == []
+              and 11 in epic["sub_issues"] and its[1]["sub_issues"] == [])
+        check("a held Feature issue stays under its epic, and the map names that epic",
+              its[40]["sub_issues"] == [12] and 12 not in epic["sub_issues"]
+              and "- ft-remind → #12 (under Epic #40)" in epic["body"] and rec["held"] == {"ft-remind": 40})
+        check("a built feature is left out: no write to its issue, no map line (C16)",
+              its[13]["body"] == full_body("ft-pay") and "ft-pay" not in epic["body"]
+              and [x["feature"] for x in rec["left_out"]] == ["ft-pay"])
+        check("the record lists each change", {u["issue"] for u in rec["updated"]} == {11, rec["epic"]}
               and all(u["lines_kept"] for u in rec["updated"]))
+        check("the plan and tracker checks read ok", codes["check_plan"] == 0 and codes["check_tracker"] == 0)
         code, _, _ = run("write_work_items.py", "--work-items", p["items"], "--drafts", os.path.join(tmp, "nope.json"),
                          "--gather", p["gather"], "--approval", p["approval"], "--plan-id", "340",
                          "--tracker-file", p["tracker"], "--out", os.path.join(tmp, "r.json"))
@@ -114,16 +121,16 @@ def main():
         its = issues(p)
         check("a write that fails part way: exit 1, the record keeps what was made and names the step",
               codes["write"] == 1 and rec["ok"] is False and "ft-remind" in rec["failed"]
-              and [c["kind"] for c in rec["created"]] == ["epic", "story"] and len(its) == 2)
+              and [c["kind"] for c in rec["created"]] == ["epic", "feature"] and len(its) == 2)
         plan = read(p["plan_file"])
         check("the plan file still marks the issues the record lists",
-              codes["plan"] == 0 and "represents: sl-self-booking" in plan and "represents: ft-pick" in plan)
+              codes["plan"] == 0 and f"epic: {rec['epic']}" in plan and "represents: ft-pick" in plan)
         data = read_json(p["tracker"])
         data.pop("fail_at_write")
         write(p["tracker"], data)
         codes = flow(root, p)
         rec, its = read_json(p["record"]), issues(p)
-        check("the next run uses the epic and story the first run made, and makes no copy",
+        check("the next run uses the epic and Feature issue the first run made, and makes no copy",
               codes["write"] == 0 and [c["represents"] for c in rec["created"]] == ["ft-remind", "ft-pay"]
               and len(its) == 4 and sum(1 for i in its.values() if i["type"] == "Epic") == 1
               and codes["check_plan"] == 0 and codes["check_tracker"] == 0)

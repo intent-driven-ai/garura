@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_check_tracker.py — check_tracker.py reads each work item back: type, no label, sub-issues, moved out open (D4; C4, C13).
+"""test_check_tracker.py — check_tracker.py reads each work item back: type, no label, the exact line, sub-issues, moved out open (D4; C3, C13, C15, C16).
 
     python3 test_check_tracker.py
 """
@@ -10,13 +10,14 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from test_support import (check, empty_tracker, finish, flow, make_model, paths, read,  # noqa: E402
-                          read_json, run, set_slice, write)
+from test_support import (check, empty_tracker, finish, flow, full_body, make_model, paths,  # noqa: E402
+                          read, read_json, run, set_slice, write)
 
 
 def verdict(p):
     out = os.path.join(p["working"], "tracker-check.json")
-    code, _, _ = run("check_tracker.py", "--record", p["record"], "--tracker-file", p["tracker"], "--out", out)
+    code, _, _ = run("check_tracker.py", "--record", p["record"], "--work-items", p["items"],
+                     "--tracker-file", p["tracker"], "--out", out)
     return code, read_json(out) if os.path.isfile(out) else None
 
 
@@ -38,58 +39,70 @@ def main():
         check("after a first plan: ok", code == 0 and res["ok"] and len(res["checked"]) == 4)
         good = read(p["tracker"])
         rec = read_json(p["record"])
-        epic = rec["epics"]["sl-self-booking"]
-        story = rec["maps"]["sl-self-booking"]["ft-pick"]
+        epic = rec["epic"]
+        feat = rec["map"]["ft-pick"]
 
-        edit(p, story, labels=["work-item"])
+        edit(p, feat, labels=["work-item"])
         code, res = verdict(p)
-        check("a story with a label: not ok", code == 1 and any("label" in x for x in res["problems"]))
+        check("a Feature issue with a label: not ok", code == 1 and any("label" in x for x in res["problems"]))
         write(p["tracker"], json.loads(good))
         edit(p, epic, type="Feature")
         code, res = verdict(p)
         check("an epic whose type is not Epic: not ok", code == 1 and any("not Epic" in x for x in res["problems"]))
         write(p["tracker"], json.loads(good))
-        edit(p, story, type="Bug")
+        edit(p, feat, type="Story")
         code, res = verdict(p)
-        check("a story whose type is not Story: not ok", code == 1 and any("not Story" in x for x in res["problems"]))
+        check("a Feature issue whose type is not Feature: not ok",
+              code == 1 and any("not Feature" in x for x in res["problems"]))
         write(p["tracker"], json.loads(good))
-        edit(p, epic, sub_issues=[story])
+        edit(p, feat, body=full_body("ft-pick").replace("Represents: ft-pick", "Represents: ft-pick."))
         code, res = verdict(p)
-        check("an epic that lacks a story of its slice: not ok, the story named",
+        check("a Feature issue whose Represents line is not exact: not ok",
+              code == 1 and any("has no line \"Represents: ft-pick\"" in x for x in res["problems"]))
+        write(p["tracker"], json.loads(good))
+        edit(p, epic, sub_issues=[feat])
+        code, res = verdict(p)
+        check("an epic that lacks a Feature issue of the plan: not ok, named",
               code == 1 and any("is not a sub-issue of epic" in x for x in res["problems"]))
         write(p["tracker"], json.loads(good))
-        # #879: an epic stands for its slice; a chore filed under it is not its slice's work.
         data = read_json(p["tracker"])
         data["issues"].append({"number": 90, "title": "Old chore", "type": "Chore", "labels": [],
                                "state": "closed", "body": "", "sub_issues": []})
         write(p["tracker"], data)
-        edit(p, epic, sub_issues=sorted(rec["maps"]["sl-self-booking"].values()) + [90])
+        edit(p, epic, sub_issues=sorted(rec["map"].values()) + [90])
         code, res = verdict(p)
-        check("an epic that holds a chore of no story: not ok, named with its title",
-              code == 1 and any("#90 \"Old chore\", which is not a story of its slice" in x for x in res["problems"]))
+        check("an epic that holds work the plan does not place: not ok, named with its title (C13)",
+              code == 1 and any("#90 \"Old chore\", which the plan does not place" in x for x in res["problems"]))
         write(p["tracker"], json.loads(good))
-        edit(p, story, body="Represents: ft-pick\n")
+        edit(p, feat, body="Represents: ft-pick\n")
         code, res = verdict(p)
-        check("a story with no Scope of work: not ok", code == 1 and any("Scope of work" in x for x in res["problems"]))
+        check("a Feature issue with no Scope of work: not ok", code == 1 and any("Scope of work" in x for x in res["problems"]))
+        write(p["tracker"], json.loads(good))
+        bad = dict(rec, created=rec["created"] + [{"issue": feat, "kind": "story", "represents": "ft-pick"}])
+        edit(p, feat, type="Story")
+        write(p["record"], bad)
+        code, res = verdict(p)
+        check("a Story the run filed: not ok", code == 1 and any("files no Stories" in x for x in res["problems"]))
+        write(p["record"], rec)
         write(p["tracker"], json.loads(good))
 
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind"])
         flow(root, p)
         code, res = verdict(p)
         moved = read_json(p["record"])["moved_out"][0]["issue"]
-        check("a moved-out story that is open and off the epic: ok", code == 0 and res["ok"])
+        check("a moved-out Feature issue that is open and off the epic: ok", code == 0 and res["ok"])
         edit(p, moved, state="closed")
         code, res = verdict(p)
-        check("a moved-out story that is closed: not ok", code == 1 and any("not open" in x for x in res["problems"]))
+        check("a moved-out item that is closed: not ok", code == 1 and any("not open" in x for x in res["problems"]))
         edit(p, moved, state="open")
-        epic_no = read_json(p["record"])["moved_out"][0]["epic"]
+        epic_no = read_json(p["record"])["epic"]
         subs = [it for it in read_json(p["tracker"])["issues"] if it["number"] == epic_no][0]["sub_issues"]
         edit(p, epic_no, sub_issues=subs + [moved])
         code, res = verdict(p)
-        check("a moved-out story that is still a sub-issue of its epic: not ok",
+        check("a moved-out item that is still a sub-issue of the epic: not ok",
               code == 1 and any("still a sub-issue" in x for x in res["problems"]))
         rec = read_json(p["record"])
-        rec["epics"]["sl-x"] = 500
+        rec["map"]["ft-x"] = 500
         write(p["record"], rec)
         code, res = verdict(p)
         check("an issue the record names that the tracker lacks: not ok", code == 1 and any("#500" in x for x in res["problems"]))

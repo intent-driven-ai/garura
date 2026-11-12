@@ -142,18 +142,6 @@ def set_slice(root, slice_id, features):
     write(os.path.join(root, "_spine.yaml"), spine)
 
 
-def set_issue(root, issues):
-    """Set (or, with None, clear) the `issue` a feature's spine entry names."""
-    spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
-    for f in spine["features"]:
-        if f["id"] in issues:
-            if issues[f["id"]] is None:
-                f.pop("issue", None)
-            else:
-                f["issue"] = issues[f["id"]]
-    write(os.path.join(root, "_spine.yaml"), spine)
-
-
 def paths(tmp):
     working = os.path.join(tmp, "working")
     os.makedirs(working, exist_ok=True)
@@ -173,25 +161,22 @@ def gather(root, p, intent="bi-340"):
                "--intent", intent, "--plans", p["plans"], "--out", p["gather"])
 
 
-def story_draft(fid, pages):
+def feature_draft(fid):
     return {"feature": fid, "title": f"The patient can {fid[3:]}",
             "scope_of_work": {"goals": [f"The patient can {fid[3:]} on a phone."],
                               "limits": ["Only open slots are used."],
                               "expectations": ["The patient sees a confirmation."]},
             "context_guidance": {"read": "the opening hours", "never_read": "health records",
                                  "persona": "the patient on a phone",
-                                 "in_out": "in: open slots; out: moving a booking"},
-            "written_from": pages}
+                                 "in_out": "in: open slots; out: moving a booking"}}
 
 
 def make_drafts(p):
-    g = read_json(p["gather"])
-    out = {"slices": []}
-    for sl in g["slices"]:
-        out["slices"].append({
-            "slice": sl["id"],
-            "epic": {"title": "A patient books a free slot online", "delivers": "A patient books a slot and gets a reminder."},
-            "stories": [story_draft(f["id"], f["ice_pages"]) for f in sl["features"] if f["ready"]]})
+    """One epic for the plan and one draft for each ready feature, once (as the skill writes)."""
+    si = read_json(os.path.join(p["working"], "skill-input.json"))
+    out = {"epic": {"title": "A patient books a free slot online",
+                    "delivers": "A patient books a slot and gets a reminder."},
+           "features": [feature_draft(f["id"]) for f in si["features"]]}
     write(p["drafts"], out)
     return out
 
@@ -217,7 +202,8 @@ def flow(root, p, decision="yes"):
     if codes["write"] == 0:
         codes["check_plan"] = run("check_plan.py", "--plan-file", p["plan_file"], "--gather", p["gather"],
                                   "--record", p["record"], "--out", os.path.join(p["working"], "plan-check.json"))[0]
-        codes["check_tracker"] = run("check_tracker.py", "--record", p["record"], "--tracker-file", p["tracker"],
+        codes["check_tracker"] = run("check_tracker.py", "--record", p["record"], "--work-items", p["items"],
+                                     "--tracker-file", p["tracker"],
                                      "--out", os.path.join(p["working"], "tracker-check.json"))[0]
     return codes
 
@@ -232,8 +218,46 @@ def empty_tracker(p, issues=()):
     write(p["tracker"], {"issues": list(issues)})
 
 
+def issue(number, title, type_, body="", state="open", reason=None, subs=(), labels=()):
+    """One issue of the file tracker."""
+    it = {"number": number, "title": title, "type": type_, "labels": list(labels), "state": state,
+          "body": body, "sub_issues": list(subs)}
+    if reason:
+        it["state_reason"] = reason
+    return it
+
+
+def full_body(fid):
+    return (f"Represents: {fid}\n\n## Scope of work\n\nGoals:\n- x\n\n## Context guidance\n\n"
+            "- Read: y\n")
+
+
 def main():
     print("plan_common.py")
+    with tempfile.TemporaryDirectory() as tmp:
+        path = write(os.path.join(tmp, "t.json"), {"issues": [
+            issue(1, "Pick a slot", "Feature", "Represents: ft-pick\n"),
+            issue(2, "Pick a slot, again", "Feature", "Represents: ft-pick-two\n"),
+            issue(3, "Pick a slot story", "Story", "Represents: ft-pick\n"),
+            issue(4, "Old group", "Feature", "Stories of ft-pick and more.\n"),
+            issue(5, "Pick a free slot", "Story", "", state="closed", reason="completed"),
+            issue(6, "Pick a free slot later", "Story", "", state="closed", reason="not_planned"),
+            issue(7, "Represents line not exact", "Feature", "  Represents: ft-pick and more\n")]})
+        tr = pc.FileTracker(path)
+        check("the file tracker's search finds a phrase in the text, open or closed",
+              tr.search("Represents: ft-pick", fields=("body",)) == [1, 2, 3, 7])
+        check("feature_issues keeps only type Feature with the exact line (ADR 068)",
+              [i["number"] for i in pc.feature_issues(tr, "ft-pick")] == [1])
+        old = pc.old_work(tr, "ft-pick", "Pick a free slot")
+        check("old_work finds an open story, a finished story and an old group, never a story closed as not planned",
+              [x["issue"] for x in old["open_stories"]] == [3] and [x["issue"] for x in old["done_stories"]] == [5]
+              and [x["issue"] for x in old["old_groups"]] == [4, 7])
+        tr.close(1)
+        check("the file tracker closes an issue as completed", pc.finished(tr.get(1)))
+    body = pc.with_map("Plan: 1", [("ft-a", 2), ("ft-b", 3)], {"ft-b": 9})
+    check("a held_by map line names the epic that holds it, and reads back",
+          "- ft-b → #3 (under Epic #9)" in body and pc.read_map(body) == {"ft-a": 2, "ft-b": 3}
+          and pc.read_map(body, held=True) == {"ft-b": 9})
     lines = ["- Goal: a.", "- Fails if: b goes", "  wrong for a long time.", "- Limit: c.",
              "### Fails if", "- d.", "## Context", "**Fails if**", "- e.", "", "Plain line.",
              "- Context: f; the line fails if nothing"]
@@ -291,6 +315,8 @@ def main():
             calls.append((verb, args))
             if verb == "create-issue-typed":
                 return {"exit_code": 0, "stdout": "41\n", "stderr": ""}
+            if verb == "list-issues":
+                return {"exit_code": 0, "stdout": '[{"number": 7}, {"number": 3}]', "stderr": ""}
             return {"exit_code": 0, "stdout": "{}", "stderr": "", "tree_available": True}
 
     host = pc.HostTracker.__new__(pc.HostTracker)
@@ -304,9 +330,15 @@ def main():
     host.remove_labels(41, ["a"])
     host.add_sub(40, 41)
     host.remove_sub(40, 41)
+    host.close(41)
     check("every other write is an adapter verb",
           [c[0] for c in calls[1:]] == ["set-issue-type", "edit-issue-body", "remove-label",
-                                         "attach-sub-issue", "remove-sub-issue"])
+                                         "attach-sub-issue", "remove-sub-issue", "close-issue"])
+    check("a close is as completed", calls[6][1] == {"issue_number": "41", "reason": "completed"})
+    found = host.search("Represents: ft-a", fields=("body",))
+    check("the host search is the adapter's list-issues verb, open and closed, in the text",
+          found == [3, 7] and calls[7][0] == "list-issues"
+          and calls[7][1]["query"] == '"Represents: ft-a" in:body' and calls[7][1]["state"] == "all")
     check("a sub-issue is attached with replace_parent, so it leaves any other parent (#1025)",
           calls[4][1].get("replace_parent") == "true")
     import platform_adapter as pa

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_find_work_items.py — find_work_items.py finds before it makes, by the plan file's marks (C3, C4, C9, C12).
+"""test_find_work_items.py — find_work_items.py finds the plan's epic and each feature's work before it makes any (C3, C9, C13, C15, C16).
 
     python3 test_find_work_items.py
 """
@@ -7,243 +7,178 @@ import os
 import sys
 import tempfile
 
+import yaml
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from test_support import (check, empty_tracker, finish, flow, gather, make_model, paths,  # noqa: E402
-                          read_json, run, set_issue, set_slice, write)
+from test_support import (check, empty_tracker, finish, full_body, gather, issue,  # noqa: E402
+                          make_model, paths, read, read_json, run, set_slice, write)
 
-FULL = "Represents: ft-pick\n\n## Scope of work\n\nGoals:\n- x\n\n## Context guidance\n\n- Read: y\n"
-PLAN = """# A plan kept by hand.
-id: 340
+PLAN = """intent: bi-340
 title: Patients book their own appointments online
+id: 340
 status: Not Started
+epic: 10
+slices:
+- id: sl-self-booking
+  status: Not Started
 tree:
 - issue: 10
   kind: epic
   title: Self-booking
-  status: now
-  represents: sl-self-booking
+  status: In Progress
   children:
   - issue: 11
-    kind: story
+    kind: feature
     title: Pick a free slot
-    status: next
+    status: Not Started
     represents: ft-pick
-  - issue: 12
-    kind: story
-    title: Send a reminder
-    status: next
-    represents: ft-remind
   - issue: 13
-    kind: story
+    kind: feature
     title: Cancel online
-    status: next
+    status: Not Started
     represents: ft-cancel
-  - issue: 14
-    kind: story
-    title: Pay the fee
-    status: next
-- issue: 20
-  kind: epic
-  title: Pay the fee
-  status: next
+  - issue: 15
+    kind: chore
+    title: Clean the old slots
+    status: Not Started
 """
 
 
 def find(p):
-    return run("find_work_items.py", "--gather", p["gather"], "--plan-file", p["plan_file"],
-               "--tracker-file", p["tracker"], "--out", p["items"])
+    code, out, _ = run("find_work_items.py", "--gather", p["gather"], "--plan-file", p["plan_file"],
+                       "--tracker-file", p["tracker"], "--out", p["items"])
+    items = read_json(p["items"]) if os.path.isfile(p["items"]) else None
+    return code, items, {f["feature"]: f for f in (items or {}).get("features") or []}
 
 
 def main():
     print("find_work_items.py")
     with tempfile.TemporaryDirectory() as tmp:
         root, p = make_model(tmp), paths(tmp)
+        spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+        spine["features"][0]["issue"] = 30  # an old issue number the model must not be read for
+        write(os.path.join(root, "_spine.yaml"), spine)
         gather(root, p)
-        empty_tracker(p, [{"number": 20, "title": "Pay the fee", "type": "Feature", "labels": [],
-                           "state": "open", "body": ""}])
-        code, out, _ = find(p)
-        items = read_json(p["items"])
-        sl = items["slices"][0]
-        check("no plan file: the epic and every story are make", code == 0 and items["plan_file_exists"] is False
-              and sl["epic"]["action"] == "make" and [s["action"] for s in sl["stories"]] == ["make"] * 3)
+        empty_tracker(p, [issue(30, "Some other work", "Story", "Unrelated.")])
+        code, items, fs = find(p)
+        check("no plan file: one epic to make, and each feature make (S1)",
+              code == 0 and items["plan_file_exists"] is False and items["epic"]["action"] == "make"
+              and [f["action"] for f in items["features"]] == ["make"] * 3)
+        check("an issue number in the model is never read (ADR 069)",
+              fs["ft-pick"]["issue"] is None and fs["ft-pick"]["move_stories"] == [])
 
-        write(p["plan_file"], PLAN)
         empty_tracker(p, [
-            {"number": 10, "title": "Self-booking", "type": "Epic", "labels": ["work-item"], "state": "open",
-             "body": "Hand-made epic.", "sub_issues": [11, 13]},
-            {"number": 11, "title": "Pick a free slot", "type": "Story", "labels": [], "state": "open", "body": FULL},
-            {"number": 12, "title": "Send a reminder", "type": None, "labels": [], "state": "open",
-             "body": "Written by a person.\n## Scope of work\n- old\n"},
-            {"number": 13, "title": "Cancel online", "type": "Story", "labels": [], "state": "open", "body": ""},
-            {"number": 20, "title": "Pay the fee", "type": "Feature", "labels": [], "state": "open", "body": ""}])
-        code, out, _ = find(p)
-        sl = read_json(p["items"])["slices"][0]
-        st = {s["feature"]: s for s in sl["stories"]}
-        check("a marked epic is used, with its type and labels", code == 0 and sl["epic"]["action"] == "use"
-              and sl["epic"]["issue"] == 10 and sl["epic"]["type"] == "Epic" and sl["epic"]["labels"] == ["work-item"])
-        check("a marked story with both sections is used", st["ft-pick"]["action"] == "use" and st["ft-pick"]["issue"] == 11
-              and st["ft-pick"]["attached"] is True and st["ft-pick"]["represents_line"] is True)
-        check("a marked story missing a section is add-sections, naming it",
-              st["ft-remind"]["action"] == "add-sections" and st["ft-remind"]["missing"] == ["Context guidance"]
-              and st["ft-remind"]["attached"] is False)
-        check("a feature with no marked story is make, even when a node has its title",
-              st["ft-pay"]["action"] == "make" and st["ft-pay"]["issue"] is None)
-        check("a marked story whose feature left the slice is moved out",
-              sl["move_out"] == [{"issue": 13, "feature": "ft-cancel", "title": "Cancel online"}])
-        check("an epic that holds only its stories and a moved-out story has no misplaced work",
-              read_json(p["items"])["misplaced"] == [])
+            issue(1, "Patients book online", None, "The business intent.", subs=[21]),
+            issue(20, "Pick a free slot", "Feature", "No line here."),
+            issue(21, "Pick a free slot", "Feature", full_body("ft-pick")),
+            issue(22, "Send a reminder", "Feature", "Represents: ft-remind\n\n## Scope of work\n- old\n",
+                  labels=["work-item"]),
+            issue(23, "Pay the fee", "Feature", "Old group, no line.")])
+        code, items, fs = find(p)
+        check("a Feature issue is found by its exact Represents line, never by its title (C3)",
+              fs["ft-pick"]["action"] == "use" and fs["ft-pick"]["issue"] == 21
+              and fs["ft-pick"]["source"] == "tracker")
+        check("a Feature issue under a parent that is not an epic is used, and names the parent it leaves",
+              fs["ft-pick"]["attached"] is False and fs["ft-pick"]["parent"]["number"] == 1)
+        check("a found Feature issue missing a section is add-sections, naming it, with its labels",
+              fs["ft-remind"]["action"] == "add-sections" and fs["ft-remind"]["missing"] == ["Context guidance"]
+              and fs["ft-remind"]["labels"] == ["work-item"])
+        check("an old issue of type Feature with no exact line is not a match: it is named, and a new one is filed",
+              fs["ft-pay"]["action"] == "make" and fs["ft-pay"]["issue"] is None
+              and [g["issue"] for g in fs["ft-pay"]["old"]["old_groups"]] == [23] and code == 0)
 
-        data = read_json(p["tracker"])
-        for it in data["issues"]:
-            if it["number"] == 10:
-                it["sub_issues"] = [11, 13, 40]
-        data["issues"].append({"number": 40, "title": "Old chore", "type": "Chore", "labels": [],
-                               "state": "closed", "body": ""})
-        write(p["tracker"], data)
-        code, _, _ = find(p)
-        items = read_json(p["items"])
-        check("work under the epic that is not its slice's (#879): exit 1, named with its title",
+        empty_tracker(p, [
+            issue(40, "Another plan's epic", "Epic", "Plan: 99", subs=[41]),
+            issue(41, "Pick a free slot", "Feature", full_body("ft-pick")),
+            issue(42, "Send a reminder", "Feature", full_body("ft-remind"), state="closed", reason="completed")])
+        code, items, fs = find(p)
+        check("a Feature issue under another plan's epic is held_by that epic, never moved (C3)",
+              fs["ft-pick"]["action"] == "held" and fs["ft-pick"]["held_by"] == 40 and code == 0)
+        check("a Feature issue closed as completed is built and left out (C16)",
+              fs["ft-remind"]["action"] == "built" and fs["ft-remind"]["issue"] == 42
+              and "closed as completed" in fs["ft-remind"]["reason"])
+
+        empty_tracker(p, [issue(42, "Send a reminder", "Feature", full_body("ft-remind"), state="closed",
+                                reason="not_planned")])
+        code, items, fs = find(p)
+        check("a Feature issue closed as not planned does not stop the run: the feature is left out (C16, S16)",
+              code == 0 and items["ok"] is True and fs["ft-remind"]["action"] == "not-planned"
+              and fs["ft-remind"]["issue"] == 42 and "not planned" in fs["ft-remind"]["reason"]
+              and items["problems"] == [] and fs["ft-remind"]["move_stories"] == [])
+
+        empty_tracker(p, [issue(50, "Pick a free slot", "Feature", full_body("ft-pick")),
+                          issue(51, "Pick a slot", "Feature", "Text.\nRepresents: ft-pick\n")])
+        code, items, fs = find(p)
+        check("two Feature issues name one feature: exit 1, and both are named (S15)",
               code == 1 and items["ok"] is False
-              and items["misplaced"] == [{"slice": "sl-self-booking", "epic": 10, "issue": 40, "title": "Old chore"}])
-        for it in data["issues"]:
-            if it["number"] == 10:
-                it["sub_issues"] = [11, 13]
-        write(p["tracker"], data)
+              and items["duplicates"] == [{"kind": "Feature issue", "represents": "ft-pick", "issues": [50, 51]}]
+              and any("#50" in pr and "#51" in pr for pr in items["problems"]))
 
-        set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-wait"])
-        gather(root, p)
-        find(p)
-        st = {s["feature"]: s for s in read_json(p["items"])["slices"][0]["stories"]}
-        check("a feature whose ICE is not ready is skip, with its reason",
-              st["ft-wait"]["action"] == "skip" and "not ready" in st["ft-wait"]["reason"])
+        empty_tracker(p, [
+            issue(60, "Old plan epic", "Epic", "", subs=[61]),
+            issue(61, "Pick a free slot", "Story", "Represents: ft-pick\nOld story."),
+            issue(62, "Send a reminder", "Story", "", state="closed", reason="completed"),
+            issue(63, "Send a reminder by text", "Story", "", state="closed", reason="not_planned")])
+        code, items, fs = find(p)
+        check("an old open story is found: make-and-move, with the parent it leaves (S13)",
+              code == 0 and fs["ft-pick"]["action"] == "make-and-move"
+              and [s["issue"] for s in fs["ft-pick"]["move_stories"]] == [61]
+              and fs["ft-pick"]["move_stories"][0]["parent"]["number"] == 60)
+        check("only finished old work is found: make-closed, left out (S14)",
+              fs["ft-remind"]["action"] == "make-closed" and "built" in fs["ft-remind"]["reason"]
+              and [s["issue"] for s in fs["ft-remind"]["old"]["done_stories"]] == [62])
+        check("nothing old is found: make", fs["ft-pay"]["action"] == "make")
 
-        write(p["plan_file"], PLAN.replace("- issue: 20\n", "- issue: 20\n  represents: sl-self-booking\n"))
-        code, out, _ = find(p)
-        items = read_json(p["items"])
-        check("two epic nodes for one slice: exit 1, the first is kept",
-              code == 1 and items["duplicates"][0]["kept"] == 10 and items["duplicates"][0]["copies"] == [20])
+        empty_tracker(p, [issue(70, "Pick a free slot and send a reminder", "Story", "ft-pick, ft-remind")])
+        code, items, _ = find(p)
+        check("one old story that two features claim stops the run, named (C15)",
+              code == 1 and any("#70" in pr for pr in items["problems"]))
 
-        write(p["plan_file"], PLAN.replace("issue: 12", "issue: 99"))
-        code, out, _ = find(p)
-        check("a marked issue the tracker does not have: exit 1, named",
-              code == 1 and any("#99" in pr for pr in read_json(p["items"])["problems"]))
-
-        code, _, _ = run("find_work_items.py", "--gather", os.path.join(tmp, "none.json"), "--plan-file",
-                         p["plan_file"], "--tracker-file", p["tracker"], "--out", p["items"])
-        check("a missing gather.json: exit 2", code == 2)
-
-    # The story the model names (C3, F14, #1025): no plan file, so the model's `issue` is the link.
-    bi = {"number": 1, "title": "Patients book online", "type": None, "labels": [], "state": "open",
-          "body": "", "sub_issues": [50]}
-
-    def story(n, body=FULL, state="open", type_="Story"):
-        return {"number": n, "title": f"Story {n}", "type": type_, "labels": [], "state": state, "body": body}
-
-    with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp), paths(tmp)
-        set_issue(root, {"ft-pick": 50, "ft-remind": 51})
-        gather(root, p)
-        empty_tracker(p, [bi, story(50), story(51, body="Written by a person.\n")])
-        code, _, _ = find(p)
-        items = read_json(p["items"])
-        st = {s["feature"]: s for s in items["slices"][0]["stories"]}
-        check("no plan file: a feature whose model entry names an open Story uses it, never make",
-              code == 0 and st["ft-pick"]["action"] == "use" and st["ft-pick"]["issue"] == 50
-              and st["ft-pick"]["source"] == "model" and st["ft-pick"]["attached"] is False)
-        check("a model-named story missing its sections is add-sections",
-              st["ft-remind"]["action"] == "add-sections" and st["ft-remind"]["issue"] == 51
-              and st["ft-remind"]["missing"] == ["Scope of work", "Context guidance"])
-        check("a feature the model names no story for is still make",
-              st["ft-pay"]["action"] == "make" and st["ft-pay"]["source"] is None)
-
-        empty_tracker(p, [bi, story(50, state="closed"), story(51)])
-        code, _, _ = find(p)
-        items = read_json(p["items"])
-        pick = {s["feature"]: s for s in items["slices"][0]["stories"]}["ft-pick"]
-        check("a model-named story that is closed: the feature is already built — skip, no issue, the run goes on",
-              code == 0 and items["ok"] and pick["action"] == "skip" and pick["built"] == 50
-              and pick["issue"] is None and "already built" in pick["reason"])
-
-        for label, issues, words in (
-                ("not a Story", [bi, story(50, type_="Bug"), story(51)], "#50 is of type Bug"),
-                ("not in the tracker", [bi, story(51)], "the tracker has no such issue")):
-            empty_tracker(p, issues)
-            code, _, _ = find(p)
-            items = read_json(p["items"])
-            check(f"a model-named issue that is {label}: exit 1, named, never used",
-                  code == 1 and items["ok"] is False and any(words in pr for pr in items["problems"])
-                  and {s["feature"]: s for s in items["slices"][0]["stories"]}["ft-pick"]["issue"] is None)
-
-        set_issue(root, {"ft-pick": 50, "ft-remind": 50})
-        gather(root, p)
-        empty_tracker(p, [bi, story(50)])
-        code, _, _ = find(p)
-        items = read_json(p["items"])
-        check("one issue the model names for two features: exit 1, named, used for neither",
-              code == 1 and any("more than one feature" in pr for pr in items["problems"])
-              and all(s["issue"] is None for s in items["slices"][0]["stories"]))
-
-        set_issue(root, {"ft-pick": None, "ft-remind": None, "ft-wait": 52})
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-wait"])
         gather(root, p)
-        empty_tracker(p, [bi, story(52)])
-        code, _, _ = find(p)
-        wait = {s["feature"]: s for s in read_json(p["items"])["slices"][0]["stories"]}["ft-wait"]
-        check("a feature whose ICE is not ready never takes the model's story: skip, no issue, nothing moves",
-              code == 0 and wait["action"] == "skip" and wait["issue"] is None and wait["source"] is None)
-
+        empty_tracker(p, [issue(80, "Join the waiting list", "Story", "Represents: ft-wait")])
+        code, items, fs = find(p)
+        check("a feature whose ICE is not ready is skip, and no old work is searched or moved for it (C9)",
+              fs["ft-wait"]["action"] == "skip" and "not ready" in fs["ft-wait"]["reason"]
+              and fs["ft-wait"]["move_stories"] == [])
     with tempfile.TemporaryDirectory() as tmp:
-        extra = [{"id": "sl-cancel", "slug": "cancel-online", "feature_refs": ["ft-pick"],
+        extra = [{"id": "sl-cancel", "slug": "cancel-online", "feature_refs": ["ft-cancel", "ft-pick"],
                   "intents": ["bi-340"], "vertical": "the booking page"}]
         root, p = make_model(tmp, extra_slices=extra), paths(tmp)
-        set_issue(root, {"ft-pick": 50})
         gather(root, p)
-        empty_tracker(p, [bi, story(50)])
-        code, _, _ = find(p)
-        items = read_json(p["items"])
-        check("a feature with a model-named story in two slices of the plan: exit 1, named, used in neither",
-              code == 1 and any("more than one slice" in pr for pr in items["problems"])
-              and all(st["issue"] is None for sl in items["slices"] for st in sl["stories"]))
-
-    # S10 — the whole flow: the story filed before the plan is used and moved under the epic.
+        empty_tracker(p)
+        code, items, fs = find(p)
+        check("two slices: each feature once, a shared feature with both slices (S12)",
+              code == 0 and [f["feature"] for f in items["features"]] == ["ft-pick", "ft-remind", "ft-pay", "ft-cancel"]
+              and fs["ft-pick"]["slices"] == ["sl-self-booking", "sl-cancel"]
+              and [s["id"] for s in items["slices"]] == ["sl-self-booking", "sl-cancel"])
     with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp), paths(tmp)
-        set_issue(root, {"ft-pick": 50})
-        empty_tracker(p, [bi, story(50)])
-        codes = flow(root, p)
-        rec = read_json(p["record"])
-        data = {i["number"]: i for i in read_json(p["tracker"])["issues"]}
-        epic = rec["epics"]["sl-self-booking"]
-        check("S10: the run goes through and the plan check reads ok",
-              codes.get("write") == 0 and codes.get("check_plan") == 0 and codes.get("check_tracker") == 0)
-        check("S10: no new story is made for the feature the model names; the others are made",
-              sorted(c["represents"] for c in rec["created"] if c["kind"] == "story") == ["ft-pay", "ft-remind"])
-        check("S10: the epic's map names the model's story, and the story left its old parent",
-              rec["stories"]["ft-pick"] == 50 and 50 in data[epic]["sub_issues"] and 50 not in data[1]["sub_issues"])
-        check("S10: the brief says the story is the one the model names, and names the parent it leaves",
-              "the story the model names for this feature" in open(p["brief"]).read()
-              and 'it leaves its parent #1 "Patients book online"' in open(p["brief"]).read())
-
-    # S11 — a feature already built: its closed story is left alone and named in the brief.
-    with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp), paths(tmp)
-        set_issue(root, {"ft-pick": 50})
-        empty_tracker(p, [bi, story(50, state="closed")])
-        codes = flow(root, p)
-        rec = read_json(p["record"])
-        data = {i["number"]: i for i in read_json(p["tracker"])["issues"]}
-        epic = rec["epics"]["sl-self-booking"]
-        brief = open(p["brief"]).read()
-        check("S11: the run goes through and the plan check reads ok",
-              codes.get("write") == 0 and codes.get("check_plan") == 0 and codes.get("check_tracker") == 0)
-        check("S11: no story is made for the built feature; the others are made",
-              sorted(c["represents"] for c in rec["created"] if c["kind"] == "story") == ["ft-pay", "ft-remind"])
-        check("S11: the closed story is not changed or moved",
-              50 not in data[epic]["sub_issues"] and 50 in data[1]["sub_issues"]
-              and data[50]["body"] == FULL and not any(u["issue"] == 50 for u in rec["updated"]))
-        check("S11: the brief names the feature as already built, with its story",
-              "already built: its story #50 is closed" in brief)
+        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
+        gather(root, p)
+        write(p["plan_file"], PLAN)
+        empty_tracker(p, [
+            issue(10, "Self-booking", "Epic", "Plan: 340", subs=[11, 13, 15]),
+            issue(11, "Pick a free slot", "Feature", full_body("ft-pick")),
+            issue(13, "Cancel online", "Feature", full_body("ft-cancel")),
+            issue(15, "Clean the old slots", None, "")])
+        code, items, fs = find(p)
+        check("the epic is found by the plan file's epic mark (C3)",
+              code == 0 and items["epic"]["action"] == "use" and items["epic"]["issue"] == 10)
+        check("a feature node's represents mark finds its Feature issue, already under the epic",
+              fs["ft-pick"]["source"] == "plan file" and fs["ft-pick"]["action"] == "use"
+              and fs["ft-pick"]["attached"] is True)
+        check("a feature node whose feature is in no slice is moved out",
+              items["move_out"] == [{"issue": 13, "feature": "ft-cancel", "title": "Cancel online"}])
+        check("an item the plan file places under the epic is kept, not misplaced",
+              items["misplaced"] == [] and items["epic"]["kept_subs"] == [15])
+        data = read_json(p["tracker"])
+        data["issues"][0]["sub_issues"] = [11, 13, 15, 40]
+        data["issues"].append(issue(40, "Old chore", "Chore", "", state="closed"))
+        write(p["tracker"], data)
+        code, items, _ = find(p)
+        check("work under the epic that the plan does not place: exit 1, named with its title (S8)",
+              code == 1 and items["misplaced"] == [{"epic": 10, "issue": 40, "title": "Old chore"}])
     return finish()
 
 

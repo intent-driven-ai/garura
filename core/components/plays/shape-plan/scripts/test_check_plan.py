@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_check_plan.py — check_plan.py: one story node for each ready feature, and the tree agrees with the map (D1; C1, C4, C6, C9).
+"""test_check_plan.py — check_plan.py: the business intent, the epic mark, the slices list, one feature node for each Feature issue, and the tree agrees with the map (D1; C1, C3, C6, C9, C16).
 
     python3 test_check_plan.py
 """
@@ -31,21 +31,33 @@ def main():
         good = read(p["plan_file"])
         rec = read_json(p["record"])
 
-        story = rec["maps"]["sl-self-booking"]["ft-pay"]
         lines = good.splitlines()
-        at = lines.index(f"  - issue: {story}")
+        fissue = rec["map"]["ft-pay"]
+        at = lines.index(f"  - issue: {fissue}")
         write(p["plan_file"], "\n".join(lines[:at] + lines[at + 5:]) + "\n")
         code, res = verdict(p)
-        check("a ready feature with no story node: not ok", code == 1 and any("ft-pay" in x for x in res["problems"]))
+        check("a Feature issue with no feature node: not ok", code == 1 and any("ft-pay" in x for x in res["problems"]))
 
         write(p["plan_file"], good.replace("represents: ft-pay", "represents: ft-cancel"))
         code, res = verdict(p)
-        check("a story node for a feature outside the slice: not ok",
-              code == 1 and any("not a feature of the slice" in x for x in res["problems"]))
+        check("a feature node for a feature in no slice of the plan: not ok",
+              code == 1 and any("in no slice of the plan" in x for x in res["problems"]))
+
+        write(p["plan_file"], good.replace("intent: bi-340\n", ""))
+        code, res = verdict(p)
+        check("no business intent at the top: not ok", code == 1 and any("business intent" in x for x in res["problems"]))
+
+        write(p["plan_file"], good.replace(f"epic: {rec['epic']}\n", ""))
+        code, res = verdict(p)
+        check("no epic mark: not ok", code == 1 and any("epic mark" in x for x in res["problems"]))
+
+        write(p["plan_file"], good.replace("  status: Not Started\ntree:", "  status: Later\ntree:"))
+        code, res = verdict(p)
+        check("a slice with a status a person cannot set: not ok",
+              code == 1 and any("sl-self-booking" in x and "Later" in x for x in res["problems"]))
 
         write(p["plan_file"], good)
-        bad = dict(rec, maps={"sl-self-booking": dict(rec["maps"]["sl-self-booking"], **{"ft-pay": 999})})
-        write(p["record"], bad)
+        write(p["record"], dict(rec, map=dict(rec["map"], **{"ft-pay": 999})))
         code, res = verdict(p)
         check("the map and the tree disagree: not ok", code == 1 and any("disagree" in x for x in res["problems"]))
         write(p["record"], rec)
@@ -54,6 +66,19 @@ def main():
         code, res = verdict(p)
         check("the plan file holds the failure words: not ok", code == 1 and any("Fails if" in x for x in res["problems"]))
         write(p["plan_file"], good)
+
+        write(p["record"], dict(rec, left_out=[{"feature": "ft-pay", "issue": 99, "reason": "built"}]))
+        code, res = verdict(p)
+        check("a built feature with a node in the plan: not ok (C16)",
+              code == 1 and any("left out" in x for x in res["problems"]))
+        write(p["record"], rec)
+
+        write(p["record"], dict(rec, left_out=[{"feature": "ft-pay", "issue": 99, "reason": "not planned",
+                                                 "kind": "not-planned"}]))
+        code, res = verdict(p)
+        check("a not-planned feature with a node in the plan: not ok (C16)",
+              code == 1 and any("left out" in x for x in res["problems"]))
+        write(p["record"], rec)
 
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-pay", "ft-wait"])
         flow(root, p)

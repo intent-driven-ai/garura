@@ -235,6 +235,46 @@ class PlanToolTest(unittest.TestCase):
         for cmd in (["list"], ["show", "--plan", "10"], ["graph"]):
             self.assertEqual(run(*cmd, *self.base), run(*cmd, *self.base))
 
+    def test_a_plan_file_with_its_intent_epic_mark_and_slices_list_reads(self):
+        with open(os.path.join(self.dir, "30.yaml"), "w", encoding="utf-8") as fh:
+            fh.write(textwrap.dedent("""
+                intent: bi-30
+                title: Patients book their own appointments online
+                id: 30
+                status: Not Started
+                direction:
+                epic: 31
+                slices:
+                - id: sl-self-booking
+                  status: Not Started
+                - id: sl-cancel
+                  status: In Progress
+                tree:
+                - issue: 31
+                  kind: epic
+                  title: A patient books a free slot online
+                  status: Not Started
+                  children:
+                  - issue: 32
+                    kind: feature
+                    title: Pick a free slot
+                    status: Not Started
+                    represents: ft-pick
+                  - issue: 41
+                    kind: feature
+                    title: Send a reminder
+                    status: Not Started
+                    represents: ft-remind
+                    held_by: 40
+                """))
+        code, out, _ = run("show", *self.base, "--plan", "30")
+        self.assertEqual(code, 0)
+        self.assertIn("#30  Patients book their own appointments online", out)
+        self.assertIn("#41  Send a reminder", out)
+        code, out, _ = run("list", *self.base)
+        self.assertEqual(code, 0)
+        self.assertIn("Epic           ○ #31  A patient books a free slot online", out)
+
     def test_show_says_plainly_when_no_plan_exists(self):
         code, out, _ = run("show", *self.base, "--plan", "99")
         self.assertEqual(code, 1)
