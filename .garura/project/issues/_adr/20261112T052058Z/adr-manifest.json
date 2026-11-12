@@ -1,0 +1,42 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261112T052058Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "056",
+      "file": "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+      "kind": "amended",
+      "part": "\u00a72, \"A play finds an epic or a story by the plan file\", for a story only: when the plan file marks no story for a feature, a play finds it by the issue the feature's entry in the product model names, which must be of type Story. An epic is still found only by the plan file, and a play still never finds an epic or a story by its title."
+    },
+    {
+      "adr": "048",
+      "file": "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+      "kind": "amended",
+      "part": "\u00a73, the second bullet, the sentence \"There is one story for each feature in each epic\": a feature whose model-named story is closed is already built, and the slice's epic gets no story for it."
+    },
+    {
+      "adr": "049",
+      "file": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+      "kind": "amended",
+      "part": "\u00a72, the words \"one story for each feature of the slice\": not for a feature whose model-named story is closed."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "048-the-product-model-and-the-work-are-two-layers.md",
+    "049-a-slice-is-shaped-then-planned-then-given-its-eval.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

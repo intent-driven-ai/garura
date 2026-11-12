@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261112T052058Z/adr-check.json",
+    ".garura/project/issues/_adr/20261112T052058Z/adr-context.yaml",
+    ".garura/project/issues/_adr/20261112T052058Z/adr-draft.md",
+    ".garura/project/issues/_adr/20261112T052058Z/adr-manifest.json",
+    ".garura/project/issues/_adr/20261112T052058Z/brief.md",
+    ".garura/project/issues/_adr/20261112T052058Z/context/memory/manifest.json",
+    ".garura/project/issues/_adr/20261112T052058Z/context/memory/standards/schemas/product-os/ontology.md",
+    ".garura/project/issues/_adr/20261112T052058Z/decision.yaml",
+    ".garura/project/issues/_adr/20261112T052058Z/hashes-before.json",
+    ".garura/project/issues/_adr/20261112T052058Z/porcelain-after.txt",
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md",
+    "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:6e33e427720904704f62f6b61bec6f3c942e30586b80d273ed73488303c56beb",
+      "copy": ".garura/project/issues/_adr/20261112T052058Z/context/memory/standards/schemas/product-os/ontology.md"
+    }
+  ]
+}
