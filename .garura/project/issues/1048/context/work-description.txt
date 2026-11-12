@@ -1,0 +1,7 @@
+Record an ADR that amends ADR 056 §2: how a play finds the story of a feature.
+
+Today ADR 056 §2 says a play finds a feature's story only by the plan file's `represents` mark. All plan files were deleted on 2026-11-02 (#1021), so that finds nothing, and ADR 065 requires /shape-plan to be fixed before the first plan rebuild so no second set of stories is filed. PR #1047 (#1025) adds a second way: when the plan file marks no story, the play uses the issue the feature's entry in the product model names. Its review found that this conflicts with ADR 056 §2, and that nothing committed defines a feature's `issue`.
+
+Decision (made by the product owner, 2026-11-12): amend ADR 056 §2 so the model's `issue` is the second way. The story must be of type Story; open means it is used and moved under the slice's epic, with the move shown before the yes; closed means the feature is already built. A feature whose ICE is not ready never takes it. A missing issue, a non-Story, one issue named for two features, or a feature in two slices of one plan stops the run before any write. Never by title.
+
+Done when: the ADR is accepted by the product owner, ADR 056 carries its forward pointer, and the ADR index is rebuilt. The matching ontology change (Feature gains `issue`) follows through /specify-ontology.

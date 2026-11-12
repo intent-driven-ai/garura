@@ -1,0 +1,20 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261112T052058Z/adr-draft.md",
+  "context": ".garura/project/issues/_adr/20261112T052058Z/adr-context.yaml",
+  "lint": {
+    "command": "adr.py lint",
+    "exit": 0,
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "command": "adr.py guard --intents-dir .garura/product/product-os/intents",
+    "exit": 0,
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "agrees_with_declared_check": true,
+  "retries": 0
+}
