@@ -1,0 +1,11 @@
+Record an ADR that supersedes ADR 067: one tracker issue per feature, linked one way from the issue to the product model.
+
+Decided by the product owner on 2026-11-12, at checkpoint 1 of the ontology change (#1050):
+- The product model holds no tracker issue number. The `issue` field on features is removed, and no play writes it.
+- The tracker has three units of work: Epic, Feature and Story. Each product feature has exactly one Feature issue, and it names its feature (`Represents: <feature id>`). A Story always sits inside a Feature issue.
+- A play finds a feature's issue through the plan file's mark, or else by finding the Feature issue that names the feature. It never matches by title, and it never makes a second issue.
+- Slices and plans are groups, many-to-many with features. A slice pulls in only features not yet built. When a second epic needs a feature, the play asks the person which epic it goes under.
+- When a feature is built, every slice and plan holding it counts it complete.
+- An orphan Story is matched to its feature by researching the model. If no feature exists, the feature is created.
+
+Done when: the ADR is accepted by the product owner, the ADRs it supersedes or amends carry their forward pointers, and the ADR index is rebuilt.

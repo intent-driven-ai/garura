@@ -1,0 +1,9 @@
+{
+  "mode": "description",
+  "issue": null,
+  "plan": null,
+  "description": "adr: one tracker issue per feature, linked one way from the issue to the model (supersedes ADR 067)",
+  "note": null,
+  "fetched": null,
+  "error": null
+}
