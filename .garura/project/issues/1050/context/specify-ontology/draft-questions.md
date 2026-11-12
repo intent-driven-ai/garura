@@ -1,63 +1,123 @@
 # Draft — the questions (stage `scope`, step 1)
 
-Need: #1050 (the ontology change for ADR 067: a play finds a feature's story through the product model when no plan file marks it). Kinds it touches: Feature, Story, Plan.
+Need: #1050 (the ontology change for ADR 068: each product feature has one Feature issue that names it). Kinds it touches: Feature, Story, Epic, Plan, Slice.
 
 ## Opening
 
-You decide which questions the ontology must answer for this need. There are two changed questions (Q19 and Q20) and two new ones (Q48 and Q49). When you say yes, the next stage tests every change to the Feature, Story and Plan kinds against these four questions, and only against them. When you change a question, this stage is done again with your words before the next stage starts.
+You decide which questions the ontology must answer for this need. There are four changed questions (Q19, Q20, Q26, Q43) and six new ones (Q48 to Q53). When you say yes, the next stage tests every change to the Feature, Story, Epic, Plan and Slice kinds against these ten questions. When you change a question, this stage is done again with your words before the next stage starts.
+
+The two new questions of the earlier draft (Q48, a feature names its story, and Q49, a new story for each epic) came from ADR 067. ADR 068 replaces ADR 067, so this draft drops them.
 
 ## Changed questions
 
-### Q20 — Given a tracker issue, which kind is it? (changed answer)
+### Q20 — Given a tracker issue, which kind is it?
 
-- **Question:** When no plan file marks a feature's story, how does a play find that story?
-- **Answer (proposed):** It takes the issue that the feature names in the product model, and that issue must be a Story; a play never finds a story by its title.
-- **Why it matters:** Without this answer, a play with no plan file finds no story and files a second one. If a play matches by title, it files a renamed story again.
+- **Question:** What does an issue of type Feature stand for?
+- **Answer (proposed):** It is a Feature issue: it stands for exactly one product feature, and its text names that feature in one line, `Represents: <feature id>`. The old meaning, a "feature item" that only groups stories, goes.
+- **Why it matters:** Today the type Feature means a group of stories, not the Feature kind. Agents then read one word in two ways.
 - **Example:**
-  - A clinic: the plan for self-booking is lost. The feature "Send a reminder" names Story #343, so the play finds #343.
-  - A shop: the plan file marks Story #122 for "Guest checkout". The play uses that mark first.
-  - A bank: the plan marks no epic for a slice. The play makes a new epic, because an epic is found only by the plan file.
+  - A clinic: Feature issue #40 has the line `Represents: fn-12` ("Send a reminder").
+  - A shop: Feature issue #71 has the line `Represents: fn-3` ("Guest checkout").
+  - A bank: an old issue of type Feature groups four features, so it is given another type.
 
-### Q19 — Given a feature, which slices group it, which story delivers it, and which epic holds that story? (changed answer)
+### Q19 — Given a feature, which slices group it?
 
-- **Question:** When a slice holds a feature that is already built, does the plan hold that feature?
-- **Answer (proposed):** No. A plan, when it is made or updated, holds only pending work. A feature whose `issue` names a closed Story is already built. It gets no story in the plan, and the epic's feature-to-story map has no line for it. The brief names it only as left out, because it is built. Each other feature of the slice gets one Story in the slice's epic.
-- **Why it matters:** The ontology now says each epic gets its own story for each feature. ADR 067 says a built feature gets no new story. If the ontology does not change, agents read two rules that disagree. If a plan holds built features, it shows done work as work to do, and a builder can do it again.
+- **Question:** How many slices and plans can hold one feature?
+- **Answer (proposed):** Many. Slices and plans only group features, so one feature can be in two slices and in two plans. It still has only one Feature issue.
+- **Why it matters:** If each slice or plan files its own issue for a feature, the tracker holds the same work two times.
 - **Example:**
-  - A clinic: "Send a reminder" is built, and its Story #343 is closed. The new slice "Follow-up visits" also holds it. The plan and the epic "Follow-up visits" do not hold it. The brief says: left out, already built.
-  - A shop: "Guest checkout" is built under closed Story #122. The plan for "Pay in one minute" does not hold it.
-  - A bank: "Upload documents" names closed Story #53. The epic "Upload once" has no line for it in its feature-to-story map.
+  - A clinic: "Send a reminder" is in the slice "Book a visit" and in the slice "Follow-up visits".
+  - A school: "Mark attendance" is in two plans, one for teachers and one for parents.
+  - A shop: "Guest checkout" is in two slices, and both use Feature issue #71.
+
+### Q43 — Given an item in a plan, which kind of item can hold it?
+
+- **Question:** Where does a Story sit?
+- **Answer (proposed):** Always inside the Feature issue of its feature. The tree is: Epic, then Feature issue, then Story, then Spike, Chore or Bug.
+- **Why it matters:** A Story straight under an epic is not linked to a feature, so no one knows which feature it builds.
+- **Example:**
+  - A bank: Epic "Open an account" holds Feature issue "Upload documents", which holds the Story "Check the file size".
+  - A clinic: the Story "Send the reminder by text" sits in Feature issue "Send a reminder".
+  - A shop: a Bug about a wrong total sits under the Story "Show the total", in Feature issue "Guest checkout".
+
+The answers of Q1, Q4, Q7, Q18, Q22 and Q23 follow this tree: each names the Feature issue between the Epic and the Story, and none names a feature item.
+
+### Q26 — Given a story, what is its scope of work?
+
+- **Question:** Which tracker issue holds a feature's scope of work and its Context guidance?
+- **Answer (proposed):** The Feature issue. It is written from the feature's ICE and its capability's ICE, and it never holds a failure condition or a recovery condition. A Story is one piece of the work inside it.
+- **Why it matters:** If the scope is on each Story, the builder and the eval can read different scopes for one feature.
+- **Example:**
+  - A school: Feature issue "Mark attendance" holds the goal "a teacher marks a class in one minute".
+  - A bank: Feature issue "Upload documents" holds the limit "files up to 10 MB".
+  - A clinic: the builder of the Story "Send the reminder by text" reads the Context guidance on Feature issue "Send a reminder".
+
+The answers of Q13, Q29, Q32, Q36, Q37 and Q39 change the same way: each reads "Feature issue" where it reads "story". The epic's feature-to-story map names Feature issues, one line for each feature.
 
 ## New questions
 
-### Q48 — Given a feature, which story was filed for it in the tracker?
+### Q48 — Given a feature, which tracker issue stands for it?
 
-- **Question:** Given a feature in the product model, which tracker story was filed for it?
-- **Answer (proposed):** The feature's `issue`: the Story filed for that feature, as one issue number or key. It keeps the link between a feature and its story's issue number. It is optional; a feature can name no issue. It names a story, never a plan or an epic.
-- **Why it matters:** Today the model writes this field for some features, but the ontology and the spine schema do not define it. So each play can read it in a different way. Without a meaning, a play cannot trust it as the way to a feature's story when the plan file is gone.
+- **Question:** How does a play find a feature's issue?
+- **Answer (proposed):** First by the plan file's mark. When there is no mark, by the one issue of type Feature, open or closed, whose text has the exact line `Represents: <feature id>`. Two such issues are a duplicate: the run stops and asks the person. A play never finds an issue by its title.
+- **Why it matters:** A match by title fails when a person renames an issue, and the play files a second one.
 - **Example:**
-  - A clinic: the feature "Send a reminder" names issue #343, a Story.
-  - A shop: the feature "Guest checkout" names issue #122, a Story.
-  - A school: the feature "Mark attendance" names no issue yet, because no story was filed for it.
+  - A shop: no plan file marks "Guest checkout", so the play finds #71 by its line `Represents: fn-3`.
+  - A clinic: two issues both have `Represents: fn-12`, so the run stops and asks the clinic manager.
+  - A bank: an issue titled "Upload documents" has no Represents line, so it is not a match.
 
-### Q49 — When a new slice holds a feature, does its epic need a new story for that feature?
+### Q49 — Does a feature in the product model name its tracker issue?
 
-- **Question:** A new slice holds a feature, and no plan file marks a story for it. Does the slice's epic need a new story?
-- **Answer (proposed):** Only when the feature names no story. The issue that the feature names decides:
-  - An open story: no new story. The play moves that story under the new epic. The brief shows the move and the old parent before the yes.
-  - A closed story: no new story. The feature is built, so the plan leaves it out (see Q19).
-  - No issue: the play makes a new story.
-  - ICE not ready: the play does not use the named story.
-  - The run stops before any tracker write when the named issue is not in the tracker, is not a Story, is named by two features, or when the feature is in two slices of one plan.
-- **Why it matters:** If the play makes a story for every feature, it files stories for work that exists or is done. If it moves a story without showing it, a person loses track of it. If it uses a wrong issue, the epic holds work that is not the feature.
+- **Question:** Does the product model hold a feature's issue number?
+- **Answer (proposed):** No. Only the Feature issue holds the link, and it points to the model. No feature has an `issue` property.
+- **Why it matters:** A link kept on two sides drifts, and someone must keep both sides the same.
 - **Example:**
-  - A shop: "Guest checkout" names closed Story #122. The new epic gets no story for it.
-  - A clinic: "Send a reminder" names open Story #343. The play moves it under the new epic and shows the old parent.
-  - A bank: "Show the decision" names no issue. The play makes a new story.
-  - A delivery firm: "Track a parcel" names #88, a Chore. The run stops before any tracker write.
+  - A clinic: the feature fn-12 has no issue number, and Feature issue #40 names fn-12.
+  - A school: Feature issue #55 moves to another tracker project, and nothing in the model changes.
+  - A shop: the model page of "Guest checkout" names no tracker issue.
+
+### Q50 — Which features can a new slice or plan take in?
+
+- **Question:** Can a new slice or plan hold a feature that is already built?
+- **Answer (proposed):** No. A slice and a plan hold only features that are not built yet.
+- **Why it matters:** If a plan holds built features, it shows done work as work to do, and a builder can build it again.
+- **Example:**
+  - A clinic: "Send a reminder" is built, so the new slice "Follow-up visits" leaves it out.
+  - A shop: "Guest checkout" is built, so the plan "Pay in one minute" does not hold it.
+  - A bank: "Show the decision" is not built, so the new slice takes it in.
+
+### Q51 — Which epic holds a Feature issue that two epics need?
+
+- **Question:** When a second epic needs a Feature issue, which epic holds it?
+- **Answer (proposed):** One epic at a time. The play asks the person which epic it goes under, and does not move it without that answer.
+- **Why it matters:** A move with no question takes work out of one plan, and no one sees it.
+- **Example:**
+  - A school: "Mark attendance" sits under the epic "Teacher day"; the epic "Parent view" also needs it, so the play asks the head teacher.
+  - A shop: "Guest checkout" stays under "Fast checkout" until the store manager says to move it.
+  - A bank: the branch manager picks "Open an account" for "Upload documents".
+
+### Q52 — When does a feature count as built?
+
+- **Question:** When does a feature count as built?
+- **Answer (proposed):** When a person closes its Feature issue, through `/reshape-plan` "finish". Then every slice and plan that holds it counts it as complete. Closed Stories do not close the Feature issue.
+- **Why it matters:** If closed Stories close the feature by themselves, a feature with work still to find counts as done.
+- **Example:**
+  - A clinic: all three Stories of "Send a reminder" are closed, but the feature is built only when the clinic manager finishes #40.
+  - A shop: the store manager finishes #71, and both slices that hold "Guest checkout" show it complete.
+  - A bank: "Upload documents" has one open Story, so it is not built.
+
+### Q53 — What happens to a Story with no Feature issue?
+
+- **Question:** How does a Story with no Feature issue as its parent get one?
+- **Answer (proposed):** A play researches the product model to find the Story's feature, and puts the Story inside that feature's Feature issue. When no feature fits, the feature is made and its Feature issue is filed.
+- **Why it matters:** A Story with no feature is work that no slice, plan or eval can see.
+- **Example:**
+  - A school: the Story "Export attendance to a file" matches the feature "Mark attendance", so it goes inside that Feature issue.
+  - A bank: the Story "Freeze a card" matches no feature, so the feature is made and its Feature issue is filed.
+  - A clinic: the Story "Cancel by text" matches "Send a reminder", so it goes inside #40.
 
 ## Kept for the links stage (not asked here)
 
-This is a design choice about the kinds, not a question a person asks to find something out. The `links` stage proposes an answer from ADR 067, for you to confirm:
+This is a design choice about the kinds, not a question a person asks to find something out. The `links` stage proposes an answer from ADR 068, for you to confirm:
 
-- Whether a story that already sits under another plan's epic also stops the run, or the move shown in the brief is enough.
+- How plan B shows a feature whose Feature issue sits under plan A's epic.
