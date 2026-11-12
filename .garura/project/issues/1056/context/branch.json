@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/1056-feature-state-in-model",
+  "base_sha": "e3df42d3013a009f8875b4971a85bbc6f9fe67d0",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}

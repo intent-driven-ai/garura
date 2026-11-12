@@ -1,0 +1,35 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261112T174237Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "069",
+      "file": "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md",
+      "kind": "amended",
+      "part": "Decision \u00a72, third bullet, the words \"and no part of the model holds a work status\": each feature holds its own state, named `status`, one of five. No other part holds one, and the spine still has no `epics` list. The rest of \u00a72 stands (the model names no plan, epic, tracker issue or decision record, and the state names none). \u00a75 stands (whether a slice is in progress is read from the plan files)."
+    },
+    {
+      "adr": "068",
+      "file": "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
+      "kind": "amended",
+      "part": "Decision \u00a75, \"When a feature is built (its Feature issue is closed)\": a feature is built when its state in the model is Completed. It becomes Completed when its Feature issue closes as completed, and once, through the clean-up the person confirms, for a feature built before ADR 068. \"Closing a Feature issue is a person's call, made through /reshape-plan finish\", \"every slice and plan that holds it counts it as complete\" and \"no roll-up, ADR 064 stands\" stand. Also its ICE impact for /design-slice C6 and C7, \"it reads each feature's Feature issue state through the tracker tool\": it reads the feature's state from the model. \u00a74's rule stands, and a Dropped feature is also left out. \u00a71 to \u00a74 and \u00a76 stand."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "069-the-plan-is-where-the-product-model-meets-the-work.md",
+    "068-each-product-feature-has-one-feature-issue-that-names-it.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

@@ -1,0 +1,26 @@
+pr: 1057
+issue: 1056
+base: main
+categories:
+- decision-records
+- stm-run-records
+layer1_checks:
+  decision-records (manual checklist, playbook review/adrs; no ADR linter exists): >-
+    ADR 070 has Status, Context, Decision and Consequences; Status reads Accepted; 070 follows 069 and has
+    an index row; the 068 and 069 Status lines carry the "amended in part by ADR 070" pointer and their
+    index rows match; every ADR link in the three Status lines and the index resolves; adr.py lint valid,
+    0 problems; the business-intent guard read "no person's business intent changes".
+  stm-run-records: every changed .json file parses; no added line holds a home-folder or temp path.
+layer2: not run - no design-bearing category (decision records are judged by the person, playbook review/adrs).
+findings:
+- id: VF-1
+  severity: P4
+  file: .garura/project/issues/1056/review/categories.yaml
+  principle: Each category's review treatment comes from a playbook on the knowledge/review shelf.
+  basis:
+  - source: .garura/project/issues/1056/review/categories.yaml (stm-run-records, playbook_missing true)
+  detail: The run-records category has no review playbook, so its checks above were chosen by the reviewer, not read from the shelf.
+  suggested_fix: A follow-up, not this change - add a review playbook for run records to the review shelf.
+  blocks_merge: false
+  category: stm-run-records
+  layer: 1

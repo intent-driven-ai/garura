@@ -1,0 +1,17 @@
+ M docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md
+ M docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261112T174237Z/adr-check.json
+?? .garura/project/issues/_adr/20261112T174237Z/adr-context.yaml
+?? .garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md
+?? .garura/project/issues/_adr/20261112T174237Z/adr-draft.md
+?? .garura/project/issues/_adr/20261112T174237Z/adr-manifest.json
+?? .garura/project/issues/_adr/20261112T174237Z/brief.md
+?? .garura/project/issues/_adr/20261112T174237Z/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261112T174237Z/decision.yaml
+?? .garura/project/issues/_adr/20261112T174237Z/hashes-before.json
+?? .garura/project/issues/_adr/20261112T174237Z/porcelain-after.txt
+?? .garura/project/issues/_adr/20261112T174237Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261112T174237Z/run.json
+?? docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md

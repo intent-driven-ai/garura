@@ -1,0 +1,57 @@
+# Work categories present in PR #1057 (ADR 070, issue 1056). Derived from the diff; treatment taken from the
+# playbook copies in short-term memory (.garura/project/issues/1056/context/memory/knowledge/review/).
+pr: 1057
+base: main
+categories:
+  - id: decision-records
+    name: Decision records (ADRs)
+    design_bearing: false
+    playbook: review/adrs
+    evidence:
+      - docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md   # new ADR, 157 lines; Status/Context/Decision shape
+      - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md  # Status line amended by ADR 070
+      - docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md        # Status line amended by ADR 070
+      - docs/adr/_index.md                                                        # index row for 070; 068 and 069 rows now say "amended in part by ... 070"
+    treatment:
+      reviewer: human, line by line (the human judges whether the decision is right)
+      layers: [layer-1]
+      linters:
+        - name: ADR structural check
+          command: null
+          status: gap
+          note: >-
+            No ADR linter exists in-repo (playbook review/adrs "Gap"). Until one is built the structural check is a
+            manual checklist the tool surfaces for the human.
+      runnable_checks:
+        - "required sections present in 070 (status, context, decision, consequences)"
+        - "status field is an allowed value (Accepted; amended-in-part wording on 068 and 069)"
+        - "markdown well-formed"
+        - "070 is numbered next after 069 and is linked from docs/adr/_index.md, with the 068 and 069 rows updated to match their Status lines"
+        - "links in the three Status lines and the index resolve to existing files"
+      design_grounding: "no - the decision is the design; the human owns the judgement (playbook review/adrs)"
+  - id: stm-run-records
+    name: Issue workspace and run records (short-term memory evidence)
+    design_bearing: false
+    playbook: null
+    playbook_missing: >-
+      No playbook on knowledge/review/ covers run-record files under .garura/project/**. The pr.md taxonomy classes
+      these paths as `stm-evidence`, but the review shelf has no playbook for them. A playbook is missing; none was forced
+      onto memory, harness or config-maps (they are records of runs, not memory, harness or wiring).
+    evidence:
+      - .garura/project/issues/1056/context/*   # args/branch/issue/plan/pr/target/resolved-rules json, pr-body.md, self-review.md, check-self-review.txt, work-description.txt (11 files)
+      - .garura/project/issues/_adr/20261112T174237Z/*   # record-decision run: adr-check, adr-context, adr-draft(-v1), adr-manifest, brief, decision.yaml, guard-report, hashes-before, porcelain-before/after, run.json, context/templates/* (14 files)
+    treatment:
+      reviewer: not set (no playbook)
+      layers: []
+      linters: []
+      runnable_checks: []
+      design_grounding: "not applicable - no playbook says so; nothing in the shelf makes run records design-bearing"
+      note: >-
+        With no playbook, no layer or linter is assigned from the shelf. The pr.md severity taxonomy classes these
+        paths as `stm-evidence`, so grep-based rules are not eligible on them; the play's check-pr-quality
+        still runs on the whole diff as the play directs.
+summary:
+  design_bearing_categories: []
+  notes:
+    - "No category in this diff is design-bearing, so no Layer 2 grounding dispatch is needed."
+    - "Follow-up: a review playbook for stm-run-records is missing (TaskCreate was not available to this agent)."

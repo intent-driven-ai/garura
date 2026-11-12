@@ -1,0 +1,1362 @@
+diff --git a/.garura/project/issues/1056/context/args.json b/.garura/project/issues/1056/context/args.json
+new file mode 100644
+index 000000000..20f08f17f
+--- /dev/null
++++ b/.garura/project/issues/1056/context/args.json
+@@ -0,0 +1,9 @@
++{
++  "mode": "description",
++  "issue": null,
++  "plan": null,
++  "description": "[ENH] adr: the product model records each feature's state \u2014 Unplanned, Planned, In progress, Completed, Dropped; only features have a state; amends ADR 069's no-work-status rule",
++  "note": null,
++  "fetched": null,
++  "error": null
++}
+diff --git a/.garura/project/issues/1056/context/branch.json b/.garura/project/issues/1056/context/branch.json
+new file mode 100644
+index 000000000..9a5d3ac33
+--- /dev/null
++++ b/.garura/project/issues/1056/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "feature/1056-feature-state-in-model",
++  "base_sha": "e3df42d3013a009f8875b4971a85bbc6f9fe67d0",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": null,
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1056/context/check-self-review.txt b/.garura/project/issues/1056/context/check-self-review.txt
+new file mode 100644
+index 000000000..ea708b4b4
+--- /dev/null
++++ b/.garura/project/issues/1056/context/check-self-review.txt
+@@ -0,0 +1 @@
++check_rc=0
+diff --git a/.garura/project/issues/1056/context/issue.json b/.garura/project/issues/1056/context/issue.json
+new file mode 100644
+index 000000000..eb8ab7da4
+--- /dev/null
++++ b/.garura/project/issues/1056/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 1056,
++  "title": "[ENH] The product model records each feature's state",
++  "created": true
++}
+diff --git a/.garura/project/issues/1056/context/plan.json b/.garura/project/issues/1056/context/plan.json
+new file mode 100644
+index 000000000..83ac7c81e
+--- /dev/null
++++ b/.garura/project/issues/1056/context/plan.json
+@@ -0,0 +1,12 @@
++{
++  "issue": "1056",
++  "plan_id": null,
++  "plan_branch": null,
++  "issue_branch": "feature/1056-feature-state-in-model",
++  "closed_plan": null,
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": []
++  }
++}
+diff --git a/.garura/project/issues/1056/context/pr-body.md b/.garura/project/issues/1056/context/pr-body.md
+new file mode 100644
+index 000000000..146eab472
+--- /dev/null
++++ b/.garura/project/issues/1056/context/pr-body.md
+@@ -0,0 +1,43 @@
++Records ADR 070: each feature in the product model records its own state (Unplanned, Planned, In progress, Completed, Dropped). Only features have a state; the old spine `status` field goes. It amends ADR 069 (the model held no work status) and ADR 068 ("built" was read from the tracker). The ontology change and the play changes follow in their own changes.
++
++Issue: #1056
++
++# Self-review: issue 1056 (the product model records each feature's state)
++
++Rules: the base self-review rules from Phoenix memory (no project override). Branch: feature/1056-feature-state-in-model against main. Diff: `git diff main...HEAD`, 2 commits, 23 files, 1065 lines added.
++
++Overall: ready to raise. No blocking findings. This review is information for the PR; the approve or reject call is validate-work's.
++
++## What the change is
++
++The first step of issue 1056: the decision record that lets each feature in the product model hold its own state (Unplanned, Planned, In progress, Completed, Dropped). It adds ADR 070, puts forward pointers on ADR 068 and ADR 069, rebuilds the ADR index, and keeps the run records of the decision.
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | The issue text names this step: "a decision record that amends ADR 069 ... then the ontology change". The diff holds that decision record and nothing of the ontology change. |
++| No scope creep | PASS | Every file is the ADR, its two forward pointers, the index, or run records under the issue and decision folders. No ontology, spine, skill or play file is touched; ADR 070 lists them under "Affects" and "Work This Creates" for later work. |
++| Reasonable size | PASS | One decision file of 157 lines, three one-line pointer or index edits, and about 900 lines of run records. Easy to review in one sitting; the real review surface is the ADR. |
++| No stray artifacts | REVIEW (not blocking) | The run records keep a first draft (`adr-draft-v1.md`) beside the final one and a copy of the ADR template. This matches how earlier decision runs are kept, so it is accepted practice, but a reviewer may prefer fewer copies. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS (none needed) | Docs and run records only; no behavior change. The decision's own lint and business-intent guard both ran clean (recorded in the run's check file: lint valid, guard "no person's business intent changes"). |
++| Commits are clean | PASS | Two conventional commits, each naming issue 1056: a `docs(adr)` commit for the decision and a `chore(stm)` commit for the workspace record. |
++| No secrets | PASS | Added lines scanned for keys, tokens, passwords and private-key markers: no match. |
++| Docs in step | PASS | The index lists ADR 070 and adds "amended in part by 070" to ADR 068 and ADR 069, matching the Status lines on both. |
++| Nothing obviously broken | PASS | The line numbers ADR 070 cites in the ontology (lines 23, 178, 184, 398, 417, 445, 464, 509, 558, 671, 775, 802, 809) and in the spine schema (lines 45, 74, 110) were spot-checked and point at the text the ADR describes. |
++
++## Findings
++
++1. Low, not blocking: one committed run record (the decision's manifest) holds a full machine path with the home folder in it. It sits under the run records, not in the ADR. Other run records may need the same check; Fixed before the push: the path now reads repo-relative, and a scan of the branch finds no home-folder path.
++2. Low, not blocking: ADR 070 says removing the old status touches 280 entries and gives 239 features. These counts were not re-checked here; the later clean-up work will confirm them against the spine.
++3. Note: ADR 070 reads "Accepted" and ADR 069's line "The model does not go out of date when a plan, an epic or an issue changes" no longer holds in full. The ADR states this itself under Risks, so no action here.
++
++## Automated checks
++
++- No merge conflict check was run beyond the diff read; the branch is two commits ahead of main with no files in common with main's newer changes beyond the ADR index and the two ADR Status lines.
++- No attribution line and no closing keyword before an issue number in the added text.
+diff --git a/.garura/project/issues/1056/context/pr.json b/.garura/project/issues/1056/context/pr.json
+new file mode 100644
+index 000000000..8cab94016
+--- /dev/null
++++ b/.garura/project/issues/1056/context/pr.json
+@@ -0,0 +1,8 @@
++{
++  "number": 1057,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1057",
++  "state": "OPEN",
++  "base": "main",
++  "from_host": true,
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1056/context/resolved-rules.json b/.garura/project/issues/1056/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1056/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1056/context/self-review.md b/.garura/project/issues/1056/context/self-review.md
+new file mode 100644
+index 000000000..435652e09
+--- /dev/null
++++ b/.garura/project/issues/1056/context/self-review.md
+@@ -0,0 +1,39 @@
++# Self-review: issue 1056 (the product model records each feature's state)
++
++Rules: the base self-review rules from Phoenix memory (no project override). Branch: feature/1056-feature-state-in-model against main. Diff: `git diff main...HEAD`, 2 commits, 23 files, 1065 lines added.
++
++Overall: ready to raise. No blocking findings. This review is information for the PR; the approve or reject call is validate-work's.
++
++## What the change is
++
++The first step of issue 1056: the decision record that lets each feature in the product model hold its own state (Unplanned, Planned, In progress, Completed, Dropped). It adds ADR 070, puts forward pointers on ADR 068 and ADR 069, rebuilds the ADR index, and keeps the run records of the decision.
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | The issue text names this step: "a decision record that amends ADR 069 ... then the ontology change". The diff holds that decision record and nothing of the ontology change. |
++| No scope creep | PASS | Every file is the ADR, its two forward pointers, the index, or run records under the issue and decision folders. No ontology, spine, skill or play file is touched; ADR 070 lists them under "Affects" and "Work This Creates" for later work. |
++| Reasonable size | PASS | One decision file of 157 lines, three one-line pointer or index edits, and about 900 lines of run records. Easy to review in one sitting; the real review surface is the ADR. |
++| No stray artifacts | REVIEW (not blocking) | The run records keep a first draft (`adr-draft-v1.md`) beside the final one and a copy of the ADR template. This matches how earlier decision runs are kept, so it is accepted practice, but a reviewer may prefer fewer copies. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS (none needed) | Docs and run records only; no behavior change. The decision's own lint and business-intent guard both ran clean (recorded in the run's check file: lint valid, guard "no person's business intent changes"). |
++| Commits are clean | PASS | Two conventional commits, each naming issue 1056: a `docs(adr)` commit for the decision and a `chore(stm)` commit for the workspace record. |
++| No secrets | PASS | Added lines scanned for keys, tokens, passwords and private-key markers: no match. |
++| Docs in step | PASS | The index lists ADR 070 and adds "amended in part by 070" to ADR 068 and ADR 069, matching the Status lines on both. |
++| Nothing obviously broken | PASS | The line numbers ADR 070 cites in the ontology (lines 23, 178, 184, 398, 417, 445, 464, 509, 558, 671, 775, 802, 809) and in the spine schema (lines 45, 74, 110) were spot-checked and point at the text the ADR describes. |
++
++## Findings
++
++1. Low, not blocking: one committed run record (the decision's manifest) holds a full machine path with the home folder in it. It sits under the run records, not in the ADR. Other run records may need the same check; Fixed before the push: the path now reads repo-relative, and a scan of the branch finds no home-folder path.
++2. Low, not blocking: ADR 070 says removing the old status touches 280 entries and gives 239 features. These counts were not re-checked here; the later clean-up work will confirm them against the spine.
++3. Note: ADR 070 reads "Accepted" and ADR 069's line "The model does not go out of date when a plan, an epic or an issue changes" no longer holds in full. The ADR states this itself under Risks, so no action here.
++
++## Automated checks
++
++- No merge conflict check was run beyond the diff read; the branch is two commits ahead of main with no files in common with main's newer changes beyond the ADR index and the two ADR Status lines.
++- No attribution line and no closing keyword before an issue number in the added text.
+diff --git a/.garura/project/issues/1056/context/target.json b/.garura/project/issues/1056/context/target.json
+new file mode 100644
+index 000000000..c87d48cd9
+--- /dev/null
++++ b/.garura/project/issues/1056/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "feature/1056-feature-state-in-model",
++  "kind": "one-off",
++  "plan_id": null,
++  "issue": "1056",
++  "base": "main"
++}
+diff --git a/.garura/project/issues/1056/context/work-description.txt b/.garura/project/issues/1056/context/work-description.txt
+new file mode 100644
+index 000000000..b155d504f
+--- /dev/null
++++ b/.garura/project/issues/1056/context/work-description.txt
+@@ -0,0 +1,18 @@
++[ENH] The product model records each feature's state
++
++What: each feature in the product model records its own state, one of five:
++- Unplanned: the feature is in the model and no plan holds it yet; no work starts on it.
++- Planned: a plan holds it and no work on it has started.
++- In progress: some of its work is done and some is open.
++- Completed: the feature is built.
++- Dropped: the feature will not be built.
++
++Only a feature has a state. A domain, a capability and a business intent have none of their own, and nothing rolls up from features.
++
++Who sets it: a play that adds a feature sets Unplanned; /shape-plan sets Planned when the plan takes the feature in; only /start-work sets In progress, when work on the feature first starts (designing, slicing, shaping or editing a plan is not work); the plan sets Completed when the feature's Feature issue closes as completed, and Dropped when the person drops it.
++
++The model records the state only. It still names no plan, no tracker issue and no decision record. Plays read "built" from the model, not from the tracker.
++
++Why: the product model is the state of the product that can be sent to someone, so it must know whether each feature is done. The issue tracker is only the working space of the agents. It also makes features built before ADR 068 visible: the model clean-up marks them Completed once.
++
++This change: a decision record that amends ADR 069 on its rule that no part of the model holds a work status, then the ontology change (v18). The /shape-plan and /design-eval rework (#1025) then reads and writes the state.
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/adr-check.json b/.garura/project/issues/_adr/20261112T174237Z/adr-check.json
+new file mode 100644
+index 000000000..de8e186c9
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/adr-check.json
+@@ -0,0 +1,15 @@
++{
++  "task_id": "draft-adr",
++  "round": 2,
++  "draft": ".garura/project/issues/_adr/20261112T174237Z/adr-draft.md",
++  "first_draft_kept": ".garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md",
++  "number": "070",
++  "lint": {"command": "adr.py lint --adr adr-draft.md", "exit": 0, "valid": true, "problems": []},
++  "guard": {"command": "adr.py guard --adr adr-draft.md", "exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_declared": true},
++  "amends": {"069": "Decision §2, 'no part of the model holds a work status'", "068": "Decision §5 and its /design-slice C6/C7 ICE impact"},
++  "not_affected": ["064", "065", "062", "061", "063", "026/044"],
++  "person_answers_written_as_rules": [1, 2, 3, 4, 5, 6, 7],
++  "for_the_accepter_open": ["learn-outcomes (source only, not installed) writes the old status field: persist_learn.py lines 16, 117-118; validate_learn.py lines 40, 110-116"],
++  "names_check": "no real names, no attribution line",
++  "retries": 0
++}
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/adr-context.yaml b/.garura/project/issues/_adr/20261112T174237Z/adr-context.yaml
+new file mode 100644
+index 000000000..480101f95
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/adr-context.yaml
+@@ -0,0 +1,165 @@
++# Context gathered by adr-keeper for the decision in brief.md (#1056). Read by author-decision.
++# Second draft: the person's seven answers at the accept checkpoint ("## Change from the person"
++# in brief.md) are now rules in the Decision. The first draft is kept as adr-draft-v1.md.
++shape: markdown
++number: "070"
++file: docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md
++title_suggestion: "Each Feature in the Product Model Records Its Own State, and Plays Read Built From the Model"
++status: proposed
++date: 2026-11-12
++level: framework
++node_ref: ""
++decided_in: "#1056 (the feature's state in the model), from the /shape-plan and /design-eval rework session for #1025, and the accept checkpoint of the first draft"
++decided_by_in_brief: "the product owner (persona; the Decided by line stays empty until a person accepts)"
++template_path: .garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md
++
++overlap_candidates_from_script: [ "069 (score 6.95, named in the brief)", "068 (score 6.65, named in the brief)" ]
++
++supersedes: []
++
++amends:
++  - adr: "069"
++    part: >-
++      Decision §2, third bullet, the words "and no part of the model holds a work status": each
++      feature holds its own state, named `status`, one of five. No other part holds one, and the
++      spine still has no `epics` list. The rest of §2 stands (the model names no plan, epic,
++      tracker issue or decision record, and the state names none). §5 stands (whether a slice is
++      in progress is read from the plan files).
++  - adr: "068"
++    part: >-
++      Decision §5, "When a feature is built (its Feature issue is closed)": a feature is built when
++      its state in the model is Completed. It becomes Completed when its Feature issue closes as
++      completed, and once, through the clean-up the person confirms, for a feature built before
++      ADR 068. "Closing a Feature issue is a person's call, made through /reshape-plan finish",
++      "every slice and plan that holds it counts it as complete" and "no roll-up, ADR 064 stands"
++      stand. Also its ICE impact for /design-slice C6 and C7, "it reads each feature's Feature
++      issue state through the tracker tool": it reads the feature's state from the model. §4's
++      rule stands, and a Dropped feature is also left out. §1 to §4 and §6 stand.
++
++not_affected:
++  - { adr: "064", why: "plan-file item status; the feature's state is in the model, and Completed follows the Feature issue's own close" }
++  - { adr: "065", why: "rule 1 (state set through link-model-part), rule 3 (names no plan), rule 4 (tracker read through the tool) all hold" }
++  - { adr: "062", why: "/reshape-plan sets the state inside its approved list, under its declared exception" }
++  - { adr: "061", why: "starting a plan is not work on a feature and sets no state" }
++  - { adr: "063", why: "/shape-plan still makes a plan once; /reshape-plan still changes it" }
++  - { adr: "026 / 044", why: "already amended by ADR 065; the new writers are named under Affects; the branch rule is the existing one" }
++
++person_answers_as_rules:
++  - "1. Capability done is a question asked when needed, never stored: done when every one of its features is Completed or Dropped. Nothing is written on the capability. The ready check and 'needs' use it. Ontology lines 398, 417, Q10 line 58 and line 558 change wording only."
++  - "2. A Dropped feature stays out of every new slice and plan until a person brings it back, in /reshape-plan, which sets it Unplanned. When a Completed feature's Feature issue is opened again, /reshape-plan sets it back to In progress."
++  - "3. The play that takes a feature into a plan sets Planned: /shape-plan when it makes the plan, /reshape-plan when it adds a feature later."
++  - "4. Starting a Feature issue, a Story inside it, or a Bug or Spike under that Story moves Planned to In progress. A Chore under the plan's epic and starting a plan change nothing. A Completed feature stays Completed. On an Unplanned feature /start-work says so, goes on only on the person's yes, and records that the work started with no plan; it never blocks."
++  - "5. The state is written on the work's branch, like every model write; main shows it when the work lands."
++  - "6. The clean-up drafts the list of old features to mark Completed from the old Stories (a Story closed as completed means its feature is Completed). The person confirms the whole list in one review before anything is written."
++  - "7. The old spine field `status` (proposed | active | deprecated) is removed from every domain, capability and feature entry and from the spine schema; link-model-part stops writing it. The feature's state takes the name `status`, with the five values."
++
++affects:
++  - path: core/components/memory/standards/schemas/product-os/ontology.md
++    what: >-
++      through /specify-ontology (version 17): line 23; the Feature kind, its Built property (line
++      445) becomes the stored `status` with five values and who sets each, and its rule at line 464;
++      Q50 (lines 178 to 180) and Q52 (lines 184 to 186); wording only: the Capability's Done (lines
++      398 and 417), Q10 (line 58) and the ready check (line 558), "every feature Completed or
++      Dropped"; the Slice rule (line 509) and the Plan rule (line 671), which also leave out a
++      Dropped feature; the Feature issue kind (lines 775, 802 and 809); the Log
++  - path: core/components/memory/standards/schemas/product-os/spine.yaml
++    what: >-
++      the old `status` (proposed | active | deprecated) goes from the domain (line 45), capability
++      (line 74) and feature (line 110) entries; the feature entry's `status` takes the five values;
++      line 4's header comment
++  - path: core/components/skills/link-model-part/
++    what: >-
++      SKILL.md (its description, "status proposed"); scripts/link_part.py (docstring line 37; line
++      331 writes `status: proposed`): it stops writing the old status, a new feature gets
++      `status: Unplanned`, and a request can set a feature's status; scripts/test_link_part.py
++      (lines 25, 34 and 114)
++  - path: core/components/plays/design-slice/
++    what: >-
++      scripts/persist_fills.py (line 9 and line 368 write `status: proposed` on a new entry);
++      reference/ice.md C6 and C7 and SKILL.md: built is read from the model; a new feature gets
++      Unplanned
++  - path: core/components/plays/specify-capabilities/
++    what: >-
++      scripts/persist_understand.py (line 14, lines 160 and 175 write `status: proposed` on new
++      capability entries, line 299 adds features): the old status goes, a new feature gets
++      Unplanned; reference/ice.md and SKILL.md
++  - path: core/components/plays/learn-outcomes/
++    what: >-
++      source only, not installed: scripts/persist_learn.py (line 16, lines 47 and 117 to 118 write a
++      capability's or feature's `status`) and scripts/validate_learn.py (lines 40 and 110 to 116,
++      the "earned" values active, validated, delivered); reference/ice.md and SKILL.md
++  - path: core/components/agents/product-os-keeper.md
++    what: its table of who writes the spine
++  - path: core/components/plays/shape-plan/
++    what: >-
++      reference/ice.md (C3, D1), SKILL.md, scripts/gather_plan.py and scripts/find_work_items.py:
++      leaves out Completed and Dropped features, read from the model with no tracker search; sets
++      Planned. On main and on the open PR #1047 for #1025
++  - path: core/components/plays/start-work/
++    what: >-
++      reference/ice.md, SKILL.md, scripts/resolve_args.py and scripts/validate_issue.py: Planned to
++      In progress on a start; on an Unplanned feature, says so, asks, records "started with no plan";
++      writes on the work's branch
++  - path: core/components/plays/merge-work/
++    what: >-
++      reference/ice.md (lines 10 to 12 and 62 to 65), SKILL.md, scripts/merge_pr.py: closing a
++      Feature issue as completed sets Completed
++  - path: core/components/plays/reshape-plan/
++    what: >-
++      reference/ice.md (C7, C8, C11), SKILL.md, scripts/closed_on_github.py, check_agreement.py,
++      place_feature.py: finish sets Completed; drop sets Dropped; a new "bring back" sets a Dropped
++      feature Unplanned; a reopened Feature issue of a Completed feature sets In progress; a feature
++      it takes into the plan gets Planned; a Feature issue closed by hand is caught at the start
++  - path: core/components/memory/standards/rules/direct-model-write.md
++    what: /start-work and merge-work become model-writing plays for one field, on the work's branch
++  - path: core/tools/plan/
++    what: "plan.py and README.md, read, if the plan tool reads a closed Feature issue for the state"
++  - path: .garura/product/product-os/_spine.yaml
++    what: >-
++      Garura's model: the old `status: proposed` comes off 280 entries (1 domain, 40 capabilities,
++      239 features); each of the 239 features gets its new `status`; the clean-up marks Completed
++      the old features the person confirms
++  - path: core/grounding/glossary.md
++    what: "the Feature row (line 63)"
++  - path: CLAUDE.md
++    what: "Work Tracking"
++
++ice_impact: >-
++  /shape-plan (C3, D1): leaves out Completed and Dropped features, read from the model; sets Planned.
++  /start-work: new constraint, failure and scenario for Planned to In progress, the Unplanned
++  question and its record, and no change on a Chore or a plan start. merge-work: Completed on a
++  Feature issue closed as completed. /reshape-plan (C7, C8, C11): finish, drop, bring back, reopen,
++  Planned on add. /design-slice (C6, C7): built and dropped read from the model; Unplanned on add;
++  persist_fills.py stops writing the old status. /specify-capabilities: Unplanned on add; the old
++  status goes. learn-outcomes (source only), through /fix-play when next built: it no longer
++  writes the old status. link-model-part and product-os-keeper follow. The ICE kind's ready check
++  changes wording only, through /specify-ontology. No capability or feature ICE of the product changes.
++
++business_intent_check: none
++
++for_the_accepter_open:
++  - point: "learn-outcomes writes the old status field, which the person's seventh answer removes"
++    what_and_where: >-
++      core/components/plays/learn-outcomes/ (in the source, not installed): scripts/persist_learn.py
++      line 16 ("capability/feature `status` (earned promotion)") and lines 117 to 118 (node["status"]
++      = c.get("to")); scripts/validate_learn.py line 40 (EARNED = {"active", "validated",
++      "delivered"}) and lines 110 to 116.
++    detail: >-
++      The seventh answer says "Nothing reads it". The installed plays do not, but learn-outcomes
++      moves a capability's or a feature's `status` to active, validated or delivered. With the old
++      field gone, and the feature's `status` holding the five new values, it would write a value the
++      new field does not allow, and on a capability, a field that no longer exists.
++    why_it_matters: >-
++      When learn-outcomes is next built, it breaks the new rule unless its writes change. Nothing
++      runs it today, so no model is harmed now.
++    this_decision_does: "It names learn-outcomes under Affects and in Work This Creates."
++    you_decide: >-
++      What learn-outcomes does instead, when it is next built: write nothing on the state, or
++      record what it learns elsewhere. Nothing is needed now.
++
++keeper_notes:
++  - "ADR 068 §5 is amended too (the brief named only ADR 069)."
++  - "ADR 069's Consequences line 'The model does not go out of date when a plan, an epic or an issue changes' no longer holds in full; it is named under this record's risks."
++  - "Writers of the old status found: link_part.py line 331, design-slice persist_fills.py line 368, specify-capabilities persist_understand.py lines 160 and 175, learn-outcomes persist_learn.py lines 117 to 118 (source only)."
++  - "Garura's _spine.yaml: 280 status lines, all `proposed` (1 domain, 40 capabilities, 239 features)."
++  - "Phoenix memory's ontology is version 15; the source is version 17."
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md b/.garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md
+new file mode 100644
+index 000000000..fb26495ca
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md
+@@ -0,0 +1,174 @@
++# ADR 070 — Each Feature in the Product Model Records Its Own State, and Plays Read "Built" From the Model
++
++**Status:** Proposed
++**Date:** 2026-11-12
++**Level:** framework
++**Decided by:** · **Decided in:** #1056 (the feature's state in the model), from the /shape-plan and /design-eval rework session for #1025
++**Amends:** ADR 069 — Decision §2, third bullet, the words "and no part of the model holds a work status": each feature now holds its own state, one of five; no other part holds one, and the spine still has no `epics` list. The rest of §2 stands (the model names no plan, no epic, no tracker issue and no decision record, and the state names none of them). §5 stands (whether a slice is in progress is read from the plan files) · ADR 068 — Decision §5, "When a feature is built (its Feature issue is closed)": a feature is built when its state in the model is Completed. The state becomes Completed when its Feature issue closes as completed, and once, through the model clean-up, for a feature built before ADR 068 that has no Feature issue. "Closing a Feature issue is a person's call, made through /reshape-plan finish", "every slice and plan that holds it counts it as complete" and "no roll-up, ADR 064 stands" stand. Also its ICE impact for /design-slice C6 and C7, "it reads each feature's Feature issue state through the tracker tool": it reads the feature's state from the model. §4's rule, "A slice pulls in only features that are not yet built", stands. §1 to §4 and §6 stand
++**Affects:** `core/components/memory/standards/schemas/product-os/ontology.md` (version 17), through /specify-ontology: line 23 (the whole-model rule, "no part of the model holds a work status"); the Feature kind, its Built property (line 445), which becomes a stored state with five values and who sets each, and its rule at line 464; Q50 (lines 178 to 180) and Q52 (lines 184 to 186); the Capability kind's Done property and rule (lines 398 and 417), Q10 (line 58) and the ICE ready check (line 558), which read "built"; the Slice rule (line 509) and the Plan rule (line 671) on "not yet built"; the Feature issue kind (lines 775, 802 and 809); the Log · `core/components/memory/standards/schemas/product-os/spine.yaml` (the `features` entry, lines 103 to 121, gains the state field, beside the existing `status` at line 110, "proposed | active | deprecated", which means something else) · `core/components/skills/link-model-part/` (`SKILL.md`; `scripts/link_part.py`, line 331 sets `status: proposed` on a new entry: a new feature entry gets the state Unplanned, and a request can set a feature's state; its tests) · `core/components/agents/product-os-keeper.md` (its table of who writes the spine) · `core/components/plays/shape-plan/` (`reference/ice.md` C3 and D1, `SKILL.md`, `scripts/gather_plan.py` and `scripts/find_work_items.py`: "not yet built" is read from the model with no tracker search; the plan sets Planned), on main and on the open PR #1047 for #1025 · `core/components/plays/start-work/` (`reference/ice.md`, `SKILL.md`, `scripts/resolve_args.py` and `scripts/validate_issue.py`: it sets In progress when work on a feature first starts; it writes nothing in the model today) · `core/components/plays/merge-work/` (`reference/ice.md` lines 10 to 12 and 62 to 65, `SKILL.md`, `scripts/merge_pr.py`: when it closes a Feature issue as completed, the feature becomes Completed; it writes nothing in the model today) · `core/components/plays/reshape-plan/` (`reference/ice.md` C7, C8 and C11, `SKILL.md`, `scripts/closed_on_github.py`, `scripts/check_agreement.py` and `scripts/place_feature.py`: "finish" sets Completed, "drop" sets Dropped, a Feature issue closed by hand is caught at the session's start, and a feature it takes into the plan gets its state) · `core/components/plays/design-slice/` (`reference/ice.md` C6 and C7, `SKILL.md`: "built" is read from the model; a feature it adds gets Unplanned) · `core/components/plays/specify-capabilities/` (`scripts/persist_understand.py` lines 160 to 175 and 299, which write new feature entries; `reference/ice.md` and `SKILL.md`: a feature it adds gets Unplanned) · `core/components/memory/standards/rules/direct-model-write.md` (/start-work and merge-work become model-writing plays for one field) · `core/tools/plan/` (`plan.py` and `README.md`, read, if the plan tool reads a closed Feature issue for the state) · `.garura/product/product-os/_spine.yaml` (Garura's 239 feature entries gain a state; the clean-up marks Completed the features built before ADR 068) · `core/grounding/glossary.md` (the Feature row, line 63) · `CLAUDE.md` (Work Tracking)
++**ICE impact:** /shape-plan, through /fix-play: C3 and D1 — it takes in only features whose state is not Completed, read from the model, with no tracker search, and sets Planned on each feature the plan takes in. /start-work, through /fix-play: a new constraint, failure condition and scenario — the first time work on a feature starts, it sets the state In progress; designing, slicing, shaping or editing a plan never does, and starting a plan (`plan <id>`) does not. merge-work, through /fix-play: its Intent lines and a new failure condition — when it closes a Feature issue as completed, the feature becomes Completed. /reshape-plan, through /fix-play: C7, C8 and C11 — "finish" sets Completed, "drop" sets Dropped, a Feature issue closed by hand is caught at the start, and a feature it adds gets its state. /design-slice, through /fix-play: C6 and C7 — "not yet built" is read from the model, not the tracker; a new feature gets Unplanned. /specify-capabilities: a new feature gets Unplanned. link-model-part and product-os-keeper follow. If the Capability's Done goes (the first point below), the ICE kind's ready check changes too, through /specify-ontology. No capability or feature ICE of the product changes. The ontology changes through /specify-ontology
++**Business intent check:** none — the decision changes the Feature kind and how plays read "built". The Business Intent kind does not change, and no person's business intent (title, outcome, why, asked by, proof, must not, rules or stage) is added, changed or dropped. No intent page is touched
++**Related:** ADR 061, ADR 062, ADR 064, ADR 065, ADR 068, ADR 069, #1056, #1025, PR #1047, #954
++
++## Context
++
++The product owner, on 2026-11-12: the product model is the state of the product that can be sent to someone. So it must know whether each feature is done. The issue tracker is only the agentic part.
++
++Today the model cannot say this. ADR 069 §2 says "no part of the model holds a work status". ADR 068 §5 says a feature is built when its Feature issue is closed, and the ontology (version 17, line 445) keeps "Built" as a value that is worked out each time, through the tracker tool, and never stored. So a person who reads the model alone cannot tell what is built. And the features built before ADR 068 have only old Stories and no Feature issue, so the plays cannot see them as built at all: /shape-plan would search the tracker for them and find nothing.
++
++The decision was made in the /shape-plan and /design-eval rework session for #1025, and is tracked as #1056.
++
++Notes from the ADR keeper:
++
++- The brief names ADR 069 only. The keeper also marks ADR 068 §5, and its ICE impact for /design-slice, as amended in part. ADR 068 defines "built" by the Feature issue and has /design-slice read it from the tracker; under this decision both read the model.
++- Not amended: ADR 064 (it rules on an item's status in a plan file; the feature's state is in the model, and Completed follows the Feature issue's own close, never its Stories); ADR 065 (the state is set through link-model-part, rule 1; it names no plan, rule 3; a play reads a Feature issue's close through the tracker tool, rule 4); ADR 062 (/reshape-plan sets the state inside its approved list, under its declared exception); ADR 061 (starting a plan is not work on a feature); ADR 063.
++- ADR 069's Consequences say "The model does not go out of date when a plan, an epic or an issue changes, because it names none of them". That no longer holds in full: a feature's state can be out of date when an issue closes by hand. It is a consequence, not a decision, so it is not amended; it is named under the risks below.
++- The plays on this branch are older than ADR 068 and ADR 069: /shape-plan still makes stories, and /design-slice reads a slice in progress from the spine's `epics` list (`find_serving_slice.py` lines 12 to 14). Their rework is in flight (PR #1047 for #1025, and #954). The state work joins that rework.
++- Phoenix memory's copy of the ontology is version 15 (read through the memory tool on 2026-11-12); the source is version 17. Agents that read it through the memory tool see neither ADR 068, ADR 069 nor this record until it is promoted.
++- The spine schema still has the `epics` list with `status` (`spine.yaml` line 216), which ADR 069 said goes. That is not this record's change.
++
++## For the Person Who Accepts This
++
++### Capability Done and the ready check are worked out from built features, and the brief says nothing rolls up
++
++- **What and where:** The ontology's Capability kind: its Done property (line 398, "Whether every feature in it is built — worked out each time it is asked, never stored") and its rule (line 417, "It is done when every feature in it is built"); Q10 (line 58); and the ICE ready check (line 558, "A needed capability is done when every feature in it is built"). The ready check stops a capability's ICE while a capability it needs is not done.
++- **What is wrong, or worth knowing:** The brief says "nothing rolls up from features: a capability is something the product has, not something we build". The Capability's Done is not stored, but it is worked out from its features. Read strictly, the brief takes it away. Then "needs" (a capability that must be done first) has nothing to test, and the ready check cannot say that a needed capability is not done.
++- **Why it matters:** /specify-ontology and /fix-play cannot write the change without knowing which reading holds. If Done goes, every play that uses the ready check (/shape-plan, /design-slice, /reshape-plan) loses one of its stops.
++- **What this decision does:** Nothing to Done or to the ready check. It gives no capability a stored state, and it names the lines under Affects.
++- **What you decide:** One of these: (a) Done stays, worked out each time from the states of the capability's features (all Completed), never stored; or (b) Done goes, and the ready check and "needs" get a new test.
++
++### Dropped and the Feature issue's "closed as not planned" mean different things today
++
++- **What and where:** The ontology's Feature issue kind, line 802 ("When it is closed as not planned, its feature is not built: a new slice can take the feature in, and the plan play then shows the closed issue to the person") and line 809 ("A closed Feature issue is opened again only by a person"); /reshape-plan "drop", which closes an issue as not planned.
++- **What is wrong, or worth knowing:** The brief's Dropped means "the feature will not be built". Line 802 lets a new slice take a dropped feature in again. The brief does not say whether a new slice or plan may take in a Dropped feature, or who moves a feature out of Dropped or Completed (for example, when a person opens its Feature issue again).
++- **Why it matters:** /design-slice and /shape-plan must know whether to leave a Dropped feature out. With no way back, a feature dropped by mistake stays Dropped in the model while its issue is open.
++- **What this decision does:** It records the five states and who sets each, as the brief says. It sets no way back.
++- **What you decide:** Whether a Dropped feature stays out of every new slice and plan, and who sets a state back when a Feature issue is opened again (for example, /reshape-plan, on the person's word).
++
++### /reshape-plan also takes features into a plan, and the brief names only /shape-plan for Planned
++
++- **What and where:** /reshape-plan takes a feature into a plan that exists in three ways: a new feature found while the plan is in progress (ADR 062, its C11), a feature added to a slice in progress, and "add a slice" (ADR 069 §6). The brief: "a play that adds a feature sets Unplanned; /shape-plan sets Planned when the plan takes the feature in".
++- **What is wrong, or worth knowing:** /shape-plan makes a plan only once (ADR 063). After that, every feature that joins a plan joins through /reshape-plan. Read word for word, such a feature stays Unplanned although a plan holds it.
++- **Why it matters:** Unplanned says "no plan holds it yet; no work starts on it". A feature added in a session would say that while its Feature issue sits under the plan's epic.
++- **What this decision does:** It writes the rule as "the play that takes a feature into a plan sets Planned": /shape-plan when it makes the plan, /reshape-plan when it adds a feature. If you meant /shape-plan only, say so at accept.
++- **What you decide:** Whether /reshape-plan sets Planned too.
++
++### Which start counts as work on a feature is not yet exact
++
++- **What and where:** /start-work (`core/components/plays/start-work/`) starts an issue (a Story, a Feature issue, a Bug, a Spike or a Chore) or a plan (`plan <id>`). ADR 064 §2: "A parent never changes because its children closed". The ontology: a Story sits inside one Feature issue; a Chore can sit straight under the plan's Epic and reaches no feature.
++- **What is wrong, or worth knowing:** Most work starts on a Story, so /start-work must find the Story's Feature issue and its `Represents:` line, through the tracker tool, to know the feature. Four cases are open. (1) A Chore under the Epic reaches no feature, so it sets nothing. (2) A Bug or a Spike under a Story of a Completed feature: the brief says In progress is set when work "first" starts, so a Completed feature stays Completed. (3) An issue whose feature is Unplanned: the brief says "No work starts on it", but /start-work has no such stop today. (4) A Story that starts moves its feature's state: a child moves its parent, while ADR 064 forbids roll-ups only in the plan file.
++- **Why it matters:** /fix-play on /start-work needs one answer for each case. A stop on an Unplanned feature is a new gate, and a gate stops work.
++- **What this decision does:** It reads the brief as follows: a start of a Story or a Feature issue, or of a Bug or Spike under a Story, sets its feature In progress, only from Planned; a Chore under the Epic and a plan start set nothing; a Completed feature stays Completed. It adds no stop for an Unplanned feature.
++- **What you decide:** Whether this reading holds, and whether starting work on an Unplanned feature stops, warns, or sets the feature Planned and then In progress.
++
++### A feature already has a `status` field with another meaning
++
++- **What and where:** `core/components/memory/standards/schemas/product-os/spine.yaml` line 110, the feature entry's `status: string  # proposed | active | deprecated`; Garura's `.garura/product/product-os/_spine.yaml`, where all 239 feature entries read `status: proposed`; link-model-part's `scripts/link_part.py` line 331, which writes it.
++- **What is wrong, or worth knowing:** The new state cannot use the name `status` without a clash. Its Dropped and the old `deprecated` are close in meaning, and an agent can read one for the other.
++- **Why it matters:** A field with two meanings makes a play read the wrong one, and the spine check cannot tell them apart.
++- **What this decision does:** It says the state is a field of its own. It leaves the name, and what happens to the old `status`, to /specify-ontology.
++- **What you decide:** Nothing now. The name is chosen at the /specify-ontology checkpoints.
++
++### The state is written on a branch, so main shows it late
++
++- **What and where:** /start-work and merge-work write on the issue's branch or the plan's branch (`plan/<id>/base`). A plan's branch lands on main when the plan is done and its eval passes, or when it pauses (ADR 060, ADR 069 §4). `core/components/memory/standards/rules/direct-model-write.md` lists the model-writing plays; neither /start-work nor merge-work is one today.
++- **What is wrong, or worth knowing:** The brief's reason is that the model on main is the state of the product that can be sent to someone. A feature set In progress or Completed on a plan's branch reads Planned on main until that plan lands. /start-work and merge-work also have no model write scope and no scoped-write guard today.
++- **Why it matters:** A person who reads the model on main sees an older state than the work. Two plans that hold one feature can write two states on two branches, and the later landing wins.
++- **What this decision does:** It names `direct-model-write.md`, /start-work and merge-work under Affects. It does not decide the branch.
++- **What you decide:** Whether the state lands with the work, on its branch (as today's model writes do), or is written on main at once.
++
++### Which old features are built is a person's call
++
++- **What and where:** Garura's `.garura/product/product-os/_spine.yaml`, with 239 features; the brief's clean-up: "the model clean-up marks them Completed once".
++- **What is wrong, or worth knowing:** Features built before ADR 068 have only old Stories and no Feature issue. Nothing in the model or in the tracker says which of the 239 are built.
++- **Why it matters:** A feature marked Completed by mistake is left out of every new slice and plan, and its work is never done.
++- **What this decision does:** It puts the clean-up under Work This Creates, through product-os-keeper and link-model-part.
++- **What you decide:** Who confirms the list of features marked Completed before the clean-up writes it.
++
++## Decision
++
++### 1. Each feature records its own state
++
++Each feature in the product model records its own state, one of five:
++
++- **Unplanned** — the feature is in the model, and no plan holds it yet. No work starts on it.
++- **Planned** — a plan holds it, and no work on it has started.
++- **In progress** — some of its work is done, and some is open.
++- **Completed** — the feature is built.
++- **Dropped** — the feature will not be built.
++
++### 2. Only a feature has a state
++
++A domain, a capability and a business intent have no state of their own. Nothing rolls up from features: a capability is something the product has, not something we build.
++
++### 3. Who sets the state
++
++- A play that adds a feature to the model sets Unplanned.
++- /shape-plan sets Planned when the plan takes the feature in.
++- Only /start-work sets In progress, when work on the feature first starts. Designing, slicing, shaping or editing a plan is never work.
++- The plan sets Completed when the feature's Feature issue closes as completed, and Dropped when the person drops the feature.
++
++### 4. The model records the state only
++
++The state names no plan, no tracker issue and no decision record. The model still names none of them (ADR 069 §2). A feature is built when its state is Completed: plays read "built" from the model, not from the tracker.
++
++### 5. Features built before ADR 068
++
++The features built before ADR 068, tracked by old Stories and with no Feature issue, are marked Completed once, by the model clean-up. /shape-plan then leaves them out, with no tracker search.
++
++### What this changes in older ADRs
++
++- **ADR 069 §2, third bullet** — amended: the words "and no part of the model holds a work status" now read that each feature holds its own state, and no other part holds one. The spine still has no `epics` list. The rest of §2 and §5 stand.
++- **ADR 068 §5** — amended: a feature is built when its state in the model is Completed. The state becomes Completed when its Feature issue closes as completed, and once, by the clean-up, for a feature built before ADR 068. A person still closes the Feature issue through /reshape-plan "finish", and there is still no roll-up. **Its ICE impact for /design-slice C6 and C7** — amended: /design-slice reads the feature's state from the model, not the Feature issue's state through the tracker tool. §4's rule stands.
++
++### What this does not change
++
++- ADR 064: an item's status in a plan file still follows its own issue, with no roll-ups.
++- ADR 065 rules 1, 3 and 4: the state is set through link-model-part, names no plan, and a play reads a Feature issue's close only through the tracker tool.
++- ADR 069 §5: whether a slice is in progress is still read from the plan files.
++- ADR 061, ADR 062 and ADR 063.
++- No business intent, and not the Business Intent kind.
++
++## Consequences
++
++### Positive
++
++- The model alone says what is built, what is in work, what is planned and what is dropped. It can be sent to someone with no tracker.
++- The features built before ADR 068 become visible to the plays, and /shape-plan leaves them out with no tracker search.
++- /design-slice and /shape-plan read "built" from the model, so they do one tracker search fewer.
++- Each state has one play that sets it, so a person can tell where a wrong state came from.
++
++### Negative / Risks
++
++- The model now holds a value that follows the work. When a Feature issue closes by hand, the state is out of date until /reshape-plan catches it at its next session. ADR 069's line "The model does not go out of date when a plan, an epic or an issue changes" no longer holds in full.
++- /start-work and merge-work become model writers. Each needs a write scope and a guard, and each must find a feature through the tracker tool.
++- A state set on a plan's branch reaches main only when the plan lands, so the model on main can show an older state.
++- The Capability's Done and the ready check rest on "built". Until the first point above is decided, the ontology change has no answer for them.
++- Two plays and a clean-up must agree on which old features are built; a wrong Completed keeps a feature out of every new plan.
++- The ontology, the spine schema, link-model-part and six plays change before the next plan is made. Until the ontology is promoted, agents that read Phoenix memory (version 15) do not see the state.
++
++## Alternatives Considered
++
++- **Keep "built" only in the tracker (a Feature issue closed as completed)** — lost: the model cannot describe the product on its own, and old built work stays invisible to the plays.
++- **A state on capabilities and domains too** — lost: a capability is something the product has, not something we build.
++- **Set In progress when a plan is shaped** — lost: planning is not work.
++
++## Work This Creates
++
++- After acceptance: the forward pointers on ADR 069 (§2) and ADR 068 (§5 and its /design-slice ICE impact); the ADR index rebuilt.
++- /specify-ontology: the Feature kind's state, its five values and who sets each; line 23; the Capability's Done and the ready check, by the answer to the first point; Q50 and Q52; `spine.yaml`.
++- link-model-part sets a new feature Unplanned and can set a feature's state; product-os-keeper's table follows.
++- /fix-play on /shape-plan (with PR #1047), /start-work, merge-work, /reshape-plan, /design-slice and /specify-capabilities, as the ICE impact says.
++- `direct-model-write.md` names how the state write of /start-work and merge-work is contained.
++- The clean-up of Garura's model: each of the 239 features gets a state; the features built before ADR 068 are marked Completed once, through product-os-keeper and link-model-part.
++- The glossary (Feature) and `CLAUDE.md` Work Tracking.
++- Promote the ontology to Phoenix memory after the change lands.
++
++## References
++
++- `.garura/project/issues/_adr/20261112T174237Z/brief.md` — the brief
++- `docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md` — Decision §2, line 97
++- `docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md` — Decision §4, §5 and ICE impact
++- `docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md` — §2
++- `core/components/memory/standards/schemas/product-os/ontology.md` — version 17, lines 23, 398, 417, 445, 464, 558 and 802
++- `core/components/memory/standards/schemas/product-os/spine.yaml` — line 110
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/adr-draft.md b/.garura/project/issues/_adr/20261112T174237Z/adr-draft.md
+new file mode 100644
+index 000000000..148f2e46a
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/adr-draft.md
+@@ -0,0 +1,157 @@
++# ADR 070 — Each Feature in the Product Model Records Its Own State, and Plays Read "Built" From the Model
++
++**Status:** Proposed
++**Date:** 2026-11-12
++**Level:** framework
++**Decided by:** · **Decided in:** #1056 (the feature's state in the model), from the /shape-plan and /design-eval rework session for #1025, and the accept checkpoint of the first draft
++**Amends:** ADR 069 — Decision §2, third bullet, the words "and no part of the model holds a work status": each feature now holds its own state, named `status`, one of five; no other part holds one, and the spine still has no `epics` list. The rest of §2 stands (the model names no plan, no epic, no tracker issue and no decision record, and the state names none of them). §5 stands (whether a slice is in progress is read from the plan files) · ADR 068 — Decision §5, "When a feature is built (its Feature issue is closed)": a feature is built when its state in the model is Completed. It becomes Completed when its Feature issue closes as completed, and once, through the clean-up the person confirms, for a feature built before ADR 068. "Closing a Feature issue is a person's call, made through /reshape-plan finish", "every slice and plan that holds it counts it as complete" and "no roll-up, ADR 064 stands" stand. Also its ICE impact for /design-slice C6 and C7, "it reads each feature's Feature issue state through the tracker tool": it reads the feature's state from the model. §4's rule, "A slice pulls in only features that are not yet built", stands, and a Dropped feature is left out too. §1 to §4 and §6 stand
++**Affects:** `core/components/memory/standards/schemas/product-os/ontology.md` (version 17), through /specify-ontology: line 23 (the whole-model rule, "no part of the model holds a work status"); the Feature kind, its Built property (line 445), which becomes the stored `status` with five values and who sets each, and its rule at line 464; Q50 (lines 178 to 180) and Q52 (lines 184 to 186); in wording only, the Capability's Done (lines 398 and 417), Q10 (line 58) and the ICE ready check (line 558): "every feature Completed or Dropped"; the Slice rule (line 509) and the Plan rule (line 671), which also leave out a Dropped feature; the Feature issue kind (lines 775, 802 and 809); the Log · `core/components/memory/standards/schemas/product-os/spine.yaml` (the old `status`, "proposed | active | deprecated", goes from the domain entry, line 45, the capability entry, line 74, and the feature entry, line 110; the feature entry's `status` takes the five values; the header comment, line 4) · `core/components/skills/link-model-part/` (`SKILL.md`, its description, "status proposed"; `scripts/link_part.py`, its docstring line 37 and line 331, which writes `status: proposed`: it stops writing the old status, gives a new feature `status: Unplanned`, and a request can set a feature's status; `scripts/test_link_part.py`, lines 25, 34 and 114) · `core/components/agents/product-os-keeper.md` (its table of who writes the spine) · `core/components/plays/design-slice/` (`scripts/persist_fills.py`, line 9 and line 368, which write `status: proposed` on a new entry; `reference/ice.md` C6 and C7 and `SKILL.md`: "built" and "dropped" are read from the model; a new feature gets Unplanned) · `core/components/plays/specify-capabilities/` (`scripts/persist_understand.py`, line 14, lines 160 and 175, which write `status: proposed`, and line 299, which adds features: the old status goes, and a new feature gets Unplanned; `reference/ice.md` and `SKILL.md`) · `core/components/plays/learn-outcomes/`, in the source and not installed (`scripts/persist_learn.py` line 16 and lines 117 to 118, which write a capability's or a feature's `status`; `scripts/validate_learn.py` line 40 and lines 110 to 116; `reference/ice.md` and `SKILL.md`) · `core/components/plays/shape-plan/` (`reference/ice.md` C3 and D1, `SKILL.md`, `scripts/gather_plan.py` and `scripts/find_work_items.py`: Completed and Dropped features are left out, read from the model with no tracker search; the plan sets Planned), on main and on the open PR #1047 for #1025 · `core/components/plays/start-work/` (`reference/ice.md`, `SKILL.md`, `scripts/resolve_args.py` and `scripts/validate_issue.py`: Planned to In progress on a start; on an Unplanned feature it says so, goes on only on the person's yes, and records that the work started with no plan) · `core/components/plays/merge-work/` (`reference/ice.md` lines 10 to 12 and 62 to 65, `SKILL.md`, `scripts/merge_pr.py`: a Feature issue closed as completed sets Completed) · `core/components/plays/reshape-plan/` (`reference/ice.md` C7, C8 and C11, `SKILL.md`, `scripts/closed_on_github.py`, `scripts/check_agreement.py` and `scripts/place_feature.py`: "finish" sets Completed, "drop" sets Dropped, a new "bring back" sets a Dropped feature Unplanned, a reopened Feature issue of a Completed feature sets In progress, a feature it takes into the plan gets Planned, and a Feature issue closed by hand is caught at the session's start) · `core/components/memory/standards/rules/direct-model-write.md` (/start-work and merge-work become model-writing plays for one field, on the work's branch) · `core/tools/plan/` (`plan.py` and `README.md`, read, if the plan tool reads a closed Feature issue for the state) · `.garura/product/product-os/_spine.yaml` (Garura's model: the old `status: proposed` comes off 280 entries, 1 domain, 40 capabilities and 239 features; each of the 239 features gets its new `status`; the clean-up marks Completed the old features the person confirms) · `core/grounding/glossary.md` (the Feature row, line 63) · `CLAUDE.md` (Work Tracking)
++**ICE impact:** /shape-plan, through /fix-play: C3 and D1 — it leaves out Completed and Dropped features, read from the model with no tracker search, and sets Planned on each feature the plan takes in. /start-work, through /fix-play: a new constraint, failure condition and scenario — a start of a Feature issue, a Story inside it, or a Bug or Spike under that Story moves the feature from Planned to In progress; a Chore under the plan's epic and a plan start change nothing; on an Unplanned feature it says so, goes on only on the person's yes, and records that the work started with no plan, and it never blocks. merge-work, through /fix-play: its Intent lines and a new failure condition — a Feature issue it closes as completed sets Completed. /reshape-plan, through /fix-play: C7, C8 and C11 — finish, drop, bring back, a reopened Feature issue, and Planned on a feature it adds. /design-slice, through /fix-play: C6 and C7 — Completed and Dropped features are read from the model and left out; a new feature gets Unplanned; it stops writing the old status. /specify-capabilities: a new feature gets Unplanned, and the old status goes. learn-outcomes (in the source, not installed), through /fix-play when it is next built: it no longer writes the old status. link-model-part and product-os-keeper follow. The ICE kind's ready check changes in wording only ("Completed or Dropped"), through /specify-ontology. No capability or feature ICE of the product changes
++**Business intent check:** none — the decision changes the Feature kind, the spine's `status` field and how plays read "built". The Business Intent kind does not change, and no person's business intent (title, outcome, why, asked by, proof, must not, rules or stage) is added, changed or dropped. No intent page is touched
++**Related:** ADR 061, ADR 062, ADR 064, ADR 065, ADR 068, ADR 069, #1056, #1025, PR #1047, #954
++
++## Context
++
++The product owner, on 2026-11-12: the product model is the state of the product that can be sent to someone. So it must know whether each feature is done. The issue tracker is only the agentic part.
++
++Today the model cannot say this. ADR 069 §2 says "no part of the model holds a work status". ADR 068 §5 says a feature is built when its Feature issue is closed, and the ontology (version 17, line 445) keeps "Built" as a value that is worked out each time, through the tracker tool, and never stored. A person who reads the model alone cannot tell what is built. The features built before ADR 068 have only old Stories and no Feature issue, so the plays cannot see them as built at all.
++
++The spine also has a field `status` (proposed, active or deprecated) on every domain, capability and feature entry. In Garura's model all 280 such entries read `proposed`.
++
++At the accept checkpoint of the first draft, the product owner said: "yes, and remove the old status field. I am okay with your recommendations for all questions from 1 to 6." Those seven answers are rules in the Decision below (§3 to §9).
++
++Notes from the ADR keeper:
++
++- The brief names ADR 069 only. The keeper also marks ADR 068 §5, and its ICE impact for /design-slice, as amended in part: ADR 068 defines "built" by the Feature issue and has /design-slice read it from the tracker.
++- Not amended: ADR 064 (it rules on an item's status in a plan file; Completed follows the Feature issue's own close, never its Stories); ADR 065 (the state is set through link-model-part, rule 1; it names no plan, rule 3; a play reads a Feature issue's close through the tracker tool, rule 4); ADR 062 (/reshape-plan sets the state inside its approved list); ADR 061 (a plan start is not work on a feature); ADR 063.
++- ADR 069's Consequences say "The model does not go out of date when a plan, an epic or an issue changes". That no longer holds in full; it is named under the risks below.
++- The writers of the old `status` today: link-model-part (`link_part.py` line 331), /design-slice (`persist_fills.py` line 368), /specify-capabilities (`persist_understand.py` lines 160 and 175), and learn-outcomes (`persist_learn.py` lines 117 to 118), which is in the source and not installed.
++- The plays on this branch are older than ADR 068 and ADR 069. Their rework is in flight (PR #1047 for #1025, and #954). The state work joins that rework.
++- Phoenix memory's copy of the ontology is version 15 (read through the memory tool on 2026-11-12); the source is version 17.
++
++## For the Person Who Accepts This
++
++The seven answers at the first accept checkpoint settle every point of the first draft. One point, found while checking the seventh answer, is open.
++
++### learn-outcomes writes the old `status` field, which the seventh answer removes
++
++- **What and where:** `core/components/plays/learn-outcomes/`, in the source and not installed: `scripts/persist_learn.py` line 16 ("capability/feature `status` (earned promotion)") and lines 117 to 118 (`node["status"] = c.get("to")`); `scripts/validate_learn.py` line 40 (`EARNED = {"active", "validated", "delivered"}`) and lines 110 to 116.
++- **What is wrong, or worth knowing:** The seventh answer says "Nothing reads it". No installed play does, but learn-outcomes moves a capability's or a feature's `status` to active, validated or delivered. With the old field gone, and a feature's `status` holding the five new values, it would write a value the new field does not allow, and on a capability a field that no longer exists.
++- **Why it matters:** When learn-outcomes is next built, it breaks the new rule unless its writes change. Nothing runs it today, so no model is harmed now.
++- **What this decision does:** It names learn-outcomes under Affects and in Work This Creates.
++- **What you decide:** What learn-outcomes does instead, when it is next built: write nothing on the state, or record what it learns in another place. Nothing is needed now.
++
++## Decision
++
++### 1. Each feature records its own state, named `status`
++
++Each feature in the product model records its own state, in the field `status`, one of five:
++
++- **Unplanned** — the feature is in the model, and no plan holds it yet.
++- **Planned** — a plan holds it, and no work on it has started.
++- **In progress** — some of its work is done, and some is open.
++- **Completed** — the feature is built.
++- **Dropped** — the feature will not be built.
++
++### 2. Only a feature has a state, and the old `status` field goes
++
++A domain, a capability and a business intent have no state of their own. Nothing rolls up from features: a capability is something the product has, not something we build.
++
++The old spine field `status` (proposed, active or deprecated) is removed from every domain, capability and feature entry and from the spine schema. link-model-part stops writing it, and so do the play scripts that write it. The name `status` then belongs to the feature's state only.
++
++### 3. A capability's "done" is a question asked when needed
++
++A capability is done when every one of its features is Completed or Dropped. This is worked out each time it is asked, and nothing is written on the capability. The ready check and "needs" use this test.
++
++### 4. Who sets each state
++
++- A play that adds a feature to the model sets Unplanned.
++- The play that takes a feature into a plan sets Planned: /shape-plan when it makes the plan, /reshape-plan when it adds a feature later.
++- Only /start-work sets In progress, when work on the feature first starts (§5). Designing, slicing, shaping or editing a plan is never work.
++- Completed is set when the feature's Feature issue closes as completed: by /reshape-plan "finish", by merge-work when it closes the Feature issue at a merge, and by /reshape-plan when it catches a Feature issue closed by hand.
++- Dropped is set when the person drops the feature, through /reshape-plan.
++
++### 5. What counts as starting work
++
++Starting a Feature issue, a Story inside it, or a Bug or Spike under that Story moves the feature from Planned to In progress. A Chore under the plan's epic, and starting a plan, change nothing. A Completed feature stays Completed.
++
++When the feature is Unplanned, /start-work says so and goes on only on the person's yes. It records that the work started with no plan. It never blocks.
++
++### 6. Dropped, and the way back
++
++A Dropped feature stays out of every new slice and plan until a person brings it back. A person brings it back in /reshape-plan, which sets it to Unplanned. When a Completed feature's Feature issue is opened again, /reshape-plan sets it back to In progress.
++
++### 7. The state is written on the work's branch
++
++The state is written on the branch of the work that sets it, like every model write. Main shows it when that work lands.
++
++### 8. The model records the state only
++
++The state names no plan, no tracker issue and no decision record, and the model still names none of them (ADR 069 §2). A feature is built when its state is Completed: plays read "built" from the model, not from the tracker. /shape-plan and /design-slice leave out Completed and Dropped features with no tracker search.
++
++### 9. The features built before ADR 068
++
++The features built before ADR 068, tracked by old Stories and with no Feature issue, are marked Completed once, by the model clean-up. The clean-up drafts the list from the old Stories: a Story closed as completed means its feature is Completed. The person confirms the whole list in one review before the clean-up writes anything.
++
++### What this changes in older ADRs
++
++- **ADR 069 §2, third bullet** — amended: the words "and no part of the model holds a work status" now read that each feature holds its own state, named `status`, and no other part holds one. The spine still has no `epics` list. The rest of §2, and §5, stand.
++- **ADR 068 §5** — amended: a feature is built when its state in the model is Completed. It becomes Completed when its Feature issue closes as completed, and once, by the clean-up the person confirms, for a feature built before ADR 068. A person still closes the Feature issue through /reshape-plan "finish", and there is still no roll-up. **Its ICE impact for /design-slice C6 and C7** — amended: /design-slice reads the feature's state from the model, not the Feature issue's state through the tracker tool. §4's rule stands, and a Dropped feature is also left out.
++
++### What this does not change
++
++- ADR 064: an item's status in a plan file still follows its own issue, with no roll-ups.
++- ADR 065 rules 1, 3 and 4.
++- ADR 069 §5: whether a slice is in progress is still read from the plan files.
++- ADR 061, ADR 062 and ADR 063.
++- No business intent, and not the Business Intent kind.
++
++## Consequences
++
++### Positive
++
++- The model alone says what is built, in work, planned or dropped. It can be sent to someone with no tracker.
++- The features built before ADR 068 become visible to the plays, and /shape-plan leaves them out with no tracker search.
++- Each state has a named play that sets it, so a person can tell where a wrong state came from.
++- `status` has one meaning in the spine. The old field, which held `proposed` on every entry, goes.
++- A dropped feature has a way back, and nothing blocks work on an Unplanned feature.
++
++### Negative / Risks
++
++- The model now holds a value that follows the work. When a Feature issue closes by hand, the state is out of date until /reshape-plan catches it. ADR 069's line "The model does not go out of date when a plan, an epic or an issue changes" no longer holds in full.
++- The state reaches main only when the work lands, so the model on main can show an older state. Two plans that hold one feature can write two states on two branches, and the later landing wins.
++- /start-work and merge-work become model writers. Each needs a write scope and a guard, and each must find a feature through the tracker tool (a Story's Feature issue and its `Represents:` line).
++- Removing the old `status` touches 280 entries in Garura's spine, three play scripts and one skill. learn-outcomes, not installed, still writes it (the open point above).
++- The clean-up's list rests on old Stories. A Story closed as completed may not mean its whole feature is built; the person's one review is the only check.
++- The ontology, the spine schema, link-model-part and six plays change before the next plan is made. Until the ontology is promoted, agents that read Phoenix memory (version 15) do not see the state.
++
++## Alternatives Considered
++
++- **Keep "built" only in the tracker (a Feature issue closed as completed)** — lost: the model cannot describe the product on its own, and old built work stays invisible to the plays.
++- **A state on capabilities and domains too** — lost: a capability is something the product has, not something we build.
++- **Set In progress when a plan is shaped** — lost: planning is not work.
++- **Give the state a new field name and keep the old `status`** — lost: the product owner removed the old field; nothing installed reads it, and one name for one meaning is clearer.
++- **Stop work on an Unplanned feature** — lost: the product owner chose a question and a record, never a block.
++
++## Work This Creates
++
++- After acceptance: the forward pointers on ADR 069 (§2) and ADR 068 (§5 and its /design-slice ICE impact); the ADR index rebuilt.
++- /specify-ontology: the Feature kind's `status`, its five values and who sets each; line 23; the Capability's Done, Q10 and the ready check in wording ("Completed or Dropped"); Q50 and Q52; the Slice and Plan rules on Dropped; the Feature issue kind.
++- `spine.yaml`: remove the old `status` from the domain, capability and feature entries; give the feature entry its new `status` with the five values.
++- link-model-part: stop writing the old `status`; give a new feature `status: Unplanned`; set a feature's status on request; update `test_link_part.py`. product-os-keeper's table follows.
++- /design-slice's `persist_fills.py` and /specify-capabilities' `persist_understand.py` stop writing the old `status`.
++- /fix-play on /shape-plan (with PR #1047), /start-work, merge-work, /reshape-plan (with "bring back"), /design-slice and /specify-capabilities, as the ICE impact says.
++- learn-outcomes, through /fix-play when it is next built: it stops writing the old `status`.
++- `direct-model-write.md` names /start-work and merge-work as writers of one field, on the work's branch.
++- The clean-up of Garura's model, through product-os-keeper and link-model-part: remove the old `status` from 280 entries; give each of the 239 features its `status`; draft the list of old features to mark Completed from the old Stories, and write it only after the person confirms the whole list in one review.
++- The glossary (Feature) and `CLAUDE.md` Work Tracking.
++- Promote the ontology to Phoenix memory after the change lands.
++
++## References
++
++- `.garura/project/issues/_adr/20261112T174237Z/brief.md` — the brief, with the change from the person at the accept checkpoint
++- `docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md` — Decision §2, line 97
++- `docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md` — Decision §4, §5 and ICE impact
++- `docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md` — §2
++- `core/components/memory/standards/schemas/product-os/ontology.md` — version 17, lines 23, 398, 417, 445, 464, 558 and 802
++- `core/components/memory/standards/schemas/product-os/spine.yaml` — lines 45, 74 and 110
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/adr-manifest.json b/.garura/project/issues/_adr/20261112T174237Z/adr-manifest.json
+new file mode 100644
+index 000000000..adc6c2cec
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/adr-manifest.json
+@@ -0,0 +1,35 @@
++{
++  "decided": true,
++  "lint_ok": true,
++  "linked": true,
++  "target": "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md",
++  "shape": "markdown",
++  "guard": {
++    "adr": ".garura/project/issues/_adr/20261112T174237Z/adr-draft.md",
++    "declared": "none",
++    "touches_an_intent": [],
++    "verdict": "no person's business intent changes"
++  },
++  "olders": [
++    {
++      "adr": "069",
++      "file": "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md",
++      "kind": "amended",
++      "part": "Decision \u00a72, third bullet, the words \"and no part of the model holds a work status\": each feature holds its own state, named `status`, one of five. No other part holds one, and the spine still has no `epics` list. The rest of \u00a72 stands (the model names no plan, epic, tracker issue or decision record, and the state names none). \u00a75 stands (whether a slice is in progress is read from the plan files)."
++    },
++    {
++      "adr": "068",
++      "file": "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
++      "kind": "amended",
++      "part": "Decision \u00a75, \"When a feature is built (its Feature issue is closed)\": a feature is built when its state in the model is Completed. It becomes Completed when its Feature issue closes as completed, and once, through the clean-up the person confirms, for a feature built before ADR 068. \"Closing a Feature issue is a person's call, made through /reshape-plan finish\", \"every slice and plan that holds it counts it as complete\" and \"no roll-up, ADR 064 stands\" stand. Also its ICE impact for /design-slice C6 and C7, \"it reads each feature's Feature issue state through the tracker tool\": it reads the feature's state from the model. \u00a74's rule stands, and a Dropped feature is also left out. \u00a71 to \u00a74 and \u00a76 stand."
++    }
++  ],
++  "status": "accepted",
++  "accepted_by": "Kapil Viren Ahuja",
++  "pointers_written": [
++    "069-the-plan-is-where-the-product-model-meets-the-work.md",
++    "068-each-product-feature-has-one-feature-issue-that-names-it.md"
++  ],
++  "pointers_missing": [],
++  "index_ok": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/brief.md b/.garura/project/issues/_adr/20261112T174237Z/brief.md
+new file mode 100644
+index 000000000..9fb445b86
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/brief.md
+@@ -0,0 +1,49 @@
++# Decision brief
++
++## Decision
++Each feature in the product model records its own state, one of five:
++- **Unplanned**: the feature is in the model and no plan holds it yet. No work starts on it.
++- **Planned**: a plan holds it, and no work on it has started.
++- **In progress**: some of its work is done, and some is open.
++- **Completed**: the feature is built.
++- **Dropped**: the feature will not be built.
++
++Only a feature has a state. A domain, a capability and a business intent have none of their own, and nothing rolls up from features: a capability is something the product has, not something we build.
++
++Who sets it:
++- a play that adds a feature sets Unplanned;
++- /shape-plan sets Planned when the plan takes the feature in;
++- only /start-work sets In progress, when work on the feature first starts. Designing, slicing, shaping or editing a plan is never work;
++- the plan sets Completed when the feature's Feature issue closes as completed, and Dropped when the person drops it.
++
++The model records the state only. It still names no plan, no tracker issue and no decision record. A feature is built when its state is Completed: plays read "built" from the model, not from the tracker.
++
++Amends ADR 069 on one point: its rule that no part of the model holds a work status.
++
++## Why now
++The product owner, 2026-11-12: the product model is the state of the product that can be sent to someone, so it must know whether each feature is done. The issue tracker is only the agentic part. It also makes the features built before ADR 068 (tracked by old Stories, with no Feature issue) visible: the model clean-up marks them Completed once, and /shape-plan leaves them out with no tracker search.
++
++## Options considered
++1. Keep "built" only in the tracker (a Feature issue closed as completed). Lost: the model cannot describe the product on its own, and old built work stays invisible to the plays.
++2. A state on capabilities and domains too. Lost: a capability is something the product has, not something we build.
++3. Set In progress when a plan is shaped. Lost: planning is not work.
++
++## Decided by
++The product owner.
++
++## Decided in
++The /shape-plan and /design-eval rework session for #1025, 2026-11-12. Tracked as #1056.
++
++## Shape
++markdown (Garura's own decision), docs/adr/.
++
++## Change from the person (2026-11-12, at the accept checkpoint)
++The person's words: "yes, and remove the old status field. I am okay with your recommendations for all questions from 1 to 6."
++
++1. A capability's "done" is a question asked when needed, never a stored state: a capability is done when every one of its features is Completed or Dropped. Nothing is written on the capability. The ready check and "needs" use this.
++2. A Dropped feature stays out of every new slice and plan until a person brings it back. Bringing it back is done in /reshape-plan, which sets it to Unplanned. When a Completed feature's Feature issue is opened again, /reshape-plan sets it back to In progress.
++3. The play that takes a feature into a plan sets Planned: /shape-plan when it makes the plan, /reshape-plan when it adds a feature later.
++4. Starting a Feature issue, a Story inside it, or a Bug or Spike under that Story moves the feature from Planned to In progress. A Chore under the plan's epic, and starting a plan, change nothing. A Completed feature stays Completed. When the feature is Unplanned, /start-work says so and goes on only on the person's yes, and records that the work started with no plan; it never blocks.
++5. The state is written on the work's branch, like every model write. Main shows it when the work lands.
++6. The clean-up drafts the list of old features to mark Completed from the old Stories (a Story closed as completed means its feature is Completed). The person confirms the whole list in one review before the clean-up writes anything.
++7. The old spine field `status` (proposed | active | deprecated) is removed from every domain, capability and feature entry and from the spine schema; link-model-part stops writing it. Nothing reads it. The feature's new state takes the name `status`, with the five values.
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/context/templates/manifest-record-decision.json b/.garura/project/issues/_adr/20261112T174237Z/context/templates/manifest-record-decision.json
+new file mode 100644
+index 000000000..de7c09505
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/context/templates/manifest-record-decision.json
+@@ -0,0 +1,15 @@
++{
++  "templates": [
++    {
++      "name": "standards/templates/adr.md",
++      "copy": ".garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/templates/adr.md",
++        "version": "e1cd70d61775",
++        "fingerprint": "sha256:5919faab67d4881561ab69dd6e3be7647b14e9cb99c48bde0656298acc04f321"
++      }
++    }
++  ],
++  "missing": []
++}
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md b/.garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md
+new file mode 100644
+index 000000000..edac4127b
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md
+@@ -0,0 +1,178 @@
++# ADR — Decision Record Template
++
++> The one template every decision record is written from (#632). A decision record IS an ADR,
++> at any level (`schemas/product-os/decision.yaml`). It has **two shapes over the same core
++> fields**:
++>
++> - **Markdown** — Garura's own ADRs, `docs/adr/NNN-<slug>.md`, read by people.
++> - **YAML** — product decisions, a `decision.yaml` record in the product model, written by the
++>   plays that make them. YAML records are machine data: a forward pointer or an acceptance
++>   rewrites the record, and comments in it are not kept.
++>
++> The `/design-adr` play and the `author-decision` skill write from this template; `adr.py lint` (in the `author-decision`
++> skill) checks a record against it. It checks the shape, never the merit — whether a decision is *right* is a
++> person's call (`knowledge/review/adrs.md`). Built from `decision.yaml`, that review playbook,
++> and the shape ADRs 029–031 share. ADRs written before it stay as they are until they are
++> reviewed (#632, A4).
++
++## Core fields — both shapes
++
++| Field | What it holds | Required |
++|-------|---------------|----------|
++| `id` | Markdown: the three-digit number (`031`). YAML: the record id | yes |
++| `title` | The decision in one line, as a statement — not a topic | yes |
++| `status` | `proposed`, `accepted`, `superseded` or `rejected`. Only a person moves it to `accepted` or `rejected` | yes |
++| `date` | When it was decided (accepted), or proposed | yes |
++| `level` | `framework`, `product`, `capability` or `feature` | yes |
++| `node_ref` | The part of the product it affects; empty for a framework ADR | product levels |
++| `accepted_by` | The PERSON who accepted it; empty while proposed. Markdown: the **Decided by:** line. YAML: `metadata.accepted_by` (YAML's `metadata.decided_by` keeps its original meaning: the play that recorded it) | once accepted |
++| `decided_in` | Where it was decided — the issue, the run, the review | yes |
++| `supersedes` | Older ADRs it replaces, in full or in part (each with what part) | when any |
++| `amends` | Older ADRs it changes in part, and what part | when any |
++| `superseded_by` / `amended_by` | The forward pointers — the ONLY fields ever written on an accepted ADR after it is accepted; a record is superseded in full only once | when any |
++| `affects` | The files, rules, schemas, plays and agents the decision changes | yes |
++| `ice_impact` | The agent intents (ICE) the decision changes, or `none` — and why | yes |
++| `business_intent_check` | `none` — no business intent changes; `kind` — it changes the Business Intent *kind* (framework doctrine), no person's intent; `instance` — it would change a person's business intent: the person is asked, it is never applied by the ADR | yes |
++| `related` | ADRs and issues to read with it | no |
++| `context` | Why a decision is needed now: the situation and the forces | yes |
++| `decision` | What is decided, in plain words, numbered when there are several parts | yes |
++| `consequences` | What gets better and what gets harder or riskier | yes |
++| `alternatives` | Each option not taken, and why not | yes |
++| `for_the_accepter` | What the person who accepts it must know before deciding: each point found on the way that the person did not ask about. Each point names what it is and where, the detail of what is wrong or worth knowing, why it matters and for whom, what this decision does about it, and what the person decides | when any |
++| `work_this_creates` | Follow-up work the decision opens | no |
++| `references` | Sources: decisions, issues, files | no |
++
++**Rules**
++
++- An accepted ADR is never edited. A new ADR supersedes or amends it, and the older one gains
++  only its forward pointer (`superseded_by` / `amended_by`) and, when superseded in full, the
++  status `superseded`.
++- Every ADR it supersedes or amends names it back through that pointer — both directions. In
++  the YAML shape `superseded_by` holds the one full supersede; an amendment or a supersede in
++  part points back through `amended_by`, which can hold many.
++- Every Markdown ADR is listed in `docs/adr/_index.md`; `/design-adr` rebuilds the index after each
++  acceptance (`adr.py index`).
++- An ADR never changes a person's business intent. `business_intent_check: instance` stops the
++  ADR from being applied and goes to the person (ADR 031: only a person confirms or drops a
++  business intent).
++- Inside a loop, an ADR is written as `proposed` and accepted at the loop's final review; run
++  by hand, the person accepts it before it is written as `accepted`.
++- A point for the person who accepts it is written for someone who was not in the work. It
++  names the thing by its plain name and its place, and gives the detail itself (the lines, the
++  names, the dates), not a summary. A point that only says "the page is out of date" or "the
++  agent broke a rule", without which page, out of date how, which agent or which rule, is not
++  finished.
++
++## Shape 1 — Markdown (Garura's ADRs)
++
++File: `docs/adr/NNN-<slug>.md`. Headings in this order; header lines are bold field lines.
++
++```markdown
++# ADR NNN — <Title as a statement>
++
++**Status:** Proposed | Accepted | Superseded by [ADR MMM](MMM-<slug>.md) | Rejected
++**Date:** YYYY-MM-DD
++**Level:** framework | product | capability | feature
++**Decided by:** <person> · **Decided in:** #<issue> (<what kind of work>)
++**Supersedes:** ADR MMM (<in full | in part — what part>) · …            (omit when none)
++**Amends:** ADR MMM — <what part> · …                                      (omit when none)
++**Affects:** <files, rules, schemas, plays, agents>
++**ICE impact:** <the agent intents it changes, or "none — <why>">
++**Business intent check:** none | kind — <which kind> | instance — <flagged to the person>
++**Related:** <ADRs and issues>                                              (optional)
++
++## Context
++
++<Why a decision is needed now.>
++
++## For the Person Who Accepts This                                         (when any)
++
++### <The point, as a plain statement>
++
++- **What and where:** <its plain name and its place: a file, a page, an agent, a tier>
++- **What is wrong, or worth knowing:** <the detail itself: the lines, the names, the dates>
++- **Why it matters:** <what goes wrong, and for whom>
++- **What this decision does:** <what changes, or "nothing — <why>">
++- **What you decide:** <the choice left to the person, or "nothing">
++
++## Decision
++
++<What is decided. Number the parts when there are several: "### 1. …">
++
++## Consequences
++
++### Positive
++
++- <…>
++
++### Negative / Risks
++
++- <…>
++
++## Alternatives Considered
++
++- **<Option>** — <why not>.
++
++## Work This Creates                                                         (optional)
++
++- <…>
++
++## References                                                                (optional)
++
++- <…>
++```
++
++A forward pointer on an older Markdown ADR is written into its `**Status:**` line only:
++`Accepted — amended in part by [ADR MMM](MMM-<slug>.md): <what changed>` or
++`Superseded by [ADR MMM](MMM-<slug>.md)`.
++
++## Shape 2 — YAML (product decisions)
++
++A `decision.yaml` record (the core fields above, added in #632 without changing the original ones):
++
++```yaml
++decision:
++  id: <id>
++  title: <the decision as a statement>
++  status: proposed | accepted | superseded | rejected
++  level: framework | product | capability | feature
++  node_ref: <the node it affects — empty for framework or product level>
++  reason: <context and decision, in plain words>          # v1 field: context + decision
++  alternatives:
++    - { name: <option>, why_not: <why> }
++  supersedes: [ { id: <older id>, part: full | <what part> } ]
++  amends: [ { id: <older id>, part: <what part> } ]
++  superseded_by: <id or null>
++  amended_by: [<ids>]
++  affects: [<files, rules, schemas, nodes>]
++  ice_impact: <the ICE it changes, or "none — why">
++  business_intent_check: none | kind | instance
++  consequences: { positive: [<…>], negative: [<…>] }
++  for_the_accepter:                                        # when any
++    - { point: <plain statement>, what_and_where: <name and place>, detail: <what is wrong>,
++        why_it_matters: <what goes wrong>, this_decision_does: <what changes>, you_decide: <choice or "nothing"> }
++  metadata:
++    decided_by: <play that recorded it>                    # v1 meaning kept
++    accepted_by: <person, once accepted>
++    decided_in: <issue or run>
++    date: <date>
++    version: <n>
++```
++
++## Gold example — Markdown
++
++ADR 031 (`docs/adr/031-business-intent-and-ice.md`) is the nearest written example; written
++from this template its header would read:
++
++```markdown
++# ADR 031 — Business Intent and ICE: Two Levels, Written Freely, Worked Only When Confirmed
++
++**Status:** Accepted
++**Date:** 2026-10-09
++**Level:** framework
++**Decided by:** Alex Example · **Decided in:** #612 (the /specify-intent play) and the review of PR #631
++**Amends:** ADR 029 — §6, what /specify-intent and /specify-domains do in Discovery · ADR 027 — the IDSD row · ADR 026 — /specify-intent by hand confirms before it writes
++**Affects:** ontology.md (v3), spine.yaml, every lint_grounding.py copy, build-play, gate-config.md, direct-model-write.md
++**ICE impact:** ICE may be written before its capability has a domain; an ICE is workable only when built from a confirmed business intent
++**Business intent check:** kind — the Business Intent and ICE kinds change; no person's business intent changes
++```
+\ No newline at end of file
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/decision.yaml b/.garura/project/issues/_adr/20261112T174237Z/decision.yaml
+new file mode 100644
+index 000000000..9b982dcf0
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/decision.yaml
+@@ -0,0 +1,5 @@
++decision:
++  verdict: accept
++  by: person
++  accepted_by: "Kapil Viren Ahuja"
++  reply: "accept"
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/guard-report.json b/.garura/project/issues/_adr/20261112T174237Z/guard-report.json
+new file mode 100644
+index 000000000..253e67d69
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/guard-report.json
+@@ -0,0 +1,26 @@
++{
++  "ok": true,
++  "changed": [
++    ".garura/project/issues/_adr/20261112T174237Z/adr-check.json",
++    ".garura/project/issues/_adr/20261112T174237Z/adr-context.yaml",
++    ".garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md",
++    ".garura/project/issues/_adr/20261112T174237Z/adr-draft.md",
++    ".garura/project/issues/_adr/20261112T174237Z/adr-manifest.json",
++    ".garura/project/issues/_adr/20261112T174237Z/brief.md",
++    ".garura/project/issues/_adr/20261112T174237Z/decision.yaml",
++    ".garura/project/issues/_adr/20261112T174237Z/hashes-before.json",
++    ".garura/project/issues/_adr/20261112T174237Z/porcelain-after.txt",
++    "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
++    "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md",
++    "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md",
++    "docs/adr/_index.md"
++  ],
++  "violations": [],
++  "allowed": [
++    "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md",
++    "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md",
++    "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
++    "docs/adr/_index.md",
++    ".garura/project/issues/*"
++  ]
++}
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/hashes-before.json b/.garura/project/issues/_adr/20261112T174237Z/hashes-before.json
+new file mode 100644
+index 000000000..5d7c119a6
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/hashes-before.json
+@@ -0,0 +1,7 @@
++{
++  ".garura/project/issues/_adr/20261112T174237Z/context/templates/manifest-record-decision.json": "f776bd15c025e42a4bfdf3b2f87ff9361ba092c95ff2db60aa5ffeea36d20271",
++  ".garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md": "5919faab67d4881561ab69dd6e3be7647b14e9cb99c48bde0656298acc04f321",
++  ".garura/project/issues/_adr/20261112T174237Z/hashes-before.json": "a469ea86690674dec80c366e268d5607f82da34331163b64256039bc4c502449",
++  ".garura/project/issues/_adr/20261112T174237Z/porcelain-before.txt": "e80852aeabee4241253515d0a9a9aa025492b95e2275b0d8340ddd21840f4a27",
++  ".garura/project/issues/_adr/20261112T174237Z/run.json": "260f53403586ea0256f45b89e3a98cedb619c036f71410ba0e762928e7e70085"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/porcelain-after.txt b/.garura/project/issues/_adr/20261112T174237Z/porcelain-after.txt
+new file mode 100644
+index 000000000..29b986ead
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/porcelain-after.txt
+@@ -0,0 +1,17 @@
++ M docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md
++ M docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md
++ M docs/adr/_index.md
++?? .garura/project/issues/_adr/20261112T174237Z/adr-check.json
++?? .garura/project/issues/_adr/20261112T174237Z/adr-context.yaml
++?? .garura/project/issues/_adr/20261112T174237Z/adr-draft-v1.md
++?? .garura/project/issues/_adr/20261112T174237Z/adr-draft.md
++?? .garura/project/issues/_adr/20261112T174237Z/adr-manifest.json
++?? .garura/project/issues/_adr/20261112T174237Z/brief.md
++?? .garura/project/issues/_adr/20261112T174237Z/context/templates/manifest-record-decision.json
++?? .garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md
++?? .garura/project/issues/_adr/20261112T174237Z/decision.yaml
++?? .garura/project/issues/_adr/20261112T174237Z/hashes-before.json
++?? .garura/project/issues/_adr/20261112T174237Z/porcelain-after.txt
++?? .garura/project/issues/_adr/20261112T174237Z/porcelain-before.txt
++?? .garura/project/issues/_adr/20261112T174237Z/run.json
++?? docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/porcelain-before.txt b/.garura/project/issues/_adr/20261112T174237Z/porcelain-before.txt
+new file mode 100644
+index 000000000..c795e9823
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/porcelain-before.txt
+@@ -0,0 +1,5 @@
++?? .garura/project/issues/_adr/20261112T174237Z/context/templates/manifest-record-decision.json
++?? .garura/project/issues/_adr/20261112T174237Z/context/templates/standards/templates/adr.md
++?? .garura/project/issues/_adr/20261112T174237Z/hashes-before.json
++?? .garura/project/issues/_adr/20261112T174237Z/porcelain-before.txt
++?? .garura/project/issues/_adr/20261112T174237Z/run.json
+diff --git a/.garura/project/issues/_adr/20261112T174237Z/run.json b/.garura/project/issues/_adr/20261112T174237Z/run.json
+new file mode 100644
+index 000000000..822387fa4
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261112T174237Z/run.json
+@@ -0,0 +1 @@
++{"in_loop": false}
+diff --git a/docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md b/docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md
+index 681bef520..2facd6878 100644
+--- a/docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md
++++ b/docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md
+@@ -1,6 +1,6 @@
+ # ADR 068 — Each Product Feature Has One Feature Issue That Names It and Holds Its Scope of Work, and No Feature in the Model Carries an Issue Number
+ 
+-**Status:** Accepted — amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Decision §1, last sentence, 'The business intent pages keep their Tracker line': the Business Intent kind loses the Tracker line, through /specify-ontology. 'every id stays as it is (for example bi-1 and fn-724)' stands: the ids stay as names (settled at acceptance). §2 to §6 stand; 'a second epic' in §4 now means another plan's epic.
++**Status:** Accepted — amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Decision §1, last sentence, 'The business intent pages keep their Tracker line': the Business Intent kind loses the Tracker line, through /specify-ontology. 'every id stays as it is (for example bi-1 and fn-724)' stands: the ids stay as names (settled at acceptance). §2 to §6 stand; 'a second epic' in §4 now means another plan's epic; and amended in part by [ADR 070](070-each-feature-in-the-product-model-records-its-own-state.md): Decision §5, "When a feature is built (its Feature issue is closed)": a feature is built when its state in the model is Completed. It becomes Completed when its Feature issue closes as completed, and once, through the clean-up the person confirms, for a feature built before ADR 068. "Closing a Feature issue is a person's call, made through /reshape-plan finish", "every slice and plan that holds it counts it as complete" and "no roll-up, ADR 064 stands" stand. Also its ICE impact for /design-slice C6 and C7, "it reads each feature's Feature issue state through the tracker tool": it reads the feature's state from the model. §4's rule stands, and a Dropped feature is also left out. §1 to §4 and §6 stand.
+ **Date:** 2026-11-12
+ **Level:** framework
+ **Decided by:** Kapil Viren Ahuja · **Decided in:** #1051 (a Chore under #1025, "/shape-plan reuses an open story for a feature instead of filing a second one"), from checkpoint 1 of the ontology change for #1050
+diff --git a/docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md b/docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md
+index e7b89f7fb..e688702a3 100644
+--- a/docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md
++++ b/docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md
+@@ -1,6 +1,6 @@
+ # ADR 069 — The Plan Is Where the Product Model Meets the Work: the Model Knows No Plan, No Tracker and No Decision Record, One Epic and One Eval for Each Plan, and a Done Plan Lands on Main Only When Its Eval Passes
+ 
+-**Status:** Accepted
++**Status:** Accepted — amended in part by [ADR 070](070-each-feature-in-the-product-model-records-its-own-state.md): Decision §2, third bullet, the words "and no part of the model holds a work status": each feature holds its own state, named `status`, one of five. No other part holds one, and the spine still has no `epics` list. The rest of §2 stands (the model names no plan, epic, tracker issue or decision record, and the state names none). §5 stands (whether a slice is in progress is read from the plan files).
+ **Date:** 2026-11-12
+ **Level:** framework
+ **Decided by:** Kapil Viren Ahuja · **Decided in:** #954 (/shape-plan makes an Epic for each slice; a plan should have one Epic that holds all its slices)
+diff --git a/docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md b/docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md
+new file mode 100644
+index 000000000..c3c372865
+--- /dev/null
++++ b/docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md
+@@ -0,0 +1,157 @@
++# ADR 070 — Each Feature in the Product Model Records Its Own State, and Plays Read "Built" From the Model
++
++**Status:** Accepted
++**Date:** 2026-11-12
++**Level:** framework
++**Decided by:** Kapil Viren Ahuja · **Decided in:** #1056 (the feature's state in the model), from the /shape-plan and /design-eval rework session for #1025, and the accept checkpoint of the first draft
++**Amends:** ADR 069 — Decision §2, third bullet, the words "and no part of the model holds a work status": each feature now holds its own state, named `status`, one of five; no other part holds one, and the spine still has no `epics` list. The rest of §2 stands (the model names no plan, no epic, no tracker issue and no decision record, and the state names none of them). §5 stands (whether a slice is in progress is read from the plan files) · ADR 068 — Decision §5, "When a feature is built (its Feature issue is closed)": a feature is built when its state in the model is Completed. It becomes Completed when its Feature issue closes as completed, and once, through the clean-up the person confirms, for a feature built before ADR 068. "Closing a Feature issue is a person's call, made through /reshape-plan finish", "every slice and plan that holds it counts it as complete" and "no roll-up, ADR 064 stands" stand. Also its ICE impact for /design-slice C6 and C7, "it reads each feature's Feature issue state through the tracker tool": it reads the feature's state from the model. §4's rule, "A slice pulls in only features that are not yet built", stands, and a Dropped feature is left out too. §1 to §4 and §6 stand
++**Affects:** `core/components/memory/standards/schemas/product-os/ontology.md` (version 17), through /specify-ontology: line 23 (the whole-model rule, "no part of the model holds a work status"); the Feature kind, its Built property (line 445), which becomes the stored `status` with five values and who sets each, and its rule at line 464; Q50 (lines 178 to 180) and Q52 (lines 184 to 186); in wording only, the Capability's Done (lines 398 and 417), Q10 (line 58) and the ICE ready check (line 558): "every feature Completed or Dropped"; the Slice rule (line 509) and the Plan rule (line 671), which also leave out a Dropped feature; the Feature issue kind (lines 775, 802 and 809); the Log · `core/components/memory/standards/schemas/product-os/spine.yaml` (the old `status`, "proposed | active | deprecated", goes from the domain entry, line 45, the capability entry, line 74, and the feature entry, line 110; the feature entry's `status` takes the five values; the header comment, line 4) · `core/components/skills/link-model-part/` (`SKILL.md`, its description, "status proposed"; `scripts/link_part.py`, its docstring line 37 and line 331, which writes `status: proposed`: it stops writing the old status, gives a new feature `status: Unplanned`, and a request can set a feature's status; `scripts/test_link_part.py`, lines 25, 34 and 114) · `core/components/agents/product-os-keeper.md` (its table of who writes the spine) · `core/components/plays/design-slice/` (`scripts/persist_fills.py`, line 9 and line 368, which write `status: proposed` on a new entry; `reference/ice.md` C6 and C7 and `SKILL.md`: "built" and "dropped" are read from the model; a new feature gets Unplanned) · `core/components/plays/specify-capabilities/` (`scripts/persist_understand.py`, line 14, lines 160 and 175, which write `status: proposed`, and line 299, which adds features: the old status goes, and a new feature gets Unplanned; `reference/ice.md` and `SKILL.md`) · `core/components/plays/learn-outcomes/`, in the source and not installed (`scripts/persist_learn.py` line 16 and lines 117 to 118, which write a capability's or a feature's `status`; `scripts/validate_learn.py` line 40 and lines 110 to 116; `reference/ice.md` and `SKILL.md`) · `core/components/plays/shape-plan/` (`reference/ice.md` C3 and D1, `SKILL.md`, `scripts/gather_plan.py` and `scripts/find_work_items.py`: Completed and Dropped features are left out, read from the model with no tracker search; the plan sets Planned), on main and on the open PR #1047 for #1025 · `core/components/plays/start-work/` (`reference/ice.md`, `SKILL.md`, `scripts/resolve_args.py` and `scripts/validate_issue.py`: Planned to In progress on a start; on an Unplanned feature it says so, goes on only on the person's yes, and records that the work started with no plan) · `core/components/plays/merge-work/` (`reference/ice.md` lines 10 to 12 and 62 to 65, `SKILL.md`, `scripts/merge_pr.py`: a Feature issue closed as completed sets Completed) · `core/components/plays/reshape-plan/` (`reference/ice.md` C7, C8 and C11, `SKILL.md`, `scripts/closed_on_github.py`, `scripts/check_agreement.py` and `scripts/place_feature.py`: "finish" sets Completed, "drop" sets Dropped, a new "bring back" sets a Dropped feature Unplanned, a reopened Feature issue of a Completed feature sets In progress, a feature it takes into the plan gets Planned, and a Feature issue closed by hand is caught at the session's start) · `core/components/memory/standards/rules/direct-model-write.md` (/start-work and merge-work become model-writing plays for one field, on the work's branch) · `core/tools/plan/` (`plan.py` and `README.md`, read, if the plan tool reads a closed Feature issue for the state) · `.garura/product/product-os/_spine.yaml` (Garura's model: the old `status: proposed` comes off 280 entries, 1 domain, 40 capabilities and 239 features; each of the 239 features gets its new `status`; the clean-up marks Completed the old features the person confirms) · `core/grounding/glossary.md` (the Feature row, line 63) · `CLAUDE.md` (Work Tracking)
++**ICE impact:** /shape-plan, through /fix-play: C3 and D1 — it leaves out Completed and Dropped features, read from the model with no tracker search, and sets Planned on each feature the plan takes in. /start-work, through /fix-play: a new constraint, failure condition and scenario — a start of a Feature issue, a Story inside it, or a Bug or Spike under that Story moves the feature from Planned to In progress; a Chore under the plan's epic and a plan start change nothing; on an Unplanned feature it says so, goes on only on the person's yes, and records that the work started with no plan, and it never blocks. merge-work, through /fix-play: its Intent lines and a new failure condition — a Feature issue it closes as completed sets Completed. /reshape-plan, through /fix-play: C7, C8 and C11 — finish, drop, bring back, a reopened Feature issue, and Planned on a feature it adds. /design-slice, through /fix-play: C6 and C7 — Completed and Dropped features are read from the model and left out; a new feature gets Unplanned; it stops writing the old status. /specify-capabilities: a new feature gets Unplanned, and the old status goes. learn-outcomes (in the source, not installed), through /fix-play when it is next built: it no longer writes the old status. link-model-part and product-os-keeper follow. The ICE kind's ready check changes in wording only ("Completed or Dropped"), through /specify-ontology. No capability or feature ICE of the product changes
++**Business intent check:** none — the decision changes the Feature kind, the spine's `status` field and how plays read "built". The Business Intent kind does not change, and no person's business intent (title, outcome, why, asked by, proof, must not, rules or stage) is added, changed or dropped. No intent page is touched
++**Related:** ADR 061, ADR 062, ADR 064, ADR 065, ADR 068, ADR 069, #1056, #1025, PR #1047, #954
++
++## Context
++
++The product owner, on 2026-11-12: the product model is the state of the product that can be sent to someone. So it must know whether each feature is done. The issue tracker is only the agentic part.
++
++Today the model cannot say this. ADR 069 §2 says "no part of the model holds a work status". ADR 068 §5 says a feature is built when its Feature issue is closed, and the ontology (version 17, line 445) keeps "Built" as a value that is worked out each time, through the tracker tool, and never stored. A person who reads the model alone cannot tell what is built. The features built before ADR 068 have only old Stories and no Feature issue, so the plays cannot see them as built at all.
++
++The spine also has a field `status` (proposed, active or deprecated) on every domain, capability and feature entry. In Garura's model all 280 such entries read `proposed`.
++
++At the accept checkpoint of the first draft, the product owner said: "yes, and remove the old status field. I am okay with your recommendations for all questions from 1 to 6." Those seven answers are rules in the Decision below (§3 to §9).
++
++Notes from the ADR keeper:
++
++- The brief names ADR 069 only. The keeper also marks ADR 068 §5, and its ICE impact for /design-slice, as amended in part: ADR 068 defines "built" by the Feature issue and has /design-slice read it from the tracker.
++- Not amended: ADR 064 (it rules on an item's status in a plan file; Completed follows the Feature issue's own close, never its Stories); ADR 065 (the state is set through link-model-part, rule 1; it names no plan, rule 3; a play reads a Feature issue's close through the tracker tool, rule 4); ADR 062 (/reshape-plan sets the state inside its approved list); ADR 061 (a plan start is not work on a feature); ADR 063.
++- ADR 069's Consequences say "The model does not go out of date when a plan, an epic or an issue changes". That no longer holds in full; it is named under the risks below.
++- The writers of the old `status` today: link-model-part (`link_part.py` line 331), /design-slice (`persist_fills.py` line 368), /specify-capabilities (`persist_understand.py` lines 160 and 175), and learn-outcomes (`persist_learn.py` lines 117 to 118), which is in the source and not installed.
++- The plays on this branch are older than ADR 068 and ADR 069. Their rework is in flight (PR #1047 for #1025, and #954). The state work joins that rework.
++- Phoenix memory's copy of the ontology is version 15 (read through the memory tool on 2026-11-12); the source is version 17.
++
++## For the Person Who Accepts This
++
++The seven answers at the first accept checkpoint settle every point of the first draft. One point, found while checking the seventh answer, is open.
++
++### learn-outcomes writes the old `status` field, which the seventh answer removes
++
++- **What and where:** `core/components/plays/learn-outcomes/`, in the source and not installed: `scripts/persist_learn.py` line 16 ("capability/feature `status` (earned promotion)") and lines 117 to 118 (`node["status"] = c.get("to")`); `scripts/validate_learn.py` line 40 (`EARNED = {"active", "validated", "delivered"}`) and lines 110 to 116.
++- **What is wrong, or worth knowing:** The seventh answer says "Nothing reads it". No installed play does, but learn-outcomes moves a capability's or a feature's `status` to active, validated or delivered. With the old field gone, and a feature's `status` holding the five new values, it would write a value the new field does not allow, and on a capability a field that no longer exists.
++- **Why it matters:** When learn-outcomes is next built, it breaks the new rule unless its writes change. Nothing runs it today, so no model is harmed now.
++- **What this decision does:** It names learn-outcomes under Affects and in Work This Creates.
++- **What you decide:** What learn-outcomes does instead, when it is next built: write nothing on the state, or record what it learns in another place. Nothing is needed now.
++
++## Decision
++
++### 1. Each feature records its own state, named `status`
++
++Each feature in the product model records its own state, in the field `status`, one of five:
++
++- **Unplanned** — the feature is in the model, and no plan holds it yet.
++- **Planned** — a plan holds it, and no work on it has started.
++- **In progress** — some of its work is done, and some is open.
++- **Completed** — the feature is built.
++- **Dropped** — the feature will not be built.
++
++### 2. Only a feature has a state, and the old `status` field goes
++
++A domain, a capability and a business intent have no state of their own. Nothing rolls up from features: a capability is something the product has, not something we build.
++
++The old spine field `status` (proposed, active or deprecated) is removed from every domain, capability and feature entry and from the spine schema. link-model-part stops writing it, and so do the play scripts that write it. The name `status` then belongs to the feature's state only.
++
++### 3. A capability's "done" is a question asked when needed
++
++A capability is done when every one of its features is Completed or Dropped. This is worked out each time it is asked, and nothing is written on the capability. The ready check and "needs" use this test.
++
++### 4. Who sets each state
++
++- A play that adds a feature to the model sets Unplanned.
++- The play that takes a feature into a plan sets Planned: /shape-plan when it makes the plan, /reshape-plan when it adds a feature later.
++- Only /start-work sets In progress, when work on the feature first starts (§5). Designing, slicing, shaping or editing a plan is never work.
++- Completed is set when the feature's Feature issue closes as completed: by /reshape-plan "finish", by merge-work when it closes the Feature issue at a merge, and by /reshape-plan when it catches a Feature issue closed by hand.
++- Dropped is set when the person drops the feature, through /reshape-plan.
++
++### 5. What counts as starting work
++
++Starting a Feature issue, a Story inside it, or a Bug or Spike under that Story moves the feature from Planned to In progress. A Chore under the plan's epic, and starting a plan, change nothing. A Completed feature stays Completed.
++
++When the feature is Unplanned, /start-work says so and goes on only on the person's yes. It records that the work started with no plan. It never blocks.
++
++### 6. Dropped, and the way back
++
++A Dropped feature stays out of every new slice and plan until a person brings it back. A person brings it back in /reshape-plan, which sets it to Unplanned. When a Completed feature's Feature issue is opened again, /reshape-plan sets it back to In progress.
++
++### 7. The state is written on the work's branch
++
++The state is written on the branch of the work that sets it, like every model write. Main shows it when that work lands.
++
++### 8. The model records the state only
++
++The state names no plan, no tracker issue and no decision record, and the model still names none of them (ADR 069 §2). A feature is built when its state is Completed: plays read "built" from the model, not from the tracker. /shape-plan and /design-slice leave out Completed and Dropped features with no tracker search.
++
++### 9. The features built before ADR 068
++
++The features built before ADR 068, tracked by old Stories and with no Feature issue, are marked Completed once, by the model clean-up. The clean-up drafts the list from the old Stories: a Story closed as completed means its feature is Completed. The person confirms the whole list in one review before the clean-up writes anything.
++
++### What this changes in older ADRs
++
++- **ADR 069 §2, third bullet** — amended: the words "and no part of the model holds a work status" now read that each feature holds its own state, named `status`, and no other part holds one. The spine still has no `epics` list. The rest of §2, and §5, stand.
++- **ADR 068 §5** — amended: a feature is built when its state in the model is Completed. It becomes Completed when its Feature issue closes as completed, and once, by the clean-up the person confirms, for a feature built before ADR 068. A person still closes the Feature issue through /reshape-plan "finish", and there is still no roll-up. **Its ICE impact for /design-slice C6 and C7** — amended: /design-slice reads the feature's state from the model, not the Feature issue's state through the tracker tool. §4's rule stands, and a Dropped feature is also left out.
++
++### What this does not change
++
++- ADR 064: an item's status in a plan file still follows its own issue, with no roll-ups.
++- ADR 065 rules 1, 3 and 4.
++- ADR 069 §5: whether a slice is in progress is still read from the plan files.
++- ADR 061, ADR 062 and ADR 063.
++- No business intent, and not the Business Intent kind.
++
++## Consequences
++
++### Positive
++
++- The model alone says what is built, in work, planned or dropped. It can be sent to someone with no tracker.
++- The features built before ADR 068 become visible to the plays, and /shape-plan leaves them out with no tracker search.
++- Each state has a named play that sets it, so a person can tell where a wrong state came from.
++- `status` has one meaning in the spine. The old field, which held `proposed` on every entry, goes.
++- A dropped feature has a way back, and nothing blocks work on an Unplanned feature.
++
++### Negative / Risks
++
++- The model now holds a value that follows the work. When a Feature issue closes by hand, the state is out of date until /reshape-plan catches it. ADR 069's line "The model does not go out of date when a plan, an epic or an issue changes" no longer holds in full.
++- The state reaches main only when the work lands, so the model on main can show an older state. Two plans that hold one feature can write two states on two branches, and the later landing wins.
++- /start-work and merge-work become model writers. Each needs a write scope and a guard, and each must find a feature through the tracker tool (a Story's Feature issue and its `Represents:` line).
++- Removing the old `status` touches 280 entries in Garura's spine, three play scripts and one skill. learn-outcomes, not installed, still writes it (the open point above).
++- The clean-up's list rests on old Stories. A Story closed as completed may not mean its whole feature is built; the person's one review is the only check.
++- The ontology, the spine schema, link-model-part and six plays change before the next plan is made. Until the ontology is promoted, agents that read Phoenix memory (version 15) do not see the state.
++
++## Alternatives Considered
++
++- **Keep "built" only in the tracker (a Feature issue closed as completed)** — lost: the model cannot describe the product on its own, and old built work stays invisible to the plays.
++- **A state on capabilities and domains too** — lost: a capability is something the product has, not something we build.
++- **Set In progress when a plan is shaped** — lost: planning is not work.
++- **Give the state a new field name and keep the old `status`** — lost: the product owner removed the old field; nothing installed reads it, and one name for one meaning is clearer.
++- **Stop work on an Unplanned feature** — lost: the product owner chose a question and a record, never a block.
++
++## Work This Creates
++
++- After acceptance: the forward pointers on ADR 069 (§2) and ADR 068 (§5 and its /design-slice ICE impact); the ADR index rebuilt.
++- /specify-ontology: the Feature kind's `status`, its five values and who sets each; line 23; the Capability's Done, Q10 and the ready check in wording ("Completed or Dropped"); Q50 and Q52; the Slice and Plan rules on Dropped; the Feature issue kind.
++- `spine.yaml`: remove the old `status` from the domain, capability and feature entries; give the feature entry its new `status` with the five values.
++- link-model-part: stop writing the old `status`; give a new feature `status: Unplanned`; set a feature's status on request; update `test_link_part.py`. product-os-keeper's table follows.
++- /design-slice's `persist_fills.py` and /specify-capabilities' `persist_understand.py` stop writing the old `status`.
++- /fix-play on /shape-plan (with PR #1047), /start-work, merge-work, /reshape-plan (with "bring back"), /design-slice and /specify-capabilities, as the ICE impact says.
++- learn-outcomes, through /fix-play when it is next built: it stops writing the old `status`.
++- `direct-model-write.md` names /start-work and merge-work as writers of one field, on the work's branch.
++- The clean-up of Garura's model, through product-os-keeper and link-model-part: remove the old `status` from 280 entries; give each of the 239 features its `status`; draft the list of old features to mark Completed from the old Stories, and write it only after the person confirms the whole list in one review.
++- The glossary (Feature) and `CLAUDE.md` Work Tracking.
++- Promote the ontology to Phoenix memory after the change lands.
++
++## References
++
++- `.garura/project/issues/_adr/20261112T174237Z/brief.md` — the brief, with the change from the person at the accept checkpoint
++- `docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md` — Decision §2, line 97
++- `docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md` — Decision §4, §5 and ICE impact
++- `docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md` — §2
++- `core/components/memory/standards/schemas/product-os/ontology.md` — version 17, lines 23, 398, 417, 445, 464, 558 and 802
++- `core/components/memory/standards/schemas/product-os/spine.yaml` — lines 45, 74 and 110
+diff --git a/docs/adr/_index.md b/docs/adr/_index.md
+index f01c20589..0af7f308e 100644
+--- a/docs/adr/_index.md
++++ b/docs/adr/_index.md
+@@ -73,5 +73,6 @@ may have no Status line.
+ | [065](065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md) | The Model's Index Is Changed Through Two Skills, a Person May Approve Deleting a Plan, the Model Never Names a Plan, and Only Tools Know the Tracker | Accepted; amended in part by 069 | 2026-11-02 |
+ | [066](066-names-say-who-does-the-work-five-roles-own-the-verbs.md) | Names Say Who Does the Work: Five Roles Own the Verbs, Loops Are Named loop-<from>-<to>, and a Name May Start With a Tool's Command | Accepted | 2026-11-03 |
+ | [067](067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md) | When No Plan File Marks a Feature's Story, a Play Finds It by the Issue the Product Model Names, and Never by Its Title | Superseded by 068 | 2026-11-12 |
+-| [068](068-each-product-feature-has-one-feature-issue-that-names-it.md) | Each Product Feature Has One Feature Issue That Names It and Holds Its Scope of Work, and No Feature in the Model Carries an Issue Number | Accepted; amended in part by 069 | 2026-11-12 |
+-| [069](069-the-plan-is-where-the-product-model-meets-the-work.md) | The Plan Is Where the Product Model Meets the Work: the Model Knows No Plan, No Tracker and No Decision Record, One Epic and One Eval for Each Plan, and a Done Plan Lands on Main Only When Its Eval Passes | Accepted | 2026-11-12 |
++| [068](068-each-product-feature-has-one-feature-issue-that-names-it.md) | Each Product Feature Has One Feature Issue That Names It and Holds Its Scope of Work, and No Feature in the Model Carries an Issue Number | Accepted; amended in part by 069, 070 | 2026-11-12 |
++| [069](069-the-plan-is-where-the-product-model-meets-the-work.md) | The Plan Is Where the Product Model Meets the Work: the Model Knows No Plan, No Tracker and No Decision Record, One Epic and One Eval for Each Plan, and a Done Plan Lands on Main Only When Its Eval Passes | Accepted; amended in part by 070 | 2026-11-12 |
++| [070](070-each-feature-in-the-product-model-records-its-own-state.md) | Each Feature in the Product Model Records Its Own State, and Plays Read "Built" From the Model | Accepted | 2026-11-12 |
