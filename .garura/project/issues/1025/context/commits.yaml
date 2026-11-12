@@ -1,6 +1,33 @@
 commits:
+  - sha: 23bf0446
+    message: "feat(plan-helpers): Report each issue's parent from the shared tracker helper (#1025)"
+    files:
+      - core/components/plays/build-play/references/plan_common.py
+      - core/components/plays/reshape-plan/scripts/plan_common.py
+      - core/components/plays/shape-plan/scripts/plan_common.py
+    branch: feature/1025-shape-plan-reuses-open-story
+  - sha: f9b7c27c
+    message: "fix(shape-plan): Treat a closed story as built and name the parent a reused story leaves (#1025)"
+    files:
+      - core/components/plays/shape-plan/SKILL.md
+      - core/components/plays/shape-plan/reference/ice.md
+      - core/components/plays/shape-plan/scripts/check_plan.py
+      - core/components/plays/shape-plan/scripts/find_work_items.py
+      - core/components/plays/shape-plan/scripts/render_brief.py
+      - core/components/plays/shape-plan/scripts/write_work_items.py
+      - core/components/plays/shape-plan/scripts/test_find_work_items.py
+      - core/components/plays/shape-plan/scripts/test_support.py
+    branch: feature/1025-shape-plan-reuses-open-story
+  - sha: 3c4717e9
+    message: "docs(platform-adapter): Document the replace_parent option of attach-sub-issue (#1025)"
+    files:
+      - core/components/skills/platform-adapter/SKILL.md
+      - core/components/skills/platform-adapter/reference/github/verbs.md
+      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+    branch: feature/1025-shape-plan-reuses-open-story
 excluded_files:
-  []
+  - path: ".garura/project/issues/1025/context/porcelain.txt"
+    reason: "run state of this play; committed by the executor's run-state finalization"
 leftover_count: 0
 tree_clean: true
 pushed: false

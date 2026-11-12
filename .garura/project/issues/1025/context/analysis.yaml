@@ -1,18 +1,55 @@
----
-# analyze_changeset.py output (C8 fast path)
-# issue: 1025
-needs_judgment: true
+# assess-changes output (judgment path), issue 1025
+needs_judgment: false
 
 change_groups:
-  []  # grouping left to the analyze agent (needs_judgment)
+  - id: plan-helpers-report-parent
+    issue: 1025
+    commit_type: feat
+    scope: plan-helpers
+    subject: "Report each issue's parent from the shared tracker helper"
+    files:
+      - core/components/plays/build-play/references/plan_common.py
+      - core/components/plays/reshape-plan/scripts/plan_common.py
+      - core/components/plays/shape-plan/scripts/plan_common.py
+
+  - id: shape-plan-closed-story-built
+    issue: 1025
+    commit_type: fix
+    scope: shape-plan
+    subject: "Treat a closed story as built and name the parent a reused story leaves"
+    files:
+      - core/components/plays/shape-plan/SKILL.md
+      - core/components/plays/shape-plan/reference/ice.md
+      - core/components/plays/shape-plan/scripts/check_plan.py
+      - core/components/plays/shape-plan/scripts/find_work_items.py
+      - core/components/plays/shape-plan/scripts/render_brief.py
+      - core/components/plays/shape-plan/scripts/write_work_items.py
+      - core/components/plays/shape-plan/scripts/test_find_work_items.py
+      - core/components/plays/shape-plan/scripts/test_support.py
+
+  - id: platform-adapter-replace-parent
+    issue: 1025
+    commit_type: docs
+    scope: platform-adapter
+    subject: "Document the replace_parent option of attach-sub-issue"
+    files:
+      - core/components/skills/platform-adapter/SKILL.md
+      - core/components/skills/platform-adapter/reference/github/verbs.md
+      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
 
 exclusions:
-  []
+  - path: ".garura/project/issues/1025/context/porcelain.txt"
+    reason: "run state of this play; committed by the executor's run-state finalization"
+    blocking: false
 
 risks:
   sensitive_files:
     []
 
 eval_gates:
-  SE-1: {status: DEFERRED, evidence: "grouping delegated to analyze agent"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+  SE-1: {status: PASS, evidence: "3 groups, one issue (1025); every changed file is in exactly one group or in exclusions; plan-helpers group ordered before shape-plan group because its tests depend on the parent field"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched in the changed files"}
+
+notes:
+  - "The three plan_common.py copies are byte-identical (same checksum)."
+  - "Group order matters: plan-helpers-report-parent first, then shape-plan-closed-story-built, then platform-adapter-replace-parent."
