@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_render_brief.py — the brief shows every tracker write, the clean-up, the features left out, the plan-file change and each skipped feature (C8, C9, C15, C16).
+"""test_render_brief.py — the brief shows every tracker write, the closed issues opened again, the features left out, the state changes, the plan-file change and each skipped feature (C8, C9, C16, C17, C18).
 
     python3 test_render_brief.py
 """
@@ -26,17 +26,16 @@ def brief(p):
 def main():
     print("render_brief.py")
     with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp), paths(tmp)
-        set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-pay", "ft-wait"])
+        root = make_model(tmp, states={"ft-remind": "Completed", "ft-cancel": "Dropped", "ft-pay": None})
+        p = paths(tmp)
+        set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-pay", "ft-cancel", "ft-wait"])
         gather(root, p)
-        empty_tracker(p, [
-            issue(5, "Old epic", "Epic", "", subs=[6]),
-            issue(6, "Pick a free slot", "Story", "Represents: ft-pick"),
-            issue(7, "Send a reminder", "Story", "", state="closed", reason="completed")])
+        empty_tracker(p, [issue(7, "Send a reminder", "Feature", full_body("ft-remind"))])
         code, text = brief(p)
         check("exit 0, and the brief has its sections", code == 0 and all(h in text for h in (
             "## What the run writes in the tracker", "### The plan's epic", "### The Feature issues",
-            "## Held by another plan's epic", "## Left out: built", "## Not planned, left out", "## The plan file",
+            "## Held by another plan's epic", "## Opened again", "## Built, left out", "## Dropped, left out",
+            "## Had no state", "## State changes in the product model", "## The plan file",
             "## Skipped features", "## Your answer")))
         check("one new epic is shown with its type and title, standing for the plan",
               "Make a new epic, type Epic, no label: \"A patient books a free slot online\"" in text
@@ -44,11 +43,18 @@ def main():
         check("a new Feature issue is shown with its type, its Represents line and its text",
               "File a new Feature issue for ft-pay, type Feature, no label, a sub-issue of the epic, with the "
               "line \"Represents: ft-pay\"" in text and "Never read: health records" in text)
-        check("an old open story moves inside the new Feature issue, with the parent it leaves (S13)",
-              "Story #6 \"Pick a free slot\": it leaves its parent #5 \"Old epic\"" in text)
-        check("finished old work gives a Feature issue filed closed, and the feature is left out (S14)",
-              "File a Feature issue for ft-remind" in text and "close it as completed" in text
-              and "ft-remind: a Feature issue is filed closed as completed" in text.split("## Left out: built")[1])
+        check("a Completed feature is named under Built, left out, with no tracker write (C16, S17)",
+              "ft-remind: it is Completed in the model" in text.split("## Built, left out")[1].split("##")[0]
+              and "#7" not in text)
+        check("a Dropped feature is named under Dropped, left out (C16, S17)",
+              "ft-cancel: it is Dropped in the model" in text.split("## Dropped, left out")[1].split("##")[0])
+        check("a feature with no status is named under Had no state (C16, S19)",
+              "ft-pay: its spine entry has no status. It is treated as Unplanned."
+              in text.split("## Had no state")[1].split("##")[0])
+        part = text.split("## State changes in the product model")[1].split("## The plan file")[0]
+        check("each state change is listed; a skipped feature changes nothing (C18, S18)",
+              "ft-pick: Unplanned → Planned." in part and "ft-pay: Unplanned → Planned (it had no state)." in part
+              and "ft-wait" not in part and "ft-remind" not in part)
         check("the plan file is shown as made, with the business intent, the epic mark and the slices",
               f"Make `{p['plan_file']}`" in text and "bi-340" in text and "epic: <the epic's issue>" in text
               and "Slices list, each at Not Started: sl-self-booking (Self-booking)" in text)
@@ -57,23 +63,27 @@ def main():
         check("no Story is filed", "Make a new story" not in text and "files no Stories" in text)
         check("the brief says yes, change or stop", "**yes**" in text and "**change: <what>**" in text and "**stop**" in text)
         check("the brief holds no failure words", "fails if" not in text.lower())
-
+        check("no clean-up of old work is shown", "Clean-up" not in text and "old work" not in text)
+    with tempfile.TemporaryDirectory() as tmp:
+        root = make_model(tmp, states={"ft-pay": "In progress"})
+        p = paths(tmp)
+        set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-pay", "ft-wait"])
+        gather(root, p)
         empty_tracker(p, [
             issue(40, "Another plan's epic", "Epic", "", subs=[41]),
             issue(41, "Pick a free slot", "Feature", full_body("ft-pick")),
-            issue(42, "Send a reminder", "Feature", full_body("ft-remind"), state="closed", reason="completed"),
-            issue(43, "Pay the fee", "Feature", "Represents: ft-pay\n", labels=["work-item"]),
-            issue(44, "Join the waiting list", "Feature", full_body("ft-wait"), state="closed",
-                  reason="not_planned")])
+            issue(42, "Send a reminder", "Feature", full_body("ft-remind"), state="closed", reason="not_planned"),
+            issue(43, "Pay the fee", "Feature", "Represents: ft-pay\n", labels=["work-item"])])
         code, text = brief(p)
         check("a held Feature issue is shown as held_by, never moved",
               "ft-pick: Feature issue #41" in text and "held_by: 40" in text.split("## Held by another plan's epic")[1])
-        check("a built feature is named as left out (C16)",
-              "ft-remind: built: its Feature issue #42 is closed as completed" in text)
-        part = text.split("## Not planned, left out")[1].split("## The plan file")[0]
-        check("a not-planned feature is named under its own heading, with its issue number, and stays as it is",
-              "ft-wait: its Feature issue #44" in part and "stays as it is" in part
-              and "ft-wait: its ICE is not ready" not in text)
+        part = text.split("## Opened again")[1].split("##")[0]
+        check("a closed Feature issue is shown under Opened again, with its number and its close (C17, S16)",
+              "ft-remind: Feature issue #42 \"Send a reminder\", closed as not planned, opens again." in part
+              and "Open Feature issue #42 \"Send a reminder\" again for ft-remind: it is closed as not planned. "
+                  "No second Feature issue is filed" in text)
+        check("an In progress feature keeps its state (C18)",
+              "ft-pay: stays In progress." in text.split("## State changes in the product model")[1])
         check("a found Feature issue shows the sections it gains and its labels",
               "Use Feature issue #43" in text and "\"Scope of work\" and \"Context guidance\"" in text
               and "work-item" in text)

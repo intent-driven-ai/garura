@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_check_tracker.py — check_tracker.py reads each work item back: type, no label, the exact line, sub-issues, moved out open (D4; C3, C13, C15, C16).
+"""test_check_tracker.py — check_tracker.py reads each work item back: type, no label, the exact line, sub-issues, moved out open, opened again (D4; C3, C13, C16, C17).
 
     python3 test_check_tracker.py
 """
@@ -106,6 +106,31 @@ def main():
         write(p["record"], rec)
         code, res = verdict(p)
         check("an issue the record names that the tracker lacks: not ok", code == 1 and any("#500" in x for x in res["problems"]))
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
+        empty_tracker(p, [{"number": 20, "title": "Send a reminder", "type": "Feature", "labels": [],
+                           "state": "closed", "state_reason": "not_planned", "body": full_body("ft-remind"),
+                           "sub_issues": []}])
+        flow(root, p)
+        code, res = verdict(p)
+        check("a Feature issue opened again, under the epic: ok (C17)", code == 0 and 20 in res["checked"])
+        edit(p, 20, state="closed")
+        code, res = verdict(p)
+        check("a Feature issue the run was to open again is closed: not ok",
+              code == 1 and any("open again" in x for x in res["problems"]))
+        edit(p, 20, state="open")
+        rec = read_json(p["record"])
+        write(p["record"], dict(rec, created=rec["created"] + [{"issue": 21, "kind": "feature",
+                                                               "represents": "ft-remind", "title": "x",
+                                                               "state": "open"}]))
+        code, res = verdict(p)
+        check("a second Feature issue filed for a feature whose issue opened again: not ok",
+              code == 1 and any("second Feature issue" in x for x in res["problems"]))
+        write(p["record"], dict(rec, left_out=[{"feature": "ft-pick", "issue": None, "reason": "Completed",
+                                                "kind": "completed"}]))
+        code, res = verdict(p)
+        check("a Feature issue filed for a feature left out as Completed: not ok (C16)",
+              code == 1 and any("left out" in x for x in res["problems"]))
     return finish()
 
 

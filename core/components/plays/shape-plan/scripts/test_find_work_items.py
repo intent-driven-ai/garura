@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_find_work_items.py — find_work_items.py finds the plan's epic and each feature's work before it makes any (C3, C9, C13, C15, C16).
+"""test_find_work_items.py — find_work_items.py finds the plan's epic and each feature's work before it makes any (C3, C9, C13, C16, C17, C18).
 
     python3 test_find_work_items.py
 """
@@ -66,7 +66,7 @@ def main():
               code == 0 and items["plan_file_exists"] is False and items["epic"]["action"] == "make"
               and [f["action"] for f in items["features"]] == ["make"] * 3)
         check("an issue number in the model is never read (ADR 069)",
-              fs["ft-pick"]["issue"] is None and fs["ft-pick"]["move_stories"] == [])
+              fs["ft-pick"]["issue"] is None and fs["ft-pick"]["action"] == "make")
 
         empty_tracker(p, [
             issue(1, "Patients book online", None, "The business intent.", subs=[21]),
@@ -84,9 +84,9 @@ def main():
         check("a found Feature issue missing a section is add-sections, naming it, with its labels",
               fs["ft-remind"]["action"] == "add-sections" and fs["ft-remind"]["missing"] == ["Context guidance"]
               and fs["ft-remind"]["labels"] == ["work-item"])
-        check("an old issue of type Feature with no exact line is not a match: it is named, and a new one is filed",
-              fs["ft-pay"]["action"] == "make" and fs["ft-pay"]["issue"] is None
-              and [g["issue"] for g in fs["ft-pay"]["old"]["old_groups"]] == [23] and code == 0)
+        check("an old issue of type Feature with no exact line is not a match: a new one is filed",
+              fs["ft-pay"]["action"] == "make" and fs["ft-pay"]["issue"] is None and code == 0
+              and "old" not in fs["ft-pay"] and "move_stories" not in fs["ft-pay"])
 
         empty_tracker(p, [
             issue(40, "Another plan's epic", "Epic", "Plan: 99", subs=[41]),
@@ -95,17 +95,21 @@ def main():
         code, items, fs = find(p)
         check("a Feature issue under another plan's epic is held_by that epic, never moved (C3)",
               fs["ft-pick"]["action"] == "held" and fs["ft-pick"]["held_by"] == 40 and code == 0)
-        check("a Feature issue closed as completed is built and left out (C16)",
-              fs["ft-remind"]["action"] == "built" and fs["ft-remind"]["issue"] == 42
-              and "closed as completed" in fs["ft-remind"]["reason"])
+        check("a Feature issue closed as completed while the feature is not Completed opens again: "
+              "the tracker does not say built (C16, C17)",
+              fs["ft-remind"]["action"] == "reopen" and fs["ft-remind"]["issue"] == 42
+              and fs["ft-remind"]["closed_as"] == "completed" and fs["ft-remind"]["attached"] is False)
 
         empty_tracker(p, [issue(42, "Send a reminder", "Feature", full_body("ft-remind"), state="closed",
                                 reason="not_planned")])
         code, items, fs = find(p)
-        check("a Feature issue closed as not planned does not stop the run: the feature is left out (C16, S16)",
-              code == 0 and items["ok"] is True and fs["ft-remind"]["action"] == "not-planned"
-              and fs["ft-remind"]["issue"] == 42 and "not planned" in fs["ft-remind"]["reason"]
-              and items["problems"] == [] and fs["ft-remind"]["move_stories"] == [])
+        check("a Feature issue closed as not planned opens again, and the run goes on (C17, S16)",
+              code == 0 and items["ok"] is True and fs["ft-remind"]["action"] == "reopen"
+              and fs["ft-remind"]["issue"] == 42 and fs["ft-remind"]["closed_as"] == "not planned"
+              and items["problems"] == [])
+        check("a feature taken in through a reopened issue is set to Planned (C18)",
+              {"feature": "ft-remind", "from": "Unplanned", "to": "Planned", "had_no_state": False}
+              in items["state_changes"])
 
         empty_tracker(p, [issue(50, "Pick a free slot", "Feature", full_body("ft-pick")),
                           issue(51, "Pick a slot", "Feature", "Text.\nRepresents: ft-pick\n")])
@@ -115,33 +119,39 @@ def main():
               and items["duplicates"] == [{"kind": "Feature issue", "represents": "ft-pick", "issues": [50, 51]}]
               and any("#50" in pr and "#51" in pr for pr in items["problems"]))
 
-        empty_tracker(p, [
-            issue(60, "Old plan epic", "Epic", "", subs=[61]),
-            issue(61, "Pick a free slot", "Story", "Represents: ft-pick\nOld story."),
-            issue(62, "Send a reminder", "Story", "", state="closed", reason="completed"),
-            issue(63, "Send a reminder by text", "Story", "", state="closed", reason="not_planned")])
-        code, items, fs = find(p)
-        check("an old open story is found: make-and-move, with the parent it leaves (S13)",
-              code == 0 and fs["ft-pick"]["action"] == "make-and-move"
-              and [s["issue"] for s in fs["ft-pick"]["move_stories"]] == [61]
-              and fs["ft-pick"]["move_stories"][0]["parent"]["number"] == 60)
-        check("only finished old work is found: make-closed, left out (S14)",
-              fs["ft-remind"]["action"] == "make-closed" and "built" in fs["ft-remind"]["reason"]
-              and [s["issue"] for s in fs["ft-remind"]["old"]["done_stories"]] == [62])
-        check("nothing old is found: make", fs["ft-pay"]["action"] == "make")
-
-        empty_tracker(p, [issue(70, "Pick a free slot and send a reminder", "Story", "ft-pick, ft-remind")])
-        code, items, _ = find(p)
-        check("one old story that two features claim stops the run, named (C15)",
-              code == 1 and any("#70" in pr for pr in items["problems"]))
-
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-wait"])
         gather(root, p)
-        empty_tracker(p, [issue(80, "Join the waiting list", "Story", "Represents: ft-wait")])
+        empty_tracker(p, [issue(80, "Join the waiting list", "Feature", full_body("ft-wait"), state="closed",
+                                reason="not_planned")])
         code, items, fs = find(p)
-        check("a feature whose ICE is not ready is skip, and no old work is searched or moved for it (C9)",
+        check("a feature whose ICE is not ready is skip: its closed issue is not opened again, its state "
+              "does not change (C9)",
               fs["ft-wait"]["action"] == "skip" and "not ready" in fs["ft-wait"]["reason"]
-              and fs["ft-wait"]["move_stories"] == [])
+              and fs["ft-wait"]["issue"] == 80
+              and "ft-wait" not in [c["feature"] for c in items["state_changes"]])
+    with tempfile.TemporaryDirectory() as tmp:
+        root = make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay", "ft-cancel", "ft-wait"),
+                          states={"ft-pick": "Completed", "ft-remind": "Dropped", "ft-pay": "Planned",
+                                  "ft-cancel": None})
+        p = paths(tmp)
+        spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+        next(f for f in spine["features"] if f["id"] == "ft-wait")["status"] = "proposed"
+        write(os.path.join(root, "_spine.yaml"), spine)
+        gather(root, p)
+        empty_tracker(p, [issue(90, "Pick a free slot", "Feature", full_body("ft-pick")),
+                          issue(91, "Send a reminder", "Feature", full_body("ft-remind"), state="closed",
+                                reason="not_planned")])
+        code, items, fs = find(p)
+        check("a Completed or Dropped feature is left out, read from the model, with no tracker search (C16, S17)",
+              code == 0 and fs["ft-pick"]["action"] == "completed" and fs["ft-pick"]["issue"] is None
+              and fs["ft-remind"]["action"] == "dropped" and fs["ft-remind"]["issue"] is None)
+        check("only an Unplanned feature taken in moves to Planned; a Planned one keeps its state (C18, S18)",
+              [c["feature"] for c in items["state_changes"]] == ["ft-cancel"]
+              and items["kept_states"] == [{"feature": "ft-pay", "state": "Planned"}])
+        check("a feature with no status, or a value outside the five, is Unplanned and named (C16, S19)",
+              items["no_state"] == [{"feature": "ft-cancel", "status": None},
+                                    {"feature": "ft-wait", "status": "proposed"}]
+              and items["state_changes"][0]["had_no_state"] is True)
     with tempfile.TemporaryDirectory() as tmp:
         extra = [{"id": "sl-cancel", "slug": "cancel-online", "feature_refs": ["ft-cancel", "ft-pick"],
                   "intents": ["bi-340"], "vertical": "the booking page"}]

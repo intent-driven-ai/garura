@@ -88,15 +88,16 @@ def page(kind, pid, name):
             f"- Checked by: a patient books a slot on a phone.\n")
 
 
-def make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay"), extra_slices=()):
-    """A clinic model: one slice for bi-340, its features, their capabilities and pages."""
+def make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay"), extra_slices=(), states=None):
+    """A clinic model: one slice for bi-340, its features, their capabilities and pages. Each
+    feature is Unplanned unless `states` ({feature: status, or None for no status}) says else."""
     root = os.path.join(tmp, "model")
     caps = [
-        {"id": "cap-booking", "domain": "dom-clinic", "intents": ["bi-340"], "status": "proposed",
+        {"id": "cap-booking", "domain": "dom-clinic", "intents": ["bi-340"],
          "doc": "clinic/booking/capability.md", "depends_on": []},
-        {"id": "cap-payment", "domain": "dom-clinic", "intents": ["bi-340"], "status": "proposed",
+        {"id": "cap-payment", "domain": "dom-clinic", "intents": ["bi-340"],
          "doc": "clinic/payment/capability.md", "depends_on": []},
-        {"id": "cap-waitlist", "domain": "dom-clinic", "intents": ["bi-999"], "status": "proposed",
+        {"id": "cap-waitlist", "domain": "dom-clinic", "intents": ["bi-999"],
          "doc": "clinic/waitlist/capability.md", "depends_on": []},
     ]
     feats = [
@@ -116,7 +117,11 @@ def make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay"), extra_slices=()
              "cap-booking": "Booking", "cap-payment": "Payment", "cap-waitlist": "Waiting list"}
     for c in caps:
         write(os.path.join(root, c["doc"]), page("Capability", c["id"], names[c["id"]]))
+    states = dict(states or {})
     for f in feats:
+        status = states.get(f["id"], "Unplanned")
+        if status is not None:
+            f["status"] = status
         write(os.path.join(root, f["doc"]), page("Feature", f["id"], names[f["id"]]))
     slices = [{"id": "sl-self-booking", "slug": "self-booking", "feature_refs": list(features),
                "vertical": "the booking page", "intents": ["bi-340"],
@@ -153,7 +158,9 @@ def paths(tmp):
             "drafts": os.path.join(working, "drafts.json"),
             "approval": os.path.join(working, "approval.json"),
             "brief": os.path.join(working, "brief.md"),
-            "record": os.path.join(working, "tracker-record.json")}
+            "record": os.path.join(working, "tracker-record.json"),
+            "request": os.path.join(working, "planned-request.json"),
+            "state_check": os.path.join(working, "state-check.json")}
 
 
 def gather(root, p, intent="bi-340"):
@@ -181,8 +188,21 @@ def make_drafts(p):
     return out
 
 
+def link_model_part(root, request):
+    """What the link-model-part skill does for the request (stands in for it in the tests): each
+    part's feature gets its status, and its metadata.updated_by the request's `by`."""
+    spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+    want = {x["id"]: x["status"] for x in request.get("parts") or []}
+    for f in spine["features"]:
+        if f["id"] in want:
+            f["status"] = want[f["id"]]
+            f.setdefault("metadata", {})["updated_by"] = request["by"]
+    write(os.path.join(root, "_spine.yaml"), spine)
+
+
 def flow(root, p, decision="yes"):
-    """gather → find → drafts → approval → write → plan → checks. Returns the exit codes."""
+    """gather → find → drafts → approval → write → plan → checks → Planned → state check.
+    Returns the exit codes."""
     codes = {}
     codes["gather"] = gather(root, p)[0]
     codes["find"] = run("find_work_items.py", "--gather", p["gather"], "--plan-file", p["plan_file"],
@@ -205,6 +225,14 @@ def flow(root, p, decision="yes"):
         codes["check_tracker"] = run("check_tracker.py", "--record", p["record"], "--work-items", p["items"],
                                      "--tracker-file", p["tracker"],
                                      "--out", os.path.join(p["working"], "tracker-check.json"))[0]
+        codes["request"] = run("planned_request.py", "--work-items", p["items"], "--record", p["record"],
+                               "--plan-write", os.path.join(p["working"], "plan-write.json"),
+                               "--approval", p["approval"], "--plan-id", "340", "--out", p["request"])[0]
+        if codes["request"] == 0:
+            link_model_part(root, read_json(p["request"]))
+        codes["check_states"] = run("check_states.py", "--before", os.path.join(p["working"], "spine-before.yaml"),
+                                    "--spine", os.path.join(root, "_spine.yaml"), "--work-items", p["items"],
+                                    "--request", p["request"], "--out", p["state_check"])[0]
     return codes
 
 
@@ -248,12 +276,19 @@ def main():
               tr.search("Represents: ft-pick", fields=("body",)) == [1, 2, 3, 7])
         check("feature_issues keeps only type Feature with the exact line (ADR 068)",
               [i["number"] for i in pc.feature_issues(tr, "ft-pick")] == [1])
-        old = pc.old_work(tr, "ft-pick", "Pick a free slot")
-        check("old_work finds an open story, a finished story and an old group, never a story closed as not planned",
-              [x["issue"] for x in old["open_stories"]] == [3] and [x["issue"] for x in old["done_stories"]] == [5]
-              and [x["issue"] for x in old["old_groups"]] == [4, 7])
         tr.close(1)
         check("the file tracker closes an issue as completed", pc.finished(tr.get(1)))
+        tr.reopen(1)
+        check("the file tracker opens a closed issue again", tr.get(1)["state"] == "open")
+    check("feature_state reads each of the five states",
+          all(pc.feature_state({"status": s}) == (s, False) for s in pc.STATES))
+    check("feature_state reads no status, or a value outside the five, as Unplanned with no state (ADR 070)",
+          pc.feature_state({}) == ("Unplanned", True) and pc.feature_state({"status": "proposed"}) == ("Unplanned", True)
+          and pc.feature_state(None) == ("Unplanned", True))
+    check("the plan takes in a reopened Feature issue, never a Completed or Dropped feature",
+          pc.map_pairs([{"feature": "a", "action": "reopen", "issue": 3},
+                        {"feature": "b", "action": "completed", "issue": None},
+                        {"feature": "c", "action": "dropped", "issue": None}]) == [("a", 3)])
     body = pc.with_map("Plan: 1", [("ft-a", 2), ("ft-b", 3)], {"ft-b": 9})
     check("a held_by map line names the epic that holds it, and reads back",
           "- ft-b → #3 (under Epic #9)" in body and pc.read_map(body) == {"ft-a": 2, "ft-b": 3}
@@ -331,14 +366,17 @@ def main():
     host.add_sub(40, 41)
     host.remove_sub(40, 41)
     host.close(41)
+    host.reopen(41)
     check("every other write is an adapter verb",
           [c[0] for c in calls[1:]] == ["set-issue-type", "edit-issue-body", "remove-label",
-                                         "attach-sub-issue", "remove-sub-issue", "close-issue"])
+                                         "attach-sub-issue", "remove-sub-issue", "close-issue",
+                                         "reopen-issue"])
     check("a close is as completed", calls[6][1] == {"issue_number": "41", "reason": "completed"})
+    check("an issue opens again through the adapter's reopen-issue verb", calls[7][1] == {"issue_number": "41"})
     found = host.search("Represents: ft-a", fields=("body",))
     check("the host search is the adapter's list-issues verb, open and closed, in the text",
-          found == [3, 7] and calls[7][0] == "list-issues"
-          and calls[7][1]["query"] == '"Represents: ft-a" in:body' and calls[7][1]["state"] == "all")
+          found == [3, 7] and calls[8][0] == "list-issues"
+          and calls[8][1]["query"] == '"Represents: ft-a" in:body' and calls[8][1]["state"] == "all")
     check("a sub-issue is attached with replace_parent, so it leaves any other parent (#1025)",
           calls[4][1].get("replace_parent") == "true")
     import platform_adapter as pa

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""check_tracker.py — the tracker check (/shape-plan, D4; C3, C5, C13, C15, C16).
+"""check_tracker.py — the tracker check (/shape-plan, D4; C3, C5, C13, C16, C17).
 
     python3 check_tracker.py --record <tracker-record.json> [--tracker-file <json>] \
         --out <working>/tracker-check.json
@@ -14,11 +14,9 @@ the --tracker-file fixture). `ok: true` only when:
     a sub-issue of the plan's epic, or, when `held_by`, of the epic that holds it;
   - the epic's sub-issues are the Feature issues of its map that it holds (and the items the
     plan already placed under it), no more;
-  - each Feature issue filed closed is of type Feature, closed as completed, with its exact
-    `Represents:` line, and is in no epic's map;
-  - each Feature issue closed as not planned is still closed as not planned, and no new
-    Feature issue was filed for its feature;
-  - each story moved inside a Feature issue is now its sub-issue;
+  - each Feature issue the run opened again is open, and no Feature issue was filed for its
+    feature (C17);
+  - no Feature issue was filed for a feature left out as Completed or Dropped (C16);
   - no body this run made holds the words "Fails if" or a recovery phrase (a found item's own
     lines are a person's, and are kept as they are);
   - no Story was filed by the run;
@@ -97,31 +95,19 @@ def check(rec, tracker, kept_subs=()):
             title = f" \"{it['title']}\"" if it else ""
             problems.append(f"epic #{epic_no} holds #{n}{title}, which the plan does not place: file "
                             "it in its own place and take it off the epic (C13)")
+    created_for = {c.get("represents") for c in rec.get("created") or []}
+    for ro in rec.get("reopened") or []:
+        it = fetch(ro["issue"], f"the Feature issue of {ro.get('feature')} opened again")
+        if it is not None and it["state"] != "open":
+            problems.append(f"Feature issue #{ro['issue']} of {ro.get('feature')} was to open again, but it is "
+                            f"{it['state']}")
+        if ro.get("feature") in created_for:
+            problems.append(f"the run filed a second Feature issue for {ro.get('feature')}, whose Feature "
+                            f"issue #{ro['issue']} it opened again")
     for out in rec.get("left_out") or []:
-        n = out.get("issue")
-        if out.get("kind") == "not-planned" and n is not None:
-            it = fetch(n, f"the not-planned Feature issue of {out.get('feature')}")
-            if it is not None and (it["state"] == "open" or pc.finished(it)):
-                problems.append(f"Feature issue #{n} of {out.get('feature')} is no longer closed as not "
-                                "planned; the run must leave it as it is")
-            if any(c.get("represents") == out.get("feature") for c in rec.get("created") or []):
-                problems.append(f"the run filed a new Feature issue for {out.get('feature')}, whose "
-                                f"Feature issue #{n} is closed as not planned")
-            continue
-        if n is None or int(n) not in made:
-            continue
-        it = fetch(n, f"the closed Feature issue of {out.get('feature')}")
-        if it is None:
-            continue
-        feature_shape(it, int(n), out.get("feature"))
-        if not (it["state"] != "open" and pc.finished(it)):
-            problems.append(f"Feature issue #{n} of {out.get('feature')} is not closed as completed")
-        if int(n) in the_map.values():
-            problems.append(f"the built Feature issue #{n} is in the epic's map")
-    for mv in rec.get("moved") or []:
-        it = tracker.get(mv["to"])
-        if it is None or int(mv["issue"]) not in it["sub_issues"]:
-            problems.append(f"story #{mv['issue']} is not inside Feature issue #{mv['to']}")
+        if out.get("feature") in created_for:
+            problems.append(f"the run filed a Feature issue for {out.get('feature')}, which is left out "
+                            f"({out.get('kind')})")
     for c in rec.get("created") or []:
         it = tracker.get(c["issue"])
         if it is not None and it["type"] == pc.STORY_TYPE:

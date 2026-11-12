@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""write_work_items.py — write the epic and the Feature issues after the product owner's yes (/shape-plan, C3, C5, C6, C8, C13, C15, C16).
+"""write_work_items.py — write the epic and the Feature issues after the product owner's yes (/shape-plan, C3, C5, C6, C8, C13, C16, C17).
 
     python3 write_work_items.py --work-items <work-items.json> --drafts <drafts.json> \
         --gather <gather.json> --approval <approval.json> --plan-id <id> \
@@ -16,17 +16,15 @@ tracker. Then:
     its parent, in one write. Its body has the exact line "Represents: <feature id>", the
     sections "Scope of work" and "Context guidance", and the line "Written from: <the two ICE
     pages>", which this script takes from gather.json (the skill never sees a page path);
-  - `make-and-move`: the same, then each old open story the brief named is moved inside the new
-    Feature issue (it leaves its other parent) (C15);
-  - `make-closed`: the Feature issue is filed with no parent and then closed as completed: the
-    feature is built and stays out of the plan (C15);
+  - `reopen`: the same closed Feature issue is opened again, never a second one (C17); then
+    it is handled like a found one below, or, when another epic holds it, it stays there;
   - `use` / `add-sections`: a found Feature issue gets only its missing sections, at the end of
     its body (every line of the body stays, checked before the write), the "Represents" line
     when it has none, type Feature when it has another, its labels taken off, and becomes a
     sub-issue of the epic when it is not one;
-  - `held`, `built`, `not-planned`, `skip`: nothing is written; a held Feature issue keeps its
-    epic and its map line names that epic; a built or not-planned feature is left out of the
-    plan (C16);
+  - `held`, `completed`, `dropped`, `skip`: nothing is written; a held Feature issue keeps its
+    epic and its map line names that epic; a Completed or Dropped feature is left out of the
+    plan, and the tracker is not read for it (C16);
   - a used epic gets type Epic when it has another type or none, and its labels taken off; its
     map section is written again only when a line changes (every other line stays);
   - each feature node in `move_out` is taken off the epic's sub-issues and stays open.
@@ -39,7 +37,7 @@ play still writes the plan file from it, so the next run finds those issues and 
 Record:
     {ok, plan_id, approval_at, epic, slices: [ids], created: [{issue, kind, represents, title, state}],
      updated: [{issue, kind, represents, changes: [..], lines_kept}],
-     moved: [{issue, title, to, left}], moved_out: [{issue, feature, epic}],
+     reopened: [{issue, feature, closed_as}], moved_out: [{issue, feature, epic}],
      features: {feature: issue}, held: {feature: epic}, map: {feature: issue},
      titles: {issue: title}, left_out: [{feature, issue, reason, kind}],
      skipped: [{feature, reason, issue}], failed, error}
@@ -56,7 +54,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plan_common as pc  # noqa: E402
 
-MAKES = ("make", "make-and-move", "make-closed")
+MAKES = ("make",)
 
 
 class Step(Exception):
@@ -108,13 +106,12 @@ def precheck(items, drafts, tracker):
     if epic.get("action") == "use" and tracker.get(epic.get("issue")) is None:
         raise pc.Refused(f"the tracker has no epic #{epic.get('issue')}")
     for f in items.get("features") or []:
-        if f["action"] in MAKES + ("add-sections",) and f["feature"] not in drafted:
+        needs_draft = f["action"] in MAKES + ("add-sections",) or (
+            f["action"] == "reopen" and f.get("missing") and f.get("held_by") is None)
+        if needs_draft and f["feature"] not in drafted:
             raise pc.Refused(f"the drafts have no Feature issue for {f['feature']}")
-        if f["action"] in ("use", "add-sections") and tracker.get(f["issue"]) is None:
+        if f["action"] in ("use", "add-sections", "reopen") and tracker.get(f["issue"]) is None:
             raise pc.Refused(f"the tracker has no Feature issue #{f['issue']}")
-        for st in f.get("move_stories") or []:
-            if tracker.get(st["issue"]) is None:
-                raise pc.Refused(f"the tracker has no story #{st['issue']} to move")
     for mo in items.get("move_out") or []:
         if tracker.get(mo["issue"]) is None:
             raise pc.Refused(f"the tracker has no issue #{mo['issue']} to take off the epic")
@@ -176,42 +173,34 @@ def write_plan(w, items, drafted, drafts, pages, plan_id):
         if act == "skip":
             rec["skipped"].append({"feature": fid, "reason": f.get("reason"), "issue": f.get("issue")})
             continue
-        if act in ("built", "not-planned"):
-            rec["left_out"].append({"feature": fid, "issue": f.get("issue"), "reason": f.get("reason"),
+        if act in ("completed", "dropped"):
+            rec["left_out"].append({"feature": fid, "issue": None, "reason": f.get("reason"),
                                     "kind": act})
             continue
-        if act == "held":
+        if act == "reopen":
+            w.do(f"open Feature issue #{f['issue']} of {fid} again", tracker.reopen, int(f["issue"]))
+            rec["reopened"].append({"issue": int(f["issue"]), "feature": fid, "closed_as": f.get("closed_as")})
+            w.save()
+        if act == "held" or (act == "reopen" and f.get("held_by") is not None):
             rec["held"][fid] = int(f["held_by"])
             rec["features"][fid] = int(f["issue"])
             rec["titles"][str(f["issue"])] = f.get("title") or fid
             continue
         if act in MAKES:
             d = drafted[fid]
-            parent = None if act == "make-closed" else number
             n = w.do(f"file the Feature issue of {fid}", tracker.create, d["title"],
-                     feature_body(fid, d, pages.get(fid) or []), pc.FEATURE_TYPE, parent)
+                     feature_body(fid, d, pages.get(fid) or []), pc.FEATURE_TYPE, number)
             rec["created"].append({"issue": n, "kind": "feature", "represents": fid, "title": d["title"],
                                    "state": "open"})
             rec["titles"][str(n)] = d["title"]
-            if act == "make-closed":
-                w.do(f"close the Feature issue #{n} of {fid} as completed", tracker.close, n, "completed")
-                rec["created"][-1]["state"] = "closed"
-                rec["left_out"].append({"feature": fid, "issue": n, "reason": f.get("reason")})
-                w.save()
-                continue
             made[fid] = n
             rec["features"][fid] = n
             keep_map()
             w.save()
-            for st in f.get("move_stories") or []:
-                w.do(f"move story #{st['issue']} inside Feature issue #{n}", tracker.add_sub, n, int(st["issue"]))
-                rec["moved"].append({"issue": int(st["issue"]), "title": st.get("title"), "to": n,
-                                     "left": (st.get("parent") or {}).get("number")})
-                w.save()
             continue
         it = tracker.get(f["issue"])
         changes, body = [], it["body"]
-        if act == "add-sections":
+        if act == "add-sections" or (act == "reopen" and f.get("missing")):
             d = drafted[fid]
             for sec in f.get("missing") or []:
                 if not pc.has_heading(body, sec):
@@ -296,7 +285,7 @@ def main(argv=None):
     approval = pc.read_json(args.approval, "approval.json")
     rec = {"ok": True, "plan_id": str(args.plan_id), "approval_at": approval.get("at"), "epic": None,
            "slices": [s.get("id") for s in items.get("slices") or []],
-           "created": [], "updated": [], "moved": [], "moved_out": [], "features": {}, "held": {},
+           "created": [], "updated": [], "reopened": [], "moved_out": [], "features": {}, "held": {},
            "map": {}, "titles": {}, "left_out": [], "skipped": [], "failed": None, "error": None}
     w = Writer(tracker, rec, args.out)
     try:
@@ -310,7 +299,7 @@ def main(argv=None):
         return 1
     w.save()
     print(json.dumps({"ok": True, "out": args.out, "created": len(rec["created"]),
-                      "updated": len(rec["updated"]), "moved": len(rec["moved"]),
+                      "updated": len(rec["updated"]), "reopened": len(rec["reopened"]),
                       "moved_out": len(rec["moved_out"])}))
     return 0
 

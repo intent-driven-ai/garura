@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""check_plan.py — the plan check (/shape-plan, D1; C1, C3, C5, C6, C9, C15, C16).
+"""check_plan.py — the plan check (/shape-plan, D1; C1, C3, C5, C6, C9, C16, C17).
 
     python3 check_plan.py --plan-file <plans>/<id>.yaml --gather <gather.json> \
         --record <tracker-record.json> --out <working>/plan-check.json
@@ -14,12 +14,11 @@
   - each feature the record puts in the plan (its map) has exactly one feature node under the
     epic node, with the same issue, and a `held_by` feature's node names its epic;
   - no feature node stands for a feature that is in no slice of the plan, or that is left out
-    (built) or skipped (not ready);
+    (Completed or Dropped in the model) or skipped (not ready);
   - the plan file holds no "Fails if" line, the words "Fails if", or a recovery phrase.
 Features that are not ready are listed in `skipped`, and features left out of the plan in
-`left_out`, with their reasons: built (their Feature issue is closed as completed, or was filed
-closed) or not planned (their Feature issue is closed as not planned). They do not fail the
-check; a node for one of them does.
+`left_out`, with their reasons: their state in the model is Completed or Dropped (ADR 070).
+They do not fail the check; a node for one of them does.
 
 Output: {ok, problems: [..], skipped: [{feature, reason}], left_out: [{feature, issue, reason}],
          epic, features: {feature: issue}}
@@ -71,8 +70,11 @@ def check(plan_path, gather, rec):
                             + ", ".join(SLICE_STATUSES))
     in_slices = {f["id"]: f for sl in gather.get("slices") or [] for f in sl.get("features") or []}
     skipped = [{"feature": fid, "reason": f.get("reason")} for fid, f in in_slices.items()
-               if not f.get("ready")]
+               if not f.get("ready") and not f.get("left_out")]
     left_out = [dict(x) for x in rec.get("left_out") or [] if isinstance(x, dict)]
+    for fid, f in in_slices.items():
+        if f.get("left_out") and fid not in {x.get("feature") for x in left_out}:
+            problems.append(f"{fid} is {f['left_out']} in the model, but the record does not name it as left out")
     out_ids = {x["feature"] for x in skipped} | {x.get("feature") for x in left_out}
     tree_map = {}
     held = {str(k): int(v) for k, v in (rec.get("held") or {}).items()}
@@ -84,7 +86,7 @@ def check(plan_path, gather, rec):
             problems.append(f"feature node #{k.get('issue')} stands for {fid}, which is in no slice of the plan")
             continue
         if fid in out_ids:
-            problems.append(f"{fid} is left out of the plan (built, not planned or not ready), but has a feature node")
+            problems.append(f"{fid} is left out of the plan (Completed, Dropped or not ready), but has a feature node")
             continue
         if fid in tree_map:
             problems.append(f"{fid} has two feature nodes under the epic")

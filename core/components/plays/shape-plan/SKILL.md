@@ -2,7 +2,7 @@
 name: shape-plan
 position: both
 argument-hint: "<business intent issue number>"
-description: 'Make the one plan of a business intent that /design-slice has served with a slice, once — the second play of the shaping loop (/design-slice, then /shape-plan, then /design-eval; ADR 068, ADR 069). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent and makes: the plan file (the business intent at the top, the epic: mark, and a Slices list with each slice at Not Started); ONE epic for the plan (an issue of type Epic, no label); and one Feature issue for each feature not yet built across all the plan''s slices (an issue of type Feature, no label, a sub-issue of the epic, with the exact line Represents: <feature id>), each written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. It files no Stories. It finds the epic by the plan file''s epic: mark and a feature''s issue by the plan file''s represents mark, else by an issue of type Feature with the exact Represents: line — never by title, never from the product model; two such issues stop the run and both are named; a Feature issue under another plan''s epic is shown as held_by and never moved without the person''s answer. It cleans as it goes: for a feature with no Feature issue it searches for old work and proposes one action — an old open story is moved inside the new Feature issue; finished old work gives a Feature issue filed closed as completed, and the feature is left out; else a new Feature issue. A feature whose Feature issue is closed as completed is built, left out and named; one whose Feature issue is closed as not planned is left out too, its issue untouched, and named under Not planned, left out. When the intent already has a plan file, it stops at pre-flight and points to /reshape-plan. A feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epic and the Feature issues (and the moves the brief names); nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-work, review-work, validate-work and merge-work, on the plan''s branch when the intent has one.'
+description: 'Make the one plan of a business intent that /design-slice has served with a slice, once — the second play of the shaping loop (/design-slice, then /shape-plan, then /design-eval; ADR 068, ADR 069, ADR 070). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent and makes: the plan file (the business intent at the top, the epic: mark, and a Slices list with each slice at Not Started); ONE epic for the plan (an issue of type Epic, no label); and one Feature issue for each feature of the plan''s slices that is not Completed and not Dropped (an issue of type Feature, no label, a sub-issue of the epic, with the exact line Represents: <feature id>), each written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. It files no Stories. It finds the epic by the plan file''s epic: mark and a feature''s issue by the plan file''s represents mark, else by an issue of type Feature with the exact Represents: line — never by title, never from the product model; two such issues stop the run and both are named; a Feature issue under another plan''s epic is shown as held_by and never moved without the person''s answer. It reads each feature''s state from the model (the status of its spine entry), never from the tracker: a Completed or Dropped feature is left out with no tracker search and named under Built, left out or Dropped, left out; a feature with no state, or a value outside the five, is treated as Unplanned and named under Had no state. A closed Feature issue of a feature the plan takes in (closed as not planned, or as completed while the feature is not Completed) is shown and, on the yes, opened again — never a second one. After the tracker writes and the plan file, each Unplanned feature the plan takes in is set to Planned in the model, through product-os-keeper and link-model-part; a Planned or In progress feature keeps its state, and the brief lists each change. When the intent already has a plan file, it stops at pre-flight and points to /reshape-plan. A feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker or the model and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epic and the Feature issues, and one model field: the status of each Unplanned feature it takes in; nothing in the evals folder and nothing else in the product model. Position both: it opens its own change and lands it through commit-work, review-work, validate-work and merge-work, on the plan''s branch when the intent has one.'
 user-invocable: true
 ---
 
@@ -13,7 +13,9 @@ makes the intent's **one plan**, once:
 - the plan file (`.garura/project/plans/<intent-issue>.yaml`), with the business intent at the
   top, the `epic:` mark, and a Slices list with each slice at Not Started;
 - **ONE epic** for the plan;
-- one **Feature issue** for each feature not yet built, across all the plan's slices.
+- one **Feature issue** for each feature of the plan's slices that is not Completed and not
+  Dropped, found or filed (a closed one is opened again on the yes, never filed twice);
+- in the product model, **one field**: each Unplanned feature it takes in is set to Planned.
 
 Each Feature issue holds its scope of work and Context guidance, written from its feature's ICE
 and that feature's capability's ICE, and holds no failure condition and no recovery condition:
@@ -26,10 +28,10 @@ The run reads the slices from the spine (the link "slice serves business intent"
 picks, orders or tests a slice. It finds the epic by the plan file's `epic:` mark, and a
 feature's issue by the plan file's `represents` mark or, when there is none, by an issue of type
 Feature with the exact line `Represents: <feature id>` — never by a title, and never from the
-product model, which holds no issue number. For a feature with no Feature issue it cleans as it
-goes: it searches for old work on the feature and proposes one action. It shows the product
-owner one brief with every tracker write and the plan-file change, and writes nothing before
-the typed yes.
+product model, which holds no issue number. It reads each feature's state from the model (the
+`status` of its spine entry, ADR 070), never "built" from the tracker. It shows the product
+owner one brief with every tracker write, the plan-file change and every state change, and
+writes nothing before the typed yes.
 
 **Pipeline position: both.** start-work opens the change at the head (on the plan's
 sub-branch when the intent has a plan); the end sequence commit-work → review-work →
@@ -38,8 +40,9 @@ validate-work → merge-work lands it.
 ## Compiled From
 
 This play was compiled from the shape-plan ICE (`reference/ice.md`) by build-play. Intent
-defines constraints (C1–C3, C5–C11, C13–C16) and failure conditions (F1–F5, F7–F16); the
-expectation defines success scenarios (S1, S6–S9, S12–S16), a Done means (D1–D5, baked to
+defines constraints (C1–C3, C5–C11, C13, C14, C16–C18) and failure conditions (F1–F5, F7–F14,
+F16–F18); the expectation defines success scenarios (S1, S6–S9, S12, S15–S19), a Done means
+(D1–D6, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition. To modify this play,
 update `reference/ice.md` and recompile with fix-play.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -49,17 +52,20 @@ Do NOT edit this file manually — it is a compiled artifact.
 You are the orchestrator. You own the step order, the one brief and the checkpoint. The play
 reads no memory itself. The `product-os-keeper` agent gathers context and calls the skill
 `author-work-items`, which writes the words of the epic and of each Feature issue; the agent
-passes the skill's output on as it is and never writes content. `template-manager` hands out
+passes the skill's output on as it is and never writes content. After the tracker writes and
+the plan file, the same agent hands the request the play wrote to the skill `link-model-part`,
+which sets Planned in the spine. `template-manager` hands out
 the approval prompt and the close templates. You run all mechanical work through bundled
-scripts: the plan-exists check (`check_plan_absent.py`), the gather and the clean ICE copies
-(`gather_plan.py`, which runs the ready check `check_ice_workable.py`), the find and the
-old-work search (`find_work_items.py`), the draft check (`check_drafts.py`), the brief
+scripts: the plan-exists check (`check_plan_absent.py`), the gather, each feature's state and
+the clean ICE copies (`gather_plan.py`, which runs the ready check `check_ice_workable.py`), the
+find (`find_work_items.py`), the draft check (`check_drafts.py`), the brief
 (`render_brief.py`), the checkpoint record and the write gate (`record_approval.py`), the
 tracker writes (`write_work_items.py`, through `platform_adapter.py`), the plan file
-(`write_plan_file.py`), the checks (`check_plan.py`, `check_tracker.py`), the write guard
-(`scoped_write_guard.py`) and the stop condition. Every script writes its files through a
-temp file and a rename (`plan_common.py`). The play never writes the plan file, the epic or a
-Feature issue by hand.
+(`write_plan_file.py`), the Planned request (`planned_request.py`), the checks (`check_plan.py`,
+`check_tracker.py`, `check_states.py`), the write guard (`scoped_write_guard.py`) and the stop
+condition. Every script writes its files through a
+temp file and a rename (`plan_common.py`). The play never writes the plan file, the epic, a
+Feature issue or the spine by hand.
 
 **Forbidden:** a second plan for one intent (C1); picking, ordering or testing a slice, or
 leaving out a slice the spine links to the intent (C2); finding an issue by its title or by an
@@ -69,27 +75,31 @@ issues that name one feature, or moving a `held_by` Feature issue without the pe
 (C3); reading a "Fails if" line, or a Feature issue, the epic or a plan file that holds a
 failure or recovery condition (C5); an epic title that says how the product is built, or a map
 that disagrees with the tree (C6); writing outside the plan file, the epic, the Feature issues
-and the moves the brief names — the evals folder and the product model above all (C7); a
-tracker write before the typed yes, a write the brief did not show, or a checkpoint skipped by
-config (C8); a Feature issue filed or changed from an ICE that is not ready, or a skipped
-feature not named (C9); landing outside the change plays or on the wrong branch (C10); a real
+and the `status` of the features the plan sets to Planned — the evals folder and every other
+part of the product model above all (C7); a tracker write or a model change before the typed
+yes, a write the brief did not show, or a checkpoint skipped by config (C8); a Feature issue
+filed, changed or opened again from an ICE that is not ready, a skipped feature's state
+changed, or a skipped feature not named (C9); landing outside the change plays or on the wrong branch (C10); a real
 person's name, or text a person cannot follow (C11); a label on the epic or a Feature issue, a
 wrong issue type, a Story filed, or a write while the epic holds work the plan does not place
-(C13); going on past pre-flight when the intent already has a plan file (C14); skipping the
-old-work search, or doing anything but the one action the brief proposed (C15); putting a
-built or not-planned feature in the plan, writing to its closed Feature issue (reopen, move,
-change) or filing a new one for it, or stopping the run for a Feature issue closed as not
-planned (C16).
+(C13); going on past pre-flight when the intent already has a plan file (C14); reading "built"
+from the tracker, putting a Completed or Dropped feature in the plan, searching the tracker or
+writing for it, or leaving a feature with no state unnamed (C16); filing a second Feature issue
+for a feature whose Feature issue is closed, or opening it again without the yes (C17);
+setting a state before the tracker writes and the plan file, outside `product-os-keeper` and
+`link-model-part`, on a feature that is Planned or In progress, or changing anything else in
+the model (C18).
 
 **Agent boundaries:**
 
 | Agent | Domain | Skills it uses | Phases |
 |-------|--------|----------------|--------|
-| `product-os-keeper` | Gather context and pass it on: hand the skill only `skill-input.json` and the clean ICE copies it names (never `gather.json`, never an ICE page), check that no clean copy holds a failure line, call the skill, and pass its `drafts.json` on as it is | `author-work-items` | Draft |
+| `product-os-keeper` | Gather context and pass it on: hand the skill only `skill-input.json` and the clean ICE copies it names (never `gather.json`, never an ICE page), check that no clean copy holds a failure line, call the skill, and pass its `drafts.json` on as it is; then hand `link-model-part` the play's `planned-request.json` as it is, and pass its report on | `author-work-items`, `link-model-part` | Draft, Set states |
 | `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
 
 `product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
-agent. The skill `author-work-items` was built for this play. The start and end sequence are
+agent. The skill `author-work-items` was built for this play; `link-model-part` sets a
+feature's `status` (mode `update`). The start and end sequence are
 injected sub-plays; everything else is a script.
 
 ## Pre-flight
@@ -149,21 +159,22 @@ Create ALL tasks right after pre-flight, before any domain work. The play owns t
 
 ```
 [T0]  start-work (injected — start)                          blockedBy: []
-[T1]  Gather the slices and the clean ICE copies                blockedBy: [T0]
-[T2]  Find the epic, the Feature issues and the old work         blockedBy: [T1]
+[T1]  Gather the slices, the states and the clean ICE copies    blockedBy: [T0]
+[T2]  Find the epic and the Feature issues                       blockedBy: [T1]
 [T3]  Draft the epic and the Feature issues                     blockedBy: [T2]
 [T4]  Check the drafts                                          blockedBy: [T3]
 [T5]  The brief and the checkpoint (yes / change / stop)        blockedBy: [T4]
 [T6]  Write the epic and the Feature issues in the tracker      blockedBy: [T5]
 [T7]  Write the plan file                                       blockedBy: [T6]
-[T8]  Check the plan, the tracker and the writes                blockedBy: [T7]
-[T9]  Commit the plan file                                      blockedBy: [T8]
-[E1]  commit-work (injected — end)                            blockedBy: [T9]
+[T8]  Set Planned in the model                                  blockedBy: [T7]
+[T9]  Check the plan, the tracker, the states and the writes    blockedBy: [T8]
+[T10] Commit the plan file and the spine                        blockedBy: [T9]
+[E1]  commit-work (injected — end)                            blockedBy: [T10]
 [E2]  review-work (injected — end)                           blockedBy: [E1]
 [E3]  validate-work (injected — end)                             blockedBy: [E2]
 [E4]  merge-work (injected — end)                             blockedBy: [E3]
-[T10] Scenario Validation                                       blockedBy: [E4]
-[T11] Close                                                     blockedBy: [T10]
+[T11] Scenario Validation                                       blockedBy: [E4]
+[T12] Close                                                     blockedBy: [T11]
 ```
 
 Mark each task in progress before its step and completed right after its eval passes. No
@@ -192,7 +203,7 @@ short-term folder and no tracker write, and left no file behind.
 
 ### Phase: Gather
 
-**Step 1 — Gather the slices and the clean ICE copies** · Owner: play (script) · Depends on: Step 0
+**Step 1 — Gather the slices, the states and the clean ICE copies** · Owner: play (script) · Depends on: Step 0
 
 ```
 python3 scripts/gather_plan.py --root <model> --spine <model>/_spine.yaml --intent <intent> \
@@ -201,7 +212,12 @@ python3 scripts/gather_plan.py --root <model> --spine <model>/_spine.yaml --inte
 
 It lists every slice whose `intents` lists the intent, in the spine's order (C2), each
 slice's features in build order, each feature's capability and the pages of its two ICE. It
-reads no issue number from the model (C3). It runs the ready check (`check_ice_workable.py`)
+reads no issue number from the model (C3). It reads each feature's state from the `status` of
+its spine entry (C16): a value outside Unplanned, Planned, In progress, Completed and Dropped,
+or none, gives `state: Unplanned` and `had_no_state: true`; a Completed or Dropped feature is
+`left_out`, gets no ready check and no clean copy, and is not in `skill-input.json`. It copies
+the spine as it is now to `<working>spine-before.yaml`, for the state check (C18). It runs the
+ready check (`check_ice_workable.py`)
 on both ICE of each feature: a feature whose ICE is not ready is `ready: false` with its
 `reason`, and gets no clean copy (C9). For each ready feature it writes
 `<working>ice/<feature id>.md`: both ICE with every "Fails if" block taken out — the line and
@@ -214,17 +230,21 @@ the person to run `/design-slice <intent-issue>` first, and close HALTED.
 **SE-1 (F2/C1/C2):** `gather.json` `plan_id` equals `<intent-issue>` and `plan_file` is
 `<plans>/<id>.yaml`, the one plan file for the intent; its `slices` are every spine slice whose
 `intents` lists `<intent>`, in spine order, none left out and none added.
-**SE-2 (F8/C9):** each feature with `ready: false` has a `reason` that is not empty and a null
-`clean_ice`; each feature with `ready: true` has a `clean_ice` file on disk; no other file is
-in `<working>ice/`.
+**SE-2 (F8/C9):** each feature with `ready: false` that is not `left_out` has a `reason` that is
+not empty, and each feature with `ready: false` has a null `clean_ice`; each feature with
+`ready: true` has a `clean_ice` file on disk; no other file is in `<working>ice/`.
 **SE-3 (F3/C5):** `grep -ril "fails if" <working>ice/` finds nothing; no line of a "Fails if"
 block of a feature's two ICE (children included) is in its clean copy; and neither
 `skill-input.json` nor a clean copy names an ICE page (`grep -l "feature.md\|capability.md\|ice.md"`
 over them finds nothing).
+**SE-24 (F16/C16):** each feature of `gather.json` has the `state` its spine entry's `status`
+gives, or `Unplanned` with `had_no_state: true` when that is missing or not one of the five;
+each Completed or Dropped feature has `left_out` set to its state, a null `clean_ice` and no
+entry in `skill-input.json`; `spine-before.yaml` is byte for byte the spine at this step.
 
 ### Phase: Find
 
-**Step 2 — Find the epic, the Feature issues and the old work** · Owner: play (script) · Depends on: Step 1
+**Step 2 — Find the epic and the Feature issues** · Owner: play (script) · Depends on: Step 1
 
 ```
 python3 scripts/find_work_items.py --gather <working>gather.json --plan-file <plan-file> \
@@ -234,29 +254,31 @@ python3 scripts/find_work_items.py --gather <working>gather.json --plan-file <pl
 It reads the plan file and, through the code-host adapter (`view-issue`, and `list-issues` for
 the search), the tracker; it writes nothing. The plan's ONE epic is `use` when the plan file has
 `epic: <issue>`, else `make`; a run starts with no plan file (C14), so the epic is `make`. Each
-feature of the plan's slices is listed once, with the slices that hold it. Its Feature issue is
-the issue a tree node marks with `represents: <feature id>`, else the issue of type Feature,
-open or closed, whose text has the exact line `Represents: <feature id>` (C3). It never compares
-titles and never reads the model's issue numbers. Each feature gets one action:
-- two Feature issues name it → a duplicate: exit 1, both named (REC14);
-- its Feature issue is closed as completed → `built`; closed as not planned → `not-planned`.
-  Either way the feature is left out of the plan and nothing is written to its issue: no
-  reopen, no move, no new issue; the run goes on (C16);
-- its ICE is not ready → `skip`, with its reason; nothing searched or moved (C9);
+feature of the plan's slices is listed once, with the slices that hold it and its state. Each
+feature gets one action:
+- its state is Completed → `completed`; Dropped → `dropped`. It is left out of the plan, and
+  the tracker is not searched for it (C16);
+- else its Feature issue is the issue a tree node marks with `represents: <feature id>`, else
+  the issue of type Feature, open or closed, whose text has the exact line
+  `Represents: <feature id>` (C3). It never compares titles and never reads the model's issue
+  numbers. Two Feature issues name it → a duplicate: exit 1, both named (REC14);
+- its ICE is not ready → `skip`, with its reason; its issue stays as it is (C9);
+- its Feature issue is closed (as not planned, or as completed while the feature is not
+  Completed) → `reopen`, with `closed_as`, the sections it lacks and the parent it would leave,
+  or `held_by` when another epic holds it (C17);
 - its Feature issue is open → `use` or `add-sections` (it lacks "Scope of work" or "Context
   guidance"), with `attached` and the `parent` it would leave; under another epic → `held`,
   with `held_by: <epic>`, never moved (C3);
-- no Feature issue → the old-work search (C15): an open Story whose text names the feature's id
-  or whose title names the feature → `make-and-move`, with `move_stories` and the parent each
-  leaves; only finished old work (closed as completed) → `make-closed`; nothing → `make`. An old
-  issue of type Feature with no exact line is listed in `old.old_groups` and left as it is. One
-  old story that two features claim is a problem: exit 1 (REC15).
+- no Feature issue → `make`.
+`state_changes` lists each feature the plan takes in (`make`, `use`, `add-sections`, `held`,
+`reopen`) that is Unplanned, to be set to Planned after the yes; `kept_states` each one that is
+Planned or In progress; `no_state` each feature that had no state (C16, C18).
 `move_out` lists each feature node under the epic's node whose feature is in no slice of the
 plan. `misplaced` lists each sub-issue of a used epic that is neither a Feature issue of the
 plan nor an item the plan file's tree places, with its title (C13): exit 1. On any exit 1, show
 each problem, duplicate or misplaced item to the person in plain words and stop before any
-tracker write (REC2, REC12, REC14, REC15); the run goes on only after the person fixes
-it and runs the play again.
+tracker write (REC2, REC12, REC14); the run goes on only after the person fixes it and runs
+the play again.
 **SE-19 (F12/C13):** `work-items.json` `misplaced` names every sub-issue of a used epic that is
 neither the issue of a feature item nor an item of the plan file's tree, each with its title;
 when `misplaced` is not empty, `ok` reads false and there is no `tracker-record.json`.
@@ -268,15 +290,13 @@ has the exact line `Represents: <its feature>`; no item was found by a title or 
 model; each `held` item has a `held_by` epic and `tracker-record.json` writes nothing to its
 issue; and, when two Feature issues name one feature, `duplicates` names both, `ok` reads false
 and there is no `tracker-record.json`.
-**SE-22 (F15/C15):** each ready feature with no Feature issue has an `old` search result; a
-feature with an open old story is `make-and-move` with that story in `move_stories` and its
-parent named; a feature with only finished old work is `make-closed`; else `make`; no feature
-that is not ready, or not in the plan's slices, was searched; and an old story two features
-claim left `ok: false`.
-**SE-23 (F16/C16):** each feature whose Feature issue is closed as completed is `built`, and
-each whose Feature issue is closed as not planned is `not-planned`, each with the issue and its
-reason, with no `move_stories` and no problem; and `tracker-record.json` writes nothing to
-those issues and files no Feature issue for those features.
+**SE-23 (F16/C16):** each feature that is Completed or Dropped in `gather.json` is `completed`
+or `dropped` in `work-items.json`, with a null `issue` and a null `source` (no tracker search);
+no other feature is `completed` or `dropped`; `tracker-record.json` files nothing for those
+features; and `no_state` names every feature with `had_no_state: true`.
+**SE-25 (F17/C17):** each feature taken in whose Feature issue is closed is `reopen` with its
+issue and `closed_as`; after the write, `tracker-record.json` `reopened` names that issue, the
+tracker shows it open, and `created` holds no Feature issue for the feature.
 
 ### Phase: Draft
 
@@ -319,15 +339,16 @@ python3 scripts/render_brief.py --gather <working>gather.json \
 ```
 
 The script builds the whole brief from the run's records, so no write can be left out (C8):
-the epic and each Feature issue the run will make, use, add sections to or take off the epic,
-with the text a new item or section gets and each type, label or sub-issue change; the
-clean-up (each old story moved inside a new Feature issue, with the parent it leaves, and each
-Feature issue filed closed because its old work is finished) (C15); the Feature issues another
-plan's epic holds (`held_by`); the features left out because they are built, and, under
-"Not planned, left out", each feature whose Feature issue is closed as not planned, with its
-issue number (C16); the
-plan-file change (the business intent, the `epic:` mark, the Slices list at Not Started, the
-nodes); and each skipped feature with its reason (C9). The brief is never edited by hand: a
+the epic and each Feature issue the run will make, use, add sections to, open again or take
+off the epic, with the text a new item or section gets and each type, label or sub-issue
+change; the Feature issues another plan's epic holds (`held_by`); under "Opened again", each
+closed Feature issue of a feature the plan takes in, with its issue number and how it was
+closed (C17); under "Built, left out" and "Dropped, left out", each Completed or Dropped
+feature; under "Had no state", each feature with no state or a value outside the five (C16);
+under "State changes in the product model", each feature that moves from Unplanned to Planned
+and each that keeps its state (C18); the plan-file change (the business intent, the `epic:`
+mark, the Slices list at Not Started, the nodes); and each skipped feature with its reason
+(C9). The brief is never edited by hand: a
 problem in it goes back to the step whose record it reads. Frame the brief with the approval
 prompt from `template-manager` (`standards/templates/approval-prompt.md`) and show it. Ask the
 product owner to type **yes**, **change: <what>**, or **stop**. Save the reply word for word,
@@ -343,19 +364,19 @@ python3 scripts/record_approval.py --decision <yes|change|stop> --reply "<their 
 - **change** → nothing was written; re-run Step 3 with the change (change mode), then Steps 4
   and 5; show the brief again.
 - **stop** → nothing was written, and nothing is written now. Write
-  `git status --porcelain -- <plans>` to `<working>stop-check.txt`, and
+  `git status --porcelain -- <plans> <model>` to `<working>stop-check.txt`, and
   `shasum -a 256 <plan-file>` (or "no plan file") to `<working>plan-after-stop.txt`; close
   HALTED. A stop needs no undo; if any write is found after a stop, undo it with
   `scoped_write_guard.py --product-base <product_base> --base-ref HEAD --also-tree .garura/project/plans --restore --out <working>guard-restore.json`
   and REC5.
 **SE-8 (F5/C8):** `approval.json` holds the product owner's typed words and the sha256 of
 `brief.md`, `work-items.json` and `drafts.json` as shown; `brief.md` names the epic and every
-feature in `work-items.json` with its action, every story it moves with the parent it leaves,
-and every `move_out`; no `tracker-record.json` exists before `approval.json` reads
-`decision: yes`; after a stop, `stop-check.txt` is empty, `plan-after-stop.txt` equals
+feature in `work-items.json` with its action, every issue it opens again, every entry of
+`state_changes`, and every `move_out`; no `tracker-record.json` and no `planned-request.json`
+exists before `approval.json` reads `decision: yes`; after a stop, `stop-check.txt` is empty, `plan-after-stop.txt` equals
 `plan-before.txt`, and there is no `tracker-record.json`.
-**SE-9 (F8/C9):** each feature with `ready: false` in `gather.json` is in `brief.md`'s
-"Skipped features" with its reason.
+**SE-9 (F8/C9):** each feature with `ready: false` in `gather.json` that is not `left_out` is in
+`brief.md`'s "Skipped features" with its reason, and in no entry of `state_changes`.
 **SE-10 (F10/C11):** `brief.md`, `drafts.json` and the plan file use personas and plain words
 (ASD-STE100) and name no real person — `grep -i "$(git config user.name)"` over them finds
 nothing.
@@ -379,13 +400,12 @@ and when the brief, `work-items.json` or `drafts.json` is no longer the file the
 issue of type Epic, and each new Feature issue as an issue of type Feature with the epic as
 parent, each in one write and with no label (C13), its body holding the exact line
 `Represents: <feature id>`, the scope of work, the Context guidance and the "Written from" line
-(the two ICE pages, from `gather.json`). For `make-and-move` it then moves each old story inside
-the new Feature issue (`attach-sub-issue` with `replace_parent`); for `make-closed` it files the
-Feature issue with no parent and closes it as completed (`close-issue`) (C15). On a found
-Feature issue it adds only the missing sections, sets the type when it is wrong, takes off its
-labels, and makes it a sub-issue of the epic. It writes nothing to a `held`, `built`,
-`not-planned` or `skip` feature's issue: a `built` or `not-planned` feature is left out of the
-plan (C16). It files no Story. It writes the epic's "Feature-to-story map" (C6), with a
+(the two ICE pages, from `gather.json`). For `reopen` it opens the same closed Feature issue
+again (`reopen-issue`) and never files a second one (C17); then, unless another epic holds it,
+it treats it like a found one. On a found Feature issue it adds only the missing sections, sets
+the type when it is wrong, takes off its labels, and makes it a sub-issue of the epic. It
+writes nothing to a `held` or `skip` feature's issue, and does not read the tracker for a
+`completed` or `dropped` feature, which is left out of the plan (C16). It files no Story. It writes the epic's "Feature-to-story map" (C6), with a
 `held_by` line reading "(under Epic #<epic>)". Each write goes through the code-host adapter's
 verbs, and `tracker-record.json` is written after every write. Exit 1 means the tracker failed
 part way: the record reads `ok: false`, names the `failed` step and keeps every issue made
@@ -395,8 +415,8 @@ pre-flight (C14): the person finishes the plan with `/reshape-plan <id>`, or rem
 file and the issues made and runs /shape-plan again.
 **SE-12 (F5/C8):** `tracker-record.json` `approval_at` equals `approval.json` `at`; the sha256 of
 `brief.md`, `work-items.json` and `drafts.json` still equals what `approval.json` recorded; each
-issue in `created`, `updated`, `moved` and `moved_out` matches an item of `work-items.json` that
-`brief.md` shows.
+issue in `created`, `updated`, `reopened` and `moved_out` matches an item of `work-items.json`
+that `brief.md` shows.
 
 **Step 7 — Write the plan file** · Owner: play (script) · Depends on: Step 6
 
@@ -410,61 +430,104 @@ plan file when it is missing: the business intent on its first lines (`intent: b
 `title`), then `id`, `status: Not Started`, an empty `direction`, `epic: <issue>`, the `slices`
 list (each slice at `status: Not Started`) and the `tree` — the one epic node, with one
 `feature` node under it for each line of the epic's map (`represents: <feature id>`, and
-`held_by: <epic>` for a held Feature issue). A built, not-planned or skipped feature gets no
-node. When the
-file is there it adds what is missing and takes out the moved-out nodes, line by line, keeping
+`held_by: <epic>` for a held Feature issue). A Completed, Dropped or skipped feature gets no
+node. When the file is there it adds what is missing and takes out the moved-out nodes, line by line, keeping
 every other node, line and comment; with nothing to change the file stays byte for byte the
 same. The plan file holds titles, issues and marks only: never a failure or recovery condition
 (C5).
 **SE-13 (F2/C1):** `plan-write.json` reads `ok: true` and its `path` is `<plan-file>`; there is
 one plan file for the intent under `<plans>`, with one `epic:` mark and one epic node.
 
+### Phase: Set states
+
+**Step 8 — Set Planned in the model** · Owner: play (script) + `product-os-keeper` · Depends on: Step 7
+It runs only after the yes, after the tracker writes (the record reads `ok: true`) and after
+the plan file (C18). The script writes the request; it refuses (exit 2, nothing written) when
+the approval does not read yes, the record reads `ok: false`, or `plan-write.json` is not ok:
+
+```
+python3 scripts/planned_request.py --work-items <working>work-items.json \
+    --record <working>tracker-record.json --plan-write <working>plan-write.json \
+    --approval <working>approval.json --plan-id <id> --out <working>planned-request.json
+```
+
+The request is `{"by": "shape-plan (#<id>)", "parts": [{"id": "<feature id>", "kind":
+"feature", "mode": "update", "status": "Planned"}, …]}`, one part for each entry of
+`state_changes`: an Unplanned feature the plan takes in. A Planned or In progress feature is not
+in it and keeps its state. When it has no parts, skip the agent. Else:
+
+    { "task":    "set each feature of the request to Planned in the product model. Hand link-model-part the request file as it is, with the model folder; never change the request, never write the spine yourself. Pass the skill's report on as it is",
+      "inputs":  { "request": "<working>planned-request.json", "model": "<model>" },
+      "outputs": { "report": "<working>planned-report.json" },
+      "skills":  ["link-model-part"],
+      "task_id": "shape-plan-set-planned" }
+
+A refusal by the skill writes nothing in the model: show it to the person and close HALTED;
+the tracker writes and the plan file stay, and a resume runs this step again from
+`planned-request.json` (REC18).
+**SE-26 (F18/C18):** `planned-request.json` exists only after `tracker-record.json` reads
+`ok: true` and `plan-write.json` reads `ok: true`; its `by` is `shape-plan (#<id>)` and its parts
+are exactly the features of `state_changes`, each `kind: feature`, `mode: update`,
+`status: Planned` and nothing else; `brief.md` lists each of them; and after Step 9
+`state-check.json` reads `ok: true`.
+
 ### Phase: Check
 
-**Step 8 — Check the plan, the tracker and the writes** · Owner: play (scripts) · Depends on: Step 7
+**Step 9 — Check the plan, the tracker, the states and the writes** · Owner: play (scripts) · Depends on: Step 8
 
 ```
 python3 scripts/check_plan.py --plan-file <plan-file> --gather <working>gather.json \
     --record <working>tracker-record.json --out <working>plan-check.json
 python3 scripts/check_tracker.py --record <working>tracker-record.json \
     --work-items <working>work-items.json --out <working>tracker-check.json
+python3 scripts/check_states.py --before <working>spine-before.yaml --spine <model>/_spine.yaml \
+    --work-items <working>work-items.json --request <working>planned-request.json \
+    --out <working>state-check.json
 python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
     --also-tree .garura/project/plans --allow '.garura/project/plans/<id>.yaml' \
-    --out <working>guard-report.json
+    --modify-only '_spine.yaml' --out <working>guard-report.json
 ```
 
 `check_plan.py` exit 1: a missing feature node is REC1; a tree that disagrees with the map, or
-a plan file with no business intent, `epic:` mark or Slices list, is REC4; a built or
-not-planned feature with a node is REC16 — fix and run Steps 6–8 again. `check_tracker.py` exit 1: a label, a wrong
-type, a Feature issue not under the epic or a Story filed is REC11. The guard's allowed set is
-C7's: the one plan file. Exit 1: re-run it with `--restore` to undo each write outside the set
-(REC7), then run Steps 7–8 again. The run writes nothing in the evals folder and nothing in the
-product model, so it makes no `feat(model)` commit.
+a plan file with no business intent, `epic:` mark or Slices list, is REC4; a Completed or
+Dropped feature with a node is REC16 — fix and run Steps 6–9 again. `check_tracker.py` exit 1:
+a label, a wrong type, a Feature issue not under the epic or a Story filed is REC11; an issue
+that did not open again, or a second Feature issue, is REC17. `check_states.py` exit 1: a
+feature that does not read Planned, a state that moved, or any other change in the spine is
+REC18. The guard's allowed set is C7's: the one plan file and, in the model, a change to the
+spine only — `check_states.py` holds the spine to the features' `status` (and the stamp
+`link-model-part` writes on an entry it updates). Guard exit 1: re-run it with `--restore` to
+undo each write outside the set (REC7), then run Steps 7–9 again. The run writes nothing in the
+evals folder.
 **SE-14 (F1/F4/C6):** `plan-check.json` reads `ok: true`: the plan file names the business
 intent at the top, its `epic:` mark is the record's epic, its Slices list holds each slice once
 at a status a person can set, each feature of the map has exactly one feature node under the
 epic node, no node stands for a feature outside the plan's slices or left out, the map and the
-tree agree, and each skipped or built feature is in `skipped` or `left_out`.
+tree agree, and each skipped, Completed or Dropped feature is in `skipped` or `left_out`.
 **SE-15 (F11/C13):** `tracker-check.json` reads `ok: true`: each issue of the record exists,
 the epic has type Epic, each Feature issue type Feature with its exact `Represents:` line, none
 has a label, each Feature issue that is not `held_by` is a sub-issue of the epic, the epic holds
-nothing the plan does not place, each Feature issue filed closed is closed as completed, each
-moved story is inside its Feature issue, each Feature issue closed as not planned is still
-closed as not planned with no new Feature issue for its feature, and no Story was filed.
-**SE-17 (F7/C7):** `guard-report.json` reads `ok: true` — no path in the product model and no
-path under `.garura/project/plans/` other than `<plan-file>` changed (the evals folder is
-untouched).
+nothing the plan does not place, each Feature issue opened again is open with no second Feature
+issue for its feature, no Feature issue was filed for a Completed or Dropped feature, and no
+Story was filed.
+**SE-17 (F7/C7):** `guard-report.json` reads `ok: true` — no path under
+`.garura/project/plans/` other than `<plan-file>` changed (the evals folder is untouched), and
+no path in the product model other than `_spine.yaml` changed; `state-check.json` reads
+`ok: true`, so the spine changed in the features' `status` only.
 
 ### Phase: Commit
 
-**Step 9 — Commit the plan file** · Owner: play · Depends on: Step 8
-The commit runs only when the recorded answer is yes and the plan file changed
-(`plan-write.json` `changed: true`); the gate runs right before it:
+**Step 10 — Commit the plan file and the spine** · Owner: play · Depends on: Step 9
+Each commit runs only when the recorded answer is yes; the gate runs right before them. The
+plan file is committed when it changed (`plan-write.json` `changed: true`); the spine when
+`state-check.json` `changed` is not empty:
 
 ```
 python3 scripts/record_approval.py verify --file <working>approval.json
 git add -- .garura/project/plans/<id>.yaml
 git commit -m "feat(plan): make plan <id> for business intent #<id> (#<issue>)"
+git add -- <model>/_spine.yaml
+git commit -m "feat(model): set Planned on the features plan <id> takes in (#<issue>)"
 ```
 
 ### Phase: End sequence (injected — D2 position: both, tail)
@@ -472,7 +535,7 @@ git commit -m "feat(plan): make plan <id> for business intent #<id> (#<issue>)"
 Each member runs as a sub-play with `parent_run_id`; each resolves its own context from the
 branch and config.
 
-**Step E1 — commit-work** · blockedBy: Step 9 — commits the run records under `{stm_base}<issue>/`.
+**Step E1 — commit-work** · blockedBy: Step 10 — commits the run records under `{stm_base}<issue>/`.
 
     { "play": "commit-work", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/commit-work.json" } }
 
@@ -494,7 +557,7 @@ intent has a plan (else main), and `merge-work.json` reports it merged.
 
 ### Phase: Scenario Validation
 
-**Step 10 — Scenario evals** · Owner: play · Depends on: E4
+**Step 11 — Scenario evals** · Owner: play · Depends on: E4
 - **SCE-1 (S1 — product owner, first plan):** with no plan file and one slice of three
   features, `plan-write.json` reads `made: true`, `plan-check.json` and `tracker-check.json`
   read `ok: true`, `tracker-record.json` `created` holds one epic and three Feature issues and no
@@ -513,34 +576,41 @@ intent has a plan (else main), and `merge-work.json` reports it merged.
   record, no change branch, no tracker write and no file left behind, and the plan file is as it
   was.
 - **SCE-12 (S12 — product owner, two slices):** `tracker-record.json` `created` holds one epic and
-  one Feature issue for each distinct ready feature of both slices that is not built (a shared
+  one Feature issue for each distinct ready feature of both slices that is not Completed and not
+  Dropped (a shared
   feature once); the plan file has one `epic:` mark, a Slices list with both slices at Not
   Started and one feature node for each; `plan-check.json` and `tracker-check.json` read
   `ok: true`.
-- **SCE-13 (S13 — product owner, an old open story):** `work-items.json` lists the feature as
-  `make-and-move` with the story and the parent it leaves; `brief.md` names the move and that
-  parent; `tracker-record.json` `moved` names the story and its new Feature issue, which holds it;
-  `tracker-check.json` reads `ok: true`.
-- **SCE-14 (S14 — product owner, old finished work):** `work-items.json` lists the feature as
-  `make-closed`; `brief.md` names it under "Left out: built"; the tracker holds its Feature issue
-  with the exact `Represents:` line, closed as completed; the plan file has no node for it and the
-  map no line; `plan-check.json` reads `ok: true` with it in `left_out`.
-- **SCE-16 (S16 — product owner, a feature not planned):** `work-items.json` reads `ok: true`
-  and lists the feature as `not-planned` with its issue; `brief.md` names it, with its issue
-  number, under "Not planned, left out"; the issue is still closed as not planned, its body
-  unchanged, and `tracker-record.json` `created` holds no Feature issue for the feature; the
-  plan file has no node for it and the map no line; `plan-check.json` reads `ok: true` with it
-  in `left_out`.
 - **SCE-15 (S15 — product owner, a duplicate):** `work-items.json` reads `ok: false` and its
   `duplicates` names the feature and both issues; there is no `tracker-record.json`, and no plan
   file was written.
 
+- **SCE-16 (S16 — product owner, a closed Feature issue opened again):** `work-items.json`
+  lists the feature as `reopen` with its issue; `brief.md` names it, with its issue number, under
+  "Opened again"; the issue is open and a sub-issue of the epic; `tracker-record.json` `reopened`
+  names it and `created` holds no Feature issue for the feature; `plan-check.json` and
+  `tracker-check.json` read `ok: true`.
+- **SCE-17 (S17 — product owner, built and dropped features left out):** `work-items.json`
+  lists the two features as `completed` and `dropped`, each with a null `issue`; `brief.md` names
+  one under "Built, left out" and one under "Dropped, left out"; the plan file has no node for
+  either and the map no line; `state-check.json` reads `ok: true` (their states as they were);
+  `plan-check.json` reads `ok: true` with both in `left_out`.
+- **SCE-18 (S18 — product owner, the plan sets Planned):** `work-items.json` `state_changes`
+  names only the Unplanned feature and `kept_states` the Planned and the In progress one;
+  `brief.md` lists the change under "State changes in the product model"; `planned-request.json`
+  asks for that one feature, `mode: update`, `status: Planned`; `state-check.json` `planned`
+  names it, and `state-check.json` and `guard-report.json` read `ok: true`.
+- **SCE-19 (S19 — product owner, a feature with no state):** `gather.json` gives the feature
+  `state: Unplanned` and `had_no_state: true`; `brief.md` names it under "Had no state"; it is
+  in the epic's map; `state-check.json` `planned` names it and reads `ok: true`.
+
 ### Phase: Evidence & Close
 
-**Step 11 — Close** · Owner: play · Depends on: Step 10
+**Step 12 — Close** · Owner: play · Depends on: Step 11
 Run the Standard Play Close. The close is stop-condition gated: the baked
 `stop-condition.yaml` (D1 the plan check reads ok; D2 the approval reads yes; D3 the draft
-check reads ok; D4 the tracker check reads ok; D5 the write guard reads ok) must read **held**
+check reads ok; D4 the tracker check reads ok; D5 the write guard reads ok; D6 the state check
+reads ok) must read **held**
 before a COMPLETED close. A stop, or a run with no slice, closes HALTED.
 
 ```bash
@@ -572,18 +642,20 @@ record `evidence skipped (record=false)` in the report's pointer line. Otherwise
 `evidence-file.md` slots (play `shape-plan`, run_id `shape-plan-${ts}`, issue, the intent
 issue, started_at/completed_at, status per C0, exit_reason; artifacts produced: `gather.json`,
 `work-items.json`, `drafts.json`, `drafts-check.json`, `brief.md`, `approval.json`,
-`plan-absent.json`, `tracker-record.json` with the epic and the Feature issues made, used,
-moved into and filed closed, `plan-write.json` and the plan file's path, `plan-check.json`,
-`tracker-check.json`, `guard-report.json`, the plan commit sha, and the skill the agent contract
-named; step and scenario eval results SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-23 / SCE-1,
-SCE-6…SCE-9, SCE-12…SCE-16; the checkpoint answers in the person's words; the session identity
+`plan-absent.json`, `tracker-record.json` with the epic and the Feature issues made, used and
+opened again, `plan-write.json` and the plan file's path, `planned-request.json`,
+`plan-check.json`, `tracker-check.json`, `state-check.json`, `guard-report.json`, the plan and
+model commit shas, and the skills the agent contracts named; step and scenario eval results
+SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-21, SE-23…SE-26 / SCE-1, SCE-6…SCE-9, SCE-12,
+SCE-15…SCE-19; the checkpoint answers in the person's words; the session identity
 stamp fields from $session_stamp (#463); and stop_condition per C0) and write to
 `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Fill the `delivery-report.md` slots and output the
 report: `## shape-plan Delivered — #${issue}`, the Run Summary table, the Pipeline Steps table
 from the task DAG, the Artifacts Produced table (the plan file, the epic, each Feature issue
-filed, used or filed closed, each story moved, each feature left out or skipped with its reason,
+filed, used or opened again, each state change in the model, each feature left out or skipped
+with its reason,
 the PR), and the **Next** line from the Next-line map (`$next_map`, from `template-manager`),
 per `play-close.md`; omit it when the map's command is null. Next Steps: the eval play reads the
 epic, its map and its Feature issues. End with a pointer to `$evidence_dest`. Always emitted;
@@ -603,30 +675,32 @@ never gated.
 | S8 — misplaced work | product owner | SCE-8 |
 | S9 — a plan that exists | product owner | SCE-9 |
 | S12 — one plan with two slices | product owner | SCE-12 |
-| S13 — an old open story is found | product owner | SCE-13 |
-| S14 — old finished work is found | product owner | SCE-14 |
 | S15 — two Feature issues name one feature | product owner | SCE-15 |
-| S16 — a feature not planned | product owner | SCE-16 |
+| S16 — a closed Feature issue is opened again | product owner | SCE-16 |
+| S17 — Completed and Dropped features are left out | product owner | SCE-17 |
+| S18 — the plan sets Planned | product owner | SCE-18 |
+| S19 — a feature with no state | product owner | SCE-19 |
 
 ## Recovery
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | a feature of the plan that is not built and whose ICE is ready has no Feature issue in the plan, or the plan holds a Feature issue for a feature in none of its slices | file the missing Feature issue; take a Feature issue that stands for no feature of the plan's slices off the epic and out of the plan | autonomous |
+| F1 | a feature of the plan that is not Completed and not Dropped and whose ICE is ready has no Feature issue in the plan, or the plan holds a Feature issue for a feature in none of its slices | file the missing Feature issue (or open the closed one again); take a Feature issue that stands for no feature of the plan's slices off the epic and out of the plan | autonomous |
 | F2 | a second plan for one intent, a second epic for one plan, or a second Feature issue for one feature | keep the first plan, epic or Feature issue, take the copy out of the plan, and tell the person which one was kept | human |
 | F3 | a Feature issue, the epic or the plan file holds a failure condition or a recovery condition | take the line out and draft the Feature issue or the epic again from the two clean ICE copies | autonomous |
 | F4 | the plan file's tree and the epic's map disagree, or the plan file has no business intent at the top, no `epic:` mark, or no Slices list at Not Started | write the plan file's top, tree and the epic's map again from the run's record, so they agree | autonomous |
-| F5 | a tracker write happened before the yes, a write the person did not see in the brief happened, or a stop left a tracker write or a plan-file change behind | undo each tracker write the record lists and put back the plan file as it was (`scoped_write_guard.py --restore`); show the brief again | human |
-| F7 | the run wrote outside the plan file, the epic, the Feature issues and the moves C15 names (the evals folder, the product model, or any other file) | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`) | autonomous |
-| F8 | a Feature issue was filed or changed from an ICE that is not ready, or a skipped feature is not named in the brief | take back the Feature issue filed or changed from the feature that is not ready, skip the feature, and name it in the brief | autonomous |
+| F5 | a tracker write or a model change happened before the yes, a write the person did not see in the brief happened, or a stop left a tracker write, a plan-file change or a model change behind | undo each tracker write the record lists and put back the plan file and the spine as they were (`scoped_write_guard.py --restore`); show the brief again | human |
+| F7 | the run wrote outside the plan file, the epic, the Feature issues and the `status` of the features C18 names (the evals folder, any other part of the product model, or any other file) | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`) | autonomous |
+| F8 | a Feature issue was filed, changed or opened again from an ICE that is not ready, a skipped feature's state changed, or a skipped feature is not named in the brief | take back the Feature issue filed, changed or opened again from the feature that is not ready, put back its state, skip the feature, and name it in the brief | autonomous |
 | F9 | the change landed outside the change plays, or on the wrong branch | land the change through the change plays, on the branch the target script gives | human |
 | F10 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
 | F11 | the epic or a Feature issue carries a label, a wrong issue type, a Feature issue not under the epic (and not `held_by`), or the run filed a Story | take the label off, set the type to Epic or Feature, make each Feature issue that is not `held_by` a sub-issue of the epic, and take back a Story the run filed | autonomous |
 | F12 | the epic holds a sub-issue the plan does not place, and the run wrote to the tracker or did not name it | stop before any tracker write and name each misplaced item with its title; a person files it in its own place and takes it off the epic, then runs the play again | human |
 | F13 | the intent already had a plan file and the run went on past pre-flight (opened a change, read the model, wrote anything), or stopped without naming /reshape-plan | stop the run, undo what it opened or wrote after pre-flight (the change branch and short-term folder, any tracker write), and show that the plan exists and `/reshape-plan <id>` changes it | human |
 | F14 | an issue found by its title or from the model, a line that is not exact or an issue not of type Feature, a second Feature issue for a feature that has one, a write past two Feature issues that name one feature, or a `held_by` Feature issue moved without the person's answer | take back the second Feature issue and use the one the exact line names; put back a moved `held_by` Feature issue; for two Feature issues that name one feature, stop before any tracker write and name both — a person keeps one and gives the other another type or line, then runs the play again | human |
-| F15 | for a feature with no Feature issue, no old-work search, or an action other than the one the brief proposed (an old open story not moved, or moved with no line naming its parent; finished old work with no closed Feature issue, or its feature left in the plan; a search or write outside the plan; a write past an old story two features claim) | run the old-work search and do the one action it gives; undo a search result or write for a feature outside the plan; for an old story two features claim, stop and name it — a person says which feature it is for | human |
-| F16 | a feature whose Feature issue is closed as completed or as not planned was put in the plan, its issue written to (reopened, moved or changed), a new Feature issue filed for it, or it was not named as left out (a not-planned one under "Not planned, left out", with its issue number); or the run stopped for a Feature issue closed as not planned | take the feature's node and map line out, undo any write to its closed Feature issue, take back a new Feature issue filed for it, and name it as left out under the right heading; a run that stopped for it is run again | autonomous |
+| F16 | a Completed or Dropped feature was put in the plan, searched for in the tracker, or had its issue written to, or was not named under "Built, left out" or "Dropped, left out"; "built" was read from the tracker; or a feature with no state, or a value outside the five, was not treated as Unplanned or not named under "Had no state" | take the feature's node and map line out, undo any write to its issue, name it under the right heading, read the state again from the spine, and name each feature with no state under "Had no state" | autonomous |
+| F17 | a feature the plan takes in has a Feature issue closed as not planned, or as completed while the feature is not Completed, and the brief did not show it under "Opened again", it was opened again without the yes, it is still closed after the yes, or a second Feature issue was filed for the feature | show the closed issue under "Opened again" and ask again; after the yes, open the same issue again and put it under the epic; take back a second Feature issue filed for the feature | human |
+| F18 | after the run, an Unplanned feature the plan takes in does not read Planned, a Planned or In progress feature's state changed, a state change is not in the brief, the model write came before the tracker writes and the plan file or did not go through `product-os-keeper` and `link-model-part`, or anything else in the model changed | put back the spine as it was at the run's start (`scoped_write_guard.py --restore`), run Step 8 again from `planned-request.json` through `product-os-keeper` and `link-model-part`, and run the state check again | autonomous |
 
 ## Pause and Resume
 
@@ -635,27 +709,30 @@ the status marker, skip completed steps, reset an in-progress step to pending, a
 Nothing reaches the tracker before Step 6, so a resume before it needs no undo. A resume after
 Step 6 started reads `tracker-record.json` first. It is written after every tracker write, so
 it lists every issue made. Run Step 7 from it before anything else, so the plan file marks
-those issues, then go on in the same run. A run that stopped part way is finished by continuing
+those issues, then go on in the same run. Nothing reaches the model before Step 8; a resume at
+Step 8 runs it again from `planned-request.json` (setting Planned twice changes nothing), then
+Step 9. A run that stopped part way is finished by continuing
 it, or by removing what it made and starting again; a new /shape-plan run on an intent whose
 plan file exists stops at pre-flight (C14).
-A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
+A run that closed HALTED at a stop has nothing to resume: it wrote nothing. A run that closed
+HALTED at Step 8 resumes there, from its request.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:979b202e923c0d9b263865dbc0e4cecdd2af205304e56f91be30dcd4a189c4f9 (of `reference/ice.md`) |
-| compiled_by | build-play (#818); fix-play (#896); fix-play (#1025) |
+| fingerprint | sha256:fa45d06805b10cc1e5d47e483227497731fbbebbc009944c33d1361e9bcc5b0a (of `reference/ice.md`) |
+| compiled_by | build-play (#818); fix-play (#896); fix-play (#1025); fix-play (#1025, ADR 070) |
 | pipeline_position | both (start-work head; commit → propose → review → merge close) |
 | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |
-| stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
+| stop_condition | stop-condition.yaml (D1–D6), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
 | utility_agents | 1 (template-manager — serves the approval prompt and the close) |
-| skills_used | author-work-items (built for this play) |
+| skills_used | author-work-items (built for this play), link-model-part (sets a feature's status, mode update) |
 | skills_missing | none |
-| tracker_verbs | view-issue, list-issues (the search for a Feature issue's exact line and for old work), create-issue-typed (type and parent in one call), close-issue (a Feature issue filed closed as completed), set-issue-type, edit-issue-body, remove-label, attach-sub-issue (with replace_parent, so a moved item leaves any other parent), remove-sub-issue — all through platform_adapter.py |
-| scripts | check_plan_absent.py (the plan-exists check), preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from build-play references; model_names.py is what check_ice_workable.py imports); plan_common.py (copied from build-play references, shared with /reshape-plan), gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
-| tests | test_check_plan_absent.py, test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py, test_scenarios.py (S12–S16 end to end) |
-| step_evals | 20 (SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-23) |
-| scenario_evals | 10 (SCE-1, SCE-6…SCE-9, SCE-12…SCE-16) |
-| recovery_entries | 15 (one per failure condition; 8 autonomous / 7 human) |
+| tracker_verbs | view-issue, list-issues (the search for a Feature issue's exact line), create-issue-typed (type and parent in one call), reopen-issue (a closed Feature issue opened again), set-issue-type, edit-issue-body, remove-label, attach-sub-issue (with replace_parent, so a moved item leaves any other parent), remove-sub-issue — all through platform_adapter.py |
+| scripts | check_plan_absent.py (the plan-exists check), preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from build-play references; model_names.py is what check_ice_workable.py imports); plan_common.py (copied from build-play references, shared with /reshape-plan), gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py, planned_request.py, check_states.py (this play) |
+| tests | test_check_plan_absent.py, test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py, test_states.py, test_scenarios.py (S12, S15–S19 end to end) |
+| step_evals | 22 (SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-21, SE-23…SE-26) |
+| scenario_evals | 11 (SCE-1, SCE-6…SCE-9, SCE-12, SCE-15…SCE-19) |
+| recovery_entries | 16 (one per failure condition; 9 autonomous / 7 human) |

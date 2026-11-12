@@ -67,16 +67,17 @@ def main():
         check("the plan file holds the failure words: not ok", code == 1 and any("Fails if" in x for x in res["problems"]))
         write(p["plan_file"], good)
 
-        write(p["record"], dict(rec, left_out=[{"feature": "ft-pay", "issue": 99, "reason": "built"}]))
+        write(p["record"], dict(rec, left_out=[{"feature": "ft-pay", "issue": None, "reason": "Completed",
+                                                 "kind": "completed"}]))
         code, res = verdict(p)
-        check("a built feature with a node in the plan: not ok (C16)",
+        check("a Completed feature with a node in the plan: not ok (C16)",
               code == 1 and any("left out" in x for x in res["problems"]))
         write(p["record"], rec)
 
-        write(p["record"], dict(rec, left_out=[{"feature": "ft-pay", "issue": 99, "reason": "not planned",
-                                                 "kind": "not-planned"}]))
+        write(p["record"], dict(rec, left_out=[{"feature": "ft-pay", "issue": None, "reason": "Dropped",
+                                                 "kind": "dropped"}]))
         code, res = verdict(p)
-        check("a not-planned feature with a node in the plan: not ok (C16)",
+        check("a Dropped feature with a node in the plan: not ok (C16)",
               code == 1 and any("left out" in x for x in res["problems"]))
         write(p["record"], rec)
 

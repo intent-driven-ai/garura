@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""find_work_items.py — find the plan's epic and each feature's work before any is made (/shape-plan, C3, C9, C13, C15, C16).
+"""find_work_items.py — find the plan's epic and each feature's work before any is made (/shape-plan, C3, C9, C13, C16, C17, C18).
 
     python3 find_work_items.py --gather <gather.json> --plan-file <plans>/<id>.yaml \
         [--tracker-file <json>] --out <working>/work-items.json
@@ -9,24 +9,28 @@ The plan has ONE epic. It is `use` (with its issue) when the plan file has the m
 product model (ADR 068, ADR 069).
 
 Each feature of the plan's slices is listed once, in the order the slices give, with the
-slices that hold it. Its Feature issue is the issue a node of the plan file's tree marks with
-`represents: <feature id>`; when no node marks it, it is the issue of type Feature, open or
-closed, whose text has the exact line `Represents: <feature id>`, found through the tracker's
-search (C3). Then:
-  - two Feature issues name the feature → a duplicate: the run names both and stops (S15);
-  - its Feature issue is closed as completed → `built`; closed as not planned →
-    `not-planned`. Either way the feature is left out of the plan and nothing is written to its
-    issue: no reopen, no move, no new issue (C16). The run goes on;
-  - its ICE is not ready → `skip`, with its reason; nothing about it is searched or moved (C9);
+slices that hold it and its state from the model (gather.json, ADR 070). Then:
+  - its state is Completed → `completed`; Dropped → `dropped`. It is left out of the plan, and
+    the tracker is not searched for it (C16);
+  - else its Feature issue is the issue a node of the plan file's tree marks with
+    `represents: <feature id>`; when no node marks it, the issue of type Feature, open or
+    closed, whose text has the exact line `Represents: <feature id>`, found through the
+    tracker's search (C3). Two Feature issues name the feature → a duplicate: the run names
+    both and stops (S15);
+  - its ICE is not ready → `skip`, with its reason; its issue stays as it is (C9);
+  - its Feature issue is closed (as not planned, or as completed while the feature is not
+    Completed) → `reopen`, with `closed_as`: on the yes the same issue is opened again and goes
+    under the epic like a found one (`missing`, `attached`, `parent`; `held_by` when another
+    epic holds it), and no second Feature issue is filed (C17);
   - its Feature issue is open → `use` (it has "Scope of work" and "Context guidance") or
     `add-sections` (`missing` names what it lacks); `attached` says whether it is a sub-issue
     of the plan's epic, and `parent` names a parent it would leave. When it sits under another
     epic, it is `held`, with `held_by: <epic>`: it is shown, never moved (C3);
-  - it has no Feature issue → the old-work search (C15): an open Story that names the feature
-    → `make-and-move`, with `move_stories` (each with the parent it leaves); only finished old
-    work (closed as completed) → `make-closed`, left out of the plan; nothing → `make`. An old
-    issue of type Feature with no exact `Represents:` line is listed in `old.old_groups` and
-    left as it is. One old story that two features claim is a problem.
+  - it has no Feature issue → `make`.
+  - `state_changes` lists each feature the plan takes in (make, use, add-sections, held,
+    reopen) whose state is Unplanned: it is set to Planned after the yes (C18). `kept_states`
+    lists each feature taken in that is Planned or In progress: it keeps its state.
+    `no_state` lists each feature that had no state, or a value outside the five (C16);
   - `move_out` lists each feature node under the epic's node in the plan file whose feature is
     in no slice of the plan;
   - `misplaced` lists each sub-issue of a used epic that is neither a Feature issue of the plan
@@ -39,8 +43,11 @@ Output:
      misplaced: [{epic, issue, title}],
      epic: {action, issue, title, type, labels, map, sub_issues, kept_subs},
      slices: [{id, name, features: [feature ids]}],
-     features: [{feature, name, slices, action, issue, source, parent, held_by, missing, reason,
-                 title, type, labels, represents_line, attached, old, move_stories}],
+     features: [{feature, name, slices, state, had_no_state, action, issue, source, parent,
+                 held_by, missing, reason, title, type, labels, represents_line, attached,
+                 closed_as}],
+     state_changes: [{feature, from, to, had_no_state}], kept_states: [{feature, state}],
+     no_state: [{feature, status}],
      move_out: [{issue, feature, title}]}
 
 Exit 0 written; 1 written, with a problem, a duplicate or misplaced work: the run shows them to
@@ -56,7 +63,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plan_common as pc  # noqa: E402
 
 SECTIONS = ("Scope of work", "Context guidance")
-NO_OLD = {"open_stories": [], "done_stories": [], "old_groups": []}
 
 
 def plan_features(gather):
@@ -87,9 +93,23 @@ def holder(tracker, parent, epic_no):
 
 def blank(f):
     return {"feature": f["id"], "name": f.get("name") or f["id"], "slices": f["slices"],
-            "action": "make", "issue": None, "source": None, "parent": None, "held_by": None,
-            "missing": [], "reason": "", "title": None, "type": None, "labels": [],
-            "represents_line": False, "attached": False, "old": NO_OLD, "move_stories": []}
+            "state": f.get("state"), "had_no_state": bool(f.get("had_no_state")),
+            "status": f.get("status"), "action": "make", "issue": None, "source": None,
+            "parent": None, "held_by": None, "missing": [], "reason": "", "title": None,
+            "type": None, "labels": [], "represents_line": False, "attached": False,
+            "closed_as": None}
+
+
+def placement(item, it, tracker, epic):
+    """held, or the sections it lacks and whether it is under the plan's epic."""
+    held = holder(tracker, it.get("parent"), epic["issue"])
+    if held is not None:
+        item.update(held_by=held, parent=it.get("parent"))
+        return True
+    missing = [s for s in SECTIONS if not pc.has_heading(it["body"], s)]
+    attached = epic["issue"] is not None and int(it["number"]) in epic["sub_issues"]
+    item.update(missing=missing, attached=attached, parent=None if attached else it.get("parent"))
+    return False
 
 
 def find(gather, plan, tracker):
@@ -112,6 +132,11 @@ def find(gather, plan, tracker):
     items = []
     for f in features:
         fid, item = f["id"], blank(f)
+        if f.get("left_out") in pc.LEFT_OUT_STATES:
+            act = f["left_out"].lower()
+            item.update(action=act, reason=f"its state in the model is {f['left_out']}")
+            items.append(item)
+            continue
         nodes = feature_nodes(tree, fid)
         it = None
         if len(nodes) > 1:
@@ -143,49 +168,24 @@ def find(gather, plan, tracker):
         if it is not None:
             item.update(title=it["title"], type=it["type"], labels=it["labels"],
                         represents_line=pc.has_line(it["body"], pc.represents_line(fid)))
-            if it["state"] != "open":
-                if pc.finished(it):
-                    item.update(action="built",
-                                reason=f"built: its Feature issue #{it['number']} is closed as completed")
-                else:
-                    item.update(action="not-planned",
-                                reason=f"not planned: its Feature issue #{it['number']} is closed as not planned")
-                items.append(item)
-                continue
         if not f.get("ready"):
             item.update(action="skip", reason=f.get("reason") or "its ICE is not ready")
             items.append(item)
             continue
-        if it is not None:
-            held = holder(tracker, it.get("parent"), epic["issue"])
-            if held is not None:
-                item.update(action="held", held_by=held, parent=it.get("parent"))
-                items.append(item)
-                continue
-            missing = [s for s in SECTIONS if not pc.has_heading(it["body"], s)]
-            attached = epic["issue"] is not None and int(it["number"]) in epic["sub_issues"]
-            item.update(action="add-sections" if missing else "use", missing=missing,
-                        attached=attached, parent=None if attached else it.get("parent"))
+        if it is None:
             items.append(item)
             continue
-        old = pc.old_work(tracker, fid, f.get("name"))
-        item["old"] = old
-        done_groups = [g for g in old["old_groups"] if g["state"] != "open"]
-        if old["open_stories"]:
-            item.update(action="make-and-move", move_stories=old["open_stories"])
-        elif old["done_stories"] or done_groups:
-            item.update(action="make-closed",
-                        reason="built: its old work is finished, so its Feature issue is filed "
-                               "closed as completed")
+        held = placement(item, it, tracker, epic)
+        if it["state"] != "open":
+            closed_as = "completed" if pc.finished(it) else "not planned"
+            item.update(action="reopen", closed_as=closed_as,
+                        reason=f"its Feature issue #{it['number']} is closed as {closed_as}, and the "
+                               f"feature is {f.get('state')} in the model")
+        elif held:
+            item["action"] = "held"
+        else:
+            item["action"] = "add-sections" if item["missing"] else "use"
         items.append(item)
-    claimed = {}
-    for item in items:
-        for st in item["move_stories"]:
-            claimed.setdefault(int(st["issue"]), []).append(item["feature"])
-    for number, fids in sorted(claimed.items()):
-        if len(fids) > 1:
-            problems.append(f"the old story #{number} names more than one feature ({', '.join(fids)}): "
-                            "a person says which feature it is for")
     plan_ids = {f["id"] for f in features}
     move_out = []
     if epic_node is not None:
@@ -206,9 +206,17 @@ def find(gather, plan, tracker):
     slices = [{"id": sl["id"], "name": sl.get("name"),
                "features": [f["id"] for f in sl.get("features") or []]}
               for sl in gather.get("slices") or []]
+    taken = [i for i in items if i["action"] in pc.IN_PLAN]
+    state_changes = [{"feature": i["feature"], "from": i["status"], "to": "Planned",
+                      "had_no_state": i["had_no_state"]}
+                     for i in taken if i["state"] == "Unplanned"]
+    kept_states = [{"feature": i["feature"], "state": i["state"]}
+                   for i in taken if i["state"] in ("Planned", "In progress")]
+    no_state = [{"feature": i["feature"], "status": i["status"]} for i in items if i["had_no_state"]]
     return {"ok": not problems and not duplicates and not misplaced,
             "plan_file_exists": plan is not None, "problems": problems, "duplicates": duplicates,
             "misplaced": misplaced, "epic": epic, "slices": slices, "features": items,
+            "state_changes": state_changes, "kept_states": kept_states, "no_state": no_state,
             "move_out": move_out}
 
 

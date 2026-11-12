@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-"""render_brief.py — the one brief the product owner reads before any write (/shape-plan, C8, C9, C11, C15, C16).
+"""render_brief.py — the one brief the product owner reads before any write (/shape-plan, C8, C9, C11, C16, C17, C18).
 
     python3 render_brief.py --gather <gather.json> --work-items <work-items.json> \
         --drafts <drafts.json> --out <working>/brief.md
 
 The brief is built from the run's records only, so no write can be left out of it:
   - what the run writes in the tracker: the plan's one epic (make, use), and each feature's
-    Feature issue (make, use, add sections), with the text a new item or a new section gets,
-    each type, label or sub-issue change on an item that exists, and the old work the clean-up
-    found: each old open story moved inside the new Feature issue, with the parent it leaves,
-    and each Feature issue filed already closed because its old work is finished;
+    Feature issue (make, use, add sections, open again), with the text a new item or a new
+    section gets, and each type, label or sub-issue change on an item that exists;
   - the Feature issues another plan's epic holds (`held_by`): shown, never moved;
-  - the features left out because they are built, with their Feature issue, and, under "Not
-    planned, left out", each feature whose Feature issue is closed as not planned, with its
-    issue number: it stays as it is;
+  - under "Opened again", each closed Feature issue of a feature the plan takes in, with its
+    issue number and how it was closed: on the yes the same issue opens again (C17);
+  - under "Built, left out" and "Dropped, left out", each feature whose state in the model is
+    Completed or Dropped: no tracker search, no write (C16);
+  - under "Had no state", each feature whose spine entry has no `status`, or a value outside
+    the five: it is treated as Unplanned (C16);
+  - under "State changes in the product model", each feature the plan takes in that moves from
+    Unplanned to Planned, and each that keeps its state (C18);
   - the plan-file change: the business intent at the top, the `epic:` mark, the Slices list
     (each slice at Not Started), and each node it adds or takes out;
   - each skipped feature, with its reason;
@@ -62,12 +65,6 @@ def fix_lines(item, type_):
     return out
 
 
-def old_groups(f):
-    return [f"  - The old issue #{g['issue']} \"{g.get('title') or ''}\" ({g.get('state')}) is of type "
-            f"Feature but has no line \"{pc.represents_line(f['feature'])}\". It stays as it is: a "
-            "person gives it the line or another type." for g in (f.get("old") or {}).get("old_groups") or []]
-
-
 def render(gather, items, drafts):
     plan_id = gather.get("plan_id")
     drafted = {d.get("feature"): d for d in drafts.get("features") or [] if isinstance(d, dict)}
@@ -75,13 +72,14 @@ def render(gather, items, drafts):
     features = items.get("features") or []
     lines = [f"# The plan for business intent #{plan_id}: {gather.get('intent_title', '')}", "",
              "This run makes the plan for this business intent: the plan file, one epic for the "
-             "plan, and one Feature issue for each feature that is not built yet, across all the "
-             "plan's slices. It files no Stories. Nothing below is written yet. Read each write, "
-             "then type yes to write all of it, change: <what> to have it drafted again, or stop "
-             "to write nothing.", ""]
+             "plan, and one Feature issue for each feature that is not Completed and not Dropped, "
+             "across all the plan's slices. In the product model it changes one field: each "
+             "Unplanned feature the plan takes in becomes Planned. It files no Stories. Nothing "
+             "below is written yet. Read each write, then type yes to write all of it, change: "
+             "<what> to have it drafted again, or stop to write nothing.", ""]
     lines += ["## What the run writes in the tracker", "", "### The plan's epic", ""]
     writes, adds, removes = 0, [], []
-    held, left_out, not_planned, skipped = [], [], [], []
+    held, reopened, built, dropped, skipped = [], [], [], [], []
     if epic.get("action") == "make":
         writes += 1
         lines += [f"- Make a new epic, type {pc.EPIC_TYPE}, no label: \"{depic.get('title', '')}\"",
@@ -92,7 +90,7 @@ def render(gather, items, drafts):
     else:
         fixes = fix_lines(epic, pc.EPIC_TYPE)
         pairs = pc.map_pairs(features)
-        new = any(f.get("action") in ("make", "make-and-move") for f in features)
+        new = any(f.get("action") in ("make", "reopen") for f in features)
         if new or items.get("move_out") or epic.get("map") != dict(pairs):
             fixes.append("write its feature-to-story map" + (", with a line for each new Feature issue" if new else ""))
         writes += bool(fixes)
@@ -103,32 +101,35 @@ def render(gather, items, drafts):
         fid, act = f.get("feature"), f.get("action")
         d = drafted.get(fid) or {}
         where = " (slices " + ", ".join(f.get("slices") or []) + ")" if len(f.get("slices") or []) > 1 else ""
-        if act in ("make", "make-and-move"):
-            writes += 1 + len(f.get("move_stories") or [])
+        if act == "make":
+            writes += 1
             lines += [f"- File a new Feature issue for {fid}{where}, type {pc.FEATURE_TYPE}, no label, a "
                       f"sub-issue of the epic, with the line \"{pc.represents_line(fid)}\": "
                       f"\"{d.get('title', '')}\""] + feature_text(d)
-            if act == "make-and-move":
-                lines.append("  - Clean-up: old open work on this feature was found. Each story moves "
-                             "inside the new Feature issue:")
-                lines += [f"    - Story #{st['issue']} \"{st.get('title') or ''}\": {parent_words(st.get('parent'))}."
-                          for st in f.get("move_stories") or []]
-            else:
-                lines.append("  - Clean-up: no old work on this feature was found.")
-            lines += old_groups(f)
             adds.append(f"a feature node for {fid}")
-        elif act == "make-closed":
-            writes += 2
-            old = f.get("old") or {}
-            done = (old.get("done_stories") or []) + [g for g in old.get("old_groups") or []
-                                                      if g.get("state") != "open"]
-            lines += [f"- File a Feature issue for {fid}, type {pc.FEATURE_TYPE}, no label, no parent, with "
-                      f"the line \"{pc.represents_line(fid)}\", and close it as completed: "
-                      f"\"{d.get('title', '')}\"",
-                      "  - Clean-up: its old work is finished ("
-                      + ", ".join(f"#{x['issue']} \"{x.get('title') or ''}\"" for x in done)
-                      + "), so the feature counts as built and is left out of the plan."] + old_groups(f)
-            left_out.append(f"{fid}: a Feature issue is filed closed as completed, because its old work is finished.")
+        elif act == "reopen":
+            writes += 1
+            fixes = []
+            if f.get("held_by") is None:
+                if f.get("missing"):
+                    fixes.append("add the section" + ("s " if len(f["missing"]) > 1 else " ")
+                                 + " and ".join(f"\"{m}\"" for m in f["missing"])
+                                 + " at the end; every line a person wrote stays")
+                fixes += fix_lines(f, pc.FEATURE_TYPE)
+                if not f.get("attached"):
+                    fixes.append("make it a sub-issue of the epic (" + parent_words(f.get("parent")) + ")")
+            if not f.get("represents_line"):
+                fixes.append(f"add the line \"{pc.represents_line(fid)}\" at the end of its text")
+            writes += len(fixes)
+            lines.append(f"- Open Feature issue #{f.get('issue')} \"{f.get('title') or ''}\" again for {fid}{where}: "
+                         f"it is closed as {f.get('closed_as')}. No second Feature issue is filed"
+                         + ("; " + "; ".join(fixes) if fixes else "") + ".")
+            if f.get("missing") and f.get("held_by") is None:
+                lines += feature_text(d)
+            reopened.append(f"{fid}: Feature issue #{f.get('issue')} \"{f.get('title') or ''}\", closed as "
+                            f"{f.get('closed_as')}, opens again"
+                            + (f"; it stays under epic #{f.get('held_by')}" if f.get("held_by") else "") + ".")
+            adds.append(f"a feature node for {fid}" + (f", held_by {f.get('held_by')}" if f.get("held_by") else ""))
         elif act == "add-sections":
             writes += 1
             fixes = fix_lines(f, pc.FEATURE_TYPE)
@@ -155,12 +156,12 @@ def render(gather, items, drafts):
                         f"#{f.get('held_by')}. It stays there; the plan shows it as held_by: {f.get('held_by')}, "
                         "and the epic's map names that epic. It moves only on your answer.")
             adds.append(f"a feature node for {fid}, held_by {f.get('held_by')}")
-        elif act == "built":
-            left_out.append(f"{fid}: {f.get('reason')}. Nothing is written to it.")
-        elif act == "not-planned":
-            not_planned.append(f"{fid}: its Feature issue #{f.get('issue')} \"{f.get('title') or ''}\" is "
-                               "closed as not planned. It stays as it is (no reopen, no move, no new "
-                               "issue), and the feature is not in the plan.")
+        elif act == "completed":
+            built.append(f"{fid}: it is Completed in the model. It is not in the plan, and the tracker "
+                         "is not searched or written for it.")
+        elif act == "dropped":
+            dropped.append(f"{fid}: it is Dropped in the model. It is not in the plan, and the tracker "
+                           "is not searched or written for it.")
         elif act == "skip":
             keep = f" Its Feature issue #{f.get('issue')} stays as it is." if f.get("issue") else ""
             skipped.append(f"{fid}: its ICE is not ready, so no Feature issue is filed or changed.{keep} "
@@ -172,10 +173,27 @@ def render(gather, items, drafts):
         removes.append(f"the node #{mo.get('issue')} ({mo.get('feature')})")
     lines += ["", "## Held by another plan's epic", ""]
     lines += [f"- {h}" for h in held] or ["- None."]
-    lines += ["", "## Left out: built", ""]
-    lines += [f"- {x}" for x in left_out] or ["- None. No feature of the plan is built."]
-    lines += ["", "## Not planned, left out", ""]
-    lines += [f"- {x}" for x in not_planned] or ["- None."]
+    lines += ["", "## Opened again", ""]
+    lines += [f"- {x}" for x in reopened] or ["- None."]
+    lines += ["", "## Built, left out", ""]
+    lines += [f"- {x}" for x in built] or ["- None. No feature of the plan is Completed."]
+    lines += ["", "## Dropped, left out", ""]
+    lines += [f"- {x}" for x in dropped] or ["- None."]
+    lines += ["", "## Had no state", ""]
+    lines += [f"- {n['feature']}: its spine entry has "
+              + (f"the status {n['status']!r}, which is not one of the five" if n.get("status") is not None
+                 else "no status")
+              + ". It is treated as Unplanned." for n in items.get("no_state") or []] or ["- None."]
+    lines += ["", "## State changes in the product model", ""]
+    changes = items.get("state_changes") or []
+    lines += [f"- {c['feature']}: Unplanned → Planned"
+              + (" (it had no state)" if c.get("had_no_state") else "") + "." for c in changes]
+    lines += [f"- {k['feature']}: stays {k['state']}." for k in items.get("kept_states") or []]
+    if not changes and not items.get("kept_states"):
+        lines.append("- None.")
+    if changes:
+        lines.append("- These are written after the tracker writes and the plan file, through "
+                     "link-model-part. Nothing else in the product model changes.")
     lines += ["", "## The plan file", ""]
     path = gather.get("plan_file")
     slice_names = ", ".join(f"{sl['id']} ({sl.get('name', '')})" for sl in gather.get("slices") or [])
@@ -190,7 +208,8 @@ def render(gather, items, drafts):
     lines += ["", "## Skipped features", ""]
     lines += [f"- {x}" for x in skipped] or ["- None. Every feature's ICE is ready."]
     lines += ["", "## Your answer", "",
-              f"The run makes {writes} tracker write(s) of the kinds above, and then the plan-file change.",
+              f"The run makes {writes} tracker write(s) of the kinds above, then the plan-file change, "
+              f"then {len(changes)} state change(s) in the product model.",
               "Type **yes** to write all of it, **change: <what>** to have the epic or the Feature "
               "issues drafted again, or **stop** to write nothing.", ""]
     return "\n".join(lines)

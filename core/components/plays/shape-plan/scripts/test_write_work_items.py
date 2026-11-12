@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_write_work_items.py — write_work_items.py writes after a yes only, finds before it makes, keeps a person's lines (C3, C5, C6, C8, C13, C16).
+"""test_write_work_items.py — write_work_items.py writes after a yes only, finds before it makes, keeps a person's lines (C3, C5, C6, C8, C13, C16, C17).
 
     python3 test_write_work_items.py
 """
@@ -67,7 +67,8 @@ def main():
               [c["represents"] for c in rec["created"]] == ["ft-cancel"] and "- ft-cancel → #" in epic["body"])
 
     with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay")), paths(tmp)
+        root = make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay"), states={"ft-pay": "Completed"})
+        p = paths(tmp)
         person = "A person wrote this.\n\nAnd this line too.\n"
         empty_tracker(p, [
             issue(1, "Patients book online", None, "The business intent.", subs=[11]),
@@ -88,9 +89,10 @@ def main():
         check("a held Feature issue stays under its epic, and the map names that epic",
               its[40]["sub_issues"] == [12] and 12 not in epic["sub_issues"]
               and "- ft-remind → #12 (under Epic #40)" in epic["body"] and rec["held"] == {"ft-remind": 40})
-        check("a built feature is left out: no write to its issue, no map line (C16)",
-              its[13]["body"] == full_body("ft-pay") and "ft-pay" not in epic["body"]
-              and [x["feature"] for x in rec["left_out"]] == ["ft-pay"])
+        check("a Completed feature is left out: no write to its issue, no map line (C16)",
+              its[13]["body"] == full_body("ft-pay") and its[13]["state"] == "closed" and "ft-pay" not in epic["body"]
+              and rec["left_out"] == [{"feature": "ft-pay", "issue": None,
+                                       "reason": "its state in the model is Completed", "kind": "completed"}])
         check("the record lists each change", {u["issue"] for u in rec["updated"]} == {11, rec["epic"]}
               and all(u["lines_kept"] for u in rec["updated"]))
         check("the plan and tracker checks read ok", codes["check_plan"] == 0 and codes["check_tracker"] == 0)
@@ -134,6 +136,21 @@ def main():
               codes["write"] == 0 and [c["represents"] for c in rec["created"]] == ["ft-remind", "ft-pay"]
               and len(its) == 4 and sum(1 for i in its.values() if i["type"] == "Epic") == 1
               and codes["check_plan"] == 0 and codes["check_tracker"] == 0)
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
+        empty_tracker(p, [issue(20, "Send a reminder", "Feature", "Represents: ft-remind\nA person's note.\n",
+                                state="closed", reason="not_planned")])
+        codes = flow(root, p)
+        rec, its = read_json(p["record"]), issues(p)
+        epic = its[rec["epic"]]
+        check("a Feature issue closed as not planned opens again, gains its sections and goes under the epic (C17)",
+              codes["write"] == 0 and its[20]["state"] == "open" and 20 in epic["sub_issues"]
+              and its[20]["body"].startswith("Represents: ft-remind\nA person's note.\n")
+              and "## Scope of work" in its[20]["body"] and "- ft-remind → #20" in epic["body"])
+        check("no second Feature issue is filed for it, and the record names the issue opened again",
+              [c["represents"] for c in rec["created"]] == [None, "ft-pick"]
+              and rec["reopened"] == [{"issue": 20, "feature": "ft-remind", "closed_as": "not planned"}])
+        check("the plan and tracker checks read ok", codes["check_plan"] == 0 and codes["check_tracker"] == 0)
     return finish()
 
 

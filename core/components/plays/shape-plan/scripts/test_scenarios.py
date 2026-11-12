@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""test_scenarios.py — the scenarios S12 to S15 of /shape-plan, end to end with the file tracker.
+"""test_scenarios.py — the scenarios S12 and S15 to S19 of /shape-plan, end to end with the file tracker.
 
     python3 test_scenarios.py
 
 Each runs the play's scripts in order (gather, find, drafts, draft check, brief, approval,
-tracker write, plan file, plan check, tracker check) on a small clinic model.
+tracker write, plan file, plan check, tracker check, the Planned request, the model write the
+link-model-part skill makes, and the state check) on a small clinic model.
 """
+import json
 import os
 import sys
 import tempfile
@@ -20,6 +22,11 @@ from test_support import (check, empty_tracker, finish, flow, full_body, issue, 
 
 def tracker(p):
     return {i["number"]: i for i in read_json(p["tracker"])["issues"]}
+
+
+def spine_status(root):
+    spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+    return {f["id"]: f.get("status") for f in spine["features"]}
 
 
 def main():
@@ -43,54 +50,6 @@ def main():
                                      {"id": "sl-cancel", "status": "Not Started"}]
               and len(plan["tree"]) == 1 and len(plan["tree"][0]["children"]) == 4)
 
-    print("S13 — an old open story is found")
-    with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp), paths(tmp)
-        empty_tracker(p, [issue(5, "An old epic", "Epic", "", subs=[6]),
-                          issue(6, "Pick a free slot", "Story", "Represents: ft-pick\nOld words.")])
-        codes = flow(root, p)
-        items, rec, its = read_json(p["items"]), read_json(p["record"]), tracker(p)
-        pick = next(f for f in items["features"] if f["feature"] == "ft-pick")
-        brief = read(p["brief"])
-        new = rec["features"]["ft-pick"]
-        check("the find proposes make-and-move, with the story and the parent it leaves",
-              pick["action"] == "make-and-move" and pick["move_stories"][0]["issue"] == 6
-              and pick["move_stories"][0]["parent"]["number"] == 5)
-        check("the brief names the move and that parent",
-              "Story #6 \"Pick a free slot\": it leaves its parent #5 \"An old epic\"" in brief)
-        check("after the yes, a Feature issue is filed and the story is inside it",
-              its[new]["type"] == "Feature" and its[new]["sub_issues"] == [6] and its[5]["sub_issues"] == []
-              and rec["moved"] == [{"issue": 6, "title": "Pick a free slot", "to": new, "left": 5}])
-        check("the plan and tracker checks read ok", codes["check_plan"] == 0 and codes["check_tracker"] == 0)
-
-    print("S14 — old finished work is found")
-    with tempfile.TemporaryDirectory() as tmp:
-        root, p = make_model(tmp), paths(tmp)
-        empty_tracker(p, [issue(7, "Send a reminder", "Story", "", state="closed", reason="completed")])
-        codes = flow(root, p)
-        items, rec, its = read_json(p["items"]), read_json(p["record"]), tracker(p)
-        remind = next(f for f in items["features"] if f["feature"] == "ft-remind")
-        filed = next(c["issue"] for c in rec["created"] if c["represents"] == "ft-remind")
-        plan_text = read(p["plan_file"])
-        check("the find proposes make-closed", remind["action"] == "make-closed")
-        check("the brief names it as left out", "ft-remind: a Feature issue is filed closed as completed"
-              in read(p["brief"]).split("## Left out: built")[1])
-        check("the tracker holds a Feature issue with its exact line, closed as completed, under no epic",
-              its[filed]["type"] == "Feature" and its[filed]["state"] == "closed"
-              and its[filed]["state_reason"] == "completed"
-              and "Represents: ft-remind" in its[filed]["body"].splitlines()
-              and not any(filed in i["sub_issues"] for i in its.values()))
-        check("the feature is left out: no node, no map line",
-              "ft-remind" not in plan_text and "ft-remind" not in rec["map"]
-              and read_json(os.path.join(p["working"], "plan-check.json"))["left_out"][0]["feature"] == "ft-remind")
-        check("the plan and tracker checks read ok", codes["check_plan"] == 0 and codes["check_tracker"] == 0)
-        before = read(p["tracker"])
-        flow(root, p)
-        items = read_json(p["items"])
-        check("a later run finds the closed Feature issue: built, nothing written",
-              next(f for f in items["features"] if f["feature"] == "ft-remind")["action"] == "built"
-              and read(p["tracker"]) == before)
-
     print("S15 — two Feature issues name one feature")
     with tempfile.TemporaryDirectory() as tmp:
         root, p = make_model(tmp), paths(tmp)
@@ -105,26 +64,89 @@ def main():
         check("no tracker write, no record and no plan file",
               codes["write"] == 2 and read(p["tracker"]) == before and not os.path.exists(p["record"])
               and not os.path.exists(p["plan_file"]))
-    print("S16 — a feature not planned")
+    print("S16 — a closed Feature issue is opened again")
     with tempfile.TemporaryDirectory() as tmp:
         root, p = make_model(tmp), paths(tmp)
         empty_tracker(p, [issue(9, "Pay the fee", "Feature", full_body("ft-pay"), state="closed",
                                 reason="not_planned")])
-        before = tracker(p)[9]
         codes = flow(root, p)
         items, rec, its = read_json(p["items"]), read_json(p["record"]), tracker(p)
         pay = next(f for f in items["features"] if f["feature"] == "ft-pay")
         check("the run goes on: every step reads ok", all(c == 0 for c in codes.values()))
-        check("the find lists the feature as not-planned, with its issue", items["ok"] is True
-              and pay["action"] == "not-planned" and pay["issue"] == 9)
-        check("the brief names it, with its issue number, under its own heading",
-              "ft-pay: its Feature issue #9" in read(p["brief"]).split("## Not planned, left out")[1])
-        check("its Feature issue stays as it is, and no new Feature issue is filed for it",
-              {k: its[9].get(k) for k in before} == before and its[9].get("parent") is None and not any(c["represents"] == "ft-pay" for c in rec["created"]))
-        check("the feature is left out: no node, no map line",
-              "ft-pay" not in read(p["plan_file"]) and "ft-pay" not in rec["map"]
-              and [x["feature"] for x in read_json(os.path.join(p["working"], "plan-check.json"))["left_out"]]
-              == ["ft-pay"])
+        check("the find lists the feature as reopen, with its issue",
+              items["ok"] is True and pay["action"] == "reopen" and pay["issue"] == 9)
+        check("the brief names it, with its issue number, under Opened again",
+              "ft-pay: Feature issue #9" in read(p["brief"]).split("## Opened again")[1].split("##")[0])
+        check("after the yes the same issue is open, under the epic, and no second one is filed",
+              its[9]["state"] == "open" and 9 in its[rec["epic"]]["sub_issues"]
+              and rec["reopened"][0]["issue"] == 9
+              and not any(c["represents"] == "ft-pay" for c in rec["created"]))
+        check("the feature is in the plan and now Planned",
+              rec["map"]["ft-pay"] == 9 and spine_status(root)["ft-pay"] == "Planned")
+
+    print("S17 — Completed and Dropped features are left out")
+    with tempfile.TemporaryDirectory() as tmp:
+        root = make_model(tmp, states={"ft-remind": "Completed", "ft-pay": "Dropped"})
+        p = paths(tmp)
+        empty_tracker(p, [issue(30, "Send a reminder", "Feature", full_body("ft-remind"))])
+        before = read(p["tracker"])
+        codes = flow(root, p)
+        items, rec = read_json(p["items"]), read_json(p["record"])
+        fs = {f["feature"]: f for f in items["features"]}
+        brief = read(p["brief"])
+        check("every step reads ok", all(c == 0 for c in codes.values()))
+        check("both are left out from the model, with no tracker search (no issue found)",
+              fs["ft-remind"]["action"] == "completed" and fs["ft-remind"]["issue"] is None
+              and fs["ft-pay"]["action"] == "dropped" and fs["ft-pay"]["issue"] is None)
+        check("the brief names each under its heading",
+              "ft-remind" in brief.split("## Built, left out")[1].split("##")[0]
+              and "ft-pay" in brief.split("## Dropped, left out")[1].split("##")[0])
+        check("no node, no map line, and the open issue #30 is not touched",
+              "ft-remind" not in read(p["plan_file"]) and "ft-pay" not in read(p["plan_file"])
+              and set(rec["map"]) == {"ft-pick"}
+              and all(tracker(p)[30].get(k) == v for k, v in json.loads(before)["issues"][0].items()))
+        check("their states are as they were; the plan check names both as left out",
+              spine_status(root)["ft-remind"] == "Completed" and spine_status(root)["ft-pay"] == "Dropped"
+              and sorted(x["feature"] for x in read_json(os.path.join(p["working"], "plan-check.json"))["left_out"])
+              == ["ft-pay", "ft-remind"])
+
+    print("S18 — the plan sets Planned")
+    with tempfile.TemporaryDirectory() as tmp:
+        root = make_model(tmp, states={"ft-remind": "Planned", "ft-pay": "In progress"})
+        p = paths(tmp)
+        empty_tracker(p)
+        codes = flow(root, p)
+        items, request = read_json(p["items"]), read_json(p["request"])
+        part = read(p["brief"]).split("## State changes in the product model")[1].split("## The plan file")[0]
+        check("every step reads ok", all(c == 0 for c in codes.values()))
+        check("only the Unplanned feature changes; the brief lists it, and keeps the other two",
+              [c["feature"] for c in items["state_changes"]] == ["ft-pick"]
+              and "ft-pick: Unplanned → Planned." in part and "ft-remind: stays Planned." in part
+              and "ft-pay: stays In progress." in part)
+        check("the request asks link-model-part for that one feature, mode update, status Planned",
+              request == {"by": "shape-plan (#340)", "parts": [{"id": "ft-pick", "kind": "feature",
+                                                               "mode": "update", "status": "Planned"}]})
+        check("after the write: Planned, the others kept, and the state check reads ok",
+              spine_status(root) == {"ft-pick": "Planned", "ft-remind": "Planned", "ft-pay": "In progress",
+                                     "ft-cancel": "Unplanned", "ft-wait": "Unplanned"}
+              and read_json(p["state_check"])["ok"] is True)
+
+    print("S19 — a feature with no state")
+    with tempfile.TemporaryDirectory() as tmp:
+        root = make_model(tmp, states={"ft-remind": None})
+        p = paths(tmp)
+        empty_tracker(p)
+        codes = flow(root, p)
+        g = {f["id"]: f for f in read_json(p["gather"])["slices"][0]["features"]}
+        rec = read_json(p["record"])
+        check("every step reads ok", all(c == 0 for c in codes.values()))
+        check("it reads Unplanned, with had_no_state",
+              g["ft-remind"]["state"] == "Unplanned" and g["ft-remind"]["had_no_state"] is True)
+        check("the brief names it under Had no state",
+              "ft-remind: its spine entry has no status" in read(p["brief"]).split("## Had no state")[1])
+        check("it is in the plan, and after the write it reads Planned",
+              "ft-remind" in rec["map"] and spine_status(root)["ft-remind"] == "Planned"
+              and read_json(p["state_check"])["ok"] is True)
     return finish()
 
 

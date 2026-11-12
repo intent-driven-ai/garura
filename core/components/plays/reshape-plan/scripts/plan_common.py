@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """plan_common.py — the parts the /shape-plan scripts share.
 
-Not run on its own. The scripts beside it import it for four jobs:
+Not run on its own. The scripts beside it import it for five jobs:
 
   - Safe writes. `atomic_write` and `write_json` write through a temp file in the same folder,
     then move it into place with os.replace. A run that stops half way never leaves half a
@@ -18,10 +18,13 @@ Not run on its own. The scripts beside it import it for four jobs:
   - The tracker. `open_tracker` gives a file tracker (`--tracker-file <json>`, for tests and
     dry runs) or the code host, reached only through platform_adapter.py. Both have the same
     methods: get, search (the issues whose title or text holds a phrase, open or closed),
-    create (title, body, type and parent in one write), close, set_type, set_body,
+    create (title, body, type and parent in one write), close, reopen, set_type, set_body,
     remove_labels, add_sub, remove_sub, save. `feature_issues` finds the Feature issues of a
     feature by the exact line `Represents: <feature id>` on an issue of type Feature, never by
-    a title (ADR 068); `old_work` finds the old work on a feature that has none (#1025).
+    a title (ADR 068).
+  - A feature's state (ADR 070): `feature_state` reads the `status` of a feature's spine entry,
+    one of `STATES`; no status, or a value outside the five, reads as Unplanned and is named as
+    a feature that had no state.
   - The hash of a file (`sha256_of`), so a yes stays tied to the files the person saw.
 
 The file tracker is a JSON file {"issues": [{"number", "title", "type", "labels": [],
@@ -31,7 +34,7 @@ write. A test can make one write fail: `"fail_at_write": <n>` in the file makes 
 of the run fail, with nothing changed by it.
 
 The code host is reached through the adapter's verbs only: view-issue, list-issues,
-create-issue-typed, close-issue, set-issue-type, edit-issue-body, remove-label,
+create-issue-typed, close-issue, reopen-issue, set-issue-type, edit-issue-body, remove-label,
 attach-sub-issue and remove-sub-issue. No judgment is made here.
 """
 
@@ -50,6 +53,8 @@ except ImportError:  # the scripts say so in plain words
 HERE = os.path.dirname(os.path.abspath(__file__))
 RECOVERY_PHRASES = ("the builder can fix this alone", "a person must decide")
 EPIC_TYPE, FEATURE_TYPE, STORY_TYPE = "Epic", "Feature", "Story"
+STATES = ("Unplanned", "Planned", "In progress", "Completed", "Dropped")
+LEFT_OUT_STATES = ("Completed", "Dropped")
 
 
 class Refused(Exception):
@@ -406,6 +411,12 @@ class FileTracker:
         it["state"], it["state_reason"] = "closed", reason
         self._keep()
 
+    def reopen(self, number):
+        self._write("open an issue again")
+        it = self._must(number)
+        it["state"], it["state_reason"] = "open", "reopened"
+        self._keep()
+
     def set_type(self, number, type_):
         self._write("set the type")
         self._must(number)["type"] = type_
@@ -508,6 +519,9 @@ class HostTracker:
     def close(self, number, reason="completed"):
         self._adapter("close-issue", {"issue_number": str(number), "reason": reason})
 
+    def reopen(self, number):
+        self._adapter("reopen-issue", {"issue_number": str(number)})
+
     def set_type(self, number, type_):
         self._adapter("set-issue-type", {"issue_number": str(number), "issue_type": type_})
 
@@ -597,43 +611,20 @@ def feature_issues(tracker, fid):
     return out
 
 
-def names_feature(it, fid, name):
-    """True when the issue's text or title names the feature's id as a word, or its title
-    holds the feature's name."""
-    word = re.compile(rf"(?<![\w-]){re.escape(fid)}(?![\w-])")
-    if word.search(it.get("body") or "") or word.search(it.get("title") or ""):
-        return True
-    return bool(name) and norm(name) in norm(it.get("title") or "")
-
-
 def finished(it):
     """Closed as completed (or closed, when the tracker gives no reason)."""
     return it["state"] != "open" and (it.get("state_reason") or "completed") == "completed"
 
 
-def old_work(tracker, fid, name):
-    """The old work on a feature that has no Feature issue (C15): {open_stories, done_stories,
-    old_groups}. A story is an issue of type Story whose text names the feature's id or whose
-    title names the feature; an old group is an issue of type Feature that names the feature
-    but has no exact `Represents:` line. A story closed as not planned is not finished work."""
-    numbers = set(tracker.search(fid))
-    if name:
-        numbers |= set(tracker.search(name, fields=("title",)))
-    out = {"open_stories": [], "done_stories": [], "old_groups": []}
-    for n in sorted(numbers):
-        it = tracker.get(n)
-        if not it or not names_feature(it, fid, name):
-            continue
-        brief = {"issue": it["number"], "title": it["title"], "state": it["state"],
-                 "parent": it.get("parent")}
-        if it.get("type") == STORY_TYPE:
-            if it["state"] == "open":
-                out["open_stories"].append(brief)
-            elif finished(it):
-                out["done_stories"].append(brief)
-        elif it.get("type") == FEATURE_TYPE and not has_line(it["body"], represents_line(fid)):
-            out["old_groups"].append(brief)
-    return out
+# ---- a feature's state (ADR 070) --------------------------------------------------------
+
+def feature_state(entry):
+    """(state, had_no_state) of a feature's spine entry: its `status` when it is one of the
+    five, else Unplanned, with had_no_state True."""
+    raw = (entry or {}).get("status") if isinstance(entry, dict) else None
+    if isinstance(raw, str) and raw in STATES:
+        return raw, False
+    return "Unplanned", True
 
 
 # ---- the epic's feature-to-story map ----------------------------------------------------
@@ -694,12 +685,12 @@ def with_map(body, pairs, held=None):
     return "\n".join(lines).rstrip() + "\n"
 
 
-IN_PLAN = ("make", "make-and-move", "use", "add-sections", "held")
+IN_PLAN = ("make", "use", "add-sections", "held", "reopen")
 
 
 def map_pairs(features, made=None):
     """[(feature, Feature issue)] in the plan's order: each feature that is in the plan (not
-    built, not skipped), with its issue made in this run (`made`: {feature: issue}) or there
+    Completed, not Dropped, not skipped), with its issue made in this run (`made`: {feature: issue}) or there
     before. A feature left out of the plan is not in it."""
     made = made or {}
     out = []

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_gather_plan.py — gather_plan.py finds the slices of an intent and writes clean ICE copies (C2, C3, C5, C9).
+"""test_gather_plan.py — gather_plan.py finds the slices of an intent and writes clean ICE copies, and reads each feature's state from the model (C2, C3, C5, C9, C16).
 
     python3 test_gather_plan.py
 """
@@ -146,6 +146,28 @@ def main():
               "Feature ICE — ft-remind" in text and "### Intent" in text and "fails if" not in text.lower())
         check("#1034: the moved feature beside it still reads its ice.md",
               fs["ft-pick"]["ready"] and fs["ft-pick"]["ice_pages"][0].endswith("ices/pick.md"))
+    with tempfile.TemporaryDirectory() as tmp:
+        root = make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay", "ft-cancel"),
+                          states={"ft-pick": "Completed", "ft-remind": "Dropped", "ft-pay": "In progress",
+                                  "ft-cancel": None})
+        p = paths(tmp)
+        code, _, _ = gather(root, p)
+        fs = {f["id"]: f for f in read_json(p["gather"])["slices"][0]["features"]}
+        check("each feature carries its state from its spine entry (ADR 070)",
+              code == 0 and fs["ft-pay"]["state"] == "In progress" and fs["ft-pay"]["had_no_state"] is False)
+        check("a Completed or Dropped feature is left out: no ready check, no clean copy (C16)",
+              fs["ft-pick"]["left_out"] == "Completed" and fs["ft-remind"]["left_out"] == "Dropped"
+              and fs["ft-pick"]["clean_ice"] is None and fs["ft-pick"]["reason"] == ""
+              and sorted(os.path.basename(c) for c in glob.glob(os.path.join(p["working"], "ice", "*.md")))
+              == ["ft-cancel.md", "ft-pay.md"])
+        check("a feature with no status reads Unplanned, with had_no_state (C16)",
+              fs["ft-cancel"]["state"] == "Unplanned" and fs["ft-cancel"]["had_no_state"] is True
+              and fs["ft-cancel"]["status"] is None)
+        check("skill-input.json leaves out the Completed and Dropped features",
+              [f["id"] for f in read_json(os.path.join(p["working"], "skill-input.json"))["features"]]
+              == ["ft-pay", "ft-cancel"])
+        check("the spine at the start of the run is kept for the state check (C18)",
+              read(os.path.join(p["working"], "spine-before.yaml")) == read(os.path.join(root, "_spine.yaml")))
     return finish()
 
 

@@ -10,7 +10,7 @@ When the plan file is missing it is made. Its first lines name the business inte
 of the plan with `status: Not Started`) and the `tree`: the plan's one epic node, with one
 `feature` node under it for each line of the epic's map (`issue`, `kind: feature`, `title`,
 `status`, `represents`, and `held_by: <epic>` for a Feature issue another plan's epic holds).
-A feature left out of the plan (built, or not ready) gets no node.
+A feature left out of the plan (Completed or Dropped in the model, or not ready) gets no node.
 
 When the plan file is there, it is updated: the `epic:` mark and each missing slice of the
 `slices` list are added, the epic node is added when the tree has none with that issue, a
