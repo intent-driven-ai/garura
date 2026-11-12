@@ -181,7 +181,7 @@ glab mr update {pr_number} --label "{labels}"
 
 Attach a child issue as a related issue (the adapter does not create a GitLab parent/child link).
 
-**Gap behaviour:** GitLab's hierarchy features have not been mapped or tested here, so the adapter does not create a parent/child link. It falls back to the related-issues API, which creates a bidirectional "related" link only. **Parent/child hierarchy is NOT established — only a related-link is created. Callers must be aware that GitLab loses the hierarchical relationship.**
+**Gap behaviour:** GitLab's hierarchy features have not been mapped or tested here, so the adapter does not create a parent/child link, and the GitHub-only `replace_parent` option is ignored. It falls back to the related-issues API, which creates a bidirectional "related" link only. **Parent/child hierarchy is NOT established — only a related-link is created. Callers must be aware that GitLab loses the hierarchical relationship.**
 
 ```bash
 glab api projects/{encoded_owner%2Fname}/issues/{issue_number}/links \

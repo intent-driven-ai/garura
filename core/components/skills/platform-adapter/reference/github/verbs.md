@@ -187,7 +187,15 @@ CHILD_ID=$(gh api /repos/{owner}/{repo}/issues/{child_number} --jq '.id')
 # Step 2: Attach as sub-issue
 gh api /repos/{owner}/{repo}/issues/{parent_number}/sub_issues \
   -X POST -F sub_issue_id="$CHILD_ID"
+
+# With replace_parent: "true" — a child that already has a parent leaves it first
+gh api /repos/{owner}/{repo}/issues/{parent_number}/sub_issues \
+  -X POST -F sub_issue_id="$CHILD_ID" -F replace_parent=true
 ```
+
+`replace_parent` is optional and off unless the caller passes `"true"`. Without it, GitHub
+refuses a child that already has a parent. GitHub documents the field on the add-sub-issue
+call: https://docs.github.com/en/rest/issues/sub-issues#add-sub-issue
 
 Derive `{owner}/{repo}` from:
 
