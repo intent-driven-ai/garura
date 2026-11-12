@@ -1,0 +1,42 @@
+{
+  "history": [
+    {
+      "point": "questions",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/954/context/specify-ontology/draft-questions.md",
+      "draft_sha256": "7afe4070db636807118d5623d005cb50b6f920ce03fd20009ddcd40a0691e185",
+      "at": "2026-11-12T12:24:56+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/954/context/specify-ontology/draft-kinds.md",
+      "draft_sha256": "c78ba8d0d6ccf2e88b392570d302676f830e926a648e046a22af193cac5dd0b6",
+      "at": "2026-11-12T12:36:11+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "change",
+      "reply": "tree can start at epic. but plan template should still show which buiness intent(s) is it serving. rest are okay so yes",
+      "draft": ".garura/project/issues/954/context/specify-ontology/draft-links.md",
+      "draft_sha256": "fd9580d6bb063da9b626fb79217fcf2e4f52822d775f5035f7a78e61675db956",
+      "at": "2026-11-12T12:44:40+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "yes",
+      "reply": "tree can start at epic. but plan template should still show which buiness intent(s) is it serving. rest are okay so yes",
+      "draft": ".garura/project/issues/954/context/specify-ontology/draft-links.md",
+      "draft_sha256": "3596e116091967832c9b58ac05ea2fdb0f4a41ae277c3b3df6f23f94faca1576",
+      "at": "2026-11-12T12:45:36+00:00"
+    }
+  ],
+  "agreed": {
+    "questions": true,
+    "kinds": true,
+    "links": true
+  },
+  "all_agreed": true
+}
