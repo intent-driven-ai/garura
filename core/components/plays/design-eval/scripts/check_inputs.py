@@ -6,7 +6,7 @@
 
 The play writes the JSON contract it hands to the agent into contract.json before the dispatch
 (and again before each fix round). This check reads it. Every input path must be a file or a
-folder inside the run's working folder (the copies of the epic, its stories and the hidden file
+folder inside the run's working folder (the copies of the epic, its Feature issues and the hidden files
 in `inputs/`, the template and step-library copies, and, on a fix, the check record and the
 drafts); none may name an ICE page (`feature.md`, `capability.md`, `ice.md`), the product model
 (`product-os`), a usage guide (`guides/`) or the plans folder itself. Every output path must be

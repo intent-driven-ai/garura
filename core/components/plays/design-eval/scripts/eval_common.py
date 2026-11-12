@@ -7,22 +7,26 @@ Not run on its own. The scripts beside it import it for six jobs:
     then move it into place with os.replace, so a run that stops half way never leaves half a
     file.
   - The tracker, read only. `open_tracker` gives a file tracker (`--tracker-file <json>`, for
-    tests and dry runs: {"issues": [{"number", "title", "body"}]}) or the code host, reached only
-    through platform_adapter.py's `view-issue` verb. Both have `get(number)`.
-  - A story's text. `parse_story` reads the "Scope of work" section that /shape-plan writes
-    (the "Goals:", "Limits:" and "Expectations:" lists) and the "Context guidance" section.
-    `parse_map` reads an epic's "Feature-to-story map" (`- fn-795 → #795`), in its order.
-  - The hidden file. `parse_hidden` reads the slice's failure-and-recovery.md: the slice id of
-    its first heading, its Surface line, each feature's failure conditions (`F<n>`) and the text
-    of every recovery line, which must never reach an eval.
+    tests and dry runs: {"issues": [{"number", "title", "body", "type"}]}) or the code host,
+    reached only through platform_adapter.py's `view-issue` verb. Both have `get(number)`, which
+    gives the issue's number, title, body and type (None when the host does not say).
+  - A Feature issue's text. `parse_feature_issue` reads the "Scope of work" section that
+    /shape-plan writes (the "Goals:", "Limits:" and "Expectations:" lists) and the "Context
+    guidance" section; `has_line` finds the exact line `Represents: <feature id>`. `parse_map`
+    reads the plan epic's "Feature-to-story map" (`- fn-795 → #795`, or `- fn-795 → #795 (under
+    Epic #121)` for a Feature issue that sits under another plan's epic), in its order.
+  - A hidden file. `parse_hidden` reads a slice's failure-and-recovery.md: the slice id of its
+    first heading, its Surface line, its features in the order of its entries (the slice's build
+    order), each feature's failure conditions (`F<n>`) and the text of every recovery line, which
+    must never reach an eval.
   - The step library of a surface kind (`standards/schemas/eval/steps-<kind>.yaml`).
     `load_library` turns each sentence into a pattern; `match_step` says which sentence a step
     is, or None.
-  - The eval files. `parse_story_file` reads a story file (Markdown with Gherkin, the
-    `eval-story.feature.md` template): its tags, its `Feature:` title, its Background, each
+  - The eval files. `parse_feature_file` reads a feature file (Markdown with Gherkin, the
+    `eval-feature.feature.md` template): its tags, its `Feature:` title, its Background, each
     Scenario with its tags, steps and raw text, its Untestable lines and its Lines covered list
-    (the text of each story line a tag covers, as the file recorded it). `parse_slice_file`
-    reads the slice file (`eval-slice.md`).
+    (the text of each Feature issue line a tag covers, as the file recorded it).
+    `parse_plan_file` reads the plan file (`eval-plan.md`): one section for each slice.
 
 No judgment is made here: every rule is fixed.
 """
@@ -100,7 +104,8 @@ class FileTracker:
 
     def get(self, number):
         it = self.issues.get(int(number))
-        return {"number": it["number"], "title": it.get("title") or "", "body": it.get("body") or ""} if it else None
+        return {"number": it["number"], "title": it.get("title") or "", "body": it.get("body") or "",
+                "type": it.get("type")} if it else None
 
 
 class HostTracker:
@@ -115,14 +120,16 @@ class HostTracker:
         if res["exit_code"] != 0:
             return None
         raw = json.loads(res["stdout"])
-        return {"number": raw["number"], "title": raw.get("title") or "", "body": raw.get("body") or ""}
+        kind = raw.get("issueType")
+        return {"number": raw["number"], "title": raw.get("title") or "", "body": raw.get("body") or "",
+                "type": (kind.get("name") if isinstance(kind, dict) else kind) or None}
 
 
 def open_tracker(tracker_file=None, config=".garura/core/config.yaml"):
     return FileTracker(tracker_file) if tracker_file else HostTracker(config)
 
 
-# ---- a story, an epic ------------------------------------------------------------------
+# ---- a Feature issue, the epic ---------------------------------------------------------
 
 def _section(body, name):
     """The lines of the `## <name>` section of an issue body, up to the next heading of level 1 or 2."""
@@ -150,8 +157,8 @@ def _bullets(lines):
     return items
 
 
-def parse_story(body):
-    """{goals, limits, expectations, context, has_scope}: the story's Scope of work lists, in order."""
+def parse_feature_issue(body):
+    """{goals, limits, expectations, context, has_scope}: the Feature issue's Scope of work lists, in order."""
     scope = _section(body, "Scope of work")
     lists, current = {"goals": [], "limits": [], "expectations": []}, None
     chunk = {"goals": [], "limits": [], "expectations": []}
@@ -168,13 +175,20 @@ def parse_story(body):
     return dict(lists, context=context, has_scope=bool(scope))
 
 
-MAP_LINE = re.compile(r"^\s*[-*]\s*(?P<feature>[\w.-]+)\s*(?:→|->)\s*#(?P<story>\d+)\s*$")
+def has_line(body, line):
+    """True when the body has this exact line (spaces at the ends not counted)."""
+    return any(ln.strip() == line for ln in (body or "").splitlines())
+
+
+MAP_LINE = re.compile(r"^\s*[-*]\s*(?P<feature>[\w.-]+)\s*(?:→|->)\s*#(?P<issue>\d+)"
+                      r"(?:\s*\((?:under|held by)\s+(?:[Ee]pic\s+)?#(?P<held>\d+)\))?\s*$")
 
 
 def parse_map(body):
-    """The epic's feature-to-story map, in its order: [(feature id, story number)]."""
-    return [(m["feature"], int(m["story"])) for m in
-            (MAP_LINE.match(ln) for ln in _section(body, "Feature-to-story map")) if m]
+    """The plan epic's feature-to-story map, in its order: [{feature, issue, held_by}], where
+    held_by is the other plan's epic that holds the Feature issue, or None."""
+    return [{"feature": m["feature"], "issue": int(m["issue"]), "held_by": int(m["held"]) if m["held"] else None}
+            for m in (MAP_LINE.match(ln) for ln in _section(body, "Feature-to-story map")) if m]
 
 
 # ---- the hidden file --------------------------------------------------------------------
@@ -184,7 +198,8 @@ FAILURE = re.compile(r"^\s*-\s*(?P<id>F\d+)\b[^:]*:\s*(?P<text>.+)$")
 
 
 def parse_hidden(text):
-    """{slice_id, surface, failures: {feature: [{id, text}]}, recovery_lines: [...]}."""
+    """{slice_id, surface, features: [feature id, in the order of the entries], failures: {feature: [{id, text}]},
+    recovery_lines: [...]}."""
     first = next((ln for ln in text.splitlines() if ln.startswith("# ")), "")
     m = re.search(r"slice\s+([\w.-]+)", first)
     m2 = re.search(r"Surface:\s*([^.;\n]+)", text)
@@ -207,7 +222,7 @@ def parse_hidden(text):
             r = re.match(r"^\s*-\s*(When|Way back|Who fixes):\s*(.+)$", line)
             if r and r.group(1) != "Who fixes":
                 recovery.append(r.group(2).strip())
-    return {"slice_id": m.group(1) if m else None, "surface": surface,
+    return {"slice_id": m.group(1) if m else None, "surface": surface, "features": list(failures),
             "failures": failures, "recovery_lines": recovery}
 
 
@@ -266,9 +281,9 @@ def tags_of(line):
     return re.findall(r"`@([\w.-]+)`", line)
 
 
-def parse_story_file(text):
+def parse_feature_file(text):
     """{top_tags, feature, background, scenarios: [{tags, title, steps: [(kw, text)], raw}], untestable,
-    lines_covered: {tag: the story line's text as the file recorded it}, errors}."""
+    lines_covered: {tag: the Feature issue line's text as the file recorded it}, errors}."""
     lines = text.splitlines()
     res = {"top_tags": [], "feature": None, "background": [], "scenarios": [], "untestable": [],
            "lines_covered": {}, "errors": []}
@@ -342,35 +357,50 @@ def resolve_keywords(steps):
     return out
 
 
-def parse_slice_file(text):
-    """{title, surface_kind, time_limit, stories: [(feature, story, file)], out_of_slice, names, has_pass_rule}."""
-    res = {"title": None, "surface_kind": None, "time_limit": None, "stories": [], "out_of_slice": [],
-           "names": [], "has_pass_rule": False}
-    section = None
+FEATURE_ITEM = re.compile(r"^\s*\d+\.\s*Feature issue #(?P<issue>\d+)\s*\((?P<feature>[\w.-]+)\)\s*—\s*(?P<file>\S+)"
+                          r"(?:\s*\(held by epic #(?P<held>\d+)\))?")
+OUT_ITEM = re.compile(r"^\s*[-*]\s*Feature issue #(?P<issue>\d+)\s*\((?P<feature>[\w.-]+)\)\s*—\s*(?P<file>\S+?):?\s")
+
+
+def parse_plan_file(text):
+    """{title, has_pass_rule, slices: [{slice, surface_kind, time_limit, features: [(feature, issue, file)],
+    held: {feature: epic}}], out_of_plan: [(feature, issue, file)], names}."""
+    res = {"title": None, "has_pass_rule": False, "slices": [], "out_of_plan": [], "names": []}
+    section, current = None, None
     for line in text.splitlines():
         if line.startswith("# ") and res["title"] is None:
             res["title"] = line[2:].strip()
             continue
-        m = re.match(r"^Surface kind:\s*(\S+)", line)
-        if m:
-            res["surface_kind"] = m.group(1)
-        m = re.match(r"^Time limit for each scenario:\s*(\d+)\s*seconds?\s*$", line)
-        if m:
-            res["time_limit"] = int(m.group(1))
         h = re.match(r"^##\s+(.*?)\s*$", line)
         if h:
-            section = h.group(1).lower()
-            if section == "pass rule":
-                res["has_pass_rule"] = True
+            head = h.group(1)
+            sm = re.match(r"^Slice\s+([\w.-]+)", head)
+            if sm:
+                section = "slice"
+                current = {"slice": sm.group(1), "surface_kind": None, "time_limit": None, "features": [],
+                           "held": {}}
+                res["slices"].append(current)
+            else:
+                section, current = head.lower(), None
+                if section == "pass rule":
+                    res["has_pass_rule"] = True
             continue
-        if section == "stories, in build order":
-            m = re.match(r"^\s*\d+\.\s*Story #(\d+)\s*\(([\w.-]+)\)\s*—\s*(\S+)", line)
+        if section == "slice":
+            m = re.match(r"^Surface kind:\s*(\S+)", line)
             if m:
-                res["stories"].append((m.group(2), int(m.group(1)), m.group(3)))
-        elif section == "out of the slice":
-            m = re.match(r"^\s*[-*]\s*Story #(\d+)\s*\(([\w.-]+)\)\s*—\s*(\S+?):?\s", line + " ")
+                current["surface_kind"] = m.group(1)
+            m = re.match(r"^Time limit for each scenario:\s*(\d+)\s*seconds?\s*$", line)
             if m:
-                res["out_of_slice"].append((m.group(2), int(m.group(1)), m.group(3).rstrip(":")))
+                current["time_limit"] = int(m.group(1))
+            m = FEATURE_ITEM.match(line)
+            if m:
+                current["features"].append((m["feature"], int(m["issue"]), m["file"]))
+                if m["held"]:
+                    current["held"][m["feature"]] = int(m["held"])
+        elif section == "out of the plan":
+            m = OUT_ITEM.match(line + " ")
+            if m:
+                res["out_of_plan"].append((m["feature"], int(m["issue"]), m["file"].rstrip(":")))
         elif section == "names":
             m = re.match(r"^\s*[-*]\s*\[([^\]]+)\]", line)
             if m:
@@ -378,12 +408,12 @@ def parse_slice_file(text):
     return res
 
 
-def story_line(story, tag):
-    """The story's line a `goal-<k>` or `expectation-<k>` tag points at now, or None."""
+def issue_line(feature, tag):
+    """The Feature issue's line a `goal-<k>` or `expectation-<k>` tag points at now, or None."""
     m = re.match(r"^(goal|expectation)-(\d+)$", tag)
     if not m:
         return None
-    items = story.get("goals" if m.group(1) == "goal" else "expectations") or []
+    items = feature.get("goals" if m.group(1) == "goal" else "expectations") or []
     k = int(m.group(2))
     return items[k - 1] if 1 <= k <= len(items) else None
 
@@ -392,9 +422,9 @@ def same_line(a, b):
     return " ".join(str(a or "").split()) == " ".join(str(b or "").split())
 
 
-def story_file_name(feature):
+def feature_file_name(feature):
     return f"eval.{feature}.feature.md"
 
 
-def slice_file_name(slice_id):
-    return f"eval.{slice_id}.md"
+def plan_file_name(plan_id):
+    return f"eval.{plan_id}.md"

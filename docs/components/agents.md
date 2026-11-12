@@ -65,7 +65,7 @@ Garura avoids both extremes:
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
 | `result-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
 | `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/validate-uat`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
-| `evals-engineer` | evaluation | engineer | sonnet | Gathers the context a slice's eval needs for `/design-eval` — checks that the copies of the epic, its stories and the hidden file are complete, calls `author-slice-eval`, and passes its drafts on as they are (#798, ADR 057) |
+| `evals-engineer` | evaluation | engineer | sonnet | Gathers the context a plan's one eval needs for `/design-eval` — checks that the copies of the plan's epic, its Feature issues and the hidden file of each slice are complete, calls `author-slice-eval`, and passes its drafts on as they are (#798, ADR 069) |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
 | `knowledge-builder` | knowledge | builder | sonnet | Runs a loop's knowledge step (R5c, ADR 059): answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`; the only one of them to call the memory tool; never decides or promotes an update — used by every loop's knowledge step |
 | `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Feature, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/design-slice` |
@@ -187,7 +187,7 @@ code-builder has no skills — it implements code directly using its tools (Bash
 
 | Skill | Purpose |
 |-------|---------|
-| `author-slice-eval` | `/design-eval` — write a slice's eval: one Gherkin story file for each story and one slice file, every step from the surface kind's step library (ADR 057) |
+| `author-slice-eval` | `/design-eval` — write a plan's one eval: one Gherkin feature file for each Feature issue and one plan file with a section for each slice, every step from the surface kind's step library (ADR 069) |
 
 The two eval skills of the old `/build-work` (`author-steelman-evals`, `author-encrypted-evals`) are stale: no agent dispatches them now. The rebuild of the build stage (#855, #819) gives them a new owner or retires them.
 

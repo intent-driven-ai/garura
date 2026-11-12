@@ -1,6 +1,6 @@
 # Eval step libraries
 
-One step library for each surface kind of a slice's eval (ADR 057): every sentence an eval step may use, each one
+One step library for each surface kind of the slices a plan's eval covers (ADR 069): every sentence an eval step may use, each one
 exact action or check that a runner does with no agent. The rules of an eval: `standards/rules/eval-format.md`.
 
 ## Contents

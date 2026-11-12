@@ -31,7 +31,7 @@ Agents and skills query this category when they need to know: **"What rules must
 
 | Path | Description | Consumers |
 |------|-------------|-----------|
-| `eval-format.md` | The rules of a slice's eval (ADR 057): its Gherkin story files and slice file, the tags and the Lines covered list, the fixed yardstick (a later run only adds; a moved story line is named for a person, never rewritten), and what an eval never holds | `/design-eval`, `author-slice-eval`, the eval runner (later) |
+| `eval-format.md` | The rules of a plan's one eval (ADR 069): its Gherkin feature files (one for each Feature issue) and its plan file (one section for each slice), the tags and the Lines covered list, the fixed yardstick (a later run only adds; a moved Feature issue line is named for a person, never rewritten), and what an eval never holds | `/design-eval`, `author-slice-eval`, the eval runner (later) |
 
 ### Operational rules (git and commits)
 
