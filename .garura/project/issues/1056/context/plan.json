@@ -2,7 +2,7 @@
   "issue": "1056",
   "plan_id": null,
   "plan_branch": null,
-  "issue_branch": "feature/1056-feature-state-in-model",
+  "issue_branch": "feature/1056-ontology-feature-state",
   "closed_plan": null,
   "source": {
     "ref": "origin/main",

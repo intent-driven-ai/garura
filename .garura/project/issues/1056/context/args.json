@@ -1,9 +1,9 @@
 {
-  "mode": "description",
-  "issue": null,
+  "mode": "issue",
+  "issue": "1056",
   "plan": null,
-  "description": "[ENH] adr: the product model records each feature's state \u2014 Unplanned, Planned, In progress, Completed, Dropped; only features have a state; amends ADR 069's no-work-status rule",
-  "note": null,
+  "description": null,
+  "note": "specify-ontology: the feature's state in the model (v18)",
   "fetched": null,
   "error": null
 }

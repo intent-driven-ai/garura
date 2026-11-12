@@ -1,6 +1,8 @@
 {
   "resolved": true,
-  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
-  "source": "~/.phoenix/core/memory/standards/rules",
+  "path": "standards/rules/self-review.md",
+  "source": "Phoenix memory, standards/rules (read through the memory tool)",
+  "tier": "phoenix",
+  "version": "e1cd70d61775",
   "is_override": false
 }

@@ -2,6 +2,13 @@
   "files": [
     {
       "tier": "phoenix",
+      "path": "standards/templates/product-ontology.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:7a4f867c7ceb4097ffa37f4d63d566eb631974d780e339dc177cd4a325d6fd82",
+      "copy": ".garura/project/issues/1056/context/memory/standards/templates/product-ontology.md"
+    },
+    {
+      "tier": "phoenix",
       "path": "knowledge/review/_index.md",
       "version": "e1cd70d61775",
       "fingerprint": "sha256:37e009d570e77ea75f71a85bb74d4a32b74ed6b108930f8e8cb808248d0abfcd",

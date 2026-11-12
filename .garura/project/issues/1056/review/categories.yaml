@@ -1,34 +1,40 @@
-# Work categories present in PR #1057 (ADR 070, issue 1056). Derived from the diff; treatment taken from the
+# Work categories present in PR #1058 (product ontology v18, issue 1056). Derived from the diff; treatment taken from the
 # playbook copies in short-term memory (.garura/project/issues/1056/context/memory/knowledge/review/).
-pr: 1057
+pr: 1058
 base: main
 categories:
-  - id: decision-records
-    name: Decision records (ADRs)
-    design_bearing: false
-    playbook: review/adrs
+  - id: memory
+    name: Memory (a standards schema the agents read)
+    design_bearing: true
+    playbook: review/memory
     evidence:
-      - docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md   # new ADR, 157 lines; Status/Context/Decision shape
-      - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md  # Status line amended by ADR 070
-      - docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md        # Status line amended by ADR 070
-      - docs/adr/_index.md                                                        # index row for 070; 068 and 069 rows now say "amended in part by ... 070"
+      - core/components/memory/standards/schemas/product-os/ontology.md   # version 17 -> 18; the product ontology schema under core/components/memory/standards/; adds the feature state (Status) rule, Q64-Q67 and edits Q7, Q10, Q50, Q52 and the flow text
     treatment:
-      reviewer: human, line by line (the human judges whether the decision is right)
-      layers: [layer-1]
+      reviewer: human (the design) + tool (conformance)
+      layers: [layer-1, layer-2]
       linters:
-        - name: ADR structural check
+        - name: memory integrity (structure, cross-references, front-matter consistency)
           command: null
           status: gap
           note: >-
-            No ADR linter exists in-repo (playbook review/adrs "Gap"). Until one is built the structural check is a
-            manual checklist the tool surfaces for the human.
+            Playbook review/memory "Gap": no installed tool checks memory integrity. The reviewer does the checks by reading
+            the changed file and cites each. The file is a schema, not a knowledge shelf file, so the shelf-template checks
+            (_TEMPLATE.md sections, _index listing) do not apply; the nearest objective checks are the ontology checker below.
       runnable_checks:
-        - "required sections present in 070 (status, context, decision, consequences)"
-        - "status field is an allowed value (Accepted; amended-in-part wording on 068 and 069)"
-        - "markdown well-formed"
-        - "070 is numbered next after 069 and is linked from docs/adr/_index.md, with the 068 and 069 rows updated to match their Status lines"
-        - "links in the three Status lines and the index resolve to existing files"
-      design_grounding: "no - the decision is the design; the human owns the judgement (playbook review/adrs)"
+        - name: ontology structure check (Layer 1, objective, no LLM)
+          command: "python3 .claude/skills/specify-ontology/scripts/check_ontology.py --ontology core/components/memory/standards/schemas/product-os/ontology.md --out <working>/ontology-check.json"
+          expect: "exit 0 (valid); exit 2 not valid; exit 3 unreadable. Checks front matter, sections, question ids/Answered by/Status, every defined kind's required parts, and that every relationship and every kind a question names is defined or listed as not yet defined."
+          note: "The play's own run left .garura/project/issues/1056/context/specify-ontology/ontology-check.json (valid: true); the review re-runs it on the PR head. Read-only on the file."
+        - "front matter consistent: version 18 and updated date set, one version bump for the change"
+        - "cross-references resolve: every Q64-Q67 'Answered by' names a defined kind (Feature, Plan, Feature issue, Capability); edited Q7, Q10, Q50, Q52 still lean only on defined kinds"
+        - "the same-change cross-reference consistency: the 'feature state' wording agrees across the How-it-flows text, the five links lines, the 'model knows no plan' rule, the Feature kind's Status property and States, and the Q-and-A; no leftover 'not yet built' / 'built' wording in an edited place"
+        - "no duplicate or contradicting rule against the committed base version (git show main:core/components/memory/standards/schemas/product-os/ontology.md)"
+        - "the severity taxonomy stays mechanical: pr.md classes core/components/** as garura-prose, so grep/grep+path rules are ineligible on this file; only docs-targeting path rules can fire"
+      design_grounding: >-
+        yes (playbook review/memory). Reconstruct from committed sources, never from the branch's new ontology text: the base
+        version of this ontology (git show main:...), docs/adr/070-... (accepted on main by its own PR; verify it is on the base
+        ref) and the earlier ontology ADRs, the product-ontology template (standards/templates/product-ontology.md, through the
+        memory tool), and knowledge/_DESIGN.md / _TEMPLATE.md where applicable. One grounding dispatch, category: memory.
   - id: stm-run-records
     name: Issue workspace and run records (short-term memory evidence)
     design_bearing: false
@@ -36,10 +42,14 @@ categories:
     playbook_missing: >-
       No playbook on knowledge/review/ covers run-record files under .garura/project/**. The pr.md taxonomy classes
       these paths as `stm-evidence`, but the review shelf has no playbook for them. A playbook is missing; none was forced
-      onto memory, harness or config-maps (they are records of runs, not memory, harness or wiring).
+      onto memory, harness or config-maps (they are records of runs, not memory, harness or wiring). Note: one of these files
+      is a copy of a memory template laid by the memory tool (context/memory/standards/templates/product-ontology.md, with its
+      manifest); it is a run copy of a source reviewed where it lives, so it is stm-evidence, not the memory category.
     evidence:
-      - .garura/project/issues/1056/context/*   # args/branch/issue/plan/pr/target/resolved-rules json, pr-body.md, self-review.md, check-self-review.txt, work-description.txt (11 files)
-      - .garura/project/issues/_adr/20261112T174237Z/*   # record-decision run: adr-check, adr-context, adr-draft(-v1), adr-manifest, brief, decision.yaml, guard-report, hashes-before, porcelain-before/after, run.json, context/templates/* (14 files)
+      - .garura/project/issues/1056/context/*   # args/branch/issue/plan/pr/target/resolved-rules json, citations.jsonl, pr-body.md, self-review.md, work-description.txt
+      - .garura/project/issues/1056/context/specify-ontology/*   # specify-ontology run: change-check, decisions, draft-kinds/links/questions, need, ontology-before, ontology-check
+      - .garura/project/issues/1056/context/memory/manifest.json   # memory-tool copy manifest
+      - .garura/project/issues/1056/context/memory/standards/templates/product-ontology.md   # memory-tool copy of the product-ontology template
     treatment:
       reviewer: not set (no playbook)
       layers: []
@@ -47,11 +57,12 @@ categories:
       runnable_checks: []
       design_grounding: "not applicable - no playbook says so; nothing in the shelf makes run records design-bearing"
       note: >-
-        With no playbook, no layer or linter is assigned from the shelf. The pr.md severity taxonomy classes these
-        paths as `stm-evidence`, so grep-based rules are not eligible on them; the play's check-pr-quality
-        still runs on the whole diff as the play directs.
+        With no playbook, no layer or linter is assigned from the shelf. The pr.md severity taxonomy classes these paths
+        as `stm-evidence` and its guard (#851) gives them no finding: they are run records and installed copies that the plays
+        write. The play's check-pr-quality still runs on the whole diff as the play directs.
 summary:
-  design_bearing_categories: []
+  design_bearing_categories: [memory]
   notes:
-    - "No category in this diff is design-bearing, so no Layer 2 grounding dispatch is needed."
+    - "One design-bearing category (memory): dispatch Layer 2 grounding once with category 'memory'."
+    - "No decision-records category: this diff changes no file under docs/adr/ (ADR 070 is on the base ref)."
     - "Follow-up: a review playbook for stm-run-records is missing (TaskCreate was not available to this agent)."
