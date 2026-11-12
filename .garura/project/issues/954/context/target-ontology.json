@@ -1,0 +1,7 @@
+{
+  "branch": "feature/954-ontology-plan-meets-work",
+  "kind": "one-off",
+  "plan_id": null,
+  "issue": "954",
+  "base": "main"
+}
