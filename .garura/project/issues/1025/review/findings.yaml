@@ -1,0 +1,149 @@
+pr: 1047
+issue: 1025
+base: main
+layer1_linters:
+  lint-components (installed, --layout source): 0 findings in changed paths; 37 there before
+  lint-play (installed, shape-plan SKILL.md, --next-map): PASS, 0 gaps; next-command check present
+  ruff (18 changed .py): All checks passed
+  tests (run):
+  - test_find_work_items.py 23/0
+  - test_gather_plan.py 27/0
+  - test_support.py 21/0
+  - test_check_ice_workable.py 49/0
+categories:
+- harness
+- executable-code
+- tests
+- run-records
+findings:
+- id: H1
+  severity: P2
+  files:
+  - core/components/plays/shape-plan/reference/ice.md
+  - core/components/plays/shape-plan/SKILL.md
+  principle: A play finds a story by the plan file's represents mark and nowhere else (ADR 056 section 2; ontology
+    R3 on Story and Epic; Q20; the Plan rule that 'a play finds the Story of a Feature by the represents mark only').
+  basis:
+  - G1
+  - G2
+  - G3
+  what: The new C3 text and SKILL.md (header paragraph, Step 5, Step 6, SE-21, tracker_verbs) make the model entry's
+    issue a second way to find a feature's story, and the play also decides by issue type (open, type Story). The
+    branch changes no ADR and no ontology page, and ice.md's Context cites ADR 049, 052 and 047 only. ADR 065 names
+    the problem and leaves ADR 056 as it is, so the rule is sanctioned in direction but its mechanism contradicts
+    a committed, unamended rule.
+  fix: Record an ADR that amends ADR 056 section 2, and change ontology R3 (Epic, Story), Q20 and the Plan finding
+    sentence in an /edit-ontology change, before or with this PR; or hold the ICE change until then.
+  category: harness
+  layer: 2
+- id: H2
+  severity: P2
+  files:
+  - core/components/plays/shape-plan/reference/ice.md
+  principle: 'Ground the rule in something outside the branch: the feature entry''s issue must be defined, by a
+    committed source, as the feature''s Story.'
+  basis:
+  - G4
+  - G5
+  what: 'ice.md Context says the feature entry''s issue is ''the issue of their story when one was filed''. The
+    base ontology''s Feature properties (lines 391-397) and the base spine schema''s features entry (lines 103-118)
+    define no issue field at all. In the base spine the value is the feature''s own number (for example fn-724 has
+    issue: 724, line 737), which reads as the issue the feature was filed under, not a Story. The meaning exists
+    only in the branch''s own new prose (circular). If it names a non-Story issue, F14/REC14 halts the run before
+    any write.'
+  fix: Define the field in the ontology and the spine schema (what it names, its type, who writes it) in the same
+    record as H1.
+  category: harness
+  layer: 2
+  tracker_check: 'Read on 2026-11-12: of 239 features in the model, 23 name an issue; in the tracker 21 of those
+    are closed Stories and 2 are open Stories. Under the new rule a slice holding any of the 21 stops the run as
+    ''closed'' (F14).'
+- id: H3
+  severity: P2
+  files:
+  - core/components/plays/shape-plan/reference/ice.md
+  principle: A feature can be in several slices and has one Story in each epic that delivers it; a Story sits in
+    exactly one epic; an epic's map and the plan tree agree.
+  basis:
+  - G4
+  what: 'The new C3 says a feature''s story is the one issue its model entry names, and sits it under its slice''s
+    epic. The model holds one issue for a feature, so for a feature in two slices of one plan the same story is
+    used for both epics: the second use moves it out of the first epic and leaves that epic''s map naming a story
+    that is no longer under it. The same sentence keeps ''one story for each feature in each epic'', which the new
+    text cannot meet. find_work_items.named_twice (lines 91-99) counts distinct feature ids only, so it is not flagged;
+    F14, SE-21 and S10 do not cover it.'
+  fix: Say in C3 which epic takes the model's story when a feature is in several slices, and that the others get
+    a new story (or stop); add a scenario and an eval for it.
+  category: harness
+  layer: 2
+- id: H4
+  severity: P3
+  files:
+  - core/components/plays/shape-plan/reference/ice.md
+  - core/components/plays/shape-plan/SKILL.md
+  principle: C7 (writes only the plan file, the epics and the stories) and the ontology rule that an epic's feature-to-story
+    map always agrees with the tree.
+  basis:
+  - G4
+  what: Making the story a sub-issue of the new epic with replace_parent takes it off its old parent. The old parent
+    can be any issue (an old epic, a feature item, anything); the play edits it, and does not update an old epic's
+    map. No constraint or eval covers the old parent, and the brief says the story 'leaves any other parent' without
+    naming it.
+  fix: Name the old parent in the brief and say what the play does (or does not) with its map, in C3/C7.
+  category: harness
+  layer: 2
+- id: H5
+  severity: P3
+  files:
+  - core/components/plays/shape-plan/SKILL.md
+  principle: Plays reach the tracker only through the adapter's documented verbs; the platform-adapter skill is
+    where the verbs are defined (ADR 065 rule 4).
+  basis:
+  - G7
+  - G8
+  what: SKILL.md's Step 6 and tracker_verbs name attach-sub-issue 'with replace_parent'. The verb reference (platform-adapter
+    SKILL.md line 51 and reference/github/verbs.md) is unchanged and does not define it; the option exists only
+    in the copies of platform_adapter.py. The GitLab behaviour ('falls back to related-link') has no replace-parent
+    meaning.
+  fix: Document replace_parent in the platform-adapter verb reference, with the GitLab behaviour, in the same change.
+  category: harness
+  layer: 2
+- id: H6
+  severity: P4
+  files:
+  - core/components/plays/shape-plan/reference/ice.md
+  principle: Context lines say where to look and stay true to committed records.
+  basis:
+  - 'docs/adr/065-...-only-tools-know-the-tracker.md lines 1-20 (decided in #1021, 2026-11-02)'
+  - 'git log main: 9db18136 ''retire five old intents, their plans and slice (#1021)'''
+  what: 'The new Context sentence says ''All plan files were deleted on 2026-11-02 (#1025)''. The date matches ADR
+    065, but the deletion was made in #1021, not #1025 (this issue). The adjacent line still says ontology v11;
+    the base ontology is v15 (that part is not in this diff).'
+  fix: 'Cite #1021 (or ADR 065), and keep the history note out of the ICE; refresh v11 when the ontology is touched.'
+  category: harness
+  layer: 2
+- id: OBS-1
+  category: executable-code
+  layer: 1
+  severity: P2
+  files:
+  - core/components/plays/shape-plan/scripts/find_work_items.py
+  - core/components/plays/shape-plan/scripts/render_brief.py
+  principle: Nothing goes to the tracker that the person did not see in the brief before the yes (shape-plan ICE
+    C8).
+  basis:
+  - source: core/components/plays/shape-plan/reference/ice.md at the base ref (main)
+    lines: 35-38
+    id: C8
+  what: 'A feature whose ICE is not ready but whose model entry names an open Story comes back as skip with that
+    issue and source model. write_work_items.py attaches every skipped story that has an issue to the epic, and
+    attach now replaces the parent, so the story leaves its old parent. The brief says ''Skip <feature>: no story
+    is made or changed'', so the move is a tracker write the person did not see.'
+  fix: Do not adopt the model's story for a skipped feature (leave it where it is), or show the move in the brief;
+    add a test.
+  raised_by: quality-auditor observation outside the pr.md table, classified P2 by the play on the pr.md bucket
+    definition (structural violation, not data loss)
+counts:
+  P2: 4
+  P3: 2
+  P4: 1

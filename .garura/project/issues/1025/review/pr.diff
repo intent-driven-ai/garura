@@ -1,0 +1,2077 @@
+diff --git a/.garura/project/issues/1025/context/analysis.yaml b/.garura/project/issues/1025/context/analysis.yaml
+new file mode 100644
+index 000000000..30927beb6
+--- /dev/null
++++ b/.garura/project/issues/1025/context/analysis.yaml
+@@ -0,0 +1,18 @@
++---
++# analyze_changeset.py output (C8 fast path)
++# issue: 1025
++needs_judgment: true
++
++change_groups:
++  []  # grouping left to the analyze agent (needs_judgment)
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: DEFERRED, evidence: "grouping delegated to analyze agent"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/1025/context/args.json b/.garura/project/issues/1025/context/args.json
+new file mode 100644
+index 000000000..79ef01bbc
+--- /dev/null
++++ b/.garura/project/issues/1025/context/args.json
+@@ -0,0 +1,9 @@
++{
++  "mode": "issue",
++  "issue": "1025",
++  "plan": null,
++  "description": null,
++  "note": null,
++  "fetched": null,
++  "error": null
++}
+diff --git a/.garura/project/issues/1025/context/branch.json b/.garura/project/issues/1025/context/branch.json
+new file mode 100644
+index 000000000..3ea2c0c6c
+--- /dev/null
++++ b/.garura/project/issues/1025/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "feature/1025-shape-plan-reuses-open-story",
++  "base_sha": "64c81cc1a1b052a24e59be284da42eff66512853",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": null,
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1025/context/commit-work/analysis.yaml b/.garura/project/issues/1025/context/commit-work/analysis.yaml
+new file mode 100644
+index 000000000..0d284b0bf
+--- /dev/null
++++ b/.garura/project/issues/1025/context/commit-work/analysis.yaml
+@@ -0,0 +1,77 @@
++---
++# assess-changes output (judgment path), issue 1025, branch feature/1025-shape-plan-reuses-open-story
++# Order matters: adapter first, then ready check + plan helpers, then the shape-plan change that uses both.
++needs_judgment: false
++
++change_groups:
++  - id: adapter-replace-parent
++    issue: 1025
++    commit_type: feat
++    scope: adapter
++    subject: "let attaching a sub-issue replace the child's current parent"
++    files:
++      - core/components/plays/build-play/references/platform_adapter.py
++      - core/components/plays/design-eval/scripts/platform_adapter.py
++      - core/components/plays/design-slice/scripts/platform_adapter.py
++      - core/components/plays/merge-work/scripts/platform_adapter.py
++      - core/components/plays/review-work/scripts/platform_adapter.py
++      - core/components/plays/shape-plan/scripts/platform_adapter.py
++      - core/components/plays/validate-work/scripts/platform_adapter.py
++      - core/components/skills/track-plan-changes/scripts/platform_adapter.py
++
++  - id: ready-check-reads-each-part-by-its-shape
++    issue: 1025
++    commit_type: fix
++    scope: ready-check
++    subject: "read each part's ICE by its own shape in the ready check and plan helpers"
++    files:
++      - core/components/plays/build-play/references/check_ice_workable.py
++      - core/components/plays/build-play/references/plan_common.py
++      - core/components/plays/build-play/references/test_check_ice_workable.py
++      - core/components/plays/reshape-plan/scripts/check_ice_workable.py
++      - core/components/plays/reshape-plan/scripts/plan_common.py
++      - core/components/plays/shape-plan/scripts/check_ice_workable.py
++      - core/components/plays/shape-plan/scripts/plan_common.py
++      - core/components/plays/specify-intent/scripts/check_ice_workable.py
++
++  - id: shape-plan-reuses-open-story
++    issue: 1025
++    commit_type: feat
++    scope: shape-plan
++    subject: "use the open story a feature's model entry names instead of filing a second story"
++    files:
++      - core/components/plays/shape-plan/SKILL.md
++      - core/components/plays/shape-plan/reference/ice.md
++      - core/components/plays/shape-plan/scripts/find_work_items.py
++      - core/components/plays/shape-plan/scripts/gather_plan.py
++      - core/components/plays/shape-plan/scripts/render_brief.py
++      - core/components/plays/shape-plan/scripts/test_find_work_items.py
++      - core/components/plays/shape-plan/scripts/test_gather_plan.py
++      - core/components/plays/shape-plan/scripts/test_support.py
++
++  - id: stm-close-templates
++    issue: 1025
++    commit_type: chore
++    scope: stm
++    subject: "record the close templates loaded for start-work"
++    files:
++      - .garura/project/issues/1025/context/templates/manifest-close-start-work.json
++      - .garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md
++      - .garura/project/issues/1025/context/templates/standards/templates/delivery-report.md
++
++exclusions:
++  - path: ".garura/project/issues/1025/context/commit-work/"
++    reason: "run state of this play (scan, porcelain, analysis); left to the executor's run-state finalization"
++    blocking: false
++    blocking: false
++
++risks:
++  sensitive_files: []
++  notes:
++    - "plan_common.py (3 byte-identical copies) carries both the ICE-shape read change and the add_sub replace_parent change; kept together in the ready-check group so the copies stay identical in one commit, and the subject says so."
++    - "Order dependency: shape-plan test_support.py tests the adapter replace_parent flag and the tracker helper, so it must land after the first two groups."
++    - "Copies verified byte-identical for plan_common.py (md5 07986fc0...)."
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "24 changed files: 8 + 8 + 8 in three groups, plus 2 run-state exclusions (untracked dirs)"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/1025/context/commit-work/commits.yaml b/.garura/project/issues/1025/context/commit-work/commits.yaml
+new file mode 100644
+index 000000000..5947f9418
+--- /dev/null
++++ b/.garura/project/issues/1025/context/commit-work/commits.yaml
+@@ -0,0 +1,39 @@
++commits:
++  - sha: d08e03a7
++    message: "fix(ready-check): read each part's ICE by its own shape in the ready check and plan helpers (#1025)"
++    files:
++      - core/components/plays/build-play/references/check_ice_workable.py
++      - core/components/plays/build-play/references/plan_common.py
++      - core/components/plays/build-play/references/test_check_ice_workable.py
++      - core/components/plays/reshape-plan/scripts/check_ice_workable.py
++      - core/components/plays/reshape-plan/scripts/plan_common.py
++      - core/components/plays/shape-plan/scripts/check_ice_workable.py
++      - core/components/plays/shape-plan/scripts/plan_common.py
++      - core/components/plays/specify-intent/scripts/check_ice_workable.py
++    branch: feature/1025-shape-plan-reuses-open-story
++  - sha: f744c4e4
++    message: "feat(shape-plan): use the open story a feature's model entry names instead of filing a second story (#1025)"
++    files:
++      - core/components/plays/shape-plan/SKILL.md
++      - core/components/plays/shape-plan/reference/ice.md
++      - core/components/plays/shape-plan/scripts/find_work_items.py
++      - core/components/plays/shape-plan/scripts/gather_plan.py
++      - core/components/plays/shape-plan/scripts/render_brief.py
++      - core/components/plays/shape-plan/scripts/test_find_work_items.py
++      - core/components/plays/shape-plan/scripts/test_gather_plan.py
++      - core/components/plays/shape-plan/scripts/test_support.py
++    branch: feature/1025-shape-plan-reuses-open-story
++  - sha: 4256b3b7
++    message: "chore(stm): record the close templates loaded for start-work (#1025)"
++    files:
++      - .garura/project/issues/1025/context/templates/manifest-close-start-work.json
++      - .garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md
++      - .garura/project/issues/1025/context/templates/standards/templates/delivery-report.md
++    branch: feature/1025-shape-plan-reuses-open-story
++excluded_files:
++  - path: ".garura/project/issues/1025/context/commit-work/"
++    reason: "run state of this play (scan, porcelain, analysis); left to the executor's run-state finalization"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1025/context/commit-work/exec-out.json b/.garura/project/issues/1025/context/commit-work/exec-out.json
+new file mode 100644
+index 000000000..bdefe116f
+--- /dev/null
++++ b/.garura/project/issues/1025/context/commit-work/exec-out.json
+@@ -0,0 +1,26 @@
++{
++  "commits": [
++    {
++      "sha": "d08e03a7",
++      "message": "fix(ready-check): read each part's ICE by its own shape in the ready check and plan helpers (#1025)"
++    },
++    {
++      "sha": "f744c4e4",
++      "message": "feat(shape-plan): use the open story a feature's model entry names instead of filing a second story (#1025)"
++    },
++    {
++      "sha": "4256b3b7",
++      "message": "chore(stm): record the close templates loaded for start-work (#1025)"
++    }
++  ],
++  "groups_skipped_clean": [
++    "adapter-replace-parent"
++  ],
++  "run_state_commit": "30322c1b",
++  "branch": "feature/1025-shape-plan-reuses-open-story",
++  "leftover_uncovered": [],
++  "leftover_count": 0,
++  "tree_clean": true,
++  "out": ".garura/project/issues/1025/context/commit-work/commits.yaml",
++  "pushed": false
++}
+diff --git a/.garura/project/issues/1025/context/commit-work/porcelain.txt b/.garura/project/issues/1025/context/commit-work/porcelain.txt
+new file mode 100644
+index 000000000..0c263d5f9
+--- /dev/null
++++ b/.garura/project/issues/1025/context/commit-work/porcelain.txt
+@@ -0,0 +1,26 @@
++ M core/components/plays/build-play/references/check_ice_workable.py
++ M core/components/plays/build-play/references/plan_common.py
++ M core/components/plays/build-play/references/platform_adapter.py
++ M core/components/plays/build-play/references/test_check_ice_workable.py
++ M core/components/plays/design-eval/scripts/platform_adapter.py
++ M core/components/plays/design-slice/scripts/platform_adapter.py
++ M core/components/plays/merge-work/scripts/platform_adapter.py
++ M core/components/plays/reshape-plan/scripts/check_ice_workable.py
++ M core/components/plays/reshape-plan/scripts/plan_common.py
++ M core/components/plays/review-work/scripts/platform_adapter.py
++ M core/components/plays/shape-plan/SKILL.md
++ M core/components/plays/shape-plan/reference/ice.md
++ M core/components/plays/shape-plan/scripts/check_ice_workable.py
++ M core/components/plays/shape-plan/scripts/find_work_items.py
++ M core/components/plays/shape-plan/scripts/gather_plan.py
++ M core/components/plays/shape-plan/scripts/plan_common.py
++ M core/components/plays/shape-plan/scripts/platform_adapter.py
++ M core/components/plays/shape-plan/scripts/render_brief.py
++ M core/components/plays/shape-plan/scripts/test_find_work_items.py
++ M core/components/plays/shape-plan/scripts/test_gather_plan.py
++ M core/components/plays/shape-plan/scripts/test_support.py
++ M core/components/plays/specify-intent/scripts/check_ice_workable.py
++ M core/components/plays/validate-work/scripts/platform_adapter.py
++ M core/components/skills/track-plan-changes/scripts/platform_adapter.py
++?? .garura/project/issues/1025/context/commit-work/
++?? .garura/project/issues/1025/context/templates/
+diff --git a/.garura/project/issues/1025/context/commits.yaml b/.garura/project/issues/1025/context/commits.yaml
+new file mode 100644
+index 000000000..336f3a6ee
+--- /dev/null
++++ b/.garura/project/issues/1025/context/commits.yaml
+@@ -0,0 +1,7 @@
++commits:
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1025/context/issue.json b/.garura/project/issues/1025/context/issue.json
+new file mode 100644
+index 000000000..f4826afa1
+--- /dev/null
++++ b/.garura/project/issues/1025/context/issue.json
+@@ -0,0 +1 @@
++{ "resolved": true, "issue_number": 1025, "title": "/shape-plan reuses an open story for a feature instead of filing a second one", "created": false }
+diff --git a/.garura/project/issues/1025/context/plan.json b/.garura/project/issues/1025/context/plan.json
+new file mode 100644
+index 000000000..0490cfbdf
+--- /dev/null
++++ b/.garura/project/issues/1025/context/plan.json
+@@ -0,0 +1,12 @@
++{
++  "issue": "1025",
++  "plan_id": null,
++  "plan_branch": null,
++  "issue_branch": "feature/1025-shape-plan-reuses-open-story",
++  "closed_plan": null,
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": []
++  }
++}
+diff --git a/.garura/project/issues/1025/context/porcelain.txt b/.garura/project/issues/1025/context/porcelain.txt
+new file mode 100644
+index 000000000..a5a6dfcc1
+--- /dev/null
++++ b/.garura/project/issues/1025/context/porcelain.txt
+@@ -0,0 +1,2 @@
++ M .garura/project/issues/1025/context/commit-work/exec-out.json
++?? .garura/project/issues/1025/context/porcelain.txt
+diff --git a/.garura/project/issues/1025/context/pr-body.md b/.garura/project/issues/1025/context/pr-body.md
+new file mode 100644
+index 000000000..39a1228c9
+--- /dev/null
++++ b/.garura/project/issues/1025/context/pr-body.md
+@@ -0,0 +1,54 @@
++## What this changes
++
++**/shape-plan now uses the story a feature already has, instead of filing a second one** (#1025, P1). All plan files were deleted on 2026-11-02. Without this change, a rebuilt plan would file new stories next to the open ones. Now, when the plan file doesn't mark a story for a feature, /shape-plan uses the open Story that the feature's entry in the product model names. It moves that story under the slice's epic and adds only the sections the story lacks. If a named issue is missing, closed, not a Story, or named for two features, the run stops before it writes anything to the tracker and names the problem.
++
++**Older parts of the model no longer read as "no ICE"** (#1034, #1035). The ready check and the plan helpers used to switch the whole model to the new ICE shape as soon as any part had an ICE entry. Now each part is read by its own shape: a part that has not moved yet is read from the ICE section inside its own page. On today's model, the 6 features that read "not ready" now read "partly ready", with the gap "ICE still inside its page".
++
++Closes #1025
++Closes #1034
++Closes #1035
++
++## How to review it
++
++- **The intent change.** /shape-plan's ICE (`reference/ice.md`) changes C3 and adds failure condition F14 with its recovery REC14, scenario S10 with its eval SCE-10, and step eval SE-21. `SKILL.md` was rebuilt from it with fix-play. The play lint passes with 0 gaps.
++- **Shared scripts.** These appear as byte-identical copies. Read one of each and check that the copies match:
++  - `platform_adapter.py`: 8 copies. attach-sub-issue takes an optional `replace_parent`, so a reused story leaves its old parent.
++  - `plan_common.py`: 3 copies. The tracker helper asks for that flag, and each part's ICE is read by its own shape.
++  - `check_ice_workable.py`: 4 copies. The ready check reads a part that hasn't moved from its inline ICE.
++- **Tests.** New finder, gather, ready-check and S10 end-to-end tests. All 43 test files of the affected plays pass. One /reshape-plan test, `test_feature_ice`, failed on main before this change and passes now.
++- **Out of scope.** /design-slice has its own copy of the whole-model ICE switch, which belongs under #1033. The thin mark for a found feature is #1036.
++
++## Notes
++
++- Before the push, the unpushed commits were rewritten to remove a home-folder path from one run record, under the repo's no-personal-references rule. The three code commits kept their IDs. The three run-record commits got new IDs, so commit-work's record still names the old ones.
++- Self-review finding 1 says there is no direct test of the adapter flag. There is one: `shape-plan/scripts/test_support.py` checks that the command carries the flag when asked and leaves it off otherwise.
++
++## Self-review
++
++# Self-review: #1025 (/shape-plan uses the open story a feature's model entry names)
++
++Rules: the base self-review rules (standards/rules/self-review.md), no project override.
++Branch: feature/1025-shape-plan-reuses-open-story, against main. 7 commits, 39 files, +1009 -88.
++
++Verdict: ready to raise. No blocking findings. Two non-blocking notes below.
++
++## Scope checks
++
++- Matches the issue: PASS. /shape-plan now uses the open Story that a feature's model entry names, makes it a sub-issue of the slice's epic, and adds only the sections it lacks. A named issue that is missing, closed, not a Story, or named for two features stops the run before any tracker write. This is carried by the play's intent source (constraint C3, failure F14, recovery REC14, scenario S10 and SCE-10, step eval SE-21), the recompiled play file, and the three scripts that gather the model's issue, decide the story's action, and show it in the brief.
++- Pieces that ride along are each tied to the issue or to the two named side issues: the adapter's optional replace_parent flag and the tracker helper that asks for it are needed so a reused story leaves its old parent (#1025). The ready check and plan helpers reading each part by its own shape is #1034 and #1035 (same root cause), named in the commit that carries it.
++- No scope creep: PASS. The design-slice copy of the whole-model ICE switch (#1033) and the thin mark for a found feature (#1036) are not touched.
++- Reasonable size: PASS with a note. 39 files, but 15 are run records under the issue's own folder and 12 more are the repeated copies of three shared scripts (8 adapter, 3 plan helper, 4 ready check). The real hand-written change is about 8 files plus their tests.
++- No stray artifacts: PASS. No debug prints, no commented-out blocks, no scratch files, no absolute or home paths added. One untracked file sits in the issue's context folder (the resolved rules record the review-work play writes); it belongs to this run.
++
++## Quality checks
++
++- Tests present: PASS. New tests cover a model-named story used and never made, a story missing sections, the closed, wrong-type and absent cases, one issue named for two features, the whole S10 flow (story moved under the epic, brief wording, plan check ok), the file tracker moving a sub-issue off its old parent, and the ready check and plan helpers on a mixed model (#1034). All shape-plan test files, the reshape-plan files and the ready-check test file pass when run (for example 23 and 27 checks pass in the two main shape-plan suites, 66 in reshape-plan). The earlier failing reshape-plan test (test_feature_ice) passes now.
++- Commits are clean: PASS. Five commits are conventional and name #1025 (the adapter, the ready check fix, the shape-plan change, and the run records). Each is one concern. No Claude attribution lines in any commit.
++- No secrets: PASS. Scanned the diff for keys, tokens, passwords and private key markers; none found.
++- Docs in step: PASS. The play's intent source and compiled play file both carry the new rule, scenario, step eval and recovery, and the play's counts and fingerprint are updated. The adapter flag is documented in its helper's docstring.
++- Nothing obviously broken: PASS. No leftover TODOs. The 8 adapter copies, 3 plan helper copies and 4 ready check copies are byte-identical (same checksum in each group). The component linter reports errors, but none are in a file this change touches (they are in the build-play play file, which is not in the diff).
++
++## Non-blocking findings
++
++1. The adapter's new replace_parent flag has no direct test in the adapter's own test file (it is exercised only through the file tracker used in the S10 test, which models the behaviour, not the real command line). A small test that attach-sub-issue with replace_parent "true" adds the flag to the command, and leaves it off otherwise, would pin it. Suggest a follow-up, not a reason to hold the raise.
++2. The 12 repeated script copies plus 8 adapter copies make the change look large; reviewers should read one copy of each and trust the checksums. The PR text should say so.
+diff --git a/.garura/project/issues/1025/context/pr.json b/.garura/project/issues/1025/context/pr.json
+new file mode 100644
+index 000000000..41bc9fc7d
+--- /dev/null
++++ b/.garura/project/issues/1025/context/pr.json
+@@ -0,0 +1,8 @@
++{
++  "number": 1047,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1047",
++  "state": "OPEN",
++  "base": "main",
++  "from_host": true,
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1025/context/resolved-rules.json b/.garura/project/issues/1025/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1025/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1025/context/self-review.md b/.garura/project/issues/1025/context/self-review.md
+new file mode 100644
+index 000000000..ed04c11a3
+--- /dev/null
++++ b/.garura/project/issues/1025/context/self-review.md
+@@ -0,0 +1,27 @@
++# Self-review: #1025 (/shape-plan uses the open story a feature's model entry names)
++
++Rules: the base self-review rules (standards/rules/self-review.md), no project override.
++Branch: feature/1025-shape-plan-reuses-open-story, against main. 7 commits, 39 files, +1009 -88.
++
++Verdict: ready to raise. No blocking findings. Two non-blocking notes below.
++
++## Scope checks
++
++- Matches the issue: PASS. /shape-plan now uses the open Story that a feature's model entry names, makes it a sub-issue of the slice's epic, and adds only the sections it lacks. A named issue that is missing, closed, not a Story, or named for two features stops the run before any tracker write. This is carried by the play's intent source (constraint C3, failure F14, recovery REC14, scenario S10 and SCE-10, step eval SE-21), the recompiled play file, and the three scripts that gather the model's issue, decide the story's action, and show it in the brief.
++- Pieces that ride along are each tied to the issue or to the two named side issues: the adapter's optional replace_parent flag and the tracker helper that asks for it are needed so a reused story leaves its old parent (#1025). The ready check and plan helpers reading each part by its own shape is #1034 and #1035 (same root cause), named in the commit that carries it.
++- No scope creep: PASS. The design-slice copy of the whole-model ICE switch (#1033) and the thin mark for a found feature (#1036) are not touched.
++- Reasonable size: PASS with a note. 39 files, but 15 are run records under the issue's own folder and 12 more are the repeated copies of three shared scripts (8 adapter, 3 plan helper, 4 ready check). The real hand-written change is about 8 files plus their tests.
++- No stray artifacts: PASS. No debug prints, no commented-out blocks, no scratch files, no absolute or home paths added. One untracked file sits in the issue's context folder (the resolved rules record the review-work play writes); it belongs to this run.
++
++## Quality checks
++
++- Tests present: PASS. New tests cover a model-named story used and never made, a story missing sections, the closed, wrong-type and absent cases, one issue named for two features, the whole S10 flow (story moved under the epic, brief wording, plan check ok), the file tracker moving a sub-issue off its old parent, and the ready check and plan helpers on a mixed model (#1034). All shape-plan test files, the reshape-plan files and the ready-check test file pass when run (for example 23 and 27 checks pass in the two main shape-plan suites, 66 in reshape-plan). The earlier failing reshape-plan test (test_feature_ice) passes now.
++- Commits are clean: PASS. Five commits are conventional and name #1025 (the adapter, the ready check fix, the shape-plan change, and the run records). Each is one concern. No Claude attribution lines in any commit.
++- No secrets: PASS. Scanned the diff for keys, tokens, passwords and private key markers; none found.
++- Docs in step: PASS. The play's intent source and compiled play file both carry the new rule, scenario, step eval and recovery, and the play's counts and fingerprint are updated. The adapter flag is documented in its helper's docstring.
++- Nothing obviously broken: PASS. No leftover TODOs. The 8 adapter copies, 3 plan helper copies and 4 ready check copies are byte-identical (same checksum in each group). The component linter reports errors, but none are in a file this change touches (they are in the build-play play file, which is not in the diff).
++
++## Non-blocking findings
++
++1. The adapter's new replace_parent flag has no direct test in the adapter's own test file (it is exercised only through the file tracker used in the S10 test, which models the behaviour, not the real command line). A small test that attach-sub-issue with replace_parent "true" adds the flag to the command, and leaves it off otherwise, would pin it. Suggest a follow-up, not a reason to hold the raise.
++2. The 12 repeated script copies plus 8 adapter copies make the change look large; reviewers should read one copy of each and trust the checksums. The PR text should say so.
+diff --git a/.garura/project/issues/1025/context/target.json b/.garura/project/issues/1025/context/target.json
+new file mode 100644
+index 000000000..67ab6b5a5
+--- /dev/null
++++ b/.garura/project/issues/1025/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "feature/1025-shape-plan-reuses-open-story",
++  "kind": "one-off",
++  "plan_id": null,
++  "issue": "1025",
++  "base": "main"
++}
+diff --git a/.garura/project/issues/1025/context/templates/manifest-close-start-work.json b/.garura/project/issues/1025/context/templates/manifest-close-start-work.json
+new file mode 100644
+index 000000000..2df458e74
+--- /dev/null
++++ b/.garura/project/issues/1025/context/templates/manifest-close-start-work.json
+@@ -0,0 +1,31 @@
++{
++  "status": "completed",
++  "outputs": {
++    "manifest": ".garura/project/issues/1025/context/templates/manifest-close-start-work.json"
++  },
++  "templates": [
++    {
++      "name": "standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/1025/context/templates/standards/templates/delivery-report.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/templates/delivery-report.md",
++        "version": "e1cd70d61775",
++        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
++      }
++    },
++    {
++      "name": "standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/rules/pipeline-next.md",
++        "version": "e1cd70d61775",
++        "fingerprint": "sha256:3c517c7dd8cc22884e0b43dd989a51ef8cca042ed17d5c18ea31967bd0e72547"
++      }
++    }
++  ],
++  "missing": [],
++  "task_id": "load-templates",
++  "error": null
++}
+diff --git a/.garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md b/.garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md
+new file mode 100644
+index 000000000..6ed2424f9
+--- /dev/null
++++ b/.garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md
+@@ -0,0 +1,95 @@
++# Pipeline-next — the successor map (single source of truth)
++
++Every user-invocable compiled play — and every loop, which closes like a play (ADR 029) —
++when it finishes, tells the user what to run next when it has one successor. This file is the one place that mapping lives. The **Standard Play Close**
++(`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
++`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
++`meta_exempt`.
++
++The rendered line reads:
++
++> **Next:** `/<command>` — <why>.
++
++When a play's `command` is `null`, the play has no single successor and the close leaves the
++Next line out. The person picks the next piece of work from the plan (one plan for each
++business intent, with done / now / next) or from `/list-issues` (ADR 051).
++
++## The flow
++
++The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
++
++- **`/loop-product-spec` (ADR 029, ADR 066):** `/specify-intent → /specify-domains → /specify-capabilities`. `/specify-intent` is optional: `/specify-domains` can still start from a goal typed as text. The Discovery loop (`/loop-product-spec`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge step is a step of the loop run by one agent, not a play (ADR 059).
++- **Shaping loop (ADR 049) — the live shape loop:** `/design-slice <intent>`, then `/shape-plan <intent>`, then `/design-eval <intent>`. `/design-slice` hands to `/shape-plan`, which makes the intent's one plan, once: the plan file, one epic for each slice and one story for each feature. When the intent already has a plan, `/shape-plan` stops and a later slice joins the plan through `/reshape-plan <intent>`; `/shape-plan` hands to `/design-eval`, which writes each slice's eval. The build stage (#819) is not built yet, so `/design-eval` has no Next line. The Discovery plays hand to the loop (`/design-slice <intent>`, the business intent's issue number).
++- **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
++  - Functional: `/design-surface → /design-agentic → /shape-marketing-lens`
++  - Non-functional: `/design-architecture → /design-quality → /design-env`
++  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/design-slice` no longer reads that mark (ADR 049).
++  ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
++- **Execute loop (per epic):** `/build-work → /validate-slice → /validate-uat`. `/validate-uat` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
++- **Change loop (git):** `/start-work` (injected at a play's head) `→ /commit-work → /review-work → /validate-work → /merge-work`.
++- **Learn loop:** `/learn-outcomes`. `/list-issues` lists the open issues worth attention.
++- Branch points (at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
++
++## The map
++
++```yaml
++next:
++  # Standalone (no loop)
++  design-adr:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
++  # /loop-product-spec, then the Shaping loop (/design-slice <intent>)
++  loop-product-spec:      { command: design-slice,          why: "the model holds the business intents — shape the slice that serves one (/design-slice <intent>)" }
++  specify-intent:         { command: specify-domains,         why: "seed the product model from a confirmed business intent (give /specify-domains its title, outcome and why as the goal)" }
++  specify-domains:         { command: specify-capabilities,     why: "expand this capability's intent (ICE)" }
++  specify-capabilities:     { command: design-slice,     why: "the capabilities are detailed — shape the slice that serves a business intent (/design-slice <intent>)" }
++  # Older chain, stale (#855): old Shape loop — design plays, functional (ux → agentic → marketing)
++  design-surface:             { command: design-agentic,        why: "next lens in the functional pipe" }
++  design-agentic:        { command: shape-marketing-lens,      why: "next lens in the functional pipe" }
++  shape-marketing-lens:      { command: null,           why: "functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain, stale (#855): old Shape loop — design plays, non-functional (arch → quality → run)
++  design-architecture:           { command: design-quality,        why: "next lens in the non-functional pipe" }
++  design-quality:        { command: design-env,            why: "next lens in the non-functional pipe" }
++  design-env:            { command: null,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain — measure runs last; /design-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
++  shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /design-slice, not from this mark" }
++
++  # Shaping loop (ADR 049) — the live shape loop: /design-slice, then /shape-plan, then /design-eval
++  design-slice:          { command: shape-plan,     why: "the slice is shaped; make its plan, epic and stories (/shape-plan <intent>), or add them to the plan that exists (/reshape-plan <intent>)" }
++  shape-plan:           { command: design-eval,     why: "the plan, its epics and its stories are made; write each slice's eval (/design-eval <intent>)" }
++  design-eval:           { command: null,           why: "each slice's eval is written; the build stage (#819) is not built yet" }
++
++  # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
++  build-work:      { command: validate-slice,       why: "independently verify the built epic" }
++  validate-slice:       { command: validate-uat,         why: "land the validated epic on human acceptance" }
++  validate-uat:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
++  release-increment:         { command: null,           why: "increment deployed — the plan shows what comes next" }
++
++  # Defect and refactor lanes (ADR 023); /learn-outcomes is the Learn loop
++  fix-work:        { command: null,           why: "defect resolved — the plan shows what comes next" }
++  refactor-work:       { command: null,           why: "refactor landed — the plan shows what comes next" }
++  learn-outcomes:          { command: null,           why: "model updated from outcomes — the plan shows what comes next" }
++
++  # Navigation
++  list-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
++  list-plans:     { command: null,           why: "shows every plan — it has no successor" }
++  view-plan:      { command: null,           why: "shows one plan — it has no successor" }
++  reshape-plan:    { command: null,           why: "the plan is updated on its own branch — it reaches main with the plan's other work" }
++
++  # Change loop (git members)
++  start-work:   { command: null,           why: "injected at a play's head; the opened play continues" }
++  commit-work:  { command: review-work, why: "raise the committed change" }
++  review-work: { command: validate-work,  why: "review the raised PR" }
++  validate-work:  { command: merge-work,   why: "merge on approval" }
++  merge-work:   { command: null,           why: "change landed — the plan shows what comes next" }
++
++# Meta / bootstrap plays — not part of the product pipeline; no Next required.
++meta_exempt:
++  - install-garura
++  - uninstall-garura
++  - build-play
++  - fix-play
++  - build-loop
++  - fix-loop
++  - specify-ontology
++```
+\ No newline at end of file
+diff --git a/.garura/project/issues/1025/context/templates/standards/templates/delivery-report.md b/.garura/project/issues/1025/context/templates/standards/templates/delivery-report.md
+new file mode 100644
+index 000000000..c557fdb31
+--- /dev/null
++++ b/.garura/project/issues/1025/context/templates/standards/templates/delivery-report.md
+@@ -0,0 +1,72 @@
++# Delivery Report Template
++
++Canonical shape for the human-readable terminal report a play presents to the user at close. This is the user-facing output, not the machine-readable STM evidence file (see `templates/evidence-file.md` for that).
++
++Consumers: `ship`, `fix-it`, `implement`, every play that closes with a delivery step.
++
++## Shape
++
++```markdown
++## {Play Name} Delivered — {context}
++
++### Run Summary
++
++| Field | Value |
++|-------|-------|
++| Play | {play-name} |
++| Issue | #{issue} |
++| Status | {COMPLETE \| PARTIAL \| FAILED} |
++| Started | {ISO-8601 timestamp} |
++| Completed | {ISO-8601 timestamp} |
++
++### Pipeline Steps
++
++| Step | Description | Status | Key Output |
++|------|-------------|--------|------------|
++| {n} | {step description} | {PASS/FAIL/SKIP} | {primary artifact or action taken} |
++
++### Artifacts Produced
++
++| Artifact | Path | Notes |
++|----------|------|-------|
++| {artifact name} | {path} | {description or status} |
++
++### Next
++
++{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. If the mapped command is null, the play has no single successor: omit the line.}
++
++{Optional: any other real follow-ons beyond the mapped next command — open defects, uncommitted artifacts. Omit if none.}
++```
++
++## Field Rules
++
++| Field | Required | Rule |
++|-------|----------|------|
++| `play` | yes | Exact play slug (e.g. `ship`, `fix-it`, `implement`). |
++| `issue` | yes | Issue number. Required for all project-scoped plays. |
++| `status` | yes | `COMPLETE` when all steps passed; `PARTIAL` when some steps skipped by configuration; `FAILED` when a step halted. |
++| `started` / `completed` | yes | ISO-8601 timestamps. |
++| `pipeline_steps` table | yes | At least one row per major step executed. Status: `PASS`, `FAIL`, or `SKIP`. |
++| `artifacts` table | no | Include when the play produces named artifacts (evidence files, PRs, SHAs). |
++| `next_steps` | no | Optional. Use when there are explicit follow-on actions (e.g., "Run validate after implement"). |
++
++## Per-Play Notes
++
++### ship
++Include in Pipeline Steps: commit, PR creation, review-pr (if run), merge, distill.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, distill output.
++
++### fix-it
++Include in Pipeline Steps: RCA, design, approval gate, implement, quality check, PR, merge.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, issue comment dispatch status.
++Add to Run Summary: Root Cause (summary), Fix Strategy (summary).
++
++### implement
++Include in Pipeline Steps: context build, eval generation, test authoring, code authoring, quality audit.
++Include in Artifacts: quality report, judge report, status report.
++Add to Run Summary: Milestone, Scope Items count, Quality status, Judge pass rate.
++
++## Related
++
++- `templates/evidence-file.md` — machine-readable STM evidence file (distinct from this human-facing report)
++- `templates/checkpoint.md` — checkpoint artifact written at each approval gate during the run
+\ No newline at end of file
+diff --git a/.garura/project/issues/1025/context/work-description.txt b/.garura/project/issues/1025/context/work-description.txt
+new file mode 100644
+index 000000000..5395abcf2
+--- /dev/null
++++ b/.garura/project/issues/1025/context/work-description.txt
+@@ -0,0 +1 @@
++/shape-plan reuses an open story for a feature instead of filing a second one
+diff --git a/core/components/plays/build-play/references/check_ice_workable.py b/core/components/plays/build-play/references/check_ice_workable.py
+index ecb18ef44..4160dfeef 100644
+--- a/core/components/plays/build-play/references/check_ice_workable.py
++++ b/core/components/plays/build-play/references/check_ice_workable.py
+@@ -18,6 +18,14 @@
+ Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
+ `ices` list keeps the v5 rule below, written in the same three answers.
+ 
++Each part is read by its own shape (#1034): in a spine with an `ices` list, a part that has no
++`ices` entry yet but keeps its ICE inline (`## Agent intent (ICE)` on its own page, with lines)
++is not "no ICE". Its capability, intents and needs are judged as above, its ICE is taken as it
++is (the three-part rule is for an ice.md), its thin mark is its own `metadata.thin`, and the
++answer carries the gap "ICE still inside its page", so the part is at most partly_ready. Only a
++part with neither an `ices` entry nor an inline ICE stops with "has no ICE". When every part
++has moved (#765), no part takes this path.
++
+ The v5 rule (#724):
+ 
+ An ICE lives inline in its capability's or feature's grounding doc; the node's spine
+@@ -205,11 +213,35 @@ def thin_gaps(ice, path):
+     return bool(gaps), gaps
+ 
+ 
++INLINE_ICE = "## Agent intent (ICE)"
++
++
++def inline_ice(root, part):
++    """The lines of the part's inline ICE section (`## Agent intent (ICE)` on its own page), or
++    None when the page cannot be read or has no such section with lines (#1034)."""
++    try:
++        with open(os.path.join(root, part.get("doc") or ""), encoding="utf-8") as fh:
++            lines = fh.read().splitlines()
++    except OSError:
++        return None
++    if INLINE_ICE not in lines:
++        return None
++    at = lines.index(INLINE_ICE)
++    end = next((i for i in range(at + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
++    body = [ln for ln in lines[at + 1:end] if ln.strip()]
++    return body or None
++
++
+ def assess_ice(ice, part, kind, spine, root, intents_dir, done):
+     """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
+     caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
+     stops, gaps, thin = [], [], False
+-    if ice is None:
++    if ice is None and inline_ice(root, part) is not None:
++        gaps.append("ICE still inside its page")
++        if (part.get("metadata") or {}).get("thin") is True:
++            thin = True
++            gaps.append("thin ICE")
++    elif ice is None:
+         stops.append(f"{kind} `{part.get('id')}` has no ICE")
+     else:
+         page_path = os.path.join(root, ice.get("doc") or "")
+diff --git a/core/components/plays/build-play/references/plan_common.py b/core/components/plays/build-play/references/plan_common.py
+index 6f302bdf8..c1372bb60 100644
+--- a/core/components/plays/build-play/references/plan_common.py
++++ b/core/components/plays/build-play/references/plan_common.py
+@@ -7,8 +7,10 @@
+     then move it into place with os.replace. A run that stops half way never leaves half a
+     file.
+   - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
+-    `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
+-    the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
++    `## Agent intent (ICE)` section of the part's page, or, when the part has an entry in the
++    spine's `ices` list, the `## Intent`, `## Context` and `## Expectation` sections of its
++    ice.md. Each part is read by its own shape (#1034): a part with no `ices` entry is read
++    inline even when other parts have moved.
+     `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
+     under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
+   - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
+@@ -162,15 +164,21 @@ def _section(lines, heading):
+     return lines[at + 1:end]
+ 
+ 
++def ice_entry(spine, part):
++    """The part's entry in the spine's `ices` list, or None (none, or not moved yet)."""
++    if part is None:
++        return None
++    return next((i for i in spine.get("ices") or [] if isinstance(i, dict)
++                 and i.get("for") == part.get("id")), None)
++
++
+ def ice_page(spine, part):
+-    """The page (relative to the model folder) that holds the part's ICE, or None."""
++    """The page (relative to the model folder) that holds the part's ICE, or None: its ice.md
++    when it has an `ices` entry, else its own page, where the ICE is inline (#1034)."""
+     if part is None:
+         return None
+-    if "ices" in spine:
+-        ice = next((i for i in spine.get("ices") or [] if isinstance(i, dict)
+-                    and i.get("for") == part.get("id")), None)
+-        return ice.get("doc") if ice else None
+-    return part.get("doc")
++    ice = ice_entry(spine, part)
++    return ice.get("doc") if ice else part.get("doc")
+ 
+ 
+ def ice_lines(root, spine, part):
+@@ -182,7 +190,7 @@ def ice_lines(root, spine, part):
+     if not os.path.isfile(path):
+         return None
+     lines = read_text(path).splitlines()
+-    if "ices" in spine:
++    if ice_entry(spine, part) is not None:
+         out = []
+         for head in ICE_PARTS:
+             body = _section(lines, head)
+@@ -377,9 +385,14 @@ def remove_labels(self, number, labels):
+         self._keep()
+ 
+     def add_sub(self, parent, child):
++        """Make child a sub-issue of parent. Like the real tracker's replace_parent, a child
++        has one parent: it leaves any other parent first (#1025)."""
+         self._write("add a sub-issue")
+         self._must(child)
+         subs = self._must(parent)["sub_issues"]
++        for other in self.issues.values():
++            if other is not self.issues[int(parent)] and int(child) in other["sub_issues"]:
++                other["sub_issues"] = [n for n in other["sub_issues"] if n != int(child)]
+         if int(child) not in subs:
+             subs.append(int(child))
+         self._keep()
+@@ -451,7 +464,9 @@ def remove_labels(self, number, labels):
+             self._adapter("remove-label", {"issue_number": str(number), "label": label})
+ 
+     def add_sub(self, parent, child):
+-        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
++        """Make child a sub-issue of parent; it leaves any other parent (#1025)."""
++        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child),
++                                           "replace_parent": "true"})
+ 
+     def remove_sub(self, parent, child):
+         self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
+diff --git a/core/components/plays/build-play/references/platform_adapter.py b/core/components/plays/build-play/references/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/plays/build-play/references/platform_adapter.py
++++ b/core/components/plays/build-play/references/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])
+diff --git a/core/components/plays/build-play/references/test_check_ice_workable.py b/core/components/plays/build-play/references/test_check_ice_workable.py
+index 687383d73..e60bc9abb 100644
+--- a/core/components/plays/build-play/references/test_check_ice_workable.py
++++ b/core/components/plays/build-play/references/test_check_ice_workable.py
+@@ -114,6 +114,13 @@ def setup_v6(tmp):
+         if part == "cap-thin-text":
+             ice["metadata"] = {"thin": "false"}
+         ices.append(ice)
++    # #1034: parts not moved yet keep their ICE inline on their own page, with no `ices` entry.
++    for part, body in (("fn-inline", "- Goal: a patient picks a slot.\n"),
++                       ("fn-inline-thin", "Thin: to be deepened.\n- Goal: a reminder goes out.\n"),
++                       ("fn-inline-empty", "")):
++        os.makedirs(os.path.join(root, part))
++        with open(os.path.join(root, part, "feature.md"), "w") as fh:
++            fh.write(f"# Feature: {part}\n\n## What it does\nText.\n\n## Agent intent (ICE)\n{body}")
+     spine = {"domains": [{"id": "d1"}],
+              "capabilities": [
+                  {"id": "cap-a", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-x"},
+@@ -133,7 +140,11 @@ def setup_v6(tmp):
+                  {"id": "fn-a", "capability": "cap-a", "intents": ["bi-prop"]},
+                  {"id": "fn-orphan", "capability": "", "intents": ["bi-ok"]},
+                  {"id": "fn-under-prop", "capability": "cap-prop", "intents": ["bi-ok"]},
+-                 {"id": "fn-own-needs", "capability": "cap-a", "depends_on": ["cap-prop"]}],
++                 {"id": "fn-own-needs", "capability": "cap-a", "depends_on": ["cap-prop"]},
++                 {"id": "fn-inline", "capability": "cap-a", "doc": "fn-inline/feature.md"},
++                 {"id": "fn-inline-thin", "capability": "cap-a", "doc": "fn-inline-thin/feature.md",
++                  "metadata": {"thin": True}},
++                 {"id": "fn-inline-empty", "capability": "cap-a", "doc": "fn-inline-empty/feature.md"}],
+              "ices": ices}
+     path = os.path.join(root, "_spine.yaml")
+     with open(path, "w") as fh:
+@@ -220,11 +231,22 @@ def node(n, extra=()):
+     code, r = node("fn-own-needs", ["--done", done_none])
+     check("a feature's own needs are not read (v6: it never needs anything)", r["answer"] == "ready")
+ 
++    code, r = node("fn-inline")
++    check("#1034: a part not moved yet, with its ICE inline, is read by its own shape — partly ready, never 'no ICE'",
++          code == 0 and r["answer"] == "partly_ready" and r["gaps"] == ["ICE still inside its page"]
++          and r["stops"] == [])
++    code, r = node("fn-inline-thin")
++    check("#1034: an inline ICE takes its thin mark from the part's own metadata",
++          r["answer"] == "partly_ready" and "thin ICE" in r["gaps"] and r["thin"] is True)
++    code, r = node("fn-inline-empty")
++    check("#1034: an inline ICE section with no lines is still 'no ICE'",
++          code == 1 and r["answer"] == "not_ready" and any("no ICE" in s for s in r["stops"]))
++
+     code = cw.main(args + ["--out", out])
+     with open(out) as fh:
+         r = json.load(fh)
+-    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 5, "partly_ready": 5,
+-                                                                              "not_ready": 6})
++    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 5, "partly_ready": 7,
++                                                                              "not_ready": 7})
+     check("an unknown node exits 2", cw.main(args + ["--node", "nope"]) == 2)
+ 
+     here = os.path.join(HERE, "check_ice_workable.py")
+diff --git a/core/components/plays/design-eval/scripts/platform_adapter.py b/core/components/plays/design-eval/scripts/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/plays/design-eval/scripts/platform_adapter.py
++++ b/core/components/plays/design-eval/scripts/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])
+diff --git a/core/components/plays/design-slice/scripts/platform_adapter.py b/core/components/plays/design-slice/scripts/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/plays/design-slice/scripts/platform_adapter.py
++++ b/core/components/plays/design-slice/scripts/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])
+diff --git a/core/components/plays/merge-work/scripts/platform_adapter.py b/core/components/plays/merge-work/scripts/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/plays/merge-work/scripts/platform_adapter.py
++++ b/core/components/plays/merge-work/scripts/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])
+diff --git a/core/components/plays/reshape-plan/scripts/check_ice_workable.py b/core/components/plays/reshape-plan/scripts/check_ice_workable.py
+index ecb18ef44..4160dfeef 100644
+--- a/core/components/plays/reshape-plan/scripts/check_ice_workable.py
++++ b/core/components/plays/reshape-plan/scripts/check_ice_workable.py
+@@ -18,6 +18,14 @@
+ Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
+ `ices` list keeps the v5 rule below, written in the same three answers.
+ 
++Each part is read by its own shape (#1034): in a spine with an `ices` list, a part that has no
++`ices` entry yet but keeps its ICE inline (`## Agent intent (ICE)` on its own page, with lines)
++is not "no ICE". Its capability, intents and needs are judged as above, its ICE is taken as it
++is (the three-part rule is for an ice.md), its thin mark is its own `metadata.thin`, and the
++answer carries the gap "ICE still inside its page", so the part is at most partly_ready. Only a
++part with neither an `ices` entry nor an inline ICE stops with "has no ICE". When every part
++has moved (#765), no part takes this path.
++
+ The v5 rule (#724):
+ 
+ An ICE lives inline in its capability's or feature's grounding doc; the node's spine
+@@ -205,11 +213,35 @@ def thin_gaps(ice, path):
+     return bool(gaps), gaps
+ 
+ 
++INLINE_ICE = "## Agent intent (ICE)"
++
++
++def inline_ice(root, part):
++    """The lines of the part's inline ICE section (`## Agent intent (ICE)` on its own page), or
++    None when the page cannot be read or has no such section with lines (#1034)."""
++    try:
++        with open(os.path.join(root, part.get("doc") or ""), encoding="utf-8") as fh:
++            lines = fh.read().splitlines()
++    except OSError:
++        return None
++    if INLINE_ICE not in lines:
++        return None
++    at = lines.index(INLINE_ICE)
++    end = next((i for i in range(at + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
++    body = [ln for ln in lines[at + 1:end] if ln.strip()]
++    return body or None
++
++
+ def assess_ice(ice, part, kind, spine, root, intents_dir, done):
+     """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
+     caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
+     stops, gaps, thin = [], [], False
+-    if ice is None:
++    if ice is None and inline_ice(root, part) is not None:
++        gaps.append("ICE still inside its page")
++        if (part.get("metadata") or {}).get("thin") is True:
++            thin = True
++            gaps.append("thin ICE")
++    elif ice is None:
+         stops.append(f"{kind} `{part.get('id')}` has no ICE")
+     else:
+         page_path = os.path.join(root, ice.get("doc") or "")
+diff --git a/core/components/plays/reshape-plan/scripts/plan_common.py b/core/components/plays/reshape-plan/scripts/plan_common.py
+index 6f302bdf8..c1372bb60 100644
+--- a/core/components/plays/reshape-plan/scripts/plan_common.py
++++ b/core/components/plays/reshape-plan/scripts/plan_common.py
+@@ -7,8 +7,10 @@
+     then move it into place with os.replace. A run that stops half way never leaves half a
+     file.
+   - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
+-    `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
+-    the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
++    `## Agent intent (ICE)` section of the part's page, or, when the part has an entry in the
++    spine's `ices` list, the `## Intent`, `## Context` and `## Expectation` sections of its
++    ice.md. Each part is read by its own shape (#1034): a part with no `ices` entry is read
++    inline even when other parts have moved.
+     `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
+     under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
+   - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
+@@ -162,15 +164,21 @@ def _section(lines, heading):
+     return lines[at + 1:end]
+ 
+ 
++def ice_entry(spine, part):
++    """The part's entry in the spine's `ices` list, or None (none, or not moved yet)."""
++    if part is None:
++        return None
++    return next((i for i in spine.get("ices") or [] if isinstance(i, dict)
++                 and i.get("for") == part.get("id")), None)
++
++
+ def ice_page(spine, part):
+-    """The page (relative to the model folder) that holds the part's ICE, or None."""
++    """The page (relative to the model folder) that holds the part's ICE, or None: its ice.md
++    when it has an `ices` entry, else its own page, where the ICE is inline (#1034)."""
+     if part is None:
+         return None
+-    if "ices" in spine:
+-        ice = next((i for i in spine.get("ices") or [] if isinstance(i, dict)
+-                    and i.get("for") == part.get("id")), None)
+-        return ice.get("doc") if ice else None
+-    return part.get("doc")
++    ice = ice_entry(spine, part)
++    return ice.get("doc") if ice else part.get("doc")
+ 
+ 
+ def ice_lines(root, spine, part):
+@@ -182,7 +190,7 @@ def ice_lines(root, spine, part):
+     if not os.path.isfile(path):
+         return None
+     lines = read_text(path).splitlines()
+-    if "ices" in spine:
++    if ice_entry(spine, part) is not None:
+         out = []
+         for head in ICE_PARTS:
+             body = _section(lines, head)
+@@ -377,9 +385,14 @@ def remove_labels(self, number, labels):
+         self._keep()
+ 
+     def add_sub(self, parent, child):
++        """Make child a sub-issue of parent. Like the real tracker's replace_parent, a child
++        has one parent: it leaves any other parent first (#1025)."""
+         self._write("add a sub-issue")
+         self._must(child)
+         subs = self._must(parent)["sub_issues"]
++        for other in self.issues.values():
++            if other is not self.issues[int(parent)] and int(child) in other["sub_issues"]:
++                other["sub_issues"] = [n for n in other["sub_issues"] if n != int(child)]
+         if int(child) not in subs:
+             subs.append(int(child))
+         self._keep()
+@@ -451,7 +464,9 @@ def remove_labels(self, number, labels):
+             self._adapter("remove-label", {"issue_number": str(number), "label": label})
+ 
+     def add_sub(self, parent, child):
+-        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
++        """Make child a sub-issue of parent; it leaves any other parent (#1025)."""
++        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child),
++                                           "replace_parent": "true"})
+ 
+     def remove_sub(self, parent, child):
+         self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
+diff --git a/core/components/plays/review-work/scripts/platform_adapter.py b/core/components/plays/review-work/scripts/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/plays/review-work/scripts/platform_adapter.py
++++ b/core/components/plays/review-work/scripts/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])
+diff --git a/core/components/plays/shape-plan/SKILL.md b/core/components/plays/shape-plan/SKILL.md
+index 7ea120816..c96e6f505 100644
+--- a/core/components/plays/shape-plan/SKILL.md
++++ b/core/components/plays/shape-plan/SKILL.md
+@@ -2,7 +2,7 @@
+ name: shape-plan
+ position: both
+ argument-hint: "<business intent issue number>"
+-description: 'Make the one plan of a business intent that /design-slice has served with a slice, once — the second play of the shaping loop (ADR 049: /design-slice, then /shape-plan, then /design-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. When the intent already has a plan file, it stops at pre-flight, before it opens a change or writes anything, and points to /reshape-plan, which changes a plan that exists. Within its one run it never makes an epic or a story twice; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-work, review-work, validate-work and merge-work, on the plan''s branch when the intent has one.'
++description: 'Make the one plan of a business intent that /design-slice has served with a slice, once — the second play of the shaping loop (ADR 049: /design-slice, then /shape-plan, then /design-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. When the intent already has a plan file, it stops at pre-flight, before it opens a change or writes anything, and points to /reshape-plan, which changes a plan that exists. Within its one run it never makes an epic or a story twice, and when a feature''s entry in the product model names an open story, it uses that story (moved under the slice''s epic) instead of filing a second one; a named issue that is closed, not a Story, missing, or named for two features stops the run before any tracker write. A feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-work, review-work, validate-work and merge-work, on the plan''s branch when the intent has one.'
+ user-invocable: true
+ ---
+ 
+@@ -19,7 +19,8 @@ exists. The eval play (#798) comes next, once it is built.
+ 
+ The run reads the slices from the spine (the link "slice serves business intent"); it never
+ picks, orders or tests a slice. Within its one run it never makes an epic or a story twice,
+-and it knows a work item by the plan file's `represents` marks, never by a title. It
++and it knows a work item by the plan file's `represents` marks or, for a feature's story, by the
++issue the feature's entry in the product model names — never by a title. It
+ shows the product owner one brief with every tracker write and the plan-file change, and
+ writes nothing before the typed yes.
+ 
+@@ -30,8 +31,8 @@ validate-work → merge-work lands it.
+ ## Compiled From
+ 
+ This play was compiled from the shape-plan ICE (`reference/ice.md`) by build-play. Intent
+-defines constraints (C1–C3, C5–C11, C13–C14) and failure conditions (F1–F5, F7–F13); the
+-expectation defines success scenarios (S1, S6–S9), a Done means (D1–D5, baked to `stop-condition.yaml`), and one recovery entry
++defines constraints (C1–C3, C5–C11, C13–C14) and failure conditions (F1–F5, F7–F14); the
++expectation defines success scenarios (S1, S6–S10), a Done means (D1–D5, baked to `stop-condition.yaml`), and one recovery entry
+ per failure condition. To modify this play, update `reference/ice.md` and recompile with
+ fix-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -53,8 +54,10 @@ temp file and a rename (`plan_common.py`). The play never writes the plan file,
+ story by hand.
+ 
+ **Forbidden:** a second plan for one intent (C1); picking, ordering or testing a slice, or
+-leaving out a slice the spine links to the intent (C2); matching a work item by its title, or
+-making an epic or a story twice within the run (C3); reading a "Fails if" line, or a story,
++leaving out a slice the spine links to the intent (C2); matching a work item by its title,
++making an epic or a story twice within the run, making a new story for a feature whose model
++entry names an open Story, or using a named issue that is missing, closed, not a Story or named
++for two features (C3); reading a "Fails if" line, or a story,
+ an epic or a plan file that holds a failure or recovery condition (C5); an epic title that
+ says how the product is built, or a map that disagrees with the tree (C6); writing outside the
+ plan file, the epics and the stories — the evals folder and the product model above all (C7);
+@@ -184,7 +187,8 @@ python3 scripts/gather_plan.py --root <model> --spine <model>/_spine.yaml --inte
+ ```
+ 
+ It lists every slice whose `intents` lists the intent, in the spine's order (C2), each
+-slice's features in build order, each feature's capability and the pages of its two ICE. It
++slice's features in build order, each feature's capability, the pages of its two ICE, and the
++`issue` its model entry names (its story, as a number, or null; C3). It
+ runs the ready check (`check_ice_workable.py`) on both ICE of each feature: a feature whose
+ ICE is not ready is `ready: false` with its `reason`, and gets no clean copy (C9). For each
+ ready feature it writes `<working>ice/<feature id>.md`: both ICE with every "Fails if" block
+@@ -218,9 +222,14 @@ It reads the plan file and, through the code-host adapter, the tracker; it write
+ An epic is `use` when a node of the tree has `represents: <slice id>`, else `make`; a story is
+ `use`, `add-sections` (it lacks "Scope of work" or "Context guidance"), `make`, or `skip` (its
+ feature is not ready). A run starts with no plan file (C14), so no node is marked yet: every
+-epic is `make`, and every story is `make` or `skip`. The script's other actions (`use`,
+-`add-sections`, `move_out`) and the `misplaced` list need a plan file, so this play does not
+-reach them. It never compares titles (C3). Exit 1 lists a duplicate (two nodes stand for one
++epic is `make`. A feature's story is the issue its model entry names (`gather.json` `issue`),
++when the tracker holds it open with type Story: it is `use` or `add-sections`, with
++`source: model` and `attached: false` until Step 6 makes it a sub-issue of the epic; it is
++never `make` (C3). Every other story is `make` or `skip`. A named issue the tracker does not
++have, that is closed, that is not of type Story, or that the model names for two features is a
++problem: exit 1, named in plain words, and nothing is written (REC14). `move_out` and the
++`misplaced` list need a plan file, so this play does not reach them. It never compares titles
++(C3). Exit 1 also lists a duplicate (two nodes stand for one
+ slice, or for one feature in one epic) or a marked issue the tracker does not have: show it to
+ the person in plain words and stop (REC2); the run goes on only after the person fixes the
+ plan file. `misplaced` lists each sub-issue of an epic that is not a story of its slice (nor a
+@@ -234,6 +243,11 @@ when `misplaced` is not empty, `ok` reads false and there is no `tracker-record.
+ **SE-4 (F2/C3):** `work-items.json` reads `ok: true`; its `duplicates` is empty; each `use` or
+ `add-sections` item's issue is the `issue` of the plan-file node whose `represents` names that
+ slice or feature; no item with a marked node is `make`.
++**SE-21 (F14/C3):** each story item with `source: model` has the `issue` that `gather.json`
++gives its feature, and that issue is open with type Story in the tracker; no feature whose
++`gather.json` `issue` is set is `make`; and each problem the finder named for a model's issue
++(missing, closed, not a Story, named for two features) left `ok: false` and no
++`tracker-record.json`.
+ 
+ ### Phase: Draft
+ 
+@@ -331,7 +345,9 @@ and when the brief, `work-items.json` or `drafts.json` is no longer the file the
+ type Epic, and each story as an issue of type Story with its epic as parent, each in one
+ write and with no label (C13); it adds each story's "Written from" line (the two ICE pages)
+ from `gather.json`; on a used item it sets the type when it is wrong
+-and takes off its labels; it writes the epic's "Feature-to-story map" (C6).
++and takes off its labels; a used story that is not yet a sub-issue of its epic becomes one, and
++leaves any other parent (the adapter's `attach-sub-issue` with `replace_parent`, C3); it writes
++the epic's "Feature-to-story map" (C6).
+ Each write goes through the code-host adapter's verbs, and `tracker-record.json` is written
+ after every write. Exit 1 means the tracker failed part way: the record reads `ok: false`,
+ names the `failed` step and keeps every issue made before it. Still run Step 7, so the plan
+@@ -449,6 +465,12 @@ intent has a plan (else main), and `merge-work.json` reports it merged.
+   `exists: true` and its message names `/reshape-plan <intent-issue>`; there is no start-work
+   record, no change branch, no tracker write and no file left behind, and the plan file is as it
+   was.
++- **SCE-10 (S10 — product owner, a story filed before the plan):** with no plan file and a
++  feature whose model entry names an open Story under another parent, `work-items.json` lists
++  that story as `use` or `add-sections` with the model's issue and `source: model`;
++  `tracker-record.json` `created` holds no story for that feature; the epic's map and
++  `tracker-record.json` `stories` name the model's issue, which is now a sub-issue of the epic;
++  and `plan-check.json` reads `ok: true`.
+ 
+ ### Phase: Evidence & Close
+ 
+@@ -490,7 +512,7 @@ issue, started_at/completed_at, status per C0, exit_reason; artifacts produced:
+ `plan-absent.json`, `tracker-record.json` with the epics and stories made and used, `plan-write.json`
+ and the plan file's path, `plan-check.json`, `tracker-check.json`, `guard-report.json`, the
+ plan commit sha, and the skill the agent contract named; step and scenario eval results
+-SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-20 / SCE-1, SCE-6…SCE-9; the checkpoint answers in the person's words; the session identity
++SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-21 / SCE-1, SCE-6…SCE-10; the checkpoint answers in the person's words; the session identity
+ stamp fields from $session_stamp (#463); and stop_condition per C0) and write to
+ `$evidence_dest`. Do NOT hand-author the body.
+ 
+@@ -516,6 +538,7 @@ gated.
+ | S7 — an ICE not ready | product owner | SCE-7 |
+ | S8 — misplaced work | product owner | SCE-8 |
+ | S9 — a plan that exists | product owner | SCE-9 |
++| S10 — a story filed before the plan | product owner | SCE-10 |
+ 
+ ## Recovery
+ 
+@@ -533,6 +556,7 @@ gated.
+ | F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story | take the label off, and set the issue type to Epic on an epic and to Story on a story | autonomous |
+ | F12 | an epic holds a sub-issue that is not a story of its slice, and the run wrote to the tracker or did not name it | stop before any tracker write and name each misplaced item with its title; a person files it in its own place and takes it off the epic, then runs the play again | human |
+ | F13 | the intent already had a plan file and the run went on past pre-flight (opened a change, read the model, wrote anything), or stopped without naming /reshape-plan | stop the run, undo what it opened or wrote after pre-flight (the change branch and short-term folder, any tracker write), and show that the plan exists and `/reshape-plan <id>` changes it | human |
++| F14 | a feature whose model entry names an open Story got a new story, or the run used, or wrote past, an issue the model names that is missing, closed, not a Story or named for two features | take back the new story and use the one the model names; for a named issue that is missing, closed, not a Story or named for two features, stop before any tracker write and name it — a person fixes the model's link or the issue, then runs the play again | human |
+ 
+ ## Pause and Resume
+ 
+@@ -550,8 +574,8 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:feff765664d710d737c0c83fbad0bf7a8d1f7f81ced9055ee4f2497a4a327ed6 (of `reference/ice.md`) |
+-| compiled_by | build-play (#818); fix-play (#896) |
++| fingerprint | sha256:6ed4ab371e8916e78546daaf31fb63c00ff2a240e6b5dfc257f3805f9b90df34 (of `reference/ice.md`) |
++| compiled_by | build-play (#818); fix-play (#896); fix-play (#1025) |
+ | pipeline_position | both (start-work head; commit → propose → review → merge close) |
+ | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |
+ | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
+@@ -559,9 +583,9 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
+ | utility_agents | 1 (template-manager — serves the approval prompt and the close) |
+ | skills_used | author-work-items (built for this play) |
+ | skills_missing | none |
+-| tracker_verbs | view-issue, create-issue-typed (type and parent in one call), set-issue-type, edit-issue-body, remove-label, attach-sub-issue, remove-sub-issue — all through platform_adapter.py |
++| tracker_verbs | view-issue, create-issue-typed (type and parent in one call), set-issue-type, edit-issue-body, remove-label, attach-sub-issue (with replace_parent, so a used story leaves any other parent), remove-sub-issue — all through platform_adapter.py |
+ | scripts | check_plan_absent.py (the plan-exists check), preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from build-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
+ | tests | test_check_plan_absent.py, test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py |
+-| step_evals | 17 (SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-20) |
+-| scenario_evals | 5 (SCE-1, SCE-6…SCE-9) |
+-| recovery_entries | 12 (one per failure condition; 7 autonomous / 5 human) |
++| step_evals | 18 (SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-21) |
++| scenario_evals | 6 (SCE-1, SCE-6…SCE-10) |
++| recovery_entries | 13 (one per failure condition; 7 autonomous / 6 human) |
+diff --git a/core/components/plays/shape-plan/reference/ice.md b/core/components/plays/shape-plan/reference/ice.md
+index 8f3bbe2cf..5f7f31da9 100644
+--- a/core/components/plays/shape-plan/reference/ice.md
++++ b/core/components/plays/shape-plan/reference/ice.md
+@@ -21,7 +21,14 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
+ - C3 — Within its one run, the play never makes an epic or a story twice: one epic for each
+   slice, and one story for each feature in each epic. A work item stands for a slice or a
+   feature when the plan file marks it so (`represents: <slice id>` on the epic,
+-  `represents: <feature id>` on the story); the play never matches a work item by its title.
++  `represents: <feature id>` on the story). When the plan file marks no story for a feature, the
++  feature's story is the issue that the feature's entry in the product model names (its
++  `issue`), when the tracker holds that issue open with type Story: the play uses it, makes it a
++  sub-issue of its slice's epic (it leaves any other parent) and adds only the sections it lacks.
++  It never makes a second story for that feature. An issue the model names that the tracker does
++  not have, that is closed, that is not of type Story, or that the model names for two features
++  is a problem: the run names it and stops before any tracker write. The play never matches a
++  work item by its title.
+ - C5 — Each story holds its scope of work (the goals, the limits and the expectations) and its
+   Context guidance (the four Context lines: what to read, what never to read, the persona, what
+   is in and what is out), in its own words, written from every line of its feature's ICE and its
+@@ -78,13 +85,19 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
+   tracker, or did not name that item with its title.
+ - F13 — The intent already had a plan file, and the run went on past pre-flight: it opened a
+   change, read the model, or wrote anything; or it stopped without naming /reshape-plan.
++- F14 — A feature whose model entry names an open issue of type Story got a new story; or the
++  run used an issue the model names that the tracker does not have, that is closed, that is not
++  of type Story, or that the model names for two features, or wrote to the tracker without
++  naming that problem.
+ 
+ ## Context
+ 
+ - The product model: the ontology (`standards/schemas/product-os/ontology.md`, v11: Plan, Epic,
+   Story, Slice, Feature, ICE), read through the memory tool; the spine (`_spine.yaml`: `slices`
+-  with `feature_refs` in build order and `intents`, `features` with their `capability`, `ices`
+-  with their thin mark) and each slice's record (`slices/<id>.yaml`).
++  with `feature_refs` in build order and `intents`, `features` with their `capability` and the
++  `issue` of their story when one was filed, `ices` with their thin mark) and each slice's
++  record (`slices/<id>.yaml`). All plan files were deleted on 2026-11-02 (#1025), so the
++  model's `issue` is how a run finds a story filed before it.
+ - ADR 049 (the shaping loop: /design-slice, then /shape-plan, then /design-eval; one plan for each
+   business intent; how the ICE reaches the story and the hidden file), ADR 052 (/design-slice
+   writes the hidden file), ADR 047 (the ICE and its ready check).
+@@ -132,6 +145,13 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
+   Measure: the check's record reads `exists: true` and its message names `/reshape-plan <id>`;
+   no change issue, no branch, no short-term folder and no tracker write was made, no file is left
+   behind, and the plan file is as it was.
++- S10 — (product owner, a story filed before the plan) Given no plan file and a slice where one
++  feature's model entry names an open issue of type Story that sits under another parent, when
++  the product owner runs /shape-plan and types yes, then the plan uses that story: it becomes a
++  sub-issue of the slice's epic, only its missing sections are added, and no new story is made
++  for that feature. Measure: `work-items.json` lists the story as `use` or `add-sections` with
++  the model's issue and `source: model`; `tracker-record.json` `created` holds no story for that
++  feature; the epic's map names the model's issue; and the plan check reads ok.
+ 
+ ### Done means
+ 
+@@ -175,3 +195,7 @@ intent already has a plan, /shape-plan does not run: /reshape-plan changes a pla
+ - REC13 (F13) — stop the run, undo whatever it opened or wrote after pre-flight (the change
+   issue's branch and short-term folder, any tracker write), and show the product owner that the
+   plan exists and that `/reshape-plan <id>` changes it. Handoff: human.
++- REC14 (F14) — take back the new story and use the one the model names; for an issue the model
++  names that the tracker does not have, that is closed, that is not of type Story, or that is
++  named for two features, stop before any tracker write and name it; a person fixes the model's
++  link or the issue, then runs the play again. Handoff: human.
+diff --git a/core/components/plays/shape-plan/scripts/check_ice_workable.py b/core/components/plays/shape-plan/scripts/check_ice_workable.py
+index ecb18ef44..4160dfeef 100644
+--- a/core/components/plays/shape-plan/scripts/check_ice_workable.py
++++ b/core/components/plays/shape-plan/scripts/check_ice_workable.py
+@@ -18,6 +18,14 @@
+ Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
+ `ices` list keeps the v5 rule below, written in the same three answers.
+ 
++Each part is read by its own shape (#1034): in a spine with an `ices` list, a part that has no
++`ices` entry yet but keeps its ICE inline (`## Agent intent (ICE)` on its own page, with lines)
++is not "no ICE". Its capability, intents and needs are judged as above, its ICE is taken as it
++is (the three-part rule is for an ice.md), its thin mark is its own `metadata.thin`, and the
++answer carries the gap "ICE still inside its page", so the part is at most partly_ready. Only a
++part with neither an `ices` entry nor an inline ICE stops with "has no ICE". When every part
++has moved (#765), no part takes this path.
++
+ The v5 rule (#724):
+ 
+ An ICE lives inline in its capability's or feature's grounding doc; the node's spine
+@@ -205,11 +213,35 @@ def thin_gaps(ice, path):
+     return bool(gaps), gaps
+ 
+ 
++INLINE_ICE = "## Agent intent (ICE)"
++
++
++def inline_ice(root, part):
++    """The lines of the part's inline ICE section (`## Agent intent (ICE)` on its own page), or
++    None when the page cannot be read or has no such section with lines (#1034)."""
++    try:
++        with open(os.path.join(root, part.get("doc") or ""), encoding="utf-8") as fh:
++            lines = fh.read().splitlines()
++    except OSError:
++        return None
++    if INLINE_ICE not in lines:
++        return None
++    at = lines.index(INLINE_ICE)
++    end = next((i for i in range(at + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
++    body = [ln for ln in lines[at + 1:end] if ln.strip()]
++    return body or None
++
++
+ def assess_ice(ice, part, kind, spine, root, intents_dir, done):
+     """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
+     caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
+     stops, gaps, thin = [], [], False
+-    if ice is None:
++    if ice is None and inline_ice(root, part) is not None:
++        gaps.append("ICE still inside its page")
++        if (part.get("metadata") or {}).get("thin") is True:
++            thin = True
++            gaps.append("thin ICE")
++    elif ice is None:
+         stops.append(f"{kind} `{part.get('id')}` has no ICE")
+     else:
+         page_path = os.path.join(root, ice.get("doc") or "")
+diff --git a/core/components/plays/shape-plan/scripts/find_work_items.py b/core/components/plays/shape-plan/scripts/find_work_items.py
+index 45259415a..eb943d596 100644
+--- a/core/components/plays/shape-plan/scripts/find_work_items.py
++++ b/core/components/plays/shape-plan/scripts/find_work_items.py
+@@ -15,6 +15,10 @@
+     `add-sections` (marked, but one of the two sections is missing; `missing` names it),
+     `make` (no marked story), or `skip` (the feature is not ready; `reason` says why, and a
+     marked story is left as it is);
++  - when the plan file marks no story for a feature, the story is the issue the feature's entry
++    in the model names (gather.json `issue`, C3, #1025), with `source: model`: `use` or
++    `add-sections` the same way, never `make`. The issue must be in the tracker, open and of
++    type Story, and named for one feature only; else it is a problem and nothing is written;
+   - `move_out` lists each marked story under the epic whose feature is no longer in the slice;
+   - `misplaced` lists each sub-issue of a used epic that is neither a story of its slice nor a
+     moved-out story, with its title: an epic stands for its slice, so such work is not its
+@@ -28,8 +32,8 @@
+     {ok, plan_file_exists, problems: [..], duplicates: [..],
+      misplaced: [{slice, epic, issue, title}],
+      slices: [{slice, epic: {action, issue, title, type, labels, represents_line, map},
+-               stories: [{feature, action, issue, missing, reason, title, type, labels,
+-                          represents_line, attached}],
++               stories: [{feature, action, issue, source, missing, reason, title, type,
++                          labels, represents_line, attached}],
+                move_out: [{issue, feature, title}]}]}
+ 
+ Exit 0 written; 1 written, with a problem (a marked issue the tracker does not have), a
+@@ -58,9 +62,48 @@ def tracker_facts(tracker, number, represents, problems, what):
+     return it
+ 
+ 
++def model_story(tracker, f, problems):
++    """The issue a feature's model entry names, when the tracker holds it open with type Story;
++    else None, with the problem named (C3, F14, #1025)."""
++    number = f.get("issue")
++    if number is None:
++        return None
++    fid = f["id"]
++    it = tracker.get(int(number))
++    if it is None:
++        problems.append(f"the model names #{number} as the story of {fid}, but the tracker has no "
++                        "such issue")
++        return None
++    if (it.get("state") or "open").lower() != "open":
++        problems.append(f"the model names #{number} as the story of {fid}, but #{number} is closed")
++        return None
++    if it.get("type") != pc.STORY_TYPE:
++        problems.append(f"the model names #{number} as the story of {fid}, but #{number} is of type "
++                        f"{it.get('type') or 'none'}, not {pc.STORY_TYPE}")
++        return None
++    return int(number)
++
++
++def named_twice(gather, problems):
++    """Each issue the model names as the story of two features or more is a problem (C3, F14)."""
++    seen = {}
++    for sl in gather.get("slices") or []:
++        for f in sl.get("features") or []:
++            if f.get("issue") is not None:
++                seen.setdefault(int(f["issue"]), []).append(f["id"])
++    twice = set()
++    for number, fids in sorted(seen.items()):
++        if len(set(fids)) > 1:
++            problems.append(f"the model names #{number} as the story of more than one feature: "
++                            + ", ".join(sorted(set(fids))))
++            twice.add(number)
++    return twice
++
++
+ def find(gather, plan, tracker):
+     tree = (plan or {}).get("tree") or []
+     problems, duplicates, misplaced, out = [], [], [], []
++    twice = named_twice(gather, problems)
+     for sl in gather.get("slices") or []:
+         sid = sl["id"]
+         feature_ids = [f["id"] for f in sl.get("features") or []]
+@@ -89,16 +132,27 @@ def find(gather, plan, tracker):
+                 duplicates.append({"kind": "story", "represents": fid, "epic": epic["issue"],
+                                    "kept": mine[0].get("issue"),
+                                    "copies": [k.get("issue") for k in mine[1:]]})
+-            story = {"feature": fid, "action": "make", "issue": None, "missing": [], "reason": "",
+-                     "title": None, "type": None, "labels": [], "represents_line": False,
+-                     "attached": False}
++            story = {"feature": fid, "action": "make", "issue": None, "source": None, "missing": [],
++                     "reason": "", "title": None, "type": None, "labels": [],
++                     "represents_line": False, "attached": False}
+             if mine:
+-                story["issue"] = mine[0].get("issue")
++                story.update(issue=mine[0].get("issue"), source="plan file")
++            elif f.get("issue") is not None and int(f["issue"]) not in twice:
++                named = model_story(tracker, f, problems)
++                if named is not None:
++                    story.update(issue=named, source="model")
+             if not f.get("ready"):
+                 story.update(action="skip", reason=f.get("reason") or "its ICE is not ready")
+                 stories.append(story)
+                 continue
+-            if mine:
++            if story["source"] == "model":
++                it = tracker.get(story["issue"])
++                missing = [s for s in SECTIONS if not pc.has_heading(it["body"], s)]
++                story.update(action="add-sections" if missing else "use", missing=missing,
++                             title=it["title"], type=it["type"], labels=it["labels"],
++                             represents_line=pc.has_line(it["body"], f"Represents: {fid}"),
++                             attached=int(story["issue"]) in sub_issues)
++            elif mine:
+                 it = tracker_facts(tracker, story["issue"], fid, problems, "story")
+                 if it:
+                     missing = [s for s in SECTIONS if not pc.has_heading(it["body"], s)]
+diff --git a/core/components/plays/shape-plan/scripts/gather_plan.py b/core/components/plays/shape-plan/scripts/gather_plan.py
+index c8d64dad0..71c580a64 100644
+--- a/core/components/plays/shape-plan/scripts/gather_plan.py
++++ b/core/components/plays/shape-plan/scripts/gather_plan.py
+@@ -20,11 +20,15 @@
+ copies: the intent and its title, and for each slice its id, name and outcome, and for each
+ ready feature its id, name, one line and its clean copy's path. It holds no ICE page path.
+ 
++Each feature also carries `issue`: the story the feature's entry in the model names (its
++`issue`), as a number, or null. find_work_items.py uses it when the plan file marks no story for
++the feature (C3, #1025).
++
+ Output:
+     {intent, intent_title, plan_id, plan_file,
+      slices: [{id, slug, name, outcome,
+-               features: [{id, name, one_line, capability, ready, reason, ice_pages: [..],
+-                           clean_ice}]}]}
++               features: [{id, name, one_line, capability, issue, ready, reason,
++                           ice_pages: [..], clean_ice}]}]}
+ 
+ skill-input.json:
+     {intent, intent_title, slices: [{id, name, outcome, features: [{id, name, one_line, clean_ice}]}]}
+@@ -47,6 +51,14 @@
+ HERE = os.path.dirname(os.path.abspath(__file__))
+ 
+ 
++def model_issue(value):
++    """The issue number a feature's model entry names, or None. "#12", "12" and 12 all read 12."""
++    if value is None or isinstance(value, bool):
++        return None
++    text = str(value).strip().lstrip("#")
++    return int(text) if text.isdigit() else None
++
++
+ def ready_check(spine_path, intents_dir, node):
+     """(ready, reason) from check_ice_workable.py for one ICE."""
+     p = subprocess.run([sys.executable, os.path.join(HERE, "check_ice_workable.py"),
+@@ -102,7 +114,7 @@ def gather(args):
+             f = pc.entry(spine, "features", fid)
+             if f is None:
+                 features.append({"id": fid, "name": fid, "one_line": "", "capability": None,
+-                                 "ready": False, "reason": "the feature is not in the spine",
++                                 "issue": None, "ready": False, "reason": "the feature is not in the spine",
+                                  "ice_pages": [], "clean_ice": None})
+                 continue
+             cap = pc.entry(spine, "capabilities", f.get("capability")) if f.get("capability") else None
+@@ -123,6 +135,7 @@ def gather(args):
+                     reasons.append(f"the {label} ICE ({part['id']}) has no lines")
+             item = {"id": fid, "name": pc.page_title(args.root, f.get("doc"), "Feature:") or fid,
+                     "one_line": f.get("one_line") or "", "capability": f.get("capability"),
++                    "issue": model_issue(f.get("issue")),
+                     "ready": not reasons, "reason": "; ".join(reasons), "ice_pages": pages,
+                     "clean_ice": None}
+             if not reasons:
+diff --git a/core/components/plays/shape-plan/scripts/plan_common.py b/core/components/plays/shape-plan/scripts/plan_common.py
+index 6f302bdf8..c1372bb60 100644
+--- a/core/components/plays/shape-plan/scripts/plan_common.py
++++ b/core/components/plays/shape-plan/scripts/plan_common.py
+@@ -7,8 +7,10 @@
+     then move it into place with os.replace. A run that stops half way never leaves half a
+     file.
+   - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
+-    `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
+-    the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
++    `## Agent intent (ICE)` section of the part's page, or, when the part has an entry in the
++    spine's `ices` list, the `## Intent`, `## Context` and `## Expectation` sections of its
++    ice.md. Each part is read by its own shape (#1034): a part with no `ices` entry is read
++    inline even when other parts have moved.
+     `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
+     under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
+   - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
+@@ -162,15 +164,21 @@ def _section(lines, heading):
+     return lines[at + 1:end]
+ 
+ 
++def ice_entry(spine, part):
++    """The part's entry in the spine's `ices` list, or None (none, or not moved yet)."""
++    if part is None:
++        return None
++    return next((i for i in spine.get("ices") or [] if isinstance(i, dict)
++                 and i.get("for") == part.get("id")), None)
++
++
+ def ice_page(spine, part):
+-    """The page (relative to the model folder) that holds the part's ICE, or None."""
++    """The page (relative to the model folder) that holds the part's ICE, or None: its ice.md
++    when it has an `ices` entry, else its own page, where the ICE is inline (#1034)."""
+     if part is None:
+         return None
+-    if "ices" in spine:
+-        ice = next((i for i in spine.get("ices") or [] if isinstance(i, dict)
+-                    and i.get("for") == part.get("id")), None)
+-        return ice.get("doc") if ice else None
+-    return part.get("doc")
++    ice = ice_entry(spine, part)
++    return ice.get("doc") if ice else part.get("doc")
+ 
+ 
+ def ice_lines(root, spine, part):
+@@ -182,7 +190,7 @@ def ice_lines(root, spine, part):
+     if not os.path.isfile(path):
+         return None
+     lines = read_text(path).splitlines()
+-    if "ices" in spine:
++    if ice_entry(spine, part) is not None:
+         out = []
+         for head in ICE_PARTS:
+             body = _section(lines, head)
+@@ -377,9 +385,14 @@ def remove_labels(self, number, labels):
+         self._keep()
+ 
+     def add_sub(self, parent, child):
++        """Make child a sub-issue of parent. Like the real tracker's replace_parent, a child
++        has one parent: it leaves any other parent first (#1025)."""
+         self._write("add a sub-issue")
+         self._must(child)
+         subs = self._must(parent)["sub_issues"]
++        for other in self.issues.values():
++            if other is not self.issues[int(parent)] and int(child) in other["sub_issues"]:
++                other["sub_issues"] = [n for n in other["sub_issues"] if n != int(child)]
+         if int(child) not in subs:
+             subs.append(int(child))
+         self._keep()
+@@ -451,7 +464,9 @@ def remove_labels(self, number, labels):
+             self._adapter("remove-label", {"issue_number": str(number), "label": label})
+ 
+     def add_sub(self, parent, child):
+-        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
++        """Make child a sub-issue of parent; it leaves any other parent (#1025)."""
++        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child),
++                                           "replace_parent": "true"})
+ 
+     def remove_sub(self, parent, child):
+         self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
+diff --git a/core/components/plays/shape-plan/scripts/platform_adapter.py b/core/components/plays/shape-plan/scripts/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/plays/shape-plan/scripts/platform_adapter.py
++++ b/core/components/plays/shape-plan/scripts/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])
+diff --git a/core/components/plays/shape-plan/scripts/render_brief.py b/core/components/plays/shape-plan/scripts/render_brief.py
+index de5bed6fe..caf4d49c9 100644
+--- a/core/components/plays/shape-plan/scripts/render_brief.py
++++ b/core/components/plays/shape-plan/scripts/render_brief.py
+@@ -39,6 +39,12 @@ def story_text(story):
+     return out
+ 
+ 
++def named_by_model(st):
++    """The words that say the story is the one the model names for its feature (C3, #1025)."""
++    return (" (the story the model names for this feature; no new story is made, and it leaves "
++            "any other parent)") if st.get("source") == "model" else ""
++
++
+ def fix_lines(item, type_):
+     out = []
+     if item.get("type") != type_:
+@@ -97,7 +103,10 @@ def render(gather, items, drafts):
+             elif act == "add-sections":
+                 writes += 1
+                 fixes = fix_lines(st, pc.STORY_TYPE)
+-                lines += [f"- Use story #{st.get('issue')} \"{st.get('title') or ''}\" for {fid}: add "
++                if not st.get("attached"):
++                    fixes.append("make it a sub-issue of the epic")
++                lines += [f"- Use story #{st.get('issue')} \"{st.get('title') or ''}\" for {fid}"
++                          f"{named_by_model(st)}: add "
+                           "the section" + ("s " if len(st.get("missing") or []) > 1 else " ")
+                           + " and ".join(f"\"{m}\"" for m in st.get("missing") or [])
+                           + " at the end; every line a person wrote stays"
+@@ -110,6 +119,7 @@ def render(gather, items, drafts):
+                     fixes.append(f"add the line \"Represents: {fid}\" at the end of its text")
+                 writes += bool(fixes)
+                 lines.append(f"- Use story #{st.get('issue')} \"{st.get('title') or ''}\" for {fid}"
++                             + named_by_model(st)
+                              + (": " + "; ".join(fixes) + "." if fixes else ", as it is."))
+             elif act == "skip":
+                 skipped.append((sl["id"], fid, st.get("reason"), st.get("issue")))
+diff --git a/core/components/plays/shape-plan/scripts/test_find_work_items.py b/core/components/plays/shape-plan/scripts/test_find_work_items.py
+index d37cb7e4d..8eac518d3 100644
+--- a/core/components/plays/shape-plan/scripts/test_find_work_items.py
++++ b/core/components/plays/shape-plan/scripts/test_find_work_items.py
+@@ -9,8 +9,8 @@
+ 
+ HERE = os.path.dirname(os.path.abspath(__file__))
+ sys.path.insert(0, HERE)
+-from test_support import (check, empty_tracker, finish, gather, make_model, paths, read_json,  # noqa: E402
+-                          run, set_slice, write)
++from test_support import (check, empty_tracker, finish, flow, gather, make_model, paths,  # noqa: E402
++                          read_json, run, set_issue, set_slice, write)
+ 
+ FULL = "Represents: ft-pick\n\n## Scope of work\n\nGoals:\n- x\n\n## Context guidance\n\n- Read: y\n"
+ PLAN = """# A plan kept by hand.
+@@ -132,6 +132,68 @@ def main():
+         code, _, _ = run("find_work_items.py", "--gather", os.path.join(tmp, "none.json"), "--plan-file",
+                          p["plan_file"], "--tracker-file", p["tracker"], "--out", p["items"])
+         check("a missing gather.json: exit 2", code == 2)
++
++    # The story the model names (C3, F14, #1025): no plan file, so the model's `issue` is the link.
++    bi = {"number": 1, "title": "Patients book online", "type": None, "labels": [], "state": "open",
++          "body": "", "sub_issues": [50]}
++
++    def story(n, body=FULL, state="open", type_="Story"):
++        return {"number": n, "title": f"Story {n}", "type": type_, "labels": [], "state": state, "body": body}
++
++    with tempfile.TemporaryDirectory() as tmp:
++        root, p = make_model(tmp), paths(tmp)
++        set_issue(root, {"ft-pick": 50, "ft-remind": 51})
++        gather(root, p)
++        empty_tracker(p, [bi, story(50), story(51, body="Written by a person.\n")])
++        code, _, _ = find(p)
++        items = read_json(p["items"])
++        st = {s["feature"]: s for s in items["slices"][0]["stories"]}
++        check("no plan file: a feature whose model entry names an open Story uses it, never make",
++              code == 0 and st["ft-pick"]["action"] == "use" and st["ft-pick"]["issue"] == 50
++              and st["ft-pick"]["source"] == "model" and st["ft-pick"]["attached"] is False)
++        check("a model-named story missing its sections is add-sections",
++              st["ft-remind"]["action"] == "add-sections" and st["ft-remind"]["issue"] == 51
++              and st["ft-remind"]["missing"] == ["Scope of work", "Context guidance"])
++        check("a feature the model names no story for is still make",
++              st["ft-pay"]["action"] == "make" and st["ft-pay"]["source"] is None)
++
++        for label, issues, words in (
++                ("closed", [bi, story(50, state="closed"), story(51)], "#50 is closed"),
++                ("not a Story", [bi, story(50, type_="Bug"), story(51)], "#50 is of type Bug"),
++                ("not in the tracker", [bi, story(51)], "the tracker has no such issue")):
++            empty_tracker(p, issues)
++            code, _, _ = find(p)
++            items = read_json(p["items"])
++            check(f"a model-named issue that is {label}: exit 1, named, never used",
++                  code == 1 and items["ok"] is False and any(words in pr for pr in items["problems"])
++                  and {s["feature"]: s for s in items["slices"][0]["stories"]}["ft-pick"]["issue"] is None)
++
++        set_issue(root, {"ft-pick": 50, "ft-remind": 50})
++        gather(root, p)
++        empty_tracker(p, [bi, story(50)])
++        code, _, _ = find(p)
++        items = read_json(p["items"])
++        check("one issue the model names for two features: exit 1, named, used for neither",
++              code == 1 and any("more than one feature" in pr for pr in items["problems"])
++              and all(s["issue"] is None for s in items["slices"][0]["stories"]))
++
++    # S10 — the whole flow: the story filed before the plan is used and moved under the epic.
++    with tempfile.TemporaryDirectory() as tmp:
++        root, p = make_model(tmp), paths(tmp)
++        set_issue(root, {"ft-pick": 50})
++        empty_tracker(p, [bi, story(50)])
++        codes = flow(root, p)
++        rec = read_json(p["record"])
++        data = {i["number"]: i for i in read_json(p["tracker"])["issues"]}
++        epic = rec["epics"]["sl-self-booking"]
++        check("S10: the run goes through and the plan check reads ok",
++              codes.get("write") == 0 and codes.get("check_plan") == 0 and codes.get("check_tracker") == 0)
++        check("S10: no new story is made for the feature the model names; the others are made",
++              sorted(c["represents"] for c in rec["created"] if c["kind"] == "story") == ["ft-pay", "ft-remind"])
++        check("S10: the epic's map names the model's story, and the story left its old parent",
++              rec["stories"]["ft-pick"] == 50 and 50 in data[epic]["sub_issues"] and 50 not in data[1]["sub_issues"])
++        check("S10: the brief says the story is the one the model names",
++              "the story the model names for this feature" in open(p["brief"]).read())
+     return finish()
+ 
+ 
+diff --git a/core/components/plays/shape-plan/scripts/test_gather_plan.py b/core/components/plays/shape-plan/scripts/test_gather_plan.py
+index 062ac1d94..193ea8681 100644
+--- a/core/components/plays/shape-plan/scripts/test_gather_plan.py
++++ b/core/components/plays/shape-plan/scripts/test_gather_plan.py
+@@ -11,7 +11,7 @@
+ HERE = os.path.dirname(os.path.abspath(__file__))
+ sys.path.insert(0, HERE)
+ from test_support import (check, finish, gather, make_model, paths, read, read_json,  # noqa: E402
+-                          set_slice, write, FAILS)
++                          set_issue, set_slice, write, FAILS)
+ 
+ 
+ def main():
+@@ -21,6 +21,14 @@ def main():
+         code, out, _ = gather(root, p)
+         g = read_json(p["gather"])
+         check("exit 0 with one slice", code == 0 and out["ok"] and len(g["slices"]) == 1)
++        set_issue(root, {"ft-pick": "#50", "ft-remind": 51})
++        gather(root, p)
++        named = {f["id"]: f["issue"] for f in read_json(p["gather"])["slices"][0]["features"]}
++        check("each feature carries the story the model names, as a number (#1025)",
++              named == {"ft-pick": 50, "ft-remind": 51, "ft-pay": None})
++        set_issue(root, {"ft-pick": None, "ft-remind": None})
++        code, out, _ = gather(root, p)
++        g = read_json(p["gather"])
+         check("the plan id is the intent's number and the plan file is <plans>/<id>.yaml",
+               g["plan_id"] == "340" and g["plan_file"] == os.path.join(p["plans"], "340.yaml"))
+         check("the intent's title is read from its page",
+@@ -32,6 +40,7 @@ def main():
+         check("each feature names its capability and its two ICE pages",
+               sl["features"][2]["capability"] == "cap-payment" and len(sl["features"][2]["ice_pages"]) == 2)
+         check("every feature is ready", all(f["ready"] for f in sl["features"]))
++        check("a feature the model names no story for has issue null", all(f["issue"] is None for f in sl["features"]))
+         copies = sorted(glob.glob(os.path.join(p["working"], "ice", "*.md")))
+         check("one clean copy for each ready feature", [os.path.basename(c) for c in copies]
+               == ["ft-pay.md", "ft-pick.md", "ft-remind.md"])
+@@ -107,6 +116,30 @@ def main():
+               code == 0 and f["ready"] and f["ice_pages"][0].endswith("ices/pick.md")
+               and "### Intent" in text and "### Expectation" in text and "Goal" in text)
+         check("and their failure lines are taken out", "fails if" not in text.lower() and "two patients" not in text)
++    with tempfile.TemporaryDirectory() as tmp:
++        # #1034: a model part way through the move. ft-pick and its capability have ice.md
++        # pages; ft-remind has no `ices` entry yet and keeps its ICE inline on its page.
++        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
++        import yaml
++        spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
++        ice = ("# ICE\n\n## Intent\n- **Goal:** a patient picks a slot.\n- **Fails if:** two patients get one slot.\n\n"
++               "## Context\n- **Persona:** the patient.\n\n## Expectation\n- **Scenario:** a slot is booked.\n")
++        spine["ices"] = [{"id": "ice-pick", "for": "ft-pick", "doc": "ices/pick.md"},
++                         {"id": "ice-booking", "for": "cap-booking", "doc": "ices/booking.md"}]
++        write(os.path.join(root, "_spine.yaml"), spine)
++        write(os.path.join(root, "ices", "pick.md"), ice)
++        write(os.path.join(root, "ices", "booking.md"), ice)
++        code, _, _ = gather(root, p)
++        fs = {f["id"]: f for f in read_json(p["gather"])["slices"][0]["features"]}
++        remind = fs["ft-remind"]
++        check("#1034: a feature not moved yet is read by its own shape — ready, its ICE read inline",
++              code == 0 and remind["ready"] and remind["ice_pages"][0].endswith("ft-remind/feature.md")
++              and remind["ice_pages"][1].endswith("ices/booking.md"))
++        text = read(os.path.join(p["working"], "ice", "ft-remind.md"))
++        check("#1034: its clean copy holds its inline ICE and its capability's ice.md, with no failure line",
++              "Feature ICE — ft-remind" in text and "### Intent" in text and "fails if" not in text.lower())
++        check("#1034: the moved feature beside it still reads its ice.md",
++              fs["ft-pick"]["ready"] and fs["ft-pick"]["ice_pages"][0].endswith("ices/pick.md"))
+     return finish()
+ 
+ 
+diff --git a/core/components/plays/shape-plan/scripts/test_support.py b/core/components/plays/shape-plan/scripts/test_support.py
+index c3bbe7aa9..22f5540c9 100644
+--- a/core/components/plays/shape-plan/scripts/test_support.py
++++ b/core/components/plays/shape-plan/scripts/test_support.py
+@@ -142,6 +142,18 @@ def set_slice(root, slice_id, features):
+     write(os.path.join(root, "_spine.yaml"), spine)
+ 
+ 
++def set_issue(root, issues):
++    """Set (or, with None, clear) the `issue` a feature's spine entry names."""
++    spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
++    for f in spine["features"]:
++        if f["id"] in issues:
++            if issues[f["id"]] is None:
++                f.pop("issue", None)
++            else:
++                f["issue"] = issues[f["id"]]
++    write(os.path.join(root, "_spine.yaml"), spine)
++
++
+ def paths(tmp):
+     working = os.path.join(tmp, "working")
+     os.makedirs(working, exist_ok=True)
+@@ -295,6 +307,27 @@ def dispatch(verb, args, config_path=None):
+     check("every other write is an adapter verb",
+           [c[0] for c in calls[1:]] == ["set-issue-type", "edit-issue-body", "remove-label",
+                                          "attach-sub-issue", "remove-sub-issue"])
++    check("a sub-issue is attached with replace_parent, so it leaves any other parent (#1025)",
++          calls[4][1].get("replace_parent") == "true")
++    import platform_adapter as pa
++    with_flag = pa._gh("attach-sub-issue", {"parent_number": "40", "child_number": "41",
++                                            "replace_parent": "true"}, ("o", "n"))[0]
++    without = pa._gh("attach-sub-issue", {"parent_number": "40", "child_number": "41"}, ("o", "n"))[0]
++    check("the adapter sends replace_parent only when asked",
++          with_flag[-2:] == ["-F", "replace_parent=true"] and "replace_parent=true" not in without)
++    with tempfile.TemporaryDirectory() as tmp:
++        path = os.path.join(tmp, "t.json")
++        write(path, {"issues": [{"number": 1, "title": "BI", "type": None, "labels": [], "state": "open",
++                                 "body": "", "sub_issues": [5]},
++                                {"number": 2, "title": "Epic", "type": "Epic", "labels": [], "state": "open",
++                                 "body": "", "sub_issues": []},
++                                {"number": 5, "title": "S", "type": "Story", "labels": [], "state": "open",
++                                 "body": ""}]})
++        ft = pc.open_tracker(path)
++        ft.add_sub(2, 5)
++        data = {i["number"]: i for i in read_json(path)["issues"]}
++        check("the file tracker moves a sub-issue: it leaves its old parent",
++              data[2]["sub_issues"] == [5] and data[1]["sub_issues"] == [])
+     with tempfile.TemporaryDirectory() as tmp:
+         root = make_model(tmp)
+         check("the fixture model loads", os.path.isfile(os.path.join(root, "_spine.yaml")))
+diff --git a/core/components/plays/specify-intent/scripts/check_ice_workable.py b/core/components/plays/specify-intent/scripts/check_ice_workable.py
+index ecb18ef44..4160dfeef 100644
+--- a/core/components/plays/specify-intent/scripts/check_ice_workable.py
++++ b/core/components/plays/specify-intent/scripts/check_ice_workable.py
+@@ -18,6 +18,14 @@
+ Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
+ `ices` list keeps the v5 rule below, written in the same three answers.
+ 
++Each part is read by its own shape (#1034): in a spine with an `ices` list, a part that has no
++`ices` entry yet but keeps its ICE inline (`## Agent intent (ICE)` on its own page, with lines)
++is not "no ICE". Its capability, intents and needs are judged as above, its ICE is taken as it
++is (the three-part rule is for an ice.md), its thin mark is its own `metadata.thin`, and the
++answer carries the gap "ICE still inside its page", so the part is at most partly_ready. Only a
++part with neither an `ices` entry nor an inline ICE stops with "has no ICE". When every part
++has moved (#765), no part takes this path.
++
+ The v5 rule (#724):
+ 
+ An ICE lives inline in its capability's or feature's grounding doc; the node's spine
+@@ -205,11 +213,35 @@ def thin_gaps(ice, path):
+     return bool(gaps), gaps
+ 
+ 
++INLINE_ICE = "## Agent intent (ICE)"
++
++
++def inline_ice(root, part):
++    """The lines of the part's inline ICE section (`## Agent intent (ICE)` on its own page), or
++    None when the page cannot be read or has no such section with lines (#1034)."""
++    try:
++        with open(os.path.join(root, part.get("doc") or ""), encoding="utf-8") as fh:
++            lines = fh.read().splitlines()
++    except OSError:
++        return None
++    if INLINE_ICE not in lines:
++        return None
++    at = lines.index(INLINE_ICE)
++    end = next((i for i in range(at + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
++    body = [ln for ln in lines[at + 1:end] if ln.strip()]
++    return body or None
++
++
+ def assess_ice(ice, part, kind, spine, root, intents_dir, done):
+     """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
+     caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
+     stops, gaps, thin = [], [], False
+-    if ice is None:
++    if ice is None and inline_ice(root, part) is not None:
++        gaps.append("ICE still inside its page")
++        if (part.get("metadata") or {}).get("thin") is True:
++            thin = True
++            gaps.append("thin ICE")
++    elif ice is None:
+         stops.append(f"{kind} `{part.get('id')}` has no ICE")
+     else:
+         page_path = os.path.join(root, ice.get("doc") or "")
+diff --git a/core/components/plays/validate-work/scripts/platform_adapter.py b/core/components/plays/validate-work/scripts/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/plays/validate-work/scripts/platform_adapter.py
++++ b/core/components/plays/validate-work/scripts/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])
+diff --git a/core/components/skills/track-plan-changes/scripts/platform_adapter.py b/core/components/skills/track-plan-changes/scripts/platform_adapter.py
+index 9713eaabd..1e5d8e120 100644
+--- a/core/components/skills/track-plan-changes/scripts/platform_adapter.py
++++ b/core/components/skills/track-plan-changes/scripts/platform_adapter.py
+@@ -103,6 +103,12 @@ def _opt(argv, flag, val):
+         argv += [flag, str(val)]
+ 
+ 
++def _replace_parent(a):
++    """attach-sub-issue with replace_parent "true": the child leaves any other parent first
++    (GitHub's replace_parent). Without it, a child that has a parent is refused."""
++    return ["-F", "replace_parent=true"] if str(a.get("replace_parent", "")).lower() == "true" else []
++
++
+ def _gh(verb, args, repo):
+     a = args
+     if verb == "view-pr":
+@@ -175,7 +181,7 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"/repos/{owner}/{name}/issues/{a['parent_number']}/"
+                  "sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id=@child_id:{a['child_number']}"]]  # resolved in dispatch
++                 f"sub_issue_id=@child_id:{a['child_number']}"] + _replace_parent(a)]  # resolved in dispatch
+     if verb == "view-user":
+         return [["gh", "api", "user", "--jq", ".login"]]
+     if verb == "update-comment":
+@@ -381,7 +387,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         args = dict(args, _child_id=out.strip())
+         cmds = [["gh", "api", f"/repos/{owner}/{name}/issues/"
+                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
+-                 f"sub_issue_id={out.strip()}"]]
++                 f"sub_issue_id={out.strip()}"] + _replace_parent(args)]
+     else:
+         if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+             rc, out, _ = _run(["gh", "--version"])

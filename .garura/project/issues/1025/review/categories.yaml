@@ -1,0 +1,176 @@
+# categories.yaml — work categories present in PR #1047 (issue 1025), derived from the diff.
+# 44 changed paths in total. Each path sits in exactly one category.
+# Treatments are taken from the playbook copies in short-term memory
+# (context/memory/knowledge/review/), not from prior knowledge.
+pr: 1047
+issue: 1025
+base: main
+playbook_shelf: .garura/project/issues/1025/context/memory/knowledge/review/
+severity_taxonomy: .garura/project/issues/1025/context/memory/standards/rules/pr.md
+categories:
+
+  - name: harness
+    what_it_is: >-
+      The /shape-plan play itself: its compiled SKILL.md and its ICE source
+      (reference/ice.md). These files are the play's behaviour, so an intent
+      change must trace to the ICE source.
+    path_count: 2
+    evidence:
+      - core/components/plays/shape-plan/SKILL.md
+      - core/components/plays/shape-plan/reference/ice.md
+    playbook: review/harness
+    design_bearing: true
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+        - name: lint-play (shape-plan)
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-plan/SKILL.md --next-map .garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md
+      linter_rules:
+        - Only a violation whose file is in the changed paths is a finding; count the rest as "there before".
+        - A tool that is not installed is recorded "not installed"; a tool that crashes is recorded "did not run: <first error line>". Neither is a pass.
+      runnable_checks:
+        - The ICE-source rule: the repository holds the plays' source, so an intent change in SKILL.md must trace to reference/ice.md (both are in this diff; Layer 2 must check they agree with each other AND with committed principles, not only with each other).
+      design_grounding:
+        required: true
+        grounded_from: >-
+          Committed sources only: docs/philosophy/**, docs/adr/**, standards under
+          memory/standards/rules/** (user-facing-voice, play-close, evidence-recording),
+          the glossary (core/grounding/glossary.md). Never the branch's own new prose.
+        rubric: >-
+          Play, agent, skill and script wiring stays intact; an intent change traces to
+          its ICE source; the change holds the standards it is subject to.
+      reviewer: human (design) + tool (conformance)
+
+  - name: executable-code
+    what_it_is: >-
+      Python scripts that the runtime runs: the /shape-plan scripts changed
+      (find_work_items, gather_plan, render_brief, plan_common, platform_adapter,
+      check_ice_workable) and the copies of the shared helpers
+      (plan_common, check_ice_workable, platform_adapter) that sit in other plays and
+      one skill.
+    path_count: 18
+    evidence:
+      - core/components/plays/shape-plan/scripts/find_work_items.py
+      - core/components/plays/shape-plan/scripts/gather_plan.py
+      - core/components/plays/shape-plan/scripts/render_brief.py
+      - core/components/plays/shape-plan/scripts/plan_common.py
+      - core/components/plays/shape-plan/scripts/platform_adapter.py
+      - core/components/plays/shape-plan/scripts/check_ice_workable.py
+      - core/components/plays/build-play/references/check_ice_workable.py
+      - core/components/plays/build-play/references/plan_common.py
+      - core/components/plays/build-play/references/platform_adapter.py
+      - core/components/plays/reshape-plan/scripts/check_ice_workable.py
+      - core/components/plays/reshape-plan/scripts/plan_common.py
+      - core/components/plays/specify-intent/scripts/check_ice_workable.py
+      - core/components/plays/design-eval/scripts/platform_adapter.py
+      - core/components/plays/design-slice/scripts/platform_adapter.py
+      - core/components/plays/merge-work/scripts/platform_adapter.py
+      - core/components/plays/review-work/scripts/platform_adapter.py
+      - core/components/plays/validate-work/scripts/platform_adapter.py
+      - core/components/skills/track-plan-changes/scripts/platform_adapter.py
+    playbook: review/code
+    design_bearing: false
+    treatment:
+      layers: [layer-1-linters]
+      linters:
+        - name: language linter (ruff; the repo commits no ruff config, so default rules)
+          command: ruff check <the 18 changed .py paths above>
+        - name: check-pr-quality (best-practice and severity checks against the diff, using the pr.md taxonomy)
+          command: "run the check-pr-quality skill against the diff with the severity taxonomy copy; rows SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*"
+      runnable_checks:
+        - "Review data-safety and idempotency paths hard. The play's new tracker behaviour stops 'before it writes anything to the tracker', so check that find_work_items.py and gather_plan.py do all their reads and checks before any write."
+        - Rubric: error handling, function size, no stray debug output, no secrets, safe handling of destructive operations, deterministic where it claims to be.
+      design_grounding:
+        required: false
+        note: The standard is industry best practice plus the taxonomy, not a Garura design.
+      reviewer: the tool, against best practice
+
+  - name: tests
+    what_it_is: >-
+      Automated tests and their shared fixtures for /shape-plan and the ready check.
+      test_support.py holds fixtures plus tests of plan_common.py, so it is classed as tests.
+    path_count: 4
+    evidence:
+      - core/components/plays/shape-plan/scripts/test_find_work_items.py
+      - core/components/plays/shape-plan/scripts/test_gather_plan.py
+      - core/components/plays/shape-plan/scripts/test_support.py
+      - core/components/plays/build-play/references/test_check_ice_workable.py
+    playbook: review/tests
+    design_bearing: false
+    treatment:
+      layers: [layer-1-linters, run-the-suite]
+      linters:
+        - name: best-practice linter on the test code (clear assertions, no skipped or disabled tests, no test that asserts nothing)
+          command: ruff check <the 4 test paths above>
+        - name: check-pr-quality (TEST-* rows of pr.md)
+          command: "run the check-pr-quality skill against the diff; rows TEST-*"
+      runnable_checks:
+        - "Run, do not just read. The tests are plain scripts (no test runner config). Run each from its own folder: python3 core/components/plays/shape-plan/scripts/test_find_work_items.py ; python3 core/components/plays/shape-plan/scripts/test_gather_plan.py ; python3 core/components/plays/shape-plan/scripts/test_support.py ; python3 core/components/plays/build-play/references/test_check_ice_workable.py"
+        - A red suite is a blocker finding. A suite that is not run is reported as not run, never as passed.
+      design_grounding:
+        required: false
+      reviewer: the tool
+
+  - name: run-records
+    what_it_is: >-
+      Short-term memory records the Garura plays wrote for this issue while the work
+      ran (args, branch, plan, issue and PR snapshots, commit analysis, the PR body, the
+      self-review, template copies, the work description). They are machine-written
+      working files, not product code, not documentation and not knowledge-base content.
+    path_count: 20
+    evidence:
+      - .garura/project/issues/1025/context/analysis.yaml
+      - .garura/project/issues/1025/context/args.json
+      - .garura/project/issues/1025/context/branch.json
+      - .garura/project/issues/1025/context/commit-work/analysis.yaml
+      - .garura/project/issues/1025/context/commit-work/commits.yaml
+      - .garura/project/issues/1025/context/commit-work/exec-out.json
+      - .garura/project/issues/1025/context/commit-work/porcelain.txt
+      - .garura/project/issues/1025/context/commits.yaml
+      - .garura/project/issues/1025/context/issue.json
+      - .garura/project/issues/1025/context/plan.json
+      - .garura/project/issues/1025/context/porcelain.txt
+      - .garura/project/issues/1025/context/pr-body.md
+      - .garura/project/issues/1025/context/pr.json
+      - .garura/project/issues/1025/context/resolved-rules.json
+      - .garura/project/issues/1025/context/self-review.md
+      - .garura/project/issues/1025/context/target.json
+      - .garura/project/issues/1025/context/templates/manifest-close-start-work.json
+      - .garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1025/context/templates/standards/templates/delivery-report.md
+      - .garura/project/issues/1025/context/work-description.txt
+    playbook: null
+    playbook_missing: >-
+      No playbook on the review shelf covers run records (short-term memory working
+      files). The seeded catalog has none, and memory.md covers only the knowledge base
+      under core/components/memory, not an issue's own folder. A new playbook is needed
+      (suggested id: review/run-records).
+    design_bearing: false
+    treatment:
+      note: >-
+        No playbook, so no treatment is taken from one. The play must not force-fit this
+        into docs or memory. The only checks stated here come from the code and docs
+        playbooks' Layer 1 reach and the pr.md taxonomy, and they are a suggestion, not a
+        playbook treatment.
+      layers: [layer-1-linters]
+      linters:
+        - name: check-pr-quality (secrets and path rows of pr.md, e.g. SEC-*), run against the diff
+          command: "run the check-pr-quality skill against the diff with the severity taxonomy copy"
+      runnable_checks:
+        - "Objective hand check: none of these records holds an absolute path, home folder, scratch path or account name (they are committed and pushed). The assessor grepped the changed files for a home-folder prefix, a scratch-folder prefix and a temp-folder prefix and found none."
+      design_grounding:
+        required: false
+        note: Machine-written records have no design of their own to ground.
+      reviewer: the tool
+
+absent_seeded_categories:
+  # Playbooks exist on the shelf for these; no changed path puts them in the diff.
+  - decision-records
+  - documentation
+  - memory
+  - config-maps
+
+follow_ups:
+  - "Playbook missing: run-records (STM working files for an issue). Create a follow-up task to add review/run-records to the review shelf."
