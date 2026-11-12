@@ -1,0 +1,63 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261112T061525Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "067",
+      "file": "docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md",
+      "kind": "superseded",
+      "part": "full"
+    },
+    {
+      "adr": "056",
+      "file": "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "048",
+      "file": "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "049",
+      "file": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "052",
+      "file": "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "057",
+      "file": "docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md",
+      "kind": "amended",
+      "part": "full"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md",
+    "056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "048-the-product-model-and-the-work-are-two-layers.md",
+    "049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+    "057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

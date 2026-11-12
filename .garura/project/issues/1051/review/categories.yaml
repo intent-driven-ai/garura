@@ -1,0 +1,60 @@
+# Work categories present in PR #1052 (issue 1051), derived from the diff content.
+# Treatment is taken from the playbook copies in short-term memory
+# (.garura/project/issues/1051/context/memory/knowledge/review/), manifest beside them.
+pr: 1052
+issue: 1051
+base: main
+categories:
+  - name: decision-records
+    design_bearing: false
+    playbook: review/adrs
+    evidence:
+      - docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md   # new ADR (Status/Context/Decision/Consequences shape)
+      - docs/adr/048-the-product-model-and-the-work-are-two-layers.md              # Status line amended to point at ADR 068
+      - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md         # Status pointer
+      - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md # Status pointer
+      - docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md # Status pointer
+      - docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md # Status pointer
+      - docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md # Status: Accepted -> Superseded by 068
+      - docs/adr/_index.md                                                         # index rows for 068 and the new Status values
+    treatment:
+      reviewer: human, line by line (the human judges whether the decision is right)
+      layers: [1]                      # Layer 1 only; no Layer 2
+      linters:
+        - name: ADR structural check
+          command: null
+          gap: "No ADR linter exists in-repo yet (playbook review/adrs). Until built, the structural check is a manual checklist surfaced for the human."
+      runnable_checks:
+        - "Manual structural checklist (by hand, checks template never merit): required sections present (Status, Context, Decision, Consequences)"
+        - "Manual: Status value is an allowed value on every changed ADR (048, 049, 052, 056, 057, 067, 068)"
+        - "Manual: ADR 068 is numbered in sequence and linked from docs/adr/_index.md; each changed Status pointer matches its _index.md row and links to a file that exists"
+        - "Manual: markdown is well-formed"
+      design_grounding: false          # the decision is the design; the human owns the judgement
+      note: "pr.md (severity taxonomy) gives paths under docs/adr/ no scan finding (#851); the human review and these manual checks are the only gate."
+
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    playbook_missing: true
+    playbook_note: "No review playbook covers run records (STM evidence the plays write under .garura/project/issues/). A playbook is missing: it should say whether a run record is reviewed at all, and for what (e.g. no secrets or absolute paths)."
+    evidence:
+      - .garura/project/issues/1051/context/args.json
+      - .garura/project/issues/1051/context/branch.json
+      - .garura/project/issues/1051/context/issue.json
+      - .garura/project/issues/1051/context/plan.json
+      - .garura/project/issues/1051/context/pr-body.md
+      - .garura/project/issues/1051/context/pr.json
+      - .garura/project/issues/1051/context/resolved-rules.json
+      - .garura/project/issues/1051/context/self-review.md
+      - .garura/project/issues/1051/context/target.json
+      - .garura/project/issues/1051/context/work-description.txt
+      - .garura/project/issues/_adr/20261112T061525Z/   # the record-decision run folder (all 14 files: adr-check.json, adr-context.yaml, adr-draft.md, adr-manifest.json, apply-out.json, brief.md, decision.yaml, guard-report.json, hashes-before.json, porcelain-after.txt, porcelain-before.txt, run.json, context/templates/manifest-record-decision.json, context/templates/standards/templates/adr.md)
+    treatment:
+      reviewer: none assigned (no playbook)
+      layers: []
+      linters: []
+      runnable_checks: []
+      design_grounding: false
+      note: "The PR severity taxonomy (standards/rules/pr.md, artifact type stm-evidence) gives .garura/project/** no scan finding: run records are evidence of a run, not work to review (#851). Nothing is invented here beyond that; the missing playbook is the gap."
+
+design_bearing_categories: []          # none: no Layer 2 dispatch is needed

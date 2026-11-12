@@ -1,0 +1,231 @@
+# Context for the ADR draft — gathered by adr-keeper for /design-adr, Step 2 (#1051)
+shape: markdown
+number: "068"
+title_hint: "Each Product Feature Has One Feature Issue That Names It and Holds Its Scope of Work, and No Feature in the Model Carries an Issue Number"
+slug: each-feature-has-one-feature-issue-that-names-it-and-no-feature-in-the-model-carries-an-issue-number
+status: proposed
+level: framework
+node_ref: ""
+decided_in: "#1051 (a Chore under #1025, \"/shape-plan reuses an open story for a feature instead of filing a second one\"), from checkpoint 1 of the ontology change for #1050"
+decided_by_note: "Leave the Decided by line empty: it is filled when a person accepts. The brief names the product owner, 2026-11-12, at checkpoint 1 of #1050."
+
+supersedes:
+  - adr: "067"
+    file: 067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md
+    part: full
+    why: >-
+      ADR 067 put the link in the model: a feature's `issue` names its Story, and a play finds the
+      story by it when the plan file marks none. This decision removes that field and that route.
+      Its parts that live on are restated here in a new form: "never by title" (part 3) and "a
+      closed issue means the feature is built" (part 5, now on the Feature issue, not the Story).
+      Its stop rules (an issue named for two features; a feature in two slices of one plan) go:
+      a second epic now asks the person (part 4).
+
+amends:
+  - adr: "056"
+    file: 056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md
+    parts:
+      - "Decision §1, \"An Epic is type Epic and a Story is type Story, with no label\": the plan play also files one issue of type Feature for each product feature (a Feature issue), and a Story always sits inside a Feature issue. \"An Epic is never filed as type Feature\" stands. Whether a Feature issue carries a label is not decided here (the brief does not say)."
+      - "Decision §2, \"A play finds an epic or a story by the plan file\": for a feature's work, when the plan file marks none, a play finds the issue of type Feature whose text carries the exact line `Represents: <feature id>`. It still never finds an epic, a Feature issue or a story by its title. An epic is still found only by the plan file."
+    stands: "§3 (the other labels) and the rest of ADR 056."
+    note: "ADR 067's forward pointer on ADR 056 (§2) already exists and stays; the new pointer is added after acceptance."
+  - adr: "048"
+    file: 048-the-product-model-and-the-work-are-two-layers.md
+    parts:
+      - "Decision §1, second bullet: the work layer is Epic, Feature, Story, Spike, Chore and Bug (a Feature issue is new)."
+      - "Decision §1, third bullet, the words \"Domain, Capability, Feature, Slice, Source and ICE are never tracker issues. In the tracker, a Story stands for a Feature\": a product feature now has exactly one Feature issue, which stands for it. Domain, Capability, Slice, Source and ICE are still never tracker issues."
+      - "Decision §3, first bullet, \"It holds stories\": an Epic holds Feature issues, and the Stories sit inside them."
+      - "Decision §3, second bullet, in full (\"A Story represents one feature and delivers it. There is one story for each feature in each epic. When a story is made, it writes its own scope of work from its feature's ICE and its capability's ICE\"): the Feature issue represents the feature, one for each feature in the whole tracker, and holds the scope of work written from those two ICE. A Story is a piece of work inside its Feature issue."
+      - "Consequences, Negative / Risks, the bullet \"One story per feature in each epic means one feature can have several stories across epics\": no longer holds."
+      - "Alternatives Considered, the Feature half of \"Make Capability and Feature tracker issues too\": a Feature is now a tracker issue. Capability stays model only."
+    stands: "§1's other bullets, §2's slice definition, §3's third and fourth bullets (Spike, Chore and Bug under a story; no work item carries an ICE), §4 and §5."
+    note: "ADR 067's forward pointer on ADR 048 (§3, second bullet) already exists and stays."
+  - adr: "049"
+    file: 049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    parts:
+      - "Decision §1.2, the words \"one story for each feature of the slice\": the plan play finds or files one Feature issue for each feature of the slice that is not yet built, and the Stories sit inside it. A feature is never given a second Feature issue."
+      - "Decision §4, each place where the story holds or gives the scope of work and the Context guidance: the second bullet (\"The story holds the goal, the limits and the expectations in its scope of work, and the Context guidance\"), the third bullet (the context sub-agent \"reads the story's Context guidance\"; \"The builder reads the story\"), the fifth bullet (the eval play \"reads the epic, its stories and the hidden file\") and the last paragraph's bullet (\"When an ICE changes after its story is made, the story and its hidden-file entry are drift\"). Each now reads the Feature issue. The rest of §4 stands: no failure or recovery condition reaches the builder, the read rule, the two times the eval is read, and the handoff plan."
+    stands: "§1.1, §1.3, §2 (one plan for each business intent; a slice that serves two intents has one epic), §3 and §5."
+    note: >-
+      ADR 067's forward pointer on ADR 049 names "§2, the words 'one story for each feature of the
+      slice'", but those words are in §1.2, not §2. The new pointer names §1.2. The old pointer
+      stays (an accepted ADR gains only pointers). ADR 052 and ADR 057 already amend other parts of
+      §4; this amendment touches only the words that name the story as the holder of the scope.
+  - adr: "052"
+    file: 052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+    parts:
+      - "Decision §3, \"The epic keeps the map from each feature to its story. The eval play uses this map to join each hidden-file entry to its story\": the map names each feature's Feature issue, one line for each feature, and the eval play joins each hidden-file entry to that Feature issue."
+      - "Decision §4, the words \"writes the story's scope of work and Context guidance\": the plan play writes the Feature issue's scope of work and Context guidance. Each line of an ICE still has one reader."
+      - "Decision §7, the words \"after its story and its hidden-file entry are made\" and \"the plan play makes the story again\": the Feature issue."
+    stands: "§1, §2, §5, §6 and the rest of §3, §4 and §7."
+  - adr: "057"
+    file: 057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md
+    parts:
+      - "Decision §2, \"one story file for each story of the slice's epic: eval.<feature-id>.feature.md\", and its bullets (\"Its Gherkin Feature: is the story\"; \"one scenario for each goal and each expectation of the story\"; \"the story's feature\"): one file for each Feature issue in the slice's epic, still named eval.<feature-id>.feature.md; its Gherkin Feature: is the Feature issue; a scenario for each goal and each expectation of the Feature issue's scope of work."
+      - "Decision §3, \"the stories, in the order of the epic's feature-to-story map\" and \"the stories' Context guidance\": the Feature issues, in the map's order, and their Context guidance."
+      - "Decision §6, \"the counts for each story\": the counts for each Feature issue."
+    stands: "§1, §4, §5, §7 and the rest of §2, §3 and §6."
+
+not_affected:
+  - adr: "062"
+    why: >-
+      Its Decision does not rule that /reshape-plan writes a feature's `issue`. That write is the
+      play's Step 9 ("name each new feature's story on its model entry", link-model-part, mode
+      update, issue) and appears in ADR 062 only in a point for the accepter. §1 (the model is
+      written only after "approved"; the guard runs once after the last model write) still holds
+      when Step 9 goes: the last model write is then Step 8. §2 (a new feature may join a slice in
+      progress) holds.
+  - adr: "065"
+    why: >-
+      Rule 3 (the model never names a plan) and rule 4 (only tools know the tracker) both hold,
+      and this decision goes further in their direction: the model now names no tracker issue on a
+      feature, and a play finds a Feature issue through the tracker tool (the platform adapter's
+      list-issues verb), never by its own tracker call.
+  - adr: "064"
+    why: >-
+      Stands, as the product owner said at acceptance ("No roll-up (ADR 064 stands)"). Part 5
+      agrees with §1 (an item's status follows its own issue): a Feature issue closed by a person
+      through /reshape-plan "finish" makes the feature built. §2 (no roll-ups) holds: a Feature
+      issue does not close because its Stories closed. §3 holds: merge-change (merge-work) sets
+      Done the item whose issue landed, a Story, not its Feature issue.
+  - adr: "063"
+    why: "§2 (a plan that exists is changed only by /reshape-plan, which may add a feature) stands; a new feature now also gets its Feature issue, and \"finish\" is the way a person closes a Feature issue."
+  - adr: "058"
+    why: "A slice in progress: nothing here changes it."
+  - adr: "060, 061"
+    why: "A plan's branch: nothing here changes it."
+  - tracker_shape_note: >-
+      No ADR records the feature item (an issue of type Feature that groups stories inside an
+      epic and represents nothing). It came from ontology v14 (#720). Under this decision it goes:
+      the clean-up maps each open issue of type Feature to its product feature or retypes it. The
+      ontology change (#1050) removes the feature item from the ontology.
+
+affects:
+  - "Through /specify-ontology (#1050): `core/components/memory/standards/schemas/product-os/ontology.md` (version 15): the flow line (line 11); the tracker paragraph (line 21, \"A Feature and a Slice are not issue types\" and the feature item); Q4, Q7, Q20 and the other answers that say \"Story represents Feature\" or name the feature item (lines 30, 48, 84, 87, 93, 96, 156); the Feature kind's \"In the tracker as\" line (line 384), its Story row (line 403) and its rule \"It is not an issue type\" (line 411); the Plan kind's item kinds and the feature-item rule (lines 597, 598, 624 to 626); the Epic kind and its feature-to-story map (lines 648, 663); the Story kind (\"There is one Story for each Feature in each Epic\", line 697; its Represents row, line 711; its scope of work and Context guidance, lines 712 and 713, which move to the Feature issue; R3, line 739). The Feature kind does not gain the property `issue` that ADR 067 asked for."
+  - "`core/components/memory/standards/schemas/product-os/spine.yaml`: the `features` entry (lines 103 to 121) stays without `issue` (ADR 067's planned addition is dropped). The `epics` entry's `issue_ref` (line 223) is not a feature and is not changed."
+  - "`core/components/plays/shape-plan/`, on PR #1047's branch (`feature/1025-shape-plan-reuses-open-story`): `reference/ice.md` (C3, C13, F14, REC14, S10, S11, D1) and `SKILL.md`, rebuilt through /fix-play; `scripts/find_work_items.py` and `scripts/gather_plan.py` (they read the model's `issue` today), `scripts/render_brief.py`, `scripts/write_work_items.py` (it must file a Feature issue with its scope of work and Context guidance under the epic, and write the epic's map with Feature issues), `scripts/check_drafts.py`, `scripts/check_plan.py` and `scripts/check_tracker.py`, with their tests."
+  - "`core/components/skills/author-work-items/SKILL.md` (lines 3, 11, 41 and 42, and Story mode, lines 63 to 66: it writes one story for each ready feature with its scope of work and Context guidance; it now writes each feature's Feature issue)."
+  - "`core/components/plays/design-eval/`: `reference/ice.md` (C1, C2, C3, C5, C8, C9, C16, F3, F4, F14, F16: each reads \"story\" as the holder of the scope); `scripts/gather_eval.py` (lines 10, 11, 22 and 106 to 134: it reads each story of the epic's map and its Scope of work), `scripts/place_eval.py` (lines 9 and 10: one story file for each story of the map) and `scripts/eval_common.py`, with their tests. `core/components/skills/author-slice-eval/SKILL.md`. The templates `core/components/memory/standards/templates/eval-story.feature.md` and `eval-slice.md`."
+  - "`core/components/plays/reshape-plan/`: `SKILL.md` Step 9, the name-story dispatch (lines 403 to 420), goes; `reference/ice.md` C11, C14, F10, S10 and S11; `scripts/check_agreement.py` (line 23 and line 149: the new feature's spine entry must name its story's issue); `scripts/place_feature.py` (lines 9 and 10 read a capability's `issue`; line 20 makes a feature id `fn-<issue>`; line 73); `scripts/feature_ice.py` (it gives author-work-items's story mode the feature's ICE)."
+  - "`core/components/skills/link-model-part/`: `SKILL.md` (its description: a new part's entry holds \"issue\", an existing one gets \"its issue named\") and `scripts/link_part.py` (lines 21, 24 and 40; lines 340 and 341 write `issue` on a new part; lines 432 to 435 write it on an existing part), with its tests."
+  - "`core/components/agents/product-os-keeper.md` (line 74, its skill table names \"issue\" in the link-model-part entry)."
+  - "`core/components/skills/author-plan-changes/SKILL.md` (line 42: a new-feature entry's `issue` is \"null, or the story that exists for it\")."
+  - "`core/components/plays/design-slice/` (C6 and C7: a slice pulls in only features that are not yet built) and `core/components/skills/author-slice/`."
+  - "Garura's model: `.garura/product/product-os/_spine.yaml`, the 23 `issue` values on features fn-724, fn-597, fn-725, fn-726, fn-731, fn-673, fn-727, fn-728, fn-729, fn-628, fn-730, fn-736, fn-737, fn-738, fn-740, fn-741, fn-743, fn-744, fn-745, fn-746, fn-748, fn-806 and fn-931 (lines 737 to 1203). Deleted only after the clean-up."
+  - "The tracker, through the clean-up: the 33 open issues of type Feature (64 in all; for example #723, #971, #990), and a Feature issue for each of the 23 features above."
+  - "Work-tracking texts: `CLAUDE.md` (Work Tracking: \"one Epic for each → one Story per feature\"), `.garura/user-provided/managing-work.md` (lines 38 and 61), `core/grounding/glossary.md` (lines 63, 64 and 72)."
+  - "Read and not changed: `core/components/skills/enrich-grounding/` (searched: it writes no `issue`); `core/components/skills/platform-adapter/` (its `list-issues` and `create-issue-typed` verbs already search issues and file an issue with a type and a parent); `core/components/skills/author-intent-page/` (the intent pages keep their Tracker line)."
+
+ice_impact: >-
+  /shape-plan, on PR #1047's branch, through /fix-play: C3 (a feature's work is found by the plan
+  file's mark; when none, through the tracker tool, by the issue of type Feature whose text carries
+  the exact line `Represents: <feature id>`; two such issues for one feature stop the run and go to
+  the person; never by title; never a second Feature issue or Story; the play files one Feature
+  issue for each feature not yet built, under the slice's epic, holding the feature's scope of
+  work and Context guidance; when the Feature issue already sits under another epic, the play asks
+  the person which epic it goes under), C13 (three types, Epic, Feature and Story; the epic's map
+  names Feature issues), F14 and REC14 (the failure is now a second Feature issue or Story for one
+  feature, a match by title or by a line that is not exact or on an issue not of type Feature, a
+  duplicate not taken to the person, or a move to a second epic with no question), S10 and S11
+  (S11: a closed Feature issue means the feature is built), D1 (each feature of each slice has
+  exactly one Feature issue). Its reads of the model's `issue` go. author-work-items writes each
+  feature's Feature issue (its title, scope of work and Context guidance) where it wrote a story,
+  in plan mode and in story mode. /design-eval, through /fix-play: C1, C2, C3, C5, C8, C9, C16, F3,
+  F4, F14 and F16 read the Feature issue where they read the story: one eval file for each Feature
+  issue in the epic's map, still named by feature id; author-slice-eval follows. /reshape-plan,
+  through /fix-play: C11 and F10 (a new feature lands with its thin page and its model entry, with
+  no issue on the entry, and with a Feature issue that names it and holds its scope of work), C14
+  (a story for a feature in the model goes inside its Feature issue), S10 and S11 ("find #N in the
+  model" reads the Feature issue's exact Represents line); "finish" on a Feature issue is the one
+  way a feature becomes built; its Step 9 name-story dispatch goes. /design-slice: C6 and C7 (a
+  slice pulls in only features that are not yet built; to know that, it reads the state of each
+  feature's Feature issue through the tracker tool). Skills: link-model-part stops writing `issue`
+  (a request that names one is refused), and the product-os-keeper agent's table says so;
+  author-plan-changes's new-feature entry no longer carries a story for the model. The build play's
+  context sub-agent, when it is rebuilt (#855, #819), reads the Context guidance from the Feature
+  issue. No capability or feature ICE of the product changes, and the ICE kind does not change.
+  The ontology is not an agent intent; its change follows through /specify-ontology (#1050).
+
+business_intent_check: none
+business_intent_check_detail: >-
+  none — no person's business intent is added, changed or dropped, and the Business Intent kind
+  does not change: part 1 names features only, and the intent pages keep their Tracker line; every
+  id stays (bi-1, fn-724). The plan rebuild for business intent 1 waits on this record, but its
+  page is not touched.
+
+related: "ADR 048, ADR 049, ADR 052, ADR 056, ADR 057, ADR 062, ADR 063, ADR 064, ADR 065, ADR 067, #1025, PR #1047, #1048, #1050, #1051"
+
+keeper_notes_for_context:
+  - "The brief names ADR 067 (superseded in full). The keeper also marks ADR 056 §1 and §2, ADR 048 §1, §3 and two of its lines under Consequences and Alternatives, and ADR 049 §1.2 as amended in part, because each says a feature is not an issue or gets one story in each epic."
+  - "Change at acceptance, part 2 (the Feature issue holds the scope of work and the Context guidance; the epic's map names Feature issues) amends three more ADRs in part: ADR 049 §4 (the story holds the scope and the Context guidance), ADR 052 §3, §4 and §7 (the map from each feature to its story; the plan play writes the story's scope; the plan play makes the story again), and ADR 057 §2, §3 and §6 (one story file for each story; the stories in the map's order and their Context guidance; the counts for each story). It also widens the ADR 048 §3 amendment to the second bullet's last sentence (a story writes its scope from two ICE)."
+  - "ADR 062, ADR 063, ADR 064 and ADR 065 are not amended; see not_affected. ADR 064 stands by the product owner's words at acceptance."
+  - "Facts read on 2026-11-12: Garura's model has 239 features; 23 hold `issue`, each matching its own id (fn-724 names 724). The spine has no slices and there are no plan files (`.garura/project/plans/` does not exist). The tracker holds 64 issues of type Feature, 33 of them open; none has a `Represents:` line. The 31 closed ones are never matched, because a play matches only the exact line. #723 groups the stories of four features (#724, #725, #726, #597), so the clean-up cannot map it to one feature. The ontology (version 15) and the spine schema have no `issue` on a feature: ADR 067's change to them has not landed."
+  - "Settled at acceptance, so no longer points for the accepter: how far part 1 reaches (features only), where the scope of work lives (the Feature issue), the eval's file names (one file for each Feature issue), who closes a Feature issue (a person, through /reshape-plan \"finish\"), a search that finds the wrong issue or two (type Feature and the exact line; a duplicate goes to the person), the 64 issues of type Feature and the 23 stories (the clean-up, before the values are deleted)."
+
+for_the_accepter:
+- point: A slice may not pull in a built feature, even when its end-to-end test needs that feature
+  what_and_where: 'Brief part 4 ("A slice pulls in only features that are not yet built"). The ontology''s
+    Slice kind (line 424: features "that together give one vertical outcome a person can test end to end");
+    its Story kind (line 697: "when a later Slice includes a Feature again, that Slice''s Epic gets its
+    own Story"); /design-slice C2 (the run reads the product model and memory first) and C6.'
+  detail: A new slice whose surface needs a feature that is already built must leave that feature out.
+    Its build order, its hidden file and its eval then do not name it. To know which features are built,
+    /design-slice must also read each feature's Feature issue state from the tracker, through the tracker
+    tool; today it reads only the model and memory.
+  why_it_matters: A slice can pass its eval while a built feature it relies on is broken, and the person
+    who tests the slice end to end meets a step the slice does not list.
+  this_decision_does: It keeps built features out of a slice, and lists /design-slice C6 and C7 as changed.
+  you_decide: Whether a built feature stays out entirely, or a slice may list it as "relies on, already
+    built", with no new work item, so its eval still covers it.
+- point: Two plans can hold one feature, but its Feature issue sits under one epic, and the plan check
+    wants each item under its tracker parent
+  what_and_where: 'Brief part 4 ("A Feature issue sits under one epic at a time"). /reshape-plan''s agreement
+    check (`core/components/plays/reshape-plan/scripts/check_agreement.py`: "the item''s parent in the
+    plan file is its parent in the tracker"); the Epic kind''s feature-to-story map (ontology line 663).'
+  detail: Plan B can hold a feature whose Feature issue sits under plan A's epic. Plan B's file cannot
+    put that item under its own epic without failing the check. If the person moves the Feature issue
+    to plan B's epic, plan A's tree and its epic's map name an item that is no longer under them, and
+    nothing in plan A's session says so.
+  why_it_matters: Plan A loses work with no error, or plan B shows work it does not hold.
+  this_decision_does: It asks the person which epic, before the move. It says nothing about the other
+    plan's file.
+  you_decide: How plan B shows a feature whose Feature issue sits under another plan's epic, and whether
+    a move updates the plan it leaves.
+- point: 'PR #1047 is built on the record this one supersedes'
+  what_and_where: 'PR #1047, branch `feature/1025-shape-plan-reuses-open-story`: `core/components/plays/shape-plan/reference/ice.md`
+    (C3 lines 21 to 31, C13 line 53, F14 line 88, S10 line 148, D1 line 158, REC14 line 198), `scripts/find_work_items.py`,
+    `scripts/gather_plan.py`, `scripts/render_brief.py`, their tests and `scripts/test_support.py`.'
+  detail: C3 on that branch says "the feature's story is the issue that the feature's entry in the product
+    model names (its `issue`)", and the scripts read that field. Under this decision the field is gone,
+    and the play must instead find or file a Feature issue for each feature and ask when a second epic
+    holds it.
+  why_it_matters: If the PR lands as it is, /shape-plan reads a field the model no longer has, and finds
+    nothing.
+  this_decision_does: It names the parts to change in its ICE impact. It changes nothing in the PR.
+  you_decide: 'Whether PR #1047 is reworked through /fix-play to match before it lands, or closed and
+    the work done again.'
+
+work_this_creates:
+  - "After acceptance: the status of ADR 067 set to superseded, with its pointer; forward pointers on ADR 056 (§1 and §2), ADR 048 (§1, §3, Consequences and Alternatives), ADR 049 (§1.2 and §4), ADR 052 (§3, §4 and §7) and ADR 057 (§2, §3 and §6); the ADR index rebuilt."
+  - "One clean-up, done before the 23 model values are deleted: (a) map each open issue of type Feature (33 today) to its product feature by adding the `Represents: <feature id>` line, or retype it; (b) file or link a Feature issue for each of the 23 features whose stories would lose their only link (fn-724, fn-597, fn-725, fn-726, fn-731 to fn-931), with its Story inside it."
+  - "Then remove the 23 `issue` values from Garura's spine."
+  - "/specify-ontology (#1050): the Feature, Story, Epic and Plan kinds, the tracker paragraph and Q20 as listed in Affects; the scope of work and the Context guidance move from the Story kind to the Feature issue; the feature item goes; the Feature kind does not gain `issue`."
+  - "PR #1047, through /fix-play on /shape-plan: C3, C13, F14, REC14, S10, S11 and D1, and its scripts; author-work-items writes the Feature issue."
+  - "/fix-play on /design-eval: its constraints and failures that read the story, its scripts, author-slice-eval and the two eval templates: one eval file for each Feature issue."
+  - "/fix-play on /reshape-plan: C11, C14, F10, S10, S11, Step 9 removed, check_agreement.py and place_feature.py."
+  - "/fix-play on /design-slice: C6 and C7, only features not yet built."
+  - "link-model-part: stop writing `issue`; the product-os-keeper agent's table."
+  - "CLAUDE.md, managing-work.md and the glossary: Epic, then Feature issue (it holds the scope of work), then Story."
+
+references:
+  - "`.garura/project/issues/_adr/20261112T061525Z/brief.md` — the brief, with its Change at acceptance"
+  - "`docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md`"
+  - "`docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md` — §1, §2"
+  - "`docs/adr/048-the-product-model-and-the-work-are-two-layers.md` — §1, §3"
+  - "`docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md` — §1.2, §4"
+  - "`docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md` — §3, §4, §7"
+  - "`docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md` — §2, §3, §6"
+  - "`docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md` — §1, §2"
+  - "`docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md` — rules 3 and 4"
+  - "`core/components/memory/standards/schemas/product-os/ontology.md` (version 15) and `spine.yaml`"
+  - "PR #1047 — `core/components/plays/shape-plan/reference/ice.md` on its branch"

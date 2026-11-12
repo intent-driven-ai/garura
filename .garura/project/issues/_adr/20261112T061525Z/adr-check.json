@@ -1,0 +1,30 @@
+{
+  "draft": ".garura/project/issues/_adr/20261112T061525Z/adr-draft.md",
+  "number": "068",
+  "round": "redraft after the accept checkpoint (Change at acceptance, changes 1 to 6)",
+  "lint": {"command": "adr.py lint", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --intents-dir .garura/product/product-os/intents", "exit": 0,
+            "declared": "none", "touches_an_intent": [], "agrees_with_declared": true},
+  "overlaps": {
+    "judged": {
+      "067": "superseded in full",
+      "056": "amended in part: Decision §1 and §2",
+      "048": "amended in part: Decision §1 (bullets 2 and 3), §3 (bullet 1, and bullet 2 in full, now with its last sentence on the scope of work), one Negative / Risks bullet, the Feature half of one alternative",
+      "049": "amended in part: Decision §1.2 ('one story for each feature of the slice') and §4 (the story as the holder of the scope of work and the Context guidance)",
+      "052": "amended in part: Decision §3 (the feature-to-story map), §4 (the plan play writes the story's scope), §7 (the plan play makes the story again)",
+      "057": "amended in part: Decision §2 (one story file for each story), §3 (the stories in the map's order, their Context guidance), §6 (the counts for each story)",
+      "064": "not affected: stands by the product owner's words at acceptance; part 5 agrees with §1 and §2",
+      "062": "not affected: the issue write is its play's Step 9, not its Decision",
+      "065": "not affected: rules 3 and 4 hold; this goes further in their direction",
+      "063": "not affected: /reshape-plan 'finish' is how a person closes a Feature issue",
+      "058": "not affected", "060": "not affected", "061": "not affected",
+      "053": "not affected (shares terms only)", "039": "not affected (shares terms only)",
+      "059": "not affected (shares terms only)", "043": "not affected (shares terms only)",
+      "047": "not affected (shares terms only)", "035": "not affected (shares terms only)",
+      "029": "not affected (§3, the real parent and child link, holds)"
+    }
+  },
+  "for_the_accepter": {"kept": 3, "settled_at_acceptance": 7},
+  "paths_check": "no absolute, home or temp path, and no real name, in the draft or the context",
+  "skill_retries": 0
+}

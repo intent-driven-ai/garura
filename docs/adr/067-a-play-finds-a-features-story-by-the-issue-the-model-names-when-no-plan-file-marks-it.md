@@ -1,6 +1,6 @@
 # ADR 067 — When No Plan File Marks a Feature's Story, a Play Finds It by the Issue the Product Model Names, and Never by Its Title
 
-**Status:** Accepted
+**Status:** Superseded by [ADR 068](068-each-product-feature-has-one-feature-issue-that-names-it.md)
 **Date:** 2026-11-12
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #1048 (a Chore under #1025, the /shape-plan fix that reuses an open story), from the review of PR #1047
