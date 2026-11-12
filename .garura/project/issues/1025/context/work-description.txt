@@ -1,0 +1,1 @@
+/shape-plan reuses an open story for a feature instead of filing a second one

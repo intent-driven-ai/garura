@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/1025-shape-plan-reuses-open-story",
+  "base_sha": "64c81cc1a1b052a24e59be284da42eff66512853",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}
