@@ -1,67 +1,75 @@
 commits:
-  - sha: ded1b576
-    message: "feat(shape-plan): Rework to one epic per plan with one Feature issue per unbuilt feature, no Stories (#1025)"
+  - sha: 41c6e795
+    message: "feat(product-os-model): carry feature state (work state) through the spine schema, link-model-part and the plays that write the model, ontology v18 and ADR 070 (#1056)"
+    files:
+      - core/components/agents/product-os-keeper.md
+      - core/components/memory/standards/rules/direct-model-write.md
+      - core/components/memory/standards/schemas/product-os/product-os.yaml
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+      - core/components/plays/design-slice/SKILL.md
+      - core/components/plays/design-slice/scripts/persist_fills.py
+      - core/components/plays/design-slice/scripts/test_shape_slice_scripts.py
+      - core/components/plays/specify-capabilities/SKILL.md
+      - core/components/plays/specify-capabilities/scripts/persist_understand.py
+      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
+      - core/components/plays/specify-domains/scripts/persist_seed.py
+      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
+      - core/components/skills/author-domains/SKILL.md
+      - core/components/skills/enrich-capability-ice/SKILL.md
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+    branch: feature/1025-shape-plan-reuses-open-story
+  - sha: 12807e85
+    message: "chore(product-os): swap Garura's own spine to ontology v18 and record the migrate-status link request and report (#1056)"
+    files:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/project/issues/1056/context/migrate-status/link-report.json
+      - .garura/project/issues/1056/context/migrate-status/link-request.json
+    branch: feature/1025-shape-plan-reuses-open-story
+  - sha: 73842360
+    message: "feat(shape-plan): read and set the feature state when shaping a plan, and reuse an open story, with the shared plan_common copies kept in step (#1025)"
     files:
       - core/components/plays/build-play/references/plan_common.py
       - core/components/plays/reshape-plan/scripts/plan_common.py
       - core/components/plays/shape-plan/SKILL.md
       - core/components/plays/shape-plan/reference/ice.md
-      - core/components/plays/shape-plan/scripts/check_drafts.py
       - core/components/plays/shape-plan/scripts/check_plan.py
+      - core/components/plays/shape-plan/scripts/check_states.py
       - core/components/plays/shape-plan/scripts/check_tracker.py
       - core/components/plays/shape-plan/scripts/find_work_items.py
       - core/components/plays/shape-plan/scripts/gather_plan.py
       - core/components/plays/shape-plan/scripts/plan_common.py
+      - core/components/plays/shape-plan/scripts/planned_request.py
       - core/components/plays/shape-plan/scripts/render_brief.py
-      - core/components/plays/shape-plan/scripts/test_check_drafts.py
       - core/components/plays/shape-plan/scripts/test_check_plan.py
       - core/components/plays/shape-plan/scripts/test_check_tracker.py
       - core/components/plays/shape-plan/scripts/test_find_work_items.py
       - core/components/plays/shape-plan/scripts/test_gather_plan.py
       - core/components/plays/shape-plan/scripts/test_render_brief.py
+      - core/components/plays/shape-plan/scripts/test_scenarios.py
+      - core/components/plays/shape-plan/scripts/test_states.py
       - core/components/plays/shape-plan/scripts/test_support.py
-      - core/components/plays/shape-plan/scripts/test_write_plan_file.py
       - core/components/plays/shape-plan/scripts/test_write_work_items.py
       - core/components/plays/shape-plan/scripts/write_plan_file.py
       - core/components/plays/shape-plan/scripts/write_work_items.py
       - core/components/plays/shape-plan/stop-condition.yaml
-      - core/components/skills/author-work-items/SKILL.md
-      - core/tools/plan/README.md
-      - core/tools/plan/test_plan.py
-      - core/components/plays/shape-plan/scripts/test_scenarios.py
     branch: feature/1025-shape-plan-reuses-open-story
-  - sha: f9fc1e0b
-    message: "feat(design-eval): Rework to one eval per plan over Feature issues, leaving dropped slices out (#1025)"
+  - sha: c5231c6a
+    message: "fix(design-eval): leave dropped plan items out of the eval (#1025)"
     files:
-      - core/components/agents/evals-engineer.md
-      - core/components/memory/standards/rules/_index.md
       - core/components/memory/standards/rules/eval-format.md
-      - core/components/memory/standards/schemas/_index.md
-      - core/components/memory/standards/schemas/eval/_index.md
-      - core/components/memory/standards/schemas/eval/steps-command-line.yaml
-      - core/components/memory/standards/templates/_index.md
-      - core/components/memory/standards/templates/eval-slice.md
-      - core/components/memory/standards/templates/eval-story.feature.md
       - core/components/plays/design-eval/SKILL.md
       - core/components/plays/design-eval/reference/ice.md
-      - core/components/plays/design-eval/scripts/check_eval.py
-      - core/components/plays/design-eval/scripts/check_inputs.py
-      - core/components/plays/design-eval/scripts/eval_common.py
       - core/components/plays/design-eval/scripts/gather_eval.py
-      - core/components/plays/design-eval/scripts/place_eval.py
       - core/components/plays/design-eval/scripts/render_summary.py
       - core/components/plays/design-eval/scripts/test_shape_eval_scripts.py
-      - core/components/plays/design-eval/stop-condition.yaml
       - core/components/skills/author-slice-eval/SKILL.md
-      - docs/components/agents.md
-      - core/components/memory/standards/templates/eval-feature.feature.md
-      - core/components/memory/standards/templates/eval-plan.md
     branch: feature/1025-shape-plan-reuses-open-story
-  - sha: b45e859a
-    message: "docs(stm): Record the approved ICE design note and change analysis for the plan rework (#1025)"
+  - sha: 23c75ec6
+    message: "chore(stm): record the commit-work analysis run for the issue (#1025)"
     files:
       - .garura/project/issues/1025/context/analysis.yaml
-      - .garura/project/issues/1025/context/approved-ice-design-p1-rework.md
     branch: feature/1025-shape-plan-reuses-open-story
 excluded_files:
   []
