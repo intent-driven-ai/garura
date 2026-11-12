@@ -451,6 +451,80 @@ def test_dropped_slice():
               and "hidden-cancel-online.md" not in os.listdir(os.path.join(working, "inputs")))
 
 
+DROPPED_REMIND = PLAN.replace("{issue: 4, kind: feature, represents: fn-remind}",
+                              "{issue: 4, kind: feature, represents: fn-remind, status: Dropped}")
+
+
+def test_dropped_feature():
+    print("a feature whose Feature issue item in the plan file is Dropped is left out")
+    with tempfile.TemporaryDirectory() as tmp:
+        plans, tracker, working = project(tmp)
+        gather(plans, tracker, working)
+        place(working, drafts(working))  # an earlier run wrote a feature file for fn-remind
+        folder = os.path.join(plans, "1", "evals")
+        old_remind = read(os.path.join(folder, "eval.fn-remind.feature.md"))
+        write(os.path.join(plans, "1.yaml"), DROPPED_REMIND)
+        t = json.loads(read(tracker))  # its Feature issue is gone too: a dropped feature's issue is not needed
+        t["issues"] = [i for i in t["issues"] if i["number"] != 4]
+        write(tracker, t)
+        os.unlink(os.path.join(working, "place.json"))
+        code, out, _ = gather(plans, tracker, working)
+        inputs = inputs_of(working)
+        check("gather: a feature only Dropped items hold is not a missing part; the plan is ready",
+              code == 0 and inputs["ready"]) or print(inputs["reasons"])
+        check("gather: it is left out with the why 'dropped from the plan', and its slice's section drops its line",
+              inputs["left_out"] == [{"feature": "fn-remind", "issue": 4, "why": "dropped from the plan"}]
+              and [f["feature"] for f in inputs["features"]] == ["fn-pick", "fn-cancel"]
+              and inputs["slices"][0]["features"] == ["fn-pick"]
+              and "feature-4.md" not in os.listdir(os.path.join(working, "inputs")))
+        check("gather: the feature file an earlier run wrote for it is out of the plan",
+              inputs["out_of_plan"] == ["eval.fn-remind.feature.md"])
+        d = os.path.join(working, "drafts")
+        shutil.rmtree(d)
+        write(os.path.join(d, "eval.fn-pick.feature.md"), feature_draft("fn-pick", 3, PICK))
+        write(os.path.join(d, "eval.fn-cancel.feature.md"), feature_draft("fn-cancel", 5, CANCEL))
+        write(os.path.join(d, "eval.1.md"), PLAN_FILE.format(
+            book="1. Feature issue #3 (fn-pick) — eval.fn-pick.feature.md",
+            out="\n## Out of the plan\n\n- Feature issue #4 (fn-remind) — eval.fn-remind.feature.md: its feature was "
+                "dropped from the plan; kept, not run.\n")
+            .replace("- [the remind command]: the command that sends reminders.\n", ""))
+        code, _, _ = place(working, d)
+        yard = json.loads(read(os.path.join(working, "yardstick-check.json")))
+        remind = read(os.path.join(folder, "eval.fn-remind.feature.md"))
+        check("place: the earlier feature file stays, tagged out of the plan, its scenarios word for word",
+              code == 0 and yard["ok"] and "`@out-of-plan`" in remind.splitlines()[0]
+              and remind.split("\n", 1)[1] == old_remind.split("\n", 1)[1])
+        code, res = evalcheck(working)
+        check("eval file check: the eval without the dropped feature reads ok", code == 0 and res["ok"]) \
+            or print(res["problems"])
+        _, text = summary(working)
+        check("summary: the dropped feature has no line in its slice's table and is named under 'dropped from the plan'",
+              "#4 fn-remind: dropped from the plan" in text and "| #4 " not in text
+              and "Features left out of the eval:" in text) or print(text)
+    with tempfile.TemporaryDirectory() as tmp:  # first run: the dropped feature is in no hidden file, no issue
+        plans, tracker, working = project(tmp)
+        write(os.path.join(plans, "1.yaml"), DROPPED_REMIND)
+        book = os.path.join(plans, "1", "evals", "self-booking", "failure-and-recovery.md")
+        write(book, read(book).split("## fn-remind")[0])
+        t = json.loads(read(tracker))
+        t["issues"] = [i for i in t["issues"] if i["number"] != 4]
+        write(tracker, t)
+        code, out, _ = gather(plans, tracker, working)
+        inputs = inputs_of(working)
+        check("gather, first run: a Dropped feature in no hidden file and with no Feature issue does not block the eval",
+              code == 0 and inputs["ready"] and inputs["out_of_plan"] == []
+              and [f["feature"] for f in inputs["left_out"]] == ["fn-remind"]) or print(inputs["reasons"])
+    with tempfile.TemporaryDirectory() as tmp:  # a feature a live item also holds stays in the eval
+        plans, tracker, working = project(tmp)
+        write(os.path.join(plans, "1.yaml"), DROPPED_REMIND.replace(
+            "  - {issue: 5,", "  - {issue: 4, kind: feature, represents: fn-remind, status: Not Started}\n  - {issue: 5,"))
+        gather(plans, tracker, working)
+        inputs = inputs_of(working)
+        check("gather: a feature that a Dropped item and a live item both hold stays in the eval",
+              inputs["ready"] and inputs["left_out"] == []
+              and [f["feature"] for f in inputs["features"]] == ["fn-pick", "fn-remind", "fn-cancel"])
+
+
 def test_bad_drafts():
     print("bad drafts")
     cases = [
@@ -712,6 +786,7 @@ def main():
     test_first_eval_two_slices()
     test_feature_in_two_slices()
     test_dropped_slice()
+    test_dropped_feature()
     test_bad_drafts()
     test_absent_phrase_is_allowed()
     test_lines_covered_and_moved()

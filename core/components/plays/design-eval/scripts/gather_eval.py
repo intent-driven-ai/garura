@@ -6,8 +6,8 @@
         --working <working> --out <working>inputs.json
 
 It reads, and only reads:
-  - the plan file: its `epic: <n>` mark and its Slices list (`slices`, each slice by its id, with its
-    status);
+  - the plan file: its `epic: <n>` mark, its Slices list (`slices`, each slice by its id, with its
+    status) and the status of each Feature issue item (kind `feature`) in its tree;
   - the plan's epic, from the tracker, and its feature-to-story map, in its order: one line for
     each feature of the plan, to its Feature issue (`(under Epic #<n>)` marks one that sits under
     another plan's epic, `held_by`; a plan-file item of kind `feature` with `held_by` marks it too);
@@ -26,7 +26,12 @@ the agent and the skill are given only those copies.
 A slice whose status in the Slices list is Dropped is left out (C14): it is listed in `dropped`, it
 gets no section, its missing hidden file blocks nothing, and a map feature that only dropped slices
 hold (its hidden file names it, or a dropped slice has no hidden file to tell) is listed in
-`left_out` with why, and gets no feature file. A live slice's features in the eval are its hidden
+`left_out` with why, and gets no feature file. A map feature whose Feature issue item in the plan file's
+tree is Dropped (every item of kind `feature` that names it, by its `represents` mark or its issue number,
+reads Dropped) is left out too (C14, ontology v18): it is listed in `left_out` with the why "dropped from the
+plan", gets no feature file and no line in its slice's section, and is not a missing part — its Feature issue
+and its hidden-file entry are not read and not needed. A feature file a run wrote for it earlier is in
+`out_of_plan`, so it is kept and tagged out of the plan. A live slice's features in the eval are its hidden
 file's entries that the map names, in that order. A feature that sits in two live slices is written
 once, with the step library and the hidden-file entry of the first slice in the Slices list that
 holds it (C12). The plan is ready when its epic, its map, each Feature issue (of type Feature, with
@@ -64,6 +69,16 @@ def walk(nodes):
 
 
 DROPPED = "dropped"
+DROPPED_FROM_PLAN = "dropped from the plan"
+
+
+def dropped_in_tree(plan, fid, number):
+    """True when the plan file's tree holds the feature only in Dropped items: at least one item of kind `feature`
+    names it (its `represents` mark is the feature, or its issue is the map's Feature issue), and each such item's
+    status is Dropped (C14)."""
+    items = [n for n in walk(plan.get("tree")) if n.get("kind") == "feature"
+             and (str(n.get("represents") or "") == fid or str(n.get("issue") or "") == str(number))]
+    return bool(items) and all(str(n.get("status") or "").strip().lower() == DROPPED for n in items)
 
 
 def slice_list(plan):
@@ -175,6 +190,9 @@ def gather(plan_file, plans, libraries, tracker, working):
     # each Feature issue of the map, joined to the slices that hold its feature
     for line in fmap:
         fid, number = line["feature"], line["issue"]
+        if dropped_in_tree(plan, fid, number):  # C14: dropped from the plan; not a missing part, never read
+            out["left_out"].append({"feature": fid, "issue": number, "why": DROPPED_FROM_PLAN})
+            continue
         holders = [sl for sl in out["slices"] if fid in sl["entries"]]
         if not holders and (fid in dropped_entries or dropped_unknown):
             why = ("only a dropped slice holds it" if fid in dropped_entries

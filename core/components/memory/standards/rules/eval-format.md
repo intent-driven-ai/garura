@@ -7,6 +7,8 @@ issue of the plan's epic, and its plan file (`templates/eval-plan.md`), kept in 
 every slice the plan holds, also a feature whose Feature issue sits under another plan's epic (`held_by`), and no other.
 A slice whose status in the plan file's Slices list is Dropped is left out: it gets no section, and a feature that only
 dropped slices hold gets no feature file. A feature that a live slice also holds is tested through the live slice.
+A feature whose Feature issue item in the plan file's tree is Dropped is left out too (ontology v18): it gets no feature
+file and no line in its slice's section, and a feature file an earlier run wrote for it is kept under "Out of the plan".
 
 ## A feature file
 
@@ -39,7 +41,7 @@ dropped slices hold gets no feature file. A feature that a live slice also holds
   entries that the epic's map names. A Feature issue that sits under another plan's epic says
   `(held by epic #<n>)`.
 - One pass rule for the whole plan.
-- "Out of the plan" is there only when a feature file's feature left the plan.
+- "Out of the plan" is there only when a feature file's feature left the plan, or was dropped from it.
 - Every name a feature file uses is listed under "Names"; the list holds no name that no feature file uses.
 
 ## A fixed yardstick (ADR 069)

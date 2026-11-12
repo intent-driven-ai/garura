@@ -10,8 +10,9 @@ then, for each slice of the plan, one line per Feature issue with its counts: Sc
 Expectations and Failure conditions (covered / in the Feature issue or its hidden-file entry) and
 Untestable (a Feature issue that sits in two slices is counted under the first, and named in the
 other); then each untestable item in one line with its reason; then each slice left out because the
-Slices list marks it Dropped, and each feature left out because only dropped slices hold it, with why
-(C14); then where the eval files are. A
+Slices list marks it Dropped, and each feature left out with its reason — "dropped from the plan" when its
+Feature issue item in the plan file is Dropped, or because only dropped slices hold it (C14); then where the
+eval files are. A
 plan that is not ready is named with each reason, and gets no table. An Untestable line for a part
 of a line that also has a scenario is shown too, marked "partly tested". Each scenario whose Feature
 issue line moved or changed since the eval was written is named, for a person to judge (C16). On a
@@ -83,7 +84,8 @@ def render(check, place, inputs):
     if inputs.get("dropped"):
         lines += ["", "Dropped slices, left out of the eval: " + ", ".join(d["slice_id"] for d in inputs["dropped"])]
     if inputs.get("left_out"):
-        lines += ["Features left out:"] + [f"- #{f['issue']} {f['feature']}: {f['why']}" for f in inputs["left_out"]]
+        lines += ["", "Features left out of the eval:"] + [f"- #{f['issue']} {f['feature']}: {f['why']}"
+                                                          for f in inputs["left_out"]]
     if inputs["out_of_plan"]:
         lines += ["", "Out of the plan (kept, not run): " + ", ".join(inputs["out_of_plan"])]
     lines += ["", f"The files: {inputs['folder']}/ (open them for the detail).", ""]

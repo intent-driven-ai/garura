@@ -2,7 +2,7 @@
 name: design-eval
 position: both
 argument-hint: "<business intent issue number>"
-description: 'Write the one eval of a business intent''s plan — the third play of the shaping loop (/design-slice, then /shape-plan, then /design-eval; ADR 069). Run as /design-eval <intent-issue> (for example /design-eval 788), after /shape-plan. It reads only the plan file (its epic mark and its Slices list), the plan''s epic (with its feature-to-story map, which maps each feature to its Feature issue), the Feature issues the map names (their scope of work and Context guidance) and the hidden file of each slice the plan holds that is not Dropped (a dropped slice is left out), and writes, in the plan''s evals folder, one feature file for each Feature issue (eval.<feature-id>.feature.md, Markdown with Gherkin, its Feature is the Feature issue), held_by ones included, with a scenario for each goal and each expectation of the Feature issue and, for each failure condition of its feature, a scenario that shows it does not happen; and one plan file (eval.<plan-id>.md) with one section for each slice (its features in build order, its surface kind from its own hidden file, the time limit for each scenario), the pass rule and the names. Every step is a sentence of the step library of the surface kind and every Then is exact, so the eval later runs with no agent and no score: it passes only when every scenario passes. What only the build will make is a name the usage guide maps; what cannot be tested yet is named with its reason. A plan whose epic, a Feature issue or a slice''s hidden file is missing gets no eval and is named. It never reads an ICE page, the usage guide, the code or the product model, and never runs the eval. An eval is a fixed yardstick: a later run only adds scenarios and never changes one. Nothing is committed before the product owner types yes at one pinned checkpoint, after a short summary (counts per Feature issue and the untestable items), never the eval itself. Position both: it opens its own change and lands it through commit-work, review-work, validate-work and merge-work, on the plan''s branch.'
+description: 'Write the one eval of a business intent''s plan — the third play of the shaping loop (/design-slice, then /shape-plan, then /design-eval; ADR 069). Run as /design-eval <intent-issue> (for example /design-eval 788), after /shape-plan. It reads only the plan file (its epic mark, its Slices list and the status of each Feature issue item in its tree), the plan''s epic (with its feature-to-story map, which maps each feature to its Feature issue), the Feature issues the map names (their scope of work and Context guidance) and the hidden file of each slice the plan holds that is not Dropped (a dropped slice is left out, and so is a feature whose Feature issue item in the plan file is Dropped), and writes, in the plan''s evals folder, one feature file for each Feature issue (eval.<feature-id>.feature.md, Markdown with Gherkin, its Feature is the Feature issue), held_by ones included, with a scenario for each goal and each expectation of the Feature issue and, for each failure condition of its feature, a scenario that shows it does not happen; and one plan file (eval.<plan-id>.md) with one section for each slice (its features in build order, its surface kind from its own hidden file, the time limit for each scenario), the pass rule and the names. Every step is a sentence of the step library of the surface kind and every Then is exact, so the eval later runs with no agent and no score: it passes only when every scenario passes. What only the build will make is a name the usage guide maps; what cannot be tested yet is named with its reason. A plan whose epic, a Feature issue or a slice''s hidden file is missing gets no eval and is named. It never reads an ICE page, the usage guide, the code or the product model, and never runs the eval. An eval is a fixed yardstick: a later run only adds scenarios and never changes one. Nothing is committed before the product owner types yes at one pinned checkpoint, after a short summary (counts per Feature issue and the untestable items), never the eval itself. Position both: it opens its own change and lands it through commit-work, review-work, validate-work and merge-work, on the plan''s branch.'
 user-invocable: true
 ---
 
@@ -14,8 +14,9 @@ a scenario for each goal and each expectation of the plan's Feature issues, and,
 condition in the hidden file of each slice the plan holds, a scenario that shows it does not
 happen. The eval covers every feature of every slice the plan holds that its Slices list does not
 mark Dropped, also a feature whose Feature issue sits under another plan's epic (`held_by`); a
-dropped slice is left out. It reads only the plan's epic (with its
-feature-to-story map), the Feature issues the map names and the slices' hidden files. It never runs
+dropped slice is left out, and so is a feature whose Feature issue item in the plan file is
+Dropped (ontology v18). It reads only the plan file (its `epic` mark, its Slices list and the
+status of each Feature issue item in its tree), the plan's epic (with its feature-to-story map), the Feature issues the map names and the slices' hidden files. It never runs
 the eval: the eval runs later, after the build, with no agent, through the usage guides. An eval is
 a fixed yardstick: a later run never changes a scenario that is there.
 
@@ -33,7 +34,7 @@ lands it.
 
 This play was compiled from the design-eval ICE (`reference/ice.md`) by build-play (#798) and
 recompiled by fix-play. Intent defines constraints (C1–C16) and failure conditions (F1–F16); the
-expectation defines success scenarios (S1–S10), a Done means (D1–D6, baked to `stop-condition.yaml`), and one
+expectation defines success scenarios (S1–S11), a Done means (D1–D6, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. To modify this play, update `reference/ice.md` and
 recompile with fix-play.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -64,8 +65,9 @@ config, the eval itself shown in place of the summary, or a stop that leaves a f
 outside the change plays or on the wrong branch (C10); a real person's name, or text a person
 cannot follow (C11); a step that is not a sentence of its surface kind's step library, or an eval
 run by an agent (C12); a guessed address or command in place of a name, or a name not listed (C13);
-a slice section with no time limit, a feature that is not in the plan's map or that only dropped
-slices hold, or a section for a dropped slice (C14); a copy of the
+a slice section with no time limit, a feature that is not in the plan's map, that only dropped
+slices hold or whose Feature issue item is Dropped, a section for a dropped slice, or a feature
+that only Dropped items hold blocking the eval (C14); a copy of the
 eval or a hidden file left in short-term memory after the run (C15); a covered Feature issue line
 with no recorded text, or a moved line not named or its scenario rewritten (C16).
 
@@ -181,7 +183,8 @@ python3 scripts/gather_eval.py --plan-file <plan-file> --plans <plans> \
     $(each of <libraries> as --library <path>) --working <working> --out <working>inputs.json
 ```
 
-It reads the plan file's `epic: <n>` mark and its Slices list (each slice with its status); the epic and its map from the
+It reads the plan file's `epic: <n>` mark, its Slices list (each slice with its status) and the
+status of each Feature issue item (kind `feature`) in its tree; the epic and its map from the
 tracker (one line for each feature of the plan, to its Feature issue; `(under Epic #<n>)` marks a
 `held_by` one); each Feature issue of the map (its type, its exact line `Represents: <feature id>`,
 its Scope of work and its Context guidance); and the hidden file of each slice of the Slices list
@@ -189,7 +192,12 @@ its Scope of work and its Context guidance); and the hidden file of each slice o
 intent, which need not be this plan). A slice whose status is Dropped is left out (C14): it is
 listed in `dropped`, gets no section, and its missing hidden file blocks nothing; a map feature that
 only dropped slices hold is listed in `left_out` with why and gets no feature file, and one that a
-live slice also holds is tested through the live slice. A live slice's features are its hidden
+live slice also holds is tested through the live slice. A map feature that only Dropped Feature
+issue items of the tree hold (matched by the item's `represents` mark or its issue number) is
+left out too (C14): it is listed in `left_out` with the why "dropped from the plan", gets no
+feature file and no line in its slice's section, and is not a missing part — its Feature issue
+and its hidden-file entry are not read and block nothing; a feature file an earlier run wrote for
+it is in `out_of_plan`, so Step 4 keeps it and tags it out of the plan. A live slice's features are its hidden
 file's entries that the map names, in that order (its build order); a feature in two slices takes the step library and the
 hidden-file entry of the first slice that holds it (C12). It copies the epic, each Feature issue
 and each hidden file into `<working>inputs/`, and the eval files the plan already has
@@ -207,7 +215,8 @@ first, and close HALTED.
 when it is true, there is a Feature issue for each line of the epic's map, each with a Scope of
 work and its Represents line, a hidden file for each live slice of the Slices list, each map feature
 in a live slice or in `left_out`, and a `surface_kind` with its `library` for each live slice; no
-slice in `dropped` is in `slices`.
+slice in `dropped` is in `slices`; no feature whose tree items are all Dropped is in `features` or
+named in `reasons`, and each such feature is in `left_out` with the why "dropped from the plan".
 
 **Not ready:** when `inputs.json` reads `ready: false`, do not dispatch the agent. Run Steps 4 and
 5 with an empty `<working>drafts/` (nothing is placed), render the summary (Step 7's command),
@@ -293,9 +302,10 @@ of its feature's surface kind; no plan with a slice that has no library got a fi
 **SE-12 (F13/C13):** every [name] the feature files use is listed under the plan file's Names, and
 the list holds no other name.
 **SE-13 (F14/C14):** each slice section's time limit is a whole number of seconds, more than 0, and
-the evals folder holds no feature file for a feature that is not in the plan's map or that only
-dropped slices hold (besides those out of the plan); the plan file has no section for a slice in
-`dropped`.
+the evals folder holds no feature file for a feature that is not in the plan's map, that only
+dropped slices hold or whose Feature issue item is Dropped (besides those out of the plan); the
+plan file has no section for a slice in `dropped`, and no slice section lists a feature in
+`left_out`.
 **SE-14 (F8/C8):** a plan with `ready: false` got no file in this run (`place.json` `files` and
 `new_files` are empty), and `summary.md` names each of its `reasons`.
 **SE-19 (F16/C16):** every goal and expectation a scenario covers has a "Lines covered" line with the
@@ -335,7 +345,8 @@ how to read the tables), then for each slice one line per Feature issue (Scenari
 Expectations, Failure conditions, Untestable; a `held_by` one says so; one in two slices is counted
 under the first), each untestable item in one line with its reason, each scenario whose Feature
 issue line moved or changed (for the person to judge, C16), each dropped slice and each feature left
-out with why (C14), and where the files are; on a later
+out with why — "dropped from the plan" for a feature whose Feature issue item is Dropped (C14) —
+and where the files are; on a later
 run, what the run adds. A plan that is not ready is named with each reason. It never holds the eval
 itself (C9). It is never edited by hand. Frame it with the approval prompt and show it. Ask the
 product owner to type **yes**, **change: <what>**, or **stop**. Save the reply word for word to
@@ -437,6 +448,11 @@ branch and config.
   `dropped` and its own feature in `left_out` with why; `eval-check.json` reads `ok: true`; the plan
   file has no section for the dropped slice, and the evals folder has no feature file for its own
   feature.
+- **SCE-11 (S11 — product owner, a dropped feature):** `inputs.json` reads `ready: true` and lists
+  the feature in `left_out` with the why "dropped from the plan" and its earlier feature file in
+  `out_of_plan`; the slice's entry in `slices` and its section in the plan file list only the live
+  features; `eval-check.json` and `yardstick-check.json` read `ok: true`; the earlier feature file
+  is still there with `@out-of-plan`; `summary.md` names the feature with "dropped from the plan".
 
 ### Phase: Evidence & Close
 
@@ -477,7 +493,7 @@ started_at/completed_at, status per C0, exit_reason; artifacts produced: `inputs
 `inputs-check.json`, the drafts, `place.json`, `yardstick-check.json`, `eval-check.json`,
 `guard-report.json`, `summary.md`, `approval.json`, `clear.json`, each eval file written, the eval commit sha,
 and the skill the agent contract named; step and scenario eval results SE-1…SE-20 /
-SCE-1…SCE-10; the checkpoint answer in the person's words; the session identity stamp fields from
+SCE-1…SCE-11; the checkpoint answer in the person's words; the session identity stamp fields from
 $session_stamp (#463); and stop_condition per C0) and write to `$evidence_dest`. Do NOT
 hand-author the body.
 
@@ -507,6 +523,7 @@ usage guides; a done plan lands on main only when its eval passes. End with a po
 | S8 — a Feature issue line changed | product owner | SCE-8 |
 | S9 — a plan with two slices | product owner | SCE-9 |
 | S10 — a dropped slice | product owner | SCE-10 |
+| S11 — a dropped feature | product owner | SCE-11 |
 
 ## Recovery
 
@@ -525,7 +542,7 @@ usage guides; a done plan lands on main only when its eval passes. End with a po
 | F11 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
 | F12 | a step is not a sentence of the step library of its slice's surface kind, or a plan with a slice that has no library got an eval | write the step again with a library sentence; when a slice's surface kind has no library, take back the plan's eval and name the slice | autonomous |
 | F13 | a step holds a guessed address, command or field in place of a name, or a name is not listed | put a name in place of the guess, and list each name in the plan file | autonomous |
-| F14 | a slice section of the plan file has no time limit, the eval covers a feature that is not in the plan's map or that only dropped slices hold, or a dropped slice got a section | set the time limit in each slice section, and take out the feature that is not in the plan's map or that only dropped slices hold, and the section of a dropped slice | autonomous |
+| F14 | a slice section of the plan file has no time limit, the eval covers a feature that is not in the plan's map, that only dropped slices hold or whose Feature issue item is Dropped, a dropped slice got a section, or a feature that only Dropped items hold blocked the eval | set the time limit in each slice section; take out the feature that is not in the plan's map, that only dropped slices hold or whose Feature issue item is Dropped (tag its earlier feature file out of the plan), and the section of a dropped slice; and take back the not-ready verdict such a feature caused | autonomous |
 | F15 | a copy of the eval or a hidden file stays in the run's short-term memory after the run | delete the drafts, the hidden-file copies and the copies of the eval files (`place_eval.py --clear`), and from the records commit when they were committed | autonomous |
 | F16 | a feature file does not record the line text its scenarios cover, or a later run does not name a scenario whose Feature issue line moved or changed, or rewrites it | write the Lines covered list with each covered line's exact text; for a line that moved or changed, put back the scenario as it was and name it in the summary | autonomous |
 
@@ -542,8 +559,8 @@ is not ready wrote no eval file; run it again once the missing parts are made.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:6e5ceebaaee345fb0b084b726285e7fd4aa9de80ed74f0cb0236776c91076538 (of `reference/ice.md`) |
-| compiled_by | build-play (#798); fix-play (#798 round 2: C15, C16); fix-play (#1025: one eval for each plan, ADR 069) |
+| fingerprint | sha256:5a2aeb34fd7adf0cd884cdbb8b9075ff88431a90c057ab0fad17c6a7e20a7472 (of `reference/ice.md`) |
+| compiled_by | build-play (#798); fix-play (#798 round 2: C15, C16); fix-play (#1025: one eval for each plan, ADR 069); fix-play (#1025: a feature whose Feature issue item is Dropped is left out, ontology v18) |
 | pipeline_position | both (start-work head; commit → propose → review → merge close) |
 | workflow_structure | A (gather the copies; draft; place with the yardstick; check; one summary at one pinned one-way-door checkpoint; nothing committed before the yes; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D6), gate live at Step C0 |
@@ -556,5 +573,5 @@ is not ready wrote no eval file; run it again once the missing parts are made.
 | scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py (copied unchanged from build-play references); record_approval.py (from /design-slice); eval_common.py, gather_eval.py, check_inputs.py, place_eval.py, check_eval.py, render_summary.py (this play) |
 | tests | test_shape_eval_scripts.py |
 | step_evals | 20 (SE-1…SE-20) |
-| scenario_evals | 10 (SCE-1…SCE-10) |
+| scenario_evals | 11 (SCE-1…SCE-11) |
 | recovery_entries | 16 (one per failure condition; 14 autonomous / 2 human) |

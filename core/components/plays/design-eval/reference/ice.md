@@ -9,13 +9,15 @@ A person names a business intent whose plan /shape-plan made. /design-eval write
 plan's evals folder: a scenario for each goal and each expectation of the plan's Feature issues, and for each failure
 condition in the hidden file of each slice the plan holds a scenario that shows it does not happen. The eval covers
 every feature of every slice the plan holds that its Slices list does not mark Dropped, also a feature whose Feature
-issue sits under another plan's epic (`held_by`); a dropped slice is left out. It reads only the plan's epic (with its feature-to-story map), the Feature issues the map names (their
+issue sits under another plan's epic (`held_by`); a dropped slice is left out, and so is a feature whose Feature issue
+item in the plan file is Dropped. It reads only the plan's epic (with its feature-to-story map), the Feature issues the map names (their
 scope of work and Context guidance) and the hidden file of each slice the plan holds. It never runs the eval. An eval
 is a fixed yardstick: a later run never changes a scenario that is there.
 
 ### Constraints
 
-- C1 — The run reads only the plan file (its `epic` mark and its Slices list), the plan's epic (with its
+- C1 — The run reads only the plan file (its `epic` mark, its Slices list and the status of each Feature issue item in
+  its tree), the plan's epic (with its
   feature-to-story map, which maps each feature to its Feature issue), the Feature issues the map names (their scope
   of work and Context guidance; each of type Feature, with the exact line `Represents: <feature id>`), and the hidden
   file of each slice the plan holds (`evals/<slug>/failure-and-recovery.md`, in the folder of the plan for the slice's
@@ -64,7 +66,12 @@ is a fixed yardstick: a later run never changes a scenario that is there.
 - C14 — The eval is bounded: it covers only the plan's features (the lines of its epic's map) that a slice which is not
   Dropped holds. A slice whose status in the plan file's Slices list is Dropped is left out: its features are not
   tested, it gets no section, and a feature that only dropped slices hold gets no feature file (one that a live slice
-  also holds is tested through the live slice). Each slice section of the plan file sets a time limit for each scenario (a scenario that runs out of time fails), so the count of
+  also holds is tested through the live slice). A feature whose Feature issue item in the plan file's tree is Dropped
+  is left out too (ontology v18: a feature dropped after it joined a plan stays listed there as Dropped, and the
+  plan's eval does not test it): it gets no feature file and no line in its slice's section, and the summary names it
+  under the reason "dropped from the plan". A feature file a run wrote for it earlier is kept and tagged out of the
+  plan, as C7 says for a feature that left the plan. A feature that only Dropped items hold is not a missing part
+  under C8 (its Feature issue and its hidden-file entry are not needed) and does not block the eval. Each slice section of the plan file sets a time limit for each scenario (a scenario that runs out of time fails), so the count of
   scenarios and the longest run are known before it runs.
 - C15 — No copy of the eval or of a hidden file stays in the run's short-term memory after the run: the drafts, the
   hidden-file copies and the copies of the plan's eval files from before the run are deleted when the eval is
@@ -99,7 +106,8 @@ is a fixed yardstick: a later run never changes a scenario that is there.
 - F13 — A step holds a guessed address, command or field in place of a name, or a name the eval uses is not in the
   plan file's list.
 - F14 — A slice section of the plan file has no time limit for its scenarios, the eval covers a feature that is not in
-  the plan's map or that only dropped slices hold, or a dropped slice got a section.
+  the plan's map, that only dropped slices hold or whose Feature issue item is Dropped, a dropped slice got a section,
+  or a feature that only Dropped items hold blocked the eval.
 - F15 — A copy of the eval or of a hidden file stays in the run's short-term memory after the run.
 - F16 — A feature file does not record the line text its scenarios cover, or a later run does not name a scenario
   whose Feature issue line moved or changed, or rewrites it.
@@ -107,9 +115,10 @@ is a fixed yardstick: a later run never changes a scenario that is there.
 ## Context
 
 - The product model's words, read through the memory tool: the ontology
-  (`standards/schemas/product-os/ontology.md`, v17: Plan with its Eval, Hidden files and Usage guides; Epic, one for
+  (`standards/schemas/product-os/ontology.md`, v18: Plan with its Eval, Hidden files and Usage guides; Epic, one for
   each plan, with its feature-to-story map; Feature issue with its Represents line, Scope of work and Context
-  guidance; Q28, Q29, Q31–Q36, Q56, Q57).
+  guidance; Q28, Q29, Q31–Q36, Q56, Q57; Feature, its rules: a feature dropped after it joined a slice or a plan
+  stays listed there as Dropped, but the plan does not build it and the plan's eval does not test it).
 - ADR 068 (each product feature has one Feature issue that names it and holds its scope of work) and ADR 069 (the
   plan is where the product model meets the work: one epic and one eval for each plan; it supersedes ADR 049 and
   ADR 057 and restates what holds from them: plain-text Gherkin that runs with no agent, one file for each Feature
@@ -131,7 +140,8 @@ is a fixed yardstick: a later run never changes a scenario that is there.
   `Feature:` is the Feature issue; one plan file with one section for each slice; `held_by` features are covered; a
   plan with a missing epic, Feature issue or hidden file gets no eval and is named. And (2026-11-12, #1025): a slice
   whose status in the Slices list is Dropped is left out of the eval; a feature a live slice also holds is still
-  tested.
+  tested. And (ontology v18, #1025): a feature whose Feature issue item in the plan file is Dropped is left out of the
+  eval; /design-eval reads this from the plan file's tree, never from the model.
 - Personas: the product owner (runs /design-eval, reads the summary, types yes); the eval runner, later, which runs the
   eval with no agent through the usage guide; the build, which is never given the eval (#898).
 
@@ -178,6 +188,13 @@ is a fixed yardstick: a later run never changes a scenario that is there.
   product owner runs /design-eval and types yes, then the plan gets its eval with one section, for the live slice, and
   no feature file for the dropped slice's own feature. Measure: the eval file check reads ok, the plan file has no
   section for the dropped slice, and `inputs.json` lists the dropped slice and the feature left out with why.
+- S11 — (product owner, a dropped feature) Given a plan with one live slice whose hidden file holds three features,
+  and a plan file whose tree marks the Feature issue item of one of them Dropped, and an eval from an earlier run with
+  a feature file for it, when the product owner runs /design-eval and types yes, then the plan gets its eval, the
+  slice's section lists only the two live features, the earlier feature file stays tagged out of the plan, and the
+  summary names the dropped feature under "dropped from the plan". Measure: `inputs.json` reads `ready: true` and
+  lists the feature in `left_out` with the why "dropped from the plan", the eval file check and the yardstick check
+  read ok, and the feature file carries `@out-of-plan`.
 
 ### Done means
 
@@ -219,8 +236,10 @@ is a fixed yardstick: a later run never changes a scenario that is there.
 - REC12 (F12) — write the step again with a sentence of the library; when a slice's surface kind has no library, take
   back the plan's eval and name the slice in the summary. Handoff: autonomous.
 - REC13 (F13) — put a name in place of the guess, and add each name to the plan file's list. Handoff: autonomous.
-- REC14 (F14) — set the time limit in each slice section of the plan file, and take out the feature that is not in the
-  plan's map or that only dropped slices hold, and the section of a dropped slice. Handoff: autonomous.
+- REC14 (F14) — set the time limit in each slice section of the plan file; take out the feature that is not in the
+  plan's map, that only dropped slices hold or whose Feature issue item is Dropped (tag its earlier feature file out
+  of the plan), and the section of a dropped slice; and take back the not-ready verdict that a feature only Dropped
+  items hold caused. Handoff: autonomous.
 - REC15 (F15) — delete the drafts, the hidden-file copies and the copies of the eval files from the run's short-term
   memory, and from its records commit when they were committed. Handoff: autonomous.
 - REC16 (F16) — write the Lines covered list with each covered line's exact text; for a line that moved or changed, put
