@@ -1,6 +1,6 @@
 # ADR 065 — The Model's Index Is Changed Through Two Skills, a Person May Approve Deleting a Plan, the Model Never Names a Plan, and Only Tools Know the Tracker
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Rule 3, 'The product model never names a plan ... Naming a plan means naming one particular plan': widened — the model holds no reference to a plan, a plan's folder, an eval, a hidden file, an epic, a tracker issue or the tracker; this includes an issue number cited as a source and a created_by or updated_by line that names an issue. Its last sentence, 'A part about plans may still describe them', stands. Rules 1, 2 and 4 stand. Also its line on ADR 026, 'The profile and decisions/ stay with the play's script' (§ What this decision does, line 50; What this changes, line 147): decisions/ leaves the model; the profile stays with the play's script.
 **Date:** 2026-11-02
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja

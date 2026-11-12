@@ -1,0 +1,12 @@
+pr: 1049
+issue: 1048
+base: main
+categories: [decision-records, run-records]
+layer1_checks:
+  decision-records (review/adrs playbook, hand checklist): "ADR 067 has Context, Decision, Consequences and Alternatives Considered; Status is Accepted; it is in the index (4 mentions of 067); ADRs 048, 049 and 056 each change by one line (the forward pointer); the installed ADR lint (adr.py lint --adr) returns no problems"
+  run-records (no playbook): "every changed JSON file parses; no home-folder path, temp path, secret or token in added lines"
+layer2: "none — no design-bearing category"
+findings: []
+counts: {}
+notes:
+  - "The review shelf has no playbook for run records; the adrs playbook names no runnable linter although one is installed. Both are outside this PR."

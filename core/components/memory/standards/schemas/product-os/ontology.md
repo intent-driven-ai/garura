@@ -1,24 +1,26 @@
 ---
 ontology: product
-version: 15
-updated: 2026-10-31
+version: 17
+updated: 2026-11-12
 ---
 
 # Product Ontology
 
-The agreed map of what a product is made of in Garura: the kinds of things, what each holds, how they connect, and what must always be true. A person and an agent reading it use the same words for the same things. It defines thirteen kinds in two layers, with the Plan as the thread between them: the **product layer** — Business Intent, Source, Domain, Capability, Feature, Slice and ICE; the **Plan**; and the **work layer** — Epic, Story, Spike, Chore and Bug. It grows one kind at a time, through the `specify-ontology` play, and the product owner agrees each change.
+The agreed map of what a product is made of in Garura: the kinds of things, what each holds, how they connect, and what must always be true. A person and an agent reading it use the same words for the same things. It defines fourteen kinds in two layers, with the Plan as the one place where the two meet: the **product layer** — Business Intent, Source, Domain, Capability, Feature, Slice and ICE; the **Plan**; and the **work layer** — Epic, Feature issue, Story, Spike, Chore and Bug. It grows one kind at a time, through the `specify-ontology` play, and the product owner agrees each change.
 
-How it flows: a person gives an intent → it becomes a **Business Intent** here and an issue labelled `product` in the tracker → the Business Intent links to its **Capabilities** and holds no **ICE**; each Capability has **Features**, and each Capability and each Feature has exactly one ICE, its own node → a **Slice** groups Features from any Capabilities, in order, into one vertical a person can test end to end; `/design-slice` writes the link "slice serves business intent", a thin ICE for each part the slice needs that has no ICE, and the slice's hidden file, with one entry for each Feature → the plan play makes a **Plan** right after `/design-slice`: the Plan is given the Business Intent, holds every Slice that serves it, and creates one **Epic** for each, with its Stories, and writes nothing in the evals folder → the Epic holds one **Story** for each Feature of the Slice, and keeps the map from each Feature to its Story; each Story delivers its Feature and writes its scope of work from every line of its Feature's ICE and its Capability's ICE except the "Fails if" lines → a **Spike**, **Chore** or **Bug** is a child of one Story → as work finishes, the Business Intent is updated with what was done.
+How it flows: a person gives an intent → it becomes a **Business Intent** here and an issue labelled `product` in the tracker → the Business Intent links to its **Capabilities** and holds no **ICE**; each Capability has **Features**, and each Capability and each Feature has exactly one ICE, its own node → a **Slice** groups Features from any Capabilities, in order, into one vertical a person can test end to end; `/design-slice` writes the link "slice serves business intent", a thin ICE for each part the slice needs that has no ICE, and, on the work side, the slice's hidden file, with one entry for each Feature → the plan play makes a **Plan** right after `/design-slice`: the Plan is given the Business Intent, holds every Slice that serves it and records each with its status, has one **Epic**, and finds or files the **Feature issue** of each Feature of its Slices that is not yet built, and writes nothing in the evals folder → the Epic holds the Feature issues of all the plan's Slices and the plan's chores, and keeps the map from each Feature to its Feature issue; each Feature has exactly one Feature issue, whose text names it (`Represents: <feature id>`) and holds its scope of work, written from every line of its Feature's ICE and its Capability's ICE except the "Fails if" lines → a **Story** is one piece of work inside one Feature issue → a **Spike** or a **Bug** is a child of one Story, and a **Chore** is a child of one Story or of the plan's Epic → a person closes the Feature issue, and its Feature is built → the plan's one eval tests every feature of its Slices, and a done plan lands on main only when that eval passes → as work finishes, the Business Intent is updated with what was done.
 
 The links, in five lines:
 
-1. A Plan is made by the plan play right after `/design-slice`. It is given one Business Intent; it holds every Slice that serves that intent; it creates one Epic for each Slice, with its Stories (three actions, in this order). It writes nothing in the evals folder.
-2. An Epic holds Stories; each Story sits inside exactly one Epic.
-3. A Story delivers one Feature, and with it that Feature's part of its Capability.
-4. A Spike, Chore or Bug is a child of one Story. It reaches the Feature, the Epic and the Business Intent through that Story.
-5. Domains and Capabilities are in the product model only; no work item links to them. A Story reaches its Capability through its Feature.
+1. A Plan is made by the plan play right after `/design-slice`. It is given one Business Intent; it holds every Slice that serves that intent and records each with its status; it has one Epic, and finds or files the Feature issue of each Feature of its Slices that is not yet built (three actions, in this order). It writes nothing in the evals folder. It is the one place where the model meets the work: the model names no plan.
+2. An Epic is the one work item of a Plan and holds the Feature issues of all that plan's Slices; each Feature issue sits under one Epic at a time, and each Story sits inside exactly one Feature issue.
+3. A Feature issue stands for one Feature, and its text names it (`Represents: <feature id>`). The link is kept on the issue only, never in the model. Each Feature has exactly one Feature issue.
+4. A Spike or a Bug is a child of one Story. A Chore is a child of one Story, or of the plan's one Epic when the upkeep is for the plan as a whole. Each reaches the Feature, the Epic and the Business Intent through its parent; a Chore under the Epic reaches no Feature.
+5. Domains and Capabilities are in the product model only; no work item links to them. A Feature issue reaches its Capability through its Feature.
 
-In the tracker, an Epic is an issue of type Epic and a Story an issue of type Story, each with no label. The label `product` is on a Business Intent only, and the label `work-item` on a Spike, a Chore or a Bug only. A Feature and a Slice are not issue types: in the tracker, a Story represents a Feature and an Epic represents a Slice. The tracker's type Feature is not the Feature kind: in a plan, an issue of type Feature is a feature item, a group of stories inside an epic (see Plan). Domain, Capability, Source and ICE are in the model only; a Plan is a file. Work is the name of the layer, not a kind. The `*-change` plays act on work items only.
+In the tracker, an Epic is an issue of type Epic, a Feature issue an issue of type Feature, and a Story an issue of type Story, each with no label. The label `product` is on a Business Intent only, and the label `work-item` on a Spike, a Chore or a Bug only. A Feature and a Slice are in the model only: in the tracker, a Feature issue stands for a Feature, and no issue stands for a Slice; an Epic is the one work item of a Plan. The tracker's type Feature means only the Feature issue: each Feature has exactly one, and its text names the Feature in the line `Represents: <feature id>`. That line is the only link, and it points one way, from the tracker to the model. The old feature item (a group of stories that stood for nothing) goes. Domain, Capability, Source and ICE are in the model only; a Plan is a file. Work is the name of the layer, not a kind. The `*-change` plays act on work items only.
+
+**The model knows no plan, no tracker and no decision record.** No part of the product model holds a reference to the work side: no plan id, plan folder, eval, hidden file, epic, tracker issue number or link, or the tracker — not in a page, its Sources, a spine entry or the spine's metadata. The links run one way, from the work side to the model: a plan names its slices, and a Feature issue names its feature. The spine's `created_by` and `updated_by` name the play or the agent and what it did, never an issue. Git history keeps where a part came from. The spine has no `epics` list, and no part of the model holds a work status: whether a slice is in progress is read from the plan files. The ids that exist (`bi-<n>`, `fn-<n>`) stay as names. A part whose subject is plans may still describe plans in general. No decision record lives in the model, and no part links to one: a product decision is the person's answer, kept as the content of the part it decides; an ADR records a decision about the code and is kept in the project's ADR folder.
 
 **Nothing is blocked** (the product owner, 2026-10-21). A plan can be built and worked on before the product model is complete; the model grows as plans are built, and `/specify-domains` and `/specify-capabilities` fill the gaps later.
 
@@ -27,7 +29,7 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
 ## Questions it must answer
 
 - **Q1** — Given a business intent and the product as it is today, which types of work does it need — Epic, Story, Spike, Chore, Bug — what value does each bring, and when would a type be wrong for it?
-  **Answered by:** Plan holds Slice; Epic represents Slice; Story represents Feature; Spike, Chore and Bug are children of a Story (a Spike or a Bug needs a built Story); in a Plan's tree a feature item may group Stories inside an Epic — the Plan's own word, not a kind
+  **Answered by:** Plan holds one or more Slices and has one Epic; the Epic holds the Feature issues of all the plan's Slices; Feature issue stands for Feature; a Story sits inside a Feature issue; a Spike or a Bug is a child of a Story (a Spike or a Bug needs a built Story); a Chore sits under a Story or under the plan's Epic
   **Status:** answered
 - **Q2** — Given a new business intent, which parts of the product does it touch — and for each, does it change, add or remove something — at the level of a domain, a capability or a feature?
   **Answered by:** Business Intent has Capability and touches Domain (each marked change, add or remove on its Touches list); Capability has Feature
@@ -36,7 +38,7 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
   **Answered by:** Business Intent has Capability, compared across intents
   **Status:** partly
 - **Q4** — For this intent, which work did agents finish on their own, and where did a person have to step in?
-  **Answered by:** Plan tree gives the closed items (Epic, feature item, Story, Spike, Chore, Bug); no kind yet holds where a person stepped in
+  **Answered by:** Plan tree gives the closed items (Epic, Feature issue, Story, Spike, Chore, Bug); no kind yet holds where a person stepped in
   **Status:** not yet
 - **Q5** — What was this intent drawn from (its source), and what did it show at the time?
   **Answered by:** Source shows Business Intent
@@ -45,7 +47,7 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
   **Answered by:** Business Intent (its proof and its stage)
   **Status:** answered
 - **Q7** — Given a business intent, what does its plan hold?
-  **Answered by:** Plan is given Business Intent; Plan holds every Slice that serves it (Slice serves Business Intent); Plan creates one Epic for each Slice, with its Stories; a feature item may group Stories inside an Epic (Plan, its item kinds); Story represents Feature; Spike, Chore and Bug are children of a Story; each work item's state; the Plan's Status, Direction and Branch (Q41, Q42, Q44)
+  **Answered by:** Plan is given Business Intent; Plan holds every Slice that serves it (Slice serves Business Intent) and records each Slice with its status in its Slices list; Plan has one Epic, which holds the Feature issue of each Feature of all its Slices, and the plan's Chores; Plan finds or files the Feature issue of each Feature that is not yet built; Feature issue stands for Feature; Story sits inside a Feature issue (Plan, its item kinds); Spike and Bug are children of a Story; each work item's state; Plan has one eval; the Plan's Status, Direction and Branch (Q41, Q42, Q44)
   **Status:** answered
 - **Q8** — Given a capability or a feature, which is its one ICE, and where is its page?
   **Answered by:** ICE is for one Capability or one Feature; each Capability and each Feature has exactly one ICE, on its own page with its own spine entry
@@ -54,7 +56,7 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
   **Answered by:** ICE is for a Capability or a Feature; Feature has one parent Capability; Capability serves Business Intent
   **Status:** answered
 - **Q10** — Can work start on this ICE now — is it ready, partly ready or not ready — and what stops it (a missing part, no confirmed business intent, a needed capability not done), or which gaps are listed?
-  **Answered by:** ICE (the ready check, with three answers); Capability serves Business Intent; Capability needs Capability; Capability is done when every Feature in it is delivered
+  **Answered by:** ICE (the ready check, with three answers); Capability serves Business Intent; Capability needs Capability; Capability is done when every Feature in it is built (its Feature issue is closed as completed)
   **Status:** answered
 - **Q11** — Which capabilities must be done before this capability, or a feature in it, can start?
   **Answered by:** Capability needs Capability; Feature has one parent Capability (a Feature never needs anything)
@@ -62,8 +64,8 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
 - **Q12** — Which capability led us to find this capability?
   **Answered by:** Capability identified by Capability
   **Status:** answered
-- **Q13** — Given a feature's ICE, which story delivers it, which epic holds that story, and which children does the story have?
-  **Answered by:** ICE is for Feature; Story represents Feature and is written from the ICE; Story sits in Epic; Spike, Chore and Bug are children of the Story
+- **Q13** — Given a feature's ICE, which Feature issue is written from it, which epic holds that Feature issue, and which stories and children does it have?
+  **Answered by:** ICE is for Feature; Feature issue stands for Feature and is written from the ICE; Feature issue sits under Epic; Story sits inside the Feature issue; Spike, Chore and Bug are children of a Story
   **Status:** answered
 - **Q14** — When a second business intent changes a capability, which ICE changes?
   **Answered by:** ICE (the capability's one ICE is updated to cover both); Capability serves Business Intent
@@ -77,23 +79,23 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
 - **Q17** — Given a slice, which features does it group, and in what order?
   **Answered by:** Slice groups Feature, in order; Feature has one Capability
   **Status:** answered
-- **Q18** — Given a slice, which epic delivers it, which stories does that epic hold, and which spikes, chores and bugs are under each story?
-  **Answered by:** Epic represents Slice; Epic holds Story; Spike, Chore and Bug are children of a Story
+- **Q18** — Given a slice, which epic delivers it, which Feature issues and stories does that epic hold, and which spikes, chores and bugs are under each story?
+  **Answered by:** the one Epic of each Plan that holds the Slice; that Epic holds the Feature issues of this Slice and of the plan's other Slices; Story sits inside a Feature issue; Spike, Chore and Bug are children of a Story, and a Chore can also sit under the Epic. The Slice names no Epic: the plan file names its Slices
   **Status:** answered
-- **Q19** — Given a feature, which slices group it, which story delivers it, and which epic holds that story?
-  **Answered by:** Slice groups Feature; Story represents Feature (one Story in each Epic); Story sits in Epic
+- **Q19** — Given a feature, how many slices and plans can hold it, which Feature issue stands for it, and which epic holds that Feature issue?
+  **Answered by:** Slice groups Feature and Plan holds Slice, many to many: one Feature can be in many Slices and many Plans, and it still has exactly one Feature issue; Feature issue stands for Feature; Feature issue sits under one Epic at a time; a Plan whose Epic does not hold it shows it with the mark `held_by` (Plan)
   **Status:** answered
 - **Q20** — Given a tracker issue, which kind is it?
-  **Answered by:** the issue type names the kind: type Epic is an Epic and type Story is a Story, each with no label (R1, R2); label `product` is a Business Intent; label `work-item` with its kind is a Spike, a Chore or a Bug. The type Feature names no kind of this ontology: in a plan, an issue of type Feature is a feature item, a group of stories inside an epic (Plan), never the Feature kind. Which Epic stands for a slice, and which Story for a feature, is found by the plan file's `represents` mark, never by type or title (R3).
+  **Answered by:** the issue type names the kind: type Epic is an Epic, type Feature is a Feature issue and type Story is a Story, each with no label (R1, R4, R2); label `product` is a Business Intent; label `work-item` with its kind is a Spike, a Chore or a Bug. A Feature issue stands for exactly one Feature, named in its text by the line `Represents: <feature id>`; an issue of type Feature with no such line is drift, not a Feature issue. The old feature item goes. A plan's one Epic is found by the plan file's `epic` mark; which Feature issue stands for a feature is found by the plan file's `represents` mark, else by the exact `Represents:` line — never by type alone and never by title (R3).
   **Status:** answered
 - **Q21** — Given a spike, which built story is it on, what suggestion started it, and what building did it lead to?
   **Answered by:** Spike is a child of a built Story; Spike started from a suggestion; Spike led to Business Intent, Feature or Story
   **Status:** answered
-- **Q22** — Given a work item, which business intent does it serve, and through which story, epic and plan?
-  **Answered by:** Story sits in Epic (a Story under a feature item sits in the Epic above it); Epic serves Business Intent; a Spike, Chore or Bug goes through its parent Story; Plan created the Epic
+- **Q22** — Given a work item, which business intent does it serve, and through which story, Feature issue, epic and plan?
+  **Answered by:** Story sits inside a Feature issue, and the Feature issue sits under an Epic; Epic serves Business Intent; a Spike, Chore or Bug goes through its parent Story; Plan created the Epic
   **Status:** answered
-- **Q23** — Given an epic, which of its stories, and of their children, are delivered, and which are still open?
-  **Answered by:** Epic holds Story, straight under it or through a feature item (Plan); Spike, Chore and Bug are children of a Story; each work item's state
+- **Q23** — Given an epic, which of its Feature issues, their stories and their children are closed, and which are still open?
+  **Answered by:** Epic holds Feature issue; Story sits inside a Feature issue; Spike, Chore and Bug are children of a Story; each work item's state
   **Status:** answered
 - **Q24** — Given a bug, which story introduced the defect, and so which epic?
   **Answered by:** Bug is a child of the Story that introduced the defect; Story sits in Epic
@@ -101,50 +103,50 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
 - **Q25** — Given a business intent, which slices serve it?
   **Answered by:** Slice serves Business Intent (the slice's `intents` list, written by `/design-slice` when it shapes the slice)
   **Status:** answered
-- **Q26** — Given a story, what does it deliver, what is its scope of work, and which ICEs was it written from?
-  **Answered by:** Story represents Feature; Story is written from two ICE (its Feature's and its Capability's); Story scope of work (the goals, the limits and the expectations) and Story Context guidance — never a failure condition or a recovery condition
+- **Q26** — Given a feature, which tracker issue holds its scope of work and its Context guidance, and which ICEs was it written from?
+  **Answered by:** Feature issue (its scope of work — the goals, the limits and the expectations — and its Context guidance, never a failure condition or a recovery condition); Feature issue is written from two ICE (its Feature's and its Capability's); a Story is one piece of the work inside it and holds neither
   **Status:** answered
 - **Q27** — Given a slice, which business intents does it serve?
   **Answered by:** Slice serves Business Intent — one or more, the first in its list being the one it was first shaped for
   **Status:** answered
-- **Q28** — Given a slice, where is its eval kept?
-  **Answered by:** Slice (its eval, in the evals folder of the Plan for its first Business Intent: `.garura/project/plans/<plan-id>/evals/<slice>/`); Plan (its folder); a builder never reads it
+- **Q28** — Given a slice, which eval tests it?
+  **Answered by:** Plan (the one eval of each Plan that holds the Slice, kept in that plan's evals folder); a Slice has no eval of its own, and names no eval and no folder; a builder never reads the eval
   **Status:** answered
-- **Q29** — Given a slice, what does its eval read, and when?
-  **Answered by:** Slice (its eval, at two times: the eval play reads its Epic with its feature-to-story map, the Stories in that Epic and its hidden file, and joins each entry to its Story through that map, to build the eval; the eval, when it runs on the built product, reads the eval, the usage guide, the Context guidance in the eval and, in the hidden file, only the recovery parts of each entry — when, way back, who fixes — never the failure conditions); Epic (what it delivers, and its feature-to-story map); Story (its scope of work: the goals, the limits and what is expected); Slice hidden file (the failure conditions that must not happen)
+- **Q29** — Given a plan, what does its eval read, and when?
+  **Answered by:** Plan (its eval, at two times: the eval play reads the plan's Epic with its feature-to-story map, the Feature issues that map names and the hidden file of each Slice the plan holds, and joins each entry to its Feature issue through that map, to build the eval; the eval, when it runs on the built product, reads the eval, the usage guides, the Context guidance in the eval and, in the hidden files, only the recovery parts of each entry — when, way back, who fixes — never the failure conditions); Epic (what the plan delivers, and its feature-to-story map); Feature issue (its scope of work: the goals, the limits and what is expected); the hidden file of each Slice (the failure conditions that must not happen)
   **Status:** answered
 - **Q30** — When a new slice is shaped for a business intent that already has a plan, which plan holds it?
-  **Answered by:** Plan (one plan for each Business Intent; the new Slice and its Epic are added to it); Slice serves Business Intent
+  **Answered by:** Plan (one plan for each Business Intent; `/reshape-plan` adds the new Slice: the plan file records it, and its Feature issues go under the plan's one Epic; no second Epic and no second plan); Slice serves Business Intent
   **Status:** answered
-- **Q31** — Given a built slice, how does its eval learn to use it?
-  **Answered by:** Slice (its usage guide, delivered by the build, in the guides folder of its home Plan)
+- **Q31** — Given a built slice, how does the plan's eval learn to use it?
+  **Answered by:** Plan (the usage guide the build delivers, in the plan's guides folder; how the guides are laid out is left to the `/design-eval` rework); the Slice names no guide
   **Status:** answered
 - **Q32** — Given a story, what does the agent that builds it see?
-  **Answered by:** Story (its scope of work — the goals, the limits and the expectations — and its Context guidance; never a failure condition or a recovery condition); the context the build play's context sub-agent collects from the guidance into the issue's short-term memory; Slice (a builder never reads its eval folder)
+  **Answered by:** Feature issue (its scope of work — the goals, the limits and the expectations — and its Context guidance; never a failure condition or a recovery condition); the Story itself; the context the build play's context sub-agent collects from the guidance into the issue's short-term memory; Plan (a builder never reads a plan's evals folder)
   **Status:** answered
 - **Q33** — Given a slice, where are its failure conditions and recovery conditions kept, and what does each entry hold?
-  **Answered by:** Slice (its hidden file `failure-and-recovery.md`, in its eval folder `.garura/project/plans/<plan-id>/evals/<slice>/`, one entry for each feature of the slice: the feature, its capability, the two ICE and which is thin, its failure conditions with their ids, and one recovery condition for each — when, way back, who fixes); a builder never reads it
+  **Answered by:** Plan (the Slice's hidden file `failure-and-recovery.md`, in `evals/<slug>/` of the plan for the intent the Slice was first shaped for; the plays work out the place, and the Slice names no hidden file; one entry for each feature of the slice: the feature, its capability, the two ICE and which is thin, its failure conditions with their ids, and one recovery condition for each — when, way back, who fixes); a builder never reads it
   **Status:** answered
 - **Q34** — Who writes the failure conditions and recovery conditions of a slice, and when?
   **Answered by:** Slice (`/design-slice` writes its hidden file when it shapes the slice, one entry for each feature, from that feature's ICE and its capability's ICE, with exactly one recovery condition for each "Fails if" line, and adds an entry when the slice gains a feature); Plan (the plan play writes nothing in the evals folder)
   **Status:** answered
-- **Q35** — When a slice's eval finds a failure, what does the builder get back?
-  **Answered by:** Slice (its eval writes a handoff plan from the recovery condition: what the product does wrong and the way back, never the failure condition, its id or the check; it goes to the builder when the builder can fix it alone, and to a person when a person must decide)
+- **Q35** — When a plan's eval finds a failure, what does the builder get back?
+  **Answered by:** Plan (its eval writes a handoff plan from the recovery condition: what the product does wrong and the way back, never the failure condition, its id or the check; it goes to the builder when the builder can fix it alone, and to a person when a person must decide)
   **Status:** answered
-- **Q36** — Given an entry in a slice's hidden file, which story of the epic is it for?
-  **Answered by:** Epic (its feature-to-story map, written by the plan play); the eval play joins each entry to its story by the entry's feature; Story holds no failure condition and no recovery condition
+- **Q36** — Given an entry in a slice's hidden file, which Feature issue of the epic is it for?
+  **Answered by:** the plan's one Epic (its feature-to-story map, written by the plan play, has one line for each feature of each Slice the Plan holds); the eval play joins each entry to its Feature issue by the entry's feature; Feature issue holds no failure condition and no recovery condition
   **Status:** answered
 - **Q37** — Given an ICE, which play reads each part of it, so each part has one interpretation?
-  **Answered by:** ICE (each line has one reader: `/design-slice` reads the "Fails if" lines and writes the hidden file; the plan play reads every other line and writes the story); Slice is written from ICE; Story is written from ICE; a builder reads neither
+  **Answered by:** ICE (each line has one reader: `/design-slice` reads the "Fails if" lines and writes the hidden file; the plan play reads every other line and writes the Feature issue); Slice is written from ICE; Feature issue is written from ICE; a builder reads neither
   **Status:** answered
 - **Q38** — When a slice or a plan needs a capability or a feature that has no ICE, what ICE does it get?
   **Answered by:** ICE (a thin ICE, proposed from the person's words by the play that needs it — today `/design-slice` or `/reshape-plan` — with at least a goal, a limit and one "Fails if" line in Intent, one line in Context, one line in Expectation, and the thin mark on its page and in its spine entry; the warning, never a stop; the mark stays until a play deepens it)
   **Status:** answered
-- **Q39** — When an ICE changes after its hidden-file entry and its story are made, which play makes each again?
-  **Answered by:** Story (both are drift for the Alignment loop; in the same round the plan play makes the story again and `/design-slice` makes the entry again, from the same two ICE)
+- **Q39** — When an ICE changes after its hidden-file entry and its Feature issue are made, which play makes each again?
+  **Answered by:** Feature issue (both are drift for the Alignment loop; in the same round the plan play makes the Feature issue again and `/design-slice` makes the entry again, from the same two ICE)
   **Status:** answered
 - **Q40** — Where does `/design-slice` write the hidden file when the business intent has no plan yet?
-  **Answered by:** Slice (at `.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`, `<plan-id>` worked out from its first business intent; `/design-slice` makes the folder); Plan (the plan play finds the folder there)
+  **Answered by:** Plan (in the folder of the plan the intent will have, at `.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`, `<plan-id>` worked out from the Slice's first business intent; `/design-slice` makes the folder, and the plan play finds it there); nothing in the model stores the place
   **Status:** answered
 - **Q41** — Given a plan, what is its status?
   **Answered by:** Plan (its Status: Not Started, In Progress, Paused, Done or Dropped, set by a person and never worked out from the work in the plan; its States)
@@ -153,7 +155,7 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
   **Answered by:** Plan (its Direction: 1 (next), 2 (next in line), 3 (later) or none, set by a person and never worked out from the work; not a ranking)
   **Status:** answered
 - **Q43** — Given an item in a plan, which kind of item can hold it?
-  **Answered by:** Plan (its Item kinds: an epic at the top; a feature item under an epic; a story under an epic or a feature item; a spike, a chore or a bug under a story); Epic holds Story; Spike, Chore and Bug are children of a Story
+  **Answered by:** Plan (its Item kinds: its one epic at the top; a feature (a Feature issue) under the epic; a story under a feature; a spike or a bug under a story; a chore under a story or under the epic, by the rule of the Chore); Epic holds Feature issue and the plan's Chores; Story sits inside exactly one Feature issue, never straight under an epic; Spike and Bug are children of a Story; Chore is a child of a Story or of the Epic
   **Status:** answered
 - **Q44** — Given a plan, on which branch is its work done?
   **Answered by:** Plan (its Branch, `plan/<id>/base`, while its work is in progress; every change to the plan is made there, and main's copy names it)
@@ -167,15 +169,63 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
 - **Q47** — Given an ICE, how does a person know it is thin?
   **Answered by:** ICE (the thin mark: the Thin line "Thin: proposed from the person's words; deepen with `/specify-capabilities`." at the top of its page, and `thin: true` in its spine entry's `metadata`; a page that still opens with the old Thin line is thin)
   **Status:** answered
+- **Q48** — Given a feature, which tracker issue stands for it, and how does a play find it?
+  **Answered by:** Feature issue (R3: first by the plan file's `represents` mark; else by the one issue of type Feature, open or closed, whose text has the exact line `Represents: <feature id>`; two such issues are a duplicate, and the run stops and asks the person; never by title); each Feature has exactly one Feature issue
+  **Status:** answered
+- **Q49** — Does a feature in the product model name its tracker issue?
+  **Answered by:** Feature (it holds no tracker issue number: no property, page or spine entry of a feature names an issue); Feature issue (its `Represents:` line is the only link, and it points one way, from the tracker to the model)
+  **Status:** answered
+- **Q50** — Which features can a new slice or plan take in?
+  **Answered by:** Slice and Plan (each takes in only features that are not yet built; `/design-slice` reads the state of each Feature issue through the tracker tool; a feature built after it joined stays and counts complete)
+  **Status:** answered
+- **Q51** — When a second epic needs a Feature issue, which epic holds it?
+  **Answered by:** Feature issue (it sits under one Epic at a time; the play asks the person which Epic it goes under, and does not move it without that answer); Epic; Plan (the other plan shows it with the mark `held_by: <epic>`; a move is made in a `/reshape-plan` session of the plan it moves to, which names the plan it leaves as owed)
+  **Status:** answered
+- **Q52** — When does a feature count as built?
+  **Answered by:** Feature (Built: its Feature issue is closed as completed, by a person, through `/reshape-plan` "finish"; closed Stories do not build it; closed as not planned is not built); Feature issue (no roll-up); every Slice and Plan that holds it counts it complete; Capability is done when every Feature in it is built
+  **Status:** answered
+- **Q53** — What happens to a Story with no Feature issue as its parent?
+  **Answered by:** Story (an orphan Story is matched to its feature by research in the product model, and goes inside that feature's Feature issue; when no feature fits, the feature is made and its Feature issue is filed)
+  **Status:** answered
+- **Q54** — Can a part of the product model name a plan, an epic, an eval, a hidden file, a tracker issue or the tracker?
+  **Answered by:** the rule for the whole model (the model knows no plan, no tracker and no decision record): no Business Intent, Domain, Capability, Feature, Slice or ICE names a plan, an epic, an eval, a hidden file, a tracker issue or the tracker; the links run one way, from the work side to the model — Plan holds Slice and names it, Feature issue stands for Feature and names it; a part about plans may still describe plans in general
+  **Status:** answered
+- **Q55** — How many epics does a plan have?
+  **Answered by:** Plan has one Epic, named by its `epic` mark; Epic holds the Feature issues of all the plan's Slices, with their Stories inside them, and the plan's Chores; a Bug still sits under the Story that brought the defect in
+  **Status:** answered
+- **Q56** — Given a plan, which eval tests its work?
+  **Answered by:** Plan (its one eval covers every feature of every Slice it holds, also a Feature whose Feature issue sits under another plan's Epic, `held_by`; when two plans hold one Slice, each plan's eval tests its features)
+  **Status:** answered
+- **Q57** — When does a done plan land on main?
+  **Answered by:** Plan (a done plan lands on main only when its eval passes; until the eval runner, #801, exists, the harness runs the eval by hand before the plan lands; a paused plan still merges into main)
+  **Status:** answered
+- **Q58** — Given a slice, where do we read whether its work is in progress?
+  **Answered by:** Plan (its Slices list records each Slice it holds with its status — Not Started, In Progress, Done or Dropped — and a person sets it; when two plans hold one Slice, each plan file records its own status); the model is not asked, and a Slice holds no work status
+  **Status:** answered
+- **Q59** — Given a business intent, how do we find its plan and its tracker issue?
+  **Answered by:** Plan (the plan file names its Business Intent on its first line, and the plan's ID is the intent's issue number); Business Intent (its page has no Tracker line and names no plan; its id `bi-<n>` stays as a name)
+  **Status:** answered
+- **Q60** — Given a business intent, what was done for it?
+  **Answered by:** Business Intent (its What was done says what was delivered and the value it brought, in plain words, and links to no work item); the Plan and its issues point back at the intent
+  **Status:** answered
+- **Q61** — Given a part of the model, where do we see where it came from?
+  **Answered by:** the rule for the whole model (git history keeps where a part came from; the spine's `created_by` and `updated_by` name the play or the agent and what it did, never an issue; no spine entry holds an issue number, and no page cites an issue in its Sources) — for every Business Intent, Domain, Capability, Feature, Slice and ICE
+  **Status:** answered
+- **Q62** — Given a product decision, where is it kept?
+  **Answered by:** the rule for the whole model (a product decision is the person's answer to a play's question, kept as the content of the part it decides — for example a Business Intent's proof, or the Product Profile's security level and its gate; no decision record lives in the model, and no part links to one; the reason a part changed is in git history); the Product Profile is not yet defined
+  **Status:** partly
+- **Q63** — What does an ADR record, and where is it kept?
+  **Answered by:** the rule for the whole model (an ADR records a decision about the code: how the agents and the plays work, and how the product is built; it is kept in the project's ADR folder, `docs/adr/` for Garura, in Markdown, never in the model; an accepted ADR is never edited, and a new decision is a new ADR); Business Intent, Domain, Capability, Feature, Slice and ICE hold no decision record
+  **Status:** answered
 
 ## Kinds
 
 ### Business Intent
 
-**What it is:** What a person or the organisation wants, in their words: the outcome as a hypothesis (what should be true, why it matters, and how we will know it is met), the boundaries it must stay inside, the rules it must keep, and the capabilities that serve it. It is the person's interface to the product, and it is for tracking. It holds no ICE, and Garura never works on a business intent directly: agents work on the ICE of its capabilities and of their features. It is not ICE (the agent's intent) and not a work item.
+**What it is:** What a person or the organisation wants, in their words: the outcome as a hypothesis (what should be true, why it matters, and how we will know it is met), the boundaries it must stay inside, the rules it must keep, and the capabilities that serve it. It is the person's interface to the product, and it is for tracking. Its page names no plan, no tracker issue and no work item: its plan and the tracker point at it. It holds no ICE, and Garura never works on a business intent directly: agents work on the ICE of its capabilities and of their features. It is not ICE (the agent's intent) and not a work item.
 **Who reads it:** person
 **Layer:** product
-**In the tracker as:** an issue labelled `product` — the only kind with that label
+**In the tracker as:** an issue labelled `product` — the only kind with that label. Its page does not name the issue; the plan's ID is the issue's number
 **Lives at:** `product-os/intents/<id>.md` — one plain-words page per business intent
 
 **Properties**
@@ -192,7 +242,7 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
 | Stage | proposed, confirmed, met, or dropped | yes |
 | Confirmed by and when | Who agreed it says the right thing, and when | yes, once confirmed |
 | Touches | Every domain and capability it reaches into, each marked adds, changes or removes, with a link to that part's page — the **Touches** list on its page, written by a script whenever a play links a part to it. It does not name features; a feature is reached through its parent capability | no, until a part is linked |
-| What was done | What was delivered for it and the value each piece brought, with links to the finished work items — updated as work finishes | no, until work finishes |
+| What was done | What was delivered for it and the value each piece brought, in plain words; it links to no work item — updated as work finishes | no, until work finishes |
 
 The hypothesis is the Outcome, the Why and the Proof it is met; the boundaries are Must not.
 
@@ -207,12 +257,13 @@ The hypothesis is the Outcome, the Why and the Proof it is met; the boundaries a
 | this → other | Business Intent | many | It was **identified by** another business intent — building one led us to find this one. A connection, never a dependency: neither waits on the other |
 | this → other | Domain | many | It touches a domain — a loose link, for search only; never in a plan, never a stop (the domain's spine `intents` holds the other side) |
 | other → this | Plan | one | Its one plan is given it; the plan's ID is this intent's issue number |
-| other → this | Epic | many | An epic serves it |
+| other → this | Epic | one | The epic of its plan serves it |
 
 **Rules**
 
-- It is a destination: sources, capabilities, slices, its plan and its epics point at it. It points only at its capabilities, the business intents it was identified by and, loosely, its domains. It does not point at its slices; they are found from the slices' side.
+- It is a destination: sources, capabilities, slices, its plan and its plan's epic point at it. It points only at its capabilities, the business intents it was identified by and, loosely, its domains. It does not point at its slices; they are found from the slices' side.
 - It is the only kind with the label `product` in the tracker.
+- Its page has no Tracker line and names no plan, epic, work item or tracker issue — not in its Sources and not in its What was done. Its id (`bi-<n>`) stays as a name. Its plan and the tracker point at it: the plan's ID is its issue number.
 - It holds no ICE, and Garura never works on it directly. Agents work on the ICE of its capabilities and of their features.
 - A work item reaches it through its Epic.
 - Each capability it has is linked both ways: the capability's spine entry names it in `intents`, and its Touches list names the capability with the mark. A play that makes one side writes the other.
@@ -230,7 +281,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 **Example**
 
-> **Shop — Shoppers can check out without making an account** — one tracker issue, label `product`
+> **Shop — Shoppers can check out without making an account**
 >
 > **Outcome:** A shopper with no account can buy, start to finish.
 > **Why:** 4 in 10 shoppers leave at the sign-up step.
@@ -245,9 +296,9 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 > - [Checkout](../orders/checkout/capability.md) (capability) — changes
 > **What was done:** (nothing yet)
 >
-> **Bank — Small businesses get a loan decision in one day.** Must not: change how the bank checks identity. Rules: every declined loan shows its reason. It has the capabilities "Loan application" and "Credit decision". It is served by Slices "One-day decision" and "Upload once". Epic "One-day decision" serves it.
+> **Bank — Small businesses get a loan decision in one day.** Must not: change how the bank checks identity. Rules: every declined loan shows its reason. It has the capabilities "Loan application" and "Credit decision". It is served by Slices "One-day decision" and "Upload once", and by the one epic of its plan; its page names neither the plan nor the epic. What was done: a small business now sends its documents once and gets a loan decision on the same day. It links to no work item.
 >
-> **Clinic — Patients book their own appointments online.** Must not: change how the clinic bills. It has the capability "Booking". It was identified by "Patients get a reminder before each visit". It is served by Slices "Self-booking" and "Cancel online"; its plan created Epic "Self-booking".
+> **Clinic — Patients book their own appointments online.** Must not: change how the clinic bills. It has the capability "Booking". It was identified by "Patients get a reminder before each visit". It is served by Slices "Self-booking" and "Cancel online", and by the one epic of its plan. Its page has no Tracker line: a person finds its plan from the plan file, which names this intent, and whose ID is the intent's issue number.
 
 ### Source
 
@@ -328,7 +379,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 ### Capability
 
-**What it is:** Something the product can do, in the product's own words. It serves one or more business intents, sits in at most one domain, has many features, and has exactly one ICE, on the ICE's own page; the capability page does not hold the ICE. Among the parts of the product it is the only kind that **needs** another (the other must be done first) or is **identified by** another (the other led us to find it), and it links to other capabilities only. It is in the model only: no work item links to it — a Story reaches it through its Feature and reads its ICE from there. It is not a domain (a domain is a big area that groups capabilities) and not a work item.
+**What it is:** Something the product can do, in the product's own words. It serves one or more business intents, sits in at most one domain, has many features, and has exactly one ICE, on the ICE's own page; the capability page does not hold the ICE. Among the parts of the product it is the only kind that **needs** another (the other must be done first) or is **identified by** another (the other led us to find it), and it links to other capabilities only. It is in the model only: no work item links to it — a Feature issue reaches it through its Feature and is written from its ICE. It is not a domain (a domain is a big area that groups capabilities) and not a work item.
 **Who reads it:** both
 **Layer:** product
 **In the tracker as:** none — model only
@@ -344,7 +395,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | Needs | Other capabilities that must be done first — capabilities only (spine `depends_on`, to be renamed `needs` under #725) | no |
 | Identified by | The other capabilities that led us to find it — capabilities only, and may name more than one; empty when it was found on its own | no |
 | Domain | The one domain it sits in (spine `domain`, kept as a single field) — at most one, and may be missing | no |
-| Done | Whether every feature in it is delivered — worked out each time it is asked, never stored | no — it is computed |
+| Done | Whether every feature in it is built — worked out each time it is asked, never stored | no — it is computed |
 
 **Relationships**
 
@@ -362,8 +413,8 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - It has exactly one ICE. The ICE is on its own page, never a section of the capability page.
 - It serves one or more business intents. When it serves more than one, its one ICE covers all of them.
 - A capability's "needs" and "identified by" name other capabilities only — never a feature, a business intent or a work item.
-- No work item links to it or carries its ICE. A Story reaches it through its Feature and reads its ICE from there.
-- It is done when every feature in it is delivered: each of its features has at least one closed Story, in any epic. A capability with no features is not done. An open Bug, Chore or Spike under a closed Story does not undo it.
+- No work item links to it or carries its ICE. A Feature issue reaches it through its Feature and is written from its ICE.
+- It is done when every feature in it is built: each of its features has its Feature issue closed as completed. A capability with no features is not done. An open Story, Bug, Chore or Spike inside a closed Feature issue does not undo it.
 - While a capability it needs is not done, its ICE and the ICE of each of its features are not ready.
 - It sits in at most one domain. A domain has one or more capabilities.
 - A missing domain or a missing "identified by" never stops work; it is a gap, and its ICE is partly ready. A capability with no domain waits in the holding folder until it names one.
@@ -374,14 +425,14 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 >
 > **Clinic — Booking.** Patients book, move and cancel appointments. Has the Features "Pick a free slot" and "Send a reminder". Serves "Patients book their own appointments online". Needs nothing. Found on its own. No domain yet — it waits in the holding folder, and its ICE is partly ready. No work item names it.
 >
-> **Bank — Loan application.** An applicant applies for a small-business loan. Has the Features "Upload documents" (its Story is closed, in Epic "One-day decision") and "Fill the form" (its Story is open). Not done, so the ICE of "Credit decision", which needs it, is not ready. When the "Fill the form" Story closes, it is done.
+> **Bank — Loan application.** An applicant applies for a small-business loan. Has the Features "Upload documents" (built: its Feature issue #53 is closed as completed, under Epic "One-day decision") and "Fill the form" (its Feature issue is open, although its one Story is closed). Not done, so the ICE of "Credit decision", which needs it, is not ready. When a person finishes the Feature issue of "Fill the form" through `/reshape-plan`, it is done.
 
 ### Feature
 
-**What it is:** One specific thing a person can do inside one capability (the old Functionality, renamed). One capability has many features; a feature has exactly one parent capability. It has its own ICE, on the ICE's own page; the feature page does not hold the ICE. It never needs anything and is never identified by anything: its order of work and its business intents come from its parent capability. It can be in more than one slice. It is not the v6 work type "Feature" (that work type is gone), not a Story (the work item that represents and delivers it) and not a Slice (a group of features).
+**What it is:** One specific thing a person can do inside one capability (the old Functionality, renamed). One capability has many features; a feature has exactly one parent capability. It has its own ICE, on the ICE's own page; the feature page does not hold the ICE. It never needs anything and is never identified by anything: its order of work and its business intents come from its parent capability. It can be in more than one slice and in more than one plan. It is not its Feature issue (the one tracker issue that stands for it) and not a Slice (a group of features).
 **Who reads it:** both
 **Layer:** product
-**In the tracker as:** a **Story** — one Story in each Epic that delivers it. A Feature is not itself an issue type
+**In the tracker as:** one **Feature issue**, in the whole tracker, whose text names it. The Feature holds no link to it
 **Lives at:** the spine's `features` list and its page `feature.md` — under its capability's folder, or the holding folder `features/<id>/` until it names a capability.
 
 **Properties**
@@ -391,7 +442,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | Name and one line | The one thing it lets someone do | yes |
 | ICE | Its one ICE, on the ICE's own page | yes, to be ready |
 | Capability | Its one parent capability | yes, to be ready |
-| Delivered | Whether it has at least one closed Story — worked out each time it is asked, never stored | no — it is computed |
+| Built | Whether its Feature issue is closed as completed — worked out each time it is asked, through the tracker tool, never stored | no — it is computed |
 
 **Relationships**
 
@@ -400,7 +451,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | this → other | Capability | one | It has exactly one parent capability |
 | other → this | ICE | one | Its one ICE — the agent's intent for it |
 | other → this | Slice | many | A slice groups it, in order |
-| other → this | Story | many | A story represents it — one story in each epic that delivers it |
+| other → this | Feature issue | one | Its one Feature issue names it. The link is kept on the issue only |
 
 **Rules**
 
@@ -408,24 +459,26 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - It has exactly one ICE, on its own page, never a section of the feature page.
 - It never needs anything and is never identified by anything. Its order of work comes from its parent capability.
 - Its business intents are the ones its parent capability serves.
-- It can be in more than one slice. It is not an issue type.
+- It can be in more than one slice and in more than one plan. It still has one Feature issue.
+- It holds no tracker issue number. No property, page or spine entry of a feature names an issue. Only its Feature issue names it.
+- It is built when a person closes its Feature issue as completed. Closed Stories do not build it. A built feature counts complete in every slice and every plan that holds it.
 - Garura's own model: fn-727 → fn-724 is not allowed; it becomes cap-718 → cap-723 (the move is #765).
 
 **Example**
 
-> **Shop — Guest checkout** (in Checkout). A shopper pays without making an account. Its ICE: "a shopper pays with an email only". It needs nothing; its work waits on what Checkout needs. In Slice "Pay without an account". In the tracker: Story "Guest checkout".
+> **Shop — Guest checkout** (in Checkout). A shopper pays without making an account. Its ICE: "a shopper pays with an email only". It needs nothing; its work waits on what Checkout needs. In Slice "Pay without an account" and Slice "Pay in one minute". In the tracker: one Feature issue, #122, whose text has the line `Represents: ft-guest-checkout`; its page and its spine entry name no issue. The shop owner finished #122, so it is built, and it counts complete in plan #120 and in plan #150.
 >
-> **Clinic — Send a reminder** (in Booking). The patient gets an SMS the day before. In Slice "Self-booking" and Slice "Follow-up visits". In the tracker: one Story "Send a reminder" in Epic "Self-booking", and its own Story in Epic "Follow-up visits".
+> **Clinic — Send a reminder** (in Booking). The patient gets an SMS the day before. In Slice "Self-booking" and Slice "Follow-up visits". In the tracker: one Feature issue, #343, never one for each slice. Its Stories are closed, but the clinic manager has not finished #343, so it is not built.
 >
-> **Bank — Upload documents** (in Loan application). The applicant uploads accounts and ID. Its business intent is the one Loan application serves: "Small businesses get a loan decision in one day". Its Story is closed, so it is delivered.
+> **Bank — Upload documents** (in Loan application). The applicant uploads accounts and ID. Its business intent is the one Loan application serves: "Small businesses get a loan decision in one day". Its Feature issue #53 is closed as completed, so it is built, and Slice "Upload once", shaped later, left it out.
 
 ### Slice
 
-**What it is:** An ordered group of features, taken from any capabilities, that together give one vertical outcome a person can test end to end — a screen or a surface. Each feature in it is small enough that a person can test its result. A feature can be in more than one slice. It serves one or more business intents: `/design-slice` writes that link when it shapes the slice, with a thin ICE for each part the slice needs that has no ICE, and the slice's hidden file; it writes no plan, no epic, no story and no eval. It has one **eval**, which tests from the outside, on the built product, what its epic delivers; one **hidden file**, beside the eval, which holds its features' failure conditions and recovery conditions; and one **usage guide**, which tells the eval how to reach the slice. It lives in the product model. It is not an Epic: the Slice is in the model; the Epic is the work item that represents and delivers it.
+**What it is:** An ordered group of features, taken from any capabilities, that together give one vertical outcome a person can test end to end — a screen or a surface. Each feature in it is small enough that a person can test its result. A feature can be in more than one slice. It serves one or more business intents: `/design-slice` writes that link when it shapes the slice, with a thin ICE for each part the slice needs that has no ICE, and the slice's hidden file; it writes no plan, no epic, no Feature issue, no story and no eval. It takes in only features that are not yet built. It names no plan, plan folder, epic, eval, hidden file or usage guide: each plan that holds it names it. Each plan that holds it tests its features in that plan's one eval. On the work side, `/design-slice` writes one hidden file for it, in the folder of the plan for the intent it was first shaped for; nothing in the model stores that place. Whether its work is in progress is read from the plan files that hold it, never from the model. It lives in the product model. It is not an Epic: an Epic belongs to a plan and holds the Feature issues of all that plan's slices.
 **Who reads it:** both
 **Layer:** product
-**In the tracker as:** an **Epic** — one Epic for the Slice, made when the plan play adds the slice to a plan. A Slice is not itself an issue type
-**Lives at:** the spine's `slices` list — `id`, `slug`, `feature_refs` (its features, in build order), `vertical` (the screen or surface a person tests), `intents` (the business intents it serves, in order; the first is the one it was first shaped for) and `record` (a pointer to its full record). The fields `domain_ref`, `status`, `order`, `effort` and `depends_on` go. Its eval and its hidden file `failure-and-recovery.md` are at `.garura/project/plans/<plan-id>/evals/<slug>/` and its usage guide at `.garura/project/plans/<plan-id>/guides/<slug>.md`, where `<plan-id>` is the issue number of its first business intent — worked out, never stored. `/design-slice` makes the eval folder, also when no plan file exists yet
+**In the tracker as:** none — model only. The Feature issues of its features sit under the epic of each plan that holds it. A Slice is not an issue type
+**Lives at:** the spine's `slices` list — `id`, `slug`, `feature_refs` (its features, in build order), `vertical` (the screen or surface a person tests), `intents` (the business intents it serves, in order; the first is the one it was first shaped for) and `record` (a pointer to its full record). The fields `domain_ref`, `status`, `order`, `effort` and `depends_on` go. Nothing in the model says where its hidden file is
 
 **Properties**
 
@@ -435,9 +488,6 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | Features | Its features, in build order — one or more | yes |
 | Vertical | The one screen or surface a person can test end to end | yes |
 | Serves | The business intents it serves (spine `intents`), in order — one or more; the first is the one it was first shaped for. Written by `/design-slice` only | yes |
-| Eval | Its one eval: it tests, from the outside, on the built product, what its epic delivers — every goal and expectation its stories carry is met, and no failure condition in its hidden file happens. Built by the eval play from the epic (with its feature-to-story map), the stories and the hidden file `/design-slice` wrote; kept in its home plan's evals folder, beside the hidden file | yes, once its epic and stories are made |
-| Hidden file | `failure-and-recovery.md` in its eval folder: one entry for each feature of the slice — the feature (its id and name), its capability, the two ICE it was written from (and which of them is thin), its failure conditions (each "Fails if" line of the two ICE, in `/design-slice`'s words, each with a short id such as F1; "none" when the two ICE have none) and exactly one recovery condition for each (**when** — what the eval sees, as a symptom; **way back** — how to get back to a good state, as guidance, never as code; **who fixes** — "the builder can fix this alone" or "a person must decide"). Written by `/design-slice` when it shapes the slice. Read by the eval play (all of it, joined to the stories through the epic's feature-to-story map) and by the eval when it runs (only the recovery parts of each entry — when, way back, who fixes — never the failure conditions); a person reads all of it when work goes to a person. Never read by a builder, a skill that builds the software or the build play's context sub-agent. The ids never leave the eval folder | yes, once the slice is shaped |
-| Usage guide | What its surface is (a browser page, a mobile app, a command line command or a backend endpoint), how to reach it, and the steps a person takes. Delivered by the build with the slice; kept in its home plan's guides folder | yes, once it is built |
 | Record | A pointer to its full record | no |
 
 **Relationships**
@@ -446,40 +496,34 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 |-----------|-----------|-------|---------|
 | this → other | Feature | many | It groups features, in order |
 | this → other | Business Intent | many | It serves a business intent — the same verb, with the same meaning, as "a capability serves" and "an epic serves"; the link is kept on the slice's side only |
-| this → other | ICE | many | Its hidden file is written from the "Fails if" lines of its features' ICE and their capabilities' ICE; it holds no ICE |
-| other → this | Epic | one | At most one epic represents it |
-| other → this | Plan | many | A plan holds it — every plan for a business intent it serves |
+| this → other | ICE | many | Its features' failure and recovery conditions are written, on the work side, from the "Fails if" lines of its features' ICE and their capabilities' ICE; it holds no ICE |
+| other → this | Plan | many | A plan holds it — every plan for a business intent it serves — and records its status there. The slice names no plan |
 
 **Rules**
 
 - Its features can come from any capabilities.
 - Each of its features is small enough that a person can test its result.
-- It holds no ICE. It is not an issue type.
+- It holds no ICE. It is not an issue type, and no epic stands for it.
 - It has one screen or surface that a person can test end to end. A thing with no such surface is not a slice, and `/design-slice` does not shape it.
-- It serves one or more business intents. `/design-slice` writes the link when it shapes the slice, a thin ICE for each part the slice needs that has no ICE, and the slice's hidden file — no plan, no epic, no story and no eval.
-- It has at most one Epic. A second plan that holds it uses that Epic, and the Epic then serves both business intents.
-- Whether its work has started is shown by its Epic, not by a status on the slice. What must come first comes from its capabilities' needs, not from an order on the slice.
-- It has one eval, one hidden file and one usage guide, also when two plans hold it. All three are kept in the folder of its home plan: the plan for the business intent it was first shaped for. Another plan that holds it points to them and never copies them.
-- A builder agent, any skill that builds the software, or the build play's context sub-agent never reads its eval or its hidden file, and never reads a plan's evals folder.
-- Its eval reads four things, at two times. The eval play, when it builds the eval, reads its epic (with its feature-to-story map), the stories in that epic (their scope of work and Context guidance) and its hidden file, and joins each entry to its story through that map — never the usage guide or the code, which are what the build makes. The eval, when it runs after the build, reads the eval, the usage guide, the Context guidance the eval play put in the eval, and, in the hidden file, only the recovery parts of each entry (when, way back, who fixes), never the failure conditions — and reaches the built product only through the guide. Neither reads the ICE of a feature or a capability, so each line of an ICE has one interpretation: the one `/design-slice` wrote into the hidden file (the "Fails if" lines) or the one the plan play wrote into the stories (every other line).
-- It has one hidden file, `failure-and-recovery.md`, in its eval folder. `/design-slice` writes it when it shapes the slice, from each feature's ICE and that feature's capability's ICE, by `standards/rules/expectation-generation.md`: each feature of the slice has one entry, with its failure conditions and exactly one recovery condition for each "Fails if" line, marked "the builder can fix this alone" or "a person must decide". When one of the two ICE is thin, the entry says so.
-- When its eval finds a failure, it writes a handoff plan from the recovery condition: what the product does wrong, as a symptom, and the way back. The handoff plan never names the failure condition, its id or the check. When the recovery condition says "the builder can fix this alone", the handoff plan goes to the builder; when it says "a person must decide", it goes to a person. Where the handoff plan is kept, and how it reaches the builder, is not part of this ontology.
-- When it gains a feature, `/design-slice` adds that feature's entry to the hidden file in the home plan's folder; the plan play then adds the story to the epic, with its line in the feature-to-story map.
-- `/design-slice` makes its eval folder, `.garura/project/plans/<plan-id>/evals/<slug>/`, in its home plan's folder, also when no plan file exists yet. The plan play later writes the plan file beside it and finds the folder there.
-- The build delivers its usage guide with the slice, in the guides folder beside the evals folder but not in it, so the builder writes the guide and never sees the eval.
+- It serves one or more business intents. `/design-slice` writes the link when it shapes the slice, a thin ICE for each part the slice needs that has no ICE, and the slice's hidden file — no plan, no epic, no Feature issue, no story and no eval.
+- It takes in only features that are not yet built. To know which are built, `/design-slice` reads the state of each feature's Feature issue through the tracker tool. A feature built after it joined stays in the slice and counts complete.
+- Its features can be in other slices and plans. Each feature still has one Feature issue, not one for each slice.
+- Whether its work is in progress is read from each plan file that holds it, never from a status on the slice. What must come first comes from its capabilities' needs, not from an order on the slice.
+- Each plan that holds it tests its features in that plan's one eval. `/design-slice` writes one hidden file for it, also when two plans hold it, in the folder of the plan for the intent it was first shaped for. The Plan's rules say where it is and who reads it.
+- It names no plan, plan folder, epic, eval, hidden file or usage guide — not in its spine entry, its record or a page. Each plan that holds it names it.
 - Inside it, the agent picks the build order, in horizontal layers: the database first, then the services, then the parts above.
 
 **Example**
 
-> **Clinic — Self-booking:** 1 Feature "Pick a free slot" (Capability Booking), 2 Feature "Send a reminder" (Capability Notifications). Vertical: the booking screen. Serves "Patients book their own appointments online" (#340), written by `/design-slice`. Spine entry: `{id: sl-self-booking, slug: self-booking, feature_refs: [ft-pick-a-free-slot, ft-send-a-reminder], vertical: "the booking screen", intents: [bi-340], record: …}`. In the tracker: Epic #341 "Self-booking". Eval: `.garura/project/plans/340/evals/self-booking/`, beside its hidden file `failure-and-recovery.md`. The hidden file's entry for Feature "Pick a free slot", written by `/design-slice` before Story #342 existed: "F1 — Fails if: a slot is booked twice. Recovery — When: two bookings are on one slot. Way back: keep the first booking, free the second, tell the second patient. Who fixes: the builder can fix this alone." The eval play reads Epic #341, its Stories "Pick a free slot" and "Send a reminder" and the hidden file, and joins the entry to Story #342 through the epic's map, and builds an eval that tests that a patient books a free slot and gets a reminder, and that no slot is booked twice. Usage guide: `.garura/project/plans/340/guides/self-booking.md` — "Open https://clinic.example/book in a browser, pick a doctor, pick a free slot, give a phone number." When the eval finds two bookings on one slot, the builder gets: "Two patients can book the same 10:00 slot when they book at the same time. Make the second one see that the slot is gone." The builder of "Pick a free slot" reads its Story and the context in `.garura/project/issues/342/`, never the eval folder.
+> **Clinic — Self-booking:** 1 Feature "Pick a free slot" (Capability Booking), 2 Feature "Send a reminder" (Capability Notifications). Vertical: the booking screen. Serves "Patients book their own appointments online" (`bi-340`), written by `/design-slice`. Spine entry: `{id: sl-self-booking, slug: self-booking, feature_refs: [ft-pick-a-free-slot, ft-send-a-reminder], vertical: "the booking screen", intents: [bi-340], record: …}` — it names no plan, no epic, no eval and no hidden file. On the work side, `/design-slice` also wrote its hidden file, with this entry for Feature "Pick a free slot": "F1 — Fails if: a slot is booked twice. Recovery — When: two bookings are on one slot. Way back: keep the first booking, free the second, tell the second patient. Who fixes: the builder can fix this alone." The plan for its intent records it as In Progress, so `/design-slice` does not reshape it; the model says nothing about its progress. When "Cancel online" was shaped later, "Pick a free slot" was already built (its Feature issue was closed as completed), so `/design-slice` left it out of that slice.
 >
-> **Shop — Pay without an account:** 1 Feature "Guest checkout" (Capability Checkout), 2 Feature "Send receipt" (Capability Notifications). Vertical: the checkout in the mobile app. Serves "Shoppers can check out without an account" (#120). Eval: `.garura/project/plans/120/evals/pay-without-an-account/`, beside its hidden file. Usage guide: "In the mobile app, add an item to the cart, tap 'Pay as guest', give a card." When the eval finds a sign-up page before the payment page, the recovery condition says the builder can fix this alone, so the builder gets: "A guest sees a sign-up page before the payment page. Go to the payment page with the email only." When it finds two charges on one order, the recovery condition says a person must decide, because money goes out, so the handoff plan goes to a person.
+> **Shop — Pay without an account:** 1 Feature "Guest checkout" (Capability Checkout), 2 Feature "Send receipt" (Capability Notifications). Vertical: the checkout in the mobile app. Serves "Shoppers can check out without an account" (`bi-120`). Its spine entry and its record name no plan, no epic and no path. In the tracker it is nothing: the Feature issues of its two features sit under the one epic of the plan that holds it, and that plan's eval tests them.
 >
-> **Bank — Upload once:** serves "Small businesses get a loan decision in one day" (#51, first) and "Customers give their documents only once". It is held by both plans and has one epic; its eval and guide are in plan #51's folder, and the other plan points to them. **Rate tables:** features that change the rate tables only, which no person sees. It has no surface a person can test, so it is not a slice, and `/design-slice` does not shape it.
+> **Bank — Upload once:** serves "Small businesses get a loan decision in one day" (`bi-51`, first) and "Customers give their documents only once". Two plans hold it, and each plan file records its own status for it: Done in the loan plan, Not Started in the other. The eval of each plan tests its features. Its one hidden file is in the folder of the plan for its first intent, and nothing in the model says so. When it was shaped, `/design-slice` read the Feature issue of "Upload documents" through the tracker tool: it was closed as completed, so "Upload documents" was built, and the slice left it out. **Rate tables:** features that change the rate tables only, which no person sees. It has no surface a person can test, so it is not a slice, and `/design-slice` does not shape it.
 
 ### ICE
 
-**What it is:** The agent's intent for one capability or one feature: what an agent must make true there, for whom, and how it will be checked. It is its own node, with its own page and its own spine entry, and it holds three parts: **Intent** (goals, limits, fails if), **Context** (the rules for the sub-agent that gathers context: what to read, what never to read, the persona, the scope) and **Expectation** (scenarios, done means, quality needs). It has no link to a business intent; it finds its business intents through its part. It is the node that answers "can work start here?" with ready, partly ready or not ready. No work item carries it. Two plays read it, each for its own lines: `/design-slice` reads the "Fails if" lines and writes the slice's hidden file from them; the plan play reads every other line of a Feature's ICE and that Feature's Capability's ICE when it makes the Story, and writes the Story's scope of work and Context guidance from them. It can be **thin**: proposed from the person's words by the play that needed it — today `/design-slice` or `/reshape-plan` — and marked so. It is not the business intent (the person's intent), and it is not the capability or feature page (that page says what the part is; the ICE says what an agent must make true there). In this ontology, Context is one part of an ICE only — not the run folder of a play.
+**What it is:** The agent's intent for one capability or one feature: what an agent must make true there, for whom, and how it will be checked. It is its own node, with its own page and its own spine entry, and it holds three parts: **Intent** (goals, limits, fails if), **Context** (the rules for the sub-agent that gathers context: what to read, what never to read, the persona, the scope) and **Expectation** (scenarios, done means, quality needs). It has no link to a business intent; it finds its business intents through its part. It is the node that answers "can work start here?" with ready, partly ready or not ready. No work item carries it. Two plays read it, each for its own lines: `/design-slice` reads the "Fails if" lines and writes the slice's hidden file from them; the plan play reads every other line of a Feature's ICE and that Feature's Capability's ICE when it makes the Feature issue, and writes the Feature issue's scope of work and Context guidance from them. It can be **thin**: proposed from the person's words by the play that needed it — today `/design-slice` or `/reshape-plan` — and marked so. It is not the business intent (the person's intent), and it is not the capability or feature page (that page says what the part is; the ICE says what an agent must make true there). In this ontology, Context is one part of an ICE only — not the run folder of a play.
 **Who reads it:** agent
 **Layer:** product
 **In the tracker as:** none — model only
@@ -502,7 +546,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 |-----------|-----------|-------|---------|
 | this → other | Capability | one | It is the ICE of one capability … |
 | this → other | Feature | one | … or of one feature |
-| other → this | Story | many | A story is written from it — a story reads every line of its feature's ICE and that feature's capability's ICE except the "Fails if" lines |
+| other → this | Feature issue | many | A Feature issue is written from it — from every line of its feature's ICE and that feature's capability's ICE except the "Fails if" lines |
 | other → this | Slice | many | A slice's hidden file is written from its "Fails if" lines — one entry for each feature of the slice |
 
 **Rules**
@@ -510,8 +554,8 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - Each capability and each feature has exactly one ICE, and each ICE is for exactly one capability or feature. Two ICE for one part are drift; the Alignment loop merges them.
 - It has no link to a business intent. A capability's ICE finds its business intents through its capability. A feature's ICE finds them through its parent capability.
 - When a second business intent changes a capability, its one ICE is updated to cover both. A second ICE is never made.
-- No work item carries it. Each line of it has one reader that writes from it. `/design-slice` reads the "Fails if" lines of each feature's ICE and that feature's capability's ICE, and writes the slice's hidden file. The plan play, when it makes a Story, reads every other line of the Story's Feature's ICE and that Feature's Capability's ICE, and writes the Story's scope of work and Context guidance. The build play's context sub-agent and the builder never read it; they read the Story's Context guidance and the collected context. The Story's Context guidance is a copy: when the ICE's Context changes, it is drift (see Story). Epic, Spike, Chore and Bug read no ICE.
-- The ready check gives one of three answers. For a feature's ICE, "its capability" is the parent capability. A needed capability is done when every feature in it is delivered.
+- No work item carries it. Each line of it has one reader that writes from it. `/design-slice` reads the "Fails if" lines of each feature's ICE and that feature's capability's ICE, and writes the slice's hidden file. The plan play, when it makes a Feature issue, reads every other line of its Feature's ICE and that Feature's Capability's ICE, and writes the Feature issue's scope of work and Context guidance. The build play's context sub-agent and the builder never read it; they read the Feature issue's Context guidance and the collected context. That Context guidance is a copy: when the ICE's Context changes, it is drift (see Feature issue). Epic, Story, Spike, Chore and Bug read no ICE.
+- The ready check gives one of three answers. For a feature's ICE, "its capability" is the parent capability. A needed capability is done when every feature in it is built.
   - **Ready:** its capability serves a confirmed business intent, every capability it needs is done, and the ICE has all three parts. Work starts.
   - **Partly ready:** as ready, but with gaps that do not stop work — no domain, no "identified by", or the thin mark (gap: "thin ICE"). Work starts, and the gaps are listed.
   - **Not ready:** one of its three parts is missing, no confirmed business intent, or a capability it needs is not done. Work stops until the part is written or the link is made, and the page is kept.
@@ -547,7 +591,7 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 > - Done means: that scenario and a wallet scenario pass.
 > - Quality need: the page loads in under one second.
 >
-> **Ready answer:** ready. Story "Guest checkout" read this ICE and the ICE of Capability Checkout, and wrote its scope.
+> **Ready answer:** ready. The plan play read this ICE and the ICE of Capability Checkout, and wrote the scope of work of Feature issue #122 "Guest checkout" from them.
 >
 > **Clinic — ICE of "Booking"** (a capability, no domain yet), at `capabilities/booking/ice.md`. Booking serves "Patients book their own appointments online" (confirmed). It needs nothing.
 > **Intent:** Goal — a patient books, moves and cancels an appointment without a call.
@@ -558,7 +602,7 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 > **Shop — ICE of "Order history"** (a feature in Orders). Orders serves a confirmed business intent and needs nothing. Its page has Intent and Expectation, and no Context.
 > **Ready answer:** not ready — Context is missing. Work stops until it is written.
 >
-> **Bank — ICE of "Credit decision"** (a capability in Lending). Credit decision serves "Small businesses get a loan decision in one day" (confirmed), and needs "Loan application", which is not done (its Feature "Fill the form" has no closed Story).
+> **Bank — ICE of "Credit decision"** (a capability in Lending). Credit decision serves "Small businesses get a loan decision in one day" (confirmed), and needs "Loan application", which is not done (its Feature "Fill the form" is not built: its Feature issue is open).
 > **Ready answer:** not ready — Loan application is not done. The page is kept.
 >
 > **School — thin ICE of "Send a note home"** (a feature in Messaging), at `family-contact/messaging/send-a-note-home/ice.md`. The slice "Notes home" needed the feature and it had no ICE, so `/design-slice` proposed this one from the person's answers. Messaging serves "Teachers reach every parent the same day" (confirmed) and needs nothing. Spine entry: `{id: ice-send-a-note-home, for: ft-send-a-note-home, for_kind: feature, doc: family-contact/messaging/send-a-note-home/ice.md, metadata: {thin: true}}`.
@@ -580,53 +624,73 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 
 ### Plan
 
-**What it is:** The thread between the product layer and the work layer, kept in the repo so that anyone — on any day — can see where the work for one business intent stands and carry on without re-reading every issue. The plan play makes it right after `/design-slice`, with no stop between them, from the slice `/design-slice` shaped — or, when its business intent already has a plan, adds that slice to it. It does three things, in this order: (1) it **is given** one Business Intent; (2) it **holds** every Slice that serves that intent, found by reading the link "slice serves business intent", and does no slice work again; (3) it **creates** one Epic for each Slice, or uses the one that exists, and the Stories of that Epic, one for each Feature of the Slice. It writes nothing in the evals folder: `/design-slice` wrote the slice's hidden file there before it. It reads every line of each ICE except the "Fails if" lines. It finds the work items that already exist before it creates new ones. Its folder keeps the hidden files, evals and usage guides of its slices. Its ID is its business intent's issue number. A person sets its Status (Not Started, In Progress, Paused, Done or Dropped) and its Direction (1, 2, 3 or none); nothing works them out. Its tree holds six item kinds, each under one kind of parent: epic, feature, story, spike, chore and bug. While its work is in progress it has its own branch, `plan/<id>/base`, and main's copy names that branch. A person manages it with `/reshape-plan`, which changes the plan file, the tracker and the product model together, on one approval. The plan file keeps no history: each landing is one commit whose message names what was asked, the overrides and what is owed. Status, direction, branch and item kinds are operational: they live in the plan files only, never in the product model's index or pages. It is not Claude Code's plan mode and not a design.
+**What it is:** The one place where the product model meets the work, kept in the repo so that anyone — on any day — can see where the work for one business intent stands and carry on without re-reading every issue. The product model names no plan; the plan names the parts of the model it works on. The plan play makes it once, right after `/design-slice`, with no stop between them. It does three things, in this order: (1) it **is given** one Business Intent; (2) it **holds** every Slice that serves that intent, found by reading the link "slice serves business intent", and records each slice with its status, which a person sets; (3) it **has one Epic**, which holds the Feature issue of each Feature of all its slices and the plan's chores, and it finds or files the Feature issue of each Feature that is not yet built. It writes nothing in the evals folder: `/design-slice` wrote the slices' hidden files there before it. It reads every line of each ICE except the "Fails if" lines. It finds the work items that already exist before it creates new ones. It has one **eval**, which tests every feature of every slice it holds; a done plan lands on main only when that eval passes. Its folder keeps that eval, the hidden file of each slice first shaped for its intent, and the usage guides. A new slice joins a plan that exists through `/reshape-plan`. Its ID is its business intent's issue number. A person sets its Status (Not Started, In Progress, Paused, Done or Dropped) and its Direction (1, 2, 3 or none); nothing works them out. Its tree holds six item kinds, each under one kind of parent: epic, feature (a Feature issue), story, spike, chore and bug. While its work is in progress it has its own branch, `plan/<id>/base`, and main's copy names that branch. A person manages it with `/reshape-plan`, which changes the plan file, the tracker and the product model together, on one approval. The plan file keeps no history: each landing is one commit whose message names what was asked, the overrides and what is owed. Status, direction, branch, item kinds and the status of each slice are operational: they live in the plan files only, never in the product model's index or pages. It is not Claude Code's plan mode and not a design.
 **Who reads it:** both
 **Layer:** the thread between the two layers
 **In the tracker as:** none — it is a file in the repo
-**Lives at:** `.garura/project/plans/<id>.yaml`, one file per plan, and its folder `.garura/project/plans/<id>/` beside it, which holds `evals/` (one folder for each slice whose eval is kept here, with its hidden file `failure-and-recovery.md` and its eval; `/design-slice` can make it before the plan file exists) and `guides/` (one guide for each such slice); while its work is in progress, the plan file is changed only on the plan's own branch, `plan/<id>/base`, and main's copy names that branch
+**Lives at:** `.garura/project/plans/<id>.yaml`, one file per plan, and its folder `.garura/project/plans/<id>/` beside it, which holds `evals/` (the plan's one eval, and `evals/<slug>/` with the hidden file `failure-and-recovery.md` of each slice first shaped for its intent; `/design-slice` can make it before the plan file exists) and `guides/` (the usage guides the build delivers; their layout is left to the `/design-eval` rework); while its work is in progress, the plan file is changed only on the plan's own branch, `plan/<id>/base`, and main's copy names that branch
 
 **Properties**
 
 | Property | What it holds | Required |
 |----------|---------------|----------|
 | ID | The business intent's issue number | yes |
+| Business intent | The business intent it serves, by its title and its id (its issue number, which is also the plan's ID; the model names it `bi-<n>`), on the first line of the plan file, at the top above the tree. A plan serves one business intent: the one it is given. The plan-view template (`standards/templates/plan-view.md`), which `/view-plan` and `/list-plans` use, shows it at the top of each plan, above the tree | yes |
 | Status | Not Started, In Progress, Paused, Done or Dropped. Set by a person, never worked out from the work in the plan | yes |
 | Direction | 1 (next), 2 (next in line), 3 (later) or none. Set by a person, never worked out from the work. It is not a ranking: several plans can have the same direction | no — none is an answer |
 | Branch | `plan/<id>/base`, the plan's own branch, where every change to the plan is made. Main's copy of the plan file names it, and may be behind it | while its work is in progress |
-| Item kinds | The six kinds of item its tree may hold, each under one kind of parent: an epic at the top; a feature item under an epic; a story under an epic or a feature item; a spike, a chore or a bug under a story | yes — every item names its kind |
-| Tree | Business Intent → Slice → Epic → (feature item →) Story (with its Feature) → Spike, Chore, Bug — each item with its tracker issue, its kind and its state | yes |
+| Epic | The mark `epic: <issue number>`, one line at the top of the plan file: the issue number of its one epic. The epic at the top of its Tree has the same number | yes, once its epic is made |
+| Slices | The list `slices`: each slice it holds, by its id, with its status — Not Started, In Progress, Done or Dropped. A person sets each status; nothing works it out | yes, once it holds a slice |
+| Item kinds | The six kinds of item its tree may hold, each under one kind of parent: its one epic at the top; a feature (a Feature issue) under the epic; a story under a feature; a spike or a bug under a story; a chore under a story or under the epic | yes — every item names its kind |
+| Tree | Its one Epic → Feature issue (with its `represents` mark) → Story → Spike, Chore, Bug; a Chore can also sit straight under the Epic — each item with its tracker issue, its kind and its status. A slice is not an item of the tree: the Slices list records it | yes |
 | Now | The work item being worked on | while In Progress |
 | Needs plans | The other plans it needs — worked out from its features' capabilities' needs, never set by hand | no |
-| Folder | Beside the plan file: `evals/<slug>/`, which holds the hidden file `failure-and-recovery.md` (written by `/design-slice`) and the eval (written by the eval play), and `guides/` (written by the build), one entry for each slice whose home plan it is. The plan play writes nothing in `evals/`. A slice it holds whose home is another plan is pointed to from its Tree, never copied | yes, once it holds a slice |
+| Eval | Its one eval. It tests, from the outside, on the built product, every feature of every slice it holds, also a feature whose Feature issue sits under another plan's epic (`held_by`): every goal and expectation its Feature issues carry is met, and no failure condition in the hidden files of its slices happens. Built by the eval play from its epic (with the feature-to-story map), the Feature issues the map names and the hidden file of each slice it holds. Kept in its `evals/` folder | yes, once its epic and Feature issues are made |
+| Hidden files | `failure-and-recovery.md` in `evals/<slug>/`, one for each slice it holds that was first shaped for its intent: one entry for each feature of the slice — the feature (its id and name), its capability, the two ICE it was written from (and which of them is thin), its failure conditions (each "Fails if" line of the two ICE, in `/design-slice`'s words, each with a short id such as F1; "none" when the two ICE have none) and exactly one recovery condition for each (**when** — what the eval sees, as a symptom; **way back** — how to get back to a good state, as guidance, never as code; **who fixes** — "the builder can fix this alone" or "a person must decide"). Written by `/design-slice` when it shapes the slice. Read by the eval play (all of it, joined to the Feature issues through the epic's feature-to-story map) and by the eval when it runs (only the recovery parts of each entry — when, way back, who fixes — never the failure conditions); a person reads all of it when work goes to a person. Never read by a builder, a skill that builds the software or the build play's context sub-agent. The ids never leave the plan's evals folder | yes, once such a slice is shaped |
+| Usage guides | What each surface is (a browser page, a mobile app, a command line command or a backend endpoint), how to reach it, and the steps a person takes. Delivered by the build, in its `guides/` folder. How the guides are laid out is left to the `/design-eval` rework | yes, once a slice it holds is built |
+| Folder | Beside the plan file: `evals/`, which holds its one eval (written by the eval play) and `evals/<slug>/` with the hidden file of each slice first shaped for its intent (written by `/design-slice`, also before the plan file exists); and `guides/` (written by the build). The plan play writes nothing in `evals/`. For a slice first shaped for another intent, the plays work out that plan's folder from the slice's first intent; the plan file stores no path, and nothing is copied | yes, once it holds a slice |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
 | this → other | Business Intent | one | It is given one business intent |
-| this → other | Slice | many | It holds every slice that serves its business intent, read from the link "slice serves business intent" |
-| this → other | Epic | many | It creates the epic for each slice it holds, with the stories of that epic, or uses the one that exists |
+| this → other | Slice | many | It holds every slice that serves its business intent, read from the link "slice serves business intent", and records each in its Slices list with its status |
+| this → other | Epic | one | It has one epic, named by its `epic` mark. The plan play creates it once |
+| this → other | Feature issue | many | It finds or files the Feature issue of each feature of its slices that is not yet built, and shows it in its tree |
 | this → other | Plan | many | It needs another plan |
+| other → this | Chore | many | A chore for the plan as a whole sits in it, straight under its epic, and its Tree names it |
 
 **Rules**
 
-- It does three things, in this order: it is given a business intent, it holds the slices that serve it, it creates one epic for each slice, or uses the one that exists, and the stories of that epic. The plan play does them right after `/design-slice`, with no stop between them.
-- A business intent has one plan, and never a second one. When a new slice is shaped for an intent that has a plan, the plan play adds the slice and its epic to that plan.
+- It does three things, in this order: it is given a business intent; it holds the slices that serve it and records each with its status; it has one epic, which the plan play creates once, and it finds or files the Feature issue of each feature of its slices that is not yet built. The plan play does them right after `/design-slice`, with no stop between them, and makes a plan only once.
+- A business intent has one plan, and never a second one. When a new slice is shaped for an intent that has a plan, `/reshape-plan` adds it on a person's instruction: the plan file records it in its Slices list with the status Not Started, and its Feature issues go under the plan's one epic. No second epic and no second plan is made.
 - It holds every slice that serves its business intent, and finds them by reading the link "slice serves business intent". It does not pick, rank or test slices; the person chose the slice at `/design-slice`.
-- It finds the work items that exist before it creates new ones. When a slice it holds already has an epic, it uses that epic.
-- The plan play writes only the plan file, the epic and the stories. It writes nothing in the evals folder; `/design-slice` wrote the slice's hidden file there. It puts the goals, limits, Context guidance and expectations of the two ICE in the story, and the feature-to-story map on the epic. The failure and recovery conditions stay in the hidden file, never in the story.
+- It finds the work items that exist before it creates new ones. It finds its epic by its `epic` mark, and a feature's Feature issue by the R3 rule of the Feature issue, and files one only when it finds none.
+- The plan play writes only the plan file, the epic and the Feature issues. It writes nothing in the evals folder; `/design-slice` wrote the slice's hidden file there. It puts the goals, limits, Context guidance and expectations of the two ICE in the Feature issue, and the feature-to-story map on the epic. The failure and recovery conditions stay in the hidden file, never in the Feature issue.
+- Many plans can hold one feature, and it still has one Feature issue. The plan play adds only features that are not yet built. A feature built later stays in the plan and counts complete.
 - The plan play reads every line of each ICE except the "Fails if" lines, which are `/design-slice`'s. It is not a builder.
-- Its folder keeps the hidden file, the eval and the usage guide of each slice whose home plan it is (the plan for the business intent the slice was first shaped for). When it holds a slice whose home is another plan, it points to that plan's hidden file, eval and guide, and never copies them.
+- Its folder keeps its one eval, its usage guides, and the hidden file of each slice it holds that was first shaped for its intent. When it holds a slice first shaped for another intent, its eval reads that plan's hidden file and never copies it. The plays work out the place from the slice's first intent; nothing in the model or the plan file stores it.
+- It records each slice it holds with its status: Not Started, In Progress, Done or Dropped. A person sets it, through `/reshape-plan`. Nothing works it out from the Feature issues or the stories: a slice is not Done because they closed. A slice is in progress when a plan file that holds it records In Progress. When two plans hold one slice, each plan file records the slice's status for itself. `/design-slice` and `/reshape-plan` read it there; the model is not asked, and it holds no status of a slice.
+- A done plan lands on main only when its eval passes. Until the eval runner exists (#801, the runner that runs an eval with no agent), the harness runs the eval by hand before a done plan lands. A paused plan still merges into main.
+- A builder agent, any skill that builds the software, or the build play's context sub-agent never reads its eval or a hidden file, and never reads a plan's evals folder.
+- Its eval reads four things, at two times. The eval play, when it builds the eval, reads its epic (with its feature-to-story map), the Feature issues the map names (their scope of work and Context guidance) and the hidden file of each slice it holds, and joins each entry to its Feature issue through that map — never the usage guides or the code, which are what the build makes. The eval, when it runs after the build, reads the eval, the usage guides, the Context guidance the eval play put in the eval, and, in the hidden files, only the recovery parts of each entry (when, way back, who fixes), never the failure conditions — and reaches the built product only through the guides. Neither reads the ICE of a feature or a capability, so each line of an ICE has one interpretation: the one `/design-slice` wrote into the hidden file (the "Fails if" lines) or the one the plan play wrote into the Feature issues (every other line).
+- Each hidden file in its folder is written by `/design-slice` when it shapes the slice, from each feature's ICE and that feature's capability's ICE, by `standards/rules/expectation-generation.md`: each feature of the slice has one entry, with its failure conditions and exactly one recovery condition for each "Fails if" line, marked "the builder can fix this alone" or "a person must decide". When one of the two ICE is thin, the entry says so.
+- When its eval finds a failure, it writes a handoff plan from the recovery condition: what the product does wrong, as a symptom, and the way back. The handoff plan never names the failure condition, its id or the check. When the recovery condition says "the builder can fix this alone", the handoff plan goes to the builder; when it says "a person must decide", it goes to a person. Where the handoff plan is kept, and how it reaches the builder, is not part of this ontology.
+- When a slice it holds gains a feature, `/design-slice` adds that feature's entry to the slice's hidden file, in the folder of the plan for the slice's first intent. Then `/reshape-plan` finds or files that feature's Feature issue under the epic, and adds its line to the feature-to-story map. The plan's eval is then out of date.
+- `/design-slice` makes `evals/<slug>/` in the folder of the plan for the slice's first intent, also when no plan file exists yet. The plan play later writes the plan file beside it and finds the folder there.
+- The build delivers the usage guides in the guides folder, beside the evals folder but not in it, so the builder writes the guide and never sees the eval.
 - It needs another plan when a feature in it belongs to a capability that needs a capability whose features are in that plan.
-- Its plan file and the tracker always agree — its Tree and each epic's feature-to-story map show the same story for each feature. A person manages a plan with `/reshape-plan`: in one session, on one approval, it changes the plan file, the tracker and the product model together, and then checks that the three agree and that nothing else changed. When the plan has no branch, it first sets main's plan file to In Progress with the branch named, commits that on main, and cuts the plan's branch from that commit. It cuts no other branch, never merges a branch, and never touches code.
-- A person sets the plan's Status and its Direction. Each item in its tree follows its own issue: when the issue is closed as completed, the item is Done; when it is closed as not planned, the item is Dropped; while the issue is open, a person sets the item's status. Nothing works a status out from the items under it: there are no roll-ups. A parent does not change because its children closed: a plan is not Done because its items are done, and an epic stays open until its own issue closes, and can be closed with open stories. Apart from an item whose issue closed, a status or the direction changes only when a person asks for it. The one other exception is the branch step above: cutting the plan's branch sets main's plan file to In Progress, because the person started work on the plan.
-- Its tree holds six kinds of item, each under one kind of parent: an epic at the top of the tree; a feature item under an epic; a story under an epic or a feature item; a spike, a chore or a bug under a story (a bug under the story that brought the defect in).
-- An item of kind `feature` is a feature item: an issue of type Feature that groups some stories inside one epic. It stands for nothing in the product model: it has no `represents` mark, no ICE, and no link to a Feature, a Capability or a Domain. It is never read as the Feature kind; a play finds the Story of a Feature by the `represents` mark only. A story under a feature item sits in the epic above it.
-- Older plan files also hold the item kind `issue`, or an item under another parent (for example a bug under a feature item). That is drift, not an error: the tools still print them, and `/reshape-plan` names such an item when an instruction touches it, offers the right kind or parent, and never changes it unasked.
+- Its plan file and the tracker always agree — its Tree and its epic's feature-to-story map show the same Feature issue for each feature, and its `epic` mark names the epic at the top of its Tree. A person manages a plan with `/reshape-plan`: in one session, on one approval, it changes the plan file, the tracker and the product model together, and then checks that the three agree and that nothing else changed. When the plan has no branch, it first sets main's plan file to In Progress with the branch named, commits that on main, and cuts the plan's branch from that commit. It cuts no other branch, never merges a branch, and never touches code.
+- A person sets the plan's Status, its Direction and the status of each slice in its Slices list. Each item in its tree follows its own issue: when the issue is closed as completed, the item is Done; when it is closed as not planned, the item is Dropped; while the issue is open, a person sets the item's status. Nothing works a status out from the items under it: there are no roll-ups. A parent does not change because its children closed: a plan is not Done because its items are done, and an epic stays open until its own issue closes, and can be closed with open stories. Apart from an item whose issue closed, a status or the direction changes only when a person asks for it. The one other exception is the branch step above: cutting the plan's branch sets main's plan file to In Progress, because the person started work on the plan.
+- Its tree holds six kinds of item, each under one kind of parent: its one epic at the top of the tree; a feature (a Feature issue) under the epic; a story under a feature; a spike or a bug under a story (a bug under the story that brought the defect in); a chore under a story, or under the epic (the Chore's rules say which).
+- An item of kind `feature` is a Feature issue. Its `represents` mark names its one feature, the same feature as the `Represents:` line in its text. A story under it sits in the epic above it.
+- A feature whose Feature issue sits under another plan's epic shows in its tree under its one epic, as an item of kind `feature` with that issue's number and the mark `held_by: <epic>`. Its Stories show only in the tree of the plan whose epic holds it. The agreement check reads the tracker parent of such an item as the `held_by` epic.
+- The person moves a Feature issue to another epic only in a `/reshape-plan` session of the plan it moves to. That session changes its own plan file and both epics' maps, and its landing's commit message names the plan it leaves as owed. The next session of that plan names the item, offers to mark it `held_by`, and never changes it unasked.
+- Older plan files also hold the item kind `issue`, a story straight under an epic, an item of kind `feature` with no `represents` mark (an old feature item), an item under another parent, an epic with a `represents` mark (an old epic for one slice), more than one epic, or no `epic` mark and no Slices list. That is drift, not an error: the tools still print them, and `/reshape-plan` names such an item when an instruction touches it, offers the right kind or parent, and never changes it unasked.
 - While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there. Only two copies of the plan file count: the one on the plan's branch and main's. Main's copy names the branch and may be behind it; the copy on any other branch is ignored.
 - The plan file keeps no history. Each `/reshape-plan` landing is one commit on the plan's branch, and its message names what the person asked, each rule they overrode, and what is still owed (for example a slice, a hidden-file entry or an eval). Git keeps the history.
-- Its Status, its Direction, its Branch, its item kinds, the status of each item and the record of its changes are operational. They live in the plan file, and the record in git, only. They are never written in the product model's index or on its pages, and no product-layer kind holds them. A part that `/reshape-plan` adds to the model (a new feature, its thin ICE, its place in a slice) is a product fact, not an operational one.
+- Its Status, its Direction, its Branch, its `epic` mark, its item kinds, the status of each slice and of each item, and the record of its changes are operational. They live in the plan file, and the record in git, only. They are never written in the product model's index or on its pages, and no product-layer kind holds them. A part that `/reshape-plan` adds to the model (a new feature, its thin ICE, its place in a slice) is a product fact, not an operational one.
 - Two plans that need each other are one plan.
 - A bug found after a plan is done sits under the Story that introduced it; no new plan is made, and the done plan is not reopened.
 - It holds no capability. A capability shows only through a feature.
@@ -637,15 +701,15 @@ Not Started, In Progress, Paused, Done, Dropped. A person moves a plan from any 
 
 **Example**
 
-> **Shop — plan #120** "Shoppers can check out without an account": Status: In Progress. Direction: 1 (next), set by the shop owner. Branch: `plan/120/base`; main's copy names it. Holds Slice "Pay without an account" → Epic #121 "Pay without an account" (open) → feature item #124 "Pay faster" (an issue of type Feature; no ICE, and it represents nothing in the model) → Story #122 "Guest checkout" (done; Feature "Guest checkout") → Bug #130 "Card fails on mobile" (open); Story #123 "Send receipt" (done), straight under the epic. Story #122 sits under the feature item and is in Epic #121. Now: #130. Needs plan #118, because Checkout needs Cart, whose features are in plan #118. When "Save the card for next time" is shaped for the same intent, the plan play adds it to plan #120 and creates its epic and stories; no second plan is made.
+> **Shop — plan #120.** At the top: business intent "Shoppers can check out without an account" (`bi-120`), then `epic: 121`. Status: In Progress. Direction: 1 (next), set by the shop owner. Branch: `plan/120/base`; main's copy names it. Slices: "Pay without an account" — In Progress. Tree: Epic #121 "Pay without an account" (open) → Feature issue #122 "Guest checkout" (`represents: ft-guest-checkout`; done — the shop owner finished it) → Story #125 "Guest checkout" (done) → Bug #130 "Card fails on mobile" (open), and Story #126 "Show the total" (done); Feature issue #123 "Send receipt" (`represents: ft-send-receipt`; open) → Story #124 "Email the receipt" (done); and Chore #131 "Clean the old cart data" (open), straight under Epic #121, because it is upkeep for the plan as a whole. Feature issue #123 stays open with its one Story done, because only a person closes it. Now: #130. Needs plan #118, because Checkout needs Cart, whose features are in plan #118. When "Save the card for next time" is shaped for the same intent, `/reshape-plan` adds it to the Slices list as Not Started, and the Feature issues of its features that are not yet built go under Epic #121; no second epic and no second plan is made. Plan #150 (business intent "Shoppers pay in one minute", `epic: 151`) also holds "Guest checkout", in its Slice "Pay in one minute": its tree shows #122 under its one Epic #151, as an item of kind `feature` with `held_by: 121` and no Stories under it, and it filed no second issue. #122 is done in both plans, and the eval of each plan tests it. When the eval of plan #120 finds a sign-up page before the payment page, the recovery condition says the builder can fix this alone, so the builder gets: "A guest sees a sign-up page before the payment page. Go to the payment page with the email only." When it finds two charges on one order, the recovery condition says a person must decide, because money goes out, so the handoff plan goes to a person. Plan #120 lands on main only when its eval passes.
 >
-> **Clinic — plan #340** "Patients book their own appointments online": the plan play made it right after `/design-slice` shaped "Self-booking". Holds Slice "Self-booking" → Epic #341 "Self-booking" → Story #342 "Pick a free slot" (done) → Chore #345 "Add the slots table" (done); Story #343 "Send a reminder". Later "Cancel online" was shaped for the same intent and added, with its epic. Folder: `.garura/project/plans/340/evals/self-booking/` and `evals/cancel-online/`, each with its hidden file `failure-and-recovery.md` (written by `/design-slice`) and its eval (written by the eval play), and their two guides. Needs no other plan. Status: Paused, while the clinic manager waits for the new calendar. Direction: 2 (next in line). Branch: none — its branch merged into main when it paused.
+> **Clinic — plan #340.** At the top: business intent "Patients book their own appointments online" (`bi-340`), then `epic: 341`. The plan play made it right after `/design-slice` shaped "Self-booking". Slices: "Self-booking" — In Progress; "Cancel online" — Not Started. Tree: Epic #341 "Self-booking" → Feature issue #342 "Pick a free slot" (done) → Story #346 "Pick a free slot" (done) → Chore #345 "Add the slots table" (done); Feature issue #343 "Send a reminder" → Story #347 "Send a reminder". Later "Cancel online" was shaped for the same intent: `/reshape-plan` added it to the Slices list as Not Started, and its Feature issues go under Epic #341, with no second epic. Folder: `.garura/project/plans/340/evals/`, with the plan's one eval (written by the eval play), and `evals/self-booking/` and `evals/cancel-online/`, each with its hidden file `failure-and-recovery.md` (written by `/design-slice`); and `guides/`, with the usage guides the build delivered. The eval play read Epic #341 with its map, Feature issues #342 and #343 and both hidden files, and joined the entry for "Pick a free slot" to #342 through the map. The builder of Story #346 reads Feature issue #342, the Story and the context in `.garura/project/issues/346/`, never the evals folder. Needs no other plan. Status: Paused, while the clinic manager waits for the new calendar. Direction: 2 (next in line). Branch: none — its branch merged into main when it paused, before its eval passed: a paused plan still merges. Later, in a `/reshape-plan` session of plan #360 "Patients get a reminder before each visit", the clinic manager moved #343 under that plan's one Epic #361. The session changed plan #360's file and the maps of both epics, and its commit message names plan #340 as owed. The next session of plan #340 names #343 and offers to mark it `held_by: 361`; it does not change it unasked.
 >
-> **Bank — plan #51** "Small businesses get a loan decision in one day": holds Slice "One-day decision" and Slice "Upload once", read from the link; it does not rank or test them. Epic #52 "One-day decision" → Story #53 "Upload documents" (done), Story #55 "Score the application" → Chore #56 "Move the scoring rules to config". Status: Done, set by the bank's product owner. Direction: none. Branch: none — no work is in progress on a branch. "Upload once" was first shaped for this intent, so its eval and guide are in plan #51's folder; the plan for "Customers give their documents only once" points to them.
+> **Bank — plan #51.** At the top: business intent "Small businesses get a loan decision in one day" (`bi-51`), then `epic: 52`. Slices: "One-day decision" — Done; "Upload once" — Done; both read from the link, and it does not rank or test them. Tree: Epic #52 "One-day decision" → Feature issue #53 "Upload documents" (done) → Story #58 "Check the file size" (done); Feature issue #55 "Score the application" → Story #54 "Score the application" → Chore #56 "Move the scoring rules to config"; Feature issue #57 "Reuse saved documents" (done). Status: Done, set by the bank's product owner. Direction: none. Branch: none — the plan landed on main after its one eval passed; the harness ran the eval by hand, because the eval runner is not built yet. "Upload once" was first shaped for this intent, so its hidden file is in plan #51's folder. The plan for "Customers give their documents only once" holds it too, records its own status for it, and its eval reads that hidden file from plan #51's folder and never copies it.
 
 ### Epic
 
-**What it is:** The work item that represents one Slice: one Epic for each Slice a Plan holds. The plan play creates it, with its Stories, one for each Feature of its Slice, and keeps on it the map from each Feature to the Story that delivers it. It serves the business intents its Slice serves. Its Slice's eval play reads it, with its Stories and its map, to learn what it delivers and which Story each hidden-file entry is for. It knows no capability and has no ICE. It is long-lived: it stays open when its work is done, and new Stories can join it. It is not a Slice (the Slice is in the model; the Epic is the work that delivers it), and it is not in the product model: the spine's `epics` list and the `epic.md` pages leave the model.
+**What it is:** The one work item of a Plan: each plan has exactly one Epic. It holds the Feature issue of each Feature of every Slice the plan holds, with their Stories inside them, and the plan's chores. The plan play creates it, finds or files the Feature issues, and keeps on it the map from each Feature to its Feature issue, one line for each feature of each slice. It serves its plan's one business intent. The plan's eval play reads it, with its Feature issues and its map. It knows no capability and has no ICE. It is long-lived: it stays open when its work is done, and new Feature issues can join it. It does not stand for a Slice: no slice names it, and the plan file names the slices. It is not in the product model: the spine's `epics` list and the `epic.md` pages leave the model.
 **Who reads it:** both
 **Layer:** work
 **In the tracker as:** an issue of type Epic, with no label
@@ -659,46 +723,106 @@ Not Started, In Progress, Paused, Done, Dropped. A person moves a plan from any 
 | Kind | Epic | yes |
 | Title | What it delivers, in one line — what a person can see the product do, not how it is built | yes |
 | State | open or closed, as the tracker holds it | yes |
-| Represents | The id of its one slice | yes |
-| Feature-to-story map | For each feature of its slice, the story that delivers it, as a list "feature → story" on the issue. Written by the plan play when it makes the stories; a line is added when a story joins. Read by the eval play to join each hidden-file entry to its story | yes, once it holds a story |
+| Feature-to-story map | For each feature of each slice its plan holds, its Feature issue, as a list "feature → Feature issue" on the issue, one line for each feature. A feature in two of the plan's slices has one line. A Feature issue that sits under another plan's epic is named with that epic. Written by the plan play; `/reshape-plan` adds a line when a feature or a slice joins the plan. Read by the eval play to join each hidden-file entry to its Feature issue | yes, once it names a feature |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
-| this → other | Slice | one | It represents one slice |
-| this → other | Business Intent | many | It serves one or more business intents — the ones its slice serves; it has no list of its own apart from its slice |
-| this → other | Story | many | It holds stories |
-| other → this | Plan | one | A plan created it (the plan play), with its stories |
+| this → other | Business Intent | one | It serves its plan's one business intent; it has no list of its own |
+| other → this | Feature issue | many | A Feature issue sits under it, with its Stories inside |
+| other → this | Plan | one | It is its plan's one epic: the plan play created it once, and the plan file names it by its `epic` mark |
+| other → this | Chore | many | A chore for the plan as a whole sits straight under it |
 
 **Rules**
 
 - It has no ICE and knows no capability. It links to no Domain and no Capability.
-- Its stories are one for each feature of its slice; when its slice gains a feature, a new story joins it, with its line in the feature-to-story map. It never holds two stories for one feature.
-- It stays open: it is not closed when its stories are done.
-- One slice has at most one epic. When the slice is in a second plan, that plan uses this epic, and the epic serves both business intents.
-- Its slice's eval play reads it, with its stories and its feature-to-story map, to learn what it delivers and which story each hidden-file entry is for. So its title says what a person can see the product do, not how it is built.
+- Its map has one line for each feature of each slice its plan holds. When a slice of its plan gains a feature, or a slice joins its plan, the play finds or files each new feature's Feature issue and adds its line. It never names two Feature issues for one feature.
+- It holds the Feature issue of each feature of every slice its plan holds, except one that sits under another plan's epic (`held_by`). A Feature issue sits under one epic at a time. When another plan's epic needs it, the play asks the person which epic it goes under, and does not move it without that answer.
+- It stays open: it is not closed when its Feature issues are closed.
+- Each plan has exactly one epic, and each epic belongs to one plan. When two plans hold one slice, each plan has its own epic: a Feature issue of that slice sits under one of them, and the other plan shows it as `held_by`. There is no unplanned epic: work that no slice holds sits in its intent's plan, under the plan's epic.
+- Its plan's eval play reads it, with its Feature issues and its feature-to-story map, to learn what the plan delivers and which Feature issue each hidden-file entry is for. So its title says what a person can see the product do, not how it is built.
+- It also holds the plan's chores for the plan as a whole, straight under it. A bug still sits under the story that brought the defect in, never straight under the epic.
 - Its feature-to-story map and its plan's Tree always agree. When they do not, it is drift, and managing the plan fixes both together.
 - It never needs anything and is never identified by anything.
 - The `*-change` plays act on work items only.
 - R1 — It is filed with the issue type Epic and no label. It is never filed as type Feature. An epic found with another type is set to type Epic, and any label on it is taken off.
-- R3 — A play finds it by the `represents` mark in its plan file, never by its issue type and never by its title.
+- R3 — A play finds it by its plan file's `epic` mark, never by its issue type and never by its title. An epic with a `represents` mark in a plan file is an old epic for one slice: it is drift, not the plan's epic.
 
 **Example**
 
-> **Clinic — Epic #341 "Self-booking"**, issue type Epic, no label. Delivers: "A patient books a free slot online and gets a reminder" — not "Add the slots table and the text service". Represents Slice "Self-booking". Serves "Patients book their own appointments online", because its slice does. The plan play created it, with Stories "Pick a free slot" and "Send a reminder". Map: Pick a free slot → #342; Send a reminder → #343. The eval for "Self-booking" reads it and tests that on the booking page. Open.
+> **Clinic — Epic #341 "Self-booking"**, the one epic of plan #340, issue type Epic, no label. The plan file names it with `epic: 341`. Delivers: "A patient books a free slot online, gets a reminder and cancels online" — not "Add the slots table and the text service". It stands for no slice. Serves "Patients book their own appointments online", its plan's intent. The plan play created it once, and filed the Feature issues "Pick a free slot" and "Send a reminder" under it; when "Cancel online" joined the plan, `/reshape-plan` filed "Cancel a visit" (#350) under it too. Map: Pick a free slot → #342; Send a reminder → #343; Cancel a visit → #350. The plan's eval reads it and tests that on the booking page. Open.
 >
-> **Shop — Epic #121 "Pay without an account"**, issue type Epic, no label. Serves "Shoppers can check out without an account" and, later, "Shoppers pay in one minute". Its stories are done; it stays open.
+> **Shop — Epic #121 "Pay without an account"**, the one epic of plan #120 (`epic: 121`), issue type Epic, no label. Serves "Shoppers can check out without an account". Map: Guest checkout → #122; Send receipt → #123. Feature issue #122 is closed; the epic stays open. Chore #131 "Clean the old cart data" sits straight under it, because it is upkeep for the plan as a whole. Epic #151 "Pay in one minute", the one epic of plan #150, also needed "Guest checkout". The play asked the shop owner, who kept #122 under Epic #121, so the map of Epic #151 reads "Guest checkout → #122 (under Epic #121)", and plan #150 shows it as `held_by: 121`.
 >
-> **Bank — Epic #52 "One-day decision"**, issue type Epic, no label. It was filed as type Feature before the Epic type existed; its plan file marks it, so the plan play found it and set its type to Epic. Delivers: "A small business gets a loan decision on the same day." Represents Slice "One-day decision". Holds Stories "Upload documents" and "Score the application". The epic of Slice "Upload once" is used by plan #51 and by the plan for "Customers give their documents only once", and serves both intents.
+> **Bank — Epic #52 "One-day decision"**, the one epic of plan #51 (`epic: 52`), issue type Epic, no label. It was filed as type Feature before the Epic type existed; its plan file marks it, so the plan play found it and set its type to Epic. Delivers: "A small business gets a loan decision on the same day." It holds the Feature issues of both slices of plan #51, "One-day decision" and "Upload once". Map: Upload documents → #53; Score the application → #55; Reuse saved documents → #57. The plan for "Customers give their documents only once" has its own epic, and shows #57 as `held_by: 52`. An older plan file of the bank held one epic for each slice, each with a `represents` mark, and no `epic` line: that is drift, and `/reshape-plan` asks the bank's product owner which epic becomes the plan's epic.
+
+### Feature issue
+
+**What it is:** The one tracker issue that stands for one product feature, in the whole tracker. Its text names the feature in one exact line, `Represents: <feature id>`. That line is the only link between a feature and its work, and it points one way, from the tracker to the model. It holds the feature's scope of work and its Context guidance, written from the feature's ICE and its capability's ICE. It sits under one Epic at a time and holds the Stories of its feature. A person closes it through `/reshape-plan` "finish", and then the feature is built. It is not the Feature (the Feature is in the model; the Feature issue stands for it in the tracker), and it is not the old feature item (a group of stories that stood for nothing; it goes).
+**Who reads it:** both
+**Layer:** work
+**In the tracker as:** an issue of type Feature, with no label
+**Lives at:** the team's tracker, under its one epic, named in the plan file of each plan that holds its feature
+
+**Properties**
+
+| Property | What it holds | Required |
+|----------|---------------|----------|
+| Issue | The tracker issue's number or key | yes |
+| Kind | Feature | yes |
+| Title | The one thing its feature lets a person do, in one line | yes |
+| State | open or closed, as the tracker holds it. Closed as completed means its feature is built | yes |
+| Represents | The exact line `Represents: <feature id>` in its text, once, naming one feature | yes |
+| Scope of work | Its own words for its feature's work, written by the plan play from every line of the feature's ICE and its capability's ICE except "Fails if": the goals, the limits, and what is expected (the scenarios, what "done" means, and the quality needs). It holds no failure condition and no recovery condition. The eval of each plan that holds its feature tests those things | yes |
+| Context guidance | The four Context lines of its two ICE, in its own words: what to read, what never to read, the persona, and what is in and what is out. It says where to look; it holds no facts. The build play's context sub-agent reads it and collects the context; the eval play reads it | yes |
+| Written from | The two ICE it read | yes |
+
+**Relationships**
+
+| Direction | Other kind | Count | Meaning |
+|-----------|-----------|-------|---------|
+| this → other | Feature | one | It stands for one feature. The link is kept on the issue only, never in the model |
+| this → other | Epic | one | It sits under one plan's epic at a time |
+| this → other | ICE | two | It was written from its feature's ICE and that feature's capability's ICE |
+| other → this | Story | many | A story sits inside it |
+| other → this | Plan | many | A plan finds or files it, and shows it in its tree |
+
+**Rules**
+
+- Each feature has exactly one Feature issue in the whole tracker, open or closed. One Feature issue names one feature, never two.
+- R3 — A play finds it by the `represents` mark in a plan file. When no plan file marks it, the play searches the tracker through the tracker tool. A match counts only when the issue is of type Feature and its text has the exact line `Represents: <feature id>`. A line that is not exact, or the line on an issue of another type, is not a match. A play never finds it by its title.
+- Two issues of type Feature with the same `Represents:` line are a duplicate. The run stops and asks the person. A play never files a second Feature issue for a feature.
+- The plan play files one only for a feature that is not yet built, and only when the search finds none.
+- It sits under one plan's epic at a time. When another plan's epic needs it, the play asks the person which epic it goes under, and does not move it without that answer; the other plan shows it as `held_by`.
+- It never holds a failure condition or a recovery condition — not in its scope of work, its Context guidance, its title or its examples. `/design-slice` puts them in the slice's hidden file, in its feature's entry.
+- It holds the Context guidance, never the context itself. When the build play runs for a Story inside it, its context sub-agent reads this Context guidance, collects the context, and puts it in the short-term memory of the issue being built, `.garura/project/issues/<issue>/`. The sub-agent never opens an ICE page and never reads a plan's evals folder, also when the guidance names it. The builder reads the Feature issue, its Story and that collected context, never an ICE page.
+- When one of its two ICE changes after it is made, its scope of work, its Context guidance and its feature's entry in the slice's hidden file are drift for the Alignment loop. They are not changed without a word. In the same Alignment round, the plan play makes the Feature issue again and `/design-slice` makes the entry again, from the same two ICE, so the Feature issue and the hidden file never disagree. When the change removes the thin mark, the entry's thin note goes too.
+- A person closes it, through `/reshape-plan` "finish". Nothing closes it because its Stories closed: there is no roll-up. It can stay open with all its Stories closed.
+- Only "closed as completed" means its feature is built. When it is closed as not planned, its feature is not built: a new slice can take the feature in, and the plan play then shows the closed issue to the person, who opens it again or leaves the feature out. The play never files a second one.
+- An issue of type Feature with no `Represents:` line is not a Feature issue. It is drift: it is given the line or another type, and is never read as a feature.
+- It never needs anything and is never identified by anything. It links to no Domain and no Capability.
+- R4 — It is filed with the issue type Feature and no label. It is never an Epic: R1 stands.
+
+**States**
+
+open → closed as completed (its feature is built), by a person through `/reshape-plan` "finish"; open → closed as not planned, by a person through `/reshape-plan` "drop". A closed Feature issue is opened again only by a person.
+
+**Example**
+
+> **Shop — Feature issue #122 "Guest checkout"**, issue type Feature, no label, under Epic #121 "Pay without an account". Its text has the line `Represents: ft-guest-checkout`. Scope of work: "A shopper pays by card with an email only; no account is made; returns do not change. Expected: the shopper sees an order number; a guest pays by card in under two minutes." Context guidance: "Read: the payment rules. Never read: saved card data. Persona: the guest shopper on mobile. In: card and wallet; out: saved addresses." Written from: ICE of Feature "Guest checkout", ICE of Capability "Checkout". It holds Stories #125 "Guest checkout" and #126 "Show the total". When the build play ran for Story #126, its context sub-agent read this Context guidance and put the payment rules in `.garura/project/issues/126/`; the builder read them there. The shop owner finished #122 in `/reshape-plan`, so it is closed as completed, and "Guest checkout" is built in plan #120 and in plan #150.
+>
+> **Clinic — Feature issue #343 "Send a reminder"**, under Epic #341 "Self-booking", with the line `Represents: ft-send-a-reminder`. Scope of work: "The patient gets a text the day before a booked visit, and only for a booked visit. Expected: the text names the time and the doctor." Context guidance: "Read: the clinic's message rules. Never read: patient health records. Persona: the patient on a phone. In: text messages; out: email." No plan file marked it when the plan play ran for Slice "Follow-up visits", so the play searched the tracker, found #343 by its exact line, and filed nothing. Its Stories are closed, but it stays open until the clinic manager finishes it. Feature issue #88 "Video visit" was closed as not planned last year, so "Video visit" is not built: when the slice "Remote care" took it in, the plan play showed #88 to the clinic manager, who opened it again, and no second issue was filed.
+>
+> **Bank — Feature issue #55 "Score the application"**, under Epic #52 "One-day decision", with the line `Represents: ft-score-the-application`. Scope of work: "Each application gets a score, from the sent documents only. Expected: the score is on the application within one hour." Context guidance: "Read: the lending policy. Never read: other customers' accounts. Persona: the credit officer. In: the documents sent; out: credit bureau data." An older issue of type Feature titled "Score the application" has no `Represents:` line, so it is not a match and is never read as the feature: it is drift. When a second issue with the line `Represents: ft-score-the-application` was found, the run stopped and asked the branch manager which one stays.
 
 ### Story
 
-**What it is:** The work item that represents one Feature and delivers it, and with it that Feature's part of its Capability. The plan play makes it when it creates the Epic. It is written from its Feature's ICE and that Feature's Capability's ICE: its scope of work (goals, limits, expectations) and its Context guidance. The failure and recovery conditions of those two ICE go to its slice's hidden file, in its feature's entry, written by `/design-slice`, never to the story. Its Slice's eval play reads the story to build the eval. It sits in exactly one Epic. There is one Story for each Feature in each Epic: when a later Slice includes a Feature again, that Slice's Epic gets its own Story for the Feature. It is not the Feature (the Feature is in the model; the Story stands for it in the tracker).
+**What it is:** One piece of work inside one Feature issue. It always sits inside a Feature issue, and through it in one Epic. It does not stand for a feature: it reaches its feature only through its Feature issue. It holds no scope of work and no Context guidance of its own; its Feature issue holds them. A Feature issue can hold many Stories. It is not the Feature and not the Feature issue.
 **Who reads it:** both
 **Layer:** work
 **In the tracker as:** an issue of type Story, with no label
-**Lives at:** the team's tracker, inside its epic, named in its plan file
+**Lives at:** the team's tracker, inside its Feature issue, named in its plan file
 
 **Properties**
 
@@ -706,45 +830,35 @@ Not Started, In Progress, Paused, Done, Dropped. A person moves a plan from any 
 |----------|---------------|----------|
 | Issue | The tracker issue's number or key | yes |
 | Kind | Story | yes |
-| Title | What it delivers, in one line | yes |
-| State | open or closed, as the tracker holds it; closed means delivered | yes |
-| Represents | The id of its one feature | yes |
-| Scope of work | Its own words for its work, written by the plan play when it makes the story from every line of its feature's ICE and its capability's ICE except "Fails if", on the issue. It says what the feature must do (the goals), inside which limits it must stay, and what is expected (the scenarios, what "done" means, and the quality needs). It holds no failure condition and no recovery condition. Its slice's eval tests those things | yes |
-| Context guidance | The four Context lines of its two ICE, in its own words, on the issue: what to read, what never to read, the persona, and what is in and what is out. It says where to look; it holds no facts. The build play's context sub-agent reads it and collects the context; the eval play reads it | yes |
-| Written from | The two ICE it read | yes |
+| Title | Its piece of work, in one line | yes |
+| State | open or closed, as the tracker holds it; closed means its piece of work is done, not that its feature is built | yes |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
-| this → other | Feature | one | It represents and delivers one feature, with that feature's part of its capability |
-| this → other | Epic | one | It sits in exactly one epic |
-| this → other | ICE | two | It was written from its feature's ICE and that feature's capability's ICE |
+| this → other | Feature issue | one | It sits inside exactly one Feature issue, and through it in one epic |
 | other → this | Spike | many | A spike is a child of it |
 | other → this | Chore | many | A chore is a child of it |
 | other → this | Bug | many | A bug is a child of it |
 
 **Rules**
 
-- One story per feature in each epic: an epic never holds two stories for one feature.
-- Its feature is one of its epic's slice's features.
-- Its two ICE are the ICE of its feature and the ICE of that feature's capability. The ICE pages stay the source; the scope of work and the Context guidance are the story's own words.
-- It never holds a failure condition or a recovery condition — not in its scope of work, its Context guidance, its title or its examples. `/design-slice` puts them in its slice's hidden file, in its feature's entry.
-- It holds the Context guidance, never the context itself.
-- When the build play runs, its context sub-agent reads the story's Context guidance, collects the context, and puts it in the issue's short-term memory, `.garura/project/issues/<issue>/`. The sub-agent never opens an ICE page and never reads a plan's evals folder, also when the guidance names it. The builder reads the story and that collected context, and never an ICE page.
-- When one of those ICE changes after the story is made, its scope of work, its Context guidance and its feature's entry in the slice's hidden file are drift for the Alignment loop. They are not changed without a word. In the same Alignment round, the plan play makes the story again and `/design-slice` makes the entry again, from the same two ICE, so the story and the hidden file never disagree. When the change removes the thin mark, the entry's thin note goes too.
-- Closed means delivered.
+- It always sits inside one Feature issue. It is never straight under an epic.
+- It never holds a failure condition or a recovery condition — not in its title, its text or its examples.
+- Closed means its piece of work is done. Its feature is built only when a person closes the Feature issue.
+- A Story with no Feature issue as its parent (an orphan) is matched to its feature by research in the product model, and goes inside that feature's Feature issue. When no feature fits, the feature is made and its Feature issue is filed.
 - It never needs anything and is never identified by anything. It links to no Domain and no Capability.
 - R2 — It is filed with the issue type Story and no label. A story found with another type is set to type Story, and any label on it is taken off.
-- R3 — A play finds it by the `represents` mark in its plan file, never by its issue type and never by its title.
+- R3 — A play finds it by its node in its plan file, under its Feature issue, never by its issue type and never by its title.
 
 **Example**
 
-> **Shop — Story #122 "Guest checkout"**, in Epic "Pay without an account". Delivers Feature "Guest checkout", part of Capability Checkout. Scope of work: "A shopper pays by card with an email only; no account is made; returns do not change. Expected: the shopper sees an order number; a guest pays by card in under two minutes." Context guidance: "Read: the payment rules. Never read: saved card data. Persona: the guest shopper on mobile. In: card and wallet; out: saved addresses." Written from: ICE of Feature "Guest checkout", ICE of Capability "Checkout". When the build play runs, its context sub-agent puts the payment rules in `.garura/project/issues/122/`; the builder reads them there.
+> **Shop — Story #126 "Show the total"**, issue type Story, no label, inside Feature issue #122 "Guest checkout", and through it in Epic #121 "Pay without an account". It names no feature: it reaches "Guest checkout" through #122, and its builder reads the scope of work and the Context guidance on #122. It is closed, so its piece of work is done; "Guest checkout" was built only when the shop owner finished #122.
 >
-> **Clinic — Story #342 "Pick a free slot"**, in Epic "Self-booking". Scope of work: "A patient picks a free slot and it is booked, only from slots the doctor opened. Expected: the booked slot shows on the confirmation page." Context guidance: "Read: the clinic's opening hours. Never read: patient health records. Persona: the patient on a phone. In: open slots; out: moving a booking." Children: Chore "Add the slots table", Bug "Two patients get the same slot".
+> **Clinic — Story #348 "Cancel by answering the reminder"** was filed straight under Epic #341, with no Feature issue. A play researched the product model, matched it to the feature "Send a reminder", and put it inside Feature issue #343. Nothing on the Story names the feature.
 >
-> **Bank — Story #55 "Score the application"**, in Epic "One-day decision". Scope of work: "Each application gets a score, from the sent documents only. Expected: the score is on the application within one hour." Context guidance: "Read: the lending policy. Never read: other customers' accounts. Persona: the credit officer. In: the documents sent; out: credit bureau data." Written from the ICE of Feature "Score the application" and the ICE of Capability "Credit decision".
+> **Bank — Story "Freeze a card"** has no Feature issue, and no feature in the model fits it. So the feature "Freeze a card" is made in the model, its Feature issue is filed with the line `Represents: ft-freeze-a-card`, and the Story goes inside it. Story #54 "Score the application" is closed, but Feature issue #55 is open, so "Score the application" is not built.
 
 ### Spike
 
@@ -792,11 +906,11 @@ Not Started, In Progress, Paused, Done, Dropped. A person moves a plan from any 
 
 ### Chore
 
-**What it is:** Upkeep work for a Story. It is a child of one Story. It holds no ICE and links to no feature.
+**What it is:** Upkeep work in a plan. It is a child of one Story, or of the plan's one Epic when the upkeep is for the plan as a whole and no story owns it. It holds no ICE and links to no feature.
 **Who reads it:** both
 **Layer:** work
 **In the tracker as:** an issue labelled `work-item`
-**Lives at:** the team's tracker, as a child of its story, named in its plan file
+**Lives at:** the team's tracker, as a child of its story or of its plan's epic, named in its plan file
 
 **Properties**
 
@@ -806,17 +920,20 @@ Not Started, In Progress, Paused, Done, Dropped. A person moves a plan from any 
 | Kind | Chore | yes |
 | Title | The upkeep to do, in one line | yes |
 | State | open or closed, as the tracker holds it | yes |
-| Parent | Its one story | yes |
+| Parent | Its one story, or its plan's one epic | yes |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
-| this → other | Story | one | It is a child of one story |
+| this → other | Story | one | It is a child of one story, when the upkeep is for that story's work |
+| this → other | Epic | one | It is a child of its plan's epic, when the upkeep is not for one story's work. It has one parent: a story or the epic, never both |
 
 **Rules**
 
-- It holds no ICE. It reaches its feature, its epic and its business intent through its story.
+- It holds no ICE. Under a story, it reaches its feature, its epic and its business intent through that story. Under the epic, it reaches the business intent through the epic, and it has no feature.
+- It goes under a story when the upkeep is for that story's work: the story cannot be finished without it. It goes under the plan's epic when the upkeep is for the plan as a whole, for the work of more than one story, or for no story. It never goes straight under a Feature issue. The person who adds it decides, through `/reshape-plan`; the play proposes the parent by this rule, and asks when the chore fits both.
+- Under the epic, it is in no feature: no Feature issue and no slice counts it, and the plan's eval does not test it.
 - It never needs anything and is never identified by anything. It links to no Domain and no Capability.
 
 **Example**
@@ -826,6 +943,8 @@ Not Started, In Progress, Paused, Done, Dropped. A person moves a plan from any 
 > **Bank — Chore #56 "Move the scoring rules to config"**, child of Story "Score the application", in Epic "One-day decision".
 >
 > **Shop — Chore "Add the guest orders table"**, child of Story "Guest checkout".
+>
+> **Shop — Chore #131 "Clean the old cart data"**, child of Epic #121 "Pay without an account", the one epic of plan #120. The upkeep is for the plan as a whole and no story owns it, so it sits straight under the epic. No Feature issue and no slice counts it, and the plan's eval does not test it.
 
 ### Bug
 
@@ -867,7 +986,7 @@ Not Started, In Progress, Paused, Done, Dropped. A person moves a plan from any 
 
 ## Not yet defined
 
-None. Every kind a question or a relationship names is defined above.
+- **Product Profile** — the product's box: its levels, gates and compliance. A raised level and its gate are the person's answer to a box-move, kept on the profile, not in a decision record.
 
 ## Log
 
@@ -891,3 +1010,5 @@ None. Every kind a question or a relationship names is defined above.
 - 2026-10-29 — v13 (#717, plan #717, with the product owner): the Plan kind drops the rule "A plan that needs another cannot land on main until that plan is done: the other plan has landed on main, or has been merged into this plan's branch." When a plan's branch goes into main is a rule of delivery, which the harness standard (principle 8) and the work guide hold; ADR 060 decides that a plan's branch merges into main when the plan pauses, also with its issues still open. The property "Needs plans", the link "needs another plan" and the other rules stay. No question and no other kind changes.
 - 2026-10-30 — v14 (#720, plan #717, with the product owner): the Plan kind catches up with how plans are kept. A plan's Status is Not Started, In Progress, Paused, Done or Dropped (was active, done or dropped), and it has a Direction (1, 2, 3 or none); a person sets both, and nothing works them out. Its tree may hold six item kinds, each under one kind of parent: an epic at the top, a feature item under an epic, a story under an epic or a feature item, a spike, chore or bug under a story. A feature item is an issue of type Feature that groups stories inside an epic: the Plan's own word, not the Feature kind, and it represents nothing in the model; a story under it sits in its epic. While its work is in progress a plan has its own branch, `plan/<id>/base`. The plan file keeps no history: each landing is one commit whose message names what was asked, the overrides and what is owed. Managing a plan is `/reshape-plan`, which changes the plan file, the tracker and the product model together, on one approval. These stay in the Plan kind and the plan files, never in the product model. The ICE's Thin line becomes "Thin: proposed from the person's words; deepen with `/specify-capabilities`.", and a thin ICE is proposed by the play that needs it (today `/design-slice` or `/reshape-plan`); a page with the old line is still thin. The opening names the type Feature. Q41–Q47 are added; Q7, Q20 and Q38 change, and Q1, Q4, Q22 and Q23 name the feature item. No other kind changes.
 - 2026-10-31 — v15 (#1007, ADR 064, plan #717, with the product owner): an item's status in a plan follows its own issue. Closed as completed is Done; closed as not planned is Dropped; while the issue is open, a person sets it. There are still no roll-ups: a parent does not change because its children closed, and the plan's Status and Direction stay the person's. Only the Plan kind's status rule changes; no question, kind, link or property changes.
+- 2026-11-12 — v16 (#1050, ADR 068, with the product owner): each product feature has one Feature issue, a new work-layer kind: one issue of type Feature, with no label, whose text names the feature (`Represents: <feature id>`) — the only link, one way, from the tracker to the model; no feature holds an issue number. The Feature issue holds the scope of work and Context guidance (moved from the Story), sits under one Epic at a time (a second Epic asks the person), and holds the Stories; a Story always sits inside one, and an orphan Story is matched to its feature by research in the model. A play finds it by the plan file's mark, else by the exact line on an issue of type Feature, open or closed, never by title; two such issues stop the run. A feature is built when a person closes its Feature issue as completed through `/reshape-plan` "finish" (closed as not planned is not built), and then counts complete in every slice and plan that holds it; slices and plans group features many to many and take in only features not yet built. A plan whose epic does not hold a feature's Feature issue shows it with the mark `held_by: <epic>`; a move is made in a `/reshape-plan` session of the plan it moves to, whose commit names the plan it leaves as owed. The feature item goes, and "delivered" becomes "built" for a feature. Capability and ICE change in wording only. Changed kinds: Feature, Story, Epic, Plan, Slice, Capability, ICE; new kind: Feature issue. Q19, Q20, Q26 and Q43 change; Q1, Q4, Q7, Q10, Q13, Q18, Q22, Q23, Q29, Q32, Q36, Q37 and Q39 follow; Q48–Q53 are added. The opening, the flow line, the five links and the tracker paragraph change.
+- 2026-11-12 — v17 (#954, ADR 069, with the product owner): the Plan is the one place where the product model meets the work, and the model knows no plan, no tracker and no decision record — a new rule for the whole model: no part holds a reference to the work side (plan, plan folder, eval, hidden file, epic, tracker issue or the tracker), `created_by` and `updated_by` name the play or agent, never an issue, git history keeps where a part came from, the spine has no `epics` list and no work status, a product decision is the content of the part it decides, and an ADR records a decision about the code, outside the model. A plan names its business intent at the top of the plan file, has one Epic (the mark `epic: <issue number>`), which holds the Feature issues of all its slices and the plan's chores, records each slice in its Slices list with a status a person sets (Not Started, In Progress, Done or Dropped), and has one eval that covers every feature of its slices; a done plan lands on main only when that eval passes (by hand until #801), and a paused plan still merges; its folder keeps that eval, the hidden files of the slices first shaped for its intent and the usage guides; a new slice joins it through `/reshape-plan`. Epic: one for each plan; it stands for no slice; the shared epic and its `represents` mark go. Slice: names no plan, epic, eval, hidden file or guide, and is model only; its eval, hidden file and guide move to the plan. Business Intent: no Tracker line, and What was done links to no work item. Chore: under a story when the upkeep is for that story's work, else under the plan's epic. Feature issue: wording only. Product Profile is listed as not yet defined. Changed kinds: Plan, Epic, Slice, Business Intent, Chore, Feature issue. The opening, the flow line, links 1, 2 and 4 and the tracker paragraph change. Q1, Q7, Q18, Q20, Q28 to Q33, Q35, Q36, Q40 and Q43 change; Q54 to Q63 are added (Q62 partly).

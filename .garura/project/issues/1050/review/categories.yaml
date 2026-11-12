@@ -1,0 +1,129 @@
+# Work categories present in PR #1053 (issue 1050), derived from the diff content.
+# Playbook treatment copied from the short-term review shelf:
+#   .garura/project/issues/1050/context/memory/knowledge/review/
+pr: 1053
+issue: 1050
+base: main
+categories:
+  - id: memory
+    name: Memory (product ontology schema)
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    why: >
+      The file is the product ontology (front matter ontology/version/updated, kinds, questions,
+      Log). It is a schema under core/components/memory/standards/ that every agent reading the
+      product model believes (playbook signals: memory/standards/**, schemas). The change bumps
+      version 15 to 16 and edits the Feature, Story, Feature issue, Plan, Epic, Slice,
+      Capability and ICE kinds, Q20 and the Plan rule, so it changes what agents decide.
+    playbook: review/memory
+    playbook_path: knowledge/review/memory.md
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: memory integrity (path / cross-reference / structure)
+          status: "gap in the playbook: no installed tool checks memory integrity"
+          command: null
+          by_hand: >
+            Read the changed file and cite each check: the structure follows the committed
+            template (standards/templates/product-ontology.md, base ref); every relationship and
+            question names a defined kind; cross-references resolve; the frontmatter is
+            consistent with the path.
+      runnable_checks:
+        - name: ontology check (structure, kinds, questions, relationships)
+          command: >
+            python3 .claude/skills/specify-ontology/scripts/check_ontology.py
+            --ontology core/components/memory/standards/schemas/product-os/ontology.md
+            --out <working>/ontology-check.json
+          expect: "exit 0 (valid); exit 2 not valid; exit 3 unreadable"
+          note: >
+            Not named by the playbook; it is the repo's committed deterministic check of this
+            exact file. The branch's own run record
+            (.garura/project/issues/1050/context/specify-ontology/ontology-check.json) must not
+            be trusted: re-run it.
+        - name: ontology change check (scope, version, names)
+          command: >
+            python3 .claude/skills/specify-ontology/scripts/check_ontology_change.py
+            --before <base copy of ontology.md from git show main:core/components/memory/standards/schemas/product-os/ontology.md>
+            --after core/components/memory/standards/schemas/product-os/ontology.md
+            --allow-kind Capability --allow-kind Epic --allow-kind Feature
+            --allow-kind "Feature issue" --allow-kind ICE --allow-kind Plan
+            --allow-kind Slice --allow-kind Story --date 2026-11-12
+            --out <working>/change-check.json
+          expect: "exit 0 (scope, version up by one, one new log line, no real names)"
+          note: >
+            Optional second check of the same file; the allowed kinds above are the kinds the
+            work description names, read from the issue's committed work description, not from
+            the branch's own check output.
+      design_grounding:
+        applies: true
+        grounded_from: >
+          Committed sources only: the prior ontology (git show main:<path>), ADR 067 (accepted
+          2026-11-12, #1048) on the base ref, docs/philosophy/**, the glossary, and memory read
+          through the memory tool (knowledge/_DESIGN.md, standards). Never the branch's new
+          ontology text or its run records.
+  - id: run-records
+    name: Run records (issue short-term memory, working files of the work run)
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/1050/context/args.json
+      - .garura/project/issues/1050/context/branch.json
+      - .garura/project/issues/1050/context/citations.jsonl
+      - .garura/project/issues/1050/context/issue.json
+      - .garura/project/issues/1050/context/memory/manifest.json
+      - .garura/project/issues/1050/context/memory/standards/templates/product-ontology.md
+      - .garura/project/issues/1050/context/plan.json
+      - .garura/project/issues/1050/context/pr-body.md
+      - .garura/project/issues/1050/context/pr.json
+      - .garura/project/issues/1050/context/resolved-rules.json
+      - .garura/project/issues/1050/context/self-review.md
+      - .garura/project/issues/1050/context/specify-ontology/change-check.json
+      - .garura/project/issues/1050/context/specify-ontology/decisions.json
+      - .garura/project/issues/1050/context/specify-ontology/draft-kinds.md
+      - .garura/project/issues/1050/context/specify-ontology/draft-links.md
+      - .garura/project/issues/1050/context/specify-ontology/draft-questions.md
+      - .garura/project/issues/1050/context/specify-ontology/need.md
+      - .garura/project/issues/1050/context/specify-ontology/ontology-before.md
+      - .garura/project/issues/1050/context/specify-ontology/ontology-check.json
+      - .garura/project/issues/1050/context/target.json
+      - .garura/project/issues/1050/context/work-description.txt
+    why: >
+      Machine-written run artefacts (contracts, citations, drafts, check outputs, a short-term
+      copy of a memory template and its manifest, the PR body and self-review) that the work
+      run left in the issue's short-term memory folder. They are neither prose for a reader
+      (docs), nor harness, nor memory in the knowledge base (the memory copy is a manifest-tracked
+      short-term copy, not a change to a shelf), nor a config map. Judged by content: they record
+      what the run did, they do not define design.
+    playbook: null
+    playbook_note: >
+      Playbook missing: no review/ playbook covers short-term-memory run records. A follow-up
+      task to add one is owed (TaskCreate was not available to this agent; the caller should
+      create it).
+    treatment:
+      reviewer: tool
+      layers: [1]
+      linters:
+        - name: no playbook linter
+          status: "playbook missing"
+          command: null
+          by_hand: >
+            The play's mechanical check (check-pr-quality) applies to the changed paths where its
+            severity-taxonomy rows match (secrets, absolute paths, account names). Beyond that,
+            the reviewer checks by hand and cites each: JSON/JSONL files parse; no absolute path,
+            home folder, temp path or account name appears in the added lines; the memory copy in
+            context/memory/ matches the fingerprint in its manifest; the records belong to issue
+            1050 only.
+      runnable_checks:
+        - name: JSON well-formedness of the *.json and *.jsonl run records
+          command: >
+            python3 -c "import json,sys;[json.loads(l) for p in sys.argv[1:] for l in (open(p).read().splitlines() if p.endswith('.jsonl') else [open(p).read()])]" <each .json/.jsonl path>
+          expect: "exit 0"
+      design_grounding:
+        applies: false
+        note: "No design to conform to; the records are not a design artefact."
+summary:
+  categories_present: [memory, run-records]
+  design_bearing: [memory]
+  playbooks_missing: [run-records]
+  absent_seeded_categories: [adrs, docs, harness, code, config-maps, tests]

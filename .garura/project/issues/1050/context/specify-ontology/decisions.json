@@ -1,0 +1,42 @@
+{
+  "history": [
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "20 - explain as what you showed to me is not clear\n19 - when a slice holds a feature that already builds it, the plan and epic should not include it. a plan when created or updated should only look at whats pending and not what is completed\n48 - yeah that is fine. we can keep the issue number to keep a link between feature and its issue id\n49 - your wording is crap, rephrase",
+      "draft": ".garura/project/issues/1050/context/specify-ontology/draft-questions.md",
+      "draft_sha256": "1189e063038f249cd8801be063dafb0fe42e1e49533ceb35543cb2f528cb7b80",
+      "at": "2026-11-12T05:52:12+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "yes",
+      "reply": "all okay, continue",
+      "draft": ".garura/project/issues/1050/context/specify-ontology/draft-questions.md",
+      "draft_sha256": "3833e9639a7e0bee5dd24bb4bb5d846acbe68b369a3052f23940595a04fce986",
+      "at": "2026-11-12T08:07:24+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "yes",
+      "reply": "yes. cp2 is fine. proceed",
+      "draft": ".garura/project/issues/1050/context/specify-ontology/draft-kinds.md",
+      "draft_sha256": "f78053efe85be0ebdd2cc6bbb4be6f396b399866fcbe34c15ae55d63b8544c3b",
+      "at": "2026-11-12T08:27:49+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "yes",
+      "reply": "yes, proceed",
+      "draft": ".garura/project/issues/1050/context/specify-ontology/draft-links.md",
+      "draft_sha256": "9930d933e35e080236fd80188466a2a5f91c5d7aaffba1d5d74ad4c8e1f15463",
+      "at": "2026-11-12T08:35:29+00:00"
+    }
+  ],
+  "agreed": {
+    "questions": true,
+    "kinds": true,
+    "links": true
+  },
+  "all_agreed": true
+}

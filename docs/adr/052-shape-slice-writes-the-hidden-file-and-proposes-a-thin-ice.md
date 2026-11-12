@@ -1,6 +1,6 @@
 # ADR 052 — /shape-slice Writes the Slice's Hidden File and Proposes a Thin ICE, the Plan Play Only Plans, and a Thin ICE Is Partly Ready
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 068](068-each-product-feature-has-one-feature-issue-that-names-it.md); and amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Decision §3: the epic that keeps the map is the plan's one epic, with one line for each feature of each slice the plan holds. §1 (the play makes evals/<slug>/ in the plan's folder) is play-side, so the principle does not reach it; the rest stands.
 **Date:** 2026-10-24
 **Level:** framework
 **Decided by:** the product owner · **Decided in:** #844 (decisions 6 and 7, from the first real `/shape-slice` run, PR #845) and #846 (product ontology v11, the three `/edit-ontology` checkpoints: questions, kinds, links and rules; PR #849, whose review found DF-1 and DF-2), plan #788

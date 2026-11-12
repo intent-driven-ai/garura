@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "note": "No extra memory was needed beyond the shared copies the assessment made (review shelf, PR severity taxonomy, and the product-ontology and plan-view templates in context/memory/standards/templates/). The ontology's design was reconstructed from committed sources on the base ref (git show main:<path>): the v16 ontology, ADR 069, ADR 068 and the ADRs they amend, core/grounding/glossary.md and docs/philosophy/**.",
+  "reused_shared_copies": [
+    ".garura/project/issues/954/context/memory/knowledge/review/memory.md",
+    ".garura/project/issues/954/context/memory/standards/rules/pr.md",
+    ".garura/project/issues/954/context/memory/standards/templates/product-ontology.md",
+    ".garura/project/issues/954/context/memory/standards/templates/plan-view.md"
+  ]
+}

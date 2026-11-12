@@ -1,6 +1,6 @@
 # ADR 062 — /update-plan Writes the Product Model Only After "Approved", and May Add a Feature to a Slice in Progress
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 069](069-the-plan-is-where-the-product-model-meets-the-work.md): Decision §2, 'its epic is past ready (in_delivery, validated, fix_required or delivered — the rule /shape-slice uses)' and 'names each epic past ready, with its status': a slice is in progress when a plan file that holds it records it so; the confirm screen names that plan and its epic. §1 and the rest of §2 stand.
 **Date:** 2026-10-30
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #720 (manage a plan with /update-plan), plan #717, the review of PR #998 into `plan/717/base` (findings HF-3 and HF-4)

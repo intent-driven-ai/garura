@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/954-one-epic-per-plan",
+  "base_sha": "8150ad55649279b69046ec5519b5f99c8d4a5088",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}

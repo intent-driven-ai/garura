@@ -1,6 +1,6 @@
 # ADR 056 — An Epic and a Story Are Marked by Their Issue Type, With No Label
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 067](067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md): §2, "A play finds an epic or a story by the plan file", for a story only: when the plan file marks no story for a feature, a play finds it by the issue the feature's entry in the product model names, which must be of type Story. An epic is still found only by the plan file, and a play still never finds an epic or a story by its title; and amended in part by [ADR 068](068-each-product-feature-has-one-feature-issue-that-names-it.md)
 **Date:** 2026-10-25
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #875 (the change: ontology v12 and its checkpoints with the product owner, PR #891) and #892 (this record, from review finding MEM-1 of PR #891)

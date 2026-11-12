@@ -1,0 +1,78 @@
+# Work categories present in PR #1049 (issue 1048). Derived from the diff content; the playbooks were used only to recognise them.
+pr: 1049
+issue: 1048
+base: main
+shelf_copy: .garura/project/issues/1048/context/memory/knowledge/review/
+severity_taxonomy_copy: .garura/project/issues/1048/context/memory/standards/rules/pr.md
+memory_manifest: .garura/project/issues/1048/context/memory/manifest.json
+categories:
+  - id: decision-records
+    name: Decision records (ADRs)
+    design_bearing: false
+    evidence:
+      - docs/adr/067-a-play-finds-a-features-story-by-the-issue-the-model-names-when-no-plan-file-marks-it.md  # new ADR: Status/Date/Level/Decided by/Context/Decision shape
+      - docs/adr/048-the-product-model-and-the-work-are-two-layers.md   # Status line only: forward pointer to ADR 067
+      - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md   # Status line only: forward pointer to ADR 067
+      - docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md   # Status line only: forward pointer to ADR 067
+      - docs/adr/_index.md   # ADR 067 row added; "067" added to the Status column of rows 048, 049, 056
+    playbook: review/adrs
+    playbook_file: knowledge/review/adrs.md
+    treatment:
+      reviewer: human, line by line (the human judges whether the decision is right)
+      layers: [layer-1]
+      linters:
+        - name: ADR structural check (required sections present; Status one of the allowed values; markdown well-formed; ADR numbered and linked from the index)
+          command: null
+          note: "Playbook names a gap: no ADR linter in-repo; until built, the structural check is a manual checklist the tool surfaces for the human. It checks the template, never the merit."
+      runnable_checks:
+        - "Manual structural checklist on ADR 067 and on the three edited Status lines: required sections present, Status value allowed, markdown well-formed, ADR numbered and linked from docs/adr/_index.md."
+        - "Index agrees with the Status lines of ADR 048, 049, 056 and 067 (hand check)."
+      design_grounding: "no (playbook: the decision is the design; the human owns the judgement)"
+    observation: "An installed ADR lint exists at .claude/skills/design-adr/scripts/adr.py (subcommand lint --adr <file>) and returns valid for ADR 067. The playbook still says no linter exists, so it is not part of the treatment; the play may choose to run it as a cross-check. The shelf playbook is likely stale on this point."
+
+  - id: run-records
+    name: Run records (issue and ADR-run working files kept as STM evidence)
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/1048/context/args.json
+      - .garura/project/issues/1048/context/branch.json
+      - .garura/project/issues/1048/context/issue.json
+      - .garura/project/issues/1048/context/plan.json
+      - .garura/project/issues/1048/context/pr-body.md
+      - .garura/project/issues/1048/context/pr.json
+      - .garura/project/issues/1048/context/resolved-rules.json
+      - .garura/project/issues/1048/context/self-review.md
+      - .garura/project/issues/1048/context/target.json
+      - .garura/project/issues/1048/context/work-description.txt
+      - .garura/project/issues/_adr/20261112T052058Z/adr-check.json
+      - .garura/project/issues/_adr/20261112T052058Z/adr-context.yaml
+      - .garura/project/issues/_adr/20261112T052058Z/adr-draft.md
+      - .garura/project/issues/_adr/20261112T052058Z/adr-manifest.json
+      - .garura/project/issues/_adr/20261112T052058Z/brief.md
+      - .garura/project/issues/_adr/20261112T052058Z/decision.yaml
+      - .garura/project/issues/_adr/20261112T052058Z/guard-report.json
+      - .garura/project/issues/_adr/20261112T052058Z/hashes-before.json
+      - .garura/project/issues/_adr/20261112T052058Z/porcelain-after.txt
+      - .garura/project/issues/_adr/20261112T052058Z/porcelain-before.txt
+      - .garura/project/issues/_adr/20261112T052058Z/run.json
+      - .garura/project/issues/_adr/20261112T052058Z/context/memory/manifest.json
+      - .garura/project/issues/_adr/20261112T052058Z/context/memory/standards/schemas/product-os/ontology.md  # frozen run-evidence copy of a memory file (893 lines), not a change to the knowledge base
+      - .garura/project/issues/_adr/20261112T052058Z/context/templates/manifest-record-decision.json
+      - .garura/project/issues/_adr/20261112T052058Z/context/templates/standards/templates/adr.md  # frozen run-evidence copy of the ADR template (178 lines)
+    playbook: null
+    playbook_note: "Playbook missing: no review/ playbook covers run records / STM evidence files. Not force-fitted to Memory (the ontology and ADR template under context/memory/ and context/templates/ are frozen run copies under .garura/project/, not edits to the knowledge base) or to Documentation (not human-facing prose)."
+    treatment:
+      reviewer: "not set by a playbook (none exists); proposed: the tool"
+      layers: [layer-1]   # proposed, not from a playbook
+      linters: []
+      runnable_checks:    # proposed by the assessor, flagged as not playbook-backed
+        - "Well-formedness: every .json file parses (done at assessment: all 14 parse)."
+        - "Hygiene on added lines: no home folder, temp path, account name, secret or token (done at assessment: no home-folder path in added lines)."
+      design_grounding: "no: records of a run are evidence, not design; there is no prior principle to conform to"
+    follow_up: "A review playbook for run records / STM evidence is missing; the shelf should gain one."
+
+summary:
+  categories_present: [decision-records, run-records]
+  design_bearing: []
+  layer_2_fan_out: none  # no design-bearing category, so no grounding dispatch is needed
+  absent_seeded_categories: [documentation, harness, memory, executable-code, config-maps, tests]
