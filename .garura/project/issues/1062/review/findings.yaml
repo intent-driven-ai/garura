@@ -1,109 +1,72 @@
-pr: 1063
+pr: 1064
 issue: 1062
 base: main
 categories:
+- product-model
 - harness
-- memory
 - executable-code
 - tests
 - run-records
 layer1_checks:
-  lint-components: 36 errors, none in a changed file (there before)
-  lint-play: reshape-plan, specify-capabilities PASS, 0 gaps
-  tests: all tests in the touched folders pass
+  lint-components: 36 errors, none in a changed file
+  lint-play: reshape-plan PASS
+  tests: reshape-plan, shape-plan, build-play references pass
+  grounding linter: 21 errors, 279 warnings, as before
+  context: 'built from the local branch diff (348 files, equal to the host''s count): fetch_pr_context.py could
+    not reach the host for a PR over 300 files'
+fixed_in_this_round:
+- 'DM-1: 156 lines on 72 pages restored so every quote is word for word, with only the issue number dropped or bracketed;
+  8 lines keep the drop of an issue''s own text under rule C'
 findings:
-- id: DG-H-1
-  severity: P3
-  file: core/components/plays/specify-capabilities/scripts/persist_understand.py
-  principle: A change to what a play guarantees goes through its ICE; the script and the ICE must agree. ADR 069
-    says a box-move writes no decision record, but sequences that through /fix-play.
-  basis: 'main:CLAUDE.md ''Play Pipeline Rules'' (intent change = ICE then /fix-play); core/components/plays/specify-capabilities/reference/ice.md
-    lines 108-110 (C8: each box-move ''is written as its own product-level decision (ADR), linked to its capability'')
-    and line 252 (F8); main ADR 069 ''Work This Creates'' (/fix-play on /specify-capabilities)'
-  detail: The script no longer adds the decision id to the capability's `decisions` list (a guaranteed link in C8)
-    yet still writes one decision record per box-move into the model's decisions folder, so it now matches neither
-    the ICE (link required) nor ADR 069 (no record at all). Its docstring now says 'no spine entry gets a `decisions`
-    list'. This is a half step; the play's ICE is unchanged.
-  suggested_fix: Either do the ICE change and /fix-play of /specify-capabilities in the same series (C8 and F8 reworded,
-    then the record dropped), or record in the PR that the ICE rebuild is the owed step 3 and keep the C8 'linked'
-    wording flagged as stale.
-  blocks_merge: false
-  category: harness
-  layer: 2
-- id: DG-H-2
+- id: DM-2
   severity: P4
-  file: core/components/plays/design-agentic/scripts/persist_agentic.py
-  principle: No decision record lives in the model (ADR 069 Decision 2)
-  basis: main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md Decision 2 and 'Work This Creates'
-    (lens plays 'when each is next built')
-  detail: Not in this diff. The slice lens plays (design-agentic persist_agentic.py line 75, design-architecture
-    persist_arch.py, design-env persist_run.py line 149) and learn-outcomes still write decision records into the
-    model. ADR 069 defers them to each play's next build, so this is a recorded remainder, not a defect of this
-    PR.
-  suggested_fix: None in this PR. Keep the follow-up tracked.
+  file: .garura/product/product-os/software-delivery-planning/ (for example memory/fn-decide-inside-memory/feature.md,
+    define-product/capability.md, build-your-own-harness/fn-harness-in-own-repo/ice.md, memory/fn-keep-decision-trace/feature.md;
+    and about a dozen whole 'GitHub
+  principle: A rewrite keeps the product fact on the line; only the reference goes (ADR 069 Decision 2).
+  basis: main:docs/adr/069-... Decision 2; sample items 1, 6, 19, 23; the removed unpaired lines in the diff (556
+    whole lines removed, mostly Sources lines naming issue-folder files or GitHub issues)
+  detail: 'Small losses of meaning with the number: ''the rules are in #952 (...) and #999 (...)'' now reads ''the
+    rules are planned as ...'' (a change of what is claimed); ''(#645, every piece of the model carries its approval
+    state)'' left ''No kind carries an approval state.'' without the phrase that gave the reason; ''(#852, replaced
+    decisions in the trace check)'' and ''of #933 (an architecture memory harness)'' lost their descriptions. About
+    a dozen Sources lines that quoted a GitHub issue''s words (for example the one on `--done` in the fn-724 page)
+    were removed whole, so those quoted source words no longer appear as sources. The page-writer''s own note records
+    this (self-review findings 1 and 3).'
+  suggested_fix: Fix the four named lines to keep the described fact in words. For the removed source quotes, keep
+    the quote where it carries the only evidence for a rule on the page, citing the thing quoted without its tracker
+    number.
   blocks_merge: false
-  category: harness
+  category: product-model
   layer: 2
-- id: DG-H-3
+- id: DM-3
   severity: P4
-  file: core/components/plays/reshape-plan/reference/ice.md
-  principle: A play's ICE says what the play guarantees; the model names no tracker issue (ADR 069 Decision 2)
-  basis: core/components/plays/reshape-plan/reference/ice.md line 64 (C11 'and to the issue that found it'), line
-    110-111 (F10 'story'), S6 lines 174-177; main ADR 069 Decision 2
-  detail: The SKILL.md and script edits are consistent with the ICE, but C11's 'the issue that found it' can be
-    read as an issue link on the model entry (the entry keeps only `identified_by`, a part id). F10 and S6 say the
-    new feature's 'story' is landed, which still holds (tracker and plan file). The wording is stale, not the behaviour.
-  suggested_fix: Reword C11 through /fix-play when the plan-side work for /reshape-plan next rebuilds it; no SKILL.md
-    change.
+  file: .garura/product/product-os/software-delivery-planning/initialize/capability.md
+  principle: A product decision is kept as the content of the part it decides, and the box-move reason is kept in
+    git, not as a record (ADR 069 Decision 2).
+  basis: main:.garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml (the deleted record);
+    main:.garura/product/product-os/_spine.yaml profile.nfr.security and cap-initialize nfr_needs.security (unchanged);
+    ADR 069 Decision 2, last bullet of the second list
+  detail: 'Consistent with the profile, and the deleted record is not edited first (it is removed whole, as ADR
+    069 says). The page line says ''Security: medium'' with the typed-yes and memory-scope guard. It does not carry
+    the gate wording ''on a test GitHub organization'', and the rejected options (keep none, move to high) and the
+    ''none to medium'' history are not on the page; ADR 069 sends the reason to git history, so this is allowed.
+    The profile and the capability''s nfr_needs still hold the level and the full gate.'
+  suggested_fix: None needed. Optionally add 'checked on a test GitHub organization' to the page line so the page
+    and the profile read the same.
   blocks_merge: false
-  category: harness
+  category: product-model
   layer: 2
-- id: DG-H-4
-  severity: P3
-  file: core/components/plays/reshape-plan/scripts/place_feature.py
-  principle: The links run one way, from the work side to the model; a spine entry holds no issue number (ADR 069
-    Decision 2). Readers of the spine must not need one.
-  basis: main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md Decision 2 ('The links run one
-    way'; 'No spine entry holds an issue number'); core/components/plays/reshape-plan/scripts/place_feature.py lines
-    73-81; feature_ice.py lines 93 and 109; plan_common.py line 700
-  detail: 'Writers stop; readers do not. place_feature.py builds `by_issue` from each capability''s spine `issue`
-    to place a new feature under the capability whose tracker issue is its story''s parent; feature_ice.py find
-    reads feature `issue` first (falling back to the plan file''s `represents`) and returns `story: f.get(''issue'')`;
-    plan_common.map_pairs reads `f.get(''issue'')`. When step 2 strips `issue` from Garura''s model, the capability
-    lookup silently finds nothing (the person is asked instead) and `story` returns null. The change is not wrong
-    today, but it leaves reshape-plan reading a field the model is no longer to hold.'
-  suggested_fix: Before or with step 2, move these reads to the plan file's nodes (`represents`) as feature_ice.represented_by
-    already does, and add a test with a spine that has no `issue`.
-  blocks_merge: false
-  category: harness
-  layer: 2
-- id: DG-M-1
-  severity: P3
-  file: core/components/memory/standards/schemas/product-os/spine.yaml
-  principle: The spine has no `epics` list, no `issue_ref`, no decisions folder (ADR 069 Decision 2 and 8)
-  basis: main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md Decision 8 ('The spine's `epics`
-    list') and Decision 2 ('the spine has no `epics` list'); spine.yaml lines 43-46 (the new header) against lines
-    218-231 (`epics` with `issue_ref`) and the layout comment naming `decisions/` (about line 284)
-  detail: 'The new header says no entry or metadata names an epic, a tracker issue or a decision record, but the
-    same file still defines an `epics` list whose entries carry `issue_ref: GitHub issue`, and still documents the
-    `decisions/` folder. A schema that states a rule and then breaks it in its own body is internally inconsistent.
-    ADR 069 sends this part through /specify-ontology, so the leftover is expected, but the header reads as if it
-    were done.'
-  suggested_fix: Word the header as 'ADR 069 target; the `epics` list and `decisions/` folder below go with the
-    /specify-ontology change', or remove them in the follow-up with the ontology change. Do not claim the rule is
-    in force while the schema allows the opposite.
-  blocks_merge: false
-  category: memory
-  layer: 2
-- id: DG-M-2
+- id: DH-1
   severity: P4
-  file: core/components/memory/standards/rules/direct-model-write.md
-  principle: No decision record lives in the model (ADR 069 Decision 2); standards must agree with accepted ADRs
-  basis: main:docs/adr/069-... Decision 2 and 'Work This Creates' (the /design-adr exception names docs/adr/ only);
-    the committed rule (read through the memory tool) lines 22, 35, 140-154 still list `decisions/` as model content
-  detail: 'Grounding gap, not in this diff: the standard that a reviewer reads still describes decisions/ as part
-    of the model, so it cannot ground this review and will mislead builders until ADR 069''s follow-up lands.'
-  suggested_fix: Update the rule with the /specify-ontology and standards follow-up; no change in this PR.
+  file: core/components/plays/reshape-plan/SKILL.md
+  principle: Surface prose of a compiled play stays readable; non-intent edits are direct (CLAUDE.md Play Pipeline
+    Rules)
+  basis: main:CLAUDE.md 'Play Pipeline Rules'; the added line in the diff (the 'the slice the plan holds when exactly
+    one serves `bi-<id>`' clause now sits on one very long line after the rewrap)
+  detail: 'Cosmetic: the placement paragraph has one overlong line after the edit. No rule is broken and the linter
+    passes (lint-play PASS, recorded).'
+  suggested_fix: Rewrap the line at the next edit of that paragraph; not worth a push on its own.
   blocks_merge: false
-  category: memory
+  category: harness
   layer: 2

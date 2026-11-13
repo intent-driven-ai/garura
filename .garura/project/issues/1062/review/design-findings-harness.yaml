@@ -1,57 +1,23 @@
 category: harness
 grounding:
-  - principle: "The product model holds no tracker issue and no decision record; no spine entry holds `issue` or a `decisions` list (ADR 069 Decision 2)"
-    source: "main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, Decision section 2 (bullets 3 and 'Decision records leave the product model too')"
-  - principle: "A feature holds its own state `status`; the rest of ADR 069 section 2 stands (ADR 070 amends only the work-status words)"
-    source: "main:docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md, Decision 1 and 2; ADR 069 Status line"
-  - principle: "An intent change to a play (what it decides or guarantees) goes through its reference/ice.md and /fix-play; a non-intent change is a direct SKILL.md edit"
+  - principle: "A change to what a play decides or guarantees (intent, C-, F-, S-, flow, evals) goes through its reference/ice.md and /fix-play; a non-intent change is a direct edit of SKILL.md."
     source: "main:CLAUDE.md, 'Play Pipeline Rules'"
-  - principle: "ADR 069 schedules the removal of decision writing as separate later work: /fix-play on /specify-capabilities, lens plays when next built, link-model-part stops writing `decisions`/`issue`"
-    source: "main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, 'Work This Creates'"
-  - note: "standards copied through the memory tool into .garura/project/issues/1062/context/memory/grounding-harness/ (direct-model-write.md); it still lists decisions/ as model content, so it is not used as grounding for ADR 069 (see DG-M-2)"
+  - principle: "The model holds no tracker issue; the links run one way, from the work side (plan files, tracker) to the model; /design-slice and /reshape-plan read the plan file, not the model."
+    source: "main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md Decision 2 and section 5"
+  - principle: "No SKILL.md carries deviation notes or change logs."
+    source: "main:CLAUDE.md, 'Play Pipeline Rules' (direct-edit history goes in the commit and the issue)"
 answers:
-  keeps_model_free_of_tracker_issues_and_decisions: "Partly. The edited scripts no longer write `issue` or `decisions` on any entry, and link-model-part refuses them. Decision record FILES are still written into the model by persist_understand.py (DG-H-1), as ADR 069 schedules for later."
-  reshape_plan_skill_md_edit_non_intent: "Yes, non-intent. C11 ('linked to the business intent and to the issue that found it') and F10 (page, entry with both thin marks, story) name no step that wrote the story onto the model entry; the story still lands in the tracker and the plan file's `represents` node. Direct edit is correct. Wording owed: DG-H-3."
-  persist_script_edits_non_intent: "reshape-plan scripts (plan_ops.py, check_agreement.py): non-intent, same reasoning. specify-domains persist_seed.py: non-intent (its ICE guarantees no `issue`/`decisions`). specify-capabilities persist_understand.py: NOT non-intent for the decisions link, see DG-H-1."
-  anything_still_writes_issue_or_decisions: "Spine entries: no script in core/components still writes `issue` or `decisions` on a spine entry after this change (grep of non-test scripts). Decision files in the model: yes, persist_understand.py and the slice lens plays (DG-H-1, DG-H-2). Readers of spine `issue` remain: DG-H-4."
+  reshape_plan_skill_md_edit_non_intent: "Yes. The edit changes one sentence of the placement step: the capability is found from the plan file's `represents` rather than from a shared issue number in the model. reference/ice.md (main) holds no line on that lookup (C11, F10 and S6 do not name it) and the diff does not touch ice.md. It changes no guarantee, decision or eval, so a direct edit is correct. The behaviour that the ICE promises (a new feature is placed, or the person is asked) is unchanged."
+  reshape_plan_scripts_non_intent: "Yes. feature_ice.py, place_feature.py and plan_common.py (three identical copies) change only where an issue number or capability is read from; tests are updated to match (a story found only through the plan file; the model's old issue number is not read)."
+  step_1_finding_DG_H_4_closed: "Yes. Step 1 found that reshape-plan still read the model's `issue` (place_feature.py, feature_ice.py). This diff moves those reads to the plan file, with a test on a spine that has `issue` and a plan node with none. The remaining `.get(\"issue\")` reads in plan_common.map_pairs are on plan-side feature entries, not the model, as its new docstring says."
 findings:
-  - id: DG-H-1
-    severity: P3
-    file: core/components/plays/specify-capabilities/scripts/persist_understand.py
-    principle: "A change to what a play guarantees goes through its ICE; the script and the ICE must agree. ADR 069 says a box-move writes no decision record, but sequences that through /fix-play."
-    basis: "main:CLAUDE.md 'Play Pipeline Rules' (intent change = ICE then /fix-play); core/components/plays/specify-capabilities/reference/ice.md lines 108-110 (C8: each box-move 'is written as its own product-level decision (ADR), linked to its capability') and line 252 (F8); main ADR 069 'Work This Creates' (/fix-play on /specify-capabilities)"
-    detail: "The script no longer adds the decision id to the capability's `decisions` list (a guaranteed link in C8) yet still writes one decision record per box-move into the model's decisions folder, so it now matches neither the ICE (link required) nor ADR 069 (no record at all). Its docstring now says 'no spine entry gets a `decisions` list'. This is a half step; the play's ICE is unchanged."
-    suggested_fix: "Either do the ICE change and /fix-play of /specify-capabilities in the same series (C8 and F8 reworded, then the record dropped), or record in the PR that the ICE rebuild is the owed step 3 and keep the C8 'linked' wording flagged as stale."
-    blocks_merge: false
-    category: harness
-    layer: 2
-  - id: DG-H-2
+  - id: DH-1
     severity: P4
-    file: core/components/plays/design-agentic/scripts/persist_agentic.py
-    principle: "No decision record lives in the model (ADR 069 Decision 2)"
-    basis: "main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md Decision 2 and 'Work This Creates' (lens plays 'when each is next built')"
-    detail: "Not in this diff. The slice lens plays (design-agentic persist_agentic.py line 75, design-architecture persist_arch.py, design-env persist_run.py line 149) and learn-outcomes still write decision records into the model. ADR 069 defers them to each play's next build, so this is a recorded remainder, not a defect of this PR."
-    suggested_fix: "None in this PR. Keep the follow-up tracked."
-    blocks_merge: false
-    category: harness
-    layer: 2
-  - id: DG-H-3
-    severity: P4
-    file: core/components/plays/reshape-plan/reference/ice.md
-    principle: "A play's ICE says what the play guarantees; the model names no tracker issue (ADR 069 Decision 2)"
-    basis: "core/components/plays/reshape-plan/reference/ice.md line 64 (C11 'and to the issue that found it'), line 110-111 (F10 'story'), S6 lines 174-177; main ADR 069 Decision 2"
-    detail: "The SKILL.md and script edits are consistent with the ICE, but C11's 'the issue that found it' can be read as an issue link on the model entry (the entry keeps only `identified_by`, a part id). F10 and S6 say the new feature's 'story' is landed, which still holds (tracker and plan file). The wording is stale, not the behaviour."
-    suggested_fix: "Reword C11 through /fix-play when the plan-side work for /reshape-plan next rebuilds it; no SKILL.md change."
-    blocks_merge: false
-    category: harness
-    layer: 2
-  - id: DG-H-4
-    severity: P3
-    file: core/components/plays/reshape-plan/scripts/place_feature.py
-    principle: "The links run one way, from the work side to the model; a spine entry holds no issue number (ADR 069 Decision 2). Readers of the spine must not need one."
-    basis: "main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md Decision 2 ('The links run one way'; 'No spine entry holds an issue number'); core/components/plays/reshape-plan/scripts/place_feature.py lines 73-81; feature_ice.py lines 93 and 109; plan_common.py line 700"
-    detail: "Writers stop; readers do not. place_feature.py builds `by_issue` from each capability's spine `issue` to place a new feature under the capability whose tracker issue is its story's parent; feature_ice.py find reads feature `issue` first (falling back to the plan file's `represents`) and returns `story: f.get('issue')`; plan_common.map_pairs reads `f.get('issue')`. When step 2 strips `issue` from Garura's model, the capability lookup silently finds nothing (the person is asked instead) and `story` returns null. The change is not wrong today, but it leaves reshape-plan reading a field the model is no longer to hold."
-    suggested_fix: "Before or with step 2, move these reads to the plan file's nodes (`represents`) as feature_ice.represented_by already does, and add a test with a spine that has no `issue`."
+    file: core/components/plays/reshape-plan/SKILL.md
+    principle: "Surface prose of a compiled play stays readable; non-intent edits are direct (CLAUDE.md Play Pipeline Rules)"
+    basis: "main:CLAUDE.md 'Play Pipeline Rules'; the added line in the diff (the 'the slice the plan holds when exactly one serves `bi-<id>`' clause now sits on one very long line after the rewrap)"
+    detail: "Cosmetic: the placement paragraph has one overlong line after the edit. No rule is broken and the linter passes (lint-play PASS, recorded)."
+    suggested_fix: "Rewrap the line at the next edit of that paragraph; not worth a push on its own."
     blocks_merge: false
     category: harness
     layer: 2
