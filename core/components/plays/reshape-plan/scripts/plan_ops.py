@@ -15,7 +15,8 @@ A fixed rule for each entry, in the list's order (n):
   text                         body
   kind                         type
   new-feature                  create the story (or, for a story that exists, body + parent), and one
-                               model part in model-ops.json
+                               model part in model-ops.json, which names no story: the model
+                               holds no tracker issue (ADR 069)
   plan-status, plan-direction  nothing in the tracker (the plan file only)
 
 An item at the top of the plan (an epic) has the plan's business intent as its parent in the
@@ -89,8 +90,7 @@ def build(changes, plan, snap):
             parent = parent_ref(e.get("parent"), plan_id, new_ids)
             if e.get("issue") is None:
                 add("create", title=e["title"], body=story_body(e, plan_id), type="Story", parent=parent)
-                story = f"@{n}-create"
-                new_ids[f"@{n}"] = story
+                new_ids[f"@{n}"] = f"@{n}-create"
             else:
                 body = (now or {}).get("body") or ""
                 line = REPRESENTS.format(feature=e["feature"])
@@ -98,10 +98,9 @@ def build(changes, plan, snap):
                     add("body", issue=e["issue"], body=body.rstrip("\n") + "\n\n" + line + "\n")
                 if not now or str(now.get("parent")) != str(parent):
                     add("parent", issue=e["issue"], to=parent, **{"from": now.get("parent") if now else None})
-                story = e["issue"]
             model.append({"entry": n, "feature": e["feature"], "title": e["title"],
                           "capability": e.get("capability"), "slice": e.get("slice"),
-                          "intent": f"bi-{plan_id}", "story": story, "identified_by": e.get("identified_by"),
+                          "intent": f"bi-{plan_id}", "identified_by": e.get("identified_by"),
                           "one_line": e.get("one_line") or e["title"], "ice": e.get("ice") or {},
                           "description": e.get("description")})
     return gh, model

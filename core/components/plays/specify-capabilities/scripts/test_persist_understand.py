@@ -89,6 +89,11 @@ def spine(root):
         return yaml.safe_load(fh)
 
 
+def node_ref(root, did):
+    with open(os.path.join(root, "decisions", f"{did}.yaml")) as fh:
+        return yaml.safe_load(fh)["decision"]["node_ref"]
+
+
 ANSWERS = {"id": "checkout", "domain": "commerce", "one_line": "Let a shopper pay for a cart",
            "why": "No sale without it", "answered_by": "human"}
 
@@ -132,6 +137,7 @@ def test_new_feature_state():
             yaml.safe_dump({"enrich": {"capability_ref": "checkout", "capability": {},
                                        "features": [{"id": "pay", "capability": "checkout",
                                                      "intents": ["bi-1"], "status": "proposed",
+                                                     "issue": 12, "decisions": [],
                                                      "doc": "commerce/checkout/pay/feature.md"},
                                                     {"id": "refund", "capability": "checkout",
                                                      "intents": ["bi-1"],
@@ -143,6 +149,8 @@ def test_new_feature_state():
               list(feats["refund"])[list(feats["refund"]).index("intents") + 1] == "status"
               and feats["refund"]["status"] == "Unplanned")
         check("the capability gets no status", "status" not in spine(root)["capabilities"][0])
+        check("a manifest's issue and decisions keys are dropped (ADR 069)",
+              "issue" not in feats["pay"] and "decisions" not in feats["pay"])
 
 
 def test_seed_refusals():
@@ -246,8 +254,9 @@ def test_box_move_status():
             with open(os.path.join(root, "decisions", f"{did}.yaml")) as fh:
                 status = yaml.safe_load(fh)["decision"]["status"]
             check(f"{label}, its decision reads {want}", status == want)
-            check(f"{label}, the decision is linked onto the capability",
-                  did in spine(root)["capabilities"][0].get("decisions", []))
+            check(f"{label}, the decision names its capability and the spine holds no decisions list",
+                  node_ref(root, did) == "checkout"
+                  and "decisions" not in spine(root)["capabilities"][0])
     with tempfile.TemporaryDirectory() as tmp:
         base, root, work = setup(tmp, caps)
         try:
@@ -304,7 +313,8 @@ def test_many_targets():
             did = f"dec-{cid}-security-high-xhigh"
             check(f"{cid} gets its own box-move decision",
                   os.path.isfile(os.path.join(root, "decisions", f"{did}.yaml")))
-            check(f"{cid}'s decision is linked onto {cid} only", caps[cid].get("decisions") == [did])
+            check(f"{cid}'s decision names {cid} only, and {cid} holds no decisions list",
+                  node_ref(root, did) == cid and "decisions" not in caps[cid])
         rec = read_json(os.path.join(work, "persist.json"))
         check("the record lists both targets", rec["changed"]["capabilities"] == ["checkout", "refunds"])
 

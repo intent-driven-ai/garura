@@ -47,7 +47,7 @@ change play, merging a branch, or touching code (C7).
 |-------|--------|-------------------|--------|
 | `template-manager` | Load the plan-update, plan-view and close templates | — | Prepare, Close |
 | `project-orchestrator` | Read the plan's issues; turn an instruction into list entries; make the approved tracker writes | `track-plan-changes`, `author-plan-changes` | Prepare, Session, Landing |
-| `product-os-keeper` | Suggest a capability for a new feature when no rule settles it (the placement itself is `place_feature.py`); on approval write its page with its thin ICE from the person's words, its model entry with both thin marks and its place in the slice, then name its story on the entry; draft the story for a feature the person's words name, from its clean ICE copy (story mode) | `find-work-placement`, `enrich-grounding`, `link-model-part`, `author-work-items` | Session, Landing |
+| `product-os-keeper` | Suggest a capability for a new feature when no rule settles it (the placement itself is `place_feature.py`); on approval write its page with its thin ICE from the person's words, its model entry with both thin marks and its place in the slice; draft the story for a feature the person's words name, from its clean ICE copy (story mode) | `find-work-placement`, `enrich-grounding`, `link-model-part`, `author-work-items` | Session, Landing |
 
 `template-manager` and `project-orchestrator` are **utility agents**. `product-os-keeper` is the
 one **domain agent**, dispatched only for a new feature.
@@ -377,9 +377,10 @@ list's sha256 and `answer.json`'s `list_sha`.
 **Step 8 — Land: the model** · Owner: `product-os-keeper` · Depends on: Step 7
 *Skip when `model-ops.json` has no parts.* For each part: the page skill (`enrich-grounding`,
 new-feature and thin modes) writes the feature's page under its capability, and its thin ICE from
-the person's words (the part's title and description), nothing made up; then `link-model-part` adds its model entry (`mode: new`, thin, its intent `bi-<id>`,
-its `issue` — the story, or the number the tracker step makes, filled in after Step 9 with
-`mode: update` — and `identified_by`) and, when the entry names a slice, the slice's `add_features`.
+the person's words (the part's title and description), nothing made up; then `link-model-part` adds its model entry (`mode: new`, thin, its intent `bi-<id>` and
+`identified_by`) and, when the entry names a slice, the slice's `add_features`. The entry names no
+story: the model holds no tracker issue (ADR 069); the plan file's node (`represents`) and the
+story's "Represents:" line link the story and the feature.
 
     { "task":    "write each new feature of model-ops.json: page, model entry with both thin marks, its place in the slice",
       "inputs":  { "model_ops": "<working>/model-ops.json", "product_base": "<product_base>" },
@@ -402,22 +403,9 @@ its `issue` — the story, or the number the tracker step makes, filled in after
 
 Exit 1: dispatch it again once (it goes on from its record); a second failure stops the landing and
 names the failed op for the person (REC5). Exit 2: nothing was written; back to Step 6.
-When a new feature's story was made in this step (an op `<n>-create` of a `new-feature` entry),
-dispatch `product-os-keeper` once more to name it on the feature's model entry:
-
-    { "task":    "name each new feature's story on its model entry (link-model-part, mode update, issue)",
-      "inputs":  { "model_ops": "<working>/model-ops.json", "github_record": "<working>/github-record.json",
-                   "product_base": "<product_base>" },
-      "outputs": { "record": "<working>/model-record-story.json" },
-      "task_id": "name-story" }
-
-This dispatch writes its own record and never changes `model-record.json`; the guard, the
-agreement check and the commit read the two as one (`plan_session.model_records`), so the story
-step cannot drop a file Step 8 wrote (HF-12). The story record has the same shape as
-`model-record.json`: `{parts: [{feature, issue}], files: [the model files it changed, each relative
-to the repository root]}`. `<records>` below is empty when Step 8 was skipped (`model-ops.json`
-has no parts); otherwise `--model-record <working>/model-record.json`, and also `--model-record
-<working>/model-record-story.json` when the story step ran.
+A new feature's story, made in this step, is not written into the model: the model names no
+tracker issue (ADR 069). `<records>` below is empty when Step 8 was skipped (`model-ops.json`
+has no parts); otherwise `--model-record <working>/model-record.json`.
 **SE-9 (F8/C9):** `github-record.json` reads `ok: true`, and every op of `github-ops.json` is in its
 `done`.
 
