@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/1062-model-cleanup-skills",
+  "base_sha": "690f5039a3dd77a8eca97f09130a7e8cbc1f00d8",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}

@@ -1,0 +1,9 @@
+{
+  "mode": "description",
+  "issue": null,
+  "plan": null,
+  "description": "[TASK] Model clean-up part 2: take issue numbers, tracker lines and decision records out of the product model (ADR 069)",
+  "note": null,
+  "fetched": null,
+  "error": null
+}

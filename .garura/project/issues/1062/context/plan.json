@@ -1,0 +1,12 @@
+{
+  "issue": "1062",
+  "plan_id": null,
+  "plan_branch": null,
+  "issue_branch": "feature/1062-model-cleanup-skills",
+  "closed_plan": null,
+  "source": {
+    "ref": "origin/main",
+    "fetched": true,
+    "plan_branches_read": []
+  }
+}
