@@ -1,0 +1,16 @@
+{
+  "written": [],
+  "updated": [],
+  "thin": [],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "stripped": {
+    "issue_keys": 23,
+    "decisions_keys": 248,
+    "by_strings": 535
+  },
+  "layout_kept": true
+}

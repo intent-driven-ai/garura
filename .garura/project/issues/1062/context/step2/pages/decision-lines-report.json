@@ -1,0 +1,106 @@
+{
+  "by": "product-os-keeper (model clean-up, issue 1062 step 2)",
+  "source": "the product owner's typed \"yes to all\" on 2026-11-13 (ADR 069 section 2: the model names no decision record; the security level moves onto the Initialize page)",
+  "pages": [
+    {
+      "page": "software-delivery-planning/initialize/capability.md",
+      "changes": [
+        {
+          "after": "- No tracker in Initialize's own steps. Each tracker is reached through the adapter, GitHub first. The reason: Standards, structure, settings and memory must not \"Name a tracker in a play, skill or sub-agent, because they only know the tool.\"",
+          "add": "- Security: medium. Nothing is written to the tracker, and no mapping is set, before the product owner's typed yes; initialize writes no Phoenix memory and no other project's memory."
+        }
+      ],
+      "lines_before": 114,
+      "lines_after": 115,
+      "lines_added": 1,
+      "lines_kept": 114
+    },
+    {
+      "page": "software-delivery-planning/check-code-against-standards/capability.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"the box moves only by an approved decision.\"",
+          "new": null
+        }
+      ],
+      "lines_before": 134,
+      "lines_after": 133,
+      "lines_added": 0,
+      "lines_kept": 133
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/_spine.yaml, line 4284: the `profile` block; .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"Raise the product's security level from none to medium so the box admits\".",
+          "new": null
+        }
+      ],
+      "lines_before": 48,
+      "lines_after": 47,
+      "lines_added": 0,
+      "lines_kept": 47
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/capability.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: the one product decision in the model, \"decided_by: /discover-capabilities\"",
+          "new": null
+        }
+      ],
+      "lines_before": 112,
+      "lines_after": 111,
+      "lines_added": 0,
+      "lines_kept": 111
+    },
+    {
+      "page": "software-delivery-planning/test-security/capability.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"A capability need above the box stops for the product owner, and the box moves only by an approved decision.\"",
+          "new": null
+        }
+      ],
+      "lines_before": 111,
+      "lines_after": 110,
+      "lines_added": 0,
+      "lines_kept": 110
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-retest-security/feature.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"a later capability's security need is compared against medium, not none\"",
+          "new": null
+        }
+      ],
+      "lines_before": 58,
+      "lines_after": 57,
+      "lines_added": 0,
+      "lines_kept": 57
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+      "changes": [
+        {
+          "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"A capability need above the box stops for the product owner\"",
+          "new": null
+        }
+      ],
+      "lines_before": 78,
+      "lines_after": 77,
+      "lines_added": 0,
+      "lines_kept": 77
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/initialize/capability.md",
+    "software-delivery-planning/check-code-against-standards/capability.md",
+    "software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md",
+    "software-delivery-planning/manage-adrs/capability.md",
+    "software-delivery-planning/test-security/capability.md",
+    "software-delivery-planning/test-security/fn-retest-security/feature.md",
+    "software-delivery-planning/test-security/fn-send-security-findings/feature.md"
+  ]
+}

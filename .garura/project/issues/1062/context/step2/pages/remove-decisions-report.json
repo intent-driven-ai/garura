@@ -1,0 +1,17 @@
+{
+  "by": "product-os-keeper (model clean-up, issue 1062 step 2)",
+  "approved_by": "the product owner (2026-11-13)",
+  "repointed": [],
+  "removed": [
+    "dec-cap-initialize-security-none-medium"
+  ],
+  "merged": [],
+  "moved_features": [],
+  "needs_to_review": [],
+  "changed": [],
+  "deleted": [
+    "product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+    "product-os/decisions"
+  ],
+  "layout_kept": true
+}

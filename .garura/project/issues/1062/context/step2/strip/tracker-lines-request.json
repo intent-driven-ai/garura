@@ -1,0 +1,105 @@
+{
+ "by": "product-os-keeper (model clean-up)",
+ "source": "the clean-up design the product owner approved on 2026-11-12 (ADR 069 section 2: the model names no tracker issue)",
+ "pages": [
+  {
+   "page": "intents/bi-1.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #1",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-2.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #2",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-3.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #3",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-4.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #4",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-5.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #5",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-6.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #6",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-7.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #7",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-8.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #8",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-9.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #9",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-10.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #10",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "intents/bi-11.md",
+   "changes": [
+    {
+     "old": "**Tracker:** #11",
+     "new": null
+    }
+   ]
+  }
+ ]
+}

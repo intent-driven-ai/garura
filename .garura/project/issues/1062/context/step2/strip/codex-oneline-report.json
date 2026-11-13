@@ -1,0 +1,13 @@
+{
+  "written": [],
+  "updated": [
+    "fn-install-for-codex"
+  ],
+  "thin": [],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml"
+  ],
+  "layout_kept": true
+}
