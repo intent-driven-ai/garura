@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "e1cd70d61775",
+      "fingerprint": "sha256:6c1e305360bb9fa5d20bfb5d51d48f1ea3116571eb12e16a02e993679e6652f5",
+      "copy": ".garura/project/issues/1062/context/memory/grounding-harness/standards/rules/direct-model-write.md"
+    }
+  ]
+}
