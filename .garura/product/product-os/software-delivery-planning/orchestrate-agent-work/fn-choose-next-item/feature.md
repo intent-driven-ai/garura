@@ -20,7 +20,7 @@ When a person asks what can be worked on next, the open items of every plan whos
 
 Status: not built. No issue is filed for it. Approved pages of Design → Code hand it here: gathering the work "starts from the ID a person names and never chooses an item", and "what is built next is chosen in Orchestration". Today a person reads the plan with /show-plan or /list-plans and sets Now by hand in a session. ADR 051 (the /next play is dropped; the plan is the work list) says that a view of what comes next is a new play that reads the plan files, built when it is needed. Also open:
 - Nothing works out the plans a plan waits on, so the marks would rest on a list that no step writes. Work out the plans a plan waits on (fn-work-out-waits-on) is not built.
-- No plan exists yet for the current business intents: the plan files of today are for older ones, and the reorganisation of the business intents deletes them (#1021).
+- No plan exists yet for the current business intents: the plan files of today are for older ones, and the reorganisation of the business intents deletes them.
 
 ## Inputs / Outputs
 - In: every plan file in the plans folder: each plan's id, title, Status, Direction, Waits on and tree, with each item's issue, kind, title and status.
@@ -57,7 +57,7 @@ Status: not built. No issue is filed for it. Approved pages of Design → Code h
 - The loops that run plays. Run plays as loops, in Orchestration, owns them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - .garura/product/product-os/intents/bi-9.md: "A person always knows what's happening and what's next.", "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: "It starts from the ID a person names and never chooses an item.", "choosing which work comes next belongs to Orchestrate agent work through planning"
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-build-code-to-pass/feature.md: "what is built next is chosen in Orchestration"
@@ -69,4 +69,4 @@ Status: not built. No issue is filed for it. Approved pages of Design → Code h
 - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md: "the link gives the order of work, not a gate on landing"
 - core/components/plays/list-plans/reference/ice.md: "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.", "the play writes no plan file, no issue and no branch"
 - core/tools/plan/README.md: "Every mark and line comes from the `plan-view.md` template"
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, section 1.9: "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`."
+- The stock-take of Orchestration (2026-11-10), section 1.9: "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`."

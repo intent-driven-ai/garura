@@ -23,9 +23,9 @@ When a change is committed, the machine checks run first, then the branch is pus
 
 Status: built, in /propose-change, with the self-review still in it:
 - Today the raise first has an agent review the change against the self-review rules, and the checklist goes into the pull request. A script then stops the raise when a line of that checklist reads blocking. It is to be taken out, as the product owner chose: "one review, after the pull request". The script that reads the checklist goes with it, and the three hard checks above are the raise's named machine checks.
-- No pull request template; each body is made fresh (#517).
-- #452 (the raise halting on its own run records) is open, though the play now commits them before the push.
-- Not built and not shaped: a check that each commit that changed a play, the ontology or a decision record has a matching play run on record. Lay Garura's guardrails with the install leaves "the check in the review of each change" to this path; #893 proposes it inside the review. Not decided: whether it runs here, as one more machine check before the pull request opens, or inside the review.
+- No pull request template; each body is made fresh.
+- The raise was found to halt on its own run records, though the play now commits them before the push.
+- Not built and not shaped: a check that each commit that changed a play, the ontology or a decision record has a matching play run on record. Lay Garura's guardrails with the install leaves "the check in the review of each change" to this path; the plan for the install's guardrails proposes it inside the review. Not decided: whether it runs here, as one more machine check before the pull request opens, or inside the review.
 
 ## Inputs / Outputs
 - In: the committed change on its branch.
@@ -59,14 +59,11 @@ Status: built, in /propose-change, with the self-review still in it:
 - Merging. Merge each change where it lands, on the review's approval and a person's yes (fn-673) does it.
 
 ## Sources
-- The product owner on 2026-10-20, in .garura/project/issues/613/specs/plan.md: "one review, after the pull request", "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens"
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md: "yes, record it with self-review dropped"
+- The product owner on 2026-10-20: "one review, after the pull request", "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens"
+- The product owner on 2026-11-10: "yes, record it with self-review dropped"
 - core/components/plays/propose-change/SKILL.md: "run a self-review on its scope and quality, push the branch, and open a pull request that carries that review against where the branch lands", "Working tree is clean (change is committed)", "the PR body references the issue", "this run updates it (refreshes the self-review and body) instead of opening a second one"
 - core/components/plays/propose-change/scripts/resolve_target.py: "Open work in a plan never holds its branch off main"
-- core/components/plays/propose-change/scripts/check_self_review.py: "machine replacement for propose-change's confirm-raise gate (#467)"
+- core/components/plays/propose-change/scripts/check_self_review.py: "machine replacement for propose-change's confirm-raise gate"
 - standards/rules/gate-config.md, in Phoenix memory: "granted only in the same change that adds the replacement checks"
 - standards/rules/self-review.md, in Phoenix memory: "The output is an informational checklist that travels in the PR."
 - .garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md: "The run marker inside each play, and the check in the review of each change. How a play is built, and Ship every change the same way, own them."
-- GitHub #517 (open): "Give pull requests a template so every raise says the same things"
-- GitHub #452 (open): "propose-change halts on its own evidence files at push time"
-- GitHub #893 (open): "refuses a pull request when a commit that changed a play, the ontology or an ADR has no matching play run on record"

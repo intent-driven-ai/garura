@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: An idea a person dropped is proposed again with no new evidence.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: Product model's fourth proof, the product owner's answer on ideas and experiments, what the model shows (intents nothing serves, thin parts, the work on each part), the business intent's outcome as a hypothesis in the ontology, and #541.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: Product model's fourth proof, the product owner's answer on ideas and experiments, what the model shows (intents nothing serves, thin parts, the work on each part), the business intent's outcome as a hypothesis in the ontology, and the plan to build the Product Graph.
 - Never read: any memory file by its path, any ICE page, and any file in a plan's evals folder.
 - Persona: the product owner, who confirms or drops each idea and reads each experiment's result.
 - Scope: In: proposing ideas from the model with their evidence, the person's answer on each, and recording each experiment's result. Out: changes worked out from use and the market, ideas and experiments as kinds of the ontology, and measuring each intent's outcome.

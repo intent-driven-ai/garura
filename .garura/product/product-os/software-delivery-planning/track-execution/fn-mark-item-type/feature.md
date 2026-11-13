@@ -21,10 +21,10 @@ When a play files a work item, or takes one into a plan, the item gets its kind'
   - In a bank's payments service, a developer opens a one-off change with /start-change. Today its new issue gets a label, no type and no parent, and its title must start with a tag such as [BUG].
 - How it meets the capability: completion status and the backlog can be read from the tracker only when each item says what it is and where it hangs; this feature makes the type field and the parent link say it.
 
-Status: built in part. Built in /shape-plan (#818, the plan play makes the plan file, the epic and one story per feature; #875, the Epic filed as type Epic) and in /update-plan (#730, the plan session). Not built, or open:
+Status: built in part. Built in /shape-plan, which files the epic as type Epic, and in /update-plan, the plan session. Not built, or open:
 - /start-change and the track-issue skill, as above: labels, no type, no parent, and a type tag in the title. No issue is filed for it yet.
 - The ontology and ADR 056 keep the label `work-item` on a Spike, a Chore and a Bug, while /update-plan puts no label on any item and managing-work.md says "No labels, for now."
-- Initialize's list of the types Garura files names six types, and not the type Feature that a feature item needs (#881, Initialize sets up the tracker's work-item types).
+- Initialize's list of the types Garura files names six types, and not the type Feature that a feature item needs.
 - Only GitHub marks a type. The GitLab path is "UNTESTED here", and Jira and Linear are not reached.
 
 ## Inputs / Outputs
@@ -44,7 +44,7 @@ Status: built in part. Built in /shape-plan (#818, the plan play makes the plan 
 - An epic or a story is found by the plan file's mark. The reason: "It never finds one by its issue type or by its title."; a type or a title can change, and the mark says what the item stands for.
 - In a session, a break is shown with what works instead, and the person may override it. The reason: "A break is shown with what works instead.", and "the override is recorded."; the Must not of Orchestration: "Stop a person. Every gate has a way past it that records what's owed."
 - In /shape-plan, other work under an epic stops the write. The reason: "Anything else under an epic is misplaced work", and the play "writes nothing until a person files it in its own place". There is no override.
-- A type tag in the title, at /start-change, is a machine check with no way past. The reason it is there: it is a "machine replacement for start-change's confirm-new-issue gate (#467)", a person's check of the title by eye, and it came before the rule that the type lives in the type field.
+- A type tag in the title, at /start-change, is a machine check with no way past. The reason it is there: it is a "machine replacement for start-change's confirm-new-issue gate", a person's check of the title by eye, and it came before the rule that the type lives in the type field.
 - Not decided: whether a Spike, a Chore and a Bug carry the label `work-item`, as the ontology and ADR 056 say, or no label, as managing-work.md and /update-plan do.
 - Not decided: what marks an epic or a story in a tracker that has no type for it. Initialize's page leaves it here: "how a work item is marked is for Track execution in the team's tracker to decide."
 
@@ -64,7 +64,7 @@ Status: built in part. Built in /shape-plan (#818, the plan play makes the plan 
 - The way past /start-change's title check and /shape-plan's stop. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
+- The product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
 - core/components/plays/shape-plan/scripts/write_work_items.py: "becomes an issue of type Epic, with no label, in one write.", "becomes an issue of type Story, with no label and with the epic as its parent, in one write."
 - core/components/plays/shape-plan/scripts/check_tracker.py: "each epic has type Epic and each story type Story, and none has a label;"
 - core/components/plays/shape-plan/reference/ice.md: "Anything else under an epic is misplaced work", "writes nothing until a person files it in its own place"
@@ -74,7 +74,7 @@ Status: built in part. Built in /shape-plan (#818, the plan play makes the plan 
 - core/components/skills/track-issue/SKILL.md: "Comma-separated labels to apply on create", "parent/child hierarchy is not supported"
 - core/components/agents/project-orchestrator.md: "labels: {if determinable from type}"
 - core/components/plays/start-change/SKILL.md: "A non-zero exit is a hard halt regardless of the gate state"
-- core/components/plays/start-change/scripts/validate_issue.py: "title carries a type tag: [ENH] [BUG] [FEAT] [DOCS] [TASK]", "machine replacement for start-change's confirm-new-issue gate (#467)"
+- core/components/plays/start-change/scripts/validate_issue.py: "title carries a type tag: [ENH] [BUG] [FEAT] [DOCS] [TASK]", "machine replacement for start-change's confirm-new-issue gate"
 - core/components/skills/platform-adapter/SKILL.md: "Create an issue with its type and its parent in one call (GitHub only; GitLab stops with a plain message)", "Set an issue's type (GitHub only; GitLab stops with a plain message)"
 - core/components/skills/track-plan-changes/scripts/platform_adapter.py: "UNTESTED here"
 - .garura/user-provided/managing-work.md: "Type lives in the type field.", "Never encode the type as a title prefix", "the field is the only place it belongs.", "No labels, for now.", "as a real parent/child link in the tracker", "Linking a child to a parent needs the internal identifier, not the issue number.", "a repository under a personal account has no issue types at all"
@@ -82,8 +82,4 @@ Status: built in part. Built in /shape-plan (#818, the plan play makes the plan 
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "Its tree holds six kinds of item, each under one kind of parent", "in a plan, an issue of type Feature is a feature item, a group of stories inside an epic", "the label `work-item` on a Spike, a Chore or a Bug only"
 - .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md: "how a work item is marked is for Track execution in the team's tracker to decide."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
-- The history in git: validate_issue.py was added on 2026-07-04 (#467), and the rule "Never encode the type as a title prefix" reached managing-work.md on 2026-08-27.
-- GitHub #818 (closed): "The plan play makes the plan file, the epic and one story per feature"
-- GitHub #875 (closed): "a slice's Epic must be type Epic"
-- GitHub #730 (closed): "The /update-plan session"
-- GitHub #881 (open): "Initialize sets up the tracker's work-item types"
+- The history in git: validate_issue.py was added on 2026-07-04, and the rule "Never encode the type as a title prefix" reached managing-work.md on 2026-08-27.

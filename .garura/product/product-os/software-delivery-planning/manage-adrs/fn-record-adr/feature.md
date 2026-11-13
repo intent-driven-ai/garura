@@ -22,8 +22,8 @@ When a person, or a play that made a decision, gives a decision brief, the decis
   - In a mobile banking app, a drafted decision would drop a feature a person asked for. The run stops before anything is written, and the product owner is shown the business intent it would change.
 - How it meets the capability: this is the record in "Decisions on how the project is built are recorded", with what it overrides and what it changes in plain view, so agents know which decision holds when they "coordinate many pieces from them".
 
-Status: built, in /record-decision, with the adr-keeper agent, the author-decision skill and its script adr.py, and apply_adr.py; first built in #632 (closed). Not built, or open:
-- It cannot record an ADR on the branch of a change that is already open. Run by hand, it opens its own change from main, so the change the decision belongs to lands without it (#822, /record-decision cannot join an open change). Record the ADR in the change it belongs to (fn-adr-in-its-change) is to do it.
+Status: built, in /record-decision, with the adr-keeper agent, the author-decision skill and its script adr.py, and apply_adr.py. Not built, or open:
+- It cannot record an ADR on the branch of a change that is already open. Run by hand, it opens its own change from main, so the change the decision belongs to lands without it. Record the ADR in the change it belongs to (fn-adr-in-its-change) is to do it.
 - No play hands it a decision today. Only a person runs it. Take in each design choice that Spec → Design hands over (fn-take-design-choices) is to do it for the design choices.
 - Nothing catches a decision made in a session that no one records.
 - The candidates leave out an older ADR that shares only words with the decision, not a path, a play name or its number.
@@ -70,7 +70,7 @@ Status: built, in /record-decision, with the adr-keeper agent, the author-decisi
 - Reviewing the change that holds the ADR. Check the code against its standards, in Code → Validation, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
+- The capability list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
 - core/components/plays/record-decision/SKILL.md: "no record is written off the template", "Ask the person for any heading that is empty — plainly, one at a time; never fill one in.", "a new question stops the loop", "the ADR is never applied to the intent either way", "Every check runs before the first write, so a stop writes nothing", "only the record, its pointers, the index and the run's own records changed"
 - core/components/plays/record-decision/reference/ice.md: "Candidates are found mechanically; which ones really apply is judged by reading them.", "What it changes is recorded with real names", "An ADR never changes a person's business intent.", "changing the Business Intent kind (framework doctrine) is allowed and recorded as such"
 - core/components/plays/record-decision/scripts/apply_adr.py: "a record is never overwritten"
@@ -79,6 +79,5 @@ Status: built, in /record-decision, with the adr-keeper agent, the author-decisi
 - core/components/skills/author-decision/SKILL.md: "You draft; you never accept."
 - core/components/skills/author-decision/scripts/adr.py: "candidates only — the agent judges which are really superseded or amended"
 - standards/templates/adr.md, in Phoenix memory: "It checks the shape, never the merit"
-- GitHub #632 (closed), the product owner on 2026-10-09: "check if this adr invalidates any older ones"
-- GitHub #822 (open): "/record-decision cannot join a change that is already open"
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 4.1 and 9: "Nothing catches a decision made in a session that no one records."
+- The product owner on 2026-10-09: "check if this adr invalidates any older ones"
+- The stock-take of Orchestration (2026-11-10), sections 4.1 and 9: "Nothing catches a decision made in a session that no one records."

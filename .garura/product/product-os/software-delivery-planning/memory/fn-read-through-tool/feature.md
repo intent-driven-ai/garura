@@ -23,10 +23,10 @@ Every agent reads memory only through the memory tool, by one shared protocol, a
   - In a school's timetable app, a play needs a template. It asks its sub-agent for it, and the play itself never calls the memory tool.
 - How it meets the capability: agents "decide from three tiers of memory" only when nothing reaches a part around the tool, and this intent's proof, "Nothing an agent decides from sits outside memory.", needs a check that fails a part that tries.
 
-Status: built in part. The protocol, its copy script, the memory guide and the three lint rules are built (#661, closed, plays read memory only through the tool; #860, closed, installed parts read only installed files; decided in ADR 039 section 2 and ADR 055 section 2). Not built, or open:
-- #663 (every agent and skill reads memory only through the memory tool, and lint fails any that names a memory path), under #653 (the memory system), is open. Whether all of its Done-when items are met is not confirmed.
-- Five agents, the /fix-bug play and two skills still name the older memory field `ltm_context`, and the /fix-bug play still passes it, though #663 (every part reads memory through the tool) asks that "`/fix-bug` stops passing `ltm_context`."
-- The lookup rule in Phoenix memory, `standards/rules/resolution.md`, still describes the older four steps, R1 to R4, with a note that ADR 035 section 5 replaces them in part; #663 (every part reads memory through the tool) asks that it "describe the three tiers and the tool".
+Status: built in part. The protocol, its copy script, the memory guide and the three lint rules are built (decided in ADR 039 section 2 and ADR 055 section 2). Not built, or open:
+- Whether every agent and skill reads memory only through the memory tool, with lint failing any that names a memory path, is not confirmed.
+- Five agents, the /fix-bug play and two skills still name the older memory field `ltm_context`, and the /fix-bug play still passes it, though it is to stop passing `ltm_context`.
+- The lookup rule in Phoenix memory, `standards/rules/resolution.md`, still describes the older four steps, R1 to R4, with a note that ADR 035 section 5 replaces them in part; it is to describe the three tiers and the tool.
 - The pointer rule checks agents only.
 
 ## Inputs / Outputs
@@ -52,8 +52,8 @@ Status: built in part. The protocol, its copy script, the memory guide and the t
 - Given an agent that names the memory tool and does not point to the shared protocol, when the linter runs, then it fails with `memory-reading/missing-pointer`.
 - Given a skill whose file names a memory folder, when the linter runs on the source or the installed layout, then it fails with `installed-paths/source-path` and names the line.
 - Given the tool refuses a read, when the agent copies the file, then nothing is written and the agent says why.
-- Given the active parts, when they are searched for the older memory field, then none names it. This is not built (#663, every part reads memory through the tool).
-- Given the lookup rule in Phoenix memory, when an agent reads it, then it describes the three tiers and the tool. This is not built (#663, every part reads memory through the tool).
+- Given the active parts, when they are searched for the older memory field, then none names it. This is not built.
+- Given the lookup rule in Phoenix memory, when an agent reads it, then it describes the three tiers and the tool. This is not built.
 
 ## Out of scope
 - How the tool finds memory, and its lookup order. Find memory across three tiers through one tool (fn-find-memory) does it.
@@ -63,7 +63,7 @@ Status: built in part. The protocol, its copy script, the memory guide and the t
 - The files a play hands from one step to the next, which are not memory. Each play does it, and Build your own harness owns how plays are built.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 114, the list set on 2026-11-11: "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them."
+- The capability list set on 2026-11-11: "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them."
 - .garura/product/product-os/intents/bi-10.md, line 12: "Nothing an agent decides from sits outside memory."
 - core/components/agents/_shared/memory-reading.md, lines 13 and 21-55: "Never read a memory file by its path. Never take a memory path from a contract.", the steps, "each skill the short-term paths, never a path in memory.", "The script writes the text unchanged."
 - core/tools/memory/GUIDE.md, lines 5-6: "Only agents call the tool: a play asks its agents for what it needs, and a skill reads only what its agent puts in short-term memory."
@@ -75,5 +75,4 @@ Status: built in part. The protocol, its copy script, the memory guide and the t
 - The component linter's run on the source, from the repository root, 2026-11-11: 36 errors and 1 warning, all of them structural, none from a memory rule.
 - core/components/plays/fix-bug/SKILL.md, line 182, and the agents test-engineer, quality-auditor, code-builder, tech-designer and repo-orchestrator, and the skills author-rca and author-fix-design: each still names `ltm_context`.
 - standards/rules/resolution.md, in Phoenix memory, lines 1-22 and 77-79, read through the memory tool: the four steps R1 to R4, and "Superseded in part by ADR 035 §5".
-- GitHub #663 (open): "`/fix-bug` stops passing `ltm_context`.", the rule file and the glossary "describe the three tiers and the tool"; #661 and #860 (closed); #653 (open).
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 5.3.
+- The stock-take (2026-11-11), section 5.3.

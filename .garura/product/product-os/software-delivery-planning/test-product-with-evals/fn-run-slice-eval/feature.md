@@ -13,10 +13,10 @@ Once a slice's work is built, this feature runs the slice's eval on it, step by 
 
 Status: not built. What exists covers only part of it:
 - The eval's format and its two templates, with the rule for a pass and a time limit for each scenario, and the command-line step library, which says for each sentence what a runner does.
-- One slice's eval is written and has never run: "The runner that runs the eval is not built yet (#819)." #800 and #801, both open, ask for the run and the verdict.
+- One slice's eval is written and has never run: "The runner that runs the eval is not built yet." The run and the verdict are still wanted.
 - Only the command-line step library exists, so no browser page, mobile app or backend endpoint can be tested yet.
 - Nothing writes a usage guide yet, so no name can be matched.
-- The checks that flag a build that read the evals are not built (#898).
+- The checks that flag a build that read the evals are not built.
 - The old slice check, /validate-epic, is stale. It gave a pass-or-fail verdict with each finding cited, and ran the check each kind of surface requires, such as a real browser for a web page. It did not run a slice's eval, and it stamped its verdict on an epic record that the product model no longer holds.
 - No testing environment is declared or built.
 
@@ -61,9 +61,9 @@ Status: not built. What exists covers only part of it:
 - Declaring and building the testing environment. Environment setup does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "each slice's eval runs on the built work", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again.", "The flag on a build that read the evals stays in BI-3, and BI-4 reads it before it trusts a pass.", "in the testing environment Environment setup declares, never in production."
+- The list the product owner approved on 2026-11-09: "each slice's eval runs on the built work", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again.", "The flag on a build that read the evals stays in BI-3, and BI-4 reads it before it trusts a pass.", "in the testing environment Environment setup declares, never in production."
 - .garura/product/product-os/intents/bi-4.md: "Every expected result has a pass or fail from an eval the builder never saw."
-- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "The runner that runs the eval is not built yet (#819).", "an agent's run is not repeatable", "the eval must prove that every goal is met and that no failure condition happens.", "Each story has its own file, so a person or a runner can see which story fails."
+- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "The runner that runs the eval is not built yet.", "an agent's run is not repeatable", "the eval must prove that every goal is met and that no failure condition happens.", "Each story has its own file, so a person or a runner can see which story fails."
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md: "The running eval, after the build, reads the eval, the usage guide, the Context guidance in the eval and only the recovery parts of the hidden file, never the failure conditions."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "reaches the built product only through the guide"
 - standards/templates/eval-slice.md, in Phoenix memory: "The eval passes only when every scenario of every story below passes. There is no score. A scenario that runs past the time limit fails.", "kept, not run."
@@ -78,9 +78,6 @@ Status: not built. What exists covers only part of it:
 - .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: "When the surface is a play, a scenario runs the play in a test project."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "We are never touching production.", "is not where the path's tests are counted"
 - core/components/plays/validate-epic/reference/ice.md: "C1 — Runs only on an epic implement completed", "C7 — Validate may compile, run, or deploy the product only to test it."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "stamped on the epic"
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "stamped on the epic"
 - docs/adr/048-the-product-model-and-the-work-are-two-layers.md, what it supersedes: "the epic as a permanent record in the product model"
-- GitHub #800 (open): "after the build, an independent step runs the hidden evals and the checks and gives the verdict."
-- GitHub #801 (open): "It gives a verdict: validated, or fix required with each failure named."
-- GitHub #898 (open): "A check flags any build that read the evals folder.", "It does not block; it makes the shortcut visible."
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"

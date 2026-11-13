@@ -56,8 +56,8 @@ Status: not built. What exists covers only part of it:
 - Testing the product in production. No capability of the project touches production.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test performance, against the product profile's performance level. Moved here from Validation → Run.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
-- The product owner, in .garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md: "We are never touching production.", "For each one, we need to know what the cost looks like to get this piece figured out, running it across, and whatnot."
+- The list the product owner approved on 2026-11-09: "Test performance, against the product profile's performance level. Moved here from Validation → Run.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
+- The product owner on 2026-11-07: "We are never touching production.", "For each one, we need to know what the cost looks like to get this piece figured out, running it across, and whatnot."
 - standards/schemas/product-os/spine.yaml, in Phoenix memory: "load test"
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "(the standard / how it's measured)", "handles 10x load"
 - knowledge/technology/validation-floor-profile-benchmarks.md, in Phoenix memory: "The NUMBERS live in the product profile, per product — never in this KB."
@@ -67,7 +67,7 @@ Status: not built. What exists covers only part of it:
 - .garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/ice.md: "a size fit for the load the tests need"
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "The size declared here for each environment is what that cost is worked out for, so a change of size calls for the cost to be worked out again.", "made-up records written for the tests", "no environment's data comes from production."
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md: "what running the environments in the path costs on each of three clouds", "for the same sizes of use", "This capability says which tests run in which environment and what a change must pass to move on."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "An unmeasured bar is not a passed bar."
 - core/components/skills/check-quality/reference/all-requirements.md: "Load testing tool present in repo or CI pipeline", "At least one load test scenario covers the critical user path", "quality/performance/load-testing-profiling.md"
 - docs/philosophy/idd-principles.md: "giving it to the builder only invites teaching-to-the-test."
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"

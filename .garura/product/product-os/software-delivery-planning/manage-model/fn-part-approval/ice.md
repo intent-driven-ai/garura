@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: A write to a part is stopped because of its approval state.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: ADR 033 and what ADR 047 amended in it, the review's answers, the index and the pages, the ready check, the intent pages' stage lines, and #964 with #645, #646 and #647.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: ADR 033 and what ADR 047 amended in it, the review's answers, the index and the pages, the ready check, the intent pages' stage lines, and the need that each piece carries its approval state, with the approval state on every piece, agents building only from approved pieces, and how approval is recorded outside the review step.
 - Never read: any memory file by its path, any ICE page, and any file in a plan's evals folder.
 - Persona: the product owner, who approves each part; and the developer, a person or an AI agent who builds the code, who builds only from approved parts.
 - Scope: In: each part's approval state, its fingerprint and record, the move to changed on an edit, and the rule that agents build only from approved parts. Out: the review itself, the approval state as a property of each kind, confirming an intent, and the ready answer.

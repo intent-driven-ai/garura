@@ -51,9 +51,9 @@ Status: not built. Nothing connects to a feedback tool or a forum, or reads one:
 - Fixing a defect that a user reports. Fix defects test first takes in a defect reported anywhere.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md: "one Garura tool reads the settings and reaches each connection, and can later read what a listener outside Garura reports"
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "start understanding what it is that the consumers want and what the competition is doing", "We are never touching production."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Understand what consumers want and what the competition is doing.", "Assumed: reading web analytics, product analytics, user feedback and forums through their own tools is not touching production"
+- The product owner on 2026-11-10: "one Garura tool reads the settings and reaches each connection, and can later read what a listener outside Garura reports"
+- The product owner on 2026-11-10, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "start understanding what it is that the consumers want and what the competition is doing", "We are never touching production."
+- The list the product owner set on 2026-11-10: "Understand what consumers want and what the competition is doing.", "Assumed: reading web analytics, product analytics, user feedback and forums through their own tools is not touching production"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "It is kept as it was when read; the snapshot never changes afterwards."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "a model drawn from a source nobody read has no basis."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "the review already treats real personal data in an environment other than production as a finding"

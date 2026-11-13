@@ -13,7 +13,7 @@ A project's `.garura/` folder holds only what its written list names, and a chec
   - The plans folder. ADR 049 adds it to the list in words, the settings name it, and it holds seven plan files. None of the three drawn layouts names it.
   - Garura memory and git. ADR 039 says: "`.garura/core/memory/` is Garura memory. It is kept in git, not ignored." `.gitignore` line 152 still ignores it, and `CLAUDE.md` line 28 says "They are gitignored." The folder is not there in this repository.
   - `engine-state.json`. The list keeps it in `core/`, and the file is there, but no script in `core/` or `installer/` reads or writes it.
-  - The old global gate ledger. `.garura/core/gate-evals.jsonl` is kept in git with 4 lines, while the gate rule says a ledger "at `.garura/core/gate-evals.jsonl`, is not read". `defect-report/evidence/` holds run records with no issue around them (#943, gate records live in the evidence folder of the issue that made them).
+  - The old global gate ledger. `.garura/core/gate-evals.jsonl` is kept in git with 4 lines, while the gate rule says a ledger "at `.garura/core/gate-evals.jsonl`, is not read". `defect-report/evidence/` holds run records with no issue around them.
   - Folders that are not issues. Short-term memory also holds `_adr`, `_plans`, `_start` and `capture-report`, and each issue's folder holds a `status/` folder. None of them is among the five keys.
   - A file no list names. The install writes `.garura/.gitignore`, which keeps the run status markers out of git.
   - The check that is gone. A rule in Phoenix memory says: "`write-evidence` skill validates every write path against the six stage folders + three lifecycle folders. Writes outside this whitelist are rejected." No skill of that name is among Garura's 74 skills, and two of the six folders it names left the layout with ADR 050 (the retired intent-epic pipeline is deleted).
@@ -55,14 +55,14 @@ Status: built in part. The list is written, in three places that all leave out t
 ## Out of scope
 - What the product model holds inside its folder. Product model owns it.
 - What may enter Garura memory. Memory, in Standards, structure, settings and memory, owns it.
-- Where settings files other than `config.yaml` go (#946, one settings folder). Settings, in Standards, structure, settings and memory, owns it.
-- Which parts of `.garura/` a review reads (#939, the reviews leave out the agents' working records). Check the code against its standards, in Code → Validation, owns it.
+- Where settings files other than `config.yaml` go. Settings, in Standards, structure, settings and memory, owns it.
+- Which parts of `.garura/` a review reads. Check the code against its standards, in Code → Validation, owns it.
 - Keeping each run's records with its issue. Keep each run's records with its issue, with only repository paths in them (fn-run-records-with-issue) does it.
 - The way past the check, once it stops a change. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 112: "Structure: Where everything lives, in source and once deployed."
-- .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 3.3 and 3.6, and Lean 4 (line 917): "Keep `.garura/` to its written list, and check it. Built as ADRs and docs; out of step; no check."
+- The capability list: "Structure: Where everything lives, in source and once deployed."
+- The stock-take of Standards, structure, settings and memory (2026-11-11), sections 3.3 and 3.6, and Lean 4: "Keep `.garura/` to its written list, and check it. Built as ADRs and docs; out of step; no check."
 - docs/adr/017-folder-whitelist.md, line 24: "The `.garura/` tree allows ONLY these folders."; line 136: "The `write-evidence` skill (214.1) validates every write against the whitelist.", "Folder compliance is checked once, automatically, at the write boundary"; line 3, its status line, with each amendment
 - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md, lines 74-96, §5 "The `.garura/` layout"; line 93: "`engine-state.json` stays where it is, in `core/`."; line 94: "`.garura/core/memory/` is Garura memory. It is kept in git, not ignored."
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, line 8: "under `.garura/project/` the whitelist gains `plans/`"; line 47: "This adds `plans/` under `.garura/project/`, which the folder list of ADR 017 §1 does not name."
@@ -80,4 +80,3 @@ Status: built in part. The list is written, in three places that all leave out t
 - A listing of `.garura/` on 2026-11-11: seven plan files in `project/plans/`; `core/` with `config.yaml`, `engine-state.json`, `gate-evals.jsonl` and `tools/`, and no `memory/`; `_adr`, `_plans`, `_start` and `capture-report` among the issue folders; a `.gitignore` at the top
 - A search of `core/` and `installer/` on 2026-11-11 for `engine-state`: named only in the glossary, read or written by no script
 - A listing of core/components/skills/ on 2026-11-11: 74 skills and the shared folder, none named `write-evidence`
-- GitHub #943 (open), gate records live in the evidence folder of the issue that made them: "`.garura/defect-report/evidence/report-issue/` is a second global evidence folder (3 tracked files) with no issue around it."

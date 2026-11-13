@@ -19,8 +19,8 @@ The product owner sets, in the project's settings, which kinds of change may go 
 
 Status: not built. No setting says which kinds of change may go ahead on their own, and no part writes the model on this capability's word. What exists covers only patterns for it:
 - The plays' checkpoint settings can learn from a person's answers which kinds of change pass without waiting: "Any rejection, requested edit, or correction resets the shape to gated.", and a person can pin a kind for good, "the human's permanent pin". Phoenix memory pins the checkpoint of the old, stale learning play: "a wrong model learning bends the product model".
-- Add a feature found during work writes the model only after the person's "approved", and the planned thin page for a part found during work asks to "Approve the page before it is written, as with any model write." (#979).
-- The planned way for the model to move with the work marks each piece it changes "in review, not approved; a person approves it later." (#990).
+- Add a feature found during work writes the model only after the person's "approved", and the planned thin page for a part found during work asks to "Approve the page before it is written, as with any model write."
+- The planned way for the model to move with the work marks each piece it changes "in review, not approved; a person approves it later."
 
 ## Inputs / Outputs
 - In: the project's setting for which kinds of change may go ahead on their own.
@@ -59,8 +59,8 @@ Status: not built. No setting says which kinds of change may go ahead on their o
 - Where the project's settings live. The review of Settings, in Standards, structure, settings and memory, owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "an autonomous kind of agent running that goes back and does this thing for me."
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Settings: Everything that can be turned on or off lives in settings."
+- The product owner on 2026-11-10, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "an autonomous kind of agent running that goes back and does this thing for me."
+- The capability list the product owner agreed on 2026-11-03: "Settings: Everything that can be turned on or off lives in settings."
 - .garura/product/product-os/intents/bi-6.md: "Change an intent, or promote memory, without a person."
 - .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md: "a weak finding shown as strong sends the next capability after the wrong change"
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-against-existing/ice.md: "Limit: A person decides any clash, and nothing existing changes on its own."
@@ -73,5 +73,3 @@ Status: not built. No setting says which kinds of change may go ahead on their o
 - knowledge/architecture/agent-assistive.md, in Phoenix memory: "data that later justifies (or denies) more autonomy"
 - knowledge/architecture/agentic-guardrails-baseline.md, in Phoenix memory: "A kill switch."
 - docs/philosophy/intent-and-adlc.md, a design note marked "designed, not in force": "resolution is owned deliberately, at a level of autonomy someone chose, and never assumed by default."
-- GitHub #979 (open): "Approve the page before it is written, as with any model write."
-- GitHub #990 (open): "Each piece it changes is marked in review, not approved; a person approves it later."

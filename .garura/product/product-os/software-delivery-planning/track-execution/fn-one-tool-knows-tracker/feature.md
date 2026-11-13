@@ -15,12 +15,12 @@ One tool, the Agent-work tool, reads the project's settings and reaches the trac
   - In a game studio that moves its work from GitHub to GitLab, a person changes the setting of the work tracker, and the plays' next writes reach GitLab with no play, skill or sub-agent edited.
 - How it meets the capability: the product's execution is tracked "in the tracker Garura connects to"; this feature is the one place where that connection is made, so the tracker can change while the parts that track the work stay as they are.
 
-Status: not built (#1023, an Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker, open, with no comments). Today:
+Status: not built. Today:
 - No tool knows the tracker. The adapter is a skill, and ADR 065 counts "eight copies of `platform_adapter.py`" stamped beside the parts that use it.
 - The adapter reads the older platform line, and no script reads the trackers settings: the word appears only in a docstring of the session's tracker script.
 - The older code-host setting and the trackers name different owners.
 - Only GitHub is exercised. The GitLab path is "UNTESTED here", and Jira and Linear are not reached.
-- Until the tool lands, the three shaping plays are not to run, in the words of #1023. No part checks this, and no way past it records what is owed.
+- Until the tool lands, the three shaping plays are not to run. No part checks this, and no way past it records what is owed.
 
 ## Inputs / Outputs
 - In: the project's settings: the tracker for business intents, the tracker for agent work and the code host, each with its platform and where it is.
@@ -36,13 +36,13 @@ Status: not built (#1023, an Agent-work tool reads the tracker setting, so no pl
 - Business intents and agent work each have their own tracker setting, and the two can name different trackers. The reason: "Business intents and agent work each live in a tracker named in the project's settings."
 - The code host is its own setting, and the tool reads both. The reason: "The code host is its own setting, and the tool reads both.", "because a team on Jira still keeps pull requests on GitHub or GitLab."
 - Changing the setting changes the tracker, with no other edit. The reason: "A team picks its tracker as a setting, and nothing is hard-coded.", and "A team can choose its tracker as a setting, and a new tracker means changing one tool."
-- A check fails any part that names a tracker. The reason: #1023 asks for it: "A check fails any part that names a tracker directly."; without it, a reviewer reads a part that still names the tracker "as not moved yet, not as broken."
+- A check fails any part that names a tracker. The reason: without it, a reviewer reads a part that still names the tracker as not moved yet, not as broken.
 - The parts move onto the tool over time, starting from the adapter. The reason: "Parts move onto the tool over time.", and "The tool is the Agent-work tool, starting from the platform-adapter skill, recorded as a feature."
 - One setting says who owns the work tracker. The reason: "Two settings for one tracker can disagree, and on the owner they already do."
 - Not decided: what the tool does when the tracker lacks a type that a play must file. Initialize's approved page has the filing play "stop with a plain message that points to initialize", and the Must not of Orchestration is "Stop a person. Every gate has a way past it that records what's owed."
 - Not decided: whether the pull requests are reached through this tool, or through a second tool for the code host.
 - Not decided: whether the tool gives back each tracker's own fields, as the adapter does today ("the adapter does not normalize output across platforms"), or the same fields for every tracker.
-- Not decided: where the tool lives: with Garura's tools, where ADR 065 records "the Agent-work tool, recorded as a feature", or in a component of its own for tools, as the direction of #620 (tools become a first-class Garura component) puts it.
+- Not decided: where the tool lives: with Garura's tools, where ADR 065 records "the Agent-work tool, recorded as a feature", or in a component of its own for tools, as the direction that tools become a first-class Garura component puts it.
 - Not decided: how GitLab, Jira and Linear each hold a work item's type, its parent and its close reason. Today the adapter sets no type on GitLab ("GitLab has no issue types here."), links a parent there only as a related link, and drops the close reason there; it does not reach Jira or Linear. No approved source says what these trackers offer.
 
 ## Acceptance criteria
@@ -61,8 +61,7 @@ Status: not built (#1023, an Agent-work tool reads the tracker setting, so no pl
 - A way past the rule that the shaping plays wait for this tool. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list the product owner locked on 2026-11-03: "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog."; and his words of 2026-11-10: "Is there anything new? If so, then do research for that."
-- GitHub #1023 (open, no comments): "An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker", "because a team on Jira still keeps pull requests on GitHub or GitLab.", "3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub.", "Anything in `CLAUDE.md` or `managing-work.md` that says how the tracker works comes out and into settings.", "The older `github.owner` setting names a personal account while `trackers.work.owner` names the organization. This fixes that.", "Building Jira and Linear support may be its own stories.", "This story does not change which tracker Garura itself uses.", "must not run", "Changing the setting changes the tracker, with no other edit.", "A check fails any part that names a tracker directly.", "No play, skill or sub-agent names a tracker or calls its command line.", "A team picks its tracker as a setting, and nothing is hard-coded."; and the product owner, 2026-11-02: "the sub-agents or skills or play call this tool hiding the underlying implementation."
+- The capability list the product owner locked on 2026-11-03: "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog."; and his words of 2026-11-10: "Is there anything new? If so, then do research for that."
 - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md: "Plays, skills and sub-agents know only the tool, never the tracker.", "Tools read the settings and know how to reach the tracker.", "Business intents and agent work each live in a tracker named in the project's settings.", "The code host is its own setting, and the tool reads both.", "Parts move onto the tool over time.", "The tool is the Agent-work tool, starting from the platform-adapter skill, recorded as a feature.", "Two settings for one tracker can disagree, and on the owner they already do.", "as not moved yet, not as broken.", "A team can choose its tracker as a setting, and a new tracker means changing one tool.", "eight copies of `platform_adapter.py`", "the Agent-work tool, recorded as a feature"
 - core/config.yaml: "Tools read this; plays, skills and sub-agents never name a tracker."
 - .garura/product/product-os/intents/bi-10.md: "Name a tracker in a play, skill or sub-agent, because they only know the tool."
@@ -74,8 +73,7 @@ Status: not built (#1023, an Agent-work tool reads the tracker setting, so no pl
 - core/components/skills/track-plan-changes/scripts/tracker.py: the one file under the plays, skills, agents and tools whose text holds the word trackers, in a docstring (searched on 2026-11-10).
 - core/components/plays/: no part of /shape-slice, /shape-plan or /shape-eval checks for the tool (searched on 2026-11-10).
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: "It reads each gathered item's text from the tracker, through the tool that knows the tracker"
-- .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: "The plays that read the plan must not run until the Agent-work tool, the one tool that knows the tracker, lands (#1023)."
+- .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: "The plays that read the plan must not run until the Agent-work tool, the one tool that knows the tracker, lands."
 - .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md: "stop with a plain message that points to initialize"
-- GitHub #620 (open): "Tools become their own component"
-- The research for this capability's new features, .garura/project/issues/1021/context/bi-9-research/research.md, T1, "One tool knows the tracker": its open points are the Not decided lines here.
+- The research for this capability's new features, T1, "One tool knows the tracker": its open points are the Not decided lines here.
 - Shelf: none. No knowledge shelf in any memory tier covers how a team tracks its work in a tracker.

@@ -8,7 +8,7 @@
 - Fails if: A skill uses a verb that no decision records, and nothing names it as owed.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the rename map's skill and sub-agent lines, the skill verbs with their meanings and Phoenix memory's copy of them, ADR 046 and ADR 066, the five roles of #1015, the rename tool, and the old-name check.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the rename map's skill and sub-agent lines, the skill verbs with their meanings and Phoenix memory's copy of them, ADR 046 and ADR 066, the five harness roles, the rename tool, and the old-name check.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the technical lead, who runs the rename; and the developer, a person or an AI agent who builds the code, who writes and names skills.
 - Scope: In: the names of the skills and of the two renamed sub-agents, and every reference to them. Out: the naming rule and the later decision on skill verbs, the rename map and the check, building a skill, and Phoenix memory's copies.

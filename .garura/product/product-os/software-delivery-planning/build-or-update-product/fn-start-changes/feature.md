@@ -19,7 +19,7 @@ Each change the product owner approved, or that went ahead on its own, is handed
 - How it meets the capability: the product owner asked to "start building features into the product", and the parts that specify, plan, design and build already exist or are planned, so this capability builds by starting them, each with what it needs.
 
 Status: not built. Nothing hands a change from findings to any part. The parts it hands to are built in part or planned:
-- Add a feature found during work is built, but cannot land today: "Known break: #1036."
+- Add a feature found during work is built, but cannot land today: "Known break: [a found feature cannot land, because the thin mark goes to a page with no ICE section]."
 - Update the spec to match what's built is built in part: "A person's approved words can go on any page of the spec, a few lines or a whole page, all or nothing."
 - Specify against what exists is not built: "Status: to build."
 - Orchestrate agent work through planning is not yet reviewed.
@@ -56,12 +56,12 @@ Status: not built. Nothing hands a change from findings to any part. The parts i
 - Designing, building and fixing. The design capabilities of Spec → Design, the build phase and Fix defects test first do them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations"
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Narrowed on 2026-11-06: running the work once it exists."
+- The product owner on 2026-11-10, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations"
+- The capability list the product owner agreed on 2026-11-03: "Narrowed on 2026-11-06: running the work once it exists."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md: "Each fix is made by the part that owns it", "each part then has one writer and one set of checks", "Words change only from words a person approved."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md: "A person's approved words can go on any page of the spec, a few lines or a whole page, all or nothing."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "Nothing reaches the tracker, the plan file or the model before the product owner's typed yes", "makes one epic for each slice that serves a business intent and one story for each feature, after the product owner's yes."
-- .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md: "Known break: #1036."
+- .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md: "Known break: [a found feature cannot land, because the thin mark goes to a page with no ICE section]."
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-against-existing/feature.md: "Status: to build."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "The technical lead names one item by its ID, at any level of the plan"
 - .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md: "Not decided: whether a defect and a part no page names reach their owners straight from here, or through the next capability with the other findings."

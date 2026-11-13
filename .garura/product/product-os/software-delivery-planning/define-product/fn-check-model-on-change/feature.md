@@ -42,8 +42,8 @@ Status: not built. No issue asks for it.
 - Where what is owed is kept for every gate. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 125, the product owner's answers of 2026-11-11: "Yes, every ontology should run the model before and after.", "Managing the model should hold any checks of the model as well."; line 126, as read: "3, every ontology change runs the model's checks before and after"
-- The stock-take of Product model, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, lines 755-758, question 3: "run the model's checks before and after the change and show each new finding at its last checkpoint, as findings to fix later and never a stop"; lines 765-767, its examples; sections 1.6 and 2.7.
+- The product owner's answers of 2026-11-11: "Yes, every ontology should run the model before and after.", "Managing the model should hold any checks of the model as well."; as read: "3, every ontology change runs the model's checks before and after"
+- The stock-take of Product model (2026-11-11), question 3: "run the model's checks before and after the change and show each new finding at its last checkpoint, as findings to fix later and never a stop"; its examples; sections 1.6 and 2.7.
 - .garura/product/product-os/intents/bi-11.md, lines 10 and 15: "A person changes the ontology through one play and the model still passes its checks.", "Block work because the model is incomplete"
 - .garura/product/product-os/intents/bi-9.md, line 13: "Stop a person. Every gate has a way past it that records what's owed."
 - docs/standards/harness-standard.md, lines 70-72: "missing links are warnings to fix later, not stops"

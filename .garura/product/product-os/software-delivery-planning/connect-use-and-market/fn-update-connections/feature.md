@@ -43,8 +43,8 @@ Status: not built. What exists covers only patterns for it:
 - Changing a key where it is kept, and deciding where that is. Deployment design says where secrets are kept.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit"
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Settings: Everything that can be turned on or off lives in settings."
+- The product owner on 2026-11-10, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit"
+- The capability list the product owner agreed on 2026-11-03: "Settings: Everything that can be turned on or off lives in settings."
 - .garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md: "a person confirms an update, and what held before stays readable with why it changed"
 - .garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/ice.md: "keeping what held before with why it changed"
 - .garura/product/product-os/software-delivery-planning/deployment-design/fn-update-deployment/feature.md: "a person confirms an update, and what held before stays readable with why it changed"

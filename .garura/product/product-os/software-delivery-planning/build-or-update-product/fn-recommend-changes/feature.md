@@ -51,8 +51,8 @@ Status: not built. What exists covers only patterns for it:
 - Building the review tool. Review what agents make, in Developer tooling, owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md, spelling tidied: "or at least making those recommendations", "This needs to be built for high autonomy."
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Review what agents make (Argus): People review ADRs, memories, domains, capabilities and ICE in one tool."
+- The product owner on 2026-11-10, spelling tidied: "or at least making those recommendations", "This needs to be built for high autonomy."
+- The capability list the product owner agreed on 2026-11-03: "Review what agents make (Argus): People review ADRs, memories, domains, capabilities and ICE in one tool."
 - core/tools/memory/README.md: "approve or reject, who, their exact reply, and where they decided", "Only a person decides, one update at a time.", "the person and their reply exactly as given"
 - core/components/skills/author-learnings/SKILL.md: "/learn-outcomes surfaces low-confidence changes one by one at the checkpoint."
 - core/components/plays/shape-slice/SKILL.md: "A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown."

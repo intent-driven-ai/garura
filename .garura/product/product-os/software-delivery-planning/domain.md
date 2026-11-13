@@ -14,6 +14,5 @@ This domain turns a business intent into working code that a check from the outs
 - docs/philosophy/idsd.md, IDSD in One Page: the Shape loop, 'the product is ready to build in slices'; and 'The Plan Is the Human's Interface'.
 - docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier: the evals are kept away from the builders.
 - Memory (phoenix) knowledge/domains/*.md, the ten shelves: no shelf has a trigger for software delivery work (placement-routing.json, unmatched).
-- GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
-- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encrypting the evals on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 - Note: the four outside sources were checked on the web on 2026-10-24.

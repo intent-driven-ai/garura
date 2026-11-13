@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: A tool's own settings are moved away from the tool.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the settings file and every setting in it that points to another file, the learned policy and where the settings say it is, each tool's own settings, each play's lookup tables, and #946.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the settings file and every setting in it that points to another file, the learned policy and where the settings say it is, each tool's own settings, each play's lookup tables, and the plan for one settings folder with each setting naming its reader.
 - Never read: any memory file by its path, any ICE page, and the value of any access key or other secret.
 - Persona: the technical lead, who keeps the project's settings and looks for a settings file in one place.
 - Scope: In: the settings folder, what goes into it and what stays out, and the pointers to the files in it. Out: moving the folder into existing projects, where every other part lives, what the learned policy holds, and what each setting means.

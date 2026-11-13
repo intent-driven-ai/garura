@@ -31,7 +31,7 @@ Status: not built. What exists covers only parts of it:
 - The old build play, /build-epic, is stale. Its code builder built each piece from that piece and the spec, never the whole plan, the tests or the evals, and a check matched each changed file to a piece. A script ran the project's test commands and saved the results, so no agent ran them.
 - A stale skill ran generated tests on the code and reported each pass or fail, with no reading of why. The stale tidy play, /refactor-code, proved the tests passing before and after, and that no test file went away and no file's count of checks dropped.
 - The loop's own check of a finished loop already runs on a model a setting names, which must not be the session's. Nothing sends the writing or the running of a project's tests to another model or service, and the test model setting does not exist.
-- Nothing tells a builder which expected results still fail without showing it the tests, nothing checks that a builder read no test, and the check that flags a read of the evals folder is not built (#898).
+- Nothing tells a builder which expected results still fail without showing it the tests, nothing checks that a builder read no test, and the check that flags a read of the evals folder is not built.
 
 ## Inputs / Outputs
 - In: the builder's part of each gathered story and each story's collected context, from short-term memory, the issue's own folder where a run keeps its working files.
@@ -103,11 +103,11 @@ Status: not built. What exists covers only parts of it:
 - Choosing what is built next. Orchestrate agent work through planning does it.
 
 ## Sources
-- The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "write just enough ... Don't take it literally, because we are in coding.", "What we don't want is that every single line of code is being written sequentially.", "the code, when being written, should not get to see what tests there were", "That needs to be hidden out.", "You write the test, make sure they are failing, then you build the code", "this design is input for writing code and building the application"
+- The product owner's words, recorded on 2026-11-09: "write just enough ... Don't take it literally, because we are in coding.", "What we don't want is that every single line of code is being written sequentially.", "the code, when being written, should not get to see what tests there were", "That needs to be hidden out.", "You write the test, make sure they are failing, then you build the code", "this design is input for writing code and building the application"
 - The same file: "then you refactor if needed", "and then you move forward."
 - The product owner on 2026-11-09, on the first overlap brief, in the same file, quoted with "differnet" tidied to "different": "i need a config that would send test building and running to a different model, like a codex or another service. test running can be done via a tool.", "test running can be done via a tool."
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "then all the code until every test passes", "then the code is tidied while they stay passing", "The builder never sees the tests; a separate check runs them."
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Settings: Everything that can be turned on or off lives in settings.", "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
+- The product owner on 2026-11-09: "then all the code until every test passes", "then the code is tidied while they stay passing", "The builder never sees the tests; a separate check runs them."
+- The capability list the product owner agreed on 2026-11-03: "Settings: Everything that can be turned on or off lives in settings.", "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
 - .garura/product/product-os/intents/bi-3.md: "Tell the builder the steps, or show the builder the tests."
 - .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: "The builder's part holds the story's title, goals, limits and Context guidance"
@@ -115,7 +115,6 @@ Status: not built. What exists covers only parts of it:
 - .garura/product/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md: "the developer, while building, finds the design wrong and builds it another way, with the reason written down;"
 - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-keep-evals-from-builder/feature.md: "The build is every part that builds the work: the builder, the test writer of the code-level tests, the helper that collects each story's context, and any part they start."
 - .garura/product/product-os/software-delivery-planning/environment-setup/fn-dev-sandbox/feature.md: "a place where the builder runs the project's code while building it"
-- GitHub #898 (open): "It does not block; it makes the shortcut visible.", "Nothing is hidden: the eval is simply not part of the brief."
 - core/components/plays/fix-bug/SKILL.md: "any builder self-report of pass/fail is not a valid signal", "it does not halt blindly.", "never the test's assertion content (C9)", "the verifier is never the implementer"
 - core/components/plays/fix-bug/scripts/check_scope.py: "A modified file is in-scope when it appears in design.affected_files, OR it carries a"
 - core/components/agents/code-builder.md: "read the corresponding test, implement code to make it pass", "Do NOT modify test files under any circumstances", "No scope creep", "Read surrounding code, follow the same conventions", "The orchestrator verifies test file checksums before and after the builder runs. If any test file is modified, the build is rejected.", "Only change what the plan specifies"
@@ -124,7 +123,7 @@ Status: not built. What exists covers only parts of it:
 - core/components/loops/_shared/loop-run.md: "dispatch the `result-checker` agent on `checker.model` (required: a model that is not the session's)"
 - core/components/agents/quality-auditor.md: "NEVER modify code — you only observe and report"
 - core/components/skills/check-generated-tests/SKILL.md: "Reports pass/fail plus stderr; does not interpret failures."
-- core/components/plays/refactor-code/SKILL.md: "tests are green before and after, and no test was weakened.", "waits for a rebuild on test skills that are not stale (#855)"
+- core/components/plays/refactor-code/SKILL.md: "tests are green before and after, and no test was weakened.", "waits for a rebuild on test skills that are not stale"
 - core/components/plays/refactor-code/scripts/check_behavior_preserved.py: "No test file may be removed and no file's assertion count may drop"
 - core/components/agents/test-engineer.md: "these must still pass after the change"
 - standards/rules/builder-isolation.md, in Phoenix memory: "it optimizes toward the test rather than toward the goal.", "the builder cannot teach to a test it cannot see."

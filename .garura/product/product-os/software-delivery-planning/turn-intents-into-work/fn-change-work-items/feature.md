@@ -12,7 +12,7 @@ A story added for a feature of the product model is written from that feature's 
 The feature exists because the intent and the model change while the work goes on, and the work items must follow them.
 
 Status: built. The same session also sets each item's status and the direction of the work. Those parts track the work, so Orchestrate agent work through planning owns them.
-Known break: #1035. For a feature that keeps its ICE inside its page, its story is drafted from the person's words, not from its ICE.
+Known break: for a feature that keeps its ICE inside its page, its story is drafted from the person's words, not from its ICE.
 
 ## Inputs / Outputs
 - In: the person's instructions, in their own words.
@@ -52,5 +52,4 @@ Known break: #1035. For a feature that keeps its ICE inside its page, its story 
 - core/components/plays/update-plan/scripts/check_entries.py: "a spike, a chore or a bug under a story", "one story for each feature in an epic"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "Its tree holds six kinds of item, each under one kind of parent", "an issue of type Feature that groups some stories inside one epic"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "are drift for the Alignment loop", "In the same Alignment round, the plan play makes the story again"
-- .garura/project/issues/1021/context/bi-9-capability-1/research.md, which keeps the earlier page of features/fn-730/feature.md: "Changing an epic's or a story's text is one more instruction"
-- GitHub #730 (closed): the /update-plan session. GitHub #1002 (closed): a story added in a session is drafted from the feature's ICE.
+- The research and drafts for Orchestrate agent work through planning, which keep the earlier page of features/fn-730/feature.md: "Changing an epic's or a story's text is one more instruction"

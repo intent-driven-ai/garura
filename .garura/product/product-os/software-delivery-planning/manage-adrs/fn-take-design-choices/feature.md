@@ -46,7 +46,7 @@ Status: not built. No play hands a design choice to the decision play today, and
 - Where the project's architecture sits in the product model. Product model owns the model's kinds.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10, line 99: "so agents can coordinate many pieces from them"
+- The capability list set on 2026-11-10: "so agents can coordinate many pieces from them"
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md, lines 41, 47 and 57: "A decision record says what was decided, why, and what else was weighed.", "Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over.", "An update replaces what held before and keeps it.", "A person confirms each choice and each update."
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md, line 63: "Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md, line 56: "Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over."
@@ -55,5 +55,5 @@ Status: not built. No play hands a design choice to the decision play today, and
 - core/components/plays/record-decision/reference/ice.md, lines 14-16: "from the person, or from the play that made the decision."
 - core/components/plays/record-decision/SKILL.md, lines 13 and 18: "Garura's own ADRs, `docs/adr/NNN-<slug>.md`", "Only a person accepts an ADR."
 - core/components/agents/adr-keeper.md, line 70: "a decision's reasons come from the brief and the person, never from you."
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, line 452: "No play hands a design choice to /record-decision today."
-- .garura/project/issues/1021/context/answers/bi9-adr-in-change.md, in short-term memory, approved by the product owner on 2026-11-10 as mu-20261110-013, line 7: "an accepted ADR is not changed, and a new ADR supersedes it"
+- The stock-take of Orchestration (2026-11-10): "No play hands a design choice to /record-decision today."
+- The research note "An ADR in the same change as its work" (read 2026-11-10), in short-term memory, approved by the product owner on 2026-11-10 as mu-20261110-013: "an accepted ADR is not changed, and a new ADR supersedes it"

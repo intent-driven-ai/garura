@@ -2,7 +2,7 @@
 
 ## Directional intent
 Structure: Where everything lives, in source and once deployed.
-These are the agreed words for the third capability of Standards, structure, settings and memory. On 2026-11-11 the product owner took the proposed list and its answers as approved: "continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp". So this page is written from what Garura has built, and what is not built is drafted from the issues and gets a thin ICE. Two readings of the line are made plain here, as the proposed list said: "deployed" means installed in a project, and a run's records are part of "everything" (#969, every run's records kept in its issue's evidence folder). The words this page uses:
+These are the agreed words for the third capability of Standards, structure, settings and memory. On 2026-11-11 the product owner took the proposed list and its answers as approved: "continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp". So this page is written from what Garura has built, and what is not built is drafted from the issues and gets a thin ICE. Two readings of the line are made plain here, as the proposed list said: "deployed" means installed in a project, and a run's records are part of "everything". The words this page uses:
 - A part is one play, loop, sub-agent, skill, script, shared file or tool. A play is a command a person or an agent types to run one piece of work from start to end. A loop is a command that runs plays in rounds until its goal is met.
 - The source is where Garura's parts are written: the `core/` folder of Garura's own repository, with the installer beside it. The installed copy is what an install lays in a project: the parts in the coding tool's own folder, such as `.claude/` for Claude Code, and Garura's own folder, `.garura/`.
 - Deployed means installed in a project. A project is a team's repository with Garura installed in it. In Garura's own repository, `.garura/` is an installed copy too: "But `.garura/` in this repository is the installed copy. It is what an install laid here. The source is `core/`."
@@ -17,24 +17,24 @@ This capability does three jobs that are built, one of them in part:
 And one job that is not built:
 - Keep each run's records with its issue, with only repository paths in them.
 
-Structure says where each thing lives; the other capabilities of this intent say what it is. Standards says what each kind of part is and how it is built, and holds the checks, among them the linter's rule that an installed part names no path in the source. Settings says what each setting means, who reads it, and where each settings file other than the one settings file goes (#946, one settings folder and each setting naming its reader). Memory says what enters each tier of memory, keeps the memory tool, and decides when the install stops writing the machine-wide copy of all memory.
-Approved pages of other intents already hand this work here. Install and distribute leaves "where each installed part lives (Structure)", "where each part lives (Structure)" and "where each part lives once laid (Structure)" to this capability, and lays what it defines: "the install lays what they define". Give every gate a way past, in Orchestration, leaves "Where each run's records live in its issue's folder (#969)" here, and keeps the skip records and what is owed for itself.
+Structure says where each thing lives; the other capabilities of this intent say what it is. Standards says what each kind of part is and how it is built, and holds the checks, among them the linter's rule that an installed part names no path in the source. Settings says what each setting means, who reads it, and where each settings file other than the one settings file goes. Memory says what enters each tier of memory, keeps the memory tool, and decides when the install stops writing the machine-wide copy of all memory.
+Approved pages of other intents already hand this work here. Install and distribute leaves "where each installed part lives (Structure)", "where each part lives (Structure)" and "where each part lives once laid (Structure)" to this capability, and lays what it defines: "the install lays what they define". Give every gate a way past, in Orchestration, leaves "Where each run's records live in its issue's folder" here, and keeps the skip records and what is owed for itself.
 It matters because Garura's parts and people find each other's files by path. A part that reaches into the source "works only inside Garura's own repository, and fails everywhere else", and a run's records are "the audit trail of the work": "A record kept where nothing reads it is lost without anyone noticing". It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so.
 
 Features:
 - Lay out Garura's source: where each kind of part, tool, memory and setting lives (fn-source-layout): Garura's own repository keeps each kind of part in one known folder under `core/components/`, each tool under `core/tools/` and the settings in `core/config.yaml`, so a developer knows where a part goes and the install knows where to take it from.
 - Lay out an installed project: where each part lands, the shared files, the tools and the memory guide (fn-installed-layout): an install lays every part in one fixed place in the project, so each installed part finds the others by an installed path and never needs Garura's source. Built for Claude Code.
 - Keep `.garura/` to its written list, and check it (fn-garura-folder-list): a project's `.garura/` folder holds only what its written list names, and a check names each folder or file the list does not hold. Built in part: the list is written, and no check runs.
-- Keep each run's records with its issue, with only repository paths in them (fn-run-records-with-issue): everything a play run writes goes in the folder of the issue whose work made it, nothing goes in a global file, and every path in the records starts at the repository's root. Not built (#969, every run's records kept in its issue's evidence folder).
+- Keep each run's records with its issue, with only repository paths in them (fn-run-records-with-issue): everything a play run writes goes in the folder of the issue whose work made it, nothing goes in a global file, and every path in the records starts at the repository's root. Not built.
 
 What is not built yet:
 - No one written map says where every part lives, in the source and once installed. The nearest are `CLAUDE.md`'s "Architecture", `docs/components/memory.md` and the harness standard's principle 11.
-- A tool is not a kind of part of its own. The harness standard's table of the parts has no row for a tool, and #620 (tools become a first-class component) plans a `core/components/tools/` folder.
+- A tool is not a kind of part of its own. The harness standard's table of the parts has no row for a tool, and a `core/components/tools/` folder is planned for tools as a first-class component.
 - The written list of `.garura/` disagrees with the disk in several places, among them the plans folder, which no drawn layout names; `.gitignore` line 152, which still ignores `.garura/core/memory/` against ADR 039 (every memory write goes to short-term memory); and `engine-state.json`, which no script reads.
 - Nothing checks `.garura/` against its list. The skill a rule in Phoenix memory names as its check, `write-evidence`, does not exist.
-- Some runs keep their records outside any issue's folder: the decision play's runs and the plan sessions. An old global gate ledger is still kept (#943, gate records live in the evidence folder of the issue that made them).
-- Plays write home-folder paths into the run records they commit (#982, plays write a home-folder path into run records; #914, run records carry the person's home-folder paths).
-- Only Claude Code has an install. The Codex install is stopped (#863, Codex projects get an install built for Codex).
+- Some runs keep their records outside any issue's folder: the decision play's runs and the plan sessions. An old global gate ledger is still kept.
+- Plays write home-folder paths into the run records they commit.
+- Only Claude Code has an install. The Codex install is stopped; an install built for Codex is planned.
 - The install still writes a machine-wide copy of all memory in the home folder (ADR 055 §8, the machine-wide memory copy stays for now).
 
 ### Benefit hypothesis
@@ -47,7 +47,7 @@ What is not built yet:
   - A path in a run record starts at the repository's root.
 - How we will know: the component linter finds no installed part that names a path in the source; the written layouts of `.garura/` agree with each other and with the disk, and the check of `.garura/` finds nothing off the list; and every committed run record sits in its issue's folder and holds no home-folder path.
   - The first holds on the source today: the component linter found no installed-path error on 2026-11-11.
-  - The other two do not hold today: the layouts disagree with the disk, no check of `.garura/` exists, and committed run records hold home-folder paths (#982, plays write a home-folder path into run records; #914, run records carry the person's home-folder paths).
+  - The other two do not hold today: the layouts disagree with the disk, no check of `.garura/` exists, and committed run records hold home-folder paths.
 
 ### Boundary (In / Out / Never)
 - In: where each kind of part, each tool, the memory source and the one settings file live in Garura's source.
@@ -62,7 +62,7 @@ What is not built yet:
 - Out: each coding tool's own folders, and how a part is shaped for each tool. Support each coding tool, in Install and distribute, owns them.
 - Out: the record of each skipped checkpoint, what is owed, and the way past any gate, such as a check of `.garura/` once it stops a change. Give every gate a way past, in Orchestration, owns them.
 - Out: the scan that stops a push holding a home-folder path. Ship every change the same way, in Developer tooling, owns it.
-- Out: which parts of `.garura/` a review reads (#939, the reviews leave out the agents' working records). Check the code against its standards, in Code → Validation, owns it.
+- Out: which parts of `.garura/` a review reads. Check the code against its standards, in Code → Validation, owns it.
 - Out: what the product model holds inside its folder. Product model owns it.
 - Out: keeping a plan's evals from everyone who builds the work. Write the evals that check the work, in Design → Code, owns it.
 - Never: let an installed part read, run or name a path in Garura's source. The reason: "When an installed part runs, it never reads, runs or names a path under `core/components/` or `core/tools/`."
@@ -73,18 +73,18 @@ What is not built yet:
 ### Guiding rules
 - A part takes its paths from the settings, never from a path fixed inside it. The reason: the settings file says of short-term memory's paths: "All agents, plays, and skills resolve these from config — never hardcode paths."
 - The issue governs: what a piece of work writes goes under its issue. The reason: "Everything a piece of work writes goes under its issue".
-- A shared place gets a written structure first. The reason: #943 (gate records live in the evidence folder of the issue that made them) asks that "If a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule.", and in the product owner's words: "why do we need a global evidence.. if we do then we need to create a proper structure".
+- A shared place gets a written structure first. The reason: if a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule; and in the product owner's words: "why do we need a global evidence.. if we do then we need to create a proper structure".
 - A pointer in an installed part points to an installed file. The reason: "A pointer in an installed file points to another installed file."
 - A change is made in the source, and an install carries it to a project. The reason: "A change is made in `core/`."
 - In Garura's own repository, a decision about `.garura/` is built in the install's source. The reason: "An ADR about `.garura/` is built in the install's source, not by hand here."
-- Not decided: whether tools become a kind of part of their own, in `core/components/tools/` (#620, tools become a first-class component), or stay in `core/tools/`.
-- Not decided: whether the harness layout of #415 (reorganise core/components into the harness layout) is still wanted; it was planned before ADR 066 (names say who does the work, five roles own the verbs).
+- Not decided: whether tools become a kind of part of their own, in `core/components/tools/`, or stay in `core/tools/`.
+- Not decided: whether the planned harness layout of `core/components` is still wanted; it was planned before ADR 066 (names say who does the work, five roles own the verbs).
 - Not decided: where a run keeps its records when it has no issue of its own yet, such as a decision recorded by hand, or when it works on a whole plan, such as a plan session.
 - Not decided: whether the check of `.garura/` warns or stops a change, and what its way past records.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 112: "Structure: Where everything lives, in source and once deployed."; line 116, the product owner on 2026-11-11: "continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp"; line 119: "Pages and ICE are drafted from what is built and taken as approved by these words"
-- .garura/project/issues/1021/context/bi-10-inventory/inventory.md, Lean 1, item 3 (lines 864-866): "Its page says "deployed" means installed, and that a run's records are part of "everything" (#969, every run's records in its issue's evidence folder)."; Lean 4 (lines 911-919), the four features; sections 3.1 to 3.6, 7.3, 9 and 10 (item 5: "One written map of where every part lives, and a check that `.garura/` holds to it."); section 1.5: "No naming, memory or installed-path error."
+- The capability list: "Structure: Where everything lives, in source and once deployed."; the product owner on 2026-11-11: "continue as most of this is based on built. please proceed with creae pages and ICE as per the process and standards and consider them approved. show me only when you are ready for commit and cp"; "Pages and ICE are drafted from what is built and taken as approved by these words"
+- The stock-take of Standards, structure, settings and memory (2026-11-11), Lean 1, item 3: "Its page says "deployed" means installed, and that a run's records are part of "everything"."; Lean 4, the four features; sections 3.1 to 3.6, 7.3, 9 and 10 (item 5: "One written map of where every part lives, and a check that `.garura/` holds to it."); section 1.5: "No naming, memory or installed-path error."
 - .garura/product/product-os/intents/bi-10.md, line 3: "the structure says where everything lives"
 - docs/adr/040-config-source-is-core-config-yaml.md, line 19: "But `.garura/` in this repository is the installed copy. It is what an install laid here. The source is `core/`."; line 39: "Nothing under it is edited to make a change."; line 40: "A change is made in `core/`."
 - docs/adr/055-installed-parts-read-only-installed-files.md, line 33: "When an installed part runs, it never reads, runs or names a path under `core/components/` or `core/tools/`.", "A pointer in an installed file points to another installed file."; §8, line 73: "It stops when the memory tool is fully live and Phoenix memory is the home of memory."
@@ -98,12 +98,8 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/install-into-project/capability.md, line 65: "where each installed part lives (Structure)", "the install lays what they define"
 - .garura/product/product-os/software-delivery-planning/upgrade-project/capability.md, line 64: "where each part lives (Structure)"
 - .garura/product/product-os/software-delivery-planning/support-coding-tools/capability.md, line 63: "where each part lives once laid (Structure)"
-- .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md, line 57, and fn-record-every-skip/feature.md, line 49: "Where each run's records live in its issue's folder (#969). Structure, in Standards, structure, settings and memory, owns it."; fn-record-every-skip/ice.md, line 7: "where a run's records live stays with Structure"
-- GitHub #969 (open), every run's records kept in its issue's evidence folder: "What a run did and decided is kept with the issue that made it, not in a global file."
-- GitHub #943 (open), gate records live in the evidence folder of the issue that made them: "Nothing is written to a global file.", "If a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule.", and the product owner on 2026-10-28: "why do we need a global evidence.. if we do then we need to create a proper structure"
-- GitHub #944 (closed), a person can see what every run did and decided: "the records are the audit trail of the work.", "A record kept where nothing reads it is lost without anyone noticing"
-- GitHub #982 (open), plays write a home-folder path into run records: "No client reference and no personal reference — not in files, not in history"
-- GitHub #914 (open), run records carry the person's home-folder paths; #620 (open), tools become a first-class component; #415 (open), reorganise core/components into the harness layout; #863 (open), Codex projects get an install built for Codex; #946 (open), one settings folder and each setting naming its reader; #939 (open), the reviews leave out the agents' working records: the planned work and the known defects named on this page.
+- .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md, line 57, and fn-record-every-skip/feature.md, line 49: "Where each run's records live in its issue's folder. Structure, in Standards, structure, settings and memory, owns it."; fn-record-every-skip/ice.md, line 7: "where a run's records live stays with Structure"
+- The product owner on 2026-10-28: "why do we need a global evidence.. if we do then we need to create a proper structure"
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. A search of Phoenix memory on 2026-11-11 for a folder or repository layout finds only the product rule's "Rule 8: Stage-Centric Folder Layout" (standards/rules/product.md, line 63), which is out of step (fn-garura-folder-list), and knowledge/review/harness.md, line 31, which says only where a review finds the installed parts: "The installed target is `.claude`."
 - .garura/product/product-os/software-delivery-planning/domain.md: the domain this capability sits in; its first paragraph does not name the capabilities of Standards, structure, settings and memory yet.

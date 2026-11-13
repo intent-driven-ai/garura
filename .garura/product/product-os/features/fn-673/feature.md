@@ -20,10 +20,10 @@ Once the outside review approved a change, the change can be merged and a person
   - In a team's planning tool, the plan pauses with one story still open: the plan's branch is raised to main, approved and merged after the yes, and the open story stays open in the plan.
 - How it meets the capability: this is the end of "from opening to merge", with "a person's yes": every change merges where it belongs, and only after the review approved it and a person said yes.
 
-Status: built, in /merge-change, with its yes pinned. Its first form, which landed an issue on its plan's branch and a plan on main whenever it pauses, was #673 (closed). Setting the item Done came later (ADR 064). Not built, or open:
-- The merge also closes the item above a landed issue once every issue under it is closed, such as the epic. This is against the rule that nothing rolls up, and it is a decision the product owner has not taken (#1014).
-- It records an empty merge commit after a merge (#579), stops when the change has no review folder yet (#583), and cannot recover after an error from the code host during the merge (#787).
-- When a plan's branch lands on main, nothing shows that every commit on it was reviewed. Land a plan's branch on main with evidence that every commit was reviewed (fn-land-plan-with-evidence) adds it (#915).
+Status: built, in /merge-change, with its yes pinned. Its first form landed an issue on its plan's branch and a plan on main whenever it pauses. Setting the item Done came later (ADR 064). Not built, or open:
+- The merge also closes the item above a landed issue once every issue under it is closed, such as the epic. This is against the rule that nothing rolls up, and it is a decision the product owner has not taken.
+- It records an empty merge commit after a merge, stops when the change has no review folder yet, and cannot recover after an error from the code host during the merge.
+- When a plan's branch lands on main, nothing shows that every commit on it was reviewed. Land a plan's branch on main with evidence that every commit was reviewed (fn-land-plan-with-evidence) adds it.
 
 ## Inputs / Outputs
 - In: the change's pull request and its branch.
@@ -44,7 +44,7 @@ Status: built, in /merge-change, with its yes pinned. Its first form, which land
 - Only breaking main holds a plan's branch back, and the machine checks guard that. The reason: the review, a clean merge and the required checks are what show main will still work.
 - A landed issue changes only its own item. The reason: "An item's status in a plan file follows its own GitHub issue.", and "A parent never changes because its children closed".
 - The merge's records ride on the yes. The reason: "the bookkeeping push rides on that authorization, no second ask."; a push that fails is shown as owed, never silent.
-- Not decided: whether the typed yes is the way past this checkpoint that Orchestration's Must not asks for, or a stop kept on purpose (#992).
+- Not decided: whether the typed yes is the way past this checkpoint that Orchestration's Must not asks for, or a stop kept on purpose.
 - Not decided: what the setting `review-pr.bypass` should do; no script reads it.
 
 ## Acceptance criteria
@@ -62,7 +62,7 @@ Status: built, in /merge-change, with its yes pinned. Its first form, which land
 - Changing a plan's other items, its status and its direction. Turn intents into agent work, in Product → Spec, and Orchestration own them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
+- The product owner on 2026-11-10: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
 - core/components/plays/merge-change/SKILL.md: "no config value, policy, or ledger turns it off", "there is nothing to approve, so the human is not asked", "The merge proceeds solely on the typed approval", "only that item, no roll-up"
 - core/components/plays/merge-change/reference/ice.md: "open work is no reason to hold it off main", "always presents and waits for a typed human approval"
 - core/components/plays/merge-change/scripts/merge_pr.py: "because the code host closes issues only on main", "the bookkeeping push rides on that authorization, no second ask."
@@ -76,7 +76,3 @@ Status: built, in /merge-change, with its yes pinned. Its first form, which land
 - .garura/product/product-os/software-delivery-planning/check-code-against-standards/ice.md: "the product owner gives the merge their yes in Developer tooling."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - core/config.yaml: "bypass: true"
-- GitHub #673 (closed): "merge-change lands an issue on its plan branch, and a plan on main whenever it pauses"
-- GitHub #1014 (open): "merge-change closes the top item of a plan's tree (the Epic) when every issue under it is closed, against the no-roll-up rule"
-- GitHub #579, #583 and #787 (open): "records an empty merge commit id after a successful merge", "crashes at Step 1 when the change has no review folder yet", "cannot recover after a host error during the merge"
-- GitHub #992 (open): "the merge onto main keeps a typed approval (merge-change)", "or exceptions to the principle"

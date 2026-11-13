@@ -17,16 +17,16 @@ Every play, loop, skill and sub-agent is named by one written rule: plain words,
   - loops are their own kind, one for each transition, named `loop-<from>-<to>`, and "Only a loop's name starts with `loop`.";
   - "A name may not be exactly a tool's built-in command, but it may start with one."; `env`, `perf` and `uat` join the short words;
   - the second phase is called Spec.
-- The harness roles of #1015 (record the harness roles feature) are these five. In the product owner's words of 2026-10-31: "Everything that a person does has to be aligned to one of these five roles in terms of how they would perform." He placed the feature here: "The harness for the standard as a business intent for the five rules is correct." ADR 066 gives the play verbs to the roles; skills and sub-agents keep their verbs for now.
+- The harness roles are these five. In the product owner's words of 2026-10-31: "Everything that a person does has to be aligned to one of these five roles in terms of how they would perform." He placed the feature here: "The harness for the standard as a business intent for the five rules is correct." ADR 066 gives the play verbs to the roles; skills and sub-agents keep their verbs for now.
 - Examples, in different kinds of project:
   - In a bank's payments service, a developer names a new skill `refund-letter-writer`. The linter fails it, because the name has no verb first, and the skill becomes `author-refund-letter`, from the verb that means to write a document from inputs.
   - In a clinic's booking app, the team wants a play called `/review`, a command the coding tool already has. The rule refuses it, so no one has to choose between the two.
   - In a harness repository, the plays that design a slice take the designer's verb, `design`, once ADR 066's rename lands.
 - How it meets the capability: this is the naming part of "written standards for parts, sub-agents and naming", held by the linter.
 
-Status: built in part. ADR 046's rule is built in `naming.md`, `naming.yaml` and the component linter, and no name in the source breaks it today; #736 (the naming rules) is closed. Not built, or open:
+Status: built in part. ADR 046's rule is built in `naming.md`, `naming.yaml` and the component linter, and no name in the source breaks it today. Not built, or open:
 - ADR 066's rule is decided and not applied: "Until the rename lands, the naming files and the linter keep today's rules, so they disagree with this record." The product owner answered that the rename runs after the reviews of BI-10 and BI-11.
-- The roles of #1015 are given to the play verbs only. Skills and agents "keep their verbs for now, and get their own list in a later decision."
+- The five harness roles are given to the play verbs only. Skills and agents "keep their verbs for now, and get their own list in a later decision."
 - The verb `remove` is in the source's `naming.yaml` and in no decision, and Phoenix memory's copy does not have it, so `remove-model-part` and `remove-plan` "fail the check in any project that reads Phoenix memory's copy".
 - The phase table in `naming.md` still names the second phase Intent.
 
@@ -46,7 +46,7 @@ Status: built in part. ADR 046's rule is built in `naming.md`, `naming.yaml` and
 - Names may grow longer. The reason, in the product owner's words recorded in ADR 046: "If it makes the command longer, so be it. At least it's going to give clarity."
 - Not decided: the verb list of skills and sub-agents, and the verb `remove`. ADR 066 leaves both to a later decision.
 - Not decided: which coding tools' built-in commands the check covers. ADR 046 names only Claude Code and Codex.
-- Not decided: from #1015 (record the harness roles feature), who holds a role, a person, an agent or either, and whether the specifier or the designer comes first.
+- Not decided: who holds a harness role, a person, an agent or either, and whether the specifier or the designer comes first.
 
 ## Acceptance criteria
 - Given a play named with no verb first, when the component linter runs, then it fails and names the rule.
@@ -64,18 +64,17 @@ Status: built in part. ADR 046's rule is built in `naming.md`, `naming.yaml` and
 - Which coding tools a project uses, and where each lays the parts. Support each coding tool, in Install and distribute, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 110: "Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them. (unique)"
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 7: "ADR 066's rename runs after the BI-10 and BI-11 reviews"
+- The capability list: "Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them. (unique)"
+- The product owner's answer 7 (2026-11-11): "ADR 066's rename runs after the BI-10 and BI-11 reviews"
 - core/components/memory/standards/rules/naming.md, lines 4, 12-13, 23-28 and 39-46: "so a name that breaks a rule cannot land", "One rule, learned once, removes both problems, and it is the rule a client can take for their own harness.", "A new verb is added there first, with its meaning, or it cannot be used.", "No name is, or starts with, a built-in command of Claude Code or Codex", "A person typing `/review` must not have to choose between theirs and ours.", and the phase table
 - core/components/memory/standards/rules/naming.yaml, lines 28 and 56: no one-word play, and the verb `remove`
 - standards/rules/naming.md, in Phoenix memory, read through the memory tool on 2026-11-11: its skill verbs, with no `remove`
 - docs/adr/046-one-naming-standard-for-every-harness-part.md, lines 20, 49-52 and 98-99: "two skills had near-same names for different jobs (`kb-search`, `search-kb`)", "loops use `complete` (Claude Code has `/run`)", "If it makes the command longer, so be it. At least it's going to give clarity."
 - docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md: /next is dropped
 - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md, lines 19, 29-31, 59-99 and 131: "Verbs today do not say who acts.", "fail the check in any project that reads Phoenix memory's copy", "keep their verbs for now, and get their own list in a later decision.", "The roles are specifier, designer, builder, validator and orchestrator. A verb belongs to one role, and a role can have several verbs. The verb says who does the work.", "Only a loop's name starts with `loop`.", "A name may not be exactly a tool's built-in command, but it may start with one.", "Until the rename lands, the naming files and the linter keep today's rules, so they disagree with this record."
-- .garura/project/issues/1021/context/names.md, lines 5-39: the agreed new names
+- The names agreed with the product owner on 2026-11-03: the agreed new names
 - .garura/product/product-os/features/fn-736/feature.md, the old page, lines 1 and 4: "Naming rules: verbs, run- for loops, no tool built-ins, two-word plays", "loops named run-<phase>, plays verb-object (at most two words)"
 - .garura/product/product-os/software-delivery-planning/support-coding-tools/capability.md, line 81: "Not decided: which tools the naming rule's check of built-in commands covers."
-- GitHub #736 (closed): "Naming rules: verbs, run- for loops, no tool built-ins, two-word plays"
-- GitHub #1015 (open), the product owner on 2026-10-31: "Everything that a person does has to be aligned to one of these five roles in terms of how they would perform.", "The harness for the standard as a business intent for the five rules is correct."; its open points "Who holds a role" and "does the specifier come first, or the designer?"
+- The product owner on 2026-10-31: "Everything that a person does has to be aligned to one of these five roles in terms of how they would perform.", "The harness for the standard as a business intent for the five rules is correct."
 - The component linter on the source, run from the repository root on 2026-11-11: no naming error
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.4 and 8
+- The stock-take (2026-11-11), sections 1.4 and 8

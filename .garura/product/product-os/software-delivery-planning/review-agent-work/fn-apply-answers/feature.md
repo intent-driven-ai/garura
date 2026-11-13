@@ -18,7 +18,7 @@ When the person presses Finish, the review step, the last step of the loop's run
   - A bank's payments service: a capability raised the product's security level; the person drops that raise, the level goes back, and the capability is sent back to fit.
 - How it meets the capability: this is where the answers become part of the work, as Developer tooling's proof asks: "Their answers become part of the work."
 
-Status: not built (#650). Until Argus exists, the Discovery loop "ends at the pull request": the person types confirm or drop for each intent, the words are kept in the issue's short-term memory, and the record says "applied_to_model: false   # Argus's review step writes the approval (#650)". The intents stay proposed. No piece of the model carries an approval state yet (#964).
+Status: not built. Until Argus exists, the Discovery loop "ends at the pull request": the person types confirm or drop for each intent, the words are kept in the issue's short-term memory, and the record says "applied_to_model: false   # Argus's review step writes the approval". The intents stay proposed. No piece of the model carries an approval state yet.
 
 ## Inputs / Outputs
 - In: the answers kept on the run's branch, and the Finish event.
@@ -44,16 +44,15 @@ Status: not built (#650). Until Argus exists, the Discovery loop "ends at the pu
 
 ## Out of scope
 - Committing, raising, the outside review and merging the change. Ship every change the same way, the first capability of Developer tooling, does them.
-- The approval state on each piece, and how approval is recorded outside the review step. Product model owns them (#964).
+- The approval state on each piece, and how approval is recorded outside the review step. Product model owns them.
 - What a memory update's or an ADR's answer writes. Memory and Manage ADRs own them.
 - Reworking a piece sent back. Send a piece back and get it reworked (fn-send-back) does it.
 
 ## Sources
 - .garura/product/product-os/intents/bi-8.md: "Their answers become part of the work."
-- GitHub #650 (open): "The drive's last step applies the review's answers in one commit and writes approval", "(fingerprint, who, when, which review)", "a dropped business intent sends the ICE built from it back to changed", "Approval written outside the review step"
 - docs/adr/032-drive-review-of-outcomes.md: "The review step applies them as one commit", "The merge stays pinned to the person.", "A failed drive gets the same review, plus where it stopped and why.", "the pull request is closed, the branch is deleted, and nothing merges", "the highest level the accepted needs still ask for", "learned-checkpoint answers are appended"
 - docs/adr/033-approval-in-the-product-model.md: "The review step writes approved or in progress, from the person's answers.", "The review tool writes nothing to the model."
 - docs/adr/036-approved-answer-lands-in-short-term-memory.md: "Only a person accepts an ADR. Only where the person does it moves."
 - core/tools/memory/README.md: "Only a person decides, one update at a time."
-- .garura/project/issues/617/specs/review-tool.md, the design: "for example, an intent with no proof", "stays open"
-- core/components/loops/complete-discovery/scripts/record_confirmation.py: "ends at the pull request", "applied_to_model: false   # Argus's review step writes the approval (#650)"
+- The review tool's design: "for example, an intent with no proof", "stays open"
+- core/components/loops/complete-discovery/scripts/record_confirmation.py: "ends at the pull request", "applied_to_model: false # Argus's review step writes the approval"

@@ -14,7 +14,6 @@
 **Must not:** Make people read raw files to know what was made.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #8
 
 **Touches:**
 - [Ship every change the same way](../software-delivery-planning/ship-every-change/capability.md) (capability) — adds

@@ -2,7 +2,7 @@
 
 ## What it does
 A list names, for every setting, what it means and the play or tool that reads it, and a check fails a setting no one reads and a play's setting whose play no longer exists, so no setting stays in a project's settings file that changes nothing when a person changes it.
-- What #946 (every settings file other than config.yaml lives in one config folder, and each setting names who reads it) asks: "Each setting names who reads it. A schema lists, for every key, the play or tool that reads it. A check fails on a key nobody reads, and on a play's setting whose play no longer exists."
+- Each setting names who reads it: a schema lists, for every key, the play or tool that reads it, and a check fails on a key nobody reads, and on a play's setting whose play no longer exists.
 - Where the check runs: "The check runs on the source and on an installed project, and names every key with no reader."
 - What it would find today, from the stock-take:
   - `trackers` is read by no script: the word is only in a docstring;
@@ -11,8 +11,8 @@ A list names, for every setting, what it means and the play or tool that reads i
   - `implement` is read only by the stale /build-epic;
   - `review-pr` is named in /check-change's text, and is "read by no play's code";
   - `ltm` is passed on by the pre-flight of 30 plays, and the folder it names does not exist.
-- A play reads a checkpoint setting by a name, and a setting under another name is read by no play. Thirteen of the 18 plays that name a checkpoint setting read it under a name that is not their own, such as /validate-epic, which reads `gates.plays.validate` while Garura's source settings turn off `validate-epic`. In this repository's installed copy, the review checkpoint is still `review-change`, so "the gate that should be off is on" (#772).
-- #947 (settings named for plays and tools that are gone are renamed or removed) names six of these blocks, and asks for each: "first find why it was added and whether anything still reads it (a play's text, not only its scripts). Then rename it to the current name, or remove it."
+- A play reads a checkpoint setting by a name, and a setting under another name is read by no play. Thirteen of the 18 plays that name a checkpoint setting read it under a name that is not their own, such as /validate-epic, which reads `gates.plays.validate` while Garura's source settings turn off `validate-epic`. In this repository's installed copy, the review checkpoint is still `review-change`, so "the gate that should be off is on".
+- Six of these blocks are named for plays and tools that are gone. For each, first find why it was added and whether anything still reads it (a play's text, not only its scripts), then rename it to the current name, or remove it.
 - Approved pages of Install and distribute hand "what each setting means and who reads it" here, and the install and the upgrade follow what this list says.
 - Examples, in different kinds of project:
   - In a clinic's booking app, the check runs on the installed project and names a setting left from a play the team removed; the technical lead deletes it, and the check passes.
@@ -20,7 +20,7 @@ A list names, for every setting, what it means and the play or tool that reads i
   - In a game studio's build, a play is renamed, and the check fails on its old checkpoint setting until the setting takes the play's new name.
 - How it meets the capability: a setting lives in settings to be read; one that no one reads looks like a choice and changes nothing.
 
-Status: not built (#946, each setting names who reads it; #947, settings named for plays and tools that are gone). Both are open. What exists:
+Status: not built. What exists:
 - Some plays check their own setting's value, such as the question tier, where "An unknown tier is a usage error that names the allowed values.", and the loop's pre-flight, which refuses a runner or a checker kind it does not know.
 - No list of settings, and no check of who reads them.
 
@@ -32,10 +32,10 @@ Status: not built (#946, each setting names who reads it; #947, settings named f
 - Out: the check's report: each setting no one reads, and each play's setting whose play no longer exists, by name.
 
 ## Rules & behavior
-- Each setting names who reads it. The reason: #946: "Each setting names who reads it."
+- Each setting names who reads it.
 - A key no one reads fails the check, and so does a play's setting whose play no longer exists. The reason: "A check fails on a key nobody reads, and on a play's setting whose play no longer exists."
 - The check runs on the source and on each installed project. The reason: "The check runs on the source and on an installed project, and names every key with no reader."
-- A reader is looked for in a play's text as well as in its scripts. The reason: #947: "whether anything still reads it (a play's text, not only its scripts)".
+- A reader is looked for in a play's text as well as in its scripts. The reason: before a setting is renamed or removed, it must be found whether anything still reads it, in a play's text, not only its scripts.
 - A setting for a part that is gone is renamed or removed, once why it was added is known. The reason: "first find why it was added and whether anything still reads it (a play's text, not only its scripts). Then rename it to the current name, or remove it."
 - Not decided: whether the list also gives each setting's default and the values it may take, and the check fails a value outside them.
 - Not decided: where the list lives: beside the settings file, in the settings folder, or in each play that reads a setting.
@@ -53,10 +53,7 @@ Status: not built (#946, each setting names who reads it; #947, settings named f
 - The written standards, the checks of plays, skills and sub-agents, and the rename map of old names. Standards, in Standards, structure, settings and memory, owns them.
 
 ## Sources
-- GitHub #946 (open): "Each setting names who reads it. A schema lists, for every key, the play or tool that reads it. A check fails on a key nobody reads, and on a play's setting whose play no longer exists.", "The check runs on the source and on an installed project, and names every key with no reader."
-- GitHub #947 (open): "first find why it was added and whether anything still reads it (a play's text, not only its scripts). Then rename it to the current name, or remove it."
-- GitHub #772 (open): "The installed config still names the review gate by its old play name, so the gate that should be off is on."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 4.1, the table of blocks and their readers: "read by no play's code"; section 4.6; and Lean 5, item 2.
+- The stock-take (2026-11-11), section 4.1, the table of blocks and their readers: "read by no play's code"; section 4.6; and Lean 5, item 2.
 - core/config.yaml, line 213, `validate-epic: off`; core/components/plays/validate-epic/SKILL.md, line 223: "`gates.plays.validate` → `gates.classes.standard` → `gates.default`"; a search of the 18 plays that name `gates.plays` finds 13 that read a name other than their own.
 - core/components/skills/track-plan-changes/scripts/tracker.py, line 4: the only place the word "trackers" is in a script, a docstring.
 - core/components/plays/shape-slice/scripts/grill_budget.py, line 16: "An unknown tier is a usage error that names the allowed values."

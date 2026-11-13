@@ -13,7 +13,7 @@ When the person sends a piece back with a comment, Garura has the play that writ
   - A bank's payments service: an ADR sent back for a missing case comes back with the reply "could not, because the region rule is set by the bank's own standard", and stays open for the person.
 - How it meets the capability: sending a piece back is one of the three answers on every piece, and the person gets the piece reworked inside the same review.
 
-Status: not built (#649). No part reworks one piece from a person's comment and sends it back. The decision that set the review names the cost: "Each play that writes a reviewed kind must be able to do that on the drive's branch."
+Status: not built. No part reworks one piece from a person's comment and sends it back. The decision that set the review names the cost: "Each play that writes a reviewed kind must be able to do that on the drive's branch."
 
 ## Inputs / Outputs
 - In: the send-back event: the piece, its kind and the person's comment.
@@ -41,8 +41,7 @@ Status: not built (#649). No part reworks one piece from a person's comment and 
 - Applying the final answers. Finish the review and have every answer applied in one commit (fn-apply-answers) does it.
 
 ## Sources
-- GitHub #649 (open): "A sent-back piece comes back reworked, with Garura's reply on the comment", "with the comment as its answer", "Re-running the whole drive (never: ADR 032)", "Comments stay pinned across revisions; a comment whose words were removed stays on the piece, marked so."
 - docs/adr/032-drive-review-of-outcomes.md: "The play that writes that kind of piece re-runs for that one piece, on the same branch.", "Each play that writes a reviewed kind must be able to do that on the drive's branch."
 - docs/adr/033-approval-in-the-product-model.md: "In progress", "a person sent it back, and it is being reworked", "Plays write the model."
-- .garura/project/issues/617/specs/review-tool.md, the design: "changed as asked", "could not, because …", "Claude may start fixing that piece at once, while the person keeps reviewing."
-- .garura/project/issues/617/specs/review-tool-mockup.html: "The agent decides again, from memory as it is now."
+- The review tool's design: "changed as asked", "could not, because …", "Claude may start fixing that piece at once, while the person keeps reviewing."
+- The review tool's mockup: "The agent decides again, from memory as it is now."

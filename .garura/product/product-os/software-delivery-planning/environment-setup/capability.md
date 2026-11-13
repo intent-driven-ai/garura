@@ -95,8 +95,8 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "and its environments (Environment setup)."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "its environments (Environment setup)"
 - docs/adr/028-agentic-lifecycle-five-loops.md: "Most of that design — UX rules, architecture, quality bars, run model — is project-wide, not per-slice"
-- docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md: "They are marked stale and rebuilt when their stage comes (#855)."
-- core/components/plays/shape-run-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)", "the slice-level design (rollout, migrations, config/secrets, CI/CD) once, and ONE environment per call", "Incremental: re-run to add or edit an environment; the rest are preserved."
+- docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md: "They are marked stale and rebuilt when their stage comes."
+- core/components/plays/shape-run-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (ADR 053)", "the slice-level design (rollout, migrations, config/secrets, CI/CD) once, and ONE environment per call", "Incremental: re-run to add or edit an environment; the rest are preserved."
 - core/components/plays/shape-run-lens/scripts/resolve_target_env.py: "known tiers: local=0, dev=1, qa=2, stage=3, prod=4"
 - standards/schemas/product-os/lens/run.yaml, in Phoenix memory: "How the SLICE is deployed and runs.", "how to bring it up locally (command / compose file)", "order: 0 local, 1 dev, 2 qa, 3 stage, 4 prod.", "optional — test-data seed step", "optional — instances / size / scaling", "ingress/egress rules — ports, sources, allow/deny", "service accounts / roles / workload identity", "per-env config; secrets via secrets-manager, NEVER in repo"
 - core/components/agents/environment-operator.md: "brings an increment up on ONE environment the run lens declares", "proves it reachable, captures the deploy record, and tears it down when asked", "Production is never your target", "Declare done without reachability evidence in the record", "leave the environment in its prior state", "Print, log, or store a secret value"
@@ -117,6 +117,6 @@ What is not built yet:
 - core/tools/memory/GUIDE.md: "Never answer from what you already know, and never from the web, without a", "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"
 - core/tools/memory/GUIDE.md: "An update always goes to the issue's short-term memory, and it is used only after a person", "to Garura memory or Phoenix memory is a promotion a person makes on purpose, outside your"
 - core/tools/memory/GUIDE.md: "order: `core/memory`, then the product model (`product`)."
-- The Spec → Design business intent in the tracker has one sub-issue, about surfaces (#553); the Validation → Run business intent has none. No issue plans this capability.
+- The Spec → Design business intent in the tracker has one sub-issue, about surfaces; the Validation → Run business intent has none. No issue plans this capability.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf covers software delivery planning or setting up a software project's environments.

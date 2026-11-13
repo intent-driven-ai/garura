@@ -64,8 +64,6 @@ Status: not built. What exists covers only parts of it:
 - The one line the product owner agreed on 2026-11-03: "The project's surfaces are declared: CLI, browser, mobile or other."
 - The product owner on 2026-11-07, on the first drafts: "declare the surface, and its properties is what this is about for each surface we need to define guidelines example for web - we need to handle for design system etc.", "the design would be for that surface"
 - .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later.", "Block other work. Each design can be run at any time."
-- GitHub #559 (open): "Changing a medium later is recorded as a decision, not a silent edit.", "Every surface record carries a medium and a reason for it."
-- GitHub #553 (open, under the Spec → Design business intent in the tracker): "all of them cost a rewrite after the design was already written"
 - core/components/plays/discover-domains/scripts/persist_seed.py: "the profile block: added ONLY if the live spine has none."
 - core/components/plays/discover-capabilities/scripts/rollup_box.py: "proposed = dict(profile)"
 - .garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md: "when the project changes: it gains a database, a web surface, personal data or a new tracker, or it drops one."

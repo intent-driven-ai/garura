@@ -26,7 +26,7 @@ The plan files are the one source of what a person sees. The views read them, an
 One play, /update-plan, serves two capabilities. Its changes to the work items themselves (adding, moving, renaming, rewriting and changing their kind) belong to Turn intents into agent work, in Product → Spec. Its statuses, its direction and its steps onto the plan's branch and back belong here.
 Cutting a plan's branch when its work starts, and landing it on main, belong to Ship every change the same way, in Developer tooling. A session gets onto a plan's branch through the same one script, which also makes that cut when a session opens on a plan with no branch, and at the end it comes back.
 The slice's hidden file of failure and recovery conditions, and the evals, belong to Write the evals that check the work, in Design → Code, though the same run of /shape-slice writes the hidden file today.
-Against Orchestration's Must not, "Stop a person. Every gate has a way past it that records what's owed.", one way past is built here: in a session, a rule break is shown with what works instead, and "do it anyway" lands it with the override recorded in the commit. These stop a person with no way past today: uncommitted work stops a session; a plan file with a status the views do not know stops the view; a request to remove a plan that is on a branch, or that another plan needs, is refused; and /shape-slice must not run until the Agent-work tool lands (#1023). The way past each gate is Give every gate a way past's, in Orchestration.
+Against Orchestration's Must not, "Stop a person. Every gate has a way past it that records what's owed.", one way past is built here: in a session, a rule break is shown with what works instead, and "do it anyway" lands it with the override recorded in the commit. These stop a person with no way past today: uncommitted work stops a session; a plan file with a status the views do not know stops the view; a request to remove a plan that is on a branch, or that another plan needs, is refused; and /shape-slice must not run until the Agent-work tool lands. The way past each gate is Give every gate a way past's, in Orchestration.
 It matters because a person can then always say what is happening and what comes next: in the intent's words, "A person always knows what's happening and what's next." It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so.
 
 Features:
@@ -46,10 +46,10 @@ What is not built yet:
 - Nothing chooses which item is worked next. In the approved pages of Design → Code, "choosing which work comes next belongs to Orchestrate agent work through planning".
 - Nothing works out the plans a plan waits on. The plan file's list is read by the views and by the removal, and is written by no step.
 - Nothing writes a plan's branch field as none when the plan pauses and its branch lands on main. A person sets it by hand.
-- /list-plans ends on its run summary, not on the plans, and /show-plan the same (#1018).
+- /list-plans ends on its run summary, not on the plans, and /show-plan the same.
 - The Next-line map still names the old build plays, which are stale and are not installed, and /shape-eval names nothing next because the build is not built.
-- /shape-slice must not run until the Agent-work tool lands, because it reads an intent's issue from the wrong repository (#1023).
-- The plan files that exist today are for older business intents, and the reorganisation of the business intents deletes them (#1021). No plan exists yet for the current intents.
+- /shape-slice must not run until the Agent-work tool lands, because it reads an intent's issue from the wrong repository.
+- The plan files that exist today are for older business intents, and the reorganisation of the business intents deletes them. No plan exists yet for the current intents.
 - The removal of a plan is built but has not been run, and no play runs it.
 
 ### Benefit hypothesis
@@ -95,15 +95,15 @@ What is not built yet:
 - Not decided: once agents build the work, who chooses which item is worked next: a person, the plan's direction, or a loop.
 - Not decided: whether a plan's Waits on is worked out from its parts' needs, set by a person, or dropped.
 - Not decided: how the plan of a business intent is named now that intents live in their own tracker, where an intent's number can also be a work issue's number.
-- Not decided: whether the pinned yes of /shape-slice and the session's "approved" are ways past of their own kind, or exceptions to Orchestration's Must not (#992).
+- Not decided: whether the pinned yes of /shape-slice and the session's "approved" are ways past of their own kind, or exceptions to Orchestration's Must not.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
-- .garura/project/issues/1021/context/capabilities.md, the narrowing of 2026-11-06 and the product owner's words of 2026-11-09: "running the work once it exists", "making the plan is part of the orchestration, not this intent"
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The capability list, the narrowing of 2026-11-06 and the product owner's words of 2026-11-09: "running the work once it exists", "making the plan is part of the orchestration, not this intent"
 - .garura/product/product-os/intents/bi-9.md: "A person always knows what's happening and what's next.", "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: "choosing which work comes next belongs to Orchestrate agent work through planning"
-- .garura/project/issues/1021/context/bi-9-capability-1/research.md, the old page of View plans as it read on 2026-11-10: "show plans from the plan files alone — no tracker reads, no inference."
-- .garura/project/issues/1021/context/bi-9-capability-1/research.md, the old page of Manage a plan with /update-plan as it read on 2026-11-10: "Orchestration only."
+- The research and drafts for Orchestrate agent work through planning, the old page of View plans as it read on 2026-11-10: "show plans from the plan files alone — no tracker reads, no inference."
+- The research and drafts for Orchestrate agent work through planning, the old page of Manage a plan with /update-plan as it read on 2026-11-10: "Orchestration only."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "nothing works them out", "Status, direction, branch and item kinds are operational: they live in the plan files only, never in the product model's index or pages."
 - standards/templates/plan-view.md, in Phoenix memory: "It is directional, not a ranking: several plans may share a level."
 - core/tools/plan/README.md: "the same files print the same way every time", "Every mark and line comes from the `plan-view.md` template"
@@ -115,10 +115,7 @@ What is not built yet:
 - docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md: "There is one work list, the plan; no second recommender can disagree with it."
 - docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md: "An item's status in a plan file follows its own GitHub issue.", "A parent never changes because its children closed"
 - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md: "Plans sit outside the model and come and go, so no model page may depend on one."
-- GitHub #1018 (open): "/list-plans ends on a run summary instead of the plans"
-- GitHub #1023 (open): "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt."
-- GitHub #992 (open): "A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later.", "or exceptions to the principle"
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 1, 5, 6, 9, 10 and 11.
+- The stock-take of Orchestration (2026-11-10), sections 1, 5, 6, 9, 10 and 11.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers software delivery planning.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."

@@ -2,9 +2,9 @@
 
 ## What it does
 The decision play, run on the branch of a change that is already open, records the ADR in that change, so a decision lands with the work it decides. When no change is open, it opens its own change, as it does today.
-- Today, run by hand, the decision play opens a change of its own first: its first step "cuts the branch off fresh main". So an ADR that belongs to a change on another branch cannot land in that change, and "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816". #816 was a change on a plan's branch.
-- Its other mode, the loop's contract, is for loops: handed one, it opens no issue or branch and checks that the current branch is the loop's. In #822's words, "that is meant for loops, not for a play run inside a change."
-- What it is to do, as #822 sets it:
+- Today, run by hand, the decision play opens a change of its own first: its first step "cuts the branch off fresh main". So an ADR that belongs to a change on another branch cannot land in that change: the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on a change on a plan's branch.
+- Its other mode, the loop's contract, is for loops: handed one, it opens no issue or branch and checks that the current branch is the loop's. That mode is meant for loops, not for a play run inside a change.
+- What this feature is to do, in full:
   - run by hand on an open change's branch, record the ADR on that branch, in that change;
   - still open its own change when no change is open;
   - a test or a scenario shows both.
@@ -20,7 +20,7 @@ The decision play, run on the branch of a change that is already open, records t
   - In a harness repository, a change on a plan's branch alters how a play asks its questions. The ADR is recorded in that change, and the issue does not wait for a second, small change.
 - How it meets the capability: decisions on how the project is built are "recorded closely as they're made", and the closest place is the change that makes them.
 
-Status: not built (#822, /record-decision cannot join a change that is already open; under #968, a person records a decision as an ADR in the change it belongs to and sees every point found on the way). What exists:
+Status: not built (/record-decision cannot join a change that is already open; a person is to record a decision as an ADR in the change it belongs to and see every point found on the way). What exists:
 - Run by hand, the decision play opens and lands its own change, through the opening play and the four change plays.
 - Handed a loop's contract, it opens nothing and works on the loop's branch.
 
@@ -32,7 +32,7 @@ Status: not built (#822, /record-decision cannot join a change that is already o
 
 ## Rules & behavior
 - On the branch of an open change, the ADR goes into that change. The reason: otherwise "the change lands without its ADR, and the issue stays open until a second, small change records the ADR."
-- With no change open, the decision play opens its own. The reason: #822 asks that "It still opens its own change when no change is open."
+- With no change open, the decision play opens its own. The reason: only a change already open is to be joined; the play still opens its own change when no change is open.
 - The work and its ADR travel together. The reason, from outside practice: "every code change needed to carry out the decision is added to the same merge request as the ADR".
 - The loop's contract stays for loops. The reason: "that is meant for loops, not for a play run inside a change."
 - Only a person accepts the ADR, in whichever change it is recorded. The reason: "Only a person accepts an ADR."
@@ -55,9 +55,7 @@ Status: not built (#822, /record-decision cannot join a change that is already o
 - Reviewing the change that holds the ADR. Check the code against its standards, in Code → Validation, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10, line 99: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
+- The capability list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
 - core/components/plays/record-decision/SKILL.md, lines 18-24, 72 and 141-143: "Only a person accepts an ADR.", "it opens no issue or branch, skips the end sequence, does not stop for approval, and saves the ADR as proposed for the loop's final review", "the current branch equals that branch", "cuts the branch off fresh main"
 - knowledge/review/adrs.md, in Phoenix memory, lines 5 and 22: "the PR adds or changes an architecture decision record", "human, line by line"
-- GitHub #822 (open): "/record-decision cannot join a change that is already open", "that is meant for loops, not for a play run inside a change.", "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816", "an ADR that belongs to a change on a plan branch", "/record-decision, run by hand on an open change's branch, can record the ADR on that branch, in that change.", "It still opens its own change when no change is open.", "A test or scenario shows both cases."
-- GitHub #968 (open): "A person records a decision as an ADR, in the change it belongs to, and sees every point found on the way"
-- .garura/project/issues/1021/context/answers/bi9-adr-in-change.md, in short-term memory, approved by the product owner on 2026-11-10 as mu-20261110-013, lines 5-7: "every code change needed to carry out the decision is added to the same merge request as the ADR, and the merge request is labelled ADR.", "decisions are kept in version control beside the application; on GitHub a proposed ADR can be a draft pull request, and the pull request's status stands for the decision's status until it is accepted.", "an ADR starts Proposed, is reviewed and becomes Accepted or Rejected", "a code reviewer checks a change against the ADRs and links the one it breaks."
+- The research note "An ADR in the same change as its work" (read 2026-11-10), in short-term memory, approved by the product owner on 2026-11-10 as mu-20261110-013: "every code change needed to carry out the decision is added to the same merge request as the ADR, and the merge request is labelled ADR.", "decisions are kept in version control beside the application; on GitHub a proposed ADR can be a draft pull request, and the pull request's status stands for the decision's status until it is accepted.", "an ADR starts Proposed, is reviewed and becomes Accepted or Rejected", "a code reviewer checks a change against the ADRs and links the one it breaks."

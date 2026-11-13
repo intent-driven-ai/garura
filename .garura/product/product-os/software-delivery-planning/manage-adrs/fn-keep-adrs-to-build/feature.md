@@ -19,8 +19,8 @@ Every ADR is reviewed, and what is about what the product model holds moves into
   - In a harness repository, an ADR that changed the ontology stays an ADR, with why the ontology changed.
 - How it meets the capability: the capability records "Decisions on how the project is built"; this keeps the ADRs to exactly those, so agents read build decisions from the ADRs and the product from the model.
 
-Status: not built (#1022, review every ADR: anything about what the product model holds moves to the model). What exists:
-- The template's rule that an ADR never changes a person's business intent stops a draft that would. That is how #1022 came up.
+Status: not built (review every ADR: anything about what the product model holds moves to the model). What exists:
+- The template's rule that an ADR never changes a person's business intent stops a draft that would. That is how the need to review every ADR came up.
 
 ## Inputs / Outputs
 - In: every ADR in the project's ADR folder.
@@ -57,8 +57,8 @@ Status: not built (#1022, review every ADR: anything about what the product mode
 - The ADR template and its rules, as a standard. Standards, structure, settings and memory owns them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10, line 99: "Decisions on how the project is built"
-- GitHub #1022 (open), the product owner on 2026-11-02: "Review every ADR: anything about what the product model holds moves to the model", "an ADR is only for how this project is being developed: its architecture, its pieces, and why they are built that way.", "A change to the ontology, and why the ontology changed, is an ADR. What is written inside the product model is not.", "Business intents are requirements. The product owner changes them at will, and no ADR is needed to do it.", "Why an intent exists or does not exist belongs in the model, not in an ADR.", "Read every ADR in `docs/adr/`.", "move what it says into the model and take it out of the ADRs.", "List each ADR with what was found and what was done, and show the list to the product owner before anything moves.", "That rule, in the ADR template, may need rewording once this review is done.", "It does not change any decision about how the project is built."
+- The capability list set on 2026-11-10: "Decisions on how the project is built"
+- The product owner on 2026-11-02: "Review every ADR: anything about what the product model holds moves to the model", "an ADR is only for how this project is being developed: its architecture, its pieces, and why they are built that way.", "A change to the ontology, and why the ontology changed, is an ADR. What is written inside the product model is not.", "Business intents are requirements. The product owner changes them at will, and no ADR is needed to do it.", "Why an intent exists or does not exist belongs in the model, not in an ADR.", "Read every ADR in `docs/adr/`.", "move what it says into the model and take it out of the ADRs.", "List each ADR with what was found and what was done, and show the list to the product owner before anything moves.", "That rule, in the ADR template, may need rewording once this review is done.", "It does not change any decision about how the project is built."
 - .garura/product/product-os/intents/bi-9.md, line 13: "Stop a person. Every gate has a way past it that records what's owed."
 - standards/templates/adr.md, in Phoenix memory, lines 47 and 55: "An accepted ADR is never edited.", "An ADR never changes a person's business intent."
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, lines 435, 443 and 886: "64 numbered ADRs and two marked superseded", "No record in the model came from /record-decision's YAML shape.", "Do product decisions (a move of the product profile) count as ADRs under Manage ADRs?"
+- The stock-take of Orchestration (2026-11-10): "64 numbered ADRs and two marked superseded", "No record in the model came from /record-decision's YAML shape.", "Do product decisions (a move of the product profile) count as ADRs under Manage ADRs?"

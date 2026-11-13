@@ -16,7 +16,7 @@ In the Agent decisions section of Argus, the person reads every decision an agen
   - A team's planning tool: a decision with no trace is flagged at the top.
 - How it meets the capability: "agent decisions" are one of the things the widened line names, and they show what the agents' work rests on.
 
-Status: not built (#664). What exists is the data it shows: an agent's decision is recorded with its trace (`cite`), and the check reads every step's source again and names each problem by its step (`citations --check`); inside a loop, a play's review record can carry each of its decisions with their traces.
+Status: not built. What exists is the data it shows: an agent's decision is recorded with its trace (`cite`), and the check reads every step's source again and names each problem by its step (`citations --check`); inside a loop, a play's review record can carry each of its decisions with their traces.
 
 ## Inputs / Outputs
 - In: the decision records of the run's issue, with their traces, and the memory tool's check of every step's source, turned by Garura into pieces of the review pack.
@@ -45,9 +45,8 @@ Status: not built (#664). What exists is the data it shows: an agent's decision 
 
 ## Sources
 - docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md, with the product owner's words of 19 October 2026: "the source should show a few lines before and after", "The check names the step whose source changed or is gone.", "A decision with no trace is flagged.", "How do shoppers sign in?", "Nothing from the model or the web is used without a memory update a person approved"
-- .garura/project/issues/617/specs/review-tool.md, the design: "because the person must check it", "they are for the check, not for the person's judgement", "Grouped by play, problems first.", "would put the memory tool's words and contract inside the review tool, across the extraction line"
-- .garura/project/issues/617/specs/review-tool-mockup.html: "The decision stands as it is.", "The agent decides again, from memory as it is now."
+- The review tool's design: "because the person must check it", "they are for the check, not for the person's judgement", "Grouped by play, problems first.", "would put the memory tool's words and contract inside the review tool, across the extraction line"
+- The review tool's mockup: "The decision stands as it is.", "The agent decides again, from memory as it is now."
 - core/tools/memory/README.md: "Records a decision and its trace in the issue's short-term memory", "reads every step's source again"
 - core/components/plays/create-play/references/write_loop_review.py: "the record then carries every decision the play made, each with its trace"
-- GitHub #664 (open): "A person sees, for a decision, the tier, file and lines it rested on."
-- The lean the product owner agreed on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "its line is widened to name business intents and agent decisions"
+- The lean the product owner agreed on 2026-11-10: "its line is widened to name business intents and agent decisions"

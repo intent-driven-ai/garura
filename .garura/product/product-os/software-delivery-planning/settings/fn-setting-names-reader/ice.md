@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: A setting that a play really reads is removed as unread.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the settings file in the source and in an installed project, the text and scripts of every play and every tool that reads a setting, the plays, loops and tools that exist and their old names, and #946 and #947.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the settings file in the source and in an installed project, the text and scripts of every play and every tool that reads a setting, the plays, loops and tools that exist and their old names, the need that each setting names who reads it, and the settings named for plays and tools that are gone.
 - Never read: any memory file by its path, any ICE page, and the value of any access key or other secret.
 - Persona: the technical lead, who keeps the project's settings and wants none that change nothing.
 - Scope: In: the list of settings with their meaning and readers, and the check of settings no one reads and settings for parts that are gone. Out: renaming settings on an upgrade, where other settings files live, and the checks of plays, skills and sub-agents.

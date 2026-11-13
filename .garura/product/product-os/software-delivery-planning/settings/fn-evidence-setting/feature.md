@@ -17,7 +17,7 @@ One setting, with a switch for each play, decides whether a play writes its evid
 
 Status: built, in the evidence rule, each play's pre-flight and the close every play runs. Not built, or open:
 - It is off by default, so a checkpoint the settings skip leaves no record. Record every skipped checkpoint, even when the evidence file is off (fn-record-every-skip), in Give every gate a way past, is to record every skip, and it is not built.
-- Where each run's records live in its issue's folder is planned (#969, every run's records are kept in the evidence folder of its issue).
+- Where each run's records live in its issue's folder is planned: every run's records are to be kept in the evidence folder of its issue.
 
 ## Inputs / Outputs
 - In: `evidence.record`, the setting for every play, which is the default.
@@ -46,7 +46,7 @@ Status: built, in the evidence rule, each play's pre-flight and the close every 
 ## Out of scope
 - Recording each skipped checkpoint whatever this setting says. Give every gate a way past, in Orchestration, owns it, through Record every skipped checkpoint, even when the evidence file is off (fn-record-every-skip).
 - What the evidence file and the report hold, and the close every play runs. Standards, in Standards, structure, settings and memory, owns them.
-- Where each run's records live in its issue's folder (#969). Structure, in Standards, structure, settings and memory, owns it.
+- Where each run's records live in its issue's folder. Structure, in Standards, structure, settings and memory, owns it.
 - The checkpoint settings. Turn each checkpoint on or off, and keep the policy learned from a person's answers (fn-checkpoint-settings) does it.
 
 ## Sources
@@ -55,6 +55,5 @@ Status: built, in the evidence rule, each play's pre-flight and the close every 
 - core/components/plays/_shared/play-close.md, lines 137-138: "(1) `evidence.plays.<play>`; (2) else `evidence.record`; (3) else `true`."
 - core/components/plays/create-play/references/preflight.py, lines 112-115: the flag each play resolves at its pre-flight.
 - standards/rules/gate-config.md, in Phoenix memory, lines 116-118: an off checkpoint "records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions row in the evidence file and proceeds."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 4.3, and Lean 5, item 5.
+- The stock-take (2026-11-11), section 4.3, and Lean 5, item 5.
 - .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md, line 48: "The settings that turn a checkpoint off, the evidence setting and the learned policy. Settings, in Standards, structure, settings and memory, owns them."
-- GitHub #969 (open): every run's records are kept in the evidence folder of its issue.

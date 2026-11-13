@@ -64,8 +64,8 @@ Status: not built. What exists covers only part of it:
 - Declaring and building the testing environment, its data and its test accounts. Environment setup does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
-- The product owner on 2026-11-07, in .garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md: "We are never touching production."
+- The list the product owner approved on 2026-11-09: "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
+- The product owner on 2026-11-07: "We are never touching production."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "A surface is a place where a person, or another system, opens the product to use it.", "which screen sizes (viewports) it serves", "A person confirms each surface, property and guideline"
 - .garura/product/product-os/software-delivery-planning/design-work/capability.md: "The screen design setting decides whether each screen is shown as wireframes in Markdown files or as a prototype built with the project's design system."
 - .garura/product/product-os/software-delivery-planning/test-accessibility/capability.md: "One run of a tool, or one walk by a person, may serve both; each capability reads only what its own yardstick names."
@@ -75,7 +75,7 @@ Status: not built. What exists covers only part of it:
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md: "Matching each name in the eval to the guide, running the eval, and giving the verdict."
 - core/components/plays/discover-intent/scripts/walk_prototype.py: "the controls and fields the person could use next"; the line that opens its browser page sets one screen size, 1280 by 900, and capture_source.py sets the same.
 - core/components/plays/discover-intent/scripts/capture_source.py: "full-page screenshot(s) + the page HTML, via a headless browser"
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "a browser open of each `must_open`", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "a browser open of each `must_open`", "An unmeasured bar is not a passed bar."
 - core/components/plays/validate-epic/reference/ice.md: "Green is the entry condition, never the verdict"
 - core/components/plays/validate-epic/scripts/runners/_runner_common.py: "a check that didn't run is NEVER a check that passed."
 - core/components/skills/check-quality-gates/SKILL.md: "Human-owned cards are visibly skipped, never judged.", "A card whose demanded tooling is absent is a missing-tool FINDING"

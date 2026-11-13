@@ -47,8 +47,8 @@ Status: not built. Nothing shows a product's wants or competitors to anyone. Wha
 - Building the review tool. Review what agents make, in Developer tooling, owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-2/page-approvals.md, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "basically reflecting and telling us what needs to be done."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Build features into the product, or update the product intent model, automatically, or at least recommend those changes."
+- The product owner on 2026-11-10, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "basically reflecting and telling us what needs to be done."
+- The list the product owner set on 2026-11-10: "Build features into the product, or update the product intent model, automatically, or at least recommend those changes."
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Review what agents make (Argus): People review ADRs, memories, domains, capabilities and ICE in one tool."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md: "Each finding says where it comes from. The reason: a person can then check each finding without a search."
 - core/components/plays/shape-slice/SKILL.md: "A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown."

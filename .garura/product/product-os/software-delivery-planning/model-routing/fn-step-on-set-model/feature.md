@@ -52,7 +52,7 @@ Status: built in part. Built for the loop's checker and the page judge's setting
 - Choosing a step's model by its job at run time. Choose the model and effort by the job at run time (fn-choose-model-at-run) does it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 115: "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
+- The capability list: "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
 - core/config.yaml, line 121: "A subagent checker must name its model, one other than the session's"; line 138: `model: sonnet`; lines 154-155: the judge may be pinned to a different model for stronger isolation, or "omit (inherit) to use the session model"; line 157: "inherit | a claude model id"
 - core/components/loops/_shared/loop-run.md, line 367: "dispatch the `result-checker` agent on `checker.model`"; lines 385-388: the check record with the checker's kind and model
 - core/components/loops/complete-discovery/scripts/loop_preflight.py, lines 134-136: "a model that is not the session's, so name it (e.g. sonnet)"
@@ -65,4 +65,4 @@ Status: built in part. Built for the loop's checker and the page judge's setting
 - .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md, line 51: "Run plays as loops and Build the work test first use it, and install nothing."
 - .garura/product/product-os/software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md, line 28: "Nothing checks that the checker's model is not the session's own."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md, line 61: the judge that reads each page with no context
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 4.5 and 6.3
+- The stock-take (2026-11-11), sections 4.5 and 6.3

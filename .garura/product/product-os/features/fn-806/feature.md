@@ -16,8 +16,8 @@ Anyone runs /list-plans --graph and sees each plan's branch drawn against main, 
   - In a city's bus timetable site, every plan is paused, so the graph is main and one line that names all of them as on main.
 - How it meets the capability: this is part of "sees every plan and where it stands": where each plan's work sits in the repository, against main.
 
-Status: built, in /list-plans --graph and the plan tool's graph. It was #806 (see every plan as a graph: which plan is on which branch, compared to main, closed), under #719 (view plans: see every plan, and any one plan as a tree, closed). Not built, or open:
-- The run ends on its run summary, not on the graph (#1018, open).
+Status: built, in /list-plans --graph and the plan tool's graph: every plan as a graph, which plan is on which branch, compared to main. Not built, or open:
+- The run ends on its run summary, not on the graph.
 - After a plan pauses and its branch lands on main, its plan file still names the branch until a person sets it to none by hand, because no step writes it; the graph then shows the gone branch with counts of ?. Pause a plan and start it again (fn-pause-plan) is not built.
 
 ## Inputs / Outputs
@@ -50,13 +50,10 @@ Status: built, in /list-plans --graph and the plan tool's graph. It was #806 (se
 - How plays are built, and the run summary they end on. Standards, structure, settings and memory owns them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - core/components/plays/list-plans/reference/ice.md: "A number of commits ahead or behind in the graph does not come from git.", "the play writes no plan file, no issue and no branch"
 - core/tools/plan/plan.py: "the graph's counts read ?", "the one its file names, else plan/<id>/base when git has it"
 - standards/templates/plan-view.md, in Phoenix memory: "A plan behind main has the behind mark.", "they are on main"
 - .garura/product/product-os/features/fn-731/feature.md: "a running plan falls behind main between its issues"
 - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md: "When the plan pauses, its branch merges into main through the change plays"
-- .garura/project/issues/1021/context/bi-9-capability-1/research.md, the page this one replaces as it read on 2026-11-10: "the plan files do not hold them"
-- GitHub #806 (closed): "See every plan as a graph: which plan is on which branch, compared to main"
-- GitHub #719 (closed): "View plans: see every plan, and any one plan as a tree"
-- GitHub #1018 (open): "/list-plans ends on a run summary instead of the plans"
+- The research and drafts for Orchestrate agent work through planning, the page this one replaces as it read on 2026-11-10: "the plan files do not hold them"

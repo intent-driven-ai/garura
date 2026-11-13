@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: An edit through the tool changes a part it was not asked to change.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the ontology at the model's version, the page templates and what they lack, the page skill's modes, the two index skills, the intent-page skill, and #1030 with the product owner's words.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the ontology at the model's version, the page templates and what they lack, the page skill's modes, the two index skills, the intent-page skill, and the product owner's words on the need for the tool.
 - Never read: any memory file by its path, any ICE page, and any file in a plan's evals folder.
 - Persona: the technical lead, who adds and changes parts of the model; and the developer, a person or an AI agent who builds the code, who asks the tool for a page.
 - Scope: In: one tool that creates and edits pages, ICE pages and index entries in the ontology's shape, with the missing templates and play steps. Out: the ontology and its version, moving a model to a new shape, and the words a person approves.

@@ -53,7 +53,7 @@ Status: not built. What exists covers only parts of it:
 - The first tests, the first code and the first tidy. The other features of this capability do them.
 
 ## Sources
-- The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "we have to do this such that coding is also test driven", "the code, when being written, should not get to see what tests there were"
+- The product owner's words, recorded on 2026-11-09: "we have to do this such that coding is also test driven", "the code, when being written, should not get to see what tests there were"
 - The product owner on 2026-11-07, in .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "this should be reflected as updating arch. as the project changes."
 - .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/design-work/fn-update-work-design/feature.md: "Not decided: how the developer's tests are kept in step when an update changes a class or function they were written to.", "Changing the tests and the code to the updated design. Build the work test first does it.", "Not decided: whether an update that a dropped or changed story calls for is started by the plan's change, by the technical lead or by the build."

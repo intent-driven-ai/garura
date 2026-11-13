@@ -24,7 +24,7 @@ A person changes a loop that exists with /edit-loop, its goal, a constraint, a f
 Status: built, in /edit-loop, with its copy of the loop linter. Not built, or open:
 - Only one loop exists to change, the Discovery loop.
 - It runs only on Garura's source layout, as /create-loop does (fn-harness-in-own-repo).
-- It does not check loop principles 1, 3, 4, 5 and 8 (#699, the loop builders check the loop principles; fn-check-loop-principles).
+- It does not check loop principles 1, 3, 4, 5 and 8 (fn-check-loop-principles).
 - /edit-loop is written by hand and has no ICE of its own: "Like `/edit-play`, this skill is written by hand."
 
 ## Inputs / Outputs
@@ -60,8 +60,8 @@ Status: built, in /edit-loop, with its copy of the loop linter. Not built, or op
 - The loop names and the naming rule. Standards, in Standards, structure, settings and memory, owns them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, lines 116-117, the product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
+- The product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
 - core/components/plays/edit-loop/SKILL.md, lines 16-18, 22, 24-25, 27-28, 30-40, 52-53, 61, 66-68, 93, 95 and 96: "never by patching the compiled `SKILL.md` so that it says something its ICE does not.", "The compiled loop records a fingerprint of its ICE, so drift shows.", "Like `/edit-play`, this skill is written by hand.", "The one safe direct edit is wording with no change in meaning. Anything else goes through the ICE.", "With no person reachable, state each assumption, record that approval was assumed, and proceed.", "A new play must exist and run inside a loop (it checks a loop contract); if it does not, stop — fix the play first, through its own ICE and `/edit-play`.", "Get the person's typed approval of the ICE change.", "never renumber the ones that exist — other files and records point at them.", "Keep the reach small: change only what the change reaches.", "Leave no orphans: remove every eval and recovery tied to what you removed.", "Copy the shared scripts unchanged; recompute the fingerprint; run `lint_loop.py` until clean."
 - core/components/plays/create-loop/scripts/lint_loop.py, lines 180-190: "The fingerprint must be the sha256 of reference/ice.md as it is now, not just present.", and a loop whose ICE changed is told to "rebuild it"
 - .garura/product/product-os/software-delivery-planning/run-plays-as-loops/fn-run-loop/feature.md, line 82: "Building and changing a loop. Build your own harness (BI-10) owns it."
-- The stock-take of this intent, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.5, 2.1 and 9.
+- The stock-take of this intent (2026-11-11), sections 1.5, 2.1 and 9.

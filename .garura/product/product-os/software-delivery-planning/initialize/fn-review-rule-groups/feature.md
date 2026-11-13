@@ -4,7 +4,7 @@
 Once the setup answers are confirmed, Initialize records which of the review's rule groups fit the project and which do not, each with the answer that decided it, so a review in the project runs only the groups that fit and names the groups it skipped.
 - A rule group is a set of the review's rules that check one kind of thing (front end, back-end service, database, running service, permissions, personal data); the review runs or skips a group as a whole, so this feature decides per group, never per rule.
 - The answers about the project decide the groups: a project with no front end, no back-end service, no database or no running service gets none of those groups. For Garura itself the answers rule out front end, back-end service, database and running service. The permission group stays kept for Garura until Garura's own answer to the permissions question says it has none (see Rules & behavior).
-- The review reads this record and names, in its own record, the groups it skipped. That is how the product owner sees that a review did not run a rule and why. The change to the review that makes it do this is a later story under #862, not this feature (see Out of scope); this feature writes the record the review reads.
+- The review reads this record and names, in its own record, the groups it skipped. That is how the product owner sees that a review did not run a rule and why. The change to the review that makes it do this is a later story of Initialize, not this feature (see Out of scope); this feature writes the record the review reads.
 - What each group checks, and which groups the review has, are the review's: Check the code against its standards, in Code → Validation, with the review's rules in memory. This feature records which groups fit; it never decides what a group checks.
 - Examples, in different kinds of project:
   - A team's command-line tool with no screens, no service and no database skips the front-end, back-end service, database and running-service groups.
@@ -30,7 +30,7 @@ Status: not built. Every review runs every rule group on every project. No list 
   - Permissions no: the permission group is skipped, because the project gives no person or role any access for its rules to check. Permissions yes keeps it.
   - Personal data no: the personal-data group is skipped, because the project holds no data about a person for its rules to check. Personal data yes keeps it, and it is never skipped by another answer, because a leak of personal data is the costliest miss.
 - Not decided: the full list of the review's rule groups and which answer rules out each one. The review's owners name them; this page's examples are not that list.
-- For Garura itself, #862 names four groups that do not fit: front end, back-end service, database and running service. Garura's answer to the permissions question is not yet recorded, so the permission group stays kept for Garura until that answer says no; #860's permission findings stop only then. The reason: a group no answer speaks to is kept.
+- For Garura itself, four groups that do not fit: front end, back-end service, database and running service. Garura's answer to the permissions question is not yet recorded, so the permission group stays kept for Garura until that answer says no; the permission findings on Garura's own tool files stop only then. The reason: a group no answer speaks to is kept.
 - Each kept or skipped group names the answer that decided it, so a person can see why a rule did not run.
 - A group no answer speaks to is kept, so a rule is never skipped by silence. The reason: a group skipped by mistake hides real findings, while a kept group can only add findings.
 - The record changes only through initialize. When the project changes, a new run (Update the setup as the project changes, fn-rerun-initialize) rewrites it from the new answers.
@@ -45,14 +45,12 @@ Status: not built. Every review runs every rule group on every project. No list 
 
 ## Out of scope
 - Running the review and deciding its findings (Check the code against its standards, in Code → Validation, owns it; its review of each change is /check-change).
-- Changing the review play (/check-change) to read this record, run no rule of a skipped group and name the skipped groups in its own record: a later story under #862 owns it, outside this feature, because it changes the review and not initialize. This feature only writes the record the review reads.
+- Changing the review play (/check-change) to read this record, run no rule of a skipped group and name the skipped groups in its own record: a later story of Initialize owns it, outside this feature, because it changes the review and not initialize. This feature only writes the record the review reads.
 - What each rule group checks, which groups the review has, and the rules inside each group (the review's owners and the review's rules in memory own them).
 - Asking the questions (Ask the setup questions, fn-setup-questions, owns it).
 
 ## Sources
-- GitHub #862 (open): "a review in that project runs only the rule groups that fit it (for Garura itself: no front end, no back-end service, no database, no running service), and the review record names the groups it skipped"
-- GitHub #862, Identified by: "#860 (the review of PR #858 ran database, permission and front-end rules on Garura's own tool files)"
-- .garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md: "It runs every rule group, a set of the review's rules that check one kind of thing, such as a database, on every project.", "changing the review to read that record is a later story (#862)", "the review's rules with which of them fit a project (memory, and Initialize's record)"
+- .garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md: "It runs every rule group, a set of the review's rules that check one kind of thing, such as a database, on every project.", "changing the review to read that record is a later story", "the review's rules with which of them fit a project (memory, and Initialize's record)"
 - .garura/product/product-os/software-delivery-planning/initialize/capability.md: "A review in the project runs only the rule groups that fit it, and the review's record names each group it skipped"
 - standards/rules/pr.md, in Phoenix memory, the review's rule table: "Deterministic mapping from KB quality standard IDs to PR severity buckets P1–P4."
 - Shelf: none; no knowledge shelf in memory covers setting up a software project.

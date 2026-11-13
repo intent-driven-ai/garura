@@ -14,7 +14,6 @@
 **Must not:** Tell the builder the steps, or show the builder the tests.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #3
 
 **Touches:**
 - [Gather the work under a chosen plan item](../software-delivery-planning/gather-work-under-item/capability.md) (capability) — adds

@@ -58,16 +58,15 @@ Status: not built. What exists covers only parts of it:
 - Keeping the test model setting, and which models and services there are to choose from. Settings and Intelligent model routing do them.
 
 ## Sources
-- The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "You write the test, make sure they are failing, then you build the code", "This can be grouped so that all the tests are written, and then all the code is written to make sure all the tests are passing.", "make sure they are failing"
+- The product owner's words, recorded on 2026-11-09: "You write the test, make sure they are failing, then you build the code", "This can be grouped so that all the tests are written, and then all the code is written to make sure all the tests are passing.", "make sure they are failing"
 - The product owner on 2026-11-09, on the first overlap brief, in the same file, quoted with "differnet" tidied to "different": "i need a config that would send test building and running to a different model, like a codex or another service."
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "all the tests for the work are written and shown to fail", "all the tests are written, and then all the code"
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Settings: Everything that can be turned on or off lives in settings.", "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
+- The product owner on 2026-11-09: "all the tests for the work are written and shown to fail", "all the tests are written, and then all the code"
+- The capability list the product owner agreed on 2026-11-03: "Settings: Everything that can be turned on or off lives in settings.", "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: "The test writer's part holds the story's expectations, which include the scenarios that show it works."
 - .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: "Never: give an eval, the hidden file or the evals folder to the builder, to the test writer of the code-level tests, or to any part that builds the work."
-- .garura/project/issues/1021/context/bi-3-inventory/inventory.md: "No memory tier holds a rule for test-driven development."
+- The stock-take of Design → Code (2026-11-08): "No memory tier holds a rule for test-driven development."
 - core/components/plays/fix-bug/SKILL.md: "If the test is missing or already passing, re-invoke tech-designer — never proceed."
 - core/components/plays/fix-bug/stop-condition.yaml: "the regression test was proven red before the fix"
 - core/components/skills/author-regression-test/SKILL.md: "Verify it fails before returning — if it passes on the unfixed code, the test is not a regression test and the skill fails.", "never write an unverified test.", "You do not modify source code to make the test pass.", "Assertion execution error"
 - core/components/plays/build-epic/scripts/validate_plan.py: "every epic acceptance criterion index is covered", "tests derive from the spec, not from the implementation"
-- core/components/agents/test-engineer.md: "Authors /build-epic's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content.", "Detect the test framework from config files before assuming patterns", "waits for the rebuild of /build-epic (#855); only stale plays dispatch it"
-- GitHub #179 (closed): "The implement-epic recipe has the same agent writing tests and code (context bias)", "Test-writer and code-builder are separated agents to eliminate context bias in TDD loop"
+- core/components/agents/test-engineer.md: "Authors /build-epic's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content.", "Detect the test framework from config files before assuming patterns", "waits for the rebuild of /build-epic; only stale plays dispatch it"

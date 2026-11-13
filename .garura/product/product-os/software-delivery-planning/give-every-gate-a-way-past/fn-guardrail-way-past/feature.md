@@ -2,12 +2,12 @@
 
 ## What it does
 Orchestration keeps one list of the guardrails, and each entry says the shortcut it guards, the play that owns that work, and its way past; the install lays them, and when a guardrail meets its shortcut, it names the play to run and the way past where the person sees them, and each pass made on purpose is recorded as owed.
-- The shortcuts #893 names: an agent "can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on."
-- What #893 proposes a hook refuses, "to shape, not decided":
+- The shortcuts to guard: an agent can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.
+- What a hook is proposed to refuse, to shape and not decided:
   - an edit to a play's compiled file or its ICE, the ontology, or an ADR, when no run of the play that changes it is on record;
   - a commit on a plan's base branch or on main;
   - a run of a play's bundled script when no run of that play is on record.
-- One more guard waits on it: "Blocking a read with a hook is left to the guardrails the install will lay (#893), which the install does not lay today."
+- One more guard waits on it: "Blocking a read with a hook is left to the guardrails the install will lay, which the install does not lay today."
 - Each entry of the list holds three things:
   - what it guards: the shortcut, and the play that owns that work, such as /edit-play for an edit to a compiled play;
   - its way past: how a person goes on past it on purpose;
@@ -23,10 +23,10 @@ Orchestration keeps one list of the guardrails, and each entry says the shortcut
   - In a clinic's booking app, a builder agent tries to read the evals folder; the guardrail names what it guards and why.
 - How it meets the capability: a guardrail is a gate in the coding tool, and the capability's line is "No gate stops a person; each has a way past it".
 
-Status: not built (#893, an agent cannot do a play's work without the play: guardrails laid by the Garura install, open and not shaped). Nothing is laid today: "No install touches the coding tool's own settings today". The approved page that lays them hands this part here: "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's."
+Status: not built. The guardrails the Garura install is to lay, so that an agent cannot do a play's work without the play, are not shaped. Nothing is laid today: "No install touches the coding tool's own settings today". The approved page that lays them hands this part here: "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's."
 
 ## Inputs / Outputs
-- In: the shortcuts to guard, from #893, and the guard on the evals folder.
+- In: the shortcuts to guard and the guard on the evals folder.
 - In: the play that owns each piece of work.
 - In: what each coding tool can do before an agent acts, from Support each coding tool.
 - Out: the list of guardrails, each with what it guards, the play that owns that work and its way past, for Install into a project to lay.
@@ -38,7 +38,7 @@ Status: not built (#893, an agent cannot do a play's work without the play: guar
 - The way past is named where the person sees it. The reason: in other tools, "the way past is offered, never hidden"; and in Claude Code a hook's deny reason "is shown to Claude, not to the person".
 - A pass made on purpose is recorded. The reason: "the hook can itself write a record of each pass", and using a way past "records what is owed".
 - The install lays the guardrails, and this list defines them. The reason: "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's."
-- Not decided: which shortcuts are guarded first; #893 leaves open "Which paths and which plays the hook covers, and how a person overrides it on purpose."
+- Not decided: which shortcuts are guarded first, which paths and which plays the hook covers, and how a person overrides it on purpose.
 - Not decided: whether the way past is the coding tool's own prompt, a word typed in the session, or a line in the pull request that the review reads.
 - Not decided: in a run with no person present, such as a scheduled run, whether a guardrail's refusal counts as stopping a person, and whether the run may pass it on its own.
 - Not decided: whether a guardrail that fails or times out lets the action through, or is set to block on failure; a hook that fails or times out "does not block unless the hook is set to block on failure".
@@ -56,10 +56,9 @@ Status: not built (#893, an agent cannot do a play's work without the play: guar
 - Where what is owed is kept. Keep what is owed with the work that made it (fn-keep-what-is-owed) does it.
 
 ## Sources
-- GitHub #893 (open): "can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.", "to shape, not decided", "Which paths and which plays the hook covers, and how a person overrides it on purpose."
-- .garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md: "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's.", "the guardrails Orchestration defines, each with what it guards and its way past.", "Every guardrail has a way past it.", "No install touches the coding tool's own settings today", "Blocking a read with a hook is left to the guardrails the install will lay (#893), which the install does not lay today."
+- .garura/product/product-os/software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md: "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's.", "the guardrails Orchestration defines, each with what it guards and its way past.", "Every guardrail has a way past it.", "No install touches the coding tool's own settings today", "Blocking a read with a hook is left to the guardrails the install will lay, which the install does not lay today."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it."
+- The product owner on 2026-11-10: "Give every gate a way past: No gate stops a person; each has a way past it, and using it records what is owed where a later play finds it."
 - 1021/context/answers/bi9-guardrail-hooks.md, in short-term memory, memory update mu-20261110-008, approved by the product owner on 2026-11-10: "may answer allow, deny, ask or defer", "its reason is shown to Claude, not to the person", "shows the person a permission prompt with the hook's reason; the person confirms or refuses", "the hook can itself write a record of each pass", "does not block unless the hook is set to block on failure"
 - 1021/context/answers/bi9-way-past.md, in short-term memory, memory update mu-20261110-006, approved by the product owner on 2026-11-10: "the way past is offered, never hidden"
-- The research for this capability, .garura/project/issues/1021/context/bi-9-research/research.md, G4, and the stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, section 5.
+- The research for this capability, G4, and the stock-take of Orchestration (2026-11-10), section 5.

@@ -20,9 +20,9 @@ A person names a business intent, and /shape-slice chooses the one slice that sh
   - In a command line tool for data teams, for the intent that an analyst sees a file's size before loading it, the slice is one command that reads a file and prints its row count, tested by a data analyst; a part with no ICE gets a thin one, and the brief warns.
 - How it meets the capability: this is "A person chooses what is delivered next as a slice": the slice is chosen, from the model first, before the plan and its work items are made from it.
 
-Status: built, in /shape-slice, with the author-slice skill making each choice. Its first form was #795 (/shape-slice asks within the question setting and assembles the slice that delivers the business intent, closed). It is the first play of the shaping loop: /shape-slice, then /shape-plan, then /shape-eval. The same run also writes the slice's hidden file; Write the evals that check the work, in Design → Code, holds that part. Not built, or open:
-- It must not run until the Agent-work tool lands, because it reads an intent's issue from the wrong repository (#1023, open). This stops a person with no way past it.
-- Plays read the whole model by one rule once its index has ICE entries, so older parts break (#1033, open).
+Status: built, in /shape-slice, with the author-slice skill making each choice. It is the first play of the shaping loop: /shape-slice, then /shape-plan, then /shape-eval. The same run also writes the slice's hidden file; Write the evals that check the work, in Design → Code, holds that part. Not built, or open:
+- It must not run until the Agent-work tool lands, because it reads an intent's issue from the wrong repository. This stops a person with no way past it.
+- Plays read the whole model by one rule once its index has ICE entries, so older parts break.
 - Its checkpoint is pinned: no setting skips the person's yes.
 
 ## Inputs / Outputs
@@ -51,7 +51,7 @@ Status: built, in /shape-slice, with the author-slice skill making each choice. 
 - Nothing is kept before the yes. The reason: "A stop undoes every write."
 - Plain words and personas. The reason: every page a person reads "uses personas, and names no real person".
 - It writes no plan, no epic, no story and no eval. The reason: those are made after the slice is chosen, and "It writes no plan, no epic, no story and no eval."
-- Not decided: whether the pinned yes of this checkpoint is a way past of its own kind, or an exception to Orchestration's Must not (#992).
+- Not decided: whether the pinned yes of this checkpoint is a way past of its own kind, or an exception to Orchestration's Must not.
 
 ## Acceptance criteria
 - Given a confirmed intent with a model page and no slice that serves it, when the product owner types yes to the brief, then the model's index holds one slice that serves the intent, with features in build order, one surface and one tester, and the commit exists only after the yes.
@@ -71,8 +71,8 @@ Status: built, in /shape-slice, with the author-slice skill making each choice. 
 - The tool that reads the intent's issue from the team's tracker. Track execution in the team's tracker owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
-- .garura/project/issues/1021/context/capabilities.md, the product owner on 2026-11-09: "making the plan is part of the orchestration, not this intent"
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-09: "making the plan is part of the orchestration, not this intent"
 - core/components/plays/shape-slice/reference/ice.md: "It asks the person only about what neither of them answers.", "The run talks to the person in one brief, by the shared rule for asking a person", "an intent does not depend on a surface, so the run proposes the surface and the tester when it shapes the slice", "A slice in progress (its epic is past ready: a story is started or done) is never touched by a shaping run", "The run never sends the person back, and nothing stops.", "A stop undoes every write.", "uses personas, and names no real person"
 - core/components/plays/shape-slice/SKILL.md: "A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown.", "the person decides; never skipped by config"
 - core/components/skills/author-slice/SKILL.md: "a feature that another one needs comes first."
@@ -81,8 +81,4 @@ Status: built, in /shape-slice, with the author-slice skill making each choice. 
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "the step that chooses the slice proposes a thin one where a slice needs it"
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-update-spec-to-match-built/feature.md: "the step that chooses the slice writes an intent's page from its issue when the model has none"
 - .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: "Its hidden file part comes from the slice play, /shape-slice (fn-795)."
-- .garura/project/issues/1021/context/bi-9-capability-1/research.md, the old page of Shape a slice and the page this one replaces, as they read on 2026-11-10: "a slice with no surface a person can test cannot be checked", "It writes no plan, no epic, no story and no eval."
-- GitHub #795 (closed): "/shape-slice grills within the tier and assembles the slice that delivers the business intent"
-- GitHub #1023 (open): "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt."
-- GitHub #1033 (open): "Plays read the whole model by one rule once its index has ICE entries, so older parts break"
-- GitHub #992 (open): "or exceptions to the principle"
+- The research and drafts for Orchestrate agent work through planning, the old page of Shape a slice and the page this one replaces, as they read on 2026-11-10: "a slice with no surface a person can test cannot be checked", "It writes no plan, no epic, no story and no eval."

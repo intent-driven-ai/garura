@@ -63,7 +63,6 @@ Status: built in part. A person's approved words can go on any page of the spec,
 ## Sources
 - The product owner on 2026-11-07, on this feature: "this feature is about keeping the specs updated to meet the implementation", "we also have to make sure that whatever is on the page is meeting the capability"
 - The capability page the product owner approved on 2026-11-07: "What was built is the ground truth for the domains, capabilities and features.", "An intent changes only from a person's approved words.", "Never: fix drift in silence."
-- GitHub #977 (open): "The product model falls behind the work.", "What was built is the ground truth: the model is brought up to match it, not the other way round"
 - core/components/skills/author-intent-page/SKILL.md: "It drafts nothing.", "It never confirms by itself.", "a rewrite with no stage goes back to proposed, whatever the old page said", "A rewrite keeps the old page's What-was-done"
 - core/components/skills/author-intent-page/SKILL.md: "Used through product-os-keeper by any play or run that has a person's approved words for an intent page."
 - core/components/skills/author-intent-page/scripts/write_page.py: "It keeps the old page's What-was-done block"

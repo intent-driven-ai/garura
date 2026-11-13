@@ -49,7 +49,7 @@ Status: built, in /list-focus-issues. Out of step, as above; no issue is filed f
 - Read only. The reason: "Read only: the play never creates, edits, closes, comments on, labels, assigns or otherwise writes to any issue"
 - No fallback when nothing matches. The reason: "When a mode matches nothing, the play says so plainly and stops."
 - The tracker is the one source. The reason: "No backlog, sprint plan, product model, or work queue is consulted, and none is created."
-- Blocked is read from labels. The reason, as built: "Blocked is read from the issue's own labels — never inferred."; it was written with the focus play in 2026-09 (#531), before ADR 056 took the labels off the epic and the story.
+- Blocked is read from labels. The reason, as built: "Blocked is read from the issue's own labels — never inferred."; it was written with the focus play in 2026-09, before ADR 056 took the labels off the epic and the story.
 - Not decided: what it reads an issue's kind from, now that work items carry no label: its type, its plan file, or both.
 - Not decided: which plays its table names, now that grill, refactor and shape are not plays.
 
@@ -67,14 +67,14 @@ Status: built, in /list-focus-issues. Out of step, as above; no issue is filed f
 - Reaching the tracker of business intents and the work tracker through one tool. One tool knows the tracker (fn-one-tool-knows-tracker) does it, and it is not built.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
+- The product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
 - core/components/plays/list-focus-issues/reference/ice.md: "An unrecognised mode halts the play; it is never guessed or inferred.", "Output is capped at 10 entries.", "the same captured issue set and the same mode always yield the same ordered, capped list.", "The play never infers a kind, never invents a play name, and never derives a recommendation by reading the product model.", "The cardinal rule: silence beats a wrong answer.", "A default offered in place of an answer still reads as advice", "Read only: the play never creates, edits, closes, comments on, labels, assigns or otherwise writes to any issue", "When a mode matches nothing, the play says so plainly and stops.", "No backlog, sprint plan, product model, or work queue is consulted, and none is created."
 - core/components/plays/list-focus-issues/scripts/select_focus.py: "Blocked is read from the issue's own labels — never inferred.", "STALE_DAYS = 14"
 - core/components/plays/list-focus-issues/reference/kind-map.yaml: "command: fix-bug", "command: grill", "command: refactor", "command: shape", "no recommendation (label it to get one)"
 - core/components/plays/list-focus-issues/SKILL.md: "a limit high enough to cover the repo (200)"
 - core/components/plays/: the plays today, none of them named grill, refactor or shape.
-- The history in git: select_focus.py came with the focus play on 2026-09-08 (#531); ADR 056 is dated 2026-10-25.
+- The history in git: select_focus.py came with the focus play on 2026-09-08; ADR 056 is dated 2026-10-25.
 - docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md: "finds an issue's kind by its labels"
 - .garura/user-provided/managing-work.md: "An Epic is never worked directly; its Stories are."
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "The bug fix play, /fix-bug, is built and live only in a full install.", "It is not laid in Garura's own repository"
-- .garura/project/issues/1021/context/names.md, the names agreed with the product owner on 2026-11-03: "/list-issues (was /list-focus-issues)"
+- The names agreed with the product owner on 2026-11-03: "/list-issues (was /list-focus-issues)"

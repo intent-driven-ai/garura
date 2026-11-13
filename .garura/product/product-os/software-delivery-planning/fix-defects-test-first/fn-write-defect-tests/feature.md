@@ -58,12 +58,11 @@ Status: built in part, in the bug fix play, /fix-bug, live only in a full instal
 - Keeping the test model setting, and which models and services there are to choose from. Settings and Intelligent model routing do them.
 
 ## Sources
-- The product owner on 2026-11-09, on the first overlap brief for this capability, in .garura/project/issues/1021/context/bi-3-capability-5/page-approvals.md: "writing tests and getting the tests to be right is still important.", "Write the tests."
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "the tests that prove the defect are written and shown to fail"
-- The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "This can be grouped so that all the tests are written, and then all the code is written to make sure all the tests are passing.", "make sure they are failing"
+- The product owner on 2026-11-09, on the first overlap brief for this capability: "writing tests and getting the tests to be right is still important.", "Write the tests."
+- The product owner on 2026-11-09: "the tests that prove the defect are written and shown to fail"
+- The product owner's words, recorded on 2026-11-09: "This can be grouped so that all the tests are written, and then all the code is written to make sure all the tests are passing.", "make sure they are failing"
 - The product owner on 2026-11-09, on the first overlap brief, in the same file, quoted with "differnet" tidied to "different": "i need a config that would send test building and running to a different model, like a codex or another service."
 - .garura/product/product-os/software-delivery-planning/write-work-evals/capability.md: "Never: give an eval, the hidden file or the evals folder to the builder, to the test writer of the code-level tests, or to any part that builds the work."
 - core/components/plays/fix-bug/SKILL.md: "If the test is missing or already passing, re-invoke tech-designer — never proceed."
 - core/components/skills/author-regression-test/SKILL.md: "asserts the fix was applied", "if it passes on the unfixed code, the test is not a regression test and the skill fails.", "never write an unverified test.", "You do not modify source code to make the test pass.", "`unit_test` (code repos with a test runner)"
 - core/components/agents/tech-designer.md: "Failing test artifact authored before code-builder is invoked"
-- GitHub #179 (closed): "The implement-epic recipe has the same agent writing tests and code (context bias)", "Test-writer and code-builder are separated agents to eliminate context bias in TDD loop"

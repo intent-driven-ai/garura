@@ -58,8 +58,8 @@ Status: not built. What exists covers only part of it:
 - Declaring the surface and its accessibility guideline. Manage surfaces does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline.", "User acceptance testing (planned): Users test the product and accept it."
-- The product owner on 2026-11-07, in .garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md: "We are never touching production."
+- The list the product owner approved on 2026-11-09: "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline.", "User acceptance testing (planned): Users test the product and accept it."
+- The product owner on 2026-11-07: "We are never touching production."
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Every expected result has a pass or fail from an eval the builder never saw."
 - knowledge/technology/ux-accessibility-floor.md, in Phoenix memory: "automated checks (axe) in CI plus a manual keyboard + screen-reader pass on key flows."
 - standards/schemas/product-os/lens/quality-gates.yaml, in Phoenix memory: "machine | human", "HITL walk at /launch; fresh-context reviewer on the PR"

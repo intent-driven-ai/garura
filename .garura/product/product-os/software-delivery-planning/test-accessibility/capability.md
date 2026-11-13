@@ -85,11 +85,11 @@ What is not built yet:
 - The project's memory first, then Garura memory, then Phoenix memory, then research through a memory update a person approves. What nothing answers stays open, with no default, and is named as not tested. The reason: research is new knowledge that nobody has checked yet, and the person's approval is the check.
 
 ## Sources
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md, spelling tidied: "this is code to validate hence this is about testing and it needs to test functionality which are product evals, but it also needs to handle other forms of testing i.e. security and performance and accessibility, ux (responsive) hence all 5 needs to be handled", "We are never touching production."
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline. New.", "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work.", "Check the code against its standards", "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
+- The product owner on 2026-11-09, spelling tidied: "this is code to validate hence this is about testing and it needs to test functionality which are product evals, but it also needs to handle other forms of testing i.e. security and performance and accessibility, ux (responsive) hence all 5 needs to be handled", "We are never touching production."
+- The list the product owner approved on 2026-11-09: "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline. New.", "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work.", "Check the code against its standards", "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings."
-- The product owner's approval of Test what the product does on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-1/page-approvals.md: "the testing environment; no person runs the eval"
-- The product owner's approval of Test security on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md: "the product owner as the one who gets a finding that changes the architecture"
+- The product owner's approval of Test what the product does on 2026-11-09: "the testing environment; no person runs the eval"
+- The product owner's approval of Test security on 2026-11-09: "the product owner as the one who gets a finding that changes the architecture"
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - .garura/product/product-os/_spine.yaml, Garura's own product profile: it holds reliability, maintainability and security, each "level: medium", and no accessibility level; no capability in the model has an accessibility need; its one slice is on "the Claude Code command line".
@@ -111,13 +111,13 @@ What is not built yet:
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The handoff plan never names the failure condition, its id or the check."
 - standards/rules/expectation-generation.md, in Phoenix memory: "Can the builder fix this from information it already has, deterministically?"
 - standards/rules/pr.md, in Phoenix memory: "Missing docs, borderline complexity, accessibility, naming.", "Highlights without blocking."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "An unmeasured bar is not a passed bar."
 - core/components/plays/validate-epic/reference/ice.md: "Green is the entry condition, never the verdict", "C10 — Loop cap: after 3 rejections on the same epic, halt to a human instead of looping"
 - core/components/plays/validate-epic/scripts/runners/runner_frontend.py: "frontend audit tool class (lighthouse, pa11y, axe).", "Code-level + local-page audits only (C5)."
 - core/components/agents/quality-auditor.md: "Run Lighthouse audits (if threshold defined and URL provided)"
 - core/components/skills/check-quality-gates/SKILL.md: "Human-owned cards are visibly skipped, never judged."
 - core/components/skills/check-quality/SKILL.md: "frontend/accessibility-performance.md"
-- .garura/project/issues/1021/context/names.md: "/validate-perf (new)", "/validate-security (new)"
+- The names agreed with the product owner on 2026-11-03: "/validate-perf (new)", "/validate-security (new)"
 - docs/philosophy/idd-principles.md: "giving it to the builder only invites teaching-to-the-test.", "Would knowing this change how the builder writes code?"
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"
 - The short line beside each feature: the opening words of that feature's own page.

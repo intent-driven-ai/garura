@@ -44,7 +44,7 @@ What is not built yet:
 - Nothing works out a change from a finding, recommends one or sets one going. Nothing hands on findings yet either: the first two capabilities of Run → Product are not built.
 - The old learning play, /learn-outcomes, is stale. It proposed changes to the model's meaning from Garura's own records of delivered work, each with "the outcome that justifies it and a confidence tier", and one person approved them at one checkpoint. Every input it read is gone or stale.
 - No setting says which kinds of change may go ahead on their own. Phoenix memory pins the checkpoint of the old learning play, because "a wrong model learning bends the product model". The plays' checkpoint settings can learn from a person's answers which kinds of change pass without waiting, and keep what a person pins as "the human's permanent pin"; nothing applies them to changes from findings.
-- No part writes the model on this capability's word. Add a feature found during work writes the model only after the person's "approved", and cannot land today (#1036); the planned thin page for a part found during work asks to "Approve the page before it is written, as with any model write." (#979).
+- No part writes the model on this capability's word. Add a feature found during work writes the model only after the person's "approved", and cannot land today; the planned thin page for a part found during work asks to "Approve the page before it is written, as with any model write."
 - Built patterns for a recommendation: a memory update waits for a person, and "Only a person decides, one update at a time.", with the person's reply kept as given, a turned-down one included.
 - The agreed map of what a product is made of has no kind for a recommendation, and no link from a change to the findings it rests on.
 
@@ -70,7 +70,7 @@ What is not built yet:
 - Out: writing new words on a page, keeping an intent's links, and replacing or retiring an intent. Keep the spec matched to what's built owns them; merging capabilities and taking out other parts is Manage the model's.
 - Out: making and changing work items, which Turn intents into agent work owns; and making and running the plan, which Orchestrate agent work through planning owns.
 - Out: designing and building the work, which the design capabilities of Spec → Design and the build phase own; fixing a defect, which Fix defects test first owns.
-- Out: judging whether an intent is met, and measuring each intent, which is parked (#545); and choosing and promoting what is learned into Garura memory or Phoenix memory, which the review of Memory owns.
+- Out: judging whether an intent is met, and measuring each intent, which is parked; and choosing and promoting what is learned into Garura memory or Phoenix memory, which the review of Memory owns.
 - Never: change an intent's words, proof, must-not or stage, confirm, retire or replace one, or let any of these go ahead on its own. The reason: Run → Product must not "Change an intent, or promote memory, without a person.", and "Only a person confirms or drops it; an agent never does."
 - Never: write a page, an entry in the model's index, a work item or code. The reason: "Each fix is made by the part that owns it", so that each part has one writer and one set of checks.
 - Never: let a change go ahead on its own when the setting does not allow its kind, or when it rests on a weak finding, a finding against an intent, or only on what competitors do. The reason: what goes ahead without a yes must rest on what the product's own consumers clearly want, and "a weak finding shown as strong sends the next capability after the wrong change".
@@ -90,10 +90,10 @@ What is not built yet:
 - The project's memory first, then Garura memory, then Phoenix memory, then research through a memory update a person approves. What nothing answers stays open, with no default. The reason: research is new knowledge that nobody has checked yet, and the person's approval is the check.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "an autonomous kind of agent running that goes back and does this thing for me."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Build features into the product, or update the product intent model, automatically, or at least recommend those changes.", "measuring each intent (#545, parked)", "while item 3 allows the model to be updated automatically"
+- The product owner on 2026-11-10, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "an autonomous kind of agent running that goes back and does this thing for me."
+- The list the product owner set on 2026-11-10: "Build features into the product, or update the product intent model, automatically, or at least recommend those changes.", "measuring each intent", "while item 3 allows the model to be updated automatically"
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings.", "Manage the model: A living map, added to and pruned as work is done", "Narrowed on 2026-11-06: running the work once it exists."
-- .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, the product owner on 2026-11-10: "We are never touching production."
+- The product owner on 2026-11-10: "We are never touching production."
 - .garura/product/product-os/intents/bi-6.md: "Change an intent, or promote memory, without a person."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md: "Building features into the product, or updating the product intent model, automatically or as recommendations, is the third capability of Run → Product", "a weak finding shown as strong sends the next capability after the wrong change", "The competition is the other products people could choose instead of this one."
@@ -104,7 +104,7 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-against-existing/feature.md: "What's given is sorted against what exists: a new intent, an enhancement, a new feature under one, or a clash.", "Status: to build."
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-against-existing/ice.md: "Limit: A person decides any clash, and nothing existing changes on its own."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "Nothing reaches the tracker, the plan file or the model before the product owner's typed yes, and the yes is tied to the exact list the person saw."
-- .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md: "The model is written only through the model's own skills, never by hand, and only after "approved".", "Known break: #1036."
+- .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-add-found-feature/feature.md: "The model is written only through the model's own skills, never by hand, and only after "approved".", "Known break: [a found feature cannot land, because the thin mark goes to a page with no ICE section]."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md: "A person confirms the update, with its reason."
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "A person confirms each choice and each update."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "The technical lead names one item by its ID, at any level of the plan"
@@ -113,12 +113,10 @@ What is not built yet:
 - standards/rules/gate-config.md, in Phoenix memory: "a wrong model learning bends the product model", "the human's permanent pin", "Skips are always visible in evidence — a silent gate is not a gate."
 - standards/rules/no-unbacked-recommendation.md, in Phoenix memory: "Silence beats a wrong answer.", "A play that recommends an action must be able to name the source that backs it."
 - knowledge/architecture/agentic-guardrails-baseline.md, in Phoenix memory: "prompt-injection and untrusted-content defense"
-- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model (#855)"
+- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model"
 - core/components/plays/learn-outcomes/reference/ice.md: "every proposed change cites the outcome that justifies it"
 - core/components/skills/author-learnings/SKILL.md: "Each proposed change carries the outcome that justifies it and a confidence tier."
 - core/tools/memory/README.md: "Only a person decides, one update at a time.", "the person and their reply exactly as given"
 - docs/philosophy/intent-and-adlc.md, a design note marked "designed, not in force": "resolution is owned deliberately, at a level of autonomy someone chose, and never assumed by default."
-- GitHub #990 (open): "Each piece it changes is marked in review, not approved; a person approves it later."
-- GitHub #979 (open): "Approve the page before it is written, as with any model write."
 - The short line beside each feature: the opening words of that feature's own page.
-- Shelf: none. No knowledge shelf covers this work: a placement over the ten domain shelves found none (.garura/project/issues/1021/context/bi-6-capability-3/placement/routing-result.json, unmatched).
+- Shelf: none. No knowledge shelf covers this work: a placement over the ten domain shelves found none (the placement's routing result, unmatched).

@@ -19,7 +19,7 @@ Each Garura part names in its source the tier of model it needs, and the install
 Status: built in part.
 - Built: the fold (core/components/plays/install-garura/scripts/adapters/common.py lines 29-49), and the Claude Code adapter's tier on each sub-agent.
 - Gap: the tier on each skill, play and loop is dropped for Claude Code.
-- Stopped: the Codex mapping, with the rest of the Codex adapter (#863).
+- Stopped: the Codex mapping, with the rest of the Codex adapter.
 - Not built: the mapping for GitHub Copilot, Antigravity and Factory.
 - Effort is not carried: the fold reads only the tier, and only the Codex profiles name an effort.
 
@@ -53,12 +53,12 @@ Status: built in part.
 - core/components/plays/install-garura/scripts/adapters/common.py: "This is the seam that lets one source serve both Claude and Codex.", the fold at lines 29-49
 - core/components/plays/install-garura/scripts/adapters/claude.py: "A Claude skill has no model field", "the agent that invokes the skill carries the model", "stripped every `model:` line, so deployed agents lost their tier"
 - core/components/plays/install-garura/scripts/adapters/codex.py: "Recommended Codex profile", "the per-skill tier can't be *pinned*"
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
+- The list the product owner set on 2026-11-10: "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
 - .garura/product/product-os/intents/bi-7.md: "Each tool gets what it supports."
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-failing-tests/feature.md: "which model each part runs on belongs to Intelligent model routing"
 - The count of parts that name a tier: `grep "^model:"` over core/components on 2026-11-10.
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md, approved by the product owner on 2026-11-10 as mu-20261110-001, line 12: "for a sub-agent and for a skill"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md, approved by the product owner on 2026-11-10 as mu-20261110-002, line 12: "for a custom agent", "skills inherit from the parent"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md, approved by the product owner on 2026-11-10 as mu-20261110-003, lines 7, 9 and 10: "the how-to names the model property for VS Code, JetBrains IDEs, Eclipse and Xcode", "A model field for a skill is not stated", "in VS Code a prompt file names its model"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md, approved by the product owner on 2026-11-10 as mu-20261110-004, lines 7 and 8: "No model field is listed", "inherit, flash or pro"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md, approved by the product owner on 2026-11-10 as mu-20261110-005, line 12: "for a custom droid, not for a skill"
+- The research note "What Claude Code loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-001: "for a sub-agent and for a skill"
+- The research note "What Codex loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-002: "for a custom agent", "skills inherit from the parent"
+- The research note "What GitHub Copilot loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-003: "the how-to names the model property for VS Code, JetBrains IDEs, Eclipse and Xcode", "A model field for a skill is not stated", "in VS Code a prompt file names its model"
+- The research note "What Antigravity loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-004: "No model field is listed", "inherit, flash or pro"
+- The research note "What Factory loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-005: "for a custom droid, not for a skill"

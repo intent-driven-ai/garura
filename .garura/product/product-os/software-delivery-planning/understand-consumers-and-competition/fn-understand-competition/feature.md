@@ -48,9 +48,9 @@ Status: not built. Nothing follows a competitor or understands one:
 - Deciding what to build in answer to a competitor. The third capability of Run → Product does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-2/page-approvals.md, spelling tidied: "start understanding what it is that the consumers want and what the competition is doing", "This needs to be built for high autonomy."
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md: "We are never touching production.", "one Garura tool reads the settings and reaches each connection, and can later read what a listener outside Garura reports"
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Understand what consumers want and what the competition is doing."
+- The product owner on 2026-11-10, spelling tidied: "start understanding what it is that the consumers want and what the competition is doing", "This needs to be built for high autonomy."
+- The product owner on 2026-11-10: "We are never touching production.", "one Garura tool reads the settings and reaches each connection, and can later read what a listener outside Garura reports"
+- The list the product owner set on 2026-11-10: "Understand what consumers want and what the competition is doing."
 - .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-what-people-say/feature.md: "about the product, its kind of product and the products it competes with", "a forum thread where cooks compare it with a rival app's shopping list"
 - .garura/product/product-os/software-delivery-planning/connect-use-and-market/capability.md: "Never: make a choice from what the AI agent knows by itself. The reason: a source in the project or in memory can be checked and read back, while the agent's own knowledge cannot."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md: "Each finding says where it comes from. The reason: a person can then check each finding without a search."

@@ -19,10 +19,10 @@ Features:
 - Run the evals again as the product changes (fn-rerun-evals): when the built product changes, runs a slice's whole eval again after a fix and the evals of the slices that passed before, names each scenario that passed before and fails now, and hands a failure to a person once the rounds the project allows are used up.
 
 What is not built yet:
-- Nothing runs an eval. The runner is not built, so an eval is written and never run. Two open issues ask for it: #800 (an independent step runs the hidden evals after the build and gives the verdict) and #801 (a verdict with each failure named).
+- Nothing runs an eval. The runner is not built, so an eval is written and never run. Still wanted: an independent step that runs the hidden evals after the build and gives the verdict, and a verdict with each failure named.
 - Only the command-line step library exists. A slice on a browser page, a mobile app or a backend endpoint gets no eval yet, so nothing could run one.
 - Nothing writes a usage guide yet, and how each name of the eval is matched in the guide is not decided.
-- The flag on a build that read the evals is not built (#898). Only a read rule keeps the evals from the builder.
+- The flag on a build that read the evals is not built. Only a read rule keeps the evals from the builder.
 - Nothing writes a handoff plan, and where it is kept and how it reaches the builder is not decided.
 - The old slice check, /validate-epic, is stale and waits for a rebuild. It gave a pass-or-fail verdict, ran the check each kind of surface requires, sent a fix report back to the build and stopped for a person after three rejections. It did not run a slice's eval, and its fix report names each failing check, which a handoff plan must not.
 - No testing environment is declared or built, because Environment setup is not built.
@@ -75,8 +75,8 @@ What is not built yet:
 - The project's memory first, then Garura memory, then Phoenix memory, then research through a memory update a person approves. What nothing answers stays open, with no default, and the rest goes on. The reason: research is new knowledge that nobody has checked yet, and the person's approval is the check.
 
 ## Sources
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-1/page-approvals.md: "this is code to validate hence this is about testing and it needs to test functionality which are product evals", "making evals is going to be critical because those are the evals that are going to be used to check its own work", "yes, record it and draft the first one"
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "each slice's eval runs on the built work", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again.", "The flag on a build that read the evals stays in BI-3, and BI-4 reads it before it trusts a pass.", "in the testing environment Environment setup declares, never in production."
+- The product owner on 2026-11-09: "this is code to validate hence this is about testing and it needs to test functionality which are product evals", "making evals is going to be critical because those are the evals that are going to be used to check its own work", "yes, record it and draft the first one"
+- The list the product owner approved on 2026-11-09: "each slice's eval runs on the built work", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again.", "The flag on a build that read the evals stays in BI-3, and BI-4 reads it before it trusts a pass.", "in the testing environment Environment setup declares, never in production."
 - The same file, the older agreed line and the line moved here: "Test with evals the builder never sees: Each slice is tested end to end by evals its builder can't read. (unique)", "Automated functional testing (planned): What the product does is tested automatically."
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings."
 - .garura/product/product-os/intents/bi-4.md: "Every expected result has a pass or fail from an eval the builder never saw.", "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass.", "A builder believes its own work, so its opinion isn't evidence."
@@ -89,14 +89,11 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "Out: building stories, chores and spikes, and a failure the eval finds before the work is accepted. Build the work test first owns them.", "the eval after the work was accepted"
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "We are never touching production.", "is not where the path's tests are counted"
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md: "This capability says which tests run in which environment and what a change must pass to move on."
-- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "The runner that runs the eval is not built yet (#819). Until then an eval is written but never run.", "There is no rubric and no score. The eval passes only when every scenario of every story passes.", "an agent's run is not repeatable", "A guide that maps a name wrongly makes a scenario fail for the wrong reason.", "Only the command-line step library exists."
+- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "The runner that runs the eval is not built yet. Until then an eval is written but never run.", "There is no rubric and no score. The eval passes only when every scenario of every story passes.", "an agent's run is not repeatable", "A guide that maps a name wrongly makes a scenario fail for the wrong reason.", "Only the command-line step library exists."
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md: "The build writes the usage guide. It is the eval's only way into the built product.", "only the recovery parts of the hidden file, never the failure conditions", "Where the handoff plan is kept, and how it reaches the builder, is not decided."
 - docs/philosophy/idd-principles.md, The Routing Table: "only the resulting handoff plan", "builds the recovery handoff plan"
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "the fix report names each failure by check and location"
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "the fix report names each failure by check and location"
 - core/components/plays/validate-epic/reference/ice.md: "C10 — Loop cap: after 3 rejections on the same epic, halt to a human instead of looping again."
-- GitHub #800 (open): "after the build, an independent step runs the hidden evals and the checks and gives the verdict."
-- GitHub #801 (open): "It gives a verdict: validated, or fix required with each failure named."
-- GitHub #898 (open): "A check flags any build that read the evals folder."
 - standards/rules/builder-isolation.md, in Phoenix memory: "the builder cannot teach to a test it cannot see."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The handoff plan never names the failure condition, its id or the check.", "reaches the built product only through the guide"
 - standards/rules/expectation-generation.md, in Phoenix memory: "Can the builder fix this from information it already has, deterministically?"

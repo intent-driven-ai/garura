@@ -18,9 +18,9 @@ At the end of every play and every loop, the run's closing report names the one 
 - How it meets the capability: the order of the work stays the plan's, and every run still says what comes next. In the intent's words: "A person always knows what's happening and what's next."
 
 Status: built, in the shared close of every play, the Next-line map, and the play check that fails a play missing from the map. Its present form came with ADR 051 (the /next play is dropped; the plan is the work list), which deleted the play that used to recommend the next action. Not built, or open:
-- The map still names the old build plays, /build-epic, /validate-epic, /release-epic and /release-increment. They are marked stale and kept out of every install (#855, the old-chain plays marked stale, closed), so nothing a project has routes into them.
-- /shape-eval names nothing next, because the build is not built (#819, agents design, build, test and check an epic, closed as not planned).
-- /shape-slice and /shape-plan, which the map routes to, must not run until the Agent-work tool lands (#1023, open).
+- The map still names the old build plays, /build-epic, /validate-epic, /release-epic and /release-increment. They are marked stale and kept out of every install, so nothing a project has routes into them.
+- /shape-eval names nothing next, because the build is not built.
+- /shape-slice and /shape-plan, which the map routes to, must not run until the Agent-work tool lands.
 - No view shows what comes next across every business intent. Choose which item is worked next (fn-choose-next-item) is not built.
 
 ## Inputs / Outputs
@@ -52,13 +52,10 @@ Status: built, in the shared close of every play, the Next-line map, and the pla
 - The loops and the order in which they run their plays. Run plays as loops, in Orchestration, owns them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - .garura/product/product-os/intents/bi-9.md: "A person always knows what's happening and what's next."
 - standards/rules/pipeline-next.md, in Phoenix memory: "This file is the one place that mapping lives.", "`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in `meta_exempt`.", "every loop, which closes like a play (ADR 029)", "the slice is shaped; make its plan, epic and stories"
 - core/components/plays/_shared/play-close.md: "this play in the Next-line map"
 - core/components/loops/complete-discovery/SKILL.md: "its Next line comes from the Next-line map"
 - core/tools/lint-play/lint_play.py: "unless it is meta_exempt"
 - docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md: "When the map names none, the play prints no Next line.", "The person picks the next piece of work from the plan, or from `/list-focus-issues`.", "There is one work list, the plan; no second recommender can disagree with it.", "It is built when it is needed, from its own ICE."
-- GitHub #855 (closed): "Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install"
-- GitHub #819 (closed): "After /shape-slice, agents design, build, test and check an epic until it is delivered"
-- GitHub #1023 (open): "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt."

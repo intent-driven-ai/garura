@@ -20,7 +20,7 @@ When a checkpoint does not wait because the settings turn it off, the play write
   - In an open-source library, the team turns the evidence file on for one play; that play's skips appear both as Checkpoint Decisions rows and in the issue's folder, and the other plays' skips still appear in the issue's folder.
 - How it meets the capability: no gate passes in silence; even a gate the settings turn off leaves its record where a later play finds it.
 
-Status: not built (#943, gate records live in the evidence folder of the issue that made them; #969, every run's records are kept in the evidence folder of its issue). Both are open.
+Status: not built. Gate records, and every run's records, are not yet kept in the evidence folder of the issue whose run made them.
 
 ## Inputs / Outputs
 - In: a checkpoint that resolves off, with the setting that skipped it, its resolution path.
@@ -30,7 +30,7 @@ Status: not built (#943, gate records live in the evidence folder of the issue t
 
 ## Rules & behavior
 - Every skip is recorded, whatever the evidence setting says. The reason: "Skips are always visible in evidence — a silent gate is not a gate."
-- The record goes in the issue's own folder. The reason: #943 asks that "A gate record goes in the evidence folder of the issue whose run made it".
+- The record goes in the issue's own folder. The reason: a gate record goes in the evidence folder of the issue whose run made it.
 - The record names the setting that skipped the checkpoint. The reason: the rule already records "gate skipped by config (<resolution path>)".
 - A skip teaches the learned policy nothing. The reason: "the human's real action is the verdict that teaches the policy."
 - A pinned checkpoint is never skipped. The reason: "A pinned gate NEVER resolves off".
@@ -46,7 +46,7 @@ Status: not built (#943, gate records live in the evidence folder of the issue t
 
 ## Out of scope
 - The settings that turn a checkpoint off, the evidence setting and the learned policy. Settings, in Standards, structure, settings and memory, owns them.
-- Where each run's records live in its issue's folder (#969). Structure, in Standards, structure, settings and memory, owns it.
+- Where each run's records live in its issue's folder. Structure, in Standards, structure, settings and memory, owns it.
 - What is owed, and the one list. Keep what is owed with the work that made it (fn-keep-what-is-owed) does it.
 - The ways past at a gate. Give every gate a way past (fn-way-past-every-gate) does it.
 
@@ -56,7 +56,5 @@ Status: not built (#943, gate records live in the evidence folder of the issue t
 - core/config.yaml: "record: false", "a loop always records its evidence"
 - core/components/plays/create-play/references/gate_eval.py: the five answers a crossing takes, and that "the learner skips it" for deferred_to_loop_review.
 - core/components/plays/check-change/SKILL.md: "the computed recommendation is recorded and posted as a clearly marked harness verdict"
-- GitHub #943 (open): "A gate record goes in the evidence folder of the issue whose run made it"
-- GitHub #969 (open): "Every run's records are kept in the evidence folder of its issue"
 - 1021/context/answers/bi9-way-past.md, in short-term memory, memory update mu-20261110-006, approved by the product owner on 2026-11-10: "every action where someone bypassed a ruleset", "an alert, an audit log entry and an email"
-- The research for this capability, .garura/project/issues/1021/context/bi-9-research/research.md, G3, and the stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, section 5.
+- The research for this capability, G3, and the stock-take of Orchestration (2026-11-10), section 5.

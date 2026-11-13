@@ -23,8 +23,8 @@ A team runs one command in its project's folder, and Garura is laid there for it
 - How it meets the capability: this is "A team installs Garura", in the one step that Install and distribute's first proof asks for: "A first install takes one step."
 
 Status: built in part, in two installers that do different things:
-- The one-line command is one step with no copy of Garura's source, and it names, records and shows the version (#568, closed): it will "install the latest published release" when no version is named. It keeps no record, gives no choice, lays Garura's own development guide, cut down, as the project's instructions, lays Garura's own build plays, and makes an empty source folder.
-- By default it lays v3.0.0 of 7 October 2026, which is 1,790 commits behind Garura's newest work and has no memory system: "This release has no memory system; skipped." It is also older than the fix that lets installed parts run without Garura's source (#860, closed).
+- The one-line command is one step with no copy of Garura's source, and it names, records and shows the version: it will "install the latest published release" when no version is named. It keeps no record, gives no choice, lays Garura's own development guide, cut down, as the project's instructions, lays Garura's own build plays, and makes an empty source folder.
+- By default it lays v3.0.0 of 7 October 2026, which is 1,790 commits behind Garura's newest work and has no memory system: "This release has no memory system; skipped." It is also older than the fix that lets installed parts run without Garura's source.
 - The install play keeps the record, offers two kinds, lays the agents' shared files and a short guide to running plays, and keeps the project's instructions file whole, writing Garura's beside it. It records no version, and it needs a copy of Garura's source and a command run by its path, because no project receives the play itself.
 - Found and not filed: the one-line command's first install writes over an instructions file the project already has. It treats a project as new when Garura's settings file is missing (installer/install.sh lines 72-77), and then writes the file with no check (line 371).
 - Found and not filed: the one-line command does not lay the agents' shared files. It copies only each agent's own file (installer/install.sh lines 275-285), though ADR 055 says "The install lays them in the installed `_shared/` folder, beside the plays' shared files.", and every agent that reads memory looks for the protocol there.
@@ -42,9 +42,9 @@ Status: built in part, in two installers that do different things:
 
 ## Rules & behavior
 - One engine behind both front doors. The reason: installation is, in the product owner's words, "an engine thing, like installation, not a play", read as one engine behind both front doors, which he agreed; with two installers, a team gets a different Garura by the door it took.
-- One step, with no copy of Garura's source. The reason: "A first install takes one step.", and #513 asks that "Someone with no prior exposure to Garura can install it into their project in one step".
+- One step, with no copy of Garura's source. The reason: "A first install takes one step.", and someone with no prior exposure to Garura is to install it into their project in one step.
 - Beside, never over. The reason: Install and distribute must not "Change what a project's people changed without asking them.", and the product owner agreed that "a first install never writes over a project's own files".
-- A fixed version, kept and shown. The reason: #568 asked that "The installed project records which Garura version it has, so a later upgrade and a bug report can name it."
+- A fixed version, kept and shown. The reason: the installed project records which Garura version it has, so a later upgrade and a bug report can name it.
 - No fallback. A version that does not exist stops the install. The reason: a team that asked for one version and got another cannot tell, so "it never falls back to `main`".
 - The record names everything laid. The reason: it is the only proof of what Garura owns in the project, and the take-out "never removes a file it cannot prove the installer placed".
 - Whole. Every part is laid with its workers and its shared files. The reason: "A pointer in an installed file points to another installed file.", and without the shared folder, "the parts that ask a person follow the play's floor in place of the rule".
@@ -70,7 +70,7 @@ Status: built in part, in two installers that do different things:
 - Setting up the project's own memory, review rules and tracker types. Set a project up after the install (Initialize) does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md: "It is an engine thing, like installation, not a play.", "one install engine behind both the one-line command and the install play", "a first install never writes over a project's own files"
+- The product owner on 2026-11-10: "It is an engine thing, like installation, not a play.", "one install engine behind both the one-line command and the install play", "a first install never writes over a project's own files"
 - .garura/product/product-os/intents/bi-7.md: "A first install takes one step.", "Change what a project's people changed without asking them."
 - installer/install.sh: "install the latest published release", "This release has no memory system; skipped.", the mode chosen by the settings file at lines 72-77, the instructions file written at line 371, the agents' own files only at lines 275-285
 - README.md: "A version that does not exist stops the install with a message; it never falls back to `main`."
@@ -80,6 +80,4 @@ Status: built in part, in two installers that do different things:
 - docs/adr/038-install-brings-no-memory.md, section 1, the product owner on 19 October: "install finishes without any memory."
 - docs/adr/055-installed-parts-read-only-installed-files.md: "A pointer in an installed file points to another installed file.", "The install lays them in the installed `_shared/` folder, beside the plays' shared files."
 - docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md: "the parts that ask a person follow the play's floor in place of the rule"
-- GitHub #513 (open): "Someone with no prior exposure to Garura can install it into their project in one step, and choose a subset of components while doing so."
-- GitHub #568 (closed): "The installed project records which Garura version it has, so a later upgrade and a bug report can name it."
-- The release facts: git tag v3.0.0 of 2026-10-07, and `git rev-list --count v3.0.0..main` read 1790 on 2026-11-10; the #860 fix, commit eaedd331, is not in v3.0.0.
+- The release facts: git tag v3.0.0 of 2026-10-07, and `git rev-list --count v3.0.0..main` read 1790 on 2026-11-10; the fix that lets installed parts run without Garura's source, commit eaedd331, is not in v3.0.0.

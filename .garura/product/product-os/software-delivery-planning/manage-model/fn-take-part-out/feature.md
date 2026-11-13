@@ -20,7 +20,7 @@ When a person approves taking parts out of the model, the keeper does it through
 Status: built in part, in remove-model-part and its script (63 tests passed in the stock-take's run on 2026-11-11), and, inside a loop, the gap closer's merge of an agreed duplicate. Not built, or open:
 - No skill removes a feature, a domain or an ICE: the script takes out only intents, capabilities and slices.
 - A capability that has its own ICE page cannot be merged: "so it cannot be merged here". 38 of the 41 capabilities have one.
-- When no skill covers a take-out, the keeper says so and stops, and nothing records what is owed (#992, every gate has a key).
+- When no skill covers a take-out, the keeper says so and stops, and nothing records what is owed.
 - Inside a loop, a part can still be taken out with no person's name, through the gap closer.
 
 ## Inputs / Outputs
@@ -37,7 +37,7 @@ Status: built in part, in remove-model-part and its script (63 tests passed in t
 - A merged capability's needs go to a person, never copied. The reason: "its needs are listed for review, never copied".
 - The removed id stays nowhere. The reason: "Anywhere in the changed spine's data it refuses the request, naming the part."
 - Nothing under the plans folder is touched. The reason: "Nothing under the plans folder is touched, even for a slice."
-- Not decided: the way past when no skill covers a take-out, such as removing a feature, a domain or an ICE (#992, every gate has a key).
+- Not decided: the way past when no skill covers a take-out, such as removing a feature, a domain or an ICE.
 - Not decided: when the gap closer's take-out inside a loop moves onto the two index skills, and with whose name.
 
 ## Acceptance criteria
@@ -66,5 +66,4 @@ Status: built in part, in remove-model-part and its script (63 tests passed in t
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-replace-or-retire-intent/feature.md, line 44: "Merging one capability into another, and removing a slice. The same tools do them, and Manage the model owns them."
 - .garura/product/product-os/software-delivery-planning/build-or-update-product/capability.md, line 29: "Merging or taking out another part goes to Manage the model."
 - .garura/product/product-os/software-delivery-planning/orchestrate-agent-work/fn-remove-plan/feature.md, line 56: "Removing parts of the product model. Product model owns it."
-- GitHub #992 (open): "Harness principle: a person is never stopped — every gate has a key, and using it records what is owed"
-- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 2.4, 5 and 6 (item 3): 63 tests passed for remove-model-part
+- The stock-take (2026-11-11), sections 2.4, 5 and 6 (item 3): 63 tests passed for remove-model-part

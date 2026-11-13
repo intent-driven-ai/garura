@@ -21,15 +21,15 @@ Features:
 
 What is not built yet:
 - The review of each change checks against its own rules and industry practice only. For a project's code its standard is "industry best practice"; no review reads a project's own coding standards, its architecture or the design of its work. The design is checked only for Garura's own harness and memory.
-- It runs every rule group, a set of the review's rules that check one kind of thing, such as a database, on every project. Initialize, which sets a project up for Garura after the install, records which rule groups fit a project, and changing the review to read that record is a later story (#862).
-- Its rule table matches names and words on the lines a change adds and the names of the files it changes, with "No LLM judgment."; it measures nothing. A rule whose evidence asks for a figure, such as a function's complexity, matches only a file's name. In Garura's own repository its code rules check none of the scripts inside plays and skills, which it classes as prose (#890, #535).
+- It runs every rule group, a set of the review's rules that check one kind of thing, such as a database, on every project. Initialize, which sets a project up for Garura after the install, records which rule groups fit a project, and changing the review to read that record is a later story.
+- Its rule table matches names and words on the lines a change adds and the names of the files it changes, with "No LLM judgment."; it measures nothing. A rule whose evidence asks for a figure, such as a function's complexity, matches only a file's name. In Garura's own repository its code rules check none of the scripts inside plays and skills, which it classes as prose.
 - In practice its agent also reads the code against the review's rubric for code and ranks each finding, how serious it is, by the table's words; these findings carry no rule of the table, and a second run may not find the same.
 - It runs the tests whenever a change touches them. Nothing reads the record of the build's separate test run, which is not built.
-- It has no standard for product model pages (#870), it reviews the agents' working records along with the change (#939), and it goes on when its rules cannot be found (#974).
+- It has no standard for product model pages, it reviews the agents' working records along with the change, and it goes on when its rules cannot be found.
 - A tool that did not run is recorded and is never a pass, but the fixed rule can still approve the change.
-- Its findings come out as an id, a class and a short label, each naming its rule (#902); they are posted on the change and kept on the change's branch, where a part that builds the work could read them. Nothing writes a handoff plan, or sends a finding to the developer or to a person by who can fix it. One severity for findings and defects is planned (#934).
+- Its findings come out as an id, a class and a short label, each naming its rule; they are posted on the change and kept on the change's branch, where a part that builds the work could read them. Nothing writes a handoff plan, or sends a finding to the developer or to a person by who can fix it. One severity for findings and defects is planned.
 - Each new run of the review writes over the last one's record; earlier rounds are kept only where someone saved them by hand, and nothing counts rounds.
-- In Garura's own repository the setting that turns off the person's decision still names the review's old play name, so a person decides there (#772).
+- In Garura's own repository the setting that turns off the person's decision still names the review's old play name, so a person decides there.
 - Nothing checks the whole built work. The old check of a whole slice, an ordered group of features that one person can test end to end, /validate-epic, is stale and waits for a rebuild; it compared tool results with the product profile's floors. The quality auditor's full run, the build, the type check, the linter and the unit tests with their coverage, is used only by stale plays. The runner for a slice's written quality checks is built, and no live play runs it.
 - Garura's own profile sets maintainability and reliability at medium, with pass bars that name tests and linters; nothing checks the code against them.
 - No memory tier holds a project's coding standards, and no approved capability writes them. The technology shelves in Phoenix memory are learnings for choosing a technology, and no live review reads them.
@@ -87,14 +87,14 @@ What is not built yet:
 - The project's memory first, then Garura memory, then Phoenix memory, then research through a memory update a person approves. What nothing answers stays open, with no default, and is named as not checked. The reason: research is new knowledge that nobody has checked yet, and the person's approval is the check.
 
 ## Sources
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-6/page-approvals.md: "this is code to validate hence this is about testing", "yes, record it and draft the first one"
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Check the code against its standards", "because the old name read like the builder grading itself, which BI-4's Must not forbids.", "BI-3's approved page hands this check to BI-4 by name.", "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
+- The product owner on 2026-11-09: "this is code to validate hence this is about testing", "yes, record it and draft the first one"
+- The list the product owner approved on 2026-11-09: "Check the code against its standards", "because the old name read like the builder grading itself, which BI-4's Must not forbids.", "BI-3's approved page hands this check to BI-4 by name.", "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
 - The same file, the line renamed: "Validate its own code: The code is checked against its standards."
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings.", "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes."
-- The product owner's approval of Test security on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md: "the review of each change with its security rules stays with Check the code against its standards", "with the line on a finding that changes the architecture, the deployment design or an environment settled as the product owner's"
-- The product owner's approval of Test performance on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md: "with the verdict saying so plainly, neither a pass nor a fail, when no performance level is set"
-- The product owner's approval of Test what the product does on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-1/page-approvals.md: "an unmet expectation only to the test writer, because the builder's part of a story holds no expectation"
-- The product owner on a defect, 2026-10-27, quoted in GitHub #902 (open): "A defect needs to have a problem statement clearly defined.", "Where is the problem happening, and what would it lead to?", "Each finding comes out as an id, a class and a short label"
+- The product owner's approval of Test security on 2026-11-09: "the review of each change with its security rules stays with Check the code against its standards", "with the line on a finding that changes the architecture, the deployment design or an environment settled as the product owner's"
+- The product owner's approval of Test performance on 2026-11-09: "with the verdict saying so plainly, neither a pass nor a fail, when no performance level is set"
+- The product owner's approval of Test what the product does on 2026-11-09: "an unmet expectation only to the test writer, because the builder's part of a story holds no expectation"
+- The product owner on a defect, 2026-10-27: "A defect needs to have a problem statement clearly defined.", "Where is the problem happening, and what would it lead to?", "Each finding comes out as an id, a class and a short label"
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Out: checking the code against the project's standards. Check the code against its standards, in Code → Validation, owns it; the build follows the standards while it writes.", "A separate check runs the tests, and its record is the proof."
@@ -105,7 +105,6 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "Each slice is then designed and built on the project's architecture, and does not choose its own.", "An agent proposes each choice and a person confirms it."
 - .garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md: "A rule group is a set of the review's rules that check one kind of thing", "a group skipped by mistake hides real findings", "Changing the review play (/check-change) to read this record, run no rule of a skipped group and name the skipped groups in its own record"
 - .garura/product/product-os/_spine.yaml, Garura's own product profile: "lint_grounding.py --spine link check + check_ice_workable.py tests", "ready-check and linter tests; spine before/after diff on the rename"
-- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: "the box moves only by an approved decision."
 - .garura/product/product-os/software-delivery-planning/test-security/capability.md: "Out: the review of each change against its standards, with the review's security rules on the lines a change adds. Check the code against its standards owns it; this capability reads its record and never runs the same rules again."
 - .garura/product/product-os/software-delivery-planning/test-product-with-evals/capability.md: "Out: testing security, performance, accessibility and the user experience on each surface, and checking the code against its standards, with the review of a change. The other capabilities of Code → Validation own them."
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "In: taking in a defect reported anywhere: a person's words, a finding in a review, the eval after the work was accepted, or a bug in a plan.", "Out: recording a defect in the tracker"
@@ -116,10 +115,10 @@ What is not built yet:
 - core/components/agents/quality-auditor.md: "Independently verifies code quality standards: linting, unit tests, type checking, build, and project-defined quality vision gates."
 - core/components/plays/merge-change/SKILL.md: "The merge proceeds solely on the typed approval"
 - core/config.yaml: "check-change: off"; .garura/core/config.yaml: "review-change: off"
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "An unmeasured bar is not a passed bar."
 - core/components/plays/validate-epic/reference/ice.md: "Green is the entry condition, never the verdict", "C10 — Loop cap: after 3 rejections on the same epic, halt to a human instead of looping"
-- .garura/project/issues/1031/review/quality-findings.yaml: "rubric_findings - defects found by reading the code against the playbooks' rubric and by running it."
-- .garura/project/issues/1021/context/names.md: "/validate-work (was /check-change)", "/validate-slice (was /validate-epic)"
+- A change's quality findings record: "rubric_findings - defects found by reading the code against the playbooks' rubric and by running it."
+- The names agreed with the product owner on 2026-11-03: "/validate-work (was /check-change)", "/validate-slice (was /validate-epic)"
 - standards/rules/pr.md, in Phoenix memory: "No LLM judgment.", "Highlights without blocking.", "file, function, complexity-score"
 - knowledge/review/code.md, in Phoenix memory: "the standard is industry best practice, not a garura-internal design."
 - knowledge/review/tests.md, in Phoenix memory: "execute the test suite and confirm it passes."
@@ -129,14 +128,6 @@ What is not built yet:
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The handoff plan never names the failure condition, its id or the check."
 - standards/rules/expectation-generation.md, in Phoenix memory: "Can the builder fix this from information it already has, deterministically?"
 - docs/philosophy/idd-principles.md: "giving it to the builder only invites teaching-to-the-test.", "Would knowing this change how the builder writes code?"
-- GitHub #862 (open): "a review in that project runs only the rule groups that fit it"
-- GitHub #974 (open): "It should stop and say the rules are missing."
-- GitHub #870 (open): "check-change has no review playbook for two kinds of change that plays make all the time"
-- GitHub #939 (open): "The product model and the project's memory are outputs of the change and must be reviewed."
-- GitHub #890 (open): "so code rules never check them"
-- GitHub #535 (open): "has no model of what the project is, so Garura's own scripts are never code-checked"
-- GitHub #934 (open): "Findings and defects get one severity, P1 to P4"
-- GitHub #772 (open): "The install keeps old play names in the project config, so the check-change gate is on"
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf covers software delivery planning.

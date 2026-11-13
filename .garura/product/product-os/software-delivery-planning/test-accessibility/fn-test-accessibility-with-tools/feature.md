@@ -62,8 +62,8 @@ Status: not built. What exists covers only part of it:
 - Declaring and building the testing environment, its data and its test accounts. Environment setup does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
-- The product owner on 2026-11-07, in .garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md: "We are never touching production."
+- The list the product owner approved on 2026-11-09: "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
+- The product owner on 2026-11-07: "We are never touching production."
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "WCAG 2.1 AA", "(the standard / how it's measured)"
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md: "a target someone can measure and how it is checked"
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/fn-declare-surfaces/feature.md: "and meeting the accessibility level the product commits to"
@@ -73,7 +73,7 @@ Status: not built. What exists covers only part of it:
 - core/components/plays/validate-epic/scripts/runners/runner_frontend.py: "frontend audit tool class (lighthouse, pa11y, axe).", "Code-level + local-page audits only (C5)."
 - core/components/plays/validate-epic/scripts/runners/_runner_common.py: "a check that didn't run is NEVER a check that passed."
 - core/components/plays/validate-epic/scripts/check_gates.py: "where the target is prose-only, the metric is presence-required."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "An unmeasured bar is not a passed bar."
 - core/components/plays/validate-epic/reference/ice.md: "Green is the entry condition, never the verdict"
 - core/components/agents/quality-auditor.md: "Run Lighthouse audits (if threshold defined and URL provided)"
 - core/components/skills/check-quality-gates/SKILL.md: "Human-owned cards are visibly skipped, never judged.", "A card whose demanded tooling is absent is a missing-tool FINDING"

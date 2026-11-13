@@ -44,10 +44,10 @@ Status: not built. Not built, or open:
 - Opening and landing the change that holds a move. Ship every change the same way, in Developer tooling, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 117: "Taken as yes to the list and to each proposed answer"; line 118, the product owner's answer 4 as recorded on 2026-11-11: "each run records model, effort and cost per part"
-- .garura/project/issues/1021/context/bi-10-inventory/inventory.md, line 1045, the proposed answer to question 4: "so a person can move a part up or down"; lines 1047-1049, its basis: Phoenix memory's "Route, don't over-provision" and "Re-run evals on any model change"
+- The capability list: "Taken as yes to the list and to each proposed answer"; the product owner's answer 4 as recorded on 2026-11-11: "each run records model, effort and cost per part"
+- The stock-take of Standards, structure, settings and memory (2026-11-11), the proposed answer to question 4: "so a person can move a part up or down"; its basis: Phoenix memory's "Route, don't over-provision" and "Re-run evals on any model change"
 - knowledge/technology/agent-model-selection.md, in Phoenix memory, read through the memory tool, lines 4-8: its conditions, an agentic feature on Bedrock or Vertex; line 35: "a behavior change that must pass the eval suite"; line 49: "starts failing (inputs got harder)"; line 50: "became routine", "re-route that step up or down", "Re-run evals on any model change."
 - .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-map-model-tier/feature.md, line 43: "Given a part whose source tier is changed by Intelligent model routing, when Garura is installed again, then the new tier is laid."
 - core/components/plays/create-play/SKILL.md, lines 319-322: the step evals and the scenario evals of each compiled play
 - core/tools/rebuild-eval/README.md, lines 1-12: the test of what a Discovery loop made from a prototype
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 6.4, line 625: "No rule says when."
+- The stock-take (2026-11-11), section 6.4: "No rule says when."

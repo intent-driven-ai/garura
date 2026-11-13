@@ -7,7 +7,7 @@ It runs as /shape-plan, once for each intent, after the slice is shaped. It read
 The feature exists because agents build from work items, not from the model. Before it was built, these trees of epics and stories were filed by hand.
 
 Status: built.
-Known break: #1034. Since the model's index has ICE entries, the ready check and the plan helpers misread parts that keep their ICE inside their page.
+Known break: since the model's index has ICE entries, the ready check and the plan helpers misread parts that keep their ICE inside their page.
 
 ## Inputs / Outputs
 - In: a business intent, by its issue number. Its slices come from the model's link "slice serves business intent", in the order the model holds them.
@@ -48,7 +48,6 @@ Known break: #1034. Since the model's index has ICE entries, the ready check and
 - core/components/plays/shape-plan/scripts/write_work_items.py: "the epic to `make` becomes an issue of type Epic, with no label", "Written from: <the two ICE pages>"
 - core/components/plays/shape-plan/scripts/find_work_items.py: "A title is never compared."
 - core/components/plays/shape-plan/scripts/check_ice_workable.py: "ready: its capability serves a confirmed business intent, every capability it needs is"
-- .garura/project/issues/1021/context/cleanup/old-pages/build-a-plan.md, which keeps the page of Build a plan as it was before the merge: "the same trees that were filed by hand on 2026-10-21"
+- The copy of the page of Build a plan as it was before the merge: "the same trees that were filed by hand on 2026-10-21"
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md: "A change to a plan that exists, a later slice's epic and stories included. /update-plan makes it"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "Its slice's eval play reads it, with its stories and its feature-to-story map, to learn what it delivers"
-- GitHub #818 (closed): the plan play makes the plan file, the epic and one story per feature.

@@ -10,8 +10,8 @@ Each kind of part has a written standard that says what that kind is, what it do
   - the rule files in memory, under `standards/rules/`.
 - A shared file follows one pattern: "Any new shared scaffolding follows the same pattern: one common file the plays point to, emitted by the compiler and linted." The component linter fails a play that misses the anchor pair of the shared close.
 - The component linter's structural rules hold some of each kind's standard: a skill in the source must name its `model` and its `allowed-tools`, among other fields.
-- A tool has no standard. It is not a part in the standard's table, and #620 (tools become a first-class Garura component) says: "Today a tool has no home of its own."
-- The layer rule, that no skill names a play or another skill, is written in #856 (Garura's parts compose) and not in the standard; on 2026-10-24, "36 of 96 skills name a play".
+- A tool has no standard. It is not a part in the standard's table, and today a tool has no home of its own.
+- The layer rule, that no skill names a play or another skill, is not written in the standard; on 2026-10-24, 36 of 96 skills named a play.
 - Two written standards disagree: the agents doc says agents "make all decisions within their domain. They are judges, not executors.", while principle 2 says agents gather context and skills do the work.
 - Examples, in different kinds of project:
   - In a bank's payments service, a developer writes a skill that drafts a refund letter. It follows the skill standard, reads only what its sub-agent put in short-term memory, and the checks pass it.
@@ -20,8 +20,8 @@ Each kind of part has a written standard that says what that kind is, what it do
 - How it meets the capability: this is "written standards for parts, sub-agents", read as the product owner answered: skills and sub-agents "follow the written standard for their kind and are checked against it".
 
 Status: built in part, in the component docs, the harness standard's principles, the sub-agent audit of /create-play, the shared files and the linter's structural rules. Not built, or open:
-- A tool has no written standard (#620, open).
-- The layer rule is in no standard and has no check (#856, open).
+- A tool has no written standard.
+- The layer rule is in no standard and has no check.
 - The sub-agent audit runs only when /create-play builds a play.
 - The standards sit in five places, and the agents doc says agents decide, against principle 2.
 - `docs/components/plays.md` lists six plays that are gone.
@@ -39,7 +39,7 @@ Status: built in part, in the component docs, the harness standard's principles,
 - What many parts share lives once, in a shared file, and is checked. The reason: "one common file the plays point to, emitted by the compiler and linted."
 - A skill and a sub-agent follow the standard for their kind and are checked against it. The reason, in the product owner's answer: "skills and sub-agents follow the written standard for their kind and are checked against it".
 - No skill names a play or another skill. The reason: "no skill names a play or another skill; a skill may name an agent, for the context file it reads".
-- Not decided: what a tool's standard holds. #620 asks first to "Decide what a tool file looks like and how agents and skills find it".
+- Not decided: what a tool's standard holds. The first step is to decide what a tool file looks like and how agents and skills find it.
 
 ## Acceptance criteria
 - Given a new skill in the source, when the component linter runs, then it fails the skill until it names its `model` and its `allowed-tools`.
@@ -57,15 +57,13 @@ Status: built in part, in the component docs, the harness standard's principles,
 - The Agent-work tool. Track execution in the team's tracker, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 110: "Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them. (unique)"
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 1: "plays and loops carry their ICE, skills and sub-agents follow the written standard for their kind and are checked against it"
-- .garura/project/issues/1021/context/capabilities.md, line 92: "docs/components/plays.md lists six plays that are gone"
+- The capability list: "Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them. (unique)"
+- The product owner's answer 1 (2026-11-11): "plays and loops carry their ICE, skills and sub-agents follow the written standard for their kind and are checked against it"
+- The capability list: "docs/components/plays.md lists six plays that are gone"
 - docs/standards/harness-standard.md, line 19: "The mechanical part of a step: a fixed sequence with no judgment"; lines 33-48, principles 2 and 3: "each layer can be tested and replaced on its own, and the record of what happened is on disk, not in a conversation.", "a script gives the same answer every time and costs nothing to run again."
 - docs/components/agents.md, line 7: "they make all decisions within their domain. They are judges, not executors."
 - core/components/plays/create-play/references/agent-audit.md, lines 8-13: "A subagent's job is twofold: gather the context the work needs, and verify that what the skill produced is right.", "Audit each agent the play depends on against all 11."
 - CLAUDE.md, lines 129-137: "Any new shared scaffolding follows the same pattern: one common file the plays point to, emitted by the compiler and linted."
 - core/components/plays/_shared/play-close.md, core/components/loops/_shared/loop-run.md, core/components/agents/_shared/memory-reading.md and failure-format.md, and core/components/skills/_shared/asking-a-person.md: the shared files
 - core/tools/lint-components/lib/rules/structural.js, line 68: the fields a skill must name, among them `model` and `allowed-tools`
-- GitHub #620 (open): "Today a tool has no home of its own.", "Decide what a tool file looks like and how agents and skills find it"
-- GitHub #856 (open): "no skill names a play or another skill; a skill may name an agent, for the context file it reads", "36 of 96 skills name a play"
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.2, 1.3 and 1.7
+- The stock-take (2026-11-11), sections 1.2, 1.3 and 1.7

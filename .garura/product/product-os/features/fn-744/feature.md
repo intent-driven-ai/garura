@@ -16,7 +16,7 @@ The plays that open, check and land a change, the plays that make and show a pla
   - In a harness repository, ADR 066 renames the plan plays to the orchestrator's verbs, `reshape` and `view`, after the reviews.
 - How it meets the capability: the plays people type most each day follow the one rule.
 
-Status: built, under ADR 046, by #744 (rename the change, plan, knowledge and record plays, closed), landed in PR #749, which published the standard. Not built, or open:
+Status: built, under ADR 046. Not built, or open:
 - ADR 066's names for this family are decided and not applied; the rename runs after the reviews of BI-10 and BI-11, as one change.
 - The final place of the four change plays is open, and so is the name for /release-increment.
 - A project's learned gate policies are kept by play name, so they start again under each new name.
@@ -49,14 +49,13 @@ Status: built, under ADR 046, by #744 (rename the change, plan, knowledge and re
 - Taking out the old names in a project. Take out the parts Garura renamed or dropped (fn-748), in Upgrade a project, does it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 7: "ADR 066's rename runs after the BI-10 and BI-11 reviews"
+- The product owner's answer 7 (2026-11-11): "ADR 066's rename runs after the BI-10 and BI-11 reviews"
 - core/components/memory/standards/rules/rename-map.yaml, lines 21-27 and 32: "the knowledge step is a step of the loop, not a play", "`null` keeps the old name caught by the old-name check; the install has no new name to lay."
 - core/tools/naming/apply_renames.py, line 12: "Names and references only: no behaviour changes."
 - docs/adr/046-one-naming-standard-for-every-harness-part.md, lines 50-51, 96-97 and 105: "`focus` becomes `list-focus-issues` (Claude Code has `/focus`)", "a project's learned policy for a renamed play starts again under the new name.", "Two rules to learn and to teach"
 - docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md: /next is dropped
 - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md, lines 73, 83 and 149: the name for /release-increment is open, "Their final place is still open.", "The rename, as one change"
-- .garura/project/issues/1021/context/names.md, lines 9, 12-19 and 26-27: the agreed new names of this family
+- The names agreed with the product owner on 2026-11-03: the agreed new names of this family
 - .garura/product/product-os/software-delivery-planning/track-execution/fn-see-issues-worth-attention/feature.md, line 66: "The plays' names, and the rename to /list-issues."
 - .garura/product/product-os/features/fn-744/feature.md, the old page, lines 4 and 8: "the planned plan plays take draft-plan, show-plan, update-plan, list-plans", "next and focus stay one word."
-- GitHub #744 (closed): "Rename the change, plan, knowledge and record plays"; PR #749 (merged)
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 8
+- The stock-take (2026-11-11), section 8

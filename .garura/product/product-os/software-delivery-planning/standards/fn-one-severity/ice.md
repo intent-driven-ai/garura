@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: A severity is given with no written rule behind it.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: #934 and its three layers, the industry scale it starts from, the mechanical table of the review of each change, how the review and the defect filing give a severity today, and the architecture memory of #933.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the plan for one severity and its three layers, the industry scale it starts from, the mechanical table of the review of each change, how the review and the defect filing give a severity today, and the architecture memory planned for teams building a harness.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the technical lead and the developer, a person or an AI agent who builds the code, who rate findings and defects; and the product owner, who reads what is fixed first.
 - Scope: In: the scale, its three layers and their rules. Out: filing the defect, the review's verdict, the architecture memory, and the tracker's field.

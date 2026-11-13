@@ -8,7 +8,7 @@
 - Fails if: The rule files a project reads differ from the source, and nothing names the difference as owed.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the naming rule files and Phoenix memory's copies, ADR 046 and ADR 066, the agreed list of new names, the five roles of #1015 and their open points, the lists of built-in commands of the coding tools, and the name of every part.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the naming rule files and Phoenix memory's copies, ADR 046 and ADR 066, the agreed list of new names, the five harness roles and their open points, the lists of built-in commands of the coding tools, and the name of every part.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the product owner, who decides the names; the technical lead, who keeps the rule files; and the developer, a person or an AI agent who builds the code, who names a new part.
 - Scope: In: the rule, its verbs and their meanings, the five roles, the built-in commands, and each kind's shape. Out: the rename map, each family's rename, running the check on every part, recording the ADR, and Phoenix memory's copies.

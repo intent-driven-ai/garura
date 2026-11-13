@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: A person passed a guardrail on purpose and no owed entry names it.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the shortcuts #893 names and what it proposes, the guard on the evals folder, the play that owns each piece of work, what the coding tool can do before an agent acts and how it shows a reason, and the install's record of what it lays.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the shortcuts an agent can take past a play and the guardrails proposed against them, the guard on the evals folder, the play that owns each piece of work, what the coding tool can do before an agent acts and how it shows a reason, and the install's record of what it lays.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the developer, who works with agents in a project and sometimes means to take a shortcut on purpose.
 - Scope: In: the list of guardrails, what each guards, the play that owns its work, its way past, and the owed entry on each pass. Out: laying the guardrails, their form in each coding tool, the run marker in each play, the review's check, and where what is owed is kept.

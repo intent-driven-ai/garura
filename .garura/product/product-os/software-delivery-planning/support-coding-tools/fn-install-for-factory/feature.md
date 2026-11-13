@@ -2,10 +2,10 @@
 
 ## What it does
 A team that works in Factory's agent would install Garura, and a Factory adapter, the part of the install that lays Garura in one tool's shape, would lay every chosen part where that agent reads it, so it finds and runs each play, loop, sub-agent and skill in the project. Factory was supported once, by a sync skill, and that support was removed; no issue plans it again, and the agreed line names it among the five tools.
-- What was built once: #123 (closed 2026-03-24) added a `sync-droids` skill that "Transforms Claude Code agent definitions into Factory Droid format (tool names, model IDs, frontmatter)", into a `.factory/` folder.
-- How it was removed: #256 (closed 2026-04-19), "Remove .factory/ tree from repo", took the laid copy out of Garura's repository; and #430 (closed 2026-05-31), "remove sync-* and unsync-* plays from the framework", removed the sync skills (commit 64f3ace9, "remove sync-claude and sync-droids skills"). The install play, built later, never had a Factory adapter.
+- What was built once: on 2026-03-24 a `sync-droids` skill was added that transforms Claude Code agent definitions into Factory Droid format (tool names, model IDs, frontmatter), into a `.factory/` folder.
+- How it was removed: on 2026-04-19 the laid `.factory/` tree was taken out of Garura's repository; and on 2026-05-31 the sync-* and unsync-* plays were removed from the framework (commit 64f3ace9, "remove sync-claude and sync-droids skills"). The install play, built later, never had a Factory adapter.
 - What is left behind, found and not filed:
-  - Garura's settings file still names Factory's folders, "Factory Droid derived locations (populated by /sud:install factory adapter)" (core/config.yaml lines 50-58), and #947 found that "no script in `core/components/` reads them".
+  - Garura's settings file still names Factory's folders, "Factory Droid derived locations (populated by /sud:install factory adapter)" (core/config.yaml lines 50-58), and no script in `core/components/` reads them.
   - Garura's own `AGENTS.md` is still written to Factory: "This file provides guidance to Factory Droids when working with code in this repository.", and it names "The sudarshan `/sud:install` factory adapter", which does not exist.
 - Which product the name means was assumed on BI-7's list, "Factory is Factory.ai's Droids", and is now confirmed in approved memory: "Factory (Factory.ai)", "whose agent is Droid, run from the Droid CLI". What Droid loads from a project is approved too: `AGENTS.md`, and other names, "CLAUDE.md among them"; custom droids in `.factory/droids/`; skills in `.factory/skills/` and, "for compatibility", in `.agents/skills/`; and hooks in `.factory/hooks.json`, where "a PreToolUse hook that exits with code 2 blocks the tool call". A new adapter, once built, rests on that memory.
 - What a new adapter must do, as every adapter does: lay each part where the tool reads it and whole, with its shared files; put Garura's instructions beside the team's own; put the memory guide, which tells every agent how to find memory, where every agent reads it; lay the guardrails in the tool's own form; name every path for the install record, the list kept in the project of every part the install laid; and leave the engine's steps as they are.
@@ -43,17 +43,13 @@ Status: removed. No issue plans it again; the agreed line names it. An install t
 - Changing the leftovers. This page names them; the change waits for the product owner's choice.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md: "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Factory is Factory.ai's Droids"
-- GitHub #123 (closed 2026-03-24): "Transforms Claude Code agent definitions into Factory Droid format (tool names, model IDs, frontmatter)."
-- GitHub #256 (closed 2026-04-19): "Remove .factory/ tree from repo"
-- GitHub #430 (closed 2026-05-31): "remove sync-* and unsync-* plays from the framework"
-- The commit of #430, 64f3ace9 of 2026-05-31: "remove sync-claude and sync-droids skills"
-- GitHub #947 (open): "no script in `core/components/` reads them"
+- The product owner on 2026-11-10: "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory."
+- The list the product owner set on 2026-11-10: "Factory is Factory.ai's Droids"
+- The commit 64f3ace9 of 2026-05-31 that removed the sync plays: "remove sync-claude and sync-droids skills"
 - core/config.yaml: "Factory Droid derived locations (populated by /sud:install factory adapter)", lines 50-58
 - AGENTS.md: "This file provides guidance to Factory Droids when working with code in this repository.", "The sudarshan `/sud:install` factory adapter"
 - core/components/plays/install-garura/scripts/install.py: the tools on offer are the adapters known, `choices=known()`, at line 529
 - .garura/product/product-os/software-delivery-planning/install-into-project/capability.md: "No coding tool in the engine. Each tool's shape is laid by that tool's own part."
 - core/tools/memory/GUIDE.md, the memory guide the install lays for every agent: "Never answer from what you already know, and never from the web, without a memory update a person approved."
 - .garura/product/product-os/intents/bi-7.md: "Change what a project's people changed without asking them."
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md, approved by the product owner on 2026-11-10 as mu-20261110-005, lines 5, 6, 8 and 10: "Factory (Factory.ai)", "whose agent is Droid, run from the Droid CLI", "CLAUDE.md among them", "for compatibility", "a PreToolUse hook that exits with code 2 blocks the tool call"
+- The research note "What Factory loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-005: "Factory (Factory.ai)", "whose agent is Droid, run from the Droid CLI", "CLAUDE.md among them", "for compatibility", "a PreToolUse hook that exits with code 2 blocks the tool call"

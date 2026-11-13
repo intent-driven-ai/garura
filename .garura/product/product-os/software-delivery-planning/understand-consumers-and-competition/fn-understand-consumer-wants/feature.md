@@ -55,11 +55,11 @@ Status: not built. What exists covers only patterns for it:
 - Placing a want on the intents, capabilities and features it bears on. Place each finding on the intents, capabilities and features it bears on (fn-place-findings) does it.
 - Showing the wants to the product owner. Show the findings to the product owner, and hand them to the next capability (fn-hand-on-findings) does it.
 - Deciding what to build or change for a want. The third capability of Run → Product does it.
-- Measuring whether an intent got what it wanted. It is parked (#545).
+- Measuring whether an intent got what it wanted. It is parked.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-2/page-approvals.md, spelling tidied: "start understanding what it is that the consumers want and what the competition is doing", "This needs to be built for high autonomy."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Understand what consumers want and what the competition is doing.", "measuring each intent (#545, parked)"
+- The product owner on 2026-11-10, spelling tidied: "start understanding what it is that the consumers want and what the competition is doing", "This needs to be built for high autonomy."
+- The list the product owner set on 2026-11-10: "Understand what consumers want and what the competition is doing.", "measuring each intent"
 - .garura/product/product-os/software-delivery-planning/connect-use-and-market/capability.md: "What is taken in is each figure, message or post a connection holds, kept as the tool gave it, with the connection it came from, where it was, and when it was read.", "Out: understanding what consumers want and what the competition is doing from what is taken in, which includes sorting it, summing it and placing it on the intents it bears on."
 - .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-take-in-use/feature.md: "a gap kept as nothing would read as nobody used the product"
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md: "Each finding says where it comes from. The reason: a person can then check each finding without a search."

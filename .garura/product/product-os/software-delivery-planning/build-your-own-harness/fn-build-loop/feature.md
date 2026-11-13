@@ -27,7 +27,7 @@ A person builds a loop with /create-loop from its ICE and its own parts, its pla
 
 Status: built, in /create-loop, with the loop linter; one loop is built with it, the Discovery loop, still under its old name /complete-discovery. Not built, or open:
 - It writes into Garura's source folders, the loop's folder and the settings file, so it runs only in a repository laid out like Garura's source (fn-harness-in-own-repo).
-- It does not ask what starts the loop, and the loop linter does not check loop principles 1, 3, 4, 5 and 8 (#699, the loop builders check the loop principles; fn-check-loop-principles).
+- It does not ask what starts the loop, and the loop linter does not check loop principles 1, 3, 4, 5 and 8 (fn-check-loop-principles).
 - No loop runs in a harness repository: "a harness repo builds loops but runs none".
 - /create-loop is written by hand and has no ICE of its own.
 
@@ -70,7 +70,7 @@ Status: built, in /create-loop, with the loop linter; one loop is built with it,
 - The plays each loop runs and what they write. The transition intents own them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, lines 116-117, the product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
+- The product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
 - core/components/plays/create-loop/SKILL.md, lines 22-24, 51-56, 71-72, 82-84, 92-93, 147-149, 163, 196-202: "So a loop is small: its own values, and a pointer to the run every loop shares.", "A play that cannot is fixed first, through its own ICE and `/edit-play`; the loop does not work around it;", "If a wished-for step is real work (writing a doc, judging a design), it belongs in a play: say which play, or that one is missing, and stop.", "With no person reachable, state each assumption and record that approval was assumed.", "Every input comes from the loop — the source, the person's write-up or the questions — never from another play's output", "It judges the loop's goal, constraints and Done means against the loop's outputs only", "A rebuild copies them again, so a loop never drifts from the shared run.", "The fingerprint: run `shasum -a 256 reference/ice.md` and paste the digest. Never invent one.", "a loop always records its evidence", "A loop does no work of its own.", "Never copy the shared run's steps or the shared close into a loop; point to them.", "Every play a loop names must run inside a loop. Fix the play, not the loop.", "A loop always has a Done means, baked into `stop-condition.yaml`.", "Run `lint_loop.py` and clear every gap before calling the loop built."
 - core/components/plays/create-loop/scripts/lint_loop.py: the loop linter.
 - core/components/loops/complete-discovery/: the one loop built.
@@ -78,4 +78,4 @@ Status: built, in /create-loop, with the loop linter; one loop is built with it,
 - docs/components/loops.md, line 59: "`/create-loop`, `/edit-loop` and `lint_loop.py` do not yet check principles 1, 3, 4, 5 and 8."
 - .garura/product/product-os/software-delivery-planning/run-plays-as-loops/capability.md, line 69: "Out: building and changing a loop, with /create-loop, /edit-loop and the loop linter. Build your own harness, in Standards, structure, settings and memory (BI-10), owns it."
 - .garura/product/product-os/software-delivery-planning/run-plays-as-loops/fn-check-loop-result/feature.md, line 63: "Build your own harness (BI-10) owns building a loop from its ICE."
-- The stock-take of this intent, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.2, 2.1 and 2.2.
+- The stock-take of this intent (2026-11-11), sections 1.2, 2.1 and 2.2.

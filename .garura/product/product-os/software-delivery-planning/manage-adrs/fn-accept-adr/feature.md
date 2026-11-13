@@ -22,10 +22,10 @@ An ADR becomes accepted only when a person says so. Run by hand, the decision pl
   - In a bank's payments service, the product owner rejects a drafted ADR, and no new ADR is in the ADR folder.
 - How it meets the capability: the decisions agents "coordinate many pieces from" are a person's decisions; an agent drafts the record and never accepts it.
 
-Accepting an ADR by hand is pinned to a person: the run waits for their typed answer, and no setting turns the wait off. This intent's Must not reads: "Stop a person. Every gate has a way past it that records what's owed." Whether the person's typed answer at this checkpoint is the way past it, or a stop kept on purpose, is open (#992, every gate has a key). The way past itself is Give every gate a way past's.
+Accepting an ADR by hand is pinned to a person: the run waits for their typed answer, and no setting turns the wait off. This intent's Must not reads: "Stop a person. Every gate has a way past it that records what's owed." Whether the person's typed answer at this checkpoint is the way past it, or a stop kept on purpose, is open. The way past itself is Give every gate a way past's.
 
-Status: built, in /record-decision, with its accept pinned when run by hand, and apply_adr.py over adr.py; first built in #632 (closed). Not built, or open:
-- The accept writes the git user's full name on the Decided by line (#850).
+Status: built, in /record-decision, with its accept pinned when run by hand, and apply_adr.py over adr.py. Not built, or open:
+- The accept writes the git user's full name on the Decided by line.
 - The place where a person accepts is to move onto a card in the review tool. Accept or send back each ADR that waits for a person (fn-review-adrs), in Review what agents make (Argus), is to do it, and it is not built.
 - No loop runs the decision play yet, so no ADR has been saved as proposed by a loop and accepted at its end review.
 
@@ -49,8 +49,8 @@ Status: built, in /record-decision, with its accept pinned when run by hand, and
 - A reject writes nothing. The reason: "the person rejected the ADR — nothing is written".
 - Inside a loop there is no stop, and the ADR waits as proposed. The reason: "Inside a loop, an ADR is written as `proposed` and accepted at the loop's final review; run by hand, the person accepts it before it is written as `accepted`."
 - The person is never asked twice. The reason: "a resume never re-asks the person once `decision.yaml` exists".
-- Not decided: whether the person's typed answer at this pinned checkpoint is the way past it that Orchestration's Must not asks for, or a stop kept on purpose (#992).
-- Not decided: whose name the Decided by line carries, the git user's full name as the accept writes it today, or a persona (#850).
+- Not decided: whether the person's typed answer at this pinned checkpoint is the way past it that Orchestration's Must not asks for, or a stop kept on purpose.
+- Not decided: whose name the Decided by line carries, the git user's full name as the accept writes it today, or a persona.
 
 ## Acceptance criteria
 - Given a drafted ADR run by hand, when the person types accept, then it reads Accepted with today's date and the person's name, and the answer record keeps the person's exact words.
@@ -71,7 +71,7 @@ Status: built, in /record-decision, with its accept pinned when run by hand, and
 - The settings that turn checkpoints on or off. Standards, structure, settings and memory owns them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
+- The capability list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
 - core/components/plays/record-decision/SKILL.md: "Only a person accepts an ADR.", "never skipped by config or policy", "You never accept an ADR yourself", "a resume never re-asks the person once `decision.yaml` exists", "show the draft exactly as it will read", "the person accepts it at the loop's final review with `/record-decision accept <file>`", "it opens no issue or branch, skips the end sequence, does not stop for approval, and saves the ADR as proposed for the loop's final review"
 - core/components/plays/record-decision/reference/ice.md: "a pinned gate, class one-way-door: a record of a decision is the project's memory"
 - core/components/plays/record-decision/scripts/apply_adr.py: "the decision must be the person's own typed reply (by: person, reply)", "the person rejected the ADR — nothing is written", "only a proposed ADR can be accepted", "the draft must be Proposed — only a person's word makes it accepted"
@@ -83,6 +83,4 @@ Status: built, in /record-decision, with its accept pinned when run by hand, and
 - docs/adr/036-approved-answer-lands-in-short-term-memory.md: "Only a person accepts an ADR. Only where the person does it moves."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-adrs/feature.md: "the accept is carried out as Manage ADRs says"
-- GitHub #632 (closed), the product owner on 2026-10-09: "write it, approve it"
-- GitHub #850 (open): "apply writes the git user's full name in **Decided by**; the repo is public and recent ADRs use 'the product owner'."
-- GitHub #992 (open): "A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later.", "or exceptions to the principle"
+- The product owner on 2026-10-09: "write it, approve it"

@@ -28,7 +28,7 @@ Status: built, in /create-play, with its copy of the play linter and its referen
 - It is laid only by the install's harness kind: "no target ever receives them under `full`".
 - It does not build a sub-agent or a skill the play needs (fn-build-agent-skill), and it does not ask for a gate's way past (fn-add-gate).
 - /create-play has no ICE of its own: "`create-play` itself has no ICE source (it is the compiler bootstrap)". The component linter finds sections and close anchors missing in it and in the other plays written by hand.
-- #910 (/create-play builds an edit option into each new play that writes the model or work items) is open, under #962 (a person changes a record that exists by asking the play that owns it).
+- /create-play does not build an edit option into each new play that writes the model or work items, so that a person changes a record that exists by asking the play that owns it.
 
 ## Inputs / Outputs
 - In: the person's intent, or an ICE that exists, with its constraints and failure conditions.
@@ -71,12 +71,11 @@ Status: built, in /create-play, with its copy of the play linter and its referen
 - Opening and landing the change a play is built in. Ship every change the same way, in Developer tooling, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, lines 116-117, the product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
+- The product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
 - core/components/plays/create-play/SKILL.md, lines 57, 177, 263-264, 269-270, 291-293, 359, 380-381, 384, 430-431, 437-438, 442-443, 445, 455-456 and 123-124: "Generated, never hand-authored — hand-authoring scenarios is the pattern ICE rejects.", "must be created", "Because create-play writes these scripts into the play, a rebuild brings them back.", "Every copy must match this one byte for byte; the component linter fails a copy that differs.", "never let a consumer play hand-roll issue/branch/PR/merge steps that duplicate a member — those come only via injection.", "Never copy the shared steps into the play", "Don't invent a hash; the model can't compute one in its head, so a made-up fingerprint is worse than none.", "Let the script count, not the model: hand-counting burns tokens and miscounts.", "Build only a play with structure: at least one constraint, one failure condition, and one success scenario. If any is missing, name what is missing and stop.", "Build plays the harness-led way: a step's mechanical work goes into a script in `scripts/` that the step runs; judgment stays in prose.", "Wire every play as JSON-contract handoffs over files on disk: the play orchestrates, subagents gather context and verify, skills do the work.", "In review mode, only read. Change no files.", "Run the linter (`scripts/lint_play.py`) and clear every gap before calling the play done.", "record that approval was assumed, and proceed."
 - core/components/plays/create-play/references/workflow-structures.md, lines 1-42: the four workflow shapes.
 - core/components/plays/create-play/references/agent-audit.md, lines 1-13: the eleven principles a sub-agent is audited against.
 - core/tools/lint-components/lib/rules/shared-scripts.js, lines 1-15: the shared scripts held identical to their main copy.
 - CLAUDE.md, "Play Pipeline Rules", line 119: "`create-play` itself has no ICE source (it is the compiler bootstrap)"
 - core/components/plays/install-garura/scripts/install.py, lines 210-211: "no target ever receives them under `full`"
-- GitHub #910 (open): "when `/create-play` builds a play that writes the product model or work items, it gives the play the edit standard of #904"
-- The stock-take of this intent, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.2, 1.5, 2.1 and 2.2: the 31 plays with an ICE source, and the missing sections and anchors in the six plays written by hand.
+- The stock-take of this intent (2026-11-11), sections 1.2, 1.5, 2.1 and 2.2: the 31 plays with an ICE source, and the missing sections and anchors in the six plays written by hand.

@@ -57,9 +57,9 @@ Status: not built. What exists covers only part of it:
 - Declaring and building the testing environment, its data and its test accounts. Environment setup does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test performance, against the product profile's performance level. Moved here from Validation → Run.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production.", "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline."
+- The list the product owner approved on 2026-11-09: "Test performance, against the product profile's performance level. Moved here from Validation → Run.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production.", "Test accessibility, against the product profile's accessibility level and each surface's accessibility guideline."
 - The same file, the line moved here: "Performance testing (planned): The product is tested for how it performs."
-- The product owner on 2026-11-07, in .garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md: "We are never touching production."
+- The product owner on 2026-11-07: "We are never touching production."
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "speed/latency", "p99 page load", "(the standard / how it's measured)"
 - standards/rules/epics.md, in Phoenix memory, the shape of a measure in a story: "p95 under 500ms"
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md: "a target someone can measure and how it is checked"
@@ -67,7 +67,7 @@ Status: not built. What exists covers only part of it:
 - knowledge/technology/validation-floor-profile-benchmarks.md, in Phoenix memory: "The NUMBERS live in the product profile, per product — never in this KB."
 - standards/rules/features.md, in Phoenix memory: "A numeric constraint without a source is a hallucination dressed up as a fact."
 - core/components/plays/validate-epic/scripts/runners/runner_frontend.py: "frontend audit tool class (lighthouse, pa11y, axe).", "Code-level + local-page audits only (C5)."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "An unmeasured bar is not a passed bar."
 - core/components/plays/validate-epic/reference/ice.md: "Green is the entry condition, never the verdict"
 - core/components/agents/quality-auditor.md: "Run Lighthouse audits (if threshold defined and URL provided)"
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "is not where the path's tests are counted", "made-up records written for the tests"

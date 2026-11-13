@@ -67,7 +67,7 @@ Status: built, in the Shared Loop Run's checker step, the result-checker agent, 
 - A way past a reject, and the record of what is owed. Give every gate a way past owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md, line 97: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
+- The product owner on 2026-11-10: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
 - core/components/loops/_shared/loop-run.md, lines 352-394: "A model or agent that did not run the loop checks the result", "It sees the loop's outputs, never its reasoning.", "it is never a pass"
 - core/components/loops/complete-discovery/scripts/prepare_check.py, lines 1-25: "The checker sees the loop's outputs and its criteria, never its reasoning", "is recorded in the manifest, not hidden"
 - core/components/loops/complete-discovery/scripts/run_checker_codex.py, lines 1-15 and 54-57: "It cannot write anywhere and sees only the bundle", "--sandbox", "read-only"
@@ -81,4 +81,4 @@ Status: built, in the Shared Loop Run's checker step, the result-checker agent, 
 - docs/components/loops.md, lines 37-38 and 56: "The agent that did the work does not judge it.", "It checks once, at the end; inside the rounds the gap check runs in the same session"
 - docs/adr/029-drives.md, lines 38-39: "At the end, a different model, sub-agent, or coding agent checks the result. Configuration picks which.", "Ends with the check and an evidence record."
 - .garura/product/product-os/software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md, line 51: "Codex as a loop's checker or as the model that writes tests. Run plays as loops and Build the work test first use it, and install nothing."
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, section 2.3: the checker and its two kinds.
+- The stock-take of Orchestration (2026-11-10), section 2.3: the checker and its two kinds.

@@ -79,8 +79,8 @@ Status: built in part, in the bug fix play, /fix-bug, live only in a full instal
 - Keeping the test model setting, and which models and services there are to choose from. Settings and Intelligent model routing do them.
 
 ## Sources
-- The product owner on 2026-11-09, on the first overlap brief for this capability, in .garura/project/issues/1021/context/bi-3-capability-5/page-approvals.md: "Do the implementation. 3. Do the entire testing and stuff.", "Do the entire testing and stuff.", "We don't want it to go through the full-blown design"
-- The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "the code, when being written, should not get to see what tests there were", "You write the test, make sure they are failing, then you build the code", "then you refactor if needed", "and then you move forward."
+- The product owner on 2026-11-09, on the first overlap brief for this capability: "Do the implementation. 3. Do the entire testing and stuff.", "Do the entire testing and stuff.", "We don't want it to go through the full-blown design"
+- The product owner's words, recorded on 2026-11-09: "the code, when being written, should not get to see what tests there were", "You write the test, make sure they are failing, then you build the code", "then you refactor if needed", "and then you move forward."
 - The product owner on 2026-11-09, on the first overlap brief, in the same file, quoted with "differnet" tidied to "different": "i need a config that would send test building and running to a different model, like a codex or another service. test running can be done via a tool.", "test running can be done via a tool."
 - .garura/product/product-os/intents/bi-3.md: "Tell the builder the steps, or show the builder the tests."
 - .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."

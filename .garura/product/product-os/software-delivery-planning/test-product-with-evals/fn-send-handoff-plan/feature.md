@@ -59,7 +59,7 @@ Status: not built. What exists covers only part of it:
 - standards/rules/builder-isolation.md, in Phoenix memory: "the builder cannot teach to a test it cannot see."
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md: "It says what the product does wrong, as a symptom, and the way back. It never names the failure condition, its id or the check.", "Where the handoff plan is kept, and how it reaches the builder, is not decided."
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/fn-gather-item-tree/feature.md: "The builder's part holds the story's title, goals, limits and Context guidance", "The test writer's part holds the story's expectations"
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-1/page-approvals.md: "approved", on the capability page with "the lean that a failing goal or expectation sends the developer the unmet line of the story"
+- The product owner on 2026-11-09: "approved", on the capability page with "the lean that a failing goal or expectation sends the developer the unmet line of the story"
 - docs/philosophy/idd-principles.md, The Routing Table: "only the resulting handoff plan", "builds the recovery handoff plan"
 - .garura/product/product-os/software-delivery-planning/domain.md: "the product owner, who names the work"
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md: "A handoff plan is the exact list of the work it calls for.", "A handoff plan that says a person must decide does not come here; it goes to a person.", "The test writer updates the tests from the changed test writer's part, the updated design or the handoff plan."

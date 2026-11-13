@@ -8,7 +8,7 @@
 - Fails if: An intent page reads confirmed with no person named, or a move leaves a page that names the old path.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the person's approved words and where they are recorded, the page as it is now, the page skill's named-lines and approved modes, the intent-page skill and its draft, the index skill's update keys, the edit standard in #962 and its stories, and the rule that a move breaks no link.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the person's approved words and where they are recorded, the page as it is now, the page skill's named-lines and approved modes, the intent-page skill and its draft, the index skill's update keys, the edit standard and the --edit work planned for each play that owns a record, and the rule that a move breaks no link.
 - Never read: any memory file by its path, any ICE page, and any file in a plan's evals folder.
 - Persona: the product owner, who approves the new words; and the technical lead, who moves a part to another capability or folder.
 - Scope: In: named lines of any page, whole approved pages, intent pages from their drafts, the update keys of a part's entry, and the edit standard. Out: updates because what was built changed, repointing and taking out, a new intent's page, and a slice's record.

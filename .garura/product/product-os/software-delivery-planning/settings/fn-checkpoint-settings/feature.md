@@ -21,11 +21,11 @@ Each checkpoint a play declares is turned on or off by the settings, for its pla
   - In a news site's content service, a person approves the same kind of model change three times with no edit, and the next time /discover-capabilities lets that kind pass on its own; a kind the person pinned still waits.
 - How it meets the capability: whether a person waits at a checkpoint is the clearest choice a team turns on or off for the project.
 
-Status: built, in the gate rule, the `gates` block and the scripts that classify a change, keep the gate history and learn the policy, stamped into the conditional plays (#466, every human checkpoint is a setting; #467, three kinds of checkpoint). Not built, or open:
-- The learned policy has never been written: no file is at `.garura/core/gate-policy.yaml`, and no issue's folder holds a gate history. The one history in this repository is the old global file, and "Nothing reads it now, so those 4 answers no longer teach the policy." (#943, gate records in the evidence folder of the issue that made them).
+Status: built, in the gate rule, the `gates` block and the scripts that classify a change, keep the gate history and learn the policy, stamped into the conditional plays. Not built, or open:
+- The learned policy has never been written: no file is at `.garura/core/gate-policy.yaml`, and no issue's folder holds a gate history. The one history in this repository is the old global file, and nothing reads it now, so those 4 answers no longer teach the policy.
 - The pinned list in the gate rule names plays that are gone: grill, launch, learn and deploy. The settings file repeats it: "Pinned gates (grill, launch, learn)".
 - Thirteen of the 18 plays read their switch under a name that is not their own, such as /discover-capabilities, which reads `gates.plays.understand`. Garura's source settings turn off `validate-epic`, `build-epic` and `refactor-code`, but those plays read `gates.plays.validate`, `gates.plays.implement` and `gates.plays.refactor`; in a project laid from the source they find no switch and wait through their kind of risk. This repository's installed copy still holds the old names, which those plays read. This was found while this page was drafted, and no issue names it.
-- In this repository's installed copy the review checkpoint is still `review-change`, so "the gate that should be off is on" (#772).
+- In this repository's installed copy the review checkpoint is still `review-change`, so "the gate that should be off is on".
 - A checkpoint the settings turn off is recorded only in the evidence file, which is off by default. Record every skipped checkpoint, even when the evidence file is off (fn-record-every-skip), in Give every gate a way past, is to record every skip, and it is not built.
 
 ## Inputs / Outputs
@@ -53,7 +53,7 @@ Status: built, in the gate rule, the `gates` block and the scripts that classify
 - The settings reach only checkpoints, never a machine check. The reason: "Pre-flight halts, sensitive-file blocks, stop-condition gates, and eval failures are never gated by this block — they are the machine's walls, not human courtesies."
 - Not decided: which checkpoints the gate rule's pinned list names, now that grill, launch, learn and deploy are gone; Name the pinned yeses, such as the merge, accepting an ADR and confirming an intent by hand (fn-pinned-yes), in Orchestration, is to list them.
 - Not decided: whether every play reads its switch under its own name, and when the 13 plays that read another name change.
-- Not decided: whether each issue's gate history stays in its review folder, as the settings say today, or moves to its evidence folder, as #943 asks.
+- Not decided: whether each issue's gate history stays in its review folder, as the settings say today, or moves to its evidence folder.
 
 ## Acceptance criteria
 - Given /commit-change's switch off, when /commit-change reaches its checkpoint, then it does not wait.
@@ -69,7 +69,7 @@ Status: built, in the gate rule, the `gates` block and the scripts that classify
 - Recording every skipped checkpoint, whatever the evidence setting says. Give every gate a way past owns it, through Record every skipped checkpoint, even when the evidence file is off (fn-record-every-skip).
 - The list of pinned yeses and why each is pinned. Give every gate a way past owns it, through Name the pinned yeses, such as the merge, accepting an ADR and confirming an intent by hand (fn-pinned-yes).
 - Pinning or unpinning a checkpoint, and adding a checkpoint to a play, which change the play's intent. Build your own harness, in Standards, structure, settings and memory, owns them.
-- Where each run's records live in its issue's folder (#969). Structure, in Standards, structure, settings and memory, owns it.
+- Where each run's records live in its issue's folder. Structure, in Standards, structure, settings and memory, owns it.
 - The evidence file and its setting. Turn a run's evidence on or off (fn-evidence-setting) does it.
 
 ## Sources
@@ -78,8 +78,5 @@ Status: built, in the gate rule, the `gates` block and the scripts that classify
 - core/components/plays/create-play/references/: classify_change.py, gate_eval.py and distill_gate_policy.py, the scripts stamped into the conditional plays.
 - core/components/plays/validate-epic/SKILL.md line 223, core/components/plays/build-epic/SKILL.md line 367, core/components/plays/refactor-code/SKILL.md line 190 and core/components/plays/discover-capabilities/SKILL.md line 615: the names each play reads; a search of the 18 plays that name `gates.plays` finds 13 that read a name other than their own, and nine that run the learner at their close.
 - .garura/core/config.yaml, the installed copy in this repository, lines 174, 176 and 177: `validate: off`, `implement: off` and `refactor: off`, the old names that /validate-epic, /build-epic and /refactor-code read.
-- GitHub #943 (open): "Nothing reads it now, so those 4 answers no longer teach the policy."
-- GitHub #946 (open): the learned policy "has never been written".
-- GitHub #772 (open): "The installed config still names the review gate by its old play name, so the gate that should be off is on."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 4.2, 7.4 and 9, and Lean 5, item 4.
+- The stock-take (2026-11-11), sections 4.2, 7.4 and 9, and Lean 5, item 4.
 - .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md line 68 and fn-way-past-every-gate/feature.md line 61: "The settings that turn a checkpoint on or off, and the learned policy. Settings, in Standards, structure, settings and memory, owns them."; fn-pinned-yes/feature.md line 52: "The settings and the learned policy, which never reach a pinned yes."; manage-adrs/fn-accept-adr/feature.md line 71: "The settings that turn checkpoints on or off."; ship-every-change/capability.md line 73: "the settings that turn each checkpoint on or off"

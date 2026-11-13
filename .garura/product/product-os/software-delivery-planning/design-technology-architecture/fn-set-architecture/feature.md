@@ -75,7 +75,6 @@ Status: not built. What exists covers only parts of it:
 - docs/adr/028-agentic-lifecycle-five-loops.md: "These set the project's guidelines, rules, and guardrails. Every slice follows them.", "A skipped area can be built up later at runtime by the execution trinities"
 - docs/adr/014-three-axis-project-profiling.md: "Rejected because architecture is product-scoped, not epic-scoped.", "An architecture chosen per-epic would risk inconsistency across epics."
 - docs/adr/014-three-axis-project-profiling.md: "prepare-architecture → reads profiles      → selects technology stack and quality standards"
-- GitHub #426 (closed): "Decide the unit for architectural traceability deliberately"
 - core/components/skills/author-technical-approach/SKILL.md: "`topology` — ASCII diagram or structured description of the system topology showing deployment units and communication patterns", "`deployment_units` — list of named units with responsibility and communication protocol/pattern"
 - core/components/skills/author-technical-approach/SKILL.md: "Concrete technology selections -- specific named products.", "NEVER use vague technology references -- every component must name a specific product, library, framework, or platform", "ALWAYS include rationale for every technology selection"
 - core/components/skills/author-technical-approach/SKILL.md: "`features_yaml_path` — (required) Path to features.yaml"

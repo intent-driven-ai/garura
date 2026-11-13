@@ -44,7 +44,7 @@ Status: not built. What exists covers only part of it:
 - The verdict stays away from the builder. The reason: "giving it to the builder only invites teaching-to-the-test."
 - Not decided: whether the test also finds where in the code the time goes, so a handoff plan can name it.
 - Not decided: where the verdict and the handoff plan are kept, and how a handoff plan reaches the developer.
-- Not decided: the rank of each finding, while #934, one severity from P1 to P4 for findings and defects, is open.
+- Not decided: the rank of each finding, while one severity from P1 to P4 for findings and defects is itself not decided.
 
 ## Acceptance criteria
 - Given every part of the pass bar passed but one part not measured, when the verdict is given, then it is not a pass, and the part is named with its reason.
@@ -63,17 +63,16 @@ Status: not built. What exists covers only part of it:
 - Running the tests again and counting the rounds. Test performance again as the product changes (fn-retest-performance) does it.
 
 ## Sources
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md: "the product owner as the one who gets a finding that changes the architecture"
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test performance, against the product profile's performance level.", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
+- The product owner on 2026-11-09: "the product owner as the one who gets a finding that changes the architecture"
+- The list the product owner approved on 2026-11-09: "Test performance, against the product profile's performance level.", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
 - .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - standards/rules/expectation-generation.md, in Phoenix memory: "Can the builder fix this from information it already has, deterministically?", "any irreversible / outward-facing decision", "the inverse of the failure, as guidance, never code"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The handoff plan never names the failure condition, its id or the check."
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "level scale: none < low < medium < high < xhigh", "The box moves ONLY by an approved decision."
 - .garura/product/product-os/_spine.yaml, Garura's own product profile: it holds reliability, maintainability and security, each "level: medium", and no performance level.
 - standards/rules/pr.md, in Phoenix memory: "Highlights without blocking."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "names each failure by check and location", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "names each failure by check and location", "An unmeasured bar is not a passed bar."
 - docs/philosophy/idd-principles.md: "giving it to the builder only invites teaching-to-the-test."
 - .garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md: "When the project needs another environment, or an environment's data, size, network, access or settings must change, a person confirms an update, and what held before stays readable with why it changed."
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "In: taking in a defect reported anywhere: a person's words, a finding in a review, the eval after the work was accepted, or a bug in a plan.", "Out: recording a defect in the tracker"
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md: "A handoff plan is the exact list of the work it calls for.", "The test writer updates the tests from the changed test writer's part, the updated design or the handoff plan."
-- GitHub #934 (open): "Findings and defects get one severity, P1 to P4"

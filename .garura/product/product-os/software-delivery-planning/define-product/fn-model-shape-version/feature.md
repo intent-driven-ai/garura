@@ -35,10 +35,10 @@ Status: not built. No issue asks for it.
 - The model's checks. Manage the model, in Product model, owns them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 128, the product owner on 2026-11-11: "as ontology changes, installing a new version will mean adding freature to upgrade and handle the changes to the model too"; line 129, as read: "Upgrade a project's Move the product model to the new version's shape (fn-move-model, BI-7) is that feature, and Define gives it the model's recorded shape version it lacks."
+- The product owner on 2026-11-11: "as ontology changes, installing a new version will mean adding freature to upgrade and handle the changes to the model too"; as read: "Upgrade a project's Move the product model to the new version's shape (fn-move-model, BI-7) is that feature, and Define gives it the model's recorded shape version it lacks."
 - .garura/product/product-os/software-delivery-planning/upgrade-project/fn-move-model/feature.md, lines 20, 24 and 52: "To upgrade the model to the new names, a person runs the script that moves it", "Not decided: how the upgrade tells which shape a model is in. The spine records no version of its shape, so today only the old names tell.", "The model's shape itself and how it is versioned. Product model owns it."
 - .garura/product/product-os/software-delivery-planning/upgrade-project/capability.md, line 65: "Out: the shape of the product model itself, which Product model defines. This capability only moves a project's model to the shape a version reads."
 - core/components/skills/link-model-part/scripts/model_names.py, line 42: "To upgrade the model to the new names, a person runs the script that moves it"
 - standards/schemas/product-os/ontology.md, in Phoenix memory, line 3: "version: 15"; standards/schemas/product-os/spine.yaml, in Phoenix memory, line 26: "version: 2"
 - .garura/product/product-os/_spine.yaml: its top keys, `domains`, `capabilities`, `features`, `profile`, `slices` and `ices`, with no key for a version.
-- The stock-take of Product model, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 1.5 and 6.
+- The stock-take of Product model (2026-11-11), sections 1.5 and 6.

@@ -7,7 +7,7 @@ Each of Garura's tools reads the settings meant for it from where they live, the
   - The memory tool reads its own settings: it "learns where each tier lives from one source: the JSON file `MEMORY_SETTINGS` names, else these environment variables, else `settings.json` beside `memory.py`". The install writes that file, "so an agent in an installed project runs the tool with no settings of its own".
   - The plan tool takes its folder from a flag with a fixed default, `.garura/project/plans`, not from the plans setting. /show-plan and /list-plans read the plans setting and pass it on: "`<plans>` is `plans.base-path` from config, else `.garura/project/plans/`".
   - The component linter takes the naming rules from a flag, and with no flag it skips them: "naming rules skipped: no naming standard given (--naming <naming.yaml>)".
-  - No tool reads the trackers. The Agent-work tool of #1023 is to: "One tool, the Agent-work tool, reads the project's settings and reaches the trackers they name".
+  - No tool reads the trackers. The Agent-work tool is planned to be the one tool that reads the project's settings and reaches the trackers they name.
 - Where a tool's settings live: "Tool settings stay with their tool (for example the memory tool's `settings.json`)." Settings that a project chooses, such as the plans folder or the trackers, are in the project's settings file.
 - Examples, in different kinds of project:
   - In a clinic's booking app, the team keeps its plans in another folder; it changes the plans setting, and the plan tool shows the plans from there.
@@ -18,7 +18,7 @@ Each of Garura's tools reads the settings meant for it from where they live, the
 Status: built in part: the memory tool reads its own settings. Not built, or open:
 - The plan tool reads no setting: its folder comes from a flag with a fixed default, and only the plays that run it read the plans setting.
 - The component linter takes its naming rules only from a flag.
-- No tool reads the trackers (#1023, an Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker).
+- No tool reads the trackers.
 
 ## Inputs / Outputs
 - In: the project's settings file, for the settings a project chooses, such as the plans folder and the trackers.
@@ -53,7 +53,5 @@ Status: built in part: the memory tool reads its own settings. Not built, or ope
 - core/components/plays/show-plan/SKILL.md, lines 63-64: "`<plans>` is `plans.base-path` from config, else `.garura/project/plans/`"; core/components/plays/list-plans/SKILL.md, lines 119-122: the plays pass the folder to the plan tool.
 - core/tools/lint-components/index.js, lines 40-43 and 69: the `--naming` flag, and "naming rules skipped: no naming standard given (--naming <naming.yaml>)".
 - core/config.yaml, line 14: "Tools read this; plays, skills and sub-agents never name a tracker."
-- GitHub #946 (open): "Tool settings stay with their tool (for example the memory tool's `settings.json`)."
-- GitHub #1023 (open): the Agent-work tool that reads the tracker setting.
 - .garura/product/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md, line 4: "One tool, the Agent-work tool, reads the project's settings and reaches the trackers they name"; line 56: "What each setting means, and the rule that no play, skill or sub-agent names a tracker. Standards, structure, settings and memory owns them; this feature holds the tool that meets the rule."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 4.7 and Lean 11: "The plan tool takes its folder from a fixed default, not the `plans` setting"; and Lean 5, item 7.
+- The stock-take (2026-11-11), section 4.7 and Lean 11: "The plan tool takes its folder from a fixed default, not the `plans` setting"; and Lean 5, item 7.

@@ -50,7 +50,7 @@ What is not built yet:
 - Out: understanding what consumers want and what the competition is doing from what is taken in, which includes sorting it, summing it and placing it on the intents it bears on. The second capability of Run → Product owns it.
 - Out: building features into the product, or updating the product intent model, automatically or as recommendations. The third capability of Run → Product owns it.
 - Out: keeping the spec matched to what the agents built. Keep the spec matched to what's built owns it.
-- Out: choosing and promoting what is learned into Garura memory or Phoenix memory, which the review of Memory owns; and measuring each intent, which is parked (#545).
+- Out: choosing and promoting what is learned into Garura memory or Phoenix memory, which the review of Memory owns; and measuring each intent, which is parked.
 - Out: changing what the product records about its own use, such as adding a measure to its code. That changes the product, which this capability never does.
 - Out: where the project keeps its secrets, which Deployment design owns; and the product profile's privacy level and compliance needs, which Specify the product sets. This capability reads them and never writes them.
 - Never: write to a connected tool or forum: no post, reply, vote, tag, change or deletion, and no change of its settings. The reason: this capability connects and takes in, and a write to an outside system "is visible to the whole team"; in a public forum it is visible to everyone.
@@ -71,8 +71,8 @@ What is not built yet:
 - The project's memory first, then Garura memory, then Phoenix memory, then research through a memory update a person approves. What nothing answers stays open, with no default. The reason: research is new knowledge that nobody has checked yet, and the person's approval is the check.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "start understanding what it is that the consumers want and what the competition is doing", "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "an autonomous kind of agent running that goes back and does this thing for me", "not what the user is telling", "We are never touching production."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Connect to what happens in use and in the market: tools that access web analytics, product analytics, user feedback, and forums like Reddit.", "Understand what consumers want and what the competition is doing.", "Build features into the product, or update the product intent model, automatically, or at least recommend those changes.", "Assumed: reading web analytics, product analytics, user feedback and forums through their own tools is not touching production", "measuring each intent (#545, parked)"
+- The product owner on 2026-11-10, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "start understanding what it is that the consumers want and what the competition is doing", "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "an autonomous kind of agent running that goes back and does this thing for me", "not what the user is telling", "We are never touching production."
+- The list the product owner set on 2026-11-10: "Connect to what happens in use and in the market: tools that access web analytics, product analytics, user feedback, and forums like Reddit.", "Understand what consumers want and what the competition is doing.", "Build features into the product, or update the product intent model, automatically, or at least recommend those changes.", "Assumed: reading web analytics, product analytics, user feedback and forums through their own tools is not touching production", "measuring each intent"
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings."
 - .garura/product/product-os/intents/bi-6.md: "What happens in use flows back.", "Change an intent, or promote memory, without a person."
 - .garura/product/product-os/intents/bi-10.md: "Name a tracker in a play, skill or sub-agent, because they only know the tool."
@@ -91,9 +91,9 @@ What is not built yet:
 - core/components/plays/discover-intent/SKILL.md: "Keeps what they shared as Sources, exactly as they were when read"
 - core/components/skills/walk-prototype/SKILL.md: "Never changes data on a deployed site the person has not cleared."
 - core/components/skills/author-knowledge-page/SKILL.md: "the knowledge-builder agent raises the page through the memory tool as a memory update a person approves"
-- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model (#855)"
+- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model"
 - core/components/plays/learn-outcomes/reference/ice.md: "what production actually needed versus what was planned"
 - docs/philosophy/intent-and-adlc.md, a design note marked "designed, not in force": "Listens — to the product, to signals, to quality — and reports."
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"
 - The short line beside each feature: the opening words of that feature's own page.
-- Shelf: none. No knowledge shelf covers this work: a placement over the ten domain shelves found none (.garura/project/issues/1021/context/bi-6-capability-1/placement/routing-result.json, unmatched).
+- Shelf: none. No knowledge shelf covers this work: a placement over the ten domain shelves found none (the placement's routing result, unmatched).

@@ -61,4 +61,4 @@ Status: built in part, in find-model-gaps and link-model-gaps with their scripts
 - .garura/product/product-os/software-delivery-planning/run-plays-as-loops/capability.md, line 73: "Out: the link rules the step after each round applies to the product model. Manage the model, in Product model, owns them."
 - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md, line 43: "it stays for now inside a loop and folds into the two skills over time."
 - core/components/plays/create-play/references/lint_grounding.py, line 23, and check_ice_workable.py, lines 16-17: "each part has exactly one ICE", "When only one of the two is there, the gap names the drift."
-- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, section 2.8: 7 tests passed for the gap finder and 9 for the gap closer
+- The stock-take (2026-11-11), section 2.8: 7 tests passed for the gap finder and 9 for the gap closer

@@ -35,12 +35,12 @@ Status: built in part, in the take-out play, /uninstall-garura, only:
 
 ## Rules & behavior
 - Only what the record names. The reason: the take-out "never removes a file it cannot prove the installer placed".
-- The team's work and its product model always stay. The reason: the take-out "never deletes work", and "The install never changes a product model the project already has (#813)."
-- Shown first, and the yes before anything goes. The reason: the play's own rule is "Prefer `--dry-run` when unsure.", and the earlier design of an installer asked that "Uninstall removes everything but asks the user first" (#369, closed as not planned).
+- The team's work and its product model always stay. The reason: the take-out "never deletes work", and "The install never changes a product model the project already has."
+- Shown first, and the yes before anything goes. The reason: the play's own rule is "Prefer `--dry-run` when unsure.", and the earlier design of an installer asked that "Uninstall removes everything but asks the user first".
 - A file a person changed goes only on the person's yes for it. The reason: Install and distribute must not "Change what a project's people changed without asking them."
 - The machine-wide copy of memory stays unless the person asks. The reason: "Deleting it on one project's uninstall would yank it from the others."
 - Phoenix memory is never removed. The reason: "the install did not put it there, and other projects use it."
-- Not decided: how the take-out knows a file Garura laid was changed since. The closed design kept a fingerprint of every installed file (#369), and #945 asks the install to know "what the project's people changed since"; neither is built.
+- Not decided: how the take-out knows a file Garura laid was changed since. An earlier design kept a fingerprint of every installed file, and the install is asked to know what the project's people changed since; neither is built.
 - Not decided: how a project installed with no record, such as every one-line install today, is taken out.
 
 ## Acceptance criteria
@@ -56,10 +56,8 @@ Status: built in part, in the take-out play, /uninstall-garura, only:
 - Giving a record to a project installed before the record existed. Upgrade a project owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md: "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.", "can be taken out again"
+- The product owner on 2026-11-10: "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.", "can be taken out again"
 - .garura/product/product-os/intents/bi-7.md: "Change what a project's people changed without asking them."
 - core/components/plays/uninstall-garura/SKILL.md: "never removes a file it cannot prove the installer placed", "there is nothing to remove", "print what would be removed and change nothing", "Prefer `--dry-run` when unsure.", "issues, specs, and evidence a person produced", "install did not put it there, and other projects use it."
 - core/components/plays/uninstall-garura/scripts/uninstall.py: "never deletes work", "Deleting it on one project's uninstall would yank it from the others.", the settings file removed at lines 167-169
-- core/components/plays/install-garura/scripts/install.py: "The install never changes a product model the project already has (#813)."
-- GitHub #369 (closed as not planned): "Uninstall removes everything but asks the user first", "An install manifest records every installed file with an MD5 hash"
-- GitHub #945 (open): "what the project's people changed since;"
+- core/components/plays/install-garura/scripts/install.py: "The install never changes a product model the project already has."

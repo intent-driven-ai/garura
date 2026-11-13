@@ -15,7 +15,6 @@
 **Must not:** Make a person write the spec, say how to build it, or block because earlier documents are missing.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #1
 
 **Touches:**
 - [Specify the product](../software-delivery-planning/specify-product/capability.md) (capability) — adds

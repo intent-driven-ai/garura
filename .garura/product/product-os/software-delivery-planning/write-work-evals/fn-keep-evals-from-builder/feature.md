@@ -9,11 +9,11 @@ The build of the chosen work is given what the work asks, through its stories, a
 - Nothing is encrypted. The evals stay plain text in the repository, and they are simply not part of what the build is given.
 - How it meets the capability: an eval proves something only when the build did not see it. In the product owner's words: "the code, when being written, should not get to see what tests there were".
 
-Status: not built (#898). What exists covers only part of it:
+Status: not built. What exists covers only part of it:
 - A read rule: no builder, no part that builds the software and no context helper reads a plan's evals folder. Nothing on disk stops a part that breaks it.
 - Each play run's evidence names its session and the session's ledger file, with where the run starts and ends in it, so a check can find what the build read.
 - The old build play, /build-epic, is stale. It passed the evals only to the play and its checker, and checked each hand-off before it was sent.
-- Blocking a read with a hook is left to the guardrails the install will lay (#893), which the install does not lay today.
+- Blocking a read with a hook is left to the guardrails the install will lay, which the install does not lay today.
 
 ## Inputs / Outputs
 - In, for the lint check: the inputs of each part that builds the work, its hand-offs and its context files.
@@ -36,21 +36,18 @@ Status: not built (#898). What exists covers only part of it:
 - Given a clean build session, when the ledger check runs, then that build run's evidence holds no flag.
 
 ## Out of scope
-- Blocking a read of the evals folder with a hook. The guardrails the install will lay may do it (#893).
+- Blocking a read of the evals folder with a hook. The guardrails the install will lay may do it.
 - Encrypting the evals. The product owner dropped it.
 - Showing the flag anywhere but the build run's evidence. It is for later.
 - Splitting each story so the builder's part holds no expectation. Gather the work under a chosen plan item does it.
 - Handing each agent of the build only its part. Build the work test first does it.
 
 ## Sources
-- GitHub #898 (open): "I just want to make sure that when the agents are building, they don't only think through the evals, but they look at the intent and build for that.", "A check flags any build that read the evals folder.", "It does not block; it makes the shortcut visible."
-- GitHub #898 (open): "No build play, build skill or build helper is handed the eval or the hidden file, or their folder. Nothing is hidden: the eval is simply not part of the brief."
-- GitHub #898 (open): "No build play's inputs (contracts, context files) name the evals folder, the eval or the hidden file; a lint check fails one that does."
 - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-898/feature.md: "For now we should record this under evidence.", "When the list named only some plays, a play that builds code and is not on the list could be given the eval, and a pass would prove less than the intent asks."
 - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-898/feature.md: "A build session with no read of the evals folder passes with no flag, so a flag always means a real read.", "Thin: what the ledger check does when it cannot find a build session's ledger is not set yet."
-- .garura/product/product-os/software-delivery-planning/write-work-evals/fn-898/feature.md: "Blocking a read by hook is the guardrails work (#893).", "The flag is recorded in the build run's evidence, and for now only there"
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "the code, when being written, should not get to see what tests there were", "The builder never sees the tests; a separate check runs them."
-- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "#828 is dropped.", "only the read rule keeps the eval from the builder. A play or an agent that breaks the rule is not stopped by anything on disk."
+- .garura/product/product-os/software-delivery-planning/write-work-evals/fn-898/feature.md: "Blocking a read by hook is the guardrails work.", "The flag is recorded in the build run's evidence, and for now only there"
+- The product owner on 2026-11-09: "the code, when being written, should not get to see what tests there were", "The builder never sees the tests; a separate check runs them."
+- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "[eval encryption] is dropped.", "only the read rule keeps the eval from the builder. A play or an agent that breaks the rule is not stopped by anything on disk."
 - docs/philosophy/garura-reference-implementation.md: "the evals path is passed only to the play and to `quality-auditor`.", "The evals are not encrypted — isolation comes from which sub-agent receives which contract, checked before every dispatch."
 - core/components/plays/build-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays"
 - standards/templates/evidence-file.md, in Phoenix memory: "session_id: {Claude Code session UUID from session_stamp.py, or null}", "ledger_file: {path to the session's JSONL ledger, or null}"

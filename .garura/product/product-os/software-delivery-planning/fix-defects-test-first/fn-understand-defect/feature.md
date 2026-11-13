@@ -66,11 +66,11 @@ Status: not built as one job. Parts of it are built in the bug fix play, /fix-bu
 - Designing the work. Design the work does it; a fix never goes through it.
 
 ## Sources
-- The product owner on 2026-11-09, on the first overlap brief for this capability, in .garura/project/issues/1021/context/bi-3-capability-5/page-approvals.md: "Whenever a defect is reported, a defect can be reported anywhere.", "Identify whether any tests exist and, if they are passing, why.", "Find the root cause, which is part of understanding tests and everything and whatnot.", "There needs to be a matching map to a product model that says this is a feature a user wants, and it's a defect.", "If it can't find it in a product model, then it really isn't a defect per se, right, in some of those areas."
+- The product owner on 2026-11-09, on the first overlap brief for this capability: "Whenever a defect is reported, a defect can be reported anywhere.", "Identify whether any tests exist and, if they are passing, why.", "Find the root cause, which is part of understanding tests and everything and whatnot.", "There needs to be a matching map to a product model that says this is a feature a user wants, and it's a defect.", "If it can't find it in a product model, then it really isn't a defect per se, right, in some of those areas."
 - The same file: "We don't want it to go through the full-blown design and all these and stuff and things like that. It just takes too much time", "we want it to be really quick", "it really isn't a defect per se", "in some of those areas"
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "This intent's job is to execute on the plan"
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Fix defects quickly: A defect is traced to its cause, and its fix is agreed with a person and proven by a test."
-- The product owner's words, recorded on 2026-11-09 in .garura/project/issues/1021/context/bi-3-capability-4/page-approvals.md: "the code, when being written, should not get to see what tests there were"
+- The product owner on 2026-11-09: "This intent's job is to execute on the plan"
+- The capability list the product owner agreed on 2026-11-03: "Fix defects quickly: A defect is traced to its cause, and its fix is agreed with a person and proven by a test."
+- The product owner's words, recorded on 2026-11-09: "the code, when being written, should not get to see what tests there were"
 - .garura/product/product-os/intents/bi-3.md: "Tell the builder the steps, or show the builder the tests."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "In: writing business intents, domains, capabilities and features."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md: "any drift between them is named and fixed"
@@ -79,8 +79,8 @@ Status: not built as one job. Parts of it are built in the bug fix play, /fix-bu
 - core/components/plays/fix-bug/SKILL.md: "an explicit `llm` fallback with a rationale"
 - core/components/skills/author-rca/SKILL.md: "Read-only against the codebase."
 - core/components/skills/author-fix-design/SKILL.md: "Ordered steps that a code-builder can follow without additional context.", "Every alternative must carry a concrete `rejection_reason`."
-- core/components/skills/scan-test-surface/SKILL.md: "Enumerate every test file in a codebase", "waits for the rebuild of /refactor-code (#855)"
-- core/components/skills/derive-blast-radius/SKILL.md: "compute directly and transitively impacted tests", "waits for the rebuild of the test skills of /refactor-code (#855)"
+- core/components/skills/scan-test-surface/SKILL.md: "Enumerate every test file in a codebase", "waits for the rebuild of /refactor-code"
+- core/components/skills/derive-blast-radius/SKILL.md: "compute directly and transitively impacted tests", "waits for the rebuild of the test skills of /refactor-code"
 - core/components/agents/tech-designer.md: "proceed with LLM reasoning"
 - core/tools/plan/README.md: "may have `represents` (the"
 - core/config.yaml: "so the config switch now governs them too."

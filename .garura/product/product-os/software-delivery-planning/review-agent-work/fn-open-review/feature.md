@@ -13,13 +13,13 @@ At the end of a loop's run, Garura works out what the run changed against where 
   - A team's planning tool is reviewed from a laptop that sleeps halfway; when the listener connects again, it gets every action it missed.
 - How it meets the capability: this is where a run's outcome reaches the person, and where each answer becomes part of the work, as Developer tooling's proof asks: "Their answers become part of the work."
 
-Status: not built. No part builds a pack, opens a review or listens, and no setting names Argus's address (#648). What exists covers only the inputs and a stand-in:
+Status: not built. No part builds a pack, opens a review or listens, and no setting names Argus's address. What exists covers only the inputs and a stand-in:
 - Inside a loop, each play writes what its checkpoint would have shown into the loop's review folder, "so the loop's end review can read every play's record in one place", and the record reads "decided: false" until the loop's review answers it.
 - Until Argus exists, the Discovery loop "ends at the pull request": the person types confirm or drop for each intent, the words are kept in the issue's short-term memory, and the intents stay proposed.
 
 ## Inputs / Outputs
 - In: the run's branch, and the branch it lands on.
-- In: the model's pages and its index on both branches, with each piece's approval state once Product model keeps it (#964).
+- In: the model's pages and its index on both branches, with each piece's approval state once Product model keeps it.
 - In: the plays' review records in the loop's review folder, and the checker's note; for a run that stopped, where it stopped and why.
 - In: Argus's address, from Garura's settings.
 - Out: the review pack, checked against the contract before it is sent.
@@ -45,13 +45,12 @@ Status: not built. No part builds a pack, opens a review or listens, and no sett
 ## Out of scope
 - Showing the pack and taking the answers. Read what a run made, as business intents with their ICE and as the product (fn-read-outcome), and Answer each piece, in the page or one card at a time (fn-answer-pieces), do them.
 - Reworking a piece sent back, and applying the answers. Send a piece back and get it reworked (fn-send-back) and Finish the review and have every answer applied in one commit (fn-apply-answers) do them.
-- Keeping each piece's approval state. Product model owns it (#964).
+- Keeping each piece's approval state. Product model owns it.
 - Anything inside Argus, and its contract. Run Argus apart from Garura, and point Garura at it (fn-run-tool-apart) covers them.
 
 ## Sources
 - .garura/product/product-os/intents/bi-8.md: "Their answers become part of the work.", "Make people read raw files to know what was made."
-- .garura/project/issues/617/specs/review-tool.md, the design, with the product owner's words: "Every time a change is made, it should have a direct connection back to Garura for listening.", "The pack is outcome-shaped, not file-shaped.", "The tool never sees a file path as something to open.", "Garura keeps a test that checks the packs it builds against that schema, so a break shows up on the Garura side first.", "Claude still never reads the web page: the answers are files on the branch", "Every event has a number and is kept in a log.", "Claude only checks `/v1/health` and never starts it.", "the plays are never shown."
-- GitHub #648 (open): "Garura opens a review on what a drive changed and records every answer on the drive's branch", "it never starts the server itself", "An action in the tool lands as a file on the branch."
+- The review tool's design, with the product owner's words: "Every time a change is made, it should have a direct connection back to Garura for listening.", "The pack is outcome-shaped, not file-shaped.", "The tool never sees a file path as something to open.", "Garura keeps a test that checks the packs it builds against that schema, so a break shows up on the Garura side first.", "Claude still never reads the web page: the answers are files on the branch", "Every event has a number and is kept in a log.", "Claude only checks `/v1/health` and never starts it.", "the plays are never shown."
 - core/components/plays/create-play/references/write_loop_review.py: "so the loop's end review can read every play's record in one place", "decided: false"
 - standards/rules/loop-contract.md, in Phoenix memory: "The loop's end review reads the record."
 - core/components/loops/complete-discovery/scripts/record_confirmation.py: "ends at the pull request"

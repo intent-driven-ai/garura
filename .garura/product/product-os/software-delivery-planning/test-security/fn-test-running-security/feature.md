@@ -53,18 +53,18 @@ Status: not built. What exists covers only part of it:
 - A person's acceptance walk, and taking accepted changes along the path. User acceptance testing and Continuous delivery, in Validation → Run, do them.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test security, against the product profile's security level. Moved here from Validation → Run.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
+- The list the product owner approved on 2026-11-09: "Test security, against the product profile's security level. Moved here from Validation → Run.", "Assumed: security and performance tests run in the testing environment Environment setup declares, never in production."
 - The same file, the line moved here: "Security testing (planned): The product is tested for security before it runs."
-- The product owner on 2026-11-07, in .garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md: "We are never touching production."
+- The product owner on 2026-11-07: "We are never touching production."
 - .garura/product/product-os/_spine.yaml, Garura's own product profile and its capability with a security need: "no tracker or mapping write before the typed yes, on a test GitHub organization; no write to Phoenix memory or another project's memory", "run initialize on a test GitHub organization with a missing type, answer no, and check the tracker's type list and the mapping are unchanged"
 - .garura/product/product-os/software-delivery-planning/specify-product/fn-specify-capabilities/feature.md: "a target someone can measure and how it is checked"
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "A surface is a place where a person, or another system, opens the product to use it."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "is not where the path's tests are counted", "such as made-up records written for the tests", "no environment's data comes from production."
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md: "The design names only where each secret is kept.", "This capability says which tests run in which environment and what a change must pass to move on."
 - core/components/plays/validate-epic/reference/ice.md: "No penetration-style probing of running systems."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "An unmeasured bar is not a passed bar."
 - core/components/plays/release-increment/reference/ice.md: "secrets are read from the manager and no secret literal appears in the logs, the deploy record, or the repo."
-- core/components/plays/release-increment/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)"
+- core/components/plays/release-increment/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)"
 - docs/philosophy/idd-principles.md: "security scan results", "giving it to the builder only invites teaching-to-the-test."
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-write-usage-guide/feature.md: "Matching each name in the eval to the guide, running the eval, and giving the verdict."
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"

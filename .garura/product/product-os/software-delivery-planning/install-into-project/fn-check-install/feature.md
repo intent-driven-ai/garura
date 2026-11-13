@@ -50,7 +50,7 @@ Status: built, in both front doors: the memory system and the tools are laid and
 - Checking the project's own code. The review of each change does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md: "Install into a project: A team installs Garura, chooses what it gets, and can take it out again."
+- The product owner on 2026-11-10: "Install into a project: A team installs Garura, chooses what it gets, and can take it out again."
 - core/components/plays/install-garura/scripts/memory_system.py: "Both install paths call this", "The check runs the tool's health command the way an agent runs it", "Phoenix memory not downloaded yet is reported, not failed"
 - core/components/plays/install-garura/scripts/tools_system.py: "A tool that does not load stops the install with a message that names it."
 - installer/install.sh: "This release has no memory system; skipped.", "check leaves an install the next run can see and lay again"

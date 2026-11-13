@@ -3,7 +3,7 @@
 ## What it does
 A change that adds, renames, retires or changes a command brings the docs and command pages that describe it, in the same change, and a check run with the normal lint fails the change while the pages and the commands disagree, so the pages always say what ships today.
 - The docs are the pages a person reads to learn what the project does and how to use it. The command pages are the lists of commands a person reads to learn which ones exist and what each does, such as a cheat sheet of commands.
-- In #973's words: "The docs and the command pages say what Garura does today, and something keeps them in step when a play changes." For Garura's own repository, the commands are its plays; for a product project, they are the commands its own docs list.
+- The docs and the command pages say what Garura does today, and something keeps them in step when a play changes. For Garura's own repository, the commands are its plays; for a product project, they are the commands its own docs list.
 - What the check catches, by machine:
   - a page that names a command that does not exist, such as a short name no play has;
   - a command that no page names;
@@ -16,7 +16,7 @@ A change that adds, renames, retires or changes a command brings the docs and co
   - In a shop's checkout project, a command's options change; the change brings its README section, and the review reads it with the code.
 - How it meets the capability: the docs move with the change that alters them, on the same path, so no change lands and leaves its pages behind.
 
-Status: not built. Today only the self-review asks it, as one judgment line, "Docs in step", and it goes with the self-review. The review's docs check fires only when the change itself changes the docs: "the PR changes human-facing prose that is not a decision record". The component lint has no rule for the docs. The drift is real: Garura's table of plays lists six commands that are not plays today, and says the merge returns "to main", though an issue in a plan lands on its plan's branch. The published cheat sheet is updated by hand: "Nothing owns keeping it current." Planned: #973, with #529 under it (open).
+Status: not built. Today only the self-review asks it, as one judgment line, "Docs in step", and it goes with the self-review. The review's docs check fires only when the change itself changes the docs: "the PR changes human-facing prose that is not a decision record". The component lint has no rule for the docs. The drift is real: Garura's table of plays lists six commands that are not plays today, and says the merge returns "to main", though an issue in a plan lands on its plan's branch. The published cheat sheet is updated by hand: "Nothing owns keeping it current." Planned: keeping Garura's docs and command pages in step with what ships, with a guard that fails when the cheat sheet and the plays disagree.
 
 ## Inputs / Outputs
 - In: the change's diff, and the commands it adds, renames, retires or changes.
@@ -43,10 +43,8 @@ Status: not built. Today only the self-review asks it, as one judgment line, "Do
 - The guides an install lays into a project. Install into a project owns them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
-- GitHub #973 (open): "The docs and the command pages say what Garura does today, and something keeps them in step when a play changes."
-- GitHub #529 (open): "Nothing owns keeping it current.", "There is a mechanical guard that fails when the cheat sheet and the plays disagree", "The guard runs as part of the normal component lint, not as a separate thing to remember", "The footer command count matches that set"
+- The product owner on 2026-11-10: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
 - standards/rules/self-review.md, in Phoenix memory: "Docs in step."
 - knowledge/review/docs.md, in Phoenix memory: "the PR changes human-facing prose that is not a decision record"
 - docs/components/plays.md: "Merge the approved PR, return to main, delete the branch", "| `implement` |", "| `launch` |"
-- .garura/project/issues/1021/context/capabilities.md: "Not on this list: #973 (Garura's docs and command pages stay in step with what ships), brought to the review of Developer tooling."
+- The capability list: "Not on this list: [the docs feature] (Garura's docs and command pages stay in step with what ships), brought to the review of Developer tooling."

@@ -67,9 +67,9 @@ Status: not built. What exists covers only part of it:
 - Declaring the surface, and writing or updating the screen design. Manage surfaces and Design the work do them.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work.", "User acceptance testing (planned): Users test the product and accept it."
-- The product owner, in .garura/project/issues/1021/context/bi-4-capability-5/page-approvals.md, spelling tidied: "web would be responsive, adaptive, view ports etc.", "We are never touching production."
-- The product owner's approval of Test accessibility on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-4/page-approvals.md: "the line with the user experience on each surface drawn by the yardstick"
+- The list the product owner approved on 2026-11-09: "Test the user experience on each surface, against the surface's properties and guidelines (for a browser page, how it lays out across screen sizes) and the screen design from Design the work.", "User acceptance testing (planned): Users test the product and accept it."
+- The product owner on 2026-11-07, spelling tidied: "web would be responsive, adaptive, view ports etc.", "We are never touching production."
+- The product owner's approval of Test accessibility on 2026-11-09: "the line with the user experience on each surface drawn by the yardstick"
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Every expected result has a pass or fail from an eval the builder never saw."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "which screen sizes (viewports) it serves"
 - .garura/product/product-os/software-delivery-planning/design-work/capability.md: "either as wireframes, simple drawings of each screen, written in Markdown files, or as a prototype built with the project's design system."
@@ -83,7 +83,7 @@ Status: not built. What exists covers only part of it:
 - core/tools/rebuild-eval/prompts/compare.md: "Words, layout and design may differ; judge whether a person can do the same thing and see the same result."
 - core/tools/rebuild-eval/README.md: "Design, layout and code may differ; what a person can do and see may not."
 - core/components/skills/walk-prototype/SKILL.md: "click, type, press a key, go back"
-- core/components/plays/shape-ux-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)"
+- core/components/plays/shape-ux-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (ADR 053)"
 - standards/rules/design.md, in Phoenix memory: "Every screen MD file has a `## Wireframe` section"
 - core/components/plays/validate-epic/SKILL.md: "An unmeasured bar is not a passed bar."
 - docs/philosophy/idd-principles.md: "giving it to the builder only invites teaching-to-the-test."

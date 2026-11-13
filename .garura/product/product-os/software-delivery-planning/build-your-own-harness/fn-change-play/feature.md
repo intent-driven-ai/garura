@@ -21,7 +21,7 @@ A person changes a play that exists with /edit-play by changing its ICE first an
 
 Status: built, in /edit-play, with its copy of the play linter. Not built, or open:
 - The play linter checks only that a fingerprint is there and is not a placeholder. It does not compare it with the ICE, so a play edited by hand away from its ICE passes. The loop linter does compare. The play checker's rules are Standards'.
-- Nothing refuses an edit to a compiled play or its ICE made without /edit-play. The guardrails of #893 (guardrails laid by the install) are to do it, with the run marker of Mark that a play is running, so a guardrail can tell a play's work from a shortcut (fn-mark-play-running).
+- Nothing refuses an edit to a compiled play or its ICE made without /edit-play. The guardrails the install is to lay are to do it, with the run marker of Mark that a play is running, so a guardrail can tell a play's work from a shortcut (fn-mark-play-running).
 - It runs only on Garura's source layout, as /create-play does.
 - /edit-play is written by hand and has no ICE of its own.
 
@@ -58,11 +58,10 @@ Status: built, in /edit-play, with its copy of the play linter. Not built, or op
 - Opening and landing the change. Ship every change the same way, in Developer tooling, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, lines 116-117, the product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
+- The product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
 - CLAUDE.md, "Play Pipeline Rules", lines 104-125: "Never hand-edit a compiled `SKILL.md` for an intent change.", "Record why in the commit message and the issue, not in the `SKILL.md`", "Read the old play only for the parts worth keeping, and build the new one with `/create-play`."
 - core/components/plays/edit-play/SKILL.md, lines 45, 74-75, 82-83, 145-146, 147, 149-150 and 156-157: "Keep them in lockstep: change the source, then recompile from it.", "You cannot safely edit what you have not read — most bad edits come from changing one thing and missing what depended on it.", "A play that gets needlessly reshaped on a small edit is a failed edit.", "Pure wording cleanups with no change in meaning are the only safe direct edit.", "Keep the blast radius minimal — re-derive only what the change reaches; preserve the rest.", "Leave no orphans: remove every eval and recovery tied to something you deleted, and cover everything you added.", "Re-run the linter (`scripts/lint_play.py`), clear every gap, and update the fingerprint (`shasum -a 256`) before declaring the edit done."
 - core/tools/lint-play/lint_play.py, lines 310-317: the fingerprint check, which fails only a missing fingerprint or a placeholder.
 - core/components/plays/create-loop/scripts/lint_loop.py, line 180: "The fingerprint must be the sha256 of reference/ice.md as it is now, not just present."
 - docs/standards/harness-standard.md, lines 54-55: "The compiled part records a fingerprint of its ICE, so the two never drift apart unseen"
-- GitHub #893 (open): "edit a compiled play or its ICE without `/edit-play`"
-- The stock-take of this intent, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.2, 1.5 and 2.1.
+- The stock-take of this intent (2026-11-11), sections 1.2, 1.5 and 2.1.

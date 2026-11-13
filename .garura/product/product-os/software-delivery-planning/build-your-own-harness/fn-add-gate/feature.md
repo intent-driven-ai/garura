@@ -21,7 +21,7 @@ When a person builds or changes a play, the builder places each checkpoint where
 Status: built in part. Built: the workflow shapes that place a checkpoint, the class and the pinned mark that compiled plays declare, and unpinning through /edit-play. Not built, or open:
 - The builders do not ask for a gate's way past or for what using it records, and no gate declares one.
 - Neither /create-play's steps nor its compiled-play example name a checkpoint's class; the class comes from the gate rule in Phoenix memory.
-- Whether a person's typed yes at a pinned checkpoint is its way past, or a stop kept on purpose, is open (#992, every gate has a key).
+- Whether a person's typed yes at a pinned checkpoint is its way past, or a stop kept on purpose, is open.
 
 ## Inputs / Outputs
 - In: the play's ICE, and the workflow shape the builder picks.
@@ -36,7 +36,7 @@ Status: built in part. Built: the workflow shapes that place a checkpoint, the c
 - A pin is set by the play's intent, never by a setting. The reason: "Unpinning is an intent change to that play (edit-play), never a config edit.", and a pinned checkpoint "Always fires. No config value, policy, or ledger can turn it off."
 - A checkpoint is turned off only with checks that replace it. The reason: the off setting is "granted only in the same change that adds the replacement checks"
 - Every gate is to have a way past. The reason: Orchestration must not "Stop a person. Every gate has a way past it that records what's owed."
-- Not decided: whether the person's typed yes at a pinned checkpoint is its way past, or a stop kept on purpose (#992).
+- Not decided: whether the person's typed yes at a pinned checkpoint is its way past, or a stop kept on purpose.
 - Not decided: where a play declares a gate's way past and what using it records: in its ICE, in its compiled checkpoint line, or in both.
 
 ## Acceptance criteria
@@ -52,7 +52,7 @@ Status: built in part. Built: the workflow shapes that place a checkpoint, the c
 - Changing the play's ICE and compiling it again. Change a play through its ICE (fn-change-play) does it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, lines 116-117, the product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
+- The product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way."
 - core/components/plays/create-play/references/workflow-structures.md, lines 3-4 and 16-29: "The shape decides which phases the play has and where the human checkpoint (if any) sits."
 - standards/rules/gate-config.md, in Phoenix memory, lines 12, 14, 86 and 97: "Always fires. No config value, policy, or ledger can turn it off.", "granted only in the same change that adds the replacement checks", "Every checkpoint in a compiled play declares its risk class inline", "Unpinning is an intent change to that play (edit-play), never a config edit."
 - core/components/plays/shape-eval/SKILL.md, line 300: "Phase: Checkpoint (class: one-way-door, pinned)"
@@ -61,5 +61,4 @@ Status: built in part. Built: the workflow shapes that place a checkpoint, the c
 - .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/capability.md, lines 37, 44 and 69: "names its kind, its way past and what using the way past records", "No gate declares a way past.", "Adding a gate to a play is Build your own harness's"
 - .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md, line 59: "Adding a gate to a play. Build your own harness, in Standards, structure, settings and memory, owns it."
 - .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md, line 51: "Pinning or unpinning a checkpoint, which changes its play's intent."
-- GitHub #992 (open): "The ADR says whether these are keys of their own kind (the person's typed "yes" is the key) or exceptions to the principle."
-- The stock-take of this intent, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 9 and Lean 3; a search of core/components/plays/create-play/ for "risk class" and "pinned", which finds neither.
+- The stock-take of this intent (2026-11-11), section 9 and Lean 3; a search of core/components/plays/create-play/ for "risk class" and "pinned", which finds neither.

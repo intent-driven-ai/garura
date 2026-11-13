@@ -17,10 +17,10 @@ When a plan session's list is approved, this feature makes the list's tracker wr
   - In a game studio's plan, the product owner approves a list and then adds one more instruction. The list's sha256 no longer matches, so nothing is written until they approve the new list.
 - How it meets the capability: the tracker shows the work only if what lands there is exactly what a person approved, once.
 
-Status: built, in the track-plan-changes skill, which /update-plan uses (#730, the plan session, closed). Not built, or open:
+Status: built, in the track-plan-changes skill, which /update-plan uses. Not built, or open:
 - After a stop in the middle of a create, the tracker's search "may not find an issue made seconds earlier". The skill's words ask whoever runs it again to search for the marker, and to "wait a minute and search again"; no script waits.
 - Only the writes of a plan session land this way, and /shape-plan's in its own writer. Other writes, such as the new issue /start-change files and the close at the merge, go through other parts with their own records.
-- The writes go through a copy of the adapter beside the skill, which reads the older code-host setting, not the settings' trackers (#1023, an Agent-work tool reads the tracker setting).
+- The writes go through a copy of the adapter beside the skill, which reads the older code-host setting, not the settings' trackers.
 
 ## Inputs / Outputs
 - In: the approved list, and the person's answer with the list's sha256.
@@ -58,7 +58,7 @@ Status: built, in the track-plan-changes skill, which /update-plan uses (#730, t
 - A way past a write that keeps failing. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
+- The product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
 - core/components/skills/track-plan-changes/SKILL.md: "Each write is recorded as soon as it is made; a run again never repeats one, and a create looks for its own marker first, so an issue is never made twice.", "Only the list the person approved, and only through the platform adapter's verbs.", "No labels are added, and nothing is deleted.", "It is mechanical — what to change was decided in the session; this skill decides nothing.", "Made by /update-plan (list <12 hex>, op <id>).", "may not find an issue made seconds earlier", "wait a minute and search again, so no issue is made twice."
 - core/components/skills/track-plan-changes/scripts/track_changes.py: "so only the list the person saw lands.", "a record from another list is refused, never skipped over.", "run again, it skips each op the record has."
 - core/components/plays/update-plan/reference/ice.md: "What lands is exactly the list the person saw when they approved it.", "the model first, then the tracker, then the plan file"
@@ -66,5 +66,3 @@ Status: built, in the track-plan-changes skill, which /update-plan uses (#730, t
 - core/components/plays/shape-plan/scripts/write_work_items.py: "The record is written after every tracker write, not only at the end.", "the play still writes the plan file from it, so the next run finds those issues and makes no copy.", "A second run with nothing new writes nothing."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md: "Nothing is written to the tracker, the plan file or the model before a plain"
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
-- GitHub #730 (closed): "The /update-plan session: instructions, checks, one approval, one landing on the plan's branch"
-- GitHub #1023 (open): "An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker"

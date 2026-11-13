@@ -69,7 +69,7 @@ What is not built yet:
 - docs/adr/014-three-axis-project-profiling.md: "Rejected because architecture is product-scoped, not epic-scoped.", "An architecture chosen per-epic would risk inconsistency across epics."
 - docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md: "the `derive-*` skills for capability selection, design patterns, logical architecture, NFR spec, physical architecture, quality vision, systems inventory and tech stack"
 - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md: "Locking a design is a governance check. Initialize, seeding memory and upgrade are engine things, not plays."
-- core/components/plays/shape-architecture-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)"
+- core/components/plays/shape-architecture-lens/SKILL.md: "waits for the rebuild of the design plays after the shaping loop (ADR 053)"
 - core/components/plays/shape-architecture-lens/reference/ice.md: "The stack is a material choice recorded as a slice-level decision the whole product", "it is sized by the profile box, not invented per slice", "reuse the product decision if one exists", "never the model's taste"
 - core/components/skills/find-architecture-learnings/SKILL.md: "Search the empirical Knowledge Base for the best-fit architecture and technology learnings given a product's conditions."
 - core/components/skills/research-domain-context/SKILL.md: "Research vertical domain knowledge via web when LTM is insufficient"
@@ -85,8 +85,6 @@ What is not built yet:
 - standards/schemas/product-os/decision.yaml, in Phoenix memory: "accepted decisions are not edited — supersede or amend with a new record"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "A plan can be built and worked on before the product model is complete"
 - knowledge/_index.md, in Phoenix memory: "`architecture/` — product-condition → best-fit architecture ladders", "`technology/` — specific technology/stack choices and the conditions they fit."
-- GitHub #608 (open): "How a skipped design area is recorded, so a later loop knows it was skipped and not forgotten."
-- GitHub #426 (closed): "Decide the unit for architectural traceability deliberately"
 - The names agreed with the product owner on 2026-11-03: "/design-architecture (was /shape-architecture-lens)"
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No domain shelf in memory covers designing a software project's technology and architecture (the placement run found none).

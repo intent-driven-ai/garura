@@ -8,7 +8,7 @@
 - Fails if: A moved play's ICE does not say that it changes the index through the two skills.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: ADR 065's first rule, the two index skills and their request shapes, the keeper's routes, the plays that write the index with their own scripts and which are stale, the gap closer, what the skills cannot write yet, and #1024.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: ADR 065's first rule, the two index skills and their request shapes, the keeper's routes, the plays that write the index with their own scripts and which are stale, the gap closer, what the skills cannot write yet, and the need that plays change the model's index through the two index skills.
 - Never read: any memory file by its path, any ICE page, and any file in a plan's evals folder.
 - Persona: the technical lead, who moves each play onto the two skills; and the developer, a person or an AI agent who builds the code, who writes the index from a play.
 - Scope: In: the two index skills as the one way into the index, moving the live plays and the gap closer onto them, and growing the skills for a new slice, the product profile and an epic's status. Out: the words of each page, rebuilding a play from its ICE, Phoenix memory's copy of the rule, and what a take-out may remove.

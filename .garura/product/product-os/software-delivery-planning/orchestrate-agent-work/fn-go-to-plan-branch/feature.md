@@ -19,7 +19,7 @@ Before a plan session changes anything, it gets onto the plan's own branch, `pla
   - In a bank's payments service, a developer with an unsaved change to a test file runs /update-plan; the session stops, names that file, and changes nothing.
 - How it meets the capability: "sets the order and status of the work as it runs" happens on the plan's own branch and nowhere else, and the person's own place in the repository is kept.
 
-Status: built, in the plan tool's branch script (go, back and abort), used by /update-plan. It came with #720 (manage a plan with /update-plan, closed) and #730 (the /update-plan session, closed). The stop on a stale copy came with #953 (the findings of a review: an unsafe delete of a stale plan branch, closed). The same script also cuts a plan's branch for /start-change when a plan's work starts; that is Open each change where it will land (fn-731), in Developer tooling. Not built, or open:
+Status: built, in the plan tool's branch script (go, back and abort), used by /update-plan; the script stops on a stale copy, so a stale plan branch is not deleted unsafely. The same script also cuts a plan's branch for /start-change when a plan's work starts; that is Open each change where it will land (fn-731), in Developer tooling. Not built, or open:
 - The stop on uncommitted work has no way past it.
 - After a plan pauses and its branch lands, main's plan file still names the branch until a person fixes it by hand. The session is not stopped by it, because it decides from git, but the file reads wrong. Pause a plan and start it again (fn-pause-plan) is not built.
 
@@ -43,7 +43,7 @@ Status: built, in the plan tool's branch script (go, back and abort), used by /u
 - "Abort" undoes only a cut that holds nothing else. The reason: the session may undo its own write and nothing more, so "it checks that the branch holds nothing but main's commit".
 - A call to the remote never prompts and has a time limit. The reason: "so a stalled origin is a stop, never a hang".
 - The session ends on the branch the person started on. The reason: the session fails when "The session does not end on the branch the person started on."
-- Not decided: whether the stop on uncommitted work is a gate that needs a way past under Orchestration's Must not, or a stop kept on purpose (#992).
+- Not decided: whether the stop on uncommitted work is a gate that needs a way past under Orchestration's Must not, or a stop kept on purpose.
 
 ## Acceptance criteria
 - Given a story branch with an uncommitted file, when the session starts on a plan, then it stops, names the file, and the branch checked out and its commit are unchanged.
@@ -61,7 +61,7 @@ Status: built, in the plan tool's branch script (go, back and abort), used by /u
 - A way past the stop on uncommitted work. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - core/components/plays/update-plan/reference/ice.md: "On any branch with uncommitted work — the plan's own branch included — it stops, names the files and changes nothing; the person cleans up.", "a stop on uncommitted work is the person's to clean up", "The session does not end on the branch the person started on."
 - core/tools/plan/plan_branch.py: "a person sets its status before work starts again", "it checks that the branch holds nothing but main's commit", "so a stalled origin is a stop, never a hang", "the one write a plan session makes before the person approves anything"
 - core/tools/plan/README.md: "The one way a play gets onto a plan's branch."
@@ -70,6 +70,3 @@ Status: built, in the plan tool's branch script (go, back and abort), used by /u
 - .garura/product/product-os/features/fn-731/feature.md: "deleting it loses work"
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md: "Getting onto the plan's own branch and coming back. Orchestrate agent work through planning owns plan branches."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
-- GitHub #953 (closed): "The findings left by round 2 of the PR #950 review: an unsafe delete of a stale plan branch, and four wording fixes"
-- GitHub #730 (closed): "The /update-plan session: instructions, checks, one approval, one landing on the plan's branch"
-- GitHub #992 (open): "or exceptions to the principle"

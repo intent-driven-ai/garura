@@ -49,8 +49,8 @@ Status: not built. What exists covers only parts of it:
 - Approving a memory update, and moving it into Garura memory or Phoenix memory. A person does it, on purpose.
 
 ## Sources
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-3-capability-1b/page-approvals.md: "The entire tree needs to be handled. I should say an ID, and anything under it should all be planned.", "designs are going to be done by, let's say, a technical lead or an architect, maybe a technical lead."
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "the code, when being written, should not get to see what tests there were"
+- The product owner on 2026-11-09: "The entire tree needs to be handled. I should say an ID, and anything under it should all be planned.", "designs are going to be done by, let's say, a technical lead or an architect, maybe a technical lead."
+- The product owner on 2026-11-09: "the code, when being written, should not get to see what tests there were"
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "The build step that reads a story's Context guidance and collects its context is not built.", "A story holds the Context guidance, never the context."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-write-story-from-ice/feature.md: "The Context guidance says where to look, never the facts."
 - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-898/feature.md: "A build's inputs are the slice's stories and the context that the build's context sub-agent collects from each story's Context guidance."

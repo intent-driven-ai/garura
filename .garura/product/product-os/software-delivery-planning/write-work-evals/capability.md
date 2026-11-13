@@ -16,11 +16,11 @@ Features:
 
 What is not built yet:
 - The eval play, /shape-eval, writes the evals today from a business intent's whole plan, for every slice in it. Nothing writes them from an item a person names.
-- The slice play, /shape-slice, writes the hidden file today, when it shapes the slice. On today's model it finds no "Fails if" lines for the older features (#1033).
+- The slice play, /shape-slice, writes the hidden file today, when it shapes the slice. On today's model it finds no "Fails if" lines for the older features.
 - Only the command-line step library exists. A slice on a browser page, a mobile app or a backend endpoint gets no eval yet.
-- The checks that no build was given the evals, and that flag a build that read them, are not built (#898). Only a read rule keeps the evals from the builder.
+- The checks that no build was given the evals, and that flag a build that read them, are not built. Only a read rule keeps the evals from the builder.
 - Nothing runs an eval yet. The runner, and the usage guide that tells the eval how to reach the built work, are not built, so an eval is written and never run.
-- The plays that read the plan must not run until the Agent-work tool, the one tool that knows the tracker, lands (#1023).
+- The plays that read the plan must not run until the Agent-work tool, the one tool that knows the tracker, lands.
 
 ### Benefit hypothesis
 - Who it serves: the product owner, who sees a summary of each eval and never the eval itself, and trusts a pass only when the build aimed at what was asked.
@@ -45,7 +45,7 @@ What is not built yet:
 - Out: running the evals, giving the verdict, and writing the handoff plan, which tells the builder or a person what went wrong and the way back. Test with evals the builder never sees, in Code → Validation, owns them.
 - Out: declaring the project's surfaces and their kinds. Manage surfaces owns them.
 - Out: writing or deepening an ICE. Specify the product owns it.
-- Out: blocking a read of the evals folder with a hook. The old part left it to the guardrails the install will lay (#893).
+- Out: blocking a read of the evals folder with a hook. The old part left it to the guardrails the install will lay.
 - Never: give an eval, the hidden file or the evals folder to the builder, to the test writer of the code-level tests, or to any part that builds the work. The reason, in the product owner's words: "the code, when being written, should not get to see what tests there were". The builder "cannot teach to a test it cannot see."
 - Never: write an eval from an ICE page, the usage guide or the code. The reason: each line of an ICE has one reader, so the story and the eval read it the same way; and the guide and the code are what the build makes, so an eval written from them tests what was built, not what was asked.
 - Never: change or delete a scenario that is there. The reason: a later run "cannot weaken an eval to make a build pass".
@@ -64,14 +64,14 @@ What is not built yet:
 - Memory first. The eval's rules, its templates and its step libraries come from memory through the memory tool: the project's own memory first, then Garura memory, the memory Garura keeps for the project, then Phoenix memory, the shared memory on the machine that every project draws from. A new or grown step library is raised as a memory update, a proposed addition to memory, and used only after a person approves it. Nothing comes from what the AI agent knows by itself. The reason: a source in memory can be checked and read back.
 
 ## Sources
-- The product owner on 2026-11-09, reshaping the Design → Code business intent, in .garura/project/issues/1021/context/capabilities.md: "making evals is going to be critical because those are the evals that are going to be used to check its own work", "the code, when being written, should not get to see what tests there were", "making the plan is part of the orchestration, not this intent"
-- The same note in .garura/project/issues/1021/context/capabilities.md: "Write the evals that will check the work, before anything is built, never shown to the builder.", "Build the work test first: all the tests for the work are written and shown to fail", "The builder never sees the tests; a separate check runs them."
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-3-capability-1b/page-approvals.md: "The entire tree needs to be handled. I should say an ID, and anything under it should all be planned.", "The coding will be done by the developer, including the TDD."
+- The product owner on 2026-11-09, reshaping the Design → Code business intent: "making evals is going to be critical because those are the evals that are going to be used to check its own work", "the code, when being written, should not get to see what tests there were", "making the plan is part of the orchestration, not this intent"
+- The same note: "Write the evals that will check the work, before anything is built, never shown to the builder.", "Build the work test first: all the tests for the work are written and shown to fail", "The builder never sees the tests; a separate check runs them."
+- The product owner on 2026-11-09: "The entire tree needs to be handled. I should say an ID, and anything under it should all be planned.", "The coding will be done by the developer, including the TDD."
 - .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove.", "It serves the product owner, who names the work, the technical lead, who designs it, and the developer, who builds it."
 - .garura/product/product-os/intents/bi-3.md: "its evals are written before it is built"
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "Out: writing the evals that check the work. Write the evals that check the work owns it, and it reads the work items itself.", "The test writer's part holds each story's expectations."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "Write the evals that check the work owns the eval of each slice and the step library of each kind of surface, and Test the user experience on each surface tests each surface against its properties and guidelines."
-- .garura/project/issues/1021/context/cleanup/old-pages/write-the-hidden-eval.md, which keeps the page of Write the hidden eval as it was before the merge: "Write the eval that checks, from the outside, that a business intent is met on its slice's surface.", "It matters because a builder that sees the test can build to the test, and then a pass proves nothing."
+- The copy of the page of Write the hidden eval as it was before the merge: "Write the eval that checks, from the outside, that a business intent is met on its slice's surface.", "It matters because a builder that sees the test can build to the test, and then a pass proves nothing."
 - core/components/plays/shape-eval/reference/ice.md: "It reads only the epic, its stories and the hidden file. It never runs the eval. An eval is a fixed yardstick: a later run never", "When the surface is a play, the scenario runs the play on a test project.", "The person sees a short summary, never the eval itself"
 - core/components/plays/shape-eval/reference/ice.md: "Every goal and every expectation of each story, and every failure condition in the hidden file, has at least one", "The eval holds no handoff text, and no recovery"
 - core/components/skills/author-slice-eval/SKILL.md: "Every step is a library sentence; every Then is exact; there is no score."
@@ -79,11 +79,8 @@ What is not built yet:
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md: "The eval reads what the plan play wrote.", "The build writes the usage guide. It is the eval's only way into the built product."
 - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md: "The plan play reads every other line and writes the story's scope of work and Context guidance from them.", "So each line of an ICE has one interpretation."
 - docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "an agent's run is not repeatable", "the eval must prove that every goal is met and that no failure condition happens.", "A gap is either a scenario or an Untestable line, never silent."
-- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "A fixed yardstick: a later run cannot weaken an eval to make a build pass.", "Only the command-line step library exists.", "The runner that runs the eval is not built yet (#819). Until then an eval is written but never run."
+- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "A fixed yardstick: a later run cannot weaken an eval to make a build pass.", "Only the command-line step library exists.", "The runner that runs the eval is not built yet. Until then an eval is written but never run."
 - docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "The build is given the business intent through the stories, never the eval."
-- GitHub #898 (open): "I just want to make sure that when the agents are building, they don't only think through the evals, but they look at the intent and build for that.", "A check flags any build that read the evals folder."
-- GitHub #1023 (open): "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt."
-- GitHub #1033 (open): "Plays read the whole model by one rule once its index has ICE entries, so older parts break"
 - standards/rules/builder-isolation.md, in Phoenix memory: "The builder never receives success_scenarios under any circumstance.", "the builder cannot teach to a test it cannot see."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "A builder agent, any skill that builds the software, or the build play's context sub-agent never reads its eval or its hidden file, and never reads a plan's evals folder."
 - standards/schemas/eval/_index.md, in Phoenix memory: "A library for the browser page, the mobile app and the backend endpoint is added when a slice first needs it."

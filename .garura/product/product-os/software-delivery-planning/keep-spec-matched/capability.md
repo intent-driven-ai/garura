@@ -72,8 +72,6 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/domain.md: "This domain turns a business intent into working code that a check from the outside can prove."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "In: keeping what a person gives as a Source.", "Out: keeping intents up to date as the product changes."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "In: changing the work items later, and adding a feature found during work.", "A story is not written again when its ICE changes."
-- GitHub #977 (open): "The product model falls behind the work.", "Agents decide from the model, so a model that is out of date leads them wrong.", "What was built is the ground truth: the model is brought up to match it, not the other way round"
-- GitHub #977 (open): "Approve the fixes, and have them written into the model by the plays that own each part."
 - core/components/skills/author-intent-page/SKILL.md: "It drafts nothing.", "It never confirms by itself.", "a rewrite with no stage goes back to proposed, whatever the old page said", "A rewrite keeps the old page's What-was-done"
 - core/components/skills/enrich-grounding/SKILL.md: "change of meaning is the person's or an approved design's"
 - core/components/plays/discover-domains/scripts/intent_touches.py: "Any play that links a node to an intent writes both sides; this module writes the"

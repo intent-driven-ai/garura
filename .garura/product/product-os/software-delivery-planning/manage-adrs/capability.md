@@ -21,7 +21,7 @@ And three jobs that are not built:
 - Take in each design choice that Spec → Design hands over.
 
 The work is split between parts: the decision play holds the order of the steps and the person's answer, an agent gathers what the decision touches and checks the draft, a skill drafts it, and scripts do the fixed steps. In the decision behind them: "a sub-agent gathers the context and checks, a skill drafts, scripts do the mechanical work; a small play holds the person's approval."
-Accepting an ADR by hand is pinned to a person: the decision play waits for the person's typed answer, and no setting turns the wait off. This intent's Must not reads: "Stop a person. Every gate has a way past it that records what's owed." Whether the person's typed answer is the way past this gate, or a stop kept on purpose, is open (#992, every gate has a key). The way past itself, and where what is owed is kept, belong to Give every gate a way past.
+Accepting an ADR by hand is pinned to a person: the decision play waits for the person's typed answer, and no setting turns the wait off. This intent's Must not reads: "Stop a person. Every gate has a way past it that records what's owed." Whether the person's typed answer is the way past this gate, or a stop kept on purpose, is open. The way past itself, and where what is owed is kept, belong to Give every gate a way past.
 Other capabilities hand their decisions here. The four capabilities of Spec → Design decide what each design choice says, and hand the record here, in words such as: "Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over." Review what agents make (Argus), in Developer tooling, gives the person a card for each ADR that waits, and "the accept is carried out as Manage ADRs says".
 It matters because a decision holds only when its reader can see what it replaces: "A new decision is only safe when its reader can see what it replaces." Agents read the accepted ADRs to keep later work in step with them: the outside review reads "the decision records (`docs/adr/**`)" as part of the design a change must follow. It sits in software delivery planning with the other capabilities of Orchestration, and the domain's first paragraph says so.
 
@@ -30,17 +30,17 @@ Features:
 - Accept an ADR only on a person's word, then or later (fn-accept-adr): run by hand, the decision play waits for the person's typed accept, reject or change; inside a loop it saves the ADR as proposed for the loop's end review; and a proposed ADR is accepted later by hand.
 - Keep older ADRs pointing forward and the index current (fn-keep-adrs-linked): once an ADR is accepted, each older ADR it changes gains one forward pointer, the only edit it ever gets, and the index is rebuilt from the ADR folder.
 - Give the person who accepts every point found on the way, and check it is whole (fn-show-accepter-findings): each thing found while the ADR was drafted that the brief did not ask about is written in its own section, with its five parts, and shown before the person decides. Built in part.
-- Record the ADR in the change it belongs to (fn-adr-in-its-change): not built. The decision play, run on the branch of a change that is already open, records the ADR in that change (#822, under #968).
-- Keep ADRs to how the project is built, and move what the model holds into the model (fn-keep-adrs-to-build): not built. Every ADR is reviewed, and what is about what the product model holds moves into the model (#1022).
+- Record the ADR in the change it belongs to (fn-adr-in-its-change): not built. The decision play, run on the branch of a change that is already open, records the ADR in that change.
+- Keep ADRs to how the project is built, and move what the model holds into the model (fn-keep-adrs-to-build): not built. Every ADR is reviewed, and what is about what the product model holds moves into the model.
 - Take in each design choice that Spec → Design hands over (fn-take-design-choices): not built. Each design choice of the four capabilities of Spec → Design reaches the decision play as a decision brief.
 
 What is not built yet:
-- An ADR cannot be recorded in the change it belongs to. Run by hand, the decision play opens its own change from main, so "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816" (#822).
-- An older ADR can be left with no forward pointer while the run reports it linked (#850).
-- The decision play does not check that the points for the person who accepts are gathered and whole (#935), and the templates index does not name their section (#941).
+- An ADR cannot be recorded in the change it belongs to. Run by hand, the decision play opens its own change from main, so the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on a change on a plan's branch.
+- An older ADR can be left with no forward pointer while the run reports it linked.
+- The decision play does not check that the points for the person who accepts are gathered and whole, and the templates index does not name their section.
 - No play hands a decision to the decision play. Only a person runs it today, and no loop runs it: the one loop that is built, the Discovery loop, runs /discover-intent, /discover-domains and /discover-capabilities.
 - Nothing catches a decision made in a session that no one records.
-- The ADRs have not been reviewed for what belongs in the product model instead (#1022).
+- The ADRs have not been reviewed for what belongs in the product model instead.
 
 ### Benefit hypothesis
 - Who it serves: the technical lead and the developer, who record decisions on how the project is built; the person who accepts each ADR, such as the product owner or the technical lead; the agents and plays that read the accepted ADRs to keep later work in step, such as the outside review; and the capabilities that hand their decisions here, the four of Spec → Design and the ADR cards of Review what agents make (Argus).
@@ -51,8 +51,8 @@ What is not built yet:
   - The index is rebuilt after each accept.
   - An ADR never changes a person's business intent.
 - How we will know: every ADR in the ADR folder has a row in the index with its own status; every accepted ADR names who accepted it, with that person's typed answer on record; every older ADR named in an accepted ADR's Supersedes or Amends line points forward to it; and no ADR changed a person's business intent.
-  - The third does not hold in every case today (#850).
-  - Whether each ADR landed in the change it belongs to is not tested, because it cannot today (#822).
+  - The third does not hold in every case today.
+  - Whether each ADR landed in the change it belongs to is not tested, because it cannot today.
 
 ### Boundary (In / Out / Never)
 - In: recording a decision as an ADR from the one template, with what it overrides, what it changes, its effect on agent intent and its business-intent check, in a run that writes nothing else.
@@ -84,11 +84,11 @@ What is not built yet:
 - Run by hand, the decision play opens and lands its own change; inside a loop it opens nothing and does not stop. The reason: "run by hand it opens and lands its own change; handed a loop's contract, it opens no issue or branch of its own and works on the loop's branch."
 - An ADR is only for how the project is built. The reason, in the product owner's words: "an ADR is only for how this project is being developed".
 - Not decided: whether product decisions in the model are written by this capability's tool or by the model's own plays.
-- Not decided: whether the person's typed answer at the pinned accept is the way past it that Orchestration's Must not asks for, or a stop kept on purpose (#992).
-- Not decided: whether the rule that an ADR never changes a person's business intent is reworded once every ADR is reviewed (#1022).
+- Not decided: whether the person's typed answer at the pinned accept is the way past it that Orchestration's Must not asks for, or a stop kept on purpose.
+- Not decided: whether the rule that an ADR never changes a person's business intent is reworded once every ADR is reviewed.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.", "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.", "the domain (lean: software delivery planning, its opening widened, as for BI-6, BI-7 and BI-8)"
+- The capability list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them.", "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that.", "the domain (lean: software delivery planning, its opening widened, as for BI-6, BI-7 and BI-8)"
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "Manage ADRs (Orchestration) owns the records; this capability decides what each choice says and hands it over."
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md and .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: the same words, in their Out lines
@@ -101,16 +101,11 @@ What is not built yet:
 - core/components/agents/change-reviewer.md: "the decision records (`docs/adr/**`)"
 - core/components/loops/complete-discovery/SKILL.md: "You run `/discover-intent`, `/discover-domains` and `/discover-capabilities`"
 - standards/templates/adr.md, in Phoenix memory: "An accepted ADR is never edited.", "An ADR never changes a person's business intent."
-- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: the one product decision in the model, "decided_by: /discover-capabilities"
 - core/components/plays/discover-capabilities/SKILL.md: "writes one decision per box-move"
 - docs/adr/ and docs/adr/_index.md: the ADRs recorded so far, and their index
-- GitHub #1022 (open), the product owner on 2026-11-02: "an ADR is only for how this project is being developed", "That rule, in the ADR template, may need rewording once this review is done."
-- GitHub #822 (open): "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on #816"
-- GitHub #968 (open): "A person records a decision as an ADR, in the change it belongs to, and sees every point found on the way"
-- GitHub #992 (open): "A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later."
-- GitHub #850, #935 and #941 (open): the known defect and the planned work named under What is not built yet.
-- GitHub #632 (closed), the product owner on 2026-10-09: "check if this adr invalidates any older ones"
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 4, 6.3, 9, 10 and 11 (lean 6): "Nothing catches a decision made in a session that no one records."
+- The product owner on 2026-11-02: "an ADR is only for how this project is being developed", "That rule, in the ADR template, may need rewording once this review is done."
+- The product owner on 2026-10-09: "check if this adr invalidates any older ones"
+- The stock-take of Orchestration (2026-11-10), sections 4, 6.3, 9, 10 and 11 (lean 6): "Nothing catches a decision made in a session that no one records."
 - The short line beside each feature: the opening words of that feature's own page; for the three with no page, lean 6 of the stock-take and the issue named.
 - Shelf: none. No knowledge shelf in any memory tier covers how a team keeps its ADRs; knowledge/review/adrs.md, in Phoenix memory, covers only how a change that adds or changes one is reviewed.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."

@@ -54,7 +54,7 @@ Status: not built. What exists covers only patterns for it:
 - A defect and a part no page names. Fix defects test first and Keep the spec matched to what's built own them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations"
+- The product owner on 2026-11-10, spelling tidied: "start building features into the product or start updating the product intent model automatically, or at least making those recommendations"
 - .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-place-findings/feature.md: "A finding against an intent is named, never settled.", "a possible new need"
 - .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-hand-on-findings/feature.md: "What to do about it, building a feature or changing the model, or recommending it, is the next capability's work."
 - .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/capability.md: "Every item is accounted for.", "How sure is shown, never hidden."

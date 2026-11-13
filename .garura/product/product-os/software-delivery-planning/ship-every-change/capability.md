@@ -38,12 +38,12 @@ Features:
 
 What is not built yet:
 - The self-review is still run. Today the raise has an agent review the change against the self-review rules before the pull request opens, and a script stops the raise on a blocking line of it. It is to be taken out: in the product owner's words, "one review, after the pull request". Its three hard checks, a clean tree, the issue named and nothing sensitive, stay as machine checks.
-- No push is scanned for client, company or personal references, and run records still carry home-folder paths (#888, #672, #982, #914).
-- When a plan's branch lands on main, nothing shows that every commit on it was reviewed (#915).
-- One run of the path opens and lands one issue (#976).
-- Nothing keeps the docs and command pages in step with the plays (#973, #529).
-- The merge closes the item above a landed issue once every issue under it is closed, against the rule that nothing rolls up (#1014).
-- Open defects in the commit's record and its clean-tree check (#537, #857, #996), and in the merge's record and recovery (#579, #583, #787).
+- No push is scanned for client, company or personal references, and run records still carry home-folder paths.
+- When a plan's branch lands on main, nothing shows that every commit on it was reviewed.
+- One run of the path opens and lands one issue.
+- Nothing keeps the docs and command pages in step with the plays.
+- The merge closes the item above a landed issue once every issue under it is closed, against the rule that nothing rolls up.
+- Open defects in the commit's record and its clean-tree check, and in the merge's record and recovery.
 - The path runs on GitHub. The GitLab path is written but "UNTESTED here".
 
 ### Benefit hypothesis
@@ -88,15 +88,15 @@ What is not built yet:
 - A landed issue changes only its own item. The reason: "An item's status in a plan file follows its own GitHub issue.", and "A parent never changes because its children closed".
 - What a play writes about its run lands with the change, and the merge's own records ride on the person's yes. The reason: "the bookkeeping push rides on that authorization, no second ask."
 - Running a step again is safe: no second issue, branch or pull request, and a merged change is not merged twice. The reason: a step stopped part way is run again, and a second copy splits the work.
-- Not decided: whether the merge's typed yes is the way past the merge's checkpoint that Orchestration's Must not asks for, or a stop kept on purpose (#992).
+- Not decided: whether the merge's typed yes is the way past the merge's checkpoint that Orchestration's Must not asks for, or a stop kept on purpose.
 - Not decided: what the setting `review-pr.bypass` should do; no script reads it, and a reject always stops the merge.
 - Not decided: whether the commits that reach a branch with no pull request of their own count as changes of this path: main's plan file when a plan's work starts, a plan session's commit on the plan's branch, and the merge's own run records.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10: "with the self-review dropped: one review, after the pull request", "the outside review stays BI-4's, as one step of this path"; and the note of 2026-11-09: "reviewing a change against its standards is BI-4's"
-- .garura/project/issues/613/specs/plan.md, the product owner on 2026-10-20: "one review, after the pull request", "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens"
-- .garura/project/issues/1021/context/names.md: "Work plays: anyone can run them, under Developer tooling"
+- The product owner on 2026-11-10: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
+- The capability list set on 2026-11-10: "with the self-review dropped: one review, after the pull request", "the outside review stays BI-4's, as one step of this path"; and the note of 2026-11-09: "reviewing a change against its standards is BI-4's"
+- The product owner on 2026-10-20: "one review, after the pull request", "hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull request opens"
+- The names agreed with the product owner on 2026-11-03: "Work plays: anyone can run them, under Developer tooling"
 - .garura/product/product-os/intents/bi-8.md: "People judge what agents made at the level of the outcome"
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/check-code-against-standards/capability.md: "A change is one piece of work raised for review and merged on its own, such as a pull request on GitHub."
@@ -119,10 +119,8 @@ What is not built yet:
 - docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md: "An item's status in a plan file follows its own GitHub issue.", "A parent never changes because its children closed"
 - standards/rules/loop-contract.md, in Phoenix memory: "The loop opens and lands the change."
 - standards/rules/gate-config.md, in Phoenix memory: "granted only in the same change that adds the replacement checks"
-- GitHub #982 (open), the product owner's rule of 2026-10-18: "No client reference and no personal reference — not in files, not in history"
-- GitHub #992 (open): "The harness never stops a person."
-- GitHub #888, #672, #914, #915, #976, #973, #529 and #1014 (open): the planned work and the known defect named under What is not built yet.
-- The stock-take of Developer tooling, .garura/project/issues/1021/context/bi-8-inventory/inventory.md, sections 1, 3, 4, 6 and 7.
+- The product owner's rule of 2026-10-18: "No client reference and no personal reference — not in files, not in history"
+- The stock-take of Developer tooling (2026-11-10), sections 1, 3, 4, 6 and 7.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers how a team lands a change.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made."

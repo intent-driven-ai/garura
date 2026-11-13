@@ -20,7 +20,7 @@ The person answers each piece the run changed: accept it, send it back with a co
   - A team's planning tool: the person drops a capability the run added by mistake, and gives the reason when asked.
 - How it meets the capability: this is the acting half of the review, where each piece gets the person's answer.
 
-Status: not built. The design and its mockup show the full page and Catch up, and nothing of it is built (#644).
+Status: not built. The design and its mockup show the full page and Catch up, and nothing of it is built.
 
 ## Inputs / Outputs
 - In: the pieces of the review, as Read what a run made, as business intents with their ICE and as the product (fn-read-outcome) shows them.
@@ -50,12 +50,9 @@ Status: not built. The design and its mockup show the full page and Catch up, an
 - Applying the answers. Finish the review and have every answer applied in one commit (fn-apply-answers) does it.
 - Reworking a piece sent back. Send a piece back and get it reworked (fn-send-back) does it.
 - The answers on an ADR, a memory update or an agent decision. Their own features cover them.
-- The meaning of an accepted piece in the model: its approval state is Product model's (#964).
+- The meaning of an accepted piece in the model: its approval state is Product model's.
 
 ## Sources
-- .garura/project/issues/617/specs/review-tool.md, the design, with the product owner's words of 20 October 2026: "a swipe right would mean approve. A swipe left would mean leave it as is, as unread. Any changes have to be entered.", "Garura cannot tell them apart and nothing changes on its side.", "Every action is saved the moment it happens.", "a gap in both prototypes", "Not in version 1."
-- .garura/project/issues/617/specs/review-tool-mockup.html: "All caught up", "Finish review", "Go through them now"
-- GitHub #644 (open): "A person can answer a review in the page or one card at a time: comment, edit, remove, accept, send back, drop", "Finish review", "Comments are pinned by their words, and are open, answered or resolved; resolving never deletes."
-- GitHub #681 (open): "any change is entered (comment, edit, send back with a reason, drop), never swiped."
-- GitHub #649 (open): "with the comment as its answer"
+- The review tool's design, with the product owner's words of 20 October 2026: "a swipe right would mean approve. A swipe left would mean leave it as is, as unread. Any changes have to be entered.", "Garura cannot tell them apart and nothing changes on its side.", "Every action is saved the moment it happens.", "a gap in both prototypes", "Not in version 1."
+- The review tool's mockup: "All caught up", "Finish review", "Go through them now"
 - docs/adr/032-drive-review-of-outcomes.md: "send it back"
