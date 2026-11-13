@@ -1,0 +1,41 @@
+{
+  "pr_number": "1063",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/1062/context/analysis.yaml",
+    ".garura/project/issues/1062/context/args.json",
+    ".garura/project/issues/1062/context/branch.json",
+    ".garura/project/issues/1062/context/commits.yaml",
+    ".garura/project/issues/1062/context/issue.json",
+    ".garura/project/issues/1062/context/plan.json",
+    ".garura/project/issues/1062/context/pr-body.md",
+    ".garura/project/issues/1062/context/pr.json",
+    ".garura/project/issues/1062/context/resolved-rules.json",
+    ".garura/project/issues/1062/context/self-review.md",
+    ".garura/project/issues/1062/context/target.json",
+    ".garura/project/issues/1062/context/work-description.txt",
+    "core/components/agents/product-os-keeper.md",
+    "core/components/memory/standards/schemas/product-os/spine.yaml",
+    "core/components/plays/reshape-plan/SKILL.md",
+    "core/components/plays/reshape-plan/scripts/check_agreement.py",
+    "core/components/plays/reshape-plan/scripts/plan_ops.py",
+    "core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py",
+    "core/components/plays/specify-capabilities/scripts/persist_understand.py",
+    "core/components/plays/specify-capabilities/scripts/test_persist_understand.py",
+    "core/components/plays/specify-domains/scripts/persist_seed.py",
+    "core/components/plays/specify-domains/scripts/test_vision_scripts.py",
+    "core/components/skills/link-model-part/SKILL.md",
+    "core/components/skills/link-model-part/scripts/link_part.py",
+    "core/components/skills/link-model-part/scripts/test_link_part.py",
+    "core/components/skills/remove-model-part/SKILL.md",
+    "core/components/skills/remove-model-part/scripts/remove_part.py",
+    "core/components/skills/remove-model-part/scripts/test_remove_part.py"
+  ],
+  "changed_files_reported": 28,
+  "diff_source": "diff-pr",
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}

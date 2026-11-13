@@ -1,0 +1,1494 @@
+diff --git a/.garura/project/issues/1062/context/analysis.yaml b/.garura/project/issues/1062/context/analysis.yaml
+new file mode 100644
+index 000000000..69341c2d1
+--- /dev/null
++++ b/.garura/project/issues/1062/context/analysis.yaml
+@@ -0,0 +1,45 @@
++---
++needs_judgment: false
++change_groups:
++  - id: model-skills-stop-tracker-and-decision-fields
++    issue: 1062
++    commit_type: feat
++    scope: product-os-model
++    subject: "stop model-writing skills writing tracker issues and decision lists, and let them remove them"
++    files:
++      - core/components/skills/link-model-part/SKILL.md
++      - core/components/skills/link-model-part/scripts/link_part.py
++      - core/components/skills/link-model-part/scripts/test_link_part.py
++      - core/components/skills/remove-model-part/SKILL.md
++      - core/components/skills/remove-model-part/scripts/remove_part.py
++      - core/components/skills/remove-model-part/scripts/test_remove_part.py
++      - core/components/memory/standards/schemas/product-os/spine.yaml
++      - core/components/agents/product-os-keeper.md
++  - id: play-scripts-stop-writing-tracker-and-decision-fields
++    issue: 1062
++    commit_type: fix
++    scope: plays
++    subject: "stop play scripts writing tracker issue and decision fields into the model"
++    files:
++      - core/components/plays/specify-domains/scripts/persist_seed.py
++      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
++      - core/components/plays/specify-capabilities/scripts/persist_understand.py
++      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
++      - core/components/plays/reshape-plan/SKILL.md
++      - core/components/plays/reshape-plan/scripts/check_agreement.py
++      - core/components/plays/reshape-plan/scripts/plan_ops.py
++      - core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
++  - id: record-1062-run-artifacts
++    issue: 1062
++    commit_type: chore
++    scope: stm
++    subject: "record run artifacts"
++    files:
++      - .garura/project/issues/1062/context/analysis.yaml
++exclusions: []
++risks:
++  sensitive_files: []
++  breaking_changes:
++    - "spine.yaml schema change (tracker/decision fields); verify consumers"
++  ambiguous_types: []
++  hotfix_branch: false
+diff --git a/.garura/project/issues/1062/context/args.json b/.garura/project/issues/1062/context/args.json
+new file mode 100644
+index 000000000..1b11314a3
+--- /dev/null
++++ b/.garura/project/issues/1062/context/args.json
+@@ -0,0 +1,9 @@
++{
++  "mode": "description",
++  "issue": null,
++  "plan": null,
++  "description": "[TASK] Model clean-up part 2: take issue numbers, tracker lines and decision records out of the product model (ADR 069)",
++  "note": null,
++  "fetched": null,
++  "error": null
++}
+diff --git a/.garura/project/issues/1062/context/branch.json b/.garura/project/issues/1062/context/branch.json
+new file mode 100644
+index 000000000..19e7f4290
+--- /dev/null
++++ b/.garura/project/issues/1062/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "feature/1062-model-cleanup-skills",
++  "base_sha": "690f5039a3dd77a8eca97f09130a7e8cbc1f00d8",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": null,
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1062/context/commits.yaml b/.garura/project/issues/1062/context/commits.yaml
+new file mode 100644
+index 000000000..23d29c768
+--- /dev/null
++++ b/.garura/project/issues/1062/context/commits.yaml
+@@ -0,0 +1,24 @@
++commits:
++  - sha: 3f181df6
++    message: "fix(plays): stop play scripts writing tracker issue and decision fields into the model (#1062)"
++    files:
++      - core/components/plays/specify-domains/scripts/persist_seed.py
++      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
++      - core/components/plays/specify-capabilities/scripts/persist_understand.py
++      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
++      - core/components/plays/reshape-plan/SKILL.md
++      - core/components/plays/reshape-plan/scripts/check_agreement.py
++      - core/components/plays/reshape-plan/scripts/plan_ops.py
++      - core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
++    branch: feature/1062-model-cleanup-skills
++  - sha: 00fe4dc0
++    message: "chore(stm): record run artifacts (#1062)"
++    files:
++      - .garura/project/issues/1062/context/analysis.yaml
++    branch: feature/1062-model-cleanup-skills
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1062/context/issue.json b/.garura/project/issues/1062/context/issue.json
+new file mode 100644
+index 000000000..b568b9ead
+--- /dev/null
++++ b/.garura/project/issues/1062/context/issue.json
+@@ -0,0 +1 @@
++{ "resolved": true, "issue_number": 1062, "title": "[TASK] Model clean-up part 2: take issue numbers, tracker lines and decision records out of the product model", "created": true }
+diff --git a/.garura/project/issues/1062/context/plan.json b/.garura/project/issues/1062/context/plan.json
+new file mode 100644
+index 000000000..df0cd321e
+--- /dev/null
++++ b/.garura/project/issues/1062/context/plan.json
+@@ -0,0 +1,12 @@
++{
++  "issue": "1062",
++  "plan_id": null,
++  "plan_branch": null,
++  "issue_branch": "feature/1062-model-cleanup-skills",
++  "closed_plan": null,
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": []
++  }
++}
+diff --git a/.garura/project/issues/1062/context/pr-body.md b/.garura/project/issues/1062/context/pr-body.md
+new file mode 100644
+index 000000000..0cce620e2
+--- /dev/null
++++ b/.garura/project/issues/1062/context/pr-body.md
+@@ -0,0 +1,74 @@
++Step 1 of the model clean-up (ADR 069, ontology v18: the product model names no tracker issue and holds no decision record).
++- link-model-part no longer writes `issue` or `decisions`, refuses them, and refuses an issue number in the "updated by" stamp; a one-time request strips them from the whole spine.
++- remove-model-part can remove the model's decision files.
++- The specify-domains, specify-capabilities and reshape-plan scripts stop writing those fields.
++Garura's own model is not changed here; step 2 does that.
++
++Part of #1062 (stays open for step 2).
++
++# Self-review, issue 1062 (step 1 of the model clean-up)
++
++Rules used: the base self-review rules (resolved, not an override; see resolved-rules.json).
++Diff reviewed: main...HEAD on feature/1062-model-cleanup-skills. Informational only; it is not the approve or reject gate.
++
++## Branch info
++
++- Branch pattern: feature
++- Base: main
++- Commits: 5 (2 work commits, 3 chore commits that record run artifacts)
++- Core files changed: 16 (+515 / -97); the rest are 7 run-record files for this issue
++- Suggested PR title: feat(product-os-model): stop writing tracker issues and decision lists into the model, and let them be removed
++
++## What the change does
++
++The model-writing skills no longer write an issue number or a decisions list on any part. link-model-part refuses a part that carries either, refuses a `by` that holds an issue number, and gains a one-time request that strips both from a model. remove-model-part can remove decision files. The specify-domains, specify-capabilities and reshape-plan scripts stop writing those fields. The reshape-plan play drops the step that named a story on the model entry. The spine schema and the product-os-keeper agent follow. Garura's own model is not touched (no file under the product model folder appears in the diff).
++
++## Scope checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Matches the issue | PASS | Every core file is a skill, play script, schema comment or agent line named by the step 1 description. |
++| No scope creep | PASS | No change to the product model itself, to ICE sources, to evals, or to anything outside the named skills and plays. |
++| Reasonable size | PASS | 16 core files; about half the added lines are tests. Reviewable in one sitting. |
++| No stray artifacts | PASS | No debug prints, TODO or FIXME, or scratch files in the added lines. The run-record files under the issue folder are the usual run evidence. |
++| Garura's own model untouched | PASS | The diff holds no file from the product model folder. |
++
++## Quality checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Tests present | PASS | link-model-part: 65 tests pass. remove-model-part: 73 pass. reshape-plan: 56 and 10 pass. specify-domains vision scripts: 49 pass. specify-capabilities persist script: 104 pass. Others in those folders also pass (31, 6, 36 checks). Several test files in those folders are plain scripts with no unittest cases; they were run directly and passed. |
++| Commits are clean | PASS | Conventional format, each tied to the issue, one concern each. |
++| No secrets | PASS | A scan of the added lines for keys, tokens, passwords, private-key markers, email-like strings and home-folder paths found nothing. |
++| No personal details | PASS | Checked in words only: the added lines and the commit messages were searched for any real person's name, account name, email address or company name, using the repository's own list of terms to avoid; nothing was found. |
++| No attribution line | PASS | No generated-with or co-author line in the five commit messages. |
++| No merge conflict with main | PASS | A trial merge against main is clean. |
++| Docs in step | PASS | Both skill pages, the spine schema comment, the agent table and the reshape-plan play page were updated with the code. |
++| Nothing obviously broken | REVIEW | See findings 1 and 2. |
++| Component lint | REVIEW | The linter reports errors on this branch (36) and the one warning is in a file this change does not touch. I could not get a clean count for main, so I cannot say none of the errors are new. See the note at the end. |
++
++## Is the reshape-plan SKILL.md edit non-intent
++
++Yes, it reads as non-intent, so a direct edit is right, with one caution. Against that play's reference/ice.md: no constraint, failure condition or scenario names the step that wrote the story onto the model entry. C11 says the new feature is linked to the business intent and to "the issue that found it", which the play still does (the identified_by link stays). F10 requires the thin page, the entry with both thin marks, and the story; the story still lands in the tracker and the plan file, and the entry still has the page and marks. The removed step only changed where the story is recorded, not what the play guarantees or decides.
++
++Caution: the words "the issue that found it" in C11 could be read as an issue reference on the entry. The decision record for this clean-up already lists C3 and C11 of that ICE for a later rebuild through the play-fix path, so the wording is owed there, not here.
++
++## Findings
++
++1. The specify-capabilities persist script no longer links a decision to a capability, but it still writes one decision record per box-move into the model's decisions folder. The decision record says a box-move writes no decision record at all. This change is the first half (no link); the writing itself is left for the later ICE-driven change. That is consistent with "step 1", but the script now disagrees with its own ICE (C8 to C10) in the meantime. Because it changes what the play guarantees, a person should confirm that holding the ICE rebuild back is intended. Not a block.
++2. The one-time strip request cleans issue numbers out of created_by and updated_by text by pattern. It is tested for the two examples in its page, and running it twice is covered. A string with an unusual lead word would keep that word. Low risk; worth a look when it is first run on a real model.
++3. remove-model-part removes decision files only inside the model's decisions folder and refuses links and still-named ids. Tests cover the refusals.
++
++## Blocking issues
++
++None.
++
++## Readiness
++
++- Ready: yes, with findings 1 and 2 for the reviewer's attention
++- Blocking count: 0
++- Review required: 3 (finding 1, the lint count, and the reshape-plan ICE wording owed later)
++
++## Note on how this review was run
++
++While checking the lint count against main I ran a stash and a branch switch that I should not have. The stash step found nothing to stash on this branch, so the following stash pop applied an older, unrelated stash onto the working tree and left merge conflicts in 8 tracked files outside this change (play pages and the plan tool). Nothing is committed and the stash is still kept, so no work is lost. The conflicted state also made the lint count on main unreliable, which is why finding "Component lint" has no baseline. The cleanup command was blocked, so the working tree still needs `git reset --hard` on those files (or an equivalent), which the owner of the tree should run. The branch commits and the diff reviewed above are unaffected.
+diff --git a/.garura/project/issues/1062/context/pr.json b/.garura/project/issues/1062/context/pr.json
+new file mode 100644
+index 000000000..a21ba1e8b
+--- /dev/null
++++ b/.garura/project/issues/1062/context/pr.json
+@@ -0,0 +1,8 @@
++{
++  "number": 1063,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1063",
++  "state": "OPEN",
++  "base": "main",
++  "from_host": true,
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1062/context/resolved-rules.json b/.garura/project/issues/1062/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1062/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1062/context/self-review.md b/.garura/project/issues/1062/context/self-review.md
+new file mode 100644
+index 000000000..1cca650e7
+--- /dev/null
++++ b/.garura/project/issues/1062/context/self-review.md
+@@ -0,0 +1,66 @@
++# Self-review, issue 1062 (step 1 of the model clean-up)
++
++Rules used: the base self-review rules (resolved, not an override; see resolved-rules.json).
++Diff reviewed: main...HEAD on feature/1062-model-cleanup-skills. Informational only; it is not the approve or reject gate.
++
++## Branch info
++
++- Branch pattern: feature
++- Base: main
++- Commits: 5 (2 work commits, 3 chore commits that record run artifacts)
++- Core files changed: 16 (+515 / -97); the rest are 7 run-record files for this issue
++- Suggested PR title: feat(product-os-model): stop writing tracker issues and decision lists into the model, and let them be removed
++
++## What the change does
++
++The model-writing skills no longer write an issue number or a decisions list on any part. link-model-part refuses a part that carries either, refuses a `by` that holds an issue number, and gains a one-time request that strips both from a model. remove-model-part can remove decision files. The specify-domains, specify-capabilities and reshape-plan scripts stop writing those fields. The reshape-plan play drops the step that named a story on the model entry. The spine schema and the product-os-keeper agent follow. Garura's own model is not touched (no file under the product model folder appears in the diff).
++
++## Scope checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Matches the issue | PASS | Every core file is a skill, play script, schema comment or agent line named by the step 1 description. |
++| No scope creep | PASS | No change to the product model itself, to ICE sources, to evals, or to anything outside the named skills and plays. |
++| Reasonable size | PASS | 16 core files; about half the added lines are tests. Reviewable in one sitting. |
++| No stray artifacts | PASS | No debug prints, TODO or FIXME, or scratch files in the added lines. The run-record files under the issue folder are the usual run evidence. |
++| Garura's own model untouched | PASS | The diff holds no file from the product model folder. |
++
++## Quality checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Tests present | PASS | link-model-part: 65 tests pass. remove-model-part: 73 pass. reshape-plan: 56 and 10 pass. specify-domains vision scripts: 49 pass. specify-capabilities persist script: 104 pass. Others in those folders also pass (31, 6, 36 checks). Several test files in those folders are plain scripts with no unittest cases; they were run directly and passed. |
++| Commits are clean | PASS | Conventional format, each tied to the issue, one concern each. |
++| No secrets | PASS | A scan of the added lines for keys, tokens, passwords, private-key markers, email-like strings and home-folder paths found nothing. |
++| No personal details | PASS | Checked in words only: the added lines and the commit messages were searched for any real person's name, account name, email address or company name, using the repository's own list of terms to avoid; nothing was found. |
++| No attribution line | PASS | No generated-with or co-author line in the five commit messages. |
++| No merge conflict with main | PASS | A trial merge against main is clean. |
++| Docs in step | PASS | Both skill pages, the spine schema comment, the agent table and the reshape-plan play page were updated with the code. |
++| Nothing obviously broken | REVIEW | See findings 1 and 2. |
++| Component lint | REVIEW | The linter reports errors on this branch (36) and the one warning is in a file this change does not touch. I could not get a clean count for main, so I cannot say none of the errors are new. See the note at the end. |
++
++## Is the reshape-plan SKILL.md edit non-intent
++
++Yes, it reads as non-intent, so a direct edit is right, with one caution. Against that play's reference/ice.md: no constraint, failure condition or scenario names the step that wrote the story onto the model entry. C11 says the new feature is linked to the business intent and to "the issue that found it", which the play still does (the identified_by link stays). F10 requires the thin page, the entry with both thin marks, and the story; the story still lands in the tracker and the plan file, and the entry still has the page and marks. The removed step only changed where the story is recorded, not what the play guarantees or decides.
++
++Caution: the words "the issue that found it" in C11 could be read as an issue reference on the entry. The decision record for this clean-up already lists C3 and C11 of that ICE for a later rebuild through the play-fix path, so the wording is owed there, not here.
++
++## Findings
++
++1. The specify-capabilities persist script no longer links a decision to a capability, but it still writes one decision record per box-move into the model's decisions folder. The decision record says a box-move writes no decision record at all. This change is the first half (no link); the writing itself is left for the later ICE-driven change. That is consistent with "step 1", but the script now disagrees with its own ICE (C8 to C10) in the meantime. Because it changes what the play guarantees, a person should confirm that holding the ICE rebuild back is intended. Not a block.
++2. The one-time strip request cleans issue numbers out of created_by and updated_by text by pattern. It is tested for the two examples in its page, and running it twice is covered. A string with an unusual lead word would keep that word. Low risk; worth a look when it is first run on a real model.
++3. remove-model-part removes decision files only inside the model's decisions folder and refuses links and still-named ids. Tests cover the refusals.
++
++## Blocking issues
++
++None.
++
++## Readiness
++
++- Ready: yes, with findings 1 and 2 for the reviewer's attention
++- Blocking count: 0
++- Review required: 3 (finding 1, the lint count, and the reshape-plan ICE wording owed later)
++
++## Note on how this review was run
++
++While checking the lint count against main I ran a stash and a branch switch that I should not have. The stash step found nothing to stash on this branch, so the following stash pop applied an older, unrelated stash onto the working tree and left merge conflicts in 8 tracked files outside this change (play pages and the plan tool). Nothing is committed and the stash is still kept, so no work is lost. The conflicted state also made the lint count on main unreliable, which is why finding "Component lint" has no baseline. The cleanup command was blocked, so the working tree still needs `git reset --hard` on those files (or an equivalent), which the owner of the tree should run. The branch commits and the diff reviewed above are unaffected.
+diff --git a/.garura/project/issues/1062/context/target.json b/.garura/project/issues/1062/context/target.json
+new file mode 100644
+index 000000000..b685829be
+--- /dev/null
++++ b/.garura/project/issues/1062/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "feature/1062-model-cleanup-skills",
++  "kind": "one-off",
++  "plan_id": null,
++  "issue": "1062",
++  "base": "main"
++}
+diff --git a/.garura/project/issues/1062/context/work-description.txt b/.garura/project/issues/1062/context/work-description.txt
+new file mode 100644
+index 000000000..aba8c52ad
+--- /dev/null
++++ b/.garura/project/issues/1062/context/work-description.txt
+@@ -0,0 +1,9 @@
++[TASK] Model clean-up part 2: take issue numbers, tracker lines and decision records out of the product model (ADR 069)
++
++What: ADR 069 and ontology v18 say the product model names no plan, tracker issue or decision record. Garura's own model still does. This work removes, approved by the product owner on 2026-11-12 (design: step 1 a skill change, step 2 the clean-up):
++- A: the "Tracker:" line on business-intent pages;
++- B: issue numbers cited in page text (by rules the product owner approves on a sample of pages);
++- C: issue numbers inside the spine's created_by / updated_by;
++- D: the old `issue` field on feature entries;
++- E: the `decisions` field on parts, and the one decision file.
++Step 1: the skills that write the model (link-model-part, remove-model-part) learn to remove these and stop writing them. Step 2: the clean-up itself, through product-os-keeper and those skills. Git history keeps every removed line.
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index 4030da9e4..9108a9b6e 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -71,8 +71,8 @@ the missing skill; never do the work yourself.
+ | `find-slice-gaps` | List each thing a slice needs that neither the model nor memory answers, and write each as one question by the rule for asking a person (id, topic, question, why, examples from several domains, blocking, assume, settled with its basis); never the surface or the tester. Rewrite mode rewrites only the questions the play's script refuses. Writes `questions.json`. | /design-slice |
+ | `author-slice` | Choose the slice: the one surface and its tester (a persona), the features from any capability in build order, what is left out, and the needs list (`fills.json`: new parts, updates, thin parts); `no-slice.json` when no surface can be tested end to end. Reuse mode writes `reuse.json` (pull in, push out); fix mode fixes `slice.json` or `fills.json`; edit mode turns a person's edit words into `edit-list.json` (each change's record, part, old and new text, and the records made out of date). Never writes the model. | /design-slice |
+ | `enrich-grounding` | Write on the pages of the model's parts, in place, keeping every section and line: bring a domain, capability or feature page up to the current rules, write one new feature under a capability that exists, write a thin ICE (Goal, Limit, Fails if, Context, Checked by), change the named lines of any page — domain, capability, feature or intent — through its `change_lines.py` (all or nothing; #993), write a page a person approved word for word — a domain, capability or feature page, or an ICE page `ice.md` — through its `write_approved.py` (all or nothing; #1031), fix the pages the model check names. Never writes `_spine.yaml` or the thin marks. | /design-slice; a part found during work (#979), before `link-model-part`; named lines of any page (#993); approved pages (#1031) |
+-| `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, issue; a new feature `status: Unplanned`, a domain or capability no status), an existing one's one-line, intents or issue, a feature's state (`status`: Unplanned, Planned, In progress, Completed or Dropped; refused on any other kind or value), the one-time move off the old status (`migrate_status`), and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page); add features to a slice that exists (#931); an ICE's entry in `ices` (the part it is for, its kind, its page) and, for a thin ICE, the mark on that entry and at the top of its page (#1031); to take in an old part a person approved, an existing part's thin mark taken off (`thin: false`), a feature filed under another capability (`capability`), and a page moved with its ice.md to a new folder (`doc`), refused when a link would break (#1037). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding`; `/reshape-plan`'s new feature (#931); an approved page's ICE (#1031), after `enrich-grounding`; a feature's state, for the play that sets it (`/shape-plan` sets Planned, ADR 070); the one-time move of a model off the old status |
+-| `remove-model-part` | Take parts out of the model once a person approved it: repoint what names an old business intent, part by part; remove an intent's page once nothing names it; merge a capability into another (its features, links, intents and decisions move, its needs are listed for review); remove a slice and its record. All or nothing; it refuses while the spine or a page still names a part being removed, naming each path and line, and writes no page words. `remove-report.json` lists every file it changed or deleted. | a removal a person approved, after `enrich-grounding` has fixed the words |
++| `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, never an issue or a decisions list; a new feature `status: Unplanned`, a domain or capability no status), an existing one's one-line or intents, a feature's state (`status`: Unplanned, Planned, In progress, Completed or Dropped; refused on any other kind or value), the one-time move off the old status (`migrate_status`), the one-time removal of tracker references (`strip_tracker_refs`: every `issue` and `decisions` key, and every issue number in created_by and updated_by, ADR 069), and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page); add features to a slice that exists (#931); an ICE's entry in `ices` (the part it is for, its kind, its page) and, for a thin ICE, the mark on that entry and at the top of its page (#1031); to take in an old part a person approved, an existing part's thin mark taken off (`thin: false`), a feature filed under another capability (`capability`), and a page moved with its ice.md to a new folder (`doc`), refused when a link would break (#1037). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding`; `/reshape-plan`'s new feature (#931); an approved page's ICE (#1031), after `enrich-grounding`; a feature's state, for the play that sets it (`/shape-plan` sets Planned, ADR 070); the one-time move of a model off the old status |
++| `remove-model-part` | Take parts out of the model once a person approved it: repoint what names an old business intent, part by part; remove an intent's page once nothing names it; merge a capability into another (its features, links and intents move, its needs are listed for review); remove a slice and its record; remove the model's decision files once nothing names them (ADR 069). All or nothing; it refuses while the spine or a page still names a part being removed, naming each path and line, and writes no page words. `remove-report.json` lists every file it changed or deleted. | a removal a person approved, after `enrich-grounding` has fixed the words |
+ | `author-intent-page` | Write a business intent's page from its draft (`intent-draft.json`, one-intent mode), new or rewritten, in the one fixed order; a rewrite keeps the old What-was-done block, and the old Touches block unless the draft gives `touches`. It never drafts a word, never overwrites without `rewrite`, and writes confirmed only when given the person who confirmed it. `intent-page.json` reports what it wrote and kept. | an intent page whose words a person approved |
+ | `author-slice-brief` | Write the opening of the early brief or the confirmation brief: two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person (or the play's floor). The play's script builds the rest of the brief. | /design-slice |
+ | `author-failure-recovery` | Draft, for each feature of a slice, its hidden-file entry: one recovery for each "Fails if" line of the feature's ICE and its capability's ICE (when, way back, who fixes: "the builder can fix this alone" or "a person must decide"), by `standards/rules/expectation-generation.md`; say when one of the two ICE is thin. Draft only — the play's script checks and writes the hidden file. | /design-slice |
+@@ -101,7 +101,7 @@ the missing skill; never do the work yourself.
+ | "close the gaps", "link these nodes", "merge the duplicates" | "Apply the agreed links from gaps.json" | `link-model-gaps` | Mechanical, from `gaps.json` → `close-report.json` |
+ | "a part was found during work", "add this feature / capability / domain to the model", "give it a thin page", "update its page" | "Add the plan graph as a thin feature under view plans" | `enrich-grounding` (mode `new-feature` or `update`, then `thin`), then `link-model-part` for domains, capabilities and features | The page first, then its spine entry and thin mark; one run per part, in parallel when there are several (each writes only its own page); one `link-model-part` run for all of them after they join. No discovery play run |
+ | "suggest a capability for a new feature of a plan session" (`/reshape-plan`, when its placement script names none) | "We found a new feature in plan 717: a person can undo the last update" | `find-work-placement` | `routing-result.json` only. The play's `place_feature.py` places the feature by fixed rules (capability, slice, id, one-line); the person decides what no rule settles. Nothing is written in the model before the person approves the session |
+-| "land the new features of an approved plan session" (`/reshape-plan`, `model-ops.json`); each dispatch writes its record only to the output path its contract names, never over another dispatch's record (Step 8's `model-record.json`, the story step's `model-record-story.json`) | "Write the approved new feature of plan 717" | `enrich-grounding` (mode `new-feature`, then `thin`, from the part's title and description — the person's words, nothing made up), then one `link-model-part` run: the feature `new` and thin (its intent, its `identified_by`, its story's issue when known) and, when the part names a slice, the slice `update` with `add_features` | `model-record.json`: `{parts: [{feature, doc, linked}], files: [every model file written]}`. When the story is made after this step, a second `link-model-part` run names its `issue` (`mode: update`) |
++| "land the new features of an approved plan session" (`/reshape-plan`, `model-ops.json`); each dispatch writes its record only to the output path its contract names, never over another dispatch's record (Step 8's `model-record.json`) | "Write the approved new feature of plan 717" | `enrich-grounding` (mode `new-feature`, then `thin`, from the part's title and description — the person's words, nothing made up), then one `link-model-part` run: the feature `new` and thin (its intent and its `identified_by`; never its story's issue, ADR 069) and, when the part names a slice, the slice `update` with `add_features` | `model-record.json`: `{parts: [{feature, doc, linked}], files: [every model file written]}`. The model never names the story |
+ | "draft the story for a feature a plan session named" (`/reshape-plan`, #1002) | "Draft the story for fn-818 that the person added under #721" | `author-work-items` (story mode) | The play's `feature_ice.py copy` has written the clean copy and `story-input.json`; hand the skill only those, and pass its `story-draft.json` on as it is. Never open an ICE page and never write the model, the plan file or the tracker |
+ | "change these lines of a page", "bring this page to the approved design", "name a persona, not a person" | "Change cap-720's ICE to the approved #720 design"; "Name the product owner, not a person, on the intent page" | `enrich-grounding` (mode `update` or `fix`, with a named-lines request you write to `lines-request.json` and hand it as `lines_request`: every line to change, whole and as it is on the page, with its new words and the request's source; when the script refuses, correct the request) | `lines-report.json`: each page, each line old and new; every other line kept word for word; all or nothing. A page needs no spine entry for this; a changed one-line or intents still goes through `link-model-part` |
+ | "take this part out of the model", "merge this capability into that one", "repoint these parts to the new intent", "remove this intent's page", "remove this slice" | "Merge the view capability into the plan capability, as the product owner approved" | `enrich-grounding` (named lines, for each page that still names the part), then one `remove-model-part` run | `remove-report.json`: all or nothing, only with the name of the person who approved; when it refuses over a mention, fix that line through `enrich-grounding` and run it again. The page of a survivor is `enrich-grounding`'s work. Pass `needs_to_review` on as it is |
+diff --git a/core/components/memory/standards/schemas/product-os/spine.yaml b/core/components/memory/standards/schemas/product-os/spine.yaml
+index b33a58c4a..63f660551 100644
+--- a/core/components/memory/standards/schemas/product-os/spine.yaml
++++ b/core/components/memory/standards/schemas/product-os/spine.yaml
+@@ -38,6 +38,12 @@ schema:
+ # the grounding doc named by `doc`. The parent is named by its real relation: a
+ # capability names its `domain`, a feature names its `capability`. The kind is
+ # implied by the collection, so there is no `type` field.
++#
++# No tracker reference and no decision record (ADR 069, ontology v18): no entry holds an
++# `issue` or a `decisions` list, and no entry, page, Sources list or metadata names a plan, a
++# plan folder, an eval, a hidden file, an epic, a tracker issue number or link, or a decision
++# record. `metadata.created_by` and `metadata.updated_by` name the play or agent and what it
++# did (for example "product-os-keeper (reorganise business intents)"), never an issue number.
+ 
+ domains:
+   - id: string            # opaque, stable — never changes once assigned
+@@ -53,10 +59,9 @@ domains:
+                           # and features). A domain carries no ICE of its own; the
+                           # link says which intents reach into it. How each intent touches it
+                           # (adds / changes / removes) is on the intent page's Touches list.
+-    decisions: [string]   # decision (ADR) record ids affecting this domain
+     metadata:
+-      created_by: string
+-      updated_by: string
++      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
++      updated_by: string  # the same rule as created_by
+       version: integer
+ 
+ capabilities:
+@@ -90,12 +95,11 @@ capabilities:
+                           # one needs done first. Field renamed to `needs` under #725.
+     identified_by: string # the capability or feature that led us to find this one; empty
+                           # when it was found on its own (ontology v5)
+-    decisions: [string]
+     personas: [string]    # persona record ids attached to this capability
+     journeys: [string]    # journey record ids attached to this capability
+     metadata:
+-      created_by: string
+-      updated_by: string
++      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
++      updated_by: string  # the same rule as created_by
+       version: integer
+ 
+ features:
+@@ -117,10 +121,9 @@ features:
+                           # one needs done first. Field renamed to `needs` under #725.
+     identified_by: string # the capability or feature that led us to find this one; empty
+                           # when it was found on its own (ontology v5)
+-    decisions: [string]
+     metadata:
+-      created_by: string
+-      updated_by: string
++      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
++      updated_by: string  # the same rule as created_by
+       version: integer
+ 
+ # ---- The agent intents: one ICE for each capability and feature ------
+@@ -137,8 +140,8 @@ ices:
+     for_kind: string      # capability | feature — must match the part `for` names
+     doc: string           # pointer to its ice.md
+     metadata:
+-      created_by: string
+-      updated_by: string
++      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
++      updated_by: string  # the same rule as created_by
+       version: integer
+       thin: boolean       # true while the ICE is thin (ontology v11); the play that deepens it removes it
+ 
+diff --git a/core/components/plays/reshape-plan/SKILL.md b/core/components/plays/reshape-plan/SKILL.md
+index 1555dda6f..d62cbb179 100644
+--- a/core/components/plays/reshape-plan/SKILL.md
++++ b/core/components/plays/reshape-plan/SKILL.md
+@@ -47,7 +47,7 @@ change play, merging a branch, or touching code (C7).
+ |-------|--------|-------------------|--------|
+ | `template-manager` | Load the plan-update, plan-view and close templates | — | Prepare, Close |
+ | `project-orchestrator` | Read the plan's issues; turn an instruction into list entries; make the approved tracker writes | `track-plan-changes`, `author-plan-changes` | Prepare, Session, Landing |
+-| `product-os-keeper` | Suggest a capability for a new feature when no rule settles it (the placement itself is `place_feature.py`); on approval write its page with its thin ICE from the person's words, its model entry with both thin marks and its place in the slice, then name its story on the entry; draft the story for a feature the person's words name, from its clean ICE copy (story mode) | `find-work-placement`, `enrich-grounding`, `link-model-part`, `author-work-items` | Session, Landing |
++| `product-os-keeper` | Suggest a capability for a new feature when no rule settles it (the placement itself is `place_feature.py`); on approval write its page with its thin ICE from the person's words, its model entry with both thin marks and its place in the slice; draft the story for a feature the person's words name, from its clean ICE copy (story mode) | `find-work-placement`, `enrich-grounding`, `link-model-part`, `author-work-items` | Session, Landing |
+ 
+ `template-manager` and `project-orchestrator` are **utility agents**. `product-os-keeper` is the
+ one **domain agent**, dispatched only for a new feature.
+@@ -377,9 +377,10 @@ list's sha256 and `answer.json`'s `list_sha`.
+ **Step 8 — Land: the model** · Owner: `product-os-keeper` · Depends on: Step 7
+ *Skip when `model-ops.json` has no parts.* For each part: the page skill (`enrich-grounding`,
+ new-feature and thin modes) writes the feature's page under its capability, and its thin ICE from
+-the person's words (the part's title and description), nothing made up; then `link-model-part` adds its model entry (`mode: new`, thin, its intent `bi-<id>`,
+-its `issue` — the story, or the number the tracker step makes, filled in after Step 9 with
+-`mode: update` — and `identified_by`) and, when the entry names a slice, the slice's `add_features`.
++the person's words (the part's title and description), nothing made up; then `link-model-part` adds its model entry (`mode: new`, thin, its intent `bi-<id>` and
++`identified_by`) and, when the entry names a slice, the slice's `add_features`. The entry names no
++story: the model holds no tracker issue (ADR 069); the plan file's node (`represents`) and the
++story's "Represents:" line link the story and the feature.
+ 
+     { "task":    "write each new feature of model-ops.json: page, model entry with both thin marks, its place in the slice",
+       "inputs":  { "model_ops": "<working>/model-ops.json", "product_base": "<product_base>" },
+@@ -402,22 +403,9 @@ its `issue` — the story, or the number the tracker step makes, filled in after
+ 
+ Exit 1: dispatch it again once (it goes on from its record); a second failure stops the landing and
+ names the failed op for the person (REC5). Exit 2: nothing was written; back to Step 6.
+-When a new feature's story was made in this step (an op `<n>-create` of a `new-feature` entry),
+-dispatch `product-os-keeper` once more to name it on the feature's model entry:
+-
+-    { "task":    "name each new feature's story on its model entry (link-model-part, mode update, issue)",
+-      "inputs":  { "model_ops": "<working>/model-ops.json", "github_record": "<working>/github-record.json",
+-                   "product_base": "<product_base>" },
+-      "outputs": { "record": "<working>/model-record-story.json" },
+-      "task_id": "name-story" }
+-
+-This dispatch writes its own record and never changes `model-record.json`; the guard, the
+-agreement check and the commit read the two as one (`plan_session.model_records`), so the story
+-step cannot drop a file Step 8 wrote (HF-12). The story record has the same shape as
+-`model-record.json`: `{parts: [{feature, issue}], files: [the model files it changed, each relative
+-to the repository root]}`. `<records>` below is empty when Step 8 was skipped (`model-ops.json`
+-has no parts); otherwise `--model-record <working>/model-record.json`, and also `--model-record
+-<working>/model-record-story.json` when the story step ran.
++A new feature's story, made in this step, is not written into the model: the model names no
++tracker issue (ADR 069). `<records>` below is empty when Step 8 was skipped (`model-ops.json`
++has no parts); otherwise `--model-record <working>/model-record.json`.
+ **SE-9 (F8/C9):** `github-record.json` reads `ok: true`, and every op of `github-ops.json` is in its
+ `done`.
+ 
+diff --git a/core/components/plays/reshape-plan/scripts/check_agreement.py b/core/components/plays/reshape-plan/scripts/check_agreement.py
+index 5d2ab5e13..bde50f61f 100644
+--- a/core/components/plays/reshape-plan/scripts/check_agreement.py
++++ b/core/components/plays/reshape-plan/scripts/check_agreement.py
+@@ -20,8 +20,9 @@
+ Nothing else changed: every node and every top field of the plan file that the list does not name
+ reads as before (`updated` aside), and every issue of the snapshot that the list does not name
+ reads as before in the tracker. For a new feature: the model record names its page and its
+-entry, the spine has the feature with `metadata.thin: true` and its story's issue, its page has
+-the Thin line, and its story's node stands for it (`features_ok`). The evals folders hash as
++entry, the spine has the feature with `metadata.thin: true`, its page has the Thin line, and its
++story's node in the plan file stands for it (`features_ok`). The spine names no story: the model
++holds no tracker issue (ADR 069), so the plan file's node is the link. The evals folders hash as
+ before (`evals_unchanged`). The overrides and what is owed are named in the landing's commit
+ message (commit_plan.py), not here.
+ 
+@@ -146,7 +147,6 @@ def flat(nd):
+             ok = (f is not None and (f.get("metadata") or {}).get("thin") is True
+                   and page and os.path.isfile(page)
+                   and any(ln.startswith(THIN_PREFIX) for ln in ps.read_text(page).splitlines())
+-                  and str(f.get("issue")) == str(numbers.get(e["n"]))
+                   and node is not None and node.get("represents") == e["feature"]
+                   and e["feature"] in [p.get("feature") for p in model.get("parts") or []])
+             if not ok:
+diff --git a/core/components/plays/reshape-plan/scripts/plan_ops.py b/core/components/plays/reshape-plan/scripts/plan_ops.py
+index 21f464bad..a43d57fba 100644
+--- a/core/components/plays/reshape-plan/scripts/plan_ops.py
++++ b/core/components/plays/reshape-plan/scripts/plan_ops.py
+@@ -15,7 +15,8 @@
+   text                         body
+   kind                         type
+   new-feature                  create the story (or, for a story that exists, body + parent), and one
+-                               model part in model-ops.json
++                               model part in model-ops.json, which names no story: the model
++                               holds no tracker issue (ADR 069)
+   plan-status, plan-direction  nothing in the tracker (the plan file only)
+ 
+ An item at the top of the plan (an epic) has the plan's business intent as its parent in the
+@@ -89,8 +90,7 @@ def add(kind, **kw):
+             parent = parent_ref(e.get("parent"), plan_id, new_ids)
+             if e.get("issue") is None:
+                 add("create", title=e["title"], body=story_body(e, plan_id), type="Story", parent=parent)
+-                story = f"@{n}-create"
+-                new_ids[f"@{n}"] = story
++                new_ids[f"@{n}"] = f"@{n}-create"
+             else:
+                 body = (now or {}).get("body") or ""
+                 line = REPRESENTS.format(feature=e["feature"])
+@@ -98,10 +98,9 @@ def add(kind, **kw):
+                     add("body", issue=e["issue"], body=body.rstrip("\n") + "\n\n" + line + "\n")
+                 if not now or str(now.get("parent")) != str(parent):
+                     add("parent", issue=e["issue"], to=parent, **{"from": now.get("parent") if now else None})
+-                story = e["issue"]
+             model.append({"entry": n, "feature": e["feature"], "title": e["title"],
+                           "capability": e.get("capability"), "slice": e.get("slice"),
+-                          "intent": f"bi-{plan_id}", "story": story, "identified_by": e.get("identified_by"),
++                          "intent": f"bi-{plan_id}", "identified_by": e.get("identified_by"),
+                           "one_line": e.get("one_line") or e["title"], "ice": e.get("ice") or {},
+                           "description": e.get("description")})
+     return gh, model
+diff --git a/core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py b/core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
+index 6674a255e..5a178f508 100644
+--- a/core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
++++ b/core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
+@@ -457,7 +457,7 @@ def test_a_new_feature_lands_whole_or_is_named(self):
+             fh.write("# Feature: Undo\n\nThin: proposed\n\n## Agent intent (ICE)\n- Goal: undo.\n")
+         spine = os.path.join(model, "_spine.yaml")
+         with open(spine, "w") as fh:
+-            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n  issue: 100\n"
++            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n"
+                      "  metadata: {thin: true}\n")
+         self.check([{"op": "new-feature", "issue": None, "title": "Undo the last booking", "parent": 41,
+                      "feature": "fn-undo", "capability": "cap-1", "slice": None}], "we found undo")
+@@ -466,6 +466,9 @@ def test_a_new_feature_lands_whole_or_is_named(self):
+                               "--out-github", self.p("github-ops.json"), "--out-model", self.p("model-ops.json")])
+         ops = ps.read_json(self.p("github-ops.json"), "ops")["ops"]
+         self.assertIn("Represents: fn-undo", ops[0]["body"])
++        part = ps.read_json(self.p("model-ops.json"), "model")["parts"][0]
++        self.assertNotIn("story", part)
++        self.assertNotIn("issue", part)
+         shutil.copy(self.plan, self.p("plan-before.yaml"))
+         after = json.loads(json.dumps(SNAP))
+         after["issues"]["100"] = issue(100, "Undo the last booking", "Story", parent=41)
+@@ -487,7 +490,7 @@ def test_a_new_feature_lands_whole_or_is_named(self):
+         ps.write_json(self.p("model-record-story.json"), {"parts": [{"feature": "fn-undo", "issue": 100}], "files": []})
+         self.assertEqual(quiet(check_agreement.main, args + ["--model-record", self.p("model-record-story.json")]), 0)
+         with open(spine, "w") as fh:
+-            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n  issue: 100\n")
++            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n")
+         self.assertEqual(quiet(check_agreement.main, args), 1)
+         self.assertFalse(ps.read_json(self.p("agreement.json"), "a")["features_ok"])
+ 
+diff --git a/core/components/plays/specify-capabilities/scripts/persist_understand.py b/core/components/plays/specify-capabilities/scripts/persist_understand.py
+index ef8ff99c4..899bb831b 100644
+--- a/core/components/plays/specify-capabilities/scripts/persist_understand.py
++++ b/core/components/plays/specify-capabilities/scripts/persist_understand.py
+@@ -27,12 +27,15 @@
+      capability == that manifest's target; additive — an id already present under the same
+      capability is left untouched; an id declared twice in the run, or already present under
+      another capability, is refused). Each new feature gets its state, `status: Unplanned`
+-     (ontology v18, ADR 070), whatever status its manifest entry carried.
++     (ontology v18, ADR 070), whatever status its manifest entry carried. An `issue` or
++     `decisions` key the manifest entry carries is dropped: the model names no tracker issue
++     and no decision record (ADR 069).
+   3. the rolled-up `profile` (the firmed box) from the proposed-profile. It refuses a
+      profile that is not `set`, lowers a dimension the live box holds, or drops a
+      compliance regime — the box only ever goes up (C7).
+-  4. one decision record per box-move (ADR, level product, status accepted), each linked onto
+-     the `decisions` list of the capability the move names. Inside a loop (#615) the play
++  4. one decision record per box-move (ADR, level product, status accepted), linked to the
++     capability the move names by its `node_ref`; no spine entry gets a `decisions` list
++     (ADR 069). Inside a loop (#615) the play
+      passes --decision-status proposed: no person has said yes, so the loop's review
+      accepts or drops each move. The persist record's `box_moves` carry each move's
+      decision id and status, so the run's record shows what was written.
+@@ -148,10 +151,14 @@ def profile_error(live_profile, proposed):
+     return None
+ 
+ 
++TRACKER_KEYS = ("issue", "decisions")  # the model names neither (ADR 069)
++
++
+ def unplanned(feature):
+     """A copy of a new feature's entry with its state Unplanned (ontology v18, ADR 070): a status
+     it carried is replaced in place; with none, the state goes after its intents, or after its
+-    capability when it has no intents."""
++    capability when it has no intents. An `issue` or `decisions` key is dropped (ADR 069)."""
++    feature = {k: v for k, v in feature.items() if k not in TRACKER_KEYS}
+     if "status" in feature:
+         return {k: ("Unplanned" if k == "status" else v) for k, v in feature.items()}
+     after = "intents" if "intents" in feature else "capability"
+@@ -357,9 +364,6 @@ def main(argv=None):
+                 yaml.safe_dump(decision, fh, sort_keys=False)
+             written.append(f"decision:{did}")
+             changed["decisions"].append(did)
+-            cap_decisions = targets[cap_id].setdefault("decisions", [])
+-            if did not in cap_decisions:
+-                cap_decisions.append(did)
+ 
+     with open(live_spine_path, "w", encoding="utf-8") as fh:
+         yaml.safe_dump(live, fh, sort_keys=False, allow_unicode=True)
+diff --git a/core/components/plays/specify-capabilities/scripts/test_persist_understand.py b/core/components/plays/specify-capabilities/scripts/test_persist_understand.py
+index 09cc52205..d945f90fc 100644
+--- a/core/components/plays/specify-capabilities/scripts/test_persist_understand.py
++++ b/core/components/plays/specify-capabilities/scripts/test_persist_understand.py
+@@ -89,6 +89,11 @@ def spine(root):
+         return yaml.safe_load(fh)
+ 
+ 
++def node_ref(root, did):
++    with open(os.path.join(root, "decisions", f"{did}.yaml")) as fh:
++        return yaml.safe_load(fh)["decision"]["node_ref"]
++
++
+ ANSWERS = {"id": "checkout", "domain": "commerce", "one_line": "Let a shopper pay for a cart",
+            "why": "No sale without it", "answered_by": "human"}
+ 
+@@ -132,6 +137,7 @@ def test_new_feature_state():
+             yaml.safe_dump({"enrich": {"capability_ref": "checkout", "capability": {},
+                                        "features": [{"id": "pay", "capability": "checkout",
+                                                      "intents": ["bi-1"], "status": "proposed",
++                                                     "issue": 12, "decisions": [],
+                                                      "doc": "commerce/checkout/pay/feature.md"},
+                                                     {"id": "refund", "capability": "checkout",
+                                                      "intents": ["bi-1"],
+@@ -143,6 +149,8 @@ def test_new_feature_state():
+               list(feats["refund"])[list(feats["refund"]).index("intents") + 1] == "status"
+               and feats["refund"]["status"] == "Unplanned")
+         check("the capability gets no status", "status" not in spine(root)["capabilities"][0])
++        check("a manifest's issue and decisions keys are dropped (ADR 069)",
++              "issue" not in feats["pay"] and "decisions" not in feats["pay"])
+ 
+ 
+ def test_seed_refusals():
+@@ -246,8 +254,9 @@ def test_box_move_status():
+             with open(os.path.join(root, "decisions", f"{did}.yaml")) as fh:
+                 status = yaml.safe_load(fh)["decision"]["status"]
+             check(f"{label}, its decision reads {want}", status == want)
+-            check(f"{label}, the decision is linked onto the capability",
+-                  did in spine(root)["capabilities"][0].get("decisions", []))
++            check(f"{label}, the decision names its capability and the spine holds no decisions list",
++                  node_ref(root, did) == "checkout"
++                  and "decisions" not in spine(root)["capabilities"][0])
+     with tempfile.TemporaryDirectory() as tmp:
+         base, root, work = setup(tmp, caps)
+         try:
+@@ -304,7 +313,8 @@ def test_many_targets():
+             did = f"dec-{cid}-security-high-xhigh"
+             check(f"{cid} gets its own box-move decision",
+                   os.path.isfile(os.path.join(root, "decisions", f"{did}.yaml")))
+-            check(f"{cid}'s decision is linked onto {cid} only", caps[cid].get("decisions") == [did])
++            check(f"{cid}'s decision names {cid} only, and {cid} holds no decisions list",
++                  node_ref(root, did) == cid and "decisions" not in caps[cid])
+         rec = read_json(os.path.join(work, "persist.json"))
+         check("the record lists both targets", rec["changed"]["capabilities"] == ["checkout", "refunds"])
+ 
+diff --git a/core/components/plays/specify-domains/scripts/persist_seed.py b/core/components/plays/specify-domains/scripts/persist_seed.py
+index efbbcbde2..d089ebdb7 100644
+--- a/core/components/plays/specify-domains/scripts/persist_seed.py
++++ b/core/components/plays/specify-domains/scripts/persist_seed.py
+@@ -13,7 +13,8 @@
+ 
+   - new `domains` entries: added ONLY when their id is absent; an id already present is left
+     untouched (recorded as skipped). A `status` the delta gives is dropped: only a feature has a
+-    state (ontology v18, ADR 070), so a domain has no status.
++    state (ontology v18, ADR 070), so a domain has no status. An `issue` or `decisions` key is
++    dropped too: the model names no tracker issue and no decision record (ADR 069).
+   - `updates` to existing domains — ONLY these (C6): raise `detail` (directional → detailed,
+     never lower); refresh `one_line`; add to `intents`. Any other field, an unknown id, a
+     lowered `detail`, or an update of any other kind refuses the whole run.
+@@ -55,6 +56,7 @@
+ NOT_MINE = ("capabilities", "features", "slices", "epics")
+ UPDATABLE = {"domain": ("detail", "one_line", "intents")}
+ DETAIL_RANK = {"directional": 0, "detailed": 1}
++DROPPED = ("status", "issue", "decisions")  # only a feature has a state (ADR 070); no tracker refs (ADR 069)
+ 
+ 
+ class Refused(Exception):
+@@ -89,7 +91,7 @@ def merge_new(delta, live, rec):
+         if eid in have:
+             rec["skipped"].append(tag)
+         else:
+-            live_list.append({k: v for k, v in e.items() if k != "status"})
++            live_list.append({k: v for k, v in e.items() if k not in DROPPED})
+             have.add(eid)
+             rec["written"].append(tag)
+             rec["new"].add(("domain", str(eid)))
+diff --git a/core/components/plays/specify-domains/scripts/test_vision_scripts.py b/core/components/plays/specify-domains/scripts/test_vision_scripts.py
+index 4efcfbafe..4eaaf7f46 100644
+--- a/core/components/plays/specify-domains/scripts/test_vision_scripts.py
++++ b/core/components/plays/specify-domains/scripts/test_vision_scripts.py
+@@ -144,7 +144,7 @@ def persist(base, work, delta, intents=None):
+ VISION_DELTA = {
+     "domains": [{"id": "support", "slug": "support", "status": "proposed", "detail": "detailed",
+                  "one_line": "Helps shoppers who are stuck.", "doc": "support/domain.md",
+-                 "intents": ["grow-online-sales"]}],
++                 "intents": ["grow-online-sales"], "issue": 12, "decisions": []}],
+     "updates": [{"kind": "domain", "id": "shop", "detail": "detailed", "intents": ["grow-online-sales"]}],
+ }
+ SUPPORT_DOMAIN = FULL_DOMAIN.replace("# Theme: Shop", "# Theme: Support")
+@@ -191,6 +191,8 @@ def test_the_hand_over():
+         check("a second domain is added (a product may sit in several)", "support" in doms)
+         check("a new domain gets no status, even when the delta gives one (only a feature has a state)",
+               "status" not in doms["support"])
++        check("a new domain gets no issue and no decisions list, even when the delta gives them (ADR 069)",
++              "issue" not in doms["support"] and "decisions" not in doms["support"])
+         check("/specify-domains leaves the capability alone — still waiting in the holding folder, no domain (ADR 043)",
+               cap["domain"] == "" and cap["doc"] == "capabilities/guest-checkout/capability.md"
+               and os.path.isfile(os.path.join(m, "capabilities", "guest-checkout", "capability.md")))
+diff --git a/core/components/skills/link-model-part/SKILL.md b/core/components/skills/link-model-part/SKILL.md
+index 85ea1ee80..0fcf5d3f6 100644
+--- a/core/components/skills/link-model-part/SKILL.md
++++ b/core/components/skills/link-model-part/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: link-model-part
+-description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, marked to be deepened; a new feature gets its state, status Unplanned, and a domain or capability gets no status, because only a feature has a state — ontology v18, ADR 070); an existing one gets its one-line replaced, its intents added or its issue named; a feature's state is set on request to one of Unplanned, Planned, In progress, Completed or Dropped, any of them after any other, and a status on any other kind or any other value is refused; a one-time migration request takes the old status (proposed, active, deprecated) off every domain and capability and sets Unplanned on every feature that holds none of the five, keeping the rest; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /design-slice; an /reshape-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin); an ICE, which has its own page ice.md beside its part's page, gets its entry in the spine's ices list (the part it is for, its kind and its page), and a thin ICE gets the thin mark on its entry and as one Thin line at the top of its page — a part that has an ICE is never marked thin itself (ontology v15, #1031); and, to take in an old part a person approved (#1037), an existing capability's or feature's thin mark comes off both places (`thin: false`), a feature is filed under another capability (`capability`), and a page moves with the ice.md beside it to a new folder (`doc`), refused while a page names its old path or its old folder holds any other file. Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
++description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, marked to be deepened, and no tracker issue or decisions list; a new feature gets its state, status Unplanned, and a domain or capability gets no status, because only a feature has a state — ontology v18, ADR 070); an existing one gets its one-line replaced or its intents added; a feature's state is set on request to one of Unplanned, Planned, In progress, Completed or Dropped, any of them after any other, and a status on any other kind or any other value is refused; a one-time migration request takes the old status (proposed, active, deprecated) off every domain and capability and sets Unplanned on every feature that holds none of the five, keeping the rest; a one-time strip request takes every `issue` and `decisions` key off the spine's entries and every issue number out of each created_by and updated_by (ADR 069), and a part carrying `issue` or `decisions`, or a `by` naming an issue number, is refused; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /design-slice; an /reshape-plan session the person approves may add a feature to a slice in progress, ADR 062); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin); an ICE, which has its own page ice.md beside its part's page, gets its entry in the spine's ices list (the part it is for, its kind and its page), and a thin ICE gets the thin mark on its entry and as one Thin line at the top of its page — a part that has an ICE is never marked thin itself (ontology v15, #1031); and, to take in an old part a person approved (#1037), an existing capability's or feature's thin mark comes off both places (`thin: false`), a feature is filed under another capability (`capability`), and a page moves with the ice.md beside it to a new folder (`doc`), refused while a page names its old path or its old folder holds any other file. Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
+ user-invocable: false
+ model: sonnet
+ allowed-tools: Read, Bash
+@@ -18,7 +18,7 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
+ 
+ | Field | Required | Meaning |
+ |-------|----------|---------|
+-| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice|ice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`; an ICE: `new` with `for` and `doc`, or `update` to mark it thin; a capability or feature on `update` may also take `thin: false`, `doc` and, a feature only, `capability` and `status`) — see the script's header for the fields of each mode. Or, once for a model, the migration request `{"by": ..., "migrate_status": true}`, with no `parts`. |
++| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice|ice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`; an ICE: `new` with `for` and `doc`, or `update` to mark it thin; a capability or feature on `update` may also take `thin: false`, `doc` and, a feature only, `capability` and `status`) — see the script's header for the fields of each mode. Or, once for a model, the migration request `{"by": ..., "migrate_status": true}`, or the strip request `{"by": ..., "strip_tracker_refs": true}`, each with no other key. A part never carries `issue` or `decisions`, and `by` never names an issue number. |
+ | `product_base` | yes | The project's product base; the model is under `<product_base>product-os/`. |
+ | `out` | yes | Where to write `link-report.json`. |
+ 
+@@ -42,7 +42,8 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
+ 
+    To set a feature's state, give it on `update`, for example
+    `{"id": "fn-12", "kind": "feature", "mode": "update", "status": "Planned"}`. To move a model
+-   off the old status, run the script once with `{"by": "<caller>", "migrate_status": true}`.
++   off the old status, run the script once with `{"by": "<caller>", "migrate_status": true}`. To take the tracker references out of a model,
++   run it once with `{"by": "<caller>", "strip_tracker_refs": true}`.
+ 3. **Return the report's path.**
+ 
+ ## Output
+@@ -52,7 +53,8 @@ existing part or ICE changed), `thin` (each part or ICE now marked thin), `unthi
+ thin mark came off), `moved` (each page moved, from and to), `changed` (every file it touched, relative to the
+ product base) and `layout_kept` (false only when the spine had to be written whole). A migration
+ also gives `migrated`: `domains_cleared`, `capabilities_cleared`, `features_set_unplanned` and
+-`features_kept`. Nothing is written when the script exits 2; its error names the part and why.
++`features_kept`. A strip also gives `stripped`: `issue_keys`, `decisions_keys` and `by_strings`.
++Nothing is written when the script exits 2; its error names the part and why.
+ A request that changes nothing writes nothing, and its `changed` is empty.
+ 
+ ## Rules
+@@ -73,6 +75,15 @@ A request that changes nothing writes nothing, and its `changed` is empty.
+   the five (in place, or after its intents when it has none); a feature that holds one of the
+   five keeps it. Run again, it finds nothing to change and writes nothing. Marking features
+   built before the state existed as Completed is a separate `update` the person confirms.
++- **No tracker issue, no decision record (ADR 069).** A new entry gets no `issue` and no
++  `decisions`. A part that carries either, in any mode, is refused. `by` is written as
++  created_by or updated_by, so it names the play or agent and what it did, never an issue: a
++  `by` with an issue number ("#" and digits) refuses the request.
++- **The strip runs once and is all or nothing.** It removes `issue` and `decisions` from every
++  entry of every spine list, and every issue number from every created_by and updated_by
++  string, with the word before it ("for", "in" and the like) and the punctuation it leaves, so
++  the text still reads. The spine keeps its comments and layout. Run again, it finds nothing to
++  change and writes nothing. It never touches a page, a one-line or a decision file.
+ - **The thin mark is two marks that agree.** `metadata.thin: true` on the spine entry and
+   exactly one Thin line on the page, just before its ICE. The play that deepens the part
+   removes both. A domain is never thin.
+diff --git a/core/components/skills/link-model-part/scripts/link_part.py b/core/components/skills/link-model-part/scripts/link_part.py
+index ab8c4e2ec..fef3dfb31 100644
+--- a/core/components/skills/link-model-part/scripts/link_part.py
++++ b/core/components/skills/link-model-part/scripts/link_part.py
+@@ -18,15 +18,19 @@
+         "one_line": "...", "doc": "care/domain.md"},
+        {"id": "cap-booking", "kind": "capability", "mode": "new", "slug": "booking",
+         "domain": "dom-care", "intents": ["bi-1"], "one_line": "...",
+-        "doc": "care/booking/capability.md", "issue": 12, "identified_by": "", "thin": true},
++        "doc": "care/booking/capability.md", "identified_by": "", "thin": true},
+        {"id": "fn-806", "kind": "feature", "mode": "new", "slug": "fn-806", "capability": "cap-719",
+         "intents": ["bi-717"], "one_line": "...", "doc": "features/fn-806/feature.md",
+-        "issue": 806, "identified_by": "", "thin": true},
++        "identified_by": "", "thin": true},
+        {"id": "fn-628", "kind": "feature", "mode": "update", "one_line": "...", "add_intents": [],
+         "thin": true}]}
+ 
+ `features` in place of `parts` is read as a list of features (kind feature), as before.
+ 
++The model names no tracker issue and no decision record (ADR 069, ontology v18): a part that
++carries `issue` or `decisions`, in any mode, is refused, and a `by` that holds an issue number
++("#" and digits) is refused, because `by` is written as created_by or updated_by.
++
+ - mode `new`: the id must not be in the spine; its parent (a capability's domain, a feature's
+   capability), when given, must be; its page must be on disk, in its folder:
+     domain      `<folder>/domain.md`, one folder under the model root;
+@@ -37,11 +41,10 @@
+   A new feature's entry gets its state, `status: Unplanned` (ontology v18, ADR 070); a domain
+   or capability gets no status, because only a feature has a state. A `status` key on a new
+   part is refused: set a feature's state later with mode `update`. The entry also gets detail
+-  directional for a domain or capability, its empty lists, and metadata {created_by, deepen:
+-  true, thin when thin}.
++  directional for a domain or capability, its empty depends_on list (a capability or feature),
++  and metadata {created_by, deepen: true, thin when thin}; it gets no `issue` and no `decisions`.
+ - mode `update`: the id must be in the spine under its kind. `one_line` replaces its one-line,
+-  `add_intents` are added to its intents, `issue` names its issue when it names none yet, `thin:
+-  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. On a
++  `add_intents` are added to its intents, `thin: true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. On a
+   feature only, `status` sets its state, one of Unplanned, Planned, In progress, Completed or
+   Dropped; any state may follow any other (there is no workflow). A `status` on any other kind,
+   or a value outside the five, is refused. Three more
+@@ -85,6 +88,17 @@
+ of the five keeps it. The report's `migrated` gives the counts. Run on a model already moved,
+ it changes nothing and writes nothing.
+ 
++A one-time request takes the tracker references out of a model (ADR 069):
++    {"by": "<the play or run that asks>", "strip_tracker_refs": true}
++It carries only those two keys. On every entry of every list in the spine (domains,
++capabilities, features, slices, ices and any other) it removes the keys `issue` and
++`decisions`; and in every created_by and updated_by string anywhere in the spine (its
++metadata too) it removes each issue number ("#" and digits), with the word before it when that
++is "for", "in", "from", "of", "on", "per", "see" or "issue", and cleans the punctuation left
++behind, so "x (reorganise, #12)" reads "x (reorganise)" and "x, for #12 (y)" reads "x (y)". A
++string left empty reads "a play". The report's `stripped` gives the counts: `issue_keys`,
++`decisions_keys` and `by_strings`. Run again, it finds nothing and writes nothing.
++
+ Every check runs before the first write; any failure refuses the whole request (exit 2) and
+ writes nothing. When a write itself fails part way, every file already written, deleted or
+ moved, and every folder made or removed, is put back as it was, so the spine and the pages never
+@@ -339,6 +353,58 @@ def allowed_docs(kind, pid, doc, parent_entry):
+     return allowed
+ 
+ 
++ISSUE_NUMBER = re.compile(r"#\d+")
++ISSUE_REF = re.compile(r"(?:\b(?:for|in|from|of|on|per|see|issues?)\s+)?#\d+", re.I)
++TRACKER_KEYS = ("issue", "decisions")
++BY_KEYS = ("created_by", "updated_by")
++
++
++def without_issue_refs(text):
++    """`text` with every issue number taken out and the punctuation left behind cleaned."""
++    out = ISSUE_REF.sub("", text)
++    steps = ((r"\(\s*[,;]\s*", "("), (r"\s*[,;]\s*\)", ")"), (r"\(\s*\)", ""),
++             (r",\s*,", ","), (r",\s*;", ";"), (r";\s*,", ";"), (r"[,;]\s*:", ":"),
++             (r",\s*\(", " ("), (r"\s+([,;:)])", r"\1"), (r"\(\s+", "("), (r"\s{2,}", " "))
++    for pattern, new in steps:
++        out = re.sub(pattern, new, out)
++    out = out.strip().strip(",;:").strip()
++    return out or "a play"
++
++
++def plan_strip(spine, request):
++    """The one-time removal of tracker references (ADR 069): no `issue` and no `decisions` key on
++    any entry, and no issue number in any created_by or updated_by."""
++    if set(request) - {"by", "strip_tracker_refs"}:
++        raise Refused("a strip request carries only `by` and `strip_tracker_refs`; "
++                      "link parts in a request of their own")
++    new_spine = copy.deepcopy(spine)
++    counts = {"issue_keys": 0, "decisions_keys": 0, "by_strings": 0}
++    for value in new_spine.values():
++        for e in value if isinstance(value, list) else []:
++            if isinstance(e, dict):
++                for key in TRACKER_KEYS:
++                    if key in e:
++                        del e[key]
++                        counts[f"{key}_keys"] += 1
++
++    def walk(node):
++        if isinstance(node, dict):
++            for key, inner in node.items():
++                if key in BY_KEYS and isinstance(inner, str) and ISSUE_NUMBER.search(inner):
++                    node[key] = without_issue_refs(inner)
++                    counts["by_strings"] += 1
++                else:
++                    walk(inner)
++        elif isinstance(node, list):
++            for inner in node:
++                walk(inner)
++
++    walk(new_spine)
++    report = {"written": [], "updated": [], "thin": [], "unthin": [], "moved": [], "changed": [],
++              "stripped": counts}
++    return new_spine, report
++
++
+ def new_entry(kind, p, by):
+     e = {"id": p["id"], "slug": p["slug"]}
+     if kind in PARENT:
+@@ -353,9 +419,6 @@ def new_entry(kind, p, by):
+     if kind != "domain":
+         e["depends_on"] = []
+         e["identified_by"] = p.get("identified_by", "")
+-    e["decisions"] = []
+-    if p.get("issue") is not None:
+-        e["issue"] = p["issue"]
+     e["metadata"] = {"created_by": by, "deepen": True}
+     return e
+ 
+@@ -405,6 +468,16 @@ def plan_migration(spine, request):
+ def plan(root, spine, request):
+     if not isinstance(request, dict):
+         raise Refused("the request is not a JSON object")
++    if ISSUE_NUMBER.search(str(request.get("by") or "")):
++        raise Refused(f"`by` names an issue number ({request['by']!r}); the model names no tracker issue "
++                      f"(ADR 069), so `by` names only the play or agent and what it did")
++    if "strip_tracker_refs" in request:
++        if request["strip_tracker_refs"] is not True:
++            raise Refused("`strip_tracker_refs` must be true")
++        if "migrate_status" in request:
++            raise Refused("a strip request carries only `by` and `strip_tracker_refs`")
++        new_spine, report = plan_strip(spine, request)
++        return new_spine, {}, report, [], []
+     if "migrate_status" in request:
+         if request["migrate_status"] is not True:
+             raise Refused("`migrate_status` must be true")
+@@ -438,6 +511,10 @@ def plan(root, spine, request):
+         if pid in seen:
+             raise Refused(f"{pid} is given twice")
+         seen.add(pid)
++        for key in TRACKER_KEYS:
++            if key in p:
++                raise Refused(f"{pid}: the model names no tracker issue and no decision record (ADR 069), "
++                              f"so a part takes no `{key}`")
+         if "status" in p:
+             if kind != "feature":
+                 raise Refused(f"{pid}: only a feature has a state; a {kind} takes no status")
+@@ -504,10 +581,6 @@ def plan(root, spine, request):
+                 new = with_state(entry, p["status"])
+                 entry.clear()
+                 entry.update(new)
+-            if p.get("issue") is not None and kind != "domain":
+-                if entry.get("issue") not in (None, "", p["issue"]):
+-                    raise Refused(f"{pid} already names issue {entry['issue']}")
+-                entry["issue"] = p["issue"]
+             for i in p.get("add_intents") or []:
+                 if i not in entry.setdefault("intents", []):
+                     entry["intents"].append(i)
+diff --git a/core/components/skills/link-model-part/scripts/test_link_part.py b/core/components/skills/link-model-part/scripts/test_link_part.py
+index 19ab9fa90..0730c66ad 100644
+--- a/core/components/skills/link-model-part/scripts/test_link_part.py
++++ b/core/components/skills/link-model-part/scripts/test_link_part.py
+@@ -100,7 +100,7 @@ def run_request(self, features=None, parts=None):
+ 
+     def new_fn2(self, **kw):
+         f = {"id": "fn-2", "mode": "new", "slug": "fn-2", "capability": "cap-1", "intents": ["bi-1"],
+-             "one_line": "Send a reset link", "doc": "features/fn-2/feature.md", "issue": 2, "thin": True}
++             "one_line": "Send a reset link", "doc": "features/fn-2/feature.md", "thin": True}
+         f.update(kw)
+         return f
+ 
+@@ -112,7 +112,8 @@ def test_a_new_thin_feature_gets_its_entry_and_its_thin_line(self):
+         self.assertEqual(entry["capability"], "cap-1")
+         self.assertEqual(entry["status"], "Unplanned")
+         self.assertEqual(list(entry).index("status"), list(entry).index("intents") + 1)
+-        self.assertEqual(entry["issue"], 2)
++        self.assertNotIn("issue", entry)
++        self.assertNotIn("decisions", entry)
+         self.assertTrue(entry["metadata"]["thin"])
+         page = self.read("features/fn-2/feature.md")
+         self.assertEqual(page.count("Thin: proposed from the person's words; deepen with `/specify-capabilities`."), 1)
+@@ -275,13 +276,42 @@ def test_a_slice_is_never_made_here_and_its_features_must_exist(self):
+         self.assertEqual(r.returncode, 2)
+         self.assertEqual(self.read("_spine.yaml"), before)
+ 
+-    def test_an_update_names_the_issue_once(self):
+-        self.run_request(parts=[dict(self.new_fn2(), kind="feature", issue=None)])
+-        r, _ = self.run_request(parts=[{"id": "fn-2", "kind": "feature", "mode": "update", "issue": 7}])
++    def test_no_new_entry_names_an_issue_or_a_decisions_list(self):
++        self.write("care/domain.md", "# Domain: Care\n")
++        r, _ = self.run_request(parts=[
++            {"id": "dom-care", "kind": "domain", "mode": "new", "slug": "care", "intents": ["bi-1"],
++             "one_line": "Care", "doc": "care/domain.md"},
++            dict(self.new_fn2(), kind="feature")])
+         self.assertEqual(r.returncode, 0, r.stderr)
+-        self.assertEqual(yaml.safe_load(self.read("_spine.yaml"))["features"][1]["issue"], 7)
+-        r, _ = self.run_request(parts=[{"id": "fn-2", "kind": "feature", "mode": "update", "issue": 8}])
+-        self.assertEqual(r.returncode, 2)
++        spine = yaml.safe_load(self.read("_spine.yaml"))
++        for entry in (spine["domains"][0], spine["features"][1]):
++            self.assertNotIn("issue", entry)
++            self.assertNotIn("decisions", entry)
++
++    def test_a_part_carrying_an_issue_or_decisions_is_refused_in_either_mode(self):
++        for part in (dict(self.new_fn2(), kind="feature", issue=2),
++                     dict(self.new_fn2(), kind="feature", issue=None),
++                     dict(self.new_fn2(), kind="feature", decisions=[]),
++                     {"id": "fn-1", "kind": "feature", "mode": "update", "issue": 7},
++                     {"id": "cap-1", "kind": "capability", "mode": "update", "decisions": ["dec-1"]}):
++            key = "issue" if "issue" in part else "decisions"
++            self.assert_refused_parts([part], f"takes no `{key}`")
++
++    def test_a_by_that_names_an_issue_number_is_refused(self):
++        before = self.read("_spine.yaml")
++        req = os.path.join(self.base, "req.json")
++        out = os.path.join(self.base, "report.json")
++        for by in ("product-os-keeper (fix it, #12)", "#7", "a run for #1021"):
++            for body in ({"by": by, "parts": [dict(self.new_fn2(), kind="feature")]},
++                         {"by": by, "strip_tracker_refs": True},
++                         {"by": by, "migrate_status": True}):
++                with open(req, "w", encoding="utf-8") as fh:
++                    json.dump(body, fh)
++                r = subprocess.run([sys.executable, SCRIPT, "--request", req, "--product-base", self.base,
++                                    "--out", out], capture_output=True, text=True)
++                self.assertEqual(r.returncode, 2, body)
++                self.assertIn("names an issue number", r.stderr)
++        self.assertEqual(self.read("_spine.yaml"), before)
+ 
+     def test_a_malformed_request_is_refused_and_writes_nothing(self):
+         before = self.read("_spine.yaml")
+@@ -772,5 +802,153 @@ def test_a_migration_with_parts_or_not_true_is_refused_and_writes_nothing(self):
+             self.assertEqual(self.read("_spine.yaml"), OLD_SPINE)
+ 
+ 
++STRIP_SPINE = """\
++# The spine — a comment that must stay.
++domains:
++- id: dom-1
++  slug: dom-1
++  intents:
++  - bi-1
++  one_line: Mail
++  doc: mail/domain.md
++  decisions: []
++  metadata:
++    created_by: 'product-os-keeper (reorganise business intents, #1021)'
++capabilities:
++- id: cap-1
++  slug: cap-1
++  domain: dom-1
++  intents:
++  - bi-1
++  one_line: Send mail
++  doc: mail/cap-1/capability.md
++  decisions:
++  - dec-cap-1-security-low-medium
++  issue: 12
++  metadata:
++    created_by: 'product-os-keeper, for #1021 (reorganise the business intents)'
++    updated_by: 'product-os-keeper (approved pages for #1021)'
++# features keep their order
++features:
++- id: fn-1
++  slug: fn-1
++  capability: cap-1
++  intents:
++  - bi-1
++  status: Planned
++  one_line: Send one message
++  doc: mail/cap-1/fn-1/feature.md
++  issue: 13
++  decisions: []
++  metadata:
++    created_by: 'the #719 change (view plans)'
++    updated_by: 'product-os-keeper, for #1021: BI-10 close, item 4'
++- id: fn-2
++  slug: fn-2
++  capability: cap-1
++  intents:
++  - bi-1
++  status: Unplanned
++  one_line: Send a reset link
++  doc: mail/cap-1/fn-2/feature.md
++  metadata:
++    created_by: /design-slice
++slices:
++- id: sl-1
++  slug: sl-1
++  feature_refs:
++  - fn-1
++  issue: 40
++  intents:
++  - bi-1
++"""
++
++
++class StripTrackerRefsTest(unittest.TestCase):
++    """The one-time removal of tracker references from a model (ADR 069)."""
++
++    write, read = LinkPartTest.write, LinkPartTest.read
++    tearDown = LinkPartTest.tearDown
++    migrate = MigrateStatusTest.migrate
++
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        self.base = self.tmp.name + "/"
++        self.root = os.path.join(self.base, "product-os")
++        self.write("_spine.yaml", STRIP_SPINE)
++
++    def strip(self, body=None):
++        return self.migrate(body if body is not None else {"by": "/test", "strip_tracker_refs": True})
++
++    def test_every_issue_and_decisions_key_and_every_issue_number_in_by_goes(self):
++        r, report = self.strip()
++        self.assertEqual(r.returncode, 0, r.stderr)
++        spine = yaml.safe_load(self.read("_spine.yaml"))
++        for key in ("domains", "capabilities", "features", "slices"):
++            for e in spine[key]:
++                self.assertNotIn("issue", e)
++                self.assertNotIn("decisions", e)
++        self.assertEqual(spine["domains"][0]["metadata"]["created_by"],
++                         "product-os-keeper (reorganise business intents)")
++        cap = spine["capabilities"][0]["metadata"]
++        self.assertEqual(cap["created_by"], "product-os-keeper (reorganise the business intents)")
++        self.assertEqual(cap["updated_by"], "product-os-keeper (approved pages)")
++        fn1 = spine["features"][0]["metadata"]
++        self.assertEqual(fn1["created_by"], "the change (view plans)")
++        self.assertEqual(fn1["updated_by"], "product-os-keeper: BI-10 close, item 4")
++        self.assertEqual(spine["features"][1]["metadata"]["created_by"], "/design-slice")
++        self.assertEqual(spine["features"][0]["status"], "Planned")
++        self.assertEqual(spine["slices"][0]["feature_refs"], ["fn-1"])
++        self.assertEqual(report["stripped"], {"issue_keys": 3, "decisions_keys": 3, "by_strings": 5})
++        self.assertEqual(report["changed"], ["product-os/_spine.yaml"])
++        self.assertTrue(report["layout_kept"])
++
++    def test_the_spine_keeps_its_comments_and_its_order(self):
++        self.strip()
++        text = self.read("_spine.yaml")
++        self.assertTrue(text.startswith("# The spine — a comment that must stay."))
++        self.assertIn("# features keep their order", text)
++        self.assertNotIn("#1021", text)
++        self.assertEqual([f["id"] for f in yaml.safe_load(text)["features"]], ["fn-1", "fn-2"])
++        self.assertIn("- id: fn-2\n  slug: fn-2\n", text)
++
++    def test_a_second_run_changes_nothing_and_writes_nothing(self):
++        self.strip()
++        after = self.read("_spine.yaml")
++        mtime = os.stat(os.path.join(self.root, "_spine.yaml")).st_mtime_ns
++        r, report = self.strip()
++        self.assertEqual(r.returncode, 0, r.stderr)
++        self.assertEqual(self.read("_spine.yaml"), after)
++        self.assertEqual(os.stat(os.path.join(self.root, "_spine.yaml")).st_mtime_ns, mtime)
++        self.assertEqual(report["stripped"], {"issue_keys": 0, "decisions_keys": 0, "by_strings": 0})
++        self.assertEqual(report["changed"], [])
++
++    def test_a_strip_with_other_keys_or_not_true_is_refused_and_writes_nothing(self):
++        for body in ({"by": "/test", "strip_tracker_refs": True, "parts": []},
++                     {"by": "/test", "strip_tracker_refs": True, "migrate_status": True},
++                     {"by": "/test", "strip_tracker_refs": "yes"},
++                     {"by": "/test", "strip_tracker_refs": False}):
++            r, _ = self.strip(body)
++            self.assertEqual(r.returncode, 2, body)
++            self.assertIn("refused, nothing written", r.stderr)
++            self.assertEqual(self.read("_spine.yaml"), STRIP_SPINE)
++
++    def test_issue_numbers_leave_the_text_readable(self):
++        sys.path.insert(0, HERE)
++        import link_part
++        cases = {
++            "x (reorganise, #12)": "x (reorganise)",
++            "x (reorganise, #12; one-lines approved)": "x (reorganise; one-lines approved)",
++            "x (reorganise, #12); pages approved": "x (reorganise); pages approved",
++            "x, for #12 (y)": "x (y)",
++            "x (plan work, the new feature, #931)": "x (plan work, the new feature)",
++            "x (#12, #13)": "x",
++            "issue #5 fixed by x": "fixed by x",
++            "#12": "a play",
++        }
++        for text, want in cases.items():
++            self.assertEqual(link_part.without_issue_refs(text), want, text)
++
++
+ if __name__ == "__main__":
+     unittest.main()
+diff --git a/core/components/skills/remove-model-part/SKILL.md b/core/components/skills/remove-model-part/SKILL.md
+index a05fe2506..90c8b3cfa 100644
+--- a/core/components/skills/remove-model-part/SKILL.md
++++ b/core/components/skills/remove-model-part/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: remove-model-part
+-description: Take parts out of the product model once a person has approved it. It repoints what named an old business intent to a new one, or drops it, part by part; removes a business intent's page once nothing names it; merges a capability into another (its features, links, intents and decisions move, and its needs are listed for review, never copied); and removes a slice and its record. Its script does all of it mechanically and all or nothing, on a copy, with every check run before the first write — no name of the person who approved, a part still named by the spine, a page that still names a part being removed (each path and line is named), a capability folder with any other file, or a path that leaves the model refuses the whole request and writes nothing; when a write fails, every file is put back. The spine keeps its comments and layout. It never writes a page's words; the page skill fixes those first, and a survivor's page is the page skill's work. Used through product-os-keeper by any play or run carrying out a removal a person approved.
++description: Take parts out of the product model once a person has approved it. It repoints what named an old business intent to a new one, or drops it, part by part; removes a business intent's page once nothing names it; merges a capability into another (its features, links and intents move, and its needs are listed for review, never copied); removes a slice and its record; and removes the model's decision files, one by one or all at once, with the decisions folder once it is empty, because no decision file lives in the model (ADR 069). Its script does all of it mechanically and all or nothing, on a copy, with every check run before the first write — no name of the person who approved, a part still named by the spine, a page that still names a part or a decision file being removed (each path and line is named), a capability folder with any other file, or a path that leaves the model refuses the whole request and writes nothing; when a write fails, every file is put back. The spine keeps its comments and layout. It never writes a page's words; the page skill fixes those first, and a survivor's page is the page skill's work. Used through product-os-keeper by any play or run carrying out a removal a person approved.
+ user-invocable: false
+ model: sonnet
+ allowed-tools: Read, Bash
+@@ -27,12 +27,16 @@ replaces it and who approved were decided before it runs.
+              {"id": "cap-3", "kind": "capability", "intents": {"bi-2": null}}],
+  "remove": [{"kind": "intent", "id": "bi-1"},
+             {"kind": "capability", "id": "cap-4", "into": "cap-3"},
+-            {"kind": "slice", "id": "sl-old"}]}
++            {"kind": "slice", "id": "sl-old"},
++            {"kind": "decision", "id": "dec-cap-4-security-low-medium"}]}
+ ```
+ 
++To remove every decision file at once, give `{"kind": "decisions"}`, with no id.
++
+ A part to repoint is a domain, a capability, a feature or a slice. In `intents`, each old business
+ intent maps to its new one, or to `null` to drop it. Two parts that shared an intent can go to
+-different new ones. A capability is never simply removed: it merges `into` another.
++different new ones. A capability is never simply removed: it merges `into` another. A decision's
++id is its file's name in the model's `decisions/` folder, less the extension.
+ 
+ ## Process
+ 
+@@ -47,14 +51,14 @@ different new ones. A capability is never simply removed: it merges `into` anoth
+    ```
+ 
+    It works on a copy, in this order: repoints, capability merges, slice removals, intent
+-   removals. Every check runs, and only then is the first file changed. Exit 0: done. Exit 2:
++   removals, decision file removals. Every check runs, and only then is the first file changed. Exit 0: done. Exit 2:
+    nothing was written; the error names the part or the line and why.
+ 3. **Return the report's path.** Pass on `needs_to_review` as it is: a merged capability's needs
+    are for a person to look at.
+ 
+ What a merge does: the capability's features move to the survivor. Whatever was identified by it,
+ or depended on it, now names the survivor, never twice and never the survivor itself. The survivor
+-gains the intents it lacks, in order, and the decisions. The capability's page goes, and its folder
++gains the intents it lacks, in order. A decisions list never moves: no part holds one (ADR 069). The capability's page goes, and its folder
+ when that is then empty.
+ 
+ A merge is a one-time change, so the spine keeps no record of it. The report's `merged` list is the
+@@ -81,5 +85,9 @@ script exits 2.
+   refuses the request. Nothing under the plans folder is touched, even for a slice.
+ - **The removed id stays nowhere.** Anywhere in the changed spine's data it refuses the request,
+   naming the part. Comments in the spine do not count.
++- **A decision file goes only when nothing names it.** While any page, record or spine entry
++  names its id, the request is refused, naming each place; take the names out first (the
++  spine's `decisions` lists go with link-model-part's strip request). The decisions folder goes
++  once no file is left in it. A link in the folder refuses the request.
+ - **A capability with more than its page does not go.** A folder that holds any other file, or an
+   entry in the spine's `ices` list, refuses the merge and is named.
+diff --git a/core/components/skills/remove-model-part/scripts/remove_part.py b/core/components/skills/remove-model-part/scripts/remove_part.py
+index 1951be663..9aa0f9e23 100644
+--- a/core/components/skills/remove-model-part/scripts/remove_part.py
++++ b/core/components/skills/remove-model-part/scripts/remove_part.py
+@@ -17,10 +17,13 @@
+                  {"id": "cap-3", "kind": "capability", "intents": {"bi-2": null}}],
+      "remove": [{"kind": "intent", "id": "bi-1"},
+                 {"kind": "capability", "id": "cap-4", "into": "cap-3"},
+-                {"kind": "slice", "id": "sl-old"}]}
++                {"kind": "slice", "id": "sl-old"},
++                {"kind": "decision", "id": "dec-cap-4-security-low-medium"},
++                {"kind": "decisions"}]}
+ 
+ `repoint` and `remove` are each optional, but at least one must hold an item. The work is done on
+-a copy of the spine, in this order: repoints, capability merges, slice removals, intent removals.
++a copy of the spine, in this order: repoints, capability merges, slice removals, intent removals,
++decision file removals.
+ Every check then runs, and only then is the first file changed.
+ 
+ - repoint: kind is domain, capability, feature or slice, and the id must be in the spine under
+@@ -34,7 +37,8 @@
+     Features whose capability is the id move to `into`. Other capabilities or features
+     identified by the id are now identified by `into`, or by nothing when that would be itself.
+     Every depends_on list that holds the id holds `into` instead, no duplicates, never itself.
+-    The survivor gains the intents it lacks, in order, and the decisions. Non-empty nfr_needs or
++    The survivor gains the intents it lacks, in order; a decisions list does not move, because
++    no part holds one (ADR 069). Non-empty nfr_needs or
+     compliance_needs are listed in the report under needs_to_review, and never copied. The spine
+     keeps no record of the merge: the report's `merged` list is the run's record, and the merged
+     capability's issue number is gone from the model, while the tracker keeps the issue.
+@@ -42,6 +46,12 @@
+     other file, or when the spine has an `ices` list with an entry for it.
+ - remove a slice: its entry goes from `slices`, and its record file (`record`, else
+   slices/<id>.yaml) when it is there. Nothing under the plans folder is touched.
++- remove decision files (ADR 069: no decision file lives in the model): `{"kind": "decision",
++  "id": "<id>"}` removes the file in the model's decisions/ folder whose name, less its
++  extension, is the id; `{"kind": "decisions"}`, with no id, removes every file under that
++  folder. The folder goes too, once nothing is left in it. Refused when no such file is there,
++  when the folder holds a link, or while any page, record or spine entry still names a file
++  being removed (its id, as a whole word).
+ - mentions: every id being removed must no longer appear as a whole word in any .md or .yaml file
+   under the model, other than the files being deleted and _spine.yaml. Anywhere in the changed
+   spine's data it refuses, naming the part. Comments in the spine do not count.
+@@ -75,7 +85,8 @@
+ 
+ KINDS = {"domain": "domains", "capability": "capabilities", "feature": "features", "slice": "slices"}
+ SINGULAR = {key: kind for kind, key in KINDS.items()}
+-REMOVABLE = ("intent", "capability", "slice")
++REMOVABLE = ("intent", "capability", "slice", "decision", "decisions")
++DECISIONS = "decisions"
+ INTENT_ID = re.compile(r"[a-z0-9][a-z0-9-]*")
+ MODEL = "product-os"
+ 
+@@ -142,7 +153,15 @@ def check_request(request):
+     for item in remove:
+         kind, pid = item.get("kind"), item.get("id")
+         if kind not in REMOVABLE:
+-            raise Refused(f"{pid!r}: the kind {kind!r} is unknown here; only an intent, a capability or a slice is removed")
++            raise Refused(f"{pid!r}: the kind {kind!r} is unknown here; only an intent, a capability, a slice "
++                          f"or decision files are removed")
++        if kind == "decisions":
++            if set(item) - {"kind"}:
++                raise Refused("`{\"kind\": \"decisions\"}` removes every decision file and takes no other key")
++            if kind in removing:
++                raise Refused("every decision file is removed twice in this request")
++            removing.add(kind)
++            continue
+         if not isinstance(pid, str) or not pid:
+             raise Refused(f"each item to remove needs an id: {item!r}")
+         if pid in removing:
+@@ -242,8 +261,6 @@ def merge_capability(root, spine, item, removing, change):
+                 part["depends_on"] = pointed_at(part["depends_on"], pid, into, part.get("id"))
+ 
+     survivor["intents"] = no_repeats((survivor.get("intents") or []) + (entry.get("intents") or []))
+-    if entry.get("decisions"):
+-        survivor["decisions"] = no_repeats((survivor.get("decisions") or []) + entry["decisions"])
+     needs = {k: entry[k] for k in ("nfr_needs", "compliance_needs") if entry.get(k)}
+     if needs:
+         change["needs_to_review"].append(dict({"id": pid}, **needs))
+@@ -275,6 +292,42 @@ def remove_intent(root, spine, item, change):
+     change["deletes"].append(page)
+ 
+ 
++def remove_decisions(root, items, change):
++    """Mark the decision files the items name, and the decisions folder when it ends empty, to go.
++    Returns the ids (file names less their extension) of the files that go."""
++    folder = os.path.join(root, DECISIONS)
++    if not os.path.isdir(folder) or os.path.islink(folder):
++        raise Refused("the model has no decisions folder, so there is no decision file to remove")
++    files, links, folders = [], [], []
++    for here, dirs, names in os.walk(folder, topdown=False):
++        links += [os.path.join(here, n) for n in dirs + names if os.path.islink(os.path.join(here, n))]
++        files += [os.path.join(here, n) for n in names if not os.path.islink(os.path.join(here, n))]
++        folders.append(here)
++    if links:
++        raise Refused("the decisions folder holds a link, so nothing in it is removed: "
++                      + ", ".join(sorted(os.path.relpath(p, root) for p in links)))
++    going = []
++    for item in items:
++        if item["kind"] == "decisions":
++            if not files:
++                raise Refused("the decisions folder holds no file to remove")
++            going += files
++            continue
++        pid = item["id"]
++        if not INTENT_ID.fullmatch(pid):
++            raise Refused(f"{pid!r} is not a decision id, or it leaves the model folder")
++        hits = [f for f in files if os.path.dirname(f) == folder
++                and os.path.splitext(os.path.basename(f))[0] == pid]
++        if not hits:
++            raise Refused(f"the decision {pid} has no file in {DECISIONS}/")
++        going += hits
++    going = sorted(set(going))
++    change["deletes"] += going
++    if set(files) <= set(going):
++        change["folders"] += folders
++    return no_repeats(os.path.splitext(os.path.basename(f))[0] for f in going)
++
++
+ def places(value, path, word):
+     """Each place under `value` that holds the word."""
+     if isinstance(value, dict):
+@@ -339,6 +392,9 @@ def plan(root, spine, request):
+     for item in remove:
+         if item["kind"] == "intent":
+             remove_intent(root, new_spine, item, change)
++    decision_items = [item for item in remove if item["kind"] in ("decision", "decisions")]
++    decision_ids = remove_decisions(root, decision_items, change) if decision_items else []
++    removing = (removing - {"decisions"}) | set(decision_ids)
+     left = [f"{pid} in {place}" for pid in sorted(removing) for place in left_in_spine(new_spine, pid)]
+     if left:
+         raise Refused("the spine still names a part being removed: " + "; ".join(left))
+@@ -347,7 +403,8 @@ def plan(root, spine, request):
+         raise Refused("pages still name a part being removed; have the page skill fix these words first: "
+                       + "; ".join(lines))
+     change["repointed"] = no_repeats(item["id"] for item in repoint)
+-    change["removed"] = [item["id"] for item in remove]
++    change["removed"] = no_repeats([item["id"] for item in remove if item["kind"] not in ("decision", "decisions")]
++                                   + decision_ids)
+     return new_spine, change
+ 
+ 
+diff --git a/core/components/skills/remove-model-part/scripts/test_remove_part.py b/core/components/skills/remove-model-part/scripts/test_remove_part.py
+index 4e54473e1..c4a22359d 100644
+--- a/core/components/skills/remove-model-part/scripts/test_remove_part.py
++++ b/core/components/skills/remove-model-part/scripts/test_remove_part.py
+@@ -353,11 +353,11 @@ def test_no_list_holds_the_survivor_twice(self):
+         self.done(request(remove=[self.merge]))
+         self.assertEqual(self.part("features", "fn-2")["depends_on"], ["cap-3", "cap-4"])
+ 
+-    def test_the_survivor_gains_its_intents_and_decisions_in_order(self):
++    def test_the_survivor_gains_its_intents_in_order_and_no_decisions_list(self):
+         self.done(request(remove=[self.merge]))
+         survivor = self.part("capabilities", "cap-3")
+         self.assertEqual(survivor["intents"], ["bi-2", "bi-1"])
+-        self.assertEqual(survivor["decisions"], ["dec-2"])
++        self.assertNotIn("decisions", survivor)
+ 
+     def test_the_spine_keeps_no_record_of_the_merge(self):
+         self.done(request(remove=[self.merge]))
+@@ -521,6 +521,86 @@ def test_another_part_of_the_spine_naming_it_is_refused(self):
+         self.assert_refused(request(remove=[{"kind": "slice", "id": "sl-1"}]), "sl-1", "epic")
+ 
+ 
++class RemoveDecisions(RemovePartCase):
++    """The model's decision files go (ADR 069: no decision file lives in the model)."""
++
++    def setUp(self):
++        super().setUp()
++        self.write("_spine.yaml", SPINE.replace("  decisions:\n  - dec-2\n", ""))
++        self.write("decisions/dec-1.yaml", "decision:\n  id: dec-1\n")
++        self.write("decisions/dec-2.yaml", "decision:\n  id: dec-2\n")
++
++    def test_one_decision_file_goes_and_the_folder_stays(self):
++        rep = self.done(request(remove=[{"kind": "decision", "id": "dec-1"}]))
++        self.assertFalse(self.exists("decisions/dec-1.yaml"))
++        self.assertTrue(self.exists("decisions/dec-2.yaml"))
++        self.assertEqual(rep["removed"], ["dec-1"])
++        self.assertEqual(rep["deleted"], ["product-os/decisions/dec-1.yaml"])
++        self.assertEqual(rep["changed"], [])
++
++    def test_every_decision_file_goes_with_the_folder(self):
++        self.write("decisions/old/dec-3.md", "an old note\n")
++        rep = self.done(request(remove=[{"kind": "decisions"}]))
++        self.assertFalse(self.exists("decisions"))
++        self.assertEqual(rep["removed"], ["dec-1", "dec-2", "dec-3"])
++        self.assertEqual(rep["deleted"], ["product-os/decisions/dec-1.yaml", "product-os/decisions/dec-2.yaml",
++                                          "product-os/decisions/old/dec-3.md", "product-os/decisions/old",
++                                          "product-os/decisions"])
++
++    def test_the_last_file_named_one_by_one_takes_the_folder_too(self):
++        self.done(request(remove=[{"kind": "decision", "id": "dec-1"}, {"kind": "decision", "id": "dec-2"}]))
++        self.assertFalse(self.exists("decisions"))
++
++    def test_it_is_refused_while_the_spine_names_it(self):
++        self.write("_spine.yaml", SPINE)
++        self.assert_refused(request(remove=[{"kind": "decisions"}]), "dec-2", "capability cap-2")
++
++    def test_it_is_refused_while_a_page_names_it(self):
++        self.write("capabilities/cap-1/capability.md", "# Capability: Send mail\nSee decisions/dec-1.yaml.\n")
++        self.assert_refused(request(remove=[{"kind": "decision", "id": "dec-1"}]),
++                            "capabilities/cap-1/capability.md:2 names dec-1")
++
++    def test_one_decision_file_naming_another_is_no_problem_when_both_go(self):
++        self.write("decisions/dec-2.yaml", "decision:\n  id: dec-2\n  supersedes: dec-1\n")
++        self.done(request(remove=[{"kind": "decisions"}]))
++        self.assertFalse(self.exists("decisions"))
++
++    def test_refusals(self):
++        self.assert_refused(request(remove=[{"kind": "decision", "id": "dec-9"}]), "dec-9", "no file")
++        self.assert_refused(request(remove=[{"kind": "decision", "id": "../intents/bi-1"}]), "leaves the model")
++        self.assert_refused(request(remove=[{"kind": "decision"}]), "needs an id")
++        self.assert_refused(request(remove=[{"kind": "decisions", "id": "dec-1"}]), "no other key")
++        self.assert_refused(request(remove=[{"kind": "decisions"}, {"kind": "decisions"}]), "twice")
++        self.assert_refused(request(remove=[{"kind": "decision", "id": "dec-1"}], approved_by=""), "approved_by")
++        self.assert_refused({"by": "/test", "remove": [{"kind": "decisions"}]}, "approved_by")
++
++    def test_a_model_with_no_decision_file_is_refused(self):
++        for name in ("dec-1.yaml", "dec-2.yaml"):
++            os.remove(os.path.join(self.root, "decisions", name))
++        self.assert_refused(request(remove=[{"kind": "decisions"}]), "no file to remove")
++        os.rmdir(os.path.join(self.root, "decisions"))
++        self.assert_refused(request(remove=[{"kind": "decisions"}]), "no decisions folder")
++
++    def test_a_link_in_the_folder_is_refused(self):
++        os.symlink(os.path.join(self.root, "intents", "bi-1.md"), os.path.join(self.root, "decisions", "dec-3.yaml"))
++        self.assert_refused(request(remove=[{"kind": "decisions"}]), "holds a link")
++
++    def test_a_delete_that_fails_puts_every_decision_file_back(self):
++        before = self.tree()
++        real = os.rmdir
++
++        def fail(path):
++            raise OSError("no folder removal today")
++
++        with mock.patch.object(remove_part.os, "rmdir", side_effect=fail):
++            with self.assertRaises(OSError):
++                remove_part.apply(os.path.join(self.root, "_spine.yaml"), self.read("_spine.yaml"), None,
++                                  [os.path.join(self.root, "decisions", n) for n in ("dec-1.yaml", "dec-2.yaml")],
++                                  [os.path.join(self.root, "decisions")], self.out, "{}")
++        self.assertIs(os.rmdir, real)
++        self.assertEqual(self.tree(), before)
++
++
+ class TheWholeRequest(RemovePartCase):
+     def test_all_three_kinds_together_in_their_order(self):
+         rep = self.done(request(

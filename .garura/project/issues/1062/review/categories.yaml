@@ -1,0 +1,81 @@
+# Assessment of PR #1063 (issue 1062, step 1 of the model clean-up). Derived from the diff.
+# Already run by the orchestrator (recorded, not repeated): lint-components 36 errors, none in a
+# changed file; lint-play PASS on reshape-plan and specify-capabilities; all tests in the touched
+# folders pass.
+memory_copies:
+  review_shelf: .garura/project/issues/1062/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/1062/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/1062/context/memory/manifest.json
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/reshape-plan/SKILL.md
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/skills/remove-model-part/SKILL.md
+      - core/components/agents/product-os-keeper.md
+    treatment:
+      layers: [1, 2]
+      linters:
+        - command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+        - command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/reshape-plan/SKILL.md --next-map <next-map copy>
+        - command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/specify-capabilities/SKILL.md --next-map <next-map copy>
+      runnable_checks:
+        - only a violation whose file is in the changed paths is a finding; others are counted as "there before"
+        - ICE-source rule applies (the repo holds the plays' source): an intent change traces to reference/ice.md, not a hand edit of SKILL.md
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+    treatment:
+      layers: [1, 2]
+      linters:
+        - command: "none installed (known gap in the playbook)"
+      runnable_checks:
+        - "by hand: structure and cross-reference integrity of the changed schema file (ids, pointers, ADR and ontology references resolve), each check cited"
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/remove-model-part/scripts/remove_part.py
+      - core/components/plays/reshape-plan/scripts/check_agreement.py
+      - core/components/plays/reshape-plan/scripts/plan_ops.py
+      - core/components/plays/specify-capabilities/scripts/persist_understand.py
+      - core/components/plays/specify-domains/scripts/persist_seed.py
+    treatment:
+      layers: [1]
+      linters:
+        - command: language linter the repo commits, plus check-pr-quality with the pr.md taxonomy (SEC, CODE, ARCH, BE, PERF, DATA rows)
+      runnable_checks:
+        - review data-safety and idempotency paths hard (the one-time strip of the spine, the decision-file removal)
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - core/components/skills/remove-model-part/scripts/test_remove_part.py
+      - core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
+      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
+      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
+    treatment:
+      layers: [1]
+      linters:
+        - command: check-pr-quality TEST-* rows
+      runnable_checks:
+        - run the suites in the touched folders (orchestrator: all pass); a red suite is a blocker
+  - name: run-records
+    playbook: missing
+    note: "playbook missing: no review playbook covers a run-record folder (issue run artifacts under .garura/project/issues/1062/context/). pr.md classes them as stm-evidence (prose). Follow-up task: add a playbook."
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/1062/context/analysis.yaml
+      - .garura/project/issues/1062/context/pr-body.md
+      - .garura/project/issues/1062/context/self-review.md
+    treatment:
+      layers: []
+      linters: []
+      runnable_checks:
+        - "by hand: no personal details in the records (checked in words only)"
