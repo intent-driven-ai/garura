@@ -38,6 +38,12 @@ schema:
 # the grounding doc named by `doc`. The parent is named by its real relation: a
 # capability names its `domain`, a feature names its `capability`. The kind is
 # implied by the collection, so there is no `type` field.
+#
+# No tracker reference and no decision record (ADR 069, ontology v18): no entry holds an
+# `issue` or a `decisions` list, and no entry, page, Sources list or metadata names a plan, a
+# plan folder, an eval, a hidden file, an epic, a tracker issue number or link, or a decision
+# record. `metadata.created_by` and `metadata.updated_by` name the play or agent and what it
+# did (for example "product-os-keeper (reorganise business intents)"), never an issue number.
 
 domains:
   - id: string            # opaque, stable — never changes once assigned
@@ -53,10 +59,9 @@ domains:
                           # and features). A domain carries no ICE of its own; the
                           # link says which intents reach into it. How each intent touches it
                           # (adds / changes / removes) is on the intent page's Touches list.
-    decisions: [string]   # decision (ADR) record ids affecting this domain
     metadata:
-      created_by: string
-      updated_by: string
+      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
+      updated_by: string  # the same rule as created_by
       version: integer
 
 capabilities:
@@ -90,12 +95,11 @@ capabilities:
                           # one needs done first. Field renamed to `needs` under #725.
     identified_by: string # the capability or feature that led us to find this one; empty
                           # when it was found on its own (ontology v5)
-    decisions: [string]
     personas: [string]    # persona record ids attached to this capability
     journeys: [string]    # journey record ids attached to this capability
     metadata:
-      created_by: string
-      updated_by: string
+      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
+      updated_by: string  # the same rule as created_by
       version: integer
 
 features:
@@ -117,10 +121,9 @@ features:
                           # one needs done first. Field renamed to `needs` under #725.
     identified_by: string # the capability or feature that led us to find this one; empty
                           # when it was found on its own (ontology v5)
-    decisions: [string]
     metadata:
-      created_by: string
-      updated_by: string
+      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
+      updated_by: string  # the same rule as created_by
       version: integer
 
 # ---- The agent intents: one ICE for each capability and feature ------
@@ -137,8 +140,8 @@ ices:
     for_kind: string      # capability | feature — must match the part `for` names
     doc: string           # pointer to its ice.md
     metadata:
-      created_by: string
-      updated_by: string
+      created_by: string  # the play or agent and what it did; never an issue (ADR 069)
+      updated_by: string  # the same rule as created_by
       version: integer
       thin: boolean       # true while the ICE is thin (ontology v11); the play that deepens it removes it
 

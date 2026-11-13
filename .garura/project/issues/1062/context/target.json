@@ -1,0 +1,7 @@
+{
+  "branch": "feature/1062-model-cleanup-skills",
+  "kind": "one-off",
+  "plan_id": null,
+  "issue": "1062",
+  "base": "main"
+}

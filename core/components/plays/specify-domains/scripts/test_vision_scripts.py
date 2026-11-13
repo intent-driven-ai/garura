@@ -144,7 +144,7 @@ def persist(base, work, delta, intents=None):
 VISION_DELTA = {
     "domains": [{"id": "support", "slug": "support", "status": "proposed", "detail": "detailed",
                  "one_line": "Helps shoppers who are stuck.", "doc": "support/domain.md",
-                 "intents": ["grow-online-sales"]}],
+                 "intents": ["grow-online-sales"], "issue": 12, "decisions": []}],
     "updates": [{"kind": "domain", "id": "shop", "detail": "detailed", "intents": ["grow-online-sales"]}],
 }
 SUPPORT_DOMAIN = FULL_DOMAIN.replace("# Theme: Shop", "# Theme: Support")
@@ -191,6 +191,8 @@ def test_the_hand_over():
         check("a second domain is added (a product may sit in several)", "support" in doms)
         check("a new domain gets no status, even when the delta gives one (only a feature has a state)",
               "status" not in doms["support"])
+        check("a new domain gets no issue and no decisions list, even when the delta gives them (ADR 069)",
+              "issue" not in doms["support"] and "decisions" not in doms["support"])
         check("/specify-domains leaves the capability alone — still waiting in the holding folder, no domain (ADR 043)",
               cap["domain"] == "" and cap["doc"] == "capabilities/guest-checkout/capability.md"
               and os.path.isfile(os.path.join(m, "capabilities", "guest-checkout", "capability.md")))

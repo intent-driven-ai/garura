@@ -457,7 +457,7 @@ class NewFeatureTest(Session):
             fh.write("# Feature: Undo\n\nThin: proposed\n\n## Agent intent (ICE)\n- Goal: undo.\n")
         spine = os.path.join(model, "_spine.yaml")
         with open(spine, "w") as fh:
-            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n  issue: 100\n"
+            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n"
                      "  metadata: {thin: true}\n")
         self.check([{"op": "new-feature", "issue": None, "title": "Undo the last booking", "parent": 41,
                      "feature": "fn-undo", "capability": "cap-1", "slice": None}], "we found undo")
@@ -466,6 +466,9 @@ class NewFeatureTest(Session):
                               "--out-github", self.p("github-ops.json"), "--out-model", self.p("model-ops.json")])
         ops = ps.read_json(self.p("github-ops.json"), "ops")["ops"]
         self.assertIn("Represents: fn-undo", ops[0]["body"])
+        part = ps.read_json(self.p("model-ops.json"), "model")["parts"][0]
+        self.assertNotIn("story", part)
+        self.assertNotIn("issue", part)
         shutil.copy(self.plan, self.p("plan-before.yaml"))
         after = json.loads(json.dumps(SNAP))
         after["issues"]["100"] = issue(100, "Undo the last booking", "Story", parent=41)
@@ -487,7 +490,7 @@ class NewFeatureTest(Session):
         ps.write_json(self.p("model-record-story.json"), {"parts": [{"feature": "fn-undo", "issue": 100}], "files": []})
         self.assertEqual(quiet(check_agreement.main, args + ["--model-record", self.p("model-record-story.json")]), 0)
         with open(spine, "w") as fh:
-            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n  issue: 100\n")
+            fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n")
         self.assertEqual(quiet(check_agreement.main, args), 1)
         self.assertFalse(ps.read_json(self.p("agreement.json"), "a")["features_ok"])
 

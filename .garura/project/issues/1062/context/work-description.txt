@@ -1,0 +1,9 @@
+[TASK] Model clean-up part 2: take issue numbers, tracker lines and decision records out of the product model (ADR 069)
+
+What: ADR 069 and ontology v18 say the product model names no plan, tracker issue or decision record. Garura's own model still does. This work removes, approved by the product owner on 2026-11-12 (design: step 1 a skill change, step 2 the clean-up):
+- A: the "Tracker:" line on business-intent pages;
+- B: issue numbers cited in page text (by rules the product owner approves on a sample of pages);
+- C: issue numbers inside the spine's created_by / updated_by;
+- D: the old `issue` field on feature entries;
+- E: the `decisions` field on parts, and the one decision file.
+Step 1: the skills that write the model (link-model-part, remove-model-part) learn to remove these and stop writing them. Step 2: the clean-up itself, through product-os-keeper and those skills. Git history keeps every removed line.

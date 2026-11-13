@@ -27,12 +27,15 @@ capability, #615):
      capability == that manifest's target; additive — an id already present under the same
      capability is left untouched; an id declared twice in the run, or already present under
      another capability, is refused). Each new feature gets its state, `status: Unplanned`
-     (ontology v18, ADR 070), whatever status its manifest entry carried.
+     (ontology v18, ADR 070), whatever status its manifest entry carried. An `issue` or
+     `decisions` key the manifest entry carries is dropped: the model names no tracker issue
+     and no decision record (ADR 069).
   3. the rolled-up `profile` (the firmed box) from the proposed-profile. It refuses a
      profile that is not `set`, lowers a dimension the live box holds, or drops a
      compliance regime — the box only ever goes up (C7).
-  4. one decision record per box-move (ADR, level product, status accepted), each linked onto
-     the `decisions` list of the capability the move names. Inside a loop (#615) the play
+  4. one decision record per box-move (ADR, level product, status accepted), linked to the
+     capability the move names by its `node_ref`; no spine entry gets a `decisions` list
+     (ADR 069). Inside a loop (#615) the play
      passes --decision-status proposed: no person has said yes, so the loop's review
      accepts or drops each move. The persist record's `box_moves` carry each move's
      decision id and status, so the run's record shows what was written.
@@ -148,10 +151,14 @@ def profile_error(live_profile, proposed):
     return None
 
 
+TRACKER_KEYS = ("issue", "decisions")  # the model names neither (ADR 069)
+
+
 def unplanned(feature):
     """A copy of a new feature's entry with its state Unplanned (ontology v18, ADR 070): a status
     it carried is replaced in place; with none, the state goes after its intents, or after its
-    capability when it has no intents."""
+    capability when it has no intents. An `issue` or `decisions` key is dropped (ADR 069)."""
+    feature = {k: v for k, v in feature.items() if k not in TRACKER_KEYS}
     if "status" in feature:
         return {k: ("Unplanned" if k == "status" else v) for k, v in feature.items()}
     after = "intents" if "intents" in feature else "capability"
@@ -357,9 +364,6 @@ def main(argv=None):
                 yaml.safe_dump(decision, fh, sort_keys=False)
             written.append(f"decision:{did}")
             changed["decisions"].append(did)
-            cap_decisions = targets[cap_id].setdefault("decisions", [])
-            if did not in cap_decisions:
-                cap_decisions.append(did)
 
     with open(live_spine_path, "w", encoding="utf-8") as fh:
         yaml.safe_dump(live, fh, sort_keys=False, allow_unicode=True)

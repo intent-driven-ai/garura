@@ -1,0 +1,45 @@
+---
+needs_judgment: false
+change_groups:
+  - id: model-skills-stop-tracker-and-decision-fields
+    issue: 1062
+    commit_type: feat
+    scope: product-os-model
+    subject: "stop model-writing skills writing tracker issues and decision lists, and let them remove them"
+    files:
+      - core/components/skills/link-model-part/SKILL.md
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+      - core/components/skills/remove-model-part/SKILL.md
+      - core/components/skills/remove-model-part/scripts/remove_part.py
+      - core/components/skills/remove-model-part/scripts/test_remove_part.py
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+      - core/components/agents/product-os-keeper.md
+  - id: play-scripts-stop-writing-tracker-and-decision-fields
+    issue: 1062
+    commit_type: fix
+    scope: plays
+    subject: "stop play scripts writing tracker issue and decision fields into the model"
+    files:
+      - core/components/plays/specify-domains/scripts/persist_seed.py
+      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
+      - core/components/plays/specify-capabilities/scripts/persist_understand.py
+      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
+      - core/components/plays/reshape-plan/SKILL.md
+      - core/components/plays/reshape-plan/scripts/check_agreement.py
+      - core/components/plays/reshape-plan/scripts/plan_ops.py
+      - core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
+  - id: record-1062-run-artifacts
+    issue: 1062
+    commit_type: chore
+    scope: stm
+    subject: "record run artifacts"
+    files:
+      - .garura/project/issues/1062/context/analysis.yaml
+exclusions: []
+risks:
+  sensitive_files: []
+  breaking_changes:
+    - "spine.yaml schema change (tracker/decision fields); verify consumers"
+  ambiguous_types: []
+  hotfix_branch: false

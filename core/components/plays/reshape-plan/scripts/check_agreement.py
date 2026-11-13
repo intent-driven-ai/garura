@@ -20,8 +20,9 @@ For each item the list names (its number from the tracker record for a new one):
 Nothing else changed: every node and every top field of the plan file that the list does not name
 reads as before (`updated` aside), and every issue of the snapshot that the list does not name
 reads as before in the tracker. For a new feature: the model record names its page and its
-entry, the spine has the feature with `metadata.thin: true` and its story's issue, its page has
-the Thin line, and its story's node stands for it (`features_ok`). The evals folders hash as
+entry, the spine has the feature with `metadata.thin: true`, its page has the Thin line, and its
+story's node in the plan file stands for it (`features_ok`). The spine names no story: the model
+holds no tracker issue (ADR 069), so the plan file's node is the link. The evals folders hash as
 before (`evals_unchanged`). The overrides and what is owed are named in the landing's commit
 message (commit_plan.py), not here.
 
@@ -146,7 +147,6 @@ def check(args):
             ok = (f is not None and (f.get("metadata") or {}).get("thin") is True
                   and page and os.path.isfile(page)
                   and any(ln.startswith(THIN_PREFIX) for ln in ps.read_text(page).splitlines())
-                  and str(f.get("issue")) == str(numbers.get(e["n"]))
                   and node is not None and node.get("represents") == e["feature"]
                   and e["feature"] in [p.get("feature") for p in model.get("parts") or []])
             if not ok:

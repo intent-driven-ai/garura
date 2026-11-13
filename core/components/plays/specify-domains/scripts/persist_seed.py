@@ -13,7 +13,8 @@ whole run before anything is written.
 
   - new `domains` entries: added ONLY when their id is absent; an id already present is left
     untouched (recorded as skipped). A `status` the delta gives is dropped: only a feature has a
-    state (ontology v18, ADR 070), so a domain has no status.
+    state (ontology v18, ADR 070), so a domain has no status. An `issue` or `decisions` key is
+    dropped too: the model names no tracker issue and no decision record (ADR 069).
   - `updates` to existing domains — ONLY these (C6): raise `detail` (directional → detailed,
     never lower); refresh `one_line`; add to `intents`. Any other field, an unknown id, a
     lowered `detail`, or an update of any other kind refuses the whole run.
@@ -55,6 +56,7 @@ SPINE_NAME = "_spine.yaml"
 NOT_MINE = ("capabilities", "features", "slices", "epics")
 UPDATABLE = {"domain": ("detail", "one_line", "intents")}
 DETAIL_RANK = {"directional": 0, "detailed": 1}
+DROPPED = ("status", "issue", "decisions")  # only a feature has a state (ADR 070); no tracker refs (ADR 069)
 
 
 class Refused(Exception):
@@ -89,7 +91,7 @@ def merge_new(delta, live, rec):
         if eid in have:
             rec["skipped"].append(tag)
         else:
-            live_list.append({k: v for k, v in e.items() if k != "status"})
+            live_list.append({k: v for k, v in e.items() if k not in DROPPED})
             have.add(eid)
             rec["written"].append(tag)
             rec["new"].add(("domain", str(eid)))
