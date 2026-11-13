@@ -9,7 +9,7 @@ Each time a way past is used, one owed entry is written in the issue folder of t
   - what is still to be done to pay it.
 - The entry stays with the work, as every other record of that work does: "Everything a piece of work writes goes under its issue".
 - The one list is read the way the gate learner already reads the checkpoint history: "Each issue keeps its own history", and "The learner reads every issue's history". A tool builds the list, so no play hunts through each issue's short-term memory itself.
-- A change left for Learn at its proposal is one kind of entry: the list of changes not yet learned is one example of where the debt is kept, and that list holds the issue, the branch, what was left, who chose, and when.
+- A change left for Learn at its proposal is one kind of entry: "the not-yet-learned list of [the decisions on how the product model moves with the work]" is named as an example of where the debt is kept, and that list holds "issue, branch, what was left, who chose, when".
 - Where what is owed is written today, with no one home:
   - a plan session's commit, whose Owed lines name "what a new feature still needs";
   - the thin marks on a page and on its entry in the model's index;
@@ -33,10 +33,10 @@ Status: not built. Where the debt a key leaves is kept is not settled; the list 
 - Out: an entry marked closed once its debt is paid.
 
 ## Rules & behavior
-- What is owed is kept with the work that made it, never in a global file. The reason: nothing is written to a global file, and in the product owner's words: "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure".
+- What is owed is kept with the work that made it, never in a global file. The reason, as asked: "Nothing is written to a global file.", and in the product owner's words: "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure".
 - An entry counts once its change lands. The reason: the gate rule says the same of an issue's history, which "counts once it is on the branch the learner runs on (in practice, once merged)".
-- A tool reads every issue's entries as one list. The reason: the gate rule already works this way, "The learner reads every issue's history", and Learn is to process exactly that list later and never hunt through every issue's short-term memory.
-- Every entry has the same parts. The reason: a key records who used it, when, what was skipped, and where the debt is kept so a later play finds it.
+- A tool reads every issue's entries as one list. The reason: the gate rule already works this way, "The learner reads every issue's history", and Learn is asked to process "exactly that list later and never hunts through every issue's short-term memory".
+- Every entry has the same parts. The reason: it is asked that a key record "who used it, when, what was skipped, and where the debt is kept so a later play finds it".
 - An entry is closed only when its debt is paid. The reason: in other tools, "an entry is closed only when the debt is paid".
 - Not decided: who reads the list: every play at its start, the plan views, or only Learn.
 - Not decided: whether an entry is also an issue in the team's tracker, under the work that made it.

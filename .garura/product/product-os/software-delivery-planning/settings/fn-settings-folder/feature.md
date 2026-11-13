@@ -2,13 +2,13 @@
 
 ## What it does
 Every settings file other than the one settings file goes into one settings folder beside it, in the source and in each project, so a person and a play know where a new settings file goes and where to find one; the first to go there is the learned policy.
-- Every other settings file goes into one folder: `core/config/` in the source, installed into `.garura/core/config/`.
+- What is asked of the settings folder: "Every other settings file goes into one folder: `core/config/` in the source, installed into `.garura/core/config/`."
 - The one settings file stays where it is: "It is the entry point."
 - The first file to go into the folder is the learned policy: "The gate policy moves there, as the gate policy config. `config.yaml`'s pointer to it (`gates.conditional.policy`) follows it."
 - What stays where it is, outside the settings folder:
   - a tool's own settings: "Tool settings stay with their tool (for example the memory tool's `settings.json`).";
   - a play's own lookup tables: "A play's or a skill's own lookup tables stay with the play as its reference (for example `/list-focus-issues`'s kind map).";
-  - and three files that stay as they are: Claude Code's own settings (`.claude/`), the install record (`install-manifest.json`), the engine state (`engine-state.json`).
+  - and three files left as they are: "Claude Code's own settings (`.claude/`), the install record (`install-manifest.json`), the engine state (`engine-state.json`)".
 - Today the folder does not exist, no settings file other than the one is in the source, and the learned policy, named at `.garura/core/gate-policy.yaml`, has never been written.
 - Moving the folder into projects that already have Garura belongs to the feature where a reinstall brings a project up to date without losing what its people changed, in Upgrade a project.
 - Examples, in different kinds of project:
@@ -28,12 +28,12 @@ Status: not built. Today:
 - Out: the pointer in the settings file, naming the file's place in the folder.
 
 ## Rules & behavior
-- The one settings file stays where it is. The reason: it is the entry point.
+- The one settings file stays where it is. The reason: "It is the entry point."
 - Every other settings file goes into one folder. The reason: "Every other settings file goes into one folder".
 - The learned policy moves there, and the setting that points to it follows. The reason: "The gate policy moves there, as the gate policy config."
 - A tool's own settings stay with the tool. The reason: "Tool settings stay with their tool".
 - A play's own lookup tables stay with the play. The reason: "A play's or a skill's own lookup tables stay with the play as its reference".
-- The coding tool's own settings (`.claude/`), the install record (`install-manifest.json`) and the engine state (`engine-state.json`) do not move. The reason: the settings folder leaves them as they are.
+- The coding tool's own settings, the install record and the engine state do not move. The reason: these are listed as not changed, "Claude Code's own settings (`.claude/`), the install record (`install-manifest.json`), the engine state (`engine-state.json`)".
 - Not decided: which settings, if any, move out of the one settings file into a file of the folder.
 - Not decided: whether a team's own settings files, for the plays it builds, go into the same folder.
 

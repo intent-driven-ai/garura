@@ -5,7 +5,7 @@ When a play files or takes in a piece of work that serves a business intent, thi
 - What hangs where, by the way of working: an epic serves one or more business intents, its stories hang under it, and each bug, spike and chore hangs under a story. A business intent has no parent. A spike, a chore or a bug reaches its intent through its story and its epic.
 - An unplanned epic, which gathers defects that are fixed together, hangs under the intent whose delivered work broke, "as that intent's sub-issue".
 - The link is the tracker's own, across trackers too. ADR 065 records the product owner's call: "Decided: the real link stays, as the product owner asked, including across trackers."
-- It has been done once, by hand. In the reorganisation of the business intents, the open work moved under the new intents with real links across the repos, between two GitHub repositories of one organization. No play makes the link.
+- It has been done once, by hand. In the reorganisation of the business intents, "the open work moved under the new intents with real links across the repos", between two GitHub repositories of one organization. No play makes the link.
 - What is known of links between trackers, from the approved research:
   - On GitHub, "a parent issue can take an existing issue from another repository as a sub-issue", up to 100 of them and eight levels deep. "The docs do not say whether the other repository may be in another organization."
   - Jira links a work item to GitHub through its key, written in a branch name, a commit message or a pull request title.

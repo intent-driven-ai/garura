@@ -18,7 +18,7 @@ Status: built in part, in the install play only (the old capability "Installs fo
 - A part under an old name goes once its new name is laid, "only when its file still says `name: <old name>` — proof Garura placed it" (`retire_renamed`). It "covers projects installed before the install manifest existed". The tests: old names go and the project's own folders stay; every old name of one new name goes.
 - A part the last record listed and this install does not lay goes (`retire_stale`): "Only manifest-recorded paths are candidates".
 - Not built: the one-line command removes nothing. It copies over what is there, so a renamed or dropped part stays and still shows as a command.
-- Not built: a dropped part in a project with no record. The rename step does not see it, because a part removed with no new name has "no new name to lay", and the record step needs a record. Such parts still show as commands, though the Discovery loop no longer runs them.
+- Not built: a dropped part in a project with no record. The rename step does not see it, because a part removed with no new name has "no new name to lay", and the record step needs a record. In the words of the report of these parts: "They still show as commands, though the Discovery loop no longer runs them".
 - Not built: showing the parts to go before they go; the install play takes them out, then lists them as retired.
 - Not built: a check for a person's edit before a part goes.
 - Not decided: whether, in a project with no record, the upgrade also matches the parts of the version the project records, beside the proof in each file.
@@ -35,7 +35,7 @@ Status: built in part, in the install play only (the old capability "Installs fo
 - No old name beside its new one. The reason: the old capability's goal, "A project never ends up with an old and a new name side by side.", and ADR 046: "An install removes a component left under its old name when Garura placed it."
 - Only what Garura laid. The reason: the old feature's limit, "Never removes a component the project wrote itself.", and the rename step's proof, "proof Garura placed it".
 - Dropped parts go through the same step as a change of choice. The reason: Install into a project holds that moving to a new version "takes out what Garura dropped through this same step", so the two never disagree on what a record allows.
-- Every project, with or without a record. The reason: a person who reinstalls Garura in any project, however old its last install, is to end with only the parts Garura has today.
+- Every project, with or without a record. The reason, as asked: "A person who reinstalls Garura in any project, however old its last install, ends with only the parts Garura has today."
 - Through both front doors. The reason: the one engine is behind both, and today a one-line upgrade leaves every renamed and dropped part in place.
 - An edited part goes only on the person's yes. The reason: Install and distribute must not "Change what a project's people changed without asking them."
 - Shown first, named in the report. The reason: taking a play out takes away a command the team may still use.

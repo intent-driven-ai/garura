@@ -30,7 +30,7 @@ Status: not built. Gate records, and every run's records, are not yet kept in th
 
 ## Rules & behavior
 - Every skip is recorded, whatever the evidence setting says. The reason: "Skips are always visible in evidence — a silent gate is not a gate."
-- The record goes in the issue's own folder. The reason: a gate record goes in the evidence folder of the issue whose run made it.
+- The record goes in the issue's own folder. The reason, as asked: "A gate record goes in the evidence folder of the issue whose run made it".
 - The record names the setting that skipped the checkpoint. The reason: the rule already records "gate skipped by config (<resolution path>)".
 - A skip teaches the learned policy nothing. The reason: "the human's real action is the verdict that teaches the policy."
 - A pinned checkpoint is never skipped. The reason: "A pinned gate NEVER resolves off".

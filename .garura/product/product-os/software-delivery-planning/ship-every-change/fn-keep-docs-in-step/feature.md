@@ -3,7 +3,7 @@
 ## What it does
 A change that adds, renames, retires or changes a command brings the docs and command pages that describe it, in the same change, and a check run with the normal lint fails the change while the pages and the commands disagree, so the pages always say what ships today.
 - The docs are the pages a person reads to learn what the project does and how to use it. The command pages are the lists of commands a person reads to learn which ones exist and what each does, such as a cheat sheet of commands.
-- The docs and the command pages say what Garura does today, and something keeps them in step when a play changes. For Garura's own repository, the commands are its plays; for a product project, they are the commands its own docs list.
+- As asked: "The docs and the command pages say what Garura does today, and something keeps them in step when a play changes." For Garura's own repository, the commands are its plays; for a product project, they are the commands its own docs list.
 - What the check catches, by machine:
   - a page that names a command that does not exist, such as a short name no play has;
   - a command that no page names;

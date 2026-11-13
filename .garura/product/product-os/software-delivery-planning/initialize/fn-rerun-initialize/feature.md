@@ -26,7 +26,7 @@ Status: not built, like the rest of Initialize.
 - Out: the change record, a list of what changed since the last run, shown in the brief: answers changed, memory blocks and parts added or taken out, rule groups now kept or skipped, tracker types made or mapped, the tracker the mapping now points to, and the old mapping when it changed.
 
 ## Rules & behavior
-- An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed. The reason: the answers are the person's; a proposed answer always names its source.
+- An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed. The reason: the rule, "The answers are the person's; a proposed answer always names its source."
 - When the project itself now shows a different answer than the earlier one (for example a database it did not have), the proposal names the project as its source and the earlier answer is shown beside it, because what the project holds now is newer evidence than an old answer, and the earlier answer beside it lets the product owner see what changed before confirming.
 - A run with every answer unchanged and no change in Phoenix memory changes nothing, so a repeat run is always safe to start. The reason: the capability's reliability need, "a second run with every answer unchanged and no Phoenix memory change changes 0 files in the project's memory, its rule-group record and its tracker".
 - The tracker rule holds on every run: nothing is made in the tracker and no stand-in is mapped before a typed yes, because the tracker is an outside system the whole team sees, and a re-run is as able to make a wrong type as a first run.

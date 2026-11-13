@@ -5,7 +5,7 @@ The map names one approval state that every kind of the model carries, approved,
 - ADR 033 (accepted, approval is part of the product model, and agents work only on approved pieces): "Approval is part of the product model itself, not a record kept beside it."
 - Its three states: "**Approved** — a person accepted these exact words." The piece keeps a fingerprint of its words, who approved it, when, and in which review. Changed: the piece is new, or its words no longer match the fingerprint. In progress: a person sent it back, and it is being reworked.
 - Its one lifecycle, which the map is to hold: "The ontology names one approval lifecycle for every kind and maps these onto it. So a page and its approval state never disagree." An approved business intent is confirmed, an approved decision is accepted, and an approved capability or feature is active.
-- The plan is for the ontology (`core/components/memory/standards/schemas/product-os/ontology.md`) to name one approval lifecycle for every kind, and map today's states onto it. It is not built: the map names no approval state.
+- The plan that every piece of the model carries its approval state plans it: "The ontology (`core/components/memory/standards/schemas/product-os/ontology.md`) names one approval lifecycle for every kind, and maps today's states onto it". It is not built: the map names no approval state.
 - A write is never stopped: a write to an approved piece moves it to changed, by its fingerprint, and "No play has to remember to say so."
 - Examples, in different kinds of project:
   - In a clinic's booking app, the product owner approves the ICE of the Reminders capability in a review. The map says what that approval keeps, so a reader finds the fingerprint, who approved it and when.

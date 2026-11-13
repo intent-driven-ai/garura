@@ -2,7 +2,7 @@
 
 ## What it does
 Everything a play run writes goes in the folder of the issue whose work made it, nothing goes in a global file, and every path written in the records starts at the repository's root, so a person finds what each run did and decided with its work, and no record shows where a file sits on a person's machine.
-- A run's records are its context, its checks, its evidence, its review records and its gate records. What a run did and decided is kept with the issue that made it, not in a global file.
+- A run's records are its context, its checks, its evidence, its review records and its gate records. As asked: "What a run did and decided is kept with the issue that made it, not in a global file."
 - What exists today, for the records of a run:
   - Each issue has its own folder in short-term memory, with five keys: specs, evidence, checkpoint, context and review.
   - Each issue keeps its own gate ledger, in its `review/` folder, and the gate rule says: "Everything a piece of work writes goes under its issue".
@@ -10,7 +10,7 @@ Everything a play run writes goes in the folder of the issue whose work made it,
   - Some runs keep their records outside any issue's folder. The decision play's working folder is "`{stm_base}_adr/<run-ts>/` — fixed, not keyed on the issue, because run by hand pre-flight runs before start-change has created it"; 31 such folders, with 390 files, are kept in git. A plan session keeps its records in `_plans/update-plan/<id>/`.
   - The old global gate ledger, and the defect reports' evidence folder, hold run records with no issue.
   - Gate records go in the issue's `review/` folder today, while the plans for gate records and for every run's records name the issue's evidence folder.
-  - Plays write home-folder paths into the run records they commit. They are written by the component linter's output, the plan play's gather script, the eval play's place and check scripts, the self-review's rules file, and the template manager's manifests. So every change that lands publishes the person's user name and folder layout.
+  - Plays write home-folder paths into the run records they commit. They are written by the component linter's output, the plan play's gather script, the eval play's place and check scripts, the self-review's rules file, and the template manager's manifests. So "every change that lands publishes the person's user name and folder layout."
 - Examples, in different kinds of project:
   - In a bank's payments service, a decision recorded by hand writes its brief and its checks in the folder of the issue it decides, not in a shared folder with no issue.
   - In an open-source library, the linter's record names each file by its path from the repository's root, so a push of the record shows no user name.
@@ -30,8 +30,8 @@ Status: not built. Not built, or open:
 
 ## Rules & behavior
 - What a run writes goes under its issue. The reason: "Everything a piece of work writes goes under its issue".
-- No record is kept in a global file. The reason, in the product owner's words: "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure".
-- A path in a record starts at the repository's root. The reason: every path a play writes into a run record is to be relative to the repository root, or use `~` for the home folder.
+- No record is kept in a global file. The reason, as asked: "Nothing is written to a global file.", and in the product owner's words: "eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure".
+- A path in a record starts at the repository's root. The reason, as expected: "Every path a play writes into a run record is relative to the repository root, or uses `~` for the home folder."
 - Not decided: where a run keeps its records when it has no issue of its own yet, such as a decision recorded by hand, or when it works on a whole plan, such as a plan session.
 - Not decided: whether gate records move from the issue's `review/` folder to its evidence folder.
 - Not decided: whether a path in the home folder may stay in a record in its `~` form, as the plan allows, or is left out.

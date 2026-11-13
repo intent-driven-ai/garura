@@ -5,7 +5,7 @@ The model is to propose what to try next from what it shows, each idea with its 
 - Product model's proof: "The model proposes an idea with its evidence, a person confirms it, and an experiment records the result."
 - The product owner, on 2026-11-11: "Yeah, experimentations are only features. There is nothing new. Whether they need to be built as A/B testing or whatnot is something which we can decide later, but those are essentially features."
 - The stock-take's proposed answer, to which he said "Yeah", names what the model itself can show: "an intent nothing serves, a part with only fix work and no delivery, a thin part never deepened".
-- One idea the model could show, from the Product Graph (not approved to build): a business intent connected to more fix-type agent intents than delivery-type ones says we are repairing rather than delivering what the org asked for.
+- One idea the model could show, from the Product Graph (not approved to build): "A business intent connected to more fix-type agent intents than delivery-type ones says we are repairing rather than delivering what the org asked for."
 - The nearest built parts: the ontology writes a business intent's outcome "as a hypothesis (what should be true, why it matters, and how we will know it is met)"; the gap finder lists the intents nothing serves; and the ready check lists each thin ICE.
 - Examples, in different kinds of project:
   - In a shop's checkout service, the model shows that the Checkout capability got three fixes and no new feature in a quarter. It proposes reworking guest checkout, with that evidence; the product owner confirms it, and an experiment records the share of shoppers who left, before and after.

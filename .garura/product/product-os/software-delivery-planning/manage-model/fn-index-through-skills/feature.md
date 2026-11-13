@@ -5,9 +5,9 @@ Every play and skill that adds, changes or takes out a part in the model's index
 - The decision, ADR 065 rule 1: "`link-model-part` adds or changes a part. `remove-model-part` takes a part out, with the name of the person who approved it." "Plays move onto these two skills over time, in place of writing the index with their own scripts."
 - Who writes through them today: the keeper, for a part found during work, an ICE's entry, an old part a person approved taking in, and a take-out a person approved; and /update-plan, for a feature found in a planning session.
 - Who still writes with a script of its own: "`/discover-domains`, `/discover-capabilities`, `/shape-slice`, `/learn-outcomes`, `/shape-measure-lens`, `/build-epic`, `/validate-epic`, `/release-epic`". The first three are live; the other five are marked stale.
-- What the skills must still grow: a new slice, the product profile, an epic's status.
+- What the skills must still grow, as asked: "a new slice, the product profile, an epic's status."
 - Inside a loop, the gap closer is a third writer for now.
-- The product owner's reason: no redundant writers; if something needs to change the index, it uses the skill.
+- The product owner's reason: "The product owner wants no redundant writers: if something needs to change the index, it uses the skill."
 - Examples, in different kinds of project:
   - In a clinic's booking app, /shape-slice writes a new slice for "patients book online". Once moved, it asks the keeper, and link-model-part writes the slice's entry.
   - In a shop's checkout service, /discover-capabilities saves three capabilities, and the index changes only through link-model-part, with every file it changed listed.
@@ -34,7 +34,7 @@ Status: built in part. Built: the two index skills, each all or nothing, with th
 - A stale play moves when it is rebuilt. The reason: "Stale plays move when they are rebuilt, not before."
 - The index keeps its comments and layout. The reason: "the spine keeps its comments and layout."
 - Not decided: when each live play moves; in ADR 065's words, ""Over time" has no date and no list."
-- Not decided: the name of the skill that takes a part out. The verb `remove` is not decided here.
+- Not decided: the name of the skill that takes a part out. As asked: "The verb `remove` is not decided here."
 
 ## Acceptance criteria
 - Given a part found during work, when the keeper adds it, then its entry is written by link-model-part and by no other script.

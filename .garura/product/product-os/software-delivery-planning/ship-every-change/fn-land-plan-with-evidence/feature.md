@@ -2,7 +2,7 @@
 
 ## What it does
 When a plan pauses and its branch is raised to main, the landing shows the product owner, before the merge, that every commit on the plan's branch was reviewed and that the plan, its epics and the commits agree, so the landing neither reviews again what each pull request already reviewed nor lets anything reach main unreviewed.
-- A plan's branch reaches main after many reviewed pull requests, one for each issue that landed on it. The review that lands it should not repeat that work, and should not miss anything either.
+- A plan's branch reaches main after many reviewed pull requests, one for each issue that landed on it. As asked: "The review that lands it should not repeat that work, and should not miss anything either."
 - What the landing shows the product owner, before the merge:
   - Every commit was reviewed. Each commit on the plan's branch that is not on main came in through a reviewed pull request, or is listed as skipped. A skipped commit is reviewed in the landing, before the merge. A plan session's own commit on the plan's branch is one such commit, because it has no pull request of its own.
   - The plan, its epics and the commits agree. Every item the plan marks Done is closed on the code host, under its epic, and has the commits that did its work. Open items are allowed, because a plan does not need to be finished to land, and each one is named as open.
@@ -26,7 +26,7 @@ Status: not built. The landing itself is built: a paused plan's branch is raised
 
 ## Rules & behavior
 - Every commit that reaches main was reviewed once. The reason: "Anything skipped is reviewed as part of the landing, before the merge."
-- What a pull request already reviewed is not reviewed again. The reason: the work and its cost were already paid when that pull request was reviewed.
+- What a pull request already reviewed is not reviewed again. The reason: it is left out, "reviewing again what a pull request already reviewed", because the work and its cost were already paid.
 - Open items never hold the plan off main; they are named. The reason: "Open items are allowed (a plan does not need to be finished to land), and each one is named as open."
 - A disagreement between the plan, its epics and the commits stops the landing until it is fixed. The reason: the plan file is the person's view of the work, and a wrong view on main misleads the next reader.
 - Not decided: how the landing tells a commit that came in through a reviewed pull request from one that did not, such as by the pull requests' merge commits or by the run records.

@@ -36,11 +36,11 @@ Status: built in part. What a team set is kept; what Garura adds does not arrive
 - Out: Garura's instructions beside the team's file only when a rule is missing, with the missing rule named; and the report of each setting changed.
 
 ## Rules & behavior
-- New settings in, the team's values kept. The reason: new keys come in and the project's own values stay; today a setting added to Garura never reaches the project.
-- Settings follow renamed parts. The reason: every config key that holds a play, loop, skill or agent name uses its current name, from the rename map, because a setting under an old name is read as missing.
+- New settings in, the team's values kept. The reason: it is asked that "new keys come in, the project's own values stay"; today a setting added to Garura "never reaches the project".
+- Settings follow renamed parts. The reason, as asked: "every config key that holds a play, loop, skill or agent name uses its current name, from the rename map", because a setting under an old name is read as missing.
 - A setting goes only on the person's yes. The reason: a setting the team set is the team's, and Install and distribute must not "Change what a project's people changed without asking them."
 - The team's file keeps its comments and order. The reason: the team wrote them, and the model's move already keeps them the same way: "The YAML is rewritten line by line, so the file's other content and its comments stay as they are."
-- The instructions file only when a rule is missing. The reason: the install writes the `.new` file only when the existing file is missing a rule from the installer's text, and a file written again each time is left for the team to clean up.
+- The instructions file only when a rule is missing. The reason, as asked: "The install writes the `.new` file only when the existing file is missing a rule from the installer's text.", and a file written again each time is left for the team to clean up.
 - Not decided: how the new settings reach the file.
 
 ## Acceptance criteria

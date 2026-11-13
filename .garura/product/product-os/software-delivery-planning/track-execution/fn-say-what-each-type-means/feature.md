@@ -22,7 +22,7 @@ It keeps one agreed list of the types of issue Garura files, each with its meani
 
 Status: not built. No part holds the list, so Initialize's brief has no words to show, and the brief is not built either. Two directions bear on where the list lives:
 - Tools become a first-class Garura component, and work-item meanings move to work intelligence; the product owner's direction is "What each work item means is org memory".
-- Garura's way of working is defined as engine rules and settings, with the issue types the tracker uses as an example of a setting.
+- Garura's way of working is to be sorted into engine rules and settings, with "the issue types the tracker uses" as an example of a setting.
 
 ## Inputs / Outputs
 - In: the kinds and how each shows in the tracker, from the ontology.

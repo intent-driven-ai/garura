@@ -7,7 +7,7 @@ When a person or a play finds a domain, capability or feature that the model doe
 - The keeper runs the page skill once for each part, "in parallel when there are several", then one index run for all of them.
 - Each run is all or nothing, and each skill's report lists every file it changed.
 - Who uses it today: Add a feature found during work (fn-add-found-feature), in Turn intents into agent work, through /update-plan; and the reorganisation of the business intents.
-- What it is to become, in its design: a shared step, not a per-play feature. Any play that can find a part points to one common step that asks the keeper, and the page lands in the change already open. `/start-change` never gets it.
+- What it is to become, in its design: "A shared step, not a per-play feature." Any play that can find a part points to one common step that asks the keeper, and the page lands in the change already open. "`/start-change` never gets it".
 - Examples, in different kinds of project:
   - In a clinic's booking app, the developer builds Booking and finds that patients need a reminder the day before. The keeper writes a thin Send a reminder feature under Booking, its thin ICE page and their entries, in the open change.
   - In a bank's payments service, a planning session names a new Refund to card feature. After the product owner's "approved", its thin page and its entry land with the session.
@@ -15,7 +15,7 @@ When a person or a play finds a domain, capability or feature that the model doe
 - How it meets the capability: this is the map "added to ... as work is done": a part found while work goes on enters the model in the same change.
 
 Status: built in part. Built: the page skill's new-feature, thin and approved modes, and link-model-part's new entries and thin marks, each with its tests (16 passed for the approved-page script and 48 for link-model-part, in the stock-take's run on 2026-11-11). Not built, or open:
-- The shared step any play can point to, by which a feature found during work gets a thin page in the product model, inside the open change, without the full discovery. The shared play step comes later.
+- The shared step any play can point to, by which a feature found during work gets a thin page in the product model, inside the open change, without the full discovery. In its design: "The shared play step comes later."
 - The thin mode still writes the older ICE lines, Goal, Limit, Fails if, Context and Checked by, and in an ICE page it puts "the Checked by line under `## Expectation`". An ICE page now holds the Read, Never read, Persona and Scope lines under Context, and a Scenario and a Done means under Expectation. Create and edit the model with one tool that knows its shape (fn-model-tool) is to close this.
 - A feature found in a planning session cannot land once the model has ICE entries.
 - link-model-part writes only the index side of a part's link to its intents; the intent page's Touches list is not written. In the words of Keep the spec matched to what's built: "A part linked or moved through them is missing from its intent's page."
@@ -30,13 +30,13 @@ Status: built in part. Built: the page skill's new-feature, thin and approved mo
 
 ## Rules & behavior
 - The page comes first, then the index entry. The reason: "The page skill writes a part's page. This skill puts the part into the spine, so the model knows the page is there".
-- A part found during work runs no discovery play. The reason: the keeper's route ends "No discovery play run", and a discovery play is too much for one feature found in the middle of other work, and it breaks the rule of one change for that work.
-- The page lands in the change already open. The reason: the page is written on the branch of the change that is already open, so it lands with that change. No second change, no second review.
+- A part found during work runs no discovery play. The reason: the keeper's route ends "No discovery play run", and its design: "That is too much for one feature found in the middle of other work, and it breaks the rule of one change for that work."
+- The page lands in the change already open. The reason, in its design: "Have the page written on the branch of the change that is already open, so it lands with that change. No second change, no second review."
 - The thin mark is two marks that agree. The reason: "`metadata.thin: true` on the spine entry and exactly one Thin line on the page, just before its ICE."
 - A part that has an ICE is never marked thin itself. The reason: "A part that has an ICE is never marked thin itself; its mark belongs on its ICE".
 - An approved page is written word for word. The reason: "the page is copied as it is: nothing is composed."
 - All or nothing, and only inside the model. The reason: "Every check runs before the first write. One bad part refuses the whole request.", and "Only inside the product model."
-- Not decided: which plays get the shared step. Which other plays do is part of this design.
+- Not decided: which plays get the shared step. Its design: "which other plays do is part of this design."
 
 ## Acceptance criteria
 - Given a feature found during work under a capability that exists, when the keeper adds it, then its page, its thin ICE page and their index entries are written, the two thin marks agree, and the reports list every file changed.

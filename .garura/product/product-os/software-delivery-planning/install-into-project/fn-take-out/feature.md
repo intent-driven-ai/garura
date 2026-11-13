@@ -40,7 +40,7 @@ Status: built in part, in the take-out play, /uninstall-garura, only:
 - A file a person changed goes only on the person's yes for it. The reason: Install and distribute must not "Change what a project's people changed without asking them."
 - The machine-wide copy of memory stays unless the person asks. The reason: "Deleting it on one project's uninstall would yank it from the others."
 - Phoenix memory is never removed. The reason: "the install did not put it there, and other projects use it."
-- Not decided: how the take-out knows a file Garura laid was changed since. An earlier design kept a fingerprint of every installed file, and the install is asked to know what the project's people changed since; neither is built.
+- Not decided: how the take-out knows a file Garura laid was changed since. An earlier design kept a fingerprint of every installed file, and the install is asked to know "what the project's people changed since"; neither is built.
 - Not decided: how a project installed with no record, such as every one-line install today, is taken out.
 
 ## Acceptance criteria

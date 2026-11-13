@@ -10,7 +10,7 @@ A team that works in Claude Code installs Garura through either front door (the 
   - Garura's instructions as `CLAUDE.md` when the project has none, and as `CLAUDE.md.new` beside the team's own when it has one;
   - Garura's settings file, with every kind of part pointed at its Claude Code folder.
 - It writes nothing for Claude Code outside the project: "Claude Code has no machine-global model/sandbox config to write."
-- What it does not lay yet: the guardrails, for which a Claude Code hook is planned, a script Claude Code runs before each tool call; and the status display, a plugin installed only when the install chooses Claude Code.
+- What it does not lay yet: the guardrails, for which the guardrail proposal names a Claude Code hook, "a script Claude Code runs before each tool call"; and the status display, "a plugin installed only when the install chooses Claude Code".
 - What Claude Code loads from a project is in approved memory. Two facts this page uses: a skill "can name its model", "for the rest of the current turn"; and ".claude/settings.json is the shared project file for team permissions, hooks and plugins", where "a PreToolUse hook runs before a tool call and can block it".
 - Examples, in different kinds of project:
   - A new repository for a shop's checkout gets every part in `.claude/agents/` and `.claude/skills/`, and the memory guide in `.claude/rules/`.

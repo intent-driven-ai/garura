@@ -42,9 +42,9 @@ Status: built in part, in two installers that do different things:
 
 ## Rules & behavior
 - One engine behind both front doors. The reason: installation is, in the product owner's words, "an engine thing, like installation, not a play", read as one engine behind both front doors, which he agreed; with two installers, a team gets a different Garura by the door it took.
-- One step, with no copy of Garura's source. The reason: "A first install takes one step.", and someone with no prior exposure to Garura is to install it into their project in one step.
+- One step, with no copy of Garura's source. The reason: "A first install takes one step.", and it is asked that "Someone with no prior exposure to Garura can install it into their project in one step".
 - Beside, never over. The reason: Install and distribute must not "Change what a project's people changed without asking them.", and the product owner agreed that "a first install never writes over a project's own files".
-- A fixed version, kept and shown. The reason: the installed project records which Garura version it has, so a later upgrade and a bug report can name it.
+- A fixed version, kept and shown. The reason, as asked: "The installed project records which Garura version it has, so a later upgrade and a bug report can name it."
 - No fallback. A version that does not exist stops the install. The reason: a team that asked for one version and got another cannot tell, so "it never falls back to `main`".
 - The record names everything laid. The reason: it is the only proof of what Garura owns in the project, and the take-out "never removes a file it cannot prove the installer placed".
 - Whole. Every part is laid with its workers and its shared files. The reason: "A pointer in an installed file points to another installed file.", and without the shared folder, "the parts that ask a person follow the play's floor in place of the rule".

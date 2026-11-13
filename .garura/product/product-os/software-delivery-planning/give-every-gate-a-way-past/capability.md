@@ -18,7 +18,7 @@ This capability does five jobs, none of them built:
 - Have each guardrail say what it guards and its way past.
 - Name the pinned yeses, and why each is pinned.
 
-The principle behind it is the product owner's: "The whole principle of the harness is we're not limiting or stopping people. We're giving them choices." and "There are repercussions later on, but the choice is on them." Among the decisions on how the product model moves with the work: only the evidence is enforced.
+The principle behind it is the product owner's: "The whole principle of the harness is we're not limiting or stopping people. We're giving them choices." and "There are repercussions later on, but the choice is on them." Among the decisions on how the product model moves with the work: "Only the evidence is enforced."
 Three ways past are built, and each records what is owed:
 - In a plan session, a rule break is shown with what works instead. "The person may override it" with "do it anyway", and "the override is recorded." The landing's commit names each override and what is owed.
 - When a part a slice needs has no ICE, /shape-slice proposes a thin one: "It never sends the person back, and nothing stops."
@@ -43,7 +43,7 @@ Features:
 What is not built yet:
 - No gate declares a way past. A checkpoint "declares its risk class inline", and a pinned one adds pinned; nothing names what passing it records.
 - No ADR records the principle, and the harness standard says it for the model only: "missing links are warnings to fix later, not stops".
-- What is owed is written in many places and has no one home: a plan session's commit, the thin marks, an upgrade's report, initialize's record of tracker types still missing, the gate ledger of each issue, and issues filed for findings. The list of changes not yet learned, where what is owed would be kept, is not built.
+- What is owed is written in many places and has no one home: a plan session's commit, the thin marks, an upgrade's report, initialize's record of tracker types still missing, the gate ledger of each issue, and issues filed for findings. The list it points to, "the not-yet-learned list of [the decisions on how the product model moves with the work]", is not built.
 - A checkpoint skipped by the settings is recorded only in the evidence file, which is off by default: "record: false".
 - No guardrail is laid, and the guardrails the Garura install is to lay are not shaped.
 - The gate rule's pinned set still names grill, launch, learn and deploy: "The pinned list names gone plays."
@@ -56,7 +56,7 @@ What is not built yet:
   - What is owed is read back as one list, and no global file holds it.
   - A skipped checkpoint is recorded whatever the evidence setting says.
   - No setting, policy or agent turns a pinned yes off.
-- How we will know: the gates in today's plays that stop a person with no key are listed in the ADR on ways past a gate, each with what its key would record or why it keeps a human beat; and this intent's proof, "A person can see where everything stands.", holds for what is owed too.
+- How we will know, as asked: "The gates in today's plays that stop a person with no key are listed in the ADR, each with what its key would record or why it keeps a human beat."; and this intent's proof, "A person can see where everything stands.", holds for what is owed too.
   - This is not tested today, because nothing of it is built.
 
 ### Boundary (In / Out / Never)
@@ -78,7 +78,7 @@ What is not built yet:
 
 ### Guiding rules
 - Offered, never hidden. The reason: in other tools, "the way past is offered, never hidden".
-- A way past records who used it, when, what was skipped, and where the debt is kept so a later play finds it.
+- A way past records what is asked of a key. The reason: a key records "who used it, when, what was skipped, and where the debt is kept so a later play finds it".
 - Kept with the work that made it. The reason: "Everything a piece of work writes goes under its issue".
 - The person sets the speed. The reason, in the product owner's words: "They can move at the speed at which they want to go."
 - Only evidence is enforced. The reason: "Only the evidence is enforced."

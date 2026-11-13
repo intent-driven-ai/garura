@@ -3,7 +3,7 @@
 ## What it does
 One tool is to know the model's shape as the ontology sets it, and to create and edit the model's pages, ICE pages and index entries in that shape, with the templates and the play steps the model lacks today, so the pages stop drifting from the ontology when a language model composes them.
 - The product owner asked for it on 2026-11-05: "we need a tool that knows how to create and edit the product model. we will build it later." He set it as a feature of this capability: "Feature to add when this capability is reviewed: a tool that knows how to create and edit the product model. Not built, and to be built later."
-- Why: today a language model composes the model's pages, and they drift from the ontology. The page template and the page skill still describe the older shape, and nothing stopped it.
+- Why, as asked: "Today a language model composes the model's pages, and they drift from the ontology." "The page template and the page skill still describe the older shape, and nothing stopped it."
 - What the product owner names as missing: "what we are doing here is managing the model, and we have some implementation in place while plays are missing, templates are missing etc." The missing pieces the stock-take found, which belong here or in the first three features of this capability:
   - no template for an ICE page, and page templates that still put the ICE inside the page, as "## Agent intent (ICE) — the last section, at every stage";
   - the page skill's thin mode, which still writes the older ICE lines;
@@ -26,7 +26,7 @@ Status: not built. What exists:
 - Out: pages, ICE pages and index entries written in the shape the ontology sets. Not built.
 
 ## Rules & behavior
-- The tool writes the shape the ontology sets. The reason: the ontology says an ICE has its own page and its own entry in the model's index, with three parts: Intent, Context and Expectation.
+- The tool writes the shape the ontology sets. The reason, as asked: "The ontology says an ICE has its own page and its own entry in the model's index, with three parts: Intent, Context and Expectation."
 - The model is changed only through a skill or a tool, never by hand. The reason: "You may change any part of it — a page, the spine, an intent page, the profile — but only through a skill".
 - Not decided: what the tool covers, how it is built, what it replaces, and when it is built.
 - Not decided: which of the missing templates and play steps the tool holds, and which stay with the first three features of this capability.

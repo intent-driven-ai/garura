@@ -2,8 +2,8 @@
 
 ## What it does
 The decision play, run on the branch of a change that is already open, records the ADR in that change, so a decision lands with the work it decides. When no change is open, it opens its own change, as it does today.
-- Today, run by hand, the decision play opens a change of its own first: its first step "cuts the branch off fresh main". So an ADR that belongs to a change on another branch cannot land in that change: the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on a change on a plan's branch.
-- Its other mode, the loop's contract, is for loops: handed one, it opens no issue or branch and checks that the current branch is the loop's. That mode is meant for loops, not for a play run inside a change.
+- Today, run by hand, the decision play opens a change of its own first: its first step "cuts the branch off fresh main". So an ADR that belongs to a change on another branch cannot land in that change, and "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on [a change on a plan's branch]".
+- Its other mode, the loop's contract, is for loops: handed one, it opens no issue or branch and checks that the current branch is the loop's. In the words of its design, "that is meant for loops, not for a play run inside a change."
 - What this feature is to do, in full:
   - run by hand on an open change's branch, record the ADR on that branch, in that change;
   - still open its own change when no change is open;
@@ -32,7 +32,7 @@ Status: not built (/record-decision cannot join a change that is already open; a
 
 ## Rules & behavior
 - On the branch of an open change, the ADR goes into that change. The reason: otherwise "the change lands without its ADR, and the issue stays open until a second, small change records the ADR."
-- With no change open, the decision play opens its own. The reason: only a change already open is to be joined; the play still opens its own change when no change is open.
+- With no change open, the decision play opens its own. The reason, as asked: "It still opens its own change when no change is open."
 - The work and its ADR travel together. The reason, from outside practice: "every code change needed to carry out the decision is added to the same merge request as the ADR".
 - The loop's contract stays for loops. The reason: "that is meant for loops, not for a play run inside a change."
 - Only a person accepts the ADR, in whichever change it is recorded. The reason: "Only a person accepts an ADR."

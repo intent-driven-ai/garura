@@ -6,12 +6,12 @@ Every page an agent decides from sits in one of the three tiers and is reached t
   - the machine-wide copy of all memory, which the install still lays: "The old machine-wide copy of all memory (below, `--memory-dest`) is still laid until it is retired." On 2026-10-28 it held 255 files, among them shelves deleted long ago;
   - Claude Code's own memory for the project, kept outside the repository, where some notes "describe how Garura is built (process rules, design decisions) instead of how to work with the product owner";
   - the rules files in the repository that every session reads: the project's guidance file, the installed rules folder, and `managing-work.md`, which is "the operating model of garura" and not evidence;
-  - the rule for asking a person, kept as a shared file on purpose, because it is not memory and not a global rule.
+  - the rule for asking a person, kept as a shared file on purpose: "it is not memory and not a global rule".
 - Each part's own reference files, such as a play's ICE, its templates and its maps, are the part itself, not memory.
 - The product owner's answer of 2026-11-11: the engine's rules stay in Phoenix memory, read through the memory tool, and the proof stands. A planned change sorts the way of working into rules and settings within that. The product owner's earlier words, of 2026-10-29, "memory is a cartridge … you can't put rules into a cartridge", came before that answer.
 - What is planned, in an ADR and an open issue:
   - ADR 055 section 8 keeps the machine-wide copy "for now": "It stops when the memory tool is fully live and Phoenix memory is the home of memory." Approved pages of Install and distribute leave its retirement to this capability.
-  - Every Claude memory of the project is to be listed with what it says and why it was saved, the product owner keeps, moves into the repository or deletes each one, and a short guardrail is written down: what may go into memory in this project and what must go into the repo.
+  - It is asked that every Claude memory of the project is listed with what it says and why it was saved, that the product owner keeps, moves into the repository or deletes each one, and that "A short guardrail is written down: what may go into memory in this project and what must go into the repo."
 - Examples, in different kinds of project:
   - In a shop's checkout service, an agent reads a review rule from the machine-wide copy, which is older than Phoenix memory. Once the copy is retired, the agent can read the rule only through the tool, at Phoenix memory's approved version.
   - In a bank's payments service, the coding tool's own memory holds a note on how the bank's plays are built. The product owner moves it into the repository and deletes the note, and the guardrail says such notes go into the repository.

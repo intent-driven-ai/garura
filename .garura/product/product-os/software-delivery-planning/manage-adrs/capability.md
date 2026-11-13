@@ -35,7 +35,7 @@ Features:
 - Take in each design choice that Spec → Design hands over (fn-take-design-choices): not built. Each design choice of the four capabilities of Spec → Design reaches the decision play as a decision brief.
 
 What is not built yet:
-- An ADR cannot be recorded in the change it belongs to. Run by hand, the decision play opens its own change from main, so the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on a change on a plan's branch.
+- An ADR cannot be recorded in the change it belongs to. Run by hand, the decision play opens its own change from main, so "the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on [a change on a plan's branch]".
 - An older ADR can be left with no forward pointer while the run reports it linked.
 - The decision play does not check that the points for the person who accepts are gathered and whole, and the templates index does not name their section.
 - No play hands a decision to the decision play. Only a person runs it today, and no loop runs it: the one loop that is built, the Discovery loop, runs /discover-intent, /discover-domains and /discover-capabilities.

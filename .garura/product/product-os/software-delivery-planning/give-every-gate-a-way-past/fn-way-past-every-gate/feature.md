@@ -39,14 +39,14 @@ Status: not built. No ADR records the principle that a person is never stopped, 
 ## Rules & behavior
 - Every gate has a way past. The reason: Orchestration must not "Stop a person. Every gate has a way past it that records what's owed."
 - The way past is shown at the gate, never hidden. The reason: in other tools, "the way past is offered, never hidden".
-- Using a way past records who used it, when, what was skipped, and where what is owed is kept, so a later play finds it.
+- Using a way past records who used it, when, what was skipped, and where what is owed is kept. The reason: a key is asked to record "who used it, when, what was skipped, and where the debt is kept so a later play finds it".
 - The person chooses how fast to go, and what follows is theirs. The reason, in the product owner's words: "They can move at the speed at which they want to go. If they want to go really fast, they can. There are repercussions later on, but the choice is on them."
 - Only evidence is enforced. The reason: "Only the evidence is enforced."
 - A way past that is built keeps working as it does now. The reason: its record already exists: "the override is recorded.", and "the slice is recorded as owed".
 - Not decided: whether each machine wall, such as a pre-flight halt, a sensitive-file block or a stop condition, is a gate that needs a way past, or evidence that stays enforced.
 - Not decided: whether every way past must carry the person's reason, or who and when are enough.
 - Not decided: whether a way past expires after a time, or stays owed until it is paid.
-- Not decided: the way past of each gate on today's list; the ADR on ways past a gate is to give each gate with what its key would record or why it keeps a human beat.
+- Not decided: the way past of each gate on today's list; it is left to the ADR on ways past a gate, "each with what its key would record or why it keeps a human beat".
 
 ## Acceptance criteria
 - Given a play with a checkpoint, when its gate is declared, then the declaration names the gate's kind, its way past and what using it records. This is not built.

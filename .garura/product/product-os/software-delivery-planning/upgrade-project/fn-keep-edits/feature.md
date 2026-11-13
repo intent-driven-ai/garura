@@ -14,7 +14,7 @@ When a project moves to a new version, the upgrade finds each installed part, an
   - A team's planning tool put a file of its own in Garura's shared folder; the upgrade names it and does not remove it.
 - How it meets the capability: "without losing its own work", and Install and distribute's proof, "An upgrade loses nothing the team changed."
 
-Status: not built. Today an edited installed part is replaced whole: the install play removes the folder and lays a fresh copy ("Replace dest with a fresh copy of src"), and the one-line command copies over it. The shared folder is removed and laid again whole. The install play's own rule is "Never hand-edit an installed copy", and nothing tells a team its edits are lost. The need: no part is overwritten that a person changed, unless the person says so. The product owner agreed that "an upgrade finds a person's edit to an installed part and asks before replacing it". An earlier design that kept a fingerprint of each installed file, so that "locally modified components, CLAUDE.md, and core files are detected by hash mismatch and preserved across reinstall/upgrade", was dropped.
+Status: not built. Today an edited installed part is replaced whole: the install play removes the folder and lays a fresh copy ("Replace dest with a fresh copy of src"), and the one-line command copies over it. The shared folder is removed and laid again whole. The install play's own rule is "Never hand-edit an installed copy", and nothing tells a team its edits are lost. It is asked for: "No part is overwritten that a person changed, unless the person says so." The product owner agreed that "an upgrade finds a person's edit to an installed part and asks before replacing it". An earlier design that kept a fingerprint of each installed file, so that "locally modified components, CLAUDE.md, and core files are detected by hash mismatch and preserved across reinstall/upgrade", was dropped.
 - Not decided: how an edit is found. Take Garura out of the project again, in Install into a project, needs the same check.
 - Not decided: what the person chooses between, as above.
 
@@ -28,7 +28,7 @@ Status: not built. Today an edited installed part is replaced whole: the install
 - Out: each choice, named in the report, and each part kept on the older version, named as owed.
 
 ## Rules & behavior
-- Asked, never overwritten. The reason: no part is overwritten that a person changed, unless the person says so, and Install and distribute must not "Change what a project's people changed without asking them."
+- Asked, never overwritten. The reason, as asked: "No part is overwritten that a person changed, unless the person says so.", and Install and distribute must not "Change what a project's people changed without asking them."
 - One choice for each part, made by the person. The reason: one answer for every part may not fit each, and a default would choose for the person.
 - A kept part is named as owed. The reason: Orchestration must not "Stop a person. Every gate has a way past it that records what's owed."; keeping the part is the way past, and the report records it.
 - Shared files count. The reason: the shared folder is removed and laid again whole today, so a file a person put there is lost with no question.

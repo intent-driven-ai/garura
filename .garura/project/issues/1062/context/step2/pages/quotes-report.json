@@ -1,0 +1,986 @@
+{
+  "by": "product-os-keeper (model clean-up, issue 1062 step 2)",
+  "source": "the product owner's approved rule (2026-11-13): inside any quote, a person's or a file's words are never reworded; only the issue number is dropped or bracketed. Restores each quote the issue-number pass changed",
+  "pages": [
+    {
+      "page": "features/fn-724/feature.md",
+      "changes": [
+        {
+          "old": "- A need that was not checked is named. The reason: a part with needs and no done list is to read partly ready with the gap \"needs not checked\".",
+          "new": "- A need that was not checked is named. The reason, as asked: \"A part with needs and no done list reads partly ready with the gap \"needs not checked\"\"."
+        }
+      ],
+      "lines_before": 72,
+      "lines_after": 72,
+      "lines_added": 0,
+      "lines_kept": 71
+    },
+    {
+      "page": "features/fn-748/feature.md",
+      "changes": [
+        {
+          "old": "- Not built: a dropped part in a project with no record. The rename step does not see it, because a part removed with no new name has \"no new name to lay\", and the record step needs a record. Such parts still show as commands, though the Discovery loop no longer runs them.",
+          "new": "- Not built: a dropped part in a project with no record. The rename step does not see it, because a part removed with no new name has \"no new name to lay\", and the record step needs a record. In the words of the report of these parts: \"They still show as commands, though the Discovery loop no longer runs them\"."
+        },
+        {
+          "old": "- Every project, with or without a record. The reason: a person who reinstalls Garura in any project, however old its last install, is to end with only the parts Garura has today.",
+          "new": "- Every project, with or without a record. The reason, as asked: \"A person who reinstalls Garura in any project, however old its last install, ends with only the parts Garura has today.\""
+        }
+      ],
+      "lines_before": 68,
+      "lines_after": 68,
+      "lines_added": 0,
+      "lines_kept": 66
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+      "changes": [
+        {
+          "old": "- The written architecture is planned: an architecture memory for a team building a harness, with pages in Phoenix memory on the parts and what each may do, what calls what, memory, what a run leaves behind, the folders (the source, the installed copy, short-term memory), and the decided patterns, each with its decision record. A team reads them without taking the whole of Garura, and a review tests a change against it.",
+          "new": "- The written architecture is planned: an architecture memory for a team building a harness is to add pages in Phoenix memory on \"the parts and what each may do\", what calls what, memory, what a run leaves behind, \"the folders: the source, the installed copy, short-term memory\", and the decided patterns, each with its decision record. A team reads them \"without taking the whole of Garura, and a review tests a change against it\"."
+        }
+      ],
+      "lines_before": 69,
+      "lines_after": 69,
+      "lines_added": 0,
+      "lines_kept": 68
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+      "changes": [
+        {
+          "old": "- What is proposed, to shape and not decided:",
+          "new": "- What the guardrail proposal proposes, \"to shape, not decided\":"
+        },
+        {
+          "old": "- How the marker is built is open: whether the run marker is a new part of every play (through the play compiler) or one shared block the plays point to, like the Standard Play Close.",
+          "new": "- The guardrail proposal leaves open how the marker is built: \"Whether the run marker is a new part of every play (through the play compiler) or one shared block the plays point to, like the Standard Play Close.\""
+        }
+      ],
+      "lines_before": 51,
+      "lines_after": 51,
+      "lines_added": 0,
+      "lines_kept": 49
+    },
+    {
+      "page": "software-delivery-planning/define-product/fn-approval-state-kind/feature.md",
+      "changes": [
+        {
+          "old": "- The plan is for the ontology (`core/components/memory/standards/schemas/product-os/ontology.md`) to name one approval lifecycle for every kind, and map today's states onto it. It is not built: the map names no approval state.",
+          "new": "- The plan that every piece of the model carries its approval state plans it: \"The ontology (`core/components/memory/standards/schemas/product-os/ontology.md`) names one approval lifecycle for every kind, and maps today's states onto it\". It is not built: the map names no approval state."
+        }
+      ],
+      "lines_before": 42,
+      "lines_after": 42,
+      "lines_added": 0,
+      "lines_kept": 41
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "changes": [
+        {
+          "old": "The principle behind it is the product owner's: \"The whole principle of the harness is we're not limiting or stopping people. We're giving them choices.\" and \"There are repercussions later on, but the choice is on them.\" Among the decisions on how the product model moves with the work: only the evidence is enforced.",
+          "new": "The principle behind it is the product owner's: \"The whole principle of the harness is we're not limiting or stopping people. We're giving them choices.\" and \"There are repercussions later on, but the choice is on them.\" Among the decisions on how the product model moves with the work: \"Only the evidence is enforced.\""
+        },
+        {
+          "old": "- What is owed is written in many places and has no one home: a plan session's commit, the thin marks, an upgrade's report, initialize's record of tracker types still missing, the gate ledger of each issue, and issues filed for findings. The list of changes not yet learned, where what is owed would be kept, is not built.",
+          "new": "- What is owed is written in many places and has no one home: a plan session's commit, the thin marks, an upgrade's report, initialize's record of tracker types still missing, the gate ledger of each issue, and issues filed for findings. The list it points to, \"the not-yet-learned list of [the decisions on how the product model moves with the work]\", is not built."
+        },
+        {
+          "old": "- How we will know: the gates in today's plays that stop a person with no key are listed in the ADR on ways past a gate, each with what its key would record or why it keeps a human beat; and this intent's proof, \"A person can see where everything stands.\", holds for what is owed too.",
+          "new": "- How we will know, as asked: \"The gates in today's plays that stop a person with no key are listed in the ADR, each with what its key would record or why it keeps a human beat.\"; and this intent's proof, \"A person can see where everything stands.\", holds for what is owed too."
+        }
+      ],
+      "lines_before": 107,
+      "lines_after": 107,
+      "lines_added": 0,
+      "lines_kept": 104
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "changes": [
+        {
+          "old": "- What a hook is proposed to refuse, to shape and not decided:",
+          "new": "- What the guardrail proposal proposes a hook refuses, \"to shape, not decided\":"
+        },
+        {
+          "old": "- Not decided: which shortcuts are guarded first, which paths and which plays the hook covers, and how a person overrides it on purpose.",
+          "new": "- Not decided: which shortcuts are guarded first; the guardrail proposal leaves open \"Which paths and which plays the hook covers, and how a person overrides it on purpose.\""
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 62
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "changes": [
+        {
+          "old": "- A change left for Learn at its proposal is one kind of entry: the list of changes not yet learned is one example of where the debt is kept, and that list holds the issue, the branch, what was left, who chose, and when.",
+          "new": "- A change left for Learn at its proposal is one kind of entry: \"the not-yet-learned list of [the decisions on how the product model moves with the work]\" is named as an example of where the debt is kept, and that list holds \"issue, branch, what was left, who chose, when\"."
+        },
+        {
+          "old": "- What is owed is kept with the work that made it, never in a global file. The reason: nothing is written to a global file, and in the product owner's words: \"eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure\".",
+          "new": "- What is owed is kept with the work that made it, never in a global file. The reason, as asked: \"Nothing is written to a global file.\", and in the product owner's words: \"eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure\"."
+        },
+        {
+          "old": "- A tool reads every issue's entries as one list. The reason: the gate rule already works this way, \"The learner reads every issue's history\", and Learn is to process exactly that list later and never hunt through every issue's short-term memory.",
+          "new": "- A tool reads every issue's entries as one list. The reason: the gate rule already works this way, \"The learner reads every issue's history\", and Learn is asked to process \"exactly that list later and never hunts through every issue's short-term memory\"."
+        }
+      ],
+      "lines_before": 67,
+      "lines_after": 67,
+      "lines_added": 0,
+      "lines_kept": 64
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "changes": [
+        {
+          "old": "  - The ADR on ways past a gate is to say whether these are keys of their own kind or exceptions to the principle;",
+          "new": "  - As asked of the ADR on ways past a gate: \"The ADR says whether these are keys of their own kind\", \"or exceptions to the principle.\";"
+        }
+      ],
+      "lines_before": 65,
+      "lines_after": 65,
+      "lines_added": 0,
+      "lines_kept": 64
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+      "changes": [
+        {
+          "old": "- The record goes in the issue's own folder. The reason: a gate record goes in the evidence folder of the issue whose run made it.",
+          "new": "- The record goes in the issue's own folder. The reason, as asked: \"A gate record goes in the evidence folder of the issue whose run made it\"."
+        }
+      ],
+      "lines_before": 60,
+      "lines_after": 60,
+      "lines_added": 0,
+      "lines_kept": 59
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+      "changes": [
+        {
+          "old": "- Using a way past records who used it, when, what was skipped, and where what is owed is kept, so a later play finds it.",
+          "new": "- Using a way past records who used it, when, what was skipped, and where what is owed is kept. The reason: a key is asked to record \"who used it, when, what was skipped, and where the debt is kept so a later play finds it\"."
+        },
+        {
+          "old": "- Not decided: the way past of each gate on today's list; the ADR on ways past a gate is to give each gate with what its key would record or why it keeps a human beat.",
+          "new": "- Not decided: the way past of each gate on today's list; it is left to the ADR on ways past a gate, \"each with what its key would record or why it keeps a human beat\"."
+        }
+      ],
+      "lines_before": 83,
+      "lines_after": 83,
+      "lines_added": 0,
+      "lines_kept": 81
+    },
+    {
+      "page": "software-delivery-planning/initialize/capability.md",
+      "changes": [
+        {
+          "old": "- Initialize is, in ADR 066's words, an engine thing, not a play: \"Initialize, seeding memory and upgrade are engine things, not plays.\" This page reads it, as Install into a project reads installation, as a run of that same engine, after the install. A play is a command a person types that runs its sub-agents and skills; an engine thing runs as part of Garura itself. It was first asked for as one play, `initialize`, and the memory guide every agent reads still says \"A play run after the install, `initialize`\"; this page names the difference and leaves open how a person starts it.",
+          "new": "- Initialize is, in ADR 066's words, an engine thing, not a play: \"Initialize, seeding memory and upgrade are engine things, not plays.\" This page reads it, as Install into a project reads installation, as a run of that same engine, after the install. A play is a command a person types that runs its sub-agents and skills; an engine thing runs as part of Garura itself. The request that asked for it calls it \"one play (`initialize`)\", and the memory guide every agent reads still says \"A play run after the install, `initialize`\"; this page names the difference and leaves open how a person starts it."
+        },
+        {
+          "old": "- Never: write an answer the product owner did not give or confirm. The answers are the person's; a proposed answer is only a proposal until the person accepts it. The reason: the answers are the person's; a proposed answer always names its source.",
+          "new": "- Never: write an answer the product owner did not give or confirm. The answers are the person's; a proposed answer is only a proposal until the person accepts it. The reason: the rule, \"The answers are the person's; a proposed answer always names its source.\""
+        }
+      ],
+      "lines_before": 115,
+      "lines_after": 115,
+      "lines_added": 0,
+      "lines_kept": 113
+    },
+    {
+      "page": "software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "changes": [
+        {
+          "old": "- Every read goes through the memory tool, because every part of Garura reads memory that way and the tool is what records where each part came from. No part of initialize reads a memory file by its path. The reason: the rule that every part reads memory only through the memory tool.",
+          "new": "- Every read goes through the memory tool, because every part of Garura reads memory that way and the tool is what records where each part came from. No part of initialize reads a memory file by its path. The reason: the rule, \"Every part reads memory only through the memory tool.\""
+        }
+      ],
+      "lines_before": 66,
+      "lines_after": 66,
+      "lines_added": 0,
+      "lines_kept": 65
+    },
+    {
+      "page": "software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "changes": [
+        {
+          "old": "- An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed. The reason: the answers are the person's; a proposed answer always names its source.",
+          "new": "- An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed. The reason: the rule, \"The answers are the person's; a proposed answer always names its source.\""
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 63,
+      "lines_added": 0,
+      "lines_kept": 62
+    },
+    {
+      "page": "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "changes": [
+        {
+          "old": "- The answers are the person's. A proposal the person does not confirm is not recorded as an answer, because later plays treat every recorded answer as the product owner's own word. The reason: the answers are the person's; a proposed answer always names its source.",
+          "new": "- The answers are the person's. A proposal the person does not confirm is not recorded as an answer, because later plays treat every recorded answer as the product owner's own word. The reason: the rule, \"The answers are the person's; a proposed answer always names its source.\""
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 60
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/capability.md",
+      "changes": [
+        {
+          "old": "- One step, and no copy of Garura's source. The reason: Install and distribute's first proof is \"A first install takes one step.\", and someone with no prior exposure to Garura is to install it into their project in one step.",
+          "new": "- One step, and no copy of Garura's source. The reason: Install and distribute's first proof is \"A first install takes one step.\", and it is asked that \"Someone with no prior exposure to Garura can install it into their project in one step\"."
+        },
+        {
+          "old": "- A fixed version, named, recorded and shown. The reason: the installed project records which Garura version it has, so a later upgrade and a bug report can name it. Not decided: which version the one step gives by default.",
+          "new": "- A fixed version, named, recorded and shown. The reason, as asked: \"The installed project records which Garura version it has, so a later upgrade and a bug report can name it.\" Not decided: which version the one step gives by default."
+        }
+      ],
+      "lines_before": 108,
+      "lines_after": 108,
+      "lines_added": 0,
+      "lines_kept": 106
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "changes": [
+        {
+          "old": "- The two kinds are built: full, \"every component except the meta harness plays and the harness-only skills\", and harness. The option was added by direct edit, so the criterion that the play is recompiled from its ICE, not hand-edited, cannot be met, because the install play has no ICE.",
+          "new": "- The two kinds are built: full, \"every component except the meta harness plays and the harness-only skills\", and harness. The option was added by direct edit, so its criterion \"Play recompiled from its ICE, not hand-edited.\" cannot be met, because the install play has no ICE."
+        },
+        {
+          "old": "- Not built: the sandbox kind, and naming plays on any kind.",
+          "new": "- Not built: the sandbox kind, and naming plays on any kind (\"Let the receiving project choose what it takes rather than accepting everything.\")."
+        },
+        {
+          "old": "- Each chosen play comes with its workers, found by the install. The reason: a play hands its work to its workers and cannot run without them, and the installer finds each named play's skills and agents itself; the person does not list them.",
+          "new": "- Each chosen play comes with its workers, found by the install. The reason: a play hands its work to its workers and cannot run without them, and it is asked that \"The installer finds each named play's skills and agents itself; the person does not list them.\""
+        },
+        {
+          "old": "- Named, never all. A person names each extra play. The reason: the extra plays are named, so the harness kind never fills up with product plays by accident.",
+          "new": "- Named, never all. A person names each extra play. The reason, as asked: \"The extra plays are named\", so the harness kind never fills up with product plays by accident."
+        },
+        {
+          "old": "- The same choice through both front doors. The reason: one engine is behind both, and the install is one step in which a person can choose a subset of components.",
+          "new": "- The same choice through both front doors. The reason: one engine is behind both, and one step is asked for, with a way to \"choose a subset of components while doing so\"."
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 59
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+      "changes": [
+        {
+          "old": "- One step, with no copy of Garura's source. The reason: \"A first install takes one step.\", and someone with no prior exposure to Garura is to install it into their project in one step.",
+          "new": "- One step, with no copy of Garura's source. The reason: \"A first install takes one step.\", and it is asked that \"Someone with no prior exposure to Garura can install it into their project in one step\"."
+        },
+        {
+          "old": "- A fixed version, kept and shown. The reason: the installed project records which Garura version it has, so a later upgrade and a bug report can name it.",
+          "new": "- A fixed version, kept and shown. The reason, as asked: \"The installed project records which Garura version it has, so a later upgrade and a bug report can name it.\""
+        }
+      ],
+      "lines_before": 83,
+      "lines_after": 83,
+      "lines_added": 0,
+      "lines_kept": 81
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "changes": [
+        {
+          "old": "- What is proposed, to shape and not decided: a run marker that each play writes while it runs; a hook in the coding tool, a script it runs before each action, that refuses the shortcut when no run of that play is on record; and a check in the review of each change.",
+          "new": "- What the guardrail proposal proposes, \"to shape, not decided\": a run marker that each play writes while it runs; a hook in the coding tool, a script it runs before each action, that refuses the shortcut when no run of that play is on record; and a check in the review of each change."
+        },
+        {
+          "old": "- Laid in every project Garura is installed into. The reason: every project that uses Garura is to get them, not only Garura's own repo.",
+          "new": "- Laid in every project Garura is installed into. The reason: the guardrail proposal wants them \"so every project that uses Garura gets them, not only Garura's own repo.\""
+        },
+        {
+          "old": "- Not decided: which paths and plays a guardrail covers, and how a person overrides one on purpose.",
+          "new": "- Not decided: which paths and plays a guardrail covers, and how a person overrides one on purpose; the guardrail proposal leaves open \"Which paths and which plays the hook covers, and how a person overrides it on purpose.\""
+        }
+      ],
+      "lines_before": 46,
+      "lines_after": 46,
+      "lines_added": 0,
+      "lines_kept": 43
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "changes": [
+        {
+          "old": "- Not decided: whether a change of choice that would take out a part a person edited stops to ask first. Keeping a person's edits to an installed part is Upgrade a project's.",
+          "new": "- Not decided: whether a change of choice that would take out a part a person edited stops to ask first. Keeping a person's edits to an installed part is Upgrade a project's (\"No part is overwritten that a person changed, unless the person says so.\")."
+        }
+      ],
+      "lines_before": 53,
+      "lines_after": 53,
+      "lines_added": 0,
+      "lines_kept": 52
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+      "changes": [
+        {
+          "old": "- Its other mode, the loop's contract, is for loops: handed one, it opens no issue or branch and checks that the current branch is the loop's. That mode is meant for loops, not for a play run inside a change.",
+          "new": "- Its other mode, the loop's contract, is for loops: handed one, it opens no issue or branch and checks that the current branch is the loop's. In the words of its design, \"that is meant for loops, not for a play run inside a change.\""
+        },
+        {
+          "old": "- With no change open, the decision play opens its own. The reason: only a change already open is to be joined; the play still opens its own change when no change is open.",
+          "new": "- With no change open, the decision play opens its own. The reason, as asked: \"It still opens its own change when no change is open.\""
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 59
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-add-found-part/feature.md",
+      "changes": [
+        {
+          "old": "- What it is to become, in its design: a shared step, not a per-play feature. Any play that can find a part points to one common step that asks the keeper, and the page lands in the change already open. `/start-change` never gets it.",
+          "new": "- What it is to become, in its design: \"A shared step, not a per-play feature.\" Any play that can find a part points to one common step that asks the keeper, and the page lands in the change already open. \"`/start-change` never gets it\"."
+        },
+        {
+          "old": "- A part found during work runs no discovery play. The reason: the keeper's route ends \"No discovery play run\", and a discovery play is too much for one feature found in the middle of other work, and it breaks the rule of one change for that work.",
+          "new": "- A part found during work runs no discovery play. The reason: the keeper's route ends \"No discovery play run\", and its design: \"That is too much for one feature found in the middle of other work, and it breaks the rule of one change for that work.\""
+        },
+        {
+          "old": "- The page lands in the change already open. The reason: the page is written on the branch of the change that is already open, so it lands with that change. No second change, no second review.",
+          "new": "- The page lands in the change already open. The reason, in its design: \"Have the page written on the branch of the change that is already open, so it lands with that change. No second change, no second review.\""
+        },
+        {
+          "old": "- Not decided: which plays get the shared step. Which other plays do is part of this design.",
+          "new": "- Not decided: which plays get the shared step. Its design: \"which other plays do is part of this design.\""
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 63,
+      "lines_added": 0,
+      "lines_kept": 59
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-change-part/feature.md",
+      "changes": [
+        {
+          "old": "- A named line that is not on the page refuses the change. The reason: a request line that does not match a line on the page is refused and named; nothing on that page is written.",
+          "new": "- A named line that is not on the page refuses the change. The reason, as asked: \"A request line that does not match a line on the page is refused and named; nothing on that page is written.\""
+        }
+      ],
+      "lines_before": 68,
+      "lines_after": 68,
+      "lines_added": 0,
+      "lines_kept": 67
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-index-through-skills/feature.md",
+      "changes": [
+        {
+          "old": "- The product owner's reason: no redundant writers; if something needs to change the index, it uses the skill.",
+          "new": "- The product owner's reason: \"The product owner wants no redundant writers: if something needs to change the index, it uses the skill.\""
+        }
+      ],
+      "lines_before": 58,
+      "lines_after": 58,
+      "lines_added": 0,
+      "lines_kept": 57
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-model-tool/feature.md",
+      "changes": [
+        {
+          "old": "- Why: today a language model composes the model's pages, and they drift from the ontology. The page template and the page skill still describe the older shape, and nothing stopped it.",
+          "new": "- Why, as asked: \"Today a language model composes the model's pages, and they drift from the ontology.\" \"The page template and the page skill still describe the older shape, and nothing stopped it.\""
+        },
+        {
+          "old": "- The tool writes the shape the ontology sets. The reason: the ontology says an ICE has its own page and its own entry in the model's index, with three parts: Intent, Context and Expectation.",
+          "new": "- The tool writes the shape the ontology sets. The reason, as asked: \"The ontology says an ICE has its own page and its own entry in the model's index, with three parts: Intent, Context and Expectation.\""
+        }
+      ],
+      "lines_before": 49,
+      "lines_after": 49,
+      "lines_added": 0,
+      "lines_kept": 47
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-try-next/feature.md",
+      "changes": [
+        {
+          "old": "- One idea the model could show, from the Product Graph (not approved to build): a business intent connected to more fix-type agent intents than delivery-type ones says we are repairing rather than delivering what the org asked for.",
+          "new": "- One idea the model could show, from the Product Graph (not approved to build): \"A business intent connected to more fix-type agent intents than delivery-type ones says we are repairing rather than delivering what the org asked for.\""
+        }
+      ],
+      "lines_before": 50,
+      "lines_after": 50,
+      "lines_added": 0,
+      "lines_kept": 49
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-bring-phoenix/feature.md",
+      "changes": [
+        {
+          "old": "- Planned, for the Phoenix install: three steps: the Phoenix install, once per machine; the Garura install once per project, which lays no memory; and `initialize` after it. A person installs Phoenix once on a machine and initializes many projects, each with different memory blocks. A second Phoenix install brings Phoenix memory up to date, and the Phoenix install replaces the download on first use.",
+          "new": "- Planned, for the Phoenix install: three steps, \"The Phoenix install, once per machine\", the Garura install once per project, which lays no memory, and `initialize` after it. \"A person installs Phoenix once on a machine and initializes many projects, each with different memory blocks.\" A second Phoenix install brings Phoenix memory up to date, and the Phoenix install replaces the download on first use."
+        }
+      ],
+      "lines_before": 65,
+      "lines_after": 65,
+      "lines_added": 0,
+      "lines_kept": 64
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+      "changes": [
+        {
+          "old": "  - Every Claude memory of the project is to be listed with what it says and why it was saved, the product owner keeps, moves into the repository or deletes each one, and a short guardrail is written down: what may go into memory in this project and what must go into the repo.",
+          "new": "  - It is asked that every Claude memory of the project is listed with what it says and why it was saved, that the product owner keeps, moves into the repository or deletes each one, and that \"A short guardrail is written down: what may go into memory in this project and what must go into the repo.\""
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 63
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-find-memory/feature.md",
+      "changes": [
+        {
+          "old": "- In this repository Garura memory has no memory folder, so it is only the product model: in this repository that folder was removed on 2026-10-26.",
+          "new": "- In this repository Garura memory has no memory folder, so it is only the product model: \"In this repository that folder was removed on 2026-10-26\"."
+        }
+      ],
+      "lines_before": 73,
+      "lines_after": 73,
+      "lines_added": 0,
+      "lines_kept": 72
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-keep-decision-trace/feature.md",
+      "changes": [
+        {
+          "old": "- A decision that a later decision replaced cannot be marked, so the check of such an issue never reads clean: the check has no way to mark a record as replaced by a later decision.",
+          "new": "- A decision that a later decision replaced cannot be marked, so the check of such an issue never reads clean: \"it has no way to mark a record as replaced by a later decision\"."
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 63
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-phoenix-in-step/feature.md",
+      "changes": [
+        {
+          "old": "- Today a change reaches Phoenix memory by hand: promotion today is a manual copy, commit and push into another repository, outside the change plays, with no record of which Garura change needed it.",
+          "new": "- Today a change reaches Phoenix memory by hand: \"Promotion today is a manual copy, commit and push into another repository, outside the change plays, with no record of which Garura change needed it.\""
+        }
+      ],
+      "lines_before": 59,
+      "lines_after": 59,
+      "lines_added": 0,
+      "lines_kept": 58
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-promote-page/feature.md",
+      "changes": [
+        {
+          "old": "- Today a promotion is by hand. No play or command of the tool moves a page up a tier. The tool names \"/learn-memory and /promote-memory plays\", and the glossary marks the promotion play \"not built yet\". Into Phoenix memory, promotion today is a manual copy, commit and push into another repository.",
+          "new": "- Today a promotion is by hand. No play or command of the tool moves a page up a tier. The tool names \"/learn-memory and /promote-memory plays\", and the glossary marks the promotion play \"not built yet\". Into Phoenix memory, \"Promotion today is a manual copy, commit and push into another repository\"."
+        },
+        {
+          "old": "  - The Learn loop's recipe is still to be decided, with two plays: `/learn` takes what was learned from short-term memory into Garura memory, and `/promote` sends it from Garura memory to Phoenix memory.",
+          "new": "  - The Learn loop's recipe is still to be decided, with two plays: \"`/learn` — take what was learned from short-term memory into Garura memory.\" and \"`/promote` — send it from Garura memory to Phoenix memory.\""
+        }
+      ],
+      "lines_before": 68,
+      "lines_after": 68,
+      "lines_added": 0,
+      "lines_kept": 66
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+      "changes": [
+        {
+          "old": "- Five agents, the /fix-bug play and two skills still name the older memory field `ltm_context`, and the /fix-bug play still passes it, though it is to stop passing `ltm_context`.",
+          "new": "- Five agents, the /fix-bug play and two skills still name the older memory field `ltm_context`, and the /fix-bug play still passes it, though it is asked that \"`/fix-bug` stops passing `ltm_context`.\""
+        }
+      ],
+      "lines_before": 78,
+      "lines_after": 78,
+      "lines_added": 0,
+      "lines_kept": 77
+    },
+    {
+      "page": "software-delivery-planning/model-routing/fn-record-run-cost/feature.md",
+      "changes": [
+        {
+          "old": "  - A play's evidence file, when the evidence setting is on, holds the run's start and end time and a session stamp. The stamp binds the run to its slice of the coding tool's session log, \"so spend and behavior are computable OFFLINE\". The choice was to work out spend later, outside the run: token-burn-dash computes exact spend from the ledger using the stamp as join key, with no in-run cost. The stamp is for the whole run, names no model or effort, and the evidence setting is off by default: \"record: false\".",
+          "new": "  - A play's evidence file, when the evidence setting is on, holds the run's start and end time and a session stamp. The stamp binds the run to its slice of the coding tool's session log, \"so spend and behavior are computable OFFLINE\". The choice was to work out spend later, outside the run: \"token-burn-dash computes exact spend from the ledger using the stamp as join key; no in-run cost.\" The stamp is for the whole run, names no model or effort, and the evidence setting is off by default: \"record: false\"."
+        }
+      ],
+      "lines_before": 53,
+      "lines_after": 53,
+      "lines_added": 0,
+      "lines_kept": 52
+    },
+    {
+      "page": "software-delivery-planning/settings/capability.md",
+      "changes": [
+        {
+          "old": "It matters because agents act on the settings they are given, and a setting that is wrong or read by no one fails in silence. In this intent's words: \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" Today nothing says where a new settings file goes, and nothing says which play or tool reads which setting, so a setting no one reads, or one named for a play that is gone, stays unnoticed. The cost shows in the installed config: it still names the review gate by its old play name, so the gate that should be off is on. It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so.",
+          "new": "It matters because agents act on the settings they are given, and a setting that is wrong or read by no one fails in silence. In this intent's words: \"Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision.\" What happens today: \"Nothing says where a new settings file goes, and nothing says which play or tool reads which setting, so a setting no one reads, or one named for a play that is gone, stays unnoticed.\" The cost: \"The installed config still names the review gate by its old play name, so the gate that should be off is on.\" It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so."
+        },
+        {
+          "old": "- How we will know: this intent's proof, \"Every tool reads its settings.\"; no settings file other than `config.yaml` sits outside the config folder, a tool's own folder, or a play's reference folder; and the check runs on the source and on an installed project, and names every key with no reader.",
+          "new": "- How we will know: this intent's proof, \"Every tool reads its settings.\"; and the done means of the settings folder: \"No settings file other than `config.yaml` sits outside the config folder, a tool's own folder, or a play's reference folder.\" and \"The check runs on the source and on an installed project, and names every key with no reader.\""
+        },
+        {
+          "old": "- One settings file is the entry point.",
+          "new": "- One settings file is the entry point. The reason: \"It is the entry point.\""
+        }
+      ],
+      "lines_before": 126,
+      "lines_after": 126,
+      "lines_added": 0,
+      "lines_kept": 123
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-checkpoint-settings/feature.md",
+      "changes": [
+        {
+          "old": "- The learned policy has never been written: no file is at `.garura/core/gate-policy.yaml`, and no issue's folder holds a gate history. The one history in this repository is the old global file, and nothing reads it now, so those 4 answers no longer teach the policy.",
+          "new": "- The learned policy has never been written: no file is at `.garura/core/gate-policy.yaml`, and no issue's folder holds a gate history. The one history in this repository is the old global file, and \"Nothing reads it now, so those 4 answers no longer teach the policy.\""
+        }
+      ],
+      "lines_before": 82,
+      "lines_after": 82,
+      "lines_added": 0,
+      "lines_kept": 81
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-one-settings-file/feature.md",
+      "changes": [
+        {
+          "old": "- The settings file is the entry point; any other settings file sits beside it.",
+          "new": "- The settings file is the entry point; any other settings file sits beside it. The reason: \"It is the entry point.\""
+        }
+      ],
+      "lines_before": 67,
+      "lines_after": 67,
+      "lines_added": 0,
+      "lines_kept": 66
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+      "changes": [
+        {
+          "old": "- Each setting names who reads it: a schema lists, for every key, the play or tool that reads it, and a check fails on a key nobody reads, and on a play's setting whose play no longer exists.",
+          "new": "- What is asked of the settings: \"Each setting names who reads it. A schema lists, for every key, the play or tool that reads it. A check fails on a key nobody reads, and on a play's setting whose play no longer exists.\""
+        },
+        {
+          "old": "- Six of these blocks are named for plays and tools that are gone. For each, first find why it was added and whether anything still reads it (a play's text, not only its scripts), then rename it to the current name, or remove it.",
+          "new": "- Six of these blocks are named for plays and tools that are gone, and for each it is asked: \"first find why it was added and whether anything still reads it (a play's text, not only its scripts). Then rename it to the current name, or remove it.\""
+        },
+        {
+          "old": "- A reader is looked for in a play's text as well as in its scripts. The reason: before a setting is renamed or removed, it must be found whether anything still reads it, in a play's text, not only its scripts.",
+          "new": "- A reader is looked for in a play's text as well as in its scripts. The reason, as asked: \"whether anything still reads it (a play's text, not only its scripts)\"."
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 58
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-folder/feature.md",
+      "changes": [
+        {
+          "old": "- The one settings file stays where it is. The reason: it is the entry point.",
+          "new": "- The one settings file stays where it is. The reason: \"It is the entry point.\""
+        },
+        {
+          "old": "- The coding tool's own settings (`.claude/`), the install record (`install-manifest.json`) and the engine state (`engine-state.json`) do not move. The reason: the settings folder leaves them as they are.",
+          "new": "- The coding tool's own settings, the install record and the engine state do not move. The reason: these are listed as not changed, \"Claude Code's own settings (`.claude/`), the install record (`install-manifest.json`), the engine state (`engine-state.json`)\"."
+        }
+      ],
+      "lines_before": 55,
+      "lines_after": 55,
+      "lines_added": 0,
+      "lines_kept": 53
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-tools-read-settings/feature.md",
+      "changes": [
+        {
+          "old": "  - No tool reads the trackers. The Agent-work tool is planned to be the one tool that reads the project's settings and reaches the trackers they name.",
+          "new": "  - No tool reads the trackers. The Agent-work tool is to: \"One tool, the Agent-work tool, reads the project's settings and reaches the trackers they name\"."
+        }
+      ],
+      "lines_before": 57,
+      "lines_after": 57,
+      "lines_added": 0,
+      "lines_kept": 56
+    },
+    {
+      "page": "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+      "changes": [
+        {
+          "old": "- What a pull request already reviewed is not reviewed again. The reason: the work and its cost were already paid when that pull request was reviewed.",
+          "new": "- What a pull request already reviewed is not reviewed again. The reason: it is left out, \"reviewing again what a pull request already reviewed\", because the work and its cost were already paid."
+        }
+      ],
+      "lines_before": 47,
+      "lines_after": 47,
+      "lines_added": 0,
+      "lines_kept": 46
+    },
+    {
+      "page": "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+      "changes": [
+        {
+          "old": "- The product owner's rule of 2026-10-18: \"No client reference and no personal reference — not in files, not in history\"",
+          "new": "- The product owner's rule of 2026-10-18: \"No client reference and no personal reference — not in files, not in history\", \"Every path a play writes into a run record is relative to the repository root, or uses `~` for the home folder.\""
+        }
+      ],
+      "lines_before": 53,
+      "lines_after": 53,
+      "lines_added": 0,
+      "lines_kept": 52
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-check-no-tracker-named/feature.md",
+      "changes": [
+        {
+          "old": "- A check is to fail any part that names a tracker directly, once the Agent-work tool reads the tracker setting so no play, skill or sub-agent names a tracker. Today 3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub.",
+          "new": "- It is asked for, with the Agent-work tool that reads the tracker setting so no play, skill or sub-agent names a tracker: \"A check fails any part that names a tracker directly.\" The parts that name one today: \"3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub\"."
+        }
+      ],
+      "lines_before": 49,
+      "lines_after": 49,
+      "lines_added": 0,
+      "lines_kept": 48
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+      "changes": [
+        {
+          "old": "- Staying on scope, not written. The rule: every piece of work stays on what it was started for, the design the person approved. A finding outside it is recorded, as an issue filed where it belongs, and the work moves on.",
+          "new": "- Staying on scope, not written. The rule: \"Every piece of work stays on what it was started for: the design the person approved.\" A finding outside it: \"Each one is recorded (an issue, filed where it belongs) and the work moves on.\" In the words of the request, \"This issue only records the rule.\""
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 63,
+      "lines_added": 0,
+      "lines_kept": 62
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-standard-per-kind/feature.md",
+      "changes": [
+        {
+          "old": "- A tool has no standard. It is not a part in the standard's table, and today a tool has no home of its own.",
+          "new": "- A tool has no standard. It is not a part in the standard's table, and in the words of the plan for tools: \"Today a tool has no home of its own.\""
+        },
+        {
+          "old": "- The layer rule, that no skill names a play or another skill, is not written in the standard; on 2026-10-24, 36 of 96 skills named a play.",
+          "new": "- The layer rule, that no skill names a play or another skill, is written in the plan that Garura's parts compose and not in the standard; on 2026-10-24, \"36 of 96 skills name a play\"."
+        },
+        {
+          "old": "- Not decided: what a tool's standard holds. The first step is to decide what a tool file looks like and how agents and skills find it.",
+          "new": "- Not decided: what a tool's standard holds. The plan for tools asks first to \"Decide what a tool file looks like and how agents and skills find it\"."
+        }
+      ],
+      "lines_before": 69,
+      "lines_after": 69,
+      "lines_added": 0,
+      "lines_kept": 66
+    },
+    {
+      "page": "software-delivery-planning/structure/capability.md",
+      "changes": [
+        {
+          "old": "- A shared place gets a written structure first. The reason: if a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule; and in the product owner's words: \"why do we need a global evidence.. if we do then we need to create a proper structure\".",
+          "new": "- A shared place gets a written structure first. The reason, as asked: \"If a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule.\", and in the product owner's words: \"why do we need a global evidence.. if we do then we need to create a proper structure\"."
+        }
+      ],
+      "lines_before": 106,
+      "lines_after": 106,
+      "lines_added": 0,
+      "lines_kept": 105
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+      "changes": [
+        {
+          "old": "- No record is kept in a global file. The reason, in the product owner's words: \"eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure\".",
+          "new": "- No record is kept in a global file. The reason, as asked: \"Nothing is written to a global file.\", and in the product owner's words: \"eval aka records should go in evidence folder that is it. why do we need a global evidence.. if we do then we need to create a proper structure\"."
+        },
+        {
+          "old": "- A path in a record starts at the repository's root. The reason: every path a play writes into a run record is to be relative to the repository root, or use `~` for the home folder.",
+          "new": "- A path in a record starts at the repository's root. The reason, as expected: \"Every path a play writes into a run record is relative to the repository root, or uses `~` for the home folder.\""
+        }
+      ],
+      "lines_before": 62,
+      "lines_after": 62,
+      "lines_added": 0,
+      "lines_kept": 60
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-source-layout/feature.md",
+      "changes": [
+        {
+          "old": "  - A `core/components/tools/` folder is planned for tools as a first-class component, where a tool holds what the harness must know to use it. It is not built.",
+          "new": "  - The plan for tools as a first-class component plans a `core/components/tools/` folder, where \"A tool holds what the harness must know to use it\". It is not built."
+        }
+      ],
+      "lines_before": 74,
+      "lines_after": 74,
+      "lines_added": 0,
+      "lines_kept": 73
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "changes": [
+        {
+          "old": "- What was built once: on 2026-03-24 a `sync-droids` skill was added that transforms Claude Code agent definitions into Factory Droid format (tool names, model IDs, frontmatter), into a `.factory/` folder.",
+          "new": "- What was built once: on 2026-03-24 a `sync-droids` skill was added that \"Transforms Claude Code agent definitions into Factory Droid format (tool names, model IDs, frontmatter)\", into a `.factory/` folder."
+        },
+        {
+          "old": "- How it was removed: on 2026-04-19 the laid `.factory/` tree was taken out of Garura's repository; and on 2026-05-31 the sync-* and unsync-* plays were removed from the framework (commit 64f3ace9, \"remove sync-claude and sync-droids skills\"). The install play, built later, never had a Factory adapter.",
+          "new": "- How it was removed: on 2026-04-19, \"Remove .factory/ tree from repo\", took the laid copy out of Garura's repository; and on 2026-05-31, \"remove sync-* and unsync-* plays from the framework\", removed the sync skills (commit 64f3ace9, \"remove sync-claude and sync-droids skills\"). The install play, built later, never had a Factory adapter."
+        }
+      ],
+      "lines_before": 55,
+      "lines_after": 55,
+      "lines_added": 0,
+      "lines_kept": 53
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+      "changes": [
+        {
+          "old": "- A check fails any part that names a tracker. The reason: without it, a reviewer reads a part that still names the tracker as not moved yet, not as broken.",
+          "new": "- A check fails any part that names a tracker. The reason, as asked: \"A check fails any part that names a tracker directly.\"; without it, a reviewer reads a part that still names the tracker \"as not moved yet, not as broken.\""
+        }
+      ],
+      "lines_before": 79,
+      "lines_after": 79,
+      "lines_added": 0,
+      "lines_kept": 78
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/capability.md",
+      "changes": [
+        {
+          "old": "- Never: change what the product model says. Only its shape moves, shown first and on the person's yes. The reason: the product owner agreed that \"the model moves only in its structure, shown first and on the person's yes\", which answers who may change a project's product model during an upgrade, and with whose yes.",
+          "new": "- Never: change what the product model says. Only its shape moves, shown first and on the person's yes. The reason: the product owner agreed that \"the model moves only in its structure, shown first and on the person's yes\", and the open question \"Who may change a project's product model during an upgrade, and with whose yes?\""
+        },
+        {
+          "old": "- Shown first, then the yes, then the report. The reason: the upgrade shows the person what it will do before it does it, and reports what it did, and the report names every part added, kept, replaced, merged and removed. Not decided: whether what is shown first is the release notes, the list of this project's changes, or both.",
+          "new": "- Shown first, then the yes, then the report. The reason: it is asked that the upgrade \"shows the person what it will do before it does it, and reports what it did\", and that \"The report names every part added, kept, replaced, merged and removed.\" Not decided: whether what is shown first is the release notes, the list of this project's changes, or both."
+        },
+        {
+          "old": "- Before and after, named and recorded. The reason: an upgrade of an existing install shows which version was there before and which version is there now, and the record of the version is what a later upgrade and a bug report name.",
+          "new": "- Before and after, named and recorded. The reason, as asked: \"An upgrade of an existing install shows which version was there before and which version is there now.\", and the record of the version is what a later upgrade and a bug report name."
+        },
+        {
+          "old": "- A person's edit is asked about, never overwritten. The reason: no part is overwritten that a person changed, unless the person says so. Not decided: how the upgrade finds the edit.",
+          "new": "- A person's edit is asked about, never overwritten. The reason, as asked: \"No part is overwritten that a person changed, unless the person says so.\" Not decided: how the upgrade finds the edit."
+        },
+        {
+          "old": "- Not decided: how an upgrade is undone, and how a person sees what changed. No source answers it.",
+          "new": "- Not decided: how an upgrade is undone. The open question \"How does a person see what changed, and undo it?\" has no answer in any source."
+        }
+      ],
+      "lines_before": 105,
+      "lines_after": 105,
+      "lines_added": 0,
+      "lines_kept": 100
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "changes": [
+        {
+          "old": "- New settings in, the team's values kept. The reason: new keys come in and the project's own values stay; today a setting added to Garura never reaches the project.",
+          "new": "- New settings in, the team's values kept. The reason: it is asked that \"new keys come in, the project's own values stay\"; today a setting added to Garura \"never reaches the project\"."
+        },
+        {
+          "old": "- The instructions file only when a rule is missing. The reason: the install writes the `.new` file only when the existing file is missing a rule from the installer's text, and a file written again each time is left for the team to clean up.",
+          "new": "- The instructions file only when a rule is missing. The reason, as asked: \"The install writes the `.new` file only when the existing file is missing a rule from the installer's text.\", and a file written again each time is left for the team to clean up."
+        }
+      ],
+      "lines_before": 69,
+      "lines_after": 69,
+      "lines_added": 0,
+      "lines_kept": 67
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+      "changes": [
+        {
+          "old": "- The last release, v3.0.0 of 7 October 2026, was cut by hand: its blockers closed, a changelog entry in plain language, a tag from main, a GitHub release marked Latest, and a fresh install with no version given installs v3.0.0.",
+          "new": "- The last release, v3.0.0 of 7 October 2026, was cut by hand: its blockers closed, a changelog entry \"in plain language\", a tag from main, a GitHub release \"marked Latest\", and \"A fresh install with no version given installs v3.0.0\"."
+        },
+        {
+          "old": "- A fixed, named version. The reason: two people who installed a week apart got different Garura, so nobody could name the version they had.",
+          "new": "- A fixed, named version. The reason: the version was fixed because \"Two people who install a week apart get different Garura.\", so nobody could name the version they had."
+        },
+        {
+          "old": "- Every release has notes in plain words. The reason: a team knows what an upgrade changes only when the version says so; the v3.0.0 entry says what changed since v2.0.0, in plain language.",
+          "new": "- Every release has notes in plain words. The reason: a team knows what an upgrade changes only when the version says so; the v3.0.0 release asked for an entry \"that says what changed since v2.0.0, in plain language\"."
+        },
+        {
+          "old": "- A release waits on its blockers. The issues it must not go out without are agreed first, and each is closed before the tag. The reason: a release is done only when the blocker list is agreed and every issue on it is closed.",
+          "new": "- A release waits on its blockers. The issues it must not go out without are agreed first, and each is closed before the tag. The reason: the v3.0.0 release was done only when \"The blocker list is agreed and every issue on it is closed.\""
+        },
+        {
+          "old": "- A fresh install gets it. The reason: v3.0.0 counted as done only when a fresh install with no version given installed v3.0.0.",
+          "new": "- A fresh install gets it. The reason: the v3.0.0 release counted as done only when \"A fresh install with no version given installs v3.0.0\"."
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 56
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+      "changes": [
+        {
+          "old": "Status: not built. Today an edited installed part is replaced whole: the install play removes the folder and lays a fresh copy (\"Replace dest with a fresh copy of src\"), and the one-line command copies over it. The shared folder is removed and laid again whole. The install play's own rule is \"Never hand-edit an installed copy\", and nothing tells a team its edits are lost. The need: no part is overwritten that a person changed, unless the person says so. The product owner agreed that \"an upgrade finds a person's edit to an installed part and asks before replacing it\". An earlier design that kept a fingerprint of each installed file, so that \"locally modified components, CLAUDE.md, and core files are detected by hash mismatch and preserved across reinstall/upgrade\", was dropped.",
+          "new": "Status: not built. Today an edited installed part is replaced whole: the install play removes the folder and lays a fresh copy (\"Replace dest with a fresh copy of src\"), and the one-line command copies over it. The shared folder is removed and laid again whole. The install play's own rule is \"Never hand-edit an installed copy\", and nothing tells a team its edits are lost. It is asked for: \"No part is overwritten that a person changed, unless the person says so.\" The product owner agreed that \"an upgrade finds a person's edit to an installed part and asks before replacing it\". An earlier design that kept a fingerprint of each installed file, so that \"locally modified components, CLAUDE.md, and core files are detected by hash mismatch and preserved across reinstall/upgrade\", was dropped."
+        },
+        {
+          "old": "- Asked, never overwritten. The reason: no part is overwritten that a person changed, unless the person says so, and Install and distribute must not \"Change what a project's people changed without asking them.\"",
+          "new": "- Asked, never overwritten. The reason, as asked: \"No part is overwritten that a person changed, unless the person says so.\", and Install and distribute must not \"Change what a project's people changed without asking them.\""
+        }
+      ],
+      "lines_before": 56,
+      "lines_after": 56,
+      "lines_added": 0,
+      "lines_kept": 54
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+      "changes": [
+        {
+          "old": "- Shape only, never meaning. The reason: the product owner agreed that \"the model moves only in its structure, shown first and on the person's yes\", which answers whether an upgrade changes only the structure (keys, file names, headings), or also meaning.",
+          "new": "- Shape only, never meaning. The reason: the product owner agreed that \"the model moves only in its structure, shown first and on the person's yes\", and the open question \"Does an upgrade change only the structure (keys, file names, headings), or also meaning?\""
+        },
+        {
+          "old": "- Shown first, then the person's yes. The reason: who may change a project's product model during an upgrade, and with whose yes, must be settled before it moves; today only the plays write the model, and the install does not.",
+          "new": "- Shown first, then the person's yes. The reason: the open question \"Who may change a project's product model during an upgrade, and with whose yes?\"; today only the plays write the model, and the install does not."
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 62
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "changes": [
+        {
+          "old": "- Not decided: how an upgrade is undone, and how a person sees what changed. No source answers it.",
+          "new": "- Not decided: how an upgrade is undone. The open question \"How does a person see what changed, and undo it?\" has no answer in any source."
+        },
+        {
+          "old": "- The report names each part. The reason: the report names every part added, kept, replaced, merged and removed, which a fixed list of folders does not do.",
+          "new": "- The report names each part. The reason, as asked: \"The report names every part added, kept, replaced, merged and removed.\", which a fixed list of folders does not do."
+        },
+        {
+          "old": "- Before and after, named and recorded. The reason: an upgrade of an existing install shows which version was there before and which version is there now.",
+          "new": "- Before and after, named and recorded. The reason, as asked: \"An upgrade of an existing install shows which version was there before and which version is there now.\""
+        }
+      ],
+      "lines_before": 71,
+      "lines_after": 71,
+      "lines_added": 0,
+      "lines_kept": 68
+    },
+    {
+      "page": "software-delivery-planning/review-agent-work/fn-apply-answers/feature.md",
+      "changes": [
+        {
+          "old": "- core/components/loops/complete-discovery/scripts/record_confirmation.py: \"ends at the pull request\", \"applied_to_model: false # Argus's review step writes the approval\"",
+          "new": "- core/components/loops/complete-discovery/scripts/record_confirmation.py: \"ends at the pull request\", \"applied_to_model: false   # Argus's review step writes the approval\""
+        }
+      ],
+      "lines_before": 58,
+      "lines_after": 58,
+      "lines_added": 0,
+      "lines_kept": 57
+    }
+  ],
+  "changed": [
+    "features/fn-724/feature.md",
+    "features/fn-748/feature.md",
+    "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+    "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+    "software-delivery-planning/define-product/fn-approval-state-kind/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/capability.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-record-every-skip/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md",
+    "software-delivery-planning/initialize/capability.md",
+    "software-delivery-planning/initialize/fn-project-memory/feature.md",
+    "software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+    "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+    "software-delivery-planning/install-into-project/capability.md",
+    "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+    "software-delivery-planning/install-into-project/fn-install-in-one-step/feature.md",
+    "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+    "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+    "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+    "software-delivery-planning/manage-model/fn-add-found-part/feature.md",
+    "software-delivery-planning/manage-model/fn-change-part/feature.md",
+    "software-delivery-planning/manage-model/fn-index-through-skills/feature.md",
+    "software-delivery-planning/manage-model/fn-model-tool/feature.md",
+    "software-delivery-planning/manage-model/fn-try-next/feature.md",
+    "software-delivery-planning/memory/fn-bring-phoenix/feature.md",
+    "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+    "software-delivery-planning/memory/fn-find-memory/feature.md",
+    "software-delivery-planning/memory/fn-keep-decision-trace/feature.md",
+    "software-delivery-planning/memory/fn-phoenix-in-step/feature.md",
+    "software-delivery-planning/memory/fn-promote-page/feature.md",
+    "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+    "software-delivery-planning/model-routing/fn-record-run-cost/feature.md",
+    "software-delivery-planning/settings/capability.md",
+    "software-delivery-planning/settings/fn-checkpoint-settings/feature.md",
+    "software-delivery-planning/settings/fn-one-settings-file/feature.md",
+    "software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+    "software-delivery-planning/settings/fn-settings-folder/feature.md",
+    "software-delivery-planning/settings/fn-tools-read-settings/feature.md",
+    "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+    "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+    "software-delivery-planning/standards/fn-check-no-tracker-named/feature.md",
+    "software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+    "software-delivery-planning/standards/fn-standard-per-kind/feature.md",
+    "software-delivery-planning/structure/capability.md",
+    "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+    "software-delivery-planning/structure/fn-source-layout/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+    "software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md",
+    "software-delivery-planning/upgrade-project/capability.md",
+    "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+    "software-delivery-planning/upgrade-project/fn-cut-release/feature.md",
+    "software-delivery-planning/upgrade-project/fn-keep-edits/feature.md",
+    "software-delivery-planning/upgrade-project/fn-move-model/feature.md",
+    "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+    "software-delivery-planning/review-agent-work/fn-apply-answers/feature.md"
+  ]
+}

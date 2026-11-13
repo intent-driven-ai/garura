@@ -20,7 +20,7 @@ An agent finds what it needs to decide with one memory tool, which looks in the 
 - How it meets the capability: "Agents decide from three tiers of memory" only when every agent reaches all three the same way, in the same order, and every answer says where it came from.
 
 Status: built, in the memory tool (contract version 5) and its memory guide, which the install lays for every agent. Not built, or open:
-- In this repository Garura memory has no memory folder, so it is only the product model: in this repository that folder was removed on 2026-10-26.
+- In this repository Garura memory has no memory folder, so it is only the product model: "In this repository that folder was removed on 2026-10-26".
 - The server engine is not built: the folder engine is "the only engine built". Moving the tool's home to a server is one setting once a server exists.
 - Ask memory, a question box in plain words over the three tiers, is mocked only, in Review what agents make (Argus).
 

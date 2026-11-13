@@ -9,14 +9,14 @@ A team that works in Codex, OpenAI's coding tool, installs Garura, and a Codex a
   - Garura's instructions as `AGENTS.md`, or as `AGENTS.md.new` beside the team's own;
   - the memory guide, which tells every agent how to find memory, as one marked block in `AGENTS.md`, where "a project's own AGENTS.md keeps its text, and gains only the block".
 - Why it is stopped: "the Codex adapter lays plays and skills into `.agents/skills/` but leaves out each play's `reference/` folder, so a play's own ICE and its maps are missing after the install."
-- What the redesign must give: a Codex install lays every part a play needs, including its `reference/` files, the shared `_shared/` files and the tools; the installed-layout lint check passes on `.agents/`; and the empty-project install test runs for Codex as it does for Claude Code.
+- What the redesign must give: "a Codex install lays every part a play needs, including its `reference/` files, the shared `_shared/` files and the tools"; "the installed-layout lint check passes on `.agents/`"; and "the empty-project install test runs for Codex as it does for Claude Code".
 - What Codex loads from a project is in approved memory. Three facts this page uses: Codex has custom agents as "standalone TOML files in .codex/agents/", each of which "may set model and model_reasoning_effort", while the stopped adapter says "There is no named-subagent file"; hooks sit in the project's `.codex/` folder, and "project hooks load only when the project's .codex/ layer is trusted"; and the 1,024-character cap the adapter names "is not stated on the page read".
 - Codex is also used beside Claude Code without an install: a loop's checker may be Codex, and so may the model that writes tests. That uses the tool and lays nothing.
 - Examples, in different kinds of project:
   - A fintech team on Codex runs the install today: it stops with a plain message that points to the planned Codex redesign, and nothing in the project changes.
   - After the redesign, a data pipeline team on Codex gets every play with its reference files, the shared files and the tools, and each play runs.
   - A logistics team whose `AGENTS.md` holds its own rules keeps every line of it, and gains only Garura's marked block.
-- How it meets the capability: a project that works with Codex CLI needs a Garura install built for Codex, not a copy of the Claude Code layout.
+- How it meets the capability: the belief behind the redesign, "a project that works with Codex CLI needs a Garura install built for Codex, not a copy of the Claude Code layout."
 
 Status: stopped. The redesign is planned only.
 - The adapter was built and fixed in July 2026: "Codex CLI installs were fixed." It was stopped on 2026-10-25 (ADR 055). The one-line command never had Codex.

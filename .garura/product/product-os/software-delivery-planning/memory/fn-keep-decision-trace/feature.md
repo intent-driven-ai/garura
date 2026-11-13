@@ -17,7 +17,7 @@ Each decision an agent makes is recorded in the issue's short-term memory with i
 - How it meets the capability: agents "decide from three tiers of memory" in a way a person can check only when each decision says which lines of which tier it rested on, and says so again when those lines change.
 
 Status: built, in the memory tool's `cite` and `citations`; decided in ADR 035 section 6 and ADR 037. Not built, or open:
-- A decision that a later decision replaced cannot be marked, so the check of such an issue never reads clean: the check has no way to mark a record as replaced by a later decision.
+- A decision that a later decision replaced cannot be marked, so the check of such an issue never reads clean: "it has no way to mark a record as replaced by a later decision".
 - A decision recorded again keeps its old record beside the new one, and the check reads both.
 - The Agent decisions section of Argus, where a person reads each trace, is not built (Review what agents make, in Developer tooling).
 

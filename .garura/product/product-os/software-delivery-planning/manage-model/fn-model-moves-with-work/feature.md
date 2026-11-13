@@ -2,7 +2,7 @@
 
 ## What it does
 The model is to keep up with the work as it is done: when a story's design is approved, the keeper updates the model through its skills, each part it changes marked in review; and before a change is proposed, the person chooses to update the model now or leave it, and leaving it puts the change on one list for Learn, so the model never falls behind the work without a record of what is owed.
-- The product model keeps up with the work as it is done, and the person decides how fast.
+- In the words of the decisions on how the product model moves with the work: "The product model keeps up with the work as it is done, and the person decides how fast."
 - On a design's approval: "When the design is approved, the model sub-agent updates the product model through its skills: domains, capabilities, features and their intent (ICE). Each piece it changes is marked in review, not approved; a person approves it later."
 - Before a change is proposed, the person chooses: update the model now, or leave it. "Leaving it is always allowed, and it leaves a record of what is owed." The change is then written to "one list of changes not yet learned (issue, branch, what was left, who chose, when)", so Learn reads that list and "never hunts through every issue's short-term memory".
 - The product owner decided it on 2026-10-30: "it is better that the model and everything is updated as the work is getting done."

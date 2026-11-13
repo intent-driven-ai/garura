@@ -41,7 +41,7 @@ Status: built, in `check_ice_workable.py`, four copies kept the same, with its t
 - A feature is read through its capability. The reason: "A feature's own `intents` and `depends_on` are not read (v6: it finds its business intents through its parent and never needs anything)."
 - A thin ICE is a gap, and only its marks are read. The reason: "the check does not count lines or judge richness; it reads only the thin mark".
 - The copies stay the same. The reason: "Thus every play gives the same ready answer for the same model."
-- A need that was not checked is named. The reason: a part with needs and no done list is to read partly ready with the gap "needs not checked".
+- A need that was not checked is named. The reason, as asked: "A part with needs and no done list reads partly ready with the gap "needs not checked"".
 - Not decided: how the check reads an older part whose ICE is still inside its page, by its own shape, or only once each ICE section moves to its own page.
 
 ## Acceptance criteria

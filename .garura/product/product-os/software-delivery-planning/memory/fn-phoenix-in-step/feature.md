@@ -4,7 +4,7 @@
 When a change to Garura changes a memory page in its source, Phoenix memory gets the same change in the same release, a check names every page where the two differ, and each release of Phoenix memory has a version and its own notes, so every project's agents decide from the rules Garura now follows.
 - Phoenix memory is seeded from the memory folder of Garura's source, and every project's agents read it through the memory tool. A project holds no standards of its own, so what Phoenix memory says is what its agents decide from.
 - Today the two differ in 60 places, in a file-by-file compare through the memory tool on 2026-11-11: 42 pages differ, 3 are in the source only, and 15 are in Phoenix memory only. A compare on 2026-10-28 gave the same count. Among them are the naming rules, so an installed project checks names against other rules than Garura's source.
-- Today a change reaches Phoenix memory by hand: promotion today is a manual copy, commit and push into another repository, outside the change plays, with no record of which Garura change needed it.
+- Today a change reaches Phoenix memory by hand: "Promotion today is a manual copy, commit and push into another repository, outside the change plays, with no record of which Garura change needed it."
 - What this feature is to do, in full:
   - a change to Garura that changes a memory page also changes Phoenix memory, through the change plays, and the change is not done until both land;
   - a check names every page where Phoenix memory and Garura's source disagree, and a release does not go out with a gap nobody decided on;

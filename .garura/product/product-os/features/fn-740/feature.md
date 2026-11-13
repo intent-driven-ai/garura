@@ -24,7 +24,7 @@ Status: built in part, in the component linter, the play linter, the loop linter
 - The play linter does not compare a play's fingerprint with its ICE.
 - In an installed project, the naming rules come only from a copy fetched through the memory tool; with none, the naming check does not run. Phoenix memory's copy differs from the source.
 - No check holds the layer rule, that no skill names a play or another skill, a tracker named in a part (fn-check-no-tracker-named), or a gate with no way past.
-- Some checks have no tests: the scoped-write guard, whose 14 copies run unguarded, and the direct-model-write lint checks.
+- Some checks have no tests: the scoped-write guard ("14 copies run unguarded") and the direct-model-write lint checks.
 
 ## Inputs / Outputs
 - In: the parts, in the source or in an installed project.

@@ -2,8 +2,8 @@
 
 ## What it does
 Orchestration keeps one list of the guardrails, and each entry says the shortcut it guards, the play that owns that work, and its way past; the install lays them, and when a guardrail meets its shortcut, it names the play to run and the way past where the person sees them, and each pass made on purpose is recorded as owed.
-- The shortcuts to guard: an agent can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.
-- What a hook is proposed to refuse, to shape and not decided:
+- The shortcuts the guardrail proposal names: an agent "can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on."
+- What the guardrail proposal proposes a hook refuses, "to shape, not decided":
   - an edit to a play's compiled file or its ICE, the ontology, or an ADR, when no run of the play that changes it is on record;
   - a commit on a plan's base branch or on main;
   - a run of a play's bundled script when no run of that play is on record.
@@ -38,7 +38,7 @@ Status: not built. The guardrails the Garura install is to lay, so that an agent
 - The way past is named where the person sees it. The reason: in other tools, "the way past is offered, never hidden"; and in Claude Code a hook's deny reason "is shown to Claude, not to the person".
 - A pass made on purpose is recorded. The reason: "the hook can itself write a record of each pass", and using a way past "records what is owed".
 - The install lays the guardrails, and this list defines them. The reason: "This feature lays them. What each guardrail guards, and how a person gets past one on purpose, is Orchestration's."
-- Not decided: which shortcuts are guarded first, which paths and which plays the hook covers, and how a person overrides it on purpose.
+- Not decided: which shortcuts are guarded first; the guardrail proposal leaves open "Which paths and which plays the hook covers, and how a person overrides it on purpose."
 - Not decided: whether the way past is the coding tool's own prompt, a word typed in the session, or a line in the pull request that the review reads.
 - Not decided: in a run with no person present, such as a scheduled run, whether a guardrail's refusal counts as stopping a person, and whether the run may pass it on its own.
 - Not decided: whether a guardrail that fails or times out lets the action through, or is set to block on failure; a hook that fails or times out "does not block unless the hook is set to block on failure".

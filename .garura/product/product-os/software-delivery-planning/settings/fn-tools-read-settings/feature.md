@@ -7,7 +7,7 @@ Each of Garura's tools reads the settings meant for it from where they live, the
   - The memory tool reads its own settings: it "learns where each tier lives from one source: the JSON file `MEMORY_SETTINGS` names, else these environment variables, else `settings.json` beside `memory.py`". The install writes that file, "so an agent in an installed project runs the tool with no settings of its own".
   - The plan tool takes its folder from a flag with a fixed default, `.garura/project/plans`, not from the plans setting. /show-plan and /list-plans read the plans setting and pass it on: "`<plans>` is `plans.base-path` from config, else `.garura/project/plans/`".
   - The component linter takes the naming rules from a flag, and with no flag it skips them: "naming rules skipped: no naming standard given (--naming <naming.yaml>)".
-  - No tool reads the trackers. The Agent-work tool is planned to be the one tool that reads the project's settings and reaches the trackers they name.
+  - No tool reads the trackers. The Agent-work tool is to: "One tool, the Agent-work tool, reads the project's settings and reaches the trackers they name".
 - Where a tool's settings live: "Tool settings stay with their tool (for example the memory tool's `settings.json`)." Settings that a project chooses, such as the plans folder or the trackers, are in the project's settings file.
 - Examples, in different kinds of project:
   - In a clinic's booking app, the team keeps its plans in another folder; it changes the plans setting, and the plan tool shows the plans from there.

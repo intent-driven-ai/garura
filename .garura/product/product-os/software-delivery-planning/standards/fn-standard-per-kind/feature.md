@@ -10,8 +10,8 @@ Each kind of part has a written standard that says what that kind is, what it do
   - the rule files in memory, under `standards/rules/`.
 - A shared file follows one pattern: "Any new shared scaffolding follows the same pattern: one common file the plays point to, emitted by the compiler and linted." The component linter fails a play that misses the anchor pair of the shared close.
 - The component linter's structural rules hold some of each kind's standard: a skill in the source must name its `model` and its `allowed-tools`, among other fields.
-- A tool has no standard. It is not a part in the standard's table, and today a tool has no home of its own.
-- The layer rule, that no skill names a play or another skill, is not written in the standard; on 2026-10-24, 36 of 96 skills named a play.
+- A tool has no standard. It is not a part in the standard's table, and in the words of the plan for tools: "Today a tool has no home of its own."
+- The layer rule, that no skill names a play or another skill, is written in the plan that Garura's parts compose and not in the standard; on 2026-10-24, "36 of 96 skills name a play".
 - Two written standards disagree: the agents doc says agents "make all decisions within their domain. They are judges, not executors.", while principle 2 says agents gather context and skills do the work.
 - Examples, in different kinds of project:
   - In a bank's payments service, a developer writes a skill that drafts a refund letter. It follows the skill standard, reads only what its sub-agent put in short-term memory, and the checks pass it.
@@ -39,7 +39,7 @@ Status: built in part, in the component docs, the harness standard's principles,
 - What many parts share lives once, in a shared file, and is checked. The reason: "one common file the plays point to, emitted by the compiler and linted."
 - A skill and a sub-agent follow the standard for their kind and are checked against it. The reason, in the product owner's answer: "skills and sub-agents follow the written standard for their kind and are checked against it".
 - No skill names a play or another skill. The reason: "no skill names a play or another skill; a skill may name an agent, for the context file it reads".
-- Not decided: what a tool's standard holds. The first step is to decide what a tool file looks like and how agents and skills find it.
+- Not decided: what a tool's standard holds. The plan for tools asks first to "Decide what a tool file looks like and how agents and skills find it".
 
 ## Acceptance criteria
 - Given a new skill in the source, when the component linter runs, then it fails the skill until it names its `model` and its `allowed-tools`.

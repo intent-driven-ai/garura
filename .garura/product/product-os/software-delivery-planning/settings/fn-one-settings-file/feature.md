@@ -24,7 +24,7 @@ Every setting that Garura's plays, scripts and loops read is kept in one setting
 
 Status: built, as `core/config.yaml` and its installed copy in each project (ADR 040). Not built, or open:
 - At least six blocks are read by no script or only by a stale play.
-- The installed copy in this repository is out of step with the source: it has 181 lines against the source's 223, with no `loops`, `plans` or `trackers` block; it has two `product:` keys; it names the review checkpoint by its old name, `review-change: off`, so the gate that should be off is on; and it names the old global gate history.
+- The installed copy in this repository is out of step with the source: it has 181 lines against the source's 223, with no `loops`, `plans` or `trackers` block; it has two `product:` keys; it names the review checkpoint by its old name, `review-change: off`, so "the gate that should be off is on"; and it names the old global gate history.
 - Two settings in the installed copy name a memory folder that does not exist: `standards.pr-severity-taxonomy` and `ltm.project-target`, both under `.garura/core/memory/`.
 - New settings do not reach a project on an upgrade. Bring in new settings, keeping the team's values (fn-bring-new-settings), in Upgrade a project, is to do it, and it is not built.
 
@@ -39,7 +39,7 @@ Status: built, as `core/config.yaml` and its installed copy in each project (ADR
 - In Garura's own repository, the installed copy is not edited to make a change. The reason: "Nothing under it is edited to make a change."
 - A key is written once in the file. The reason: "the old file had two `product:` keys, and the second silently replaced the first".
 - Paths go in the settings, not in memory. The reason: "The rule stands: paths go in the config, not in memory."
-- The settings file is the entry point; any other settings file sits beside it.
+- The settings file is the entry point; any other settings file sits beside it. The reason: "It is the entry point."
 - Not decided: whether the `components` and `claude` blocks, which name the source and installed folders and have no confirmed reader, are settings a team changes or facts of the install.
 
 ## Acceptance criteria

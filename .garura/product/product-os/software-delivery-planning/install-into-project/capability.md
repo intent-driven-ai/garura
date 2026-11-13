@@ -72,13 +72,13 @@ What is not built yet:
 
 ### Guiding rules
 - One engine, two front doors. The one-line command and the install play run the same steps and lay the same parts for the same version and kind. The reason: the product owner's "an engine thing, like installation, not a play", read as one engine behind both, which he agreed; today the two already share the memory and tools steps, "Both install paths call this".
-- One step, and no copy of Garura's source. The reason: Install and distribute's first proof is "A first install takes one step.", and someone with no prior exposure to Garura is to install it into their project in one step.
-- A fixed version, named, recorded and shown. The reason: the installed project records which Garura version it has, so a later upgrade and a bug report can name it. Not decided: which version the one step gives by default.
+- One step, and no copy of Garura's source. The reason: Install and distribute's first proof is "A first install takes one step.", and it is asked that "Someone with no prior exposure to Garura can install it into their project in one step".
+- A fixed version, named, recorded and shown. The reason, as asked: "The installed project records which Garura version it has, so a later upgrade and a bug report can name it." Not decided: which version the one step gives by default.
 - The record is the line between Garura's parts and the team's. Only what the record names is ever taken out. The reason: "Only manifest-recorded paths are candidates", and the take-out "never removes a file it cannot prove the installer placed".
 - Beside, never over. Garura's version of a file the project already has goes beside it, and a part of the project's own with a Garura part's name is named, not replaced. The reason: the Must not, and what the install play already does for the instructions file: "never clobber the user's own".
 - Whole, and checked before it counts. Every part is laid with its workers and shared files, and the memory tool and each tool are checked to run. The reason: installed parts read only installed files, and "A laid tool must pass its smoke check."
 - No memory comes with the install. The reason: "install finishes without any memory."; Initialize gives the project its own memory after it.
-- Shown before anything is taken out. The reason: a re-run is to show the person what it will do before it does it, and the take-out play already says "Prefer `--dry-run` when unsure."
+- Shown before anything is taken out. The reason: it is asked that a re-run show "the person what it will do before it does it", and the take-out play already says "Prefer `--dry-run` when unsure."
 - No coding tool in the engine. Each tool's shape is laid by that tool's own part. The reason: "The adapter is the seam.", so a new tool needs no change to the engine.
 
 ## Sources

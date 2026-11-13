@@ -31,13 +31,13 @@ Status: built, in the page skill's two scripts for named lines and approved page
 
 ## Rules & behavior
 - Only the named lines change. The reason: "Exit 0: every named line changed and every other line kept, word for word, with its own line ending."
-- A named line that is not on the page refuses the change. The reason: a request line that does not match a line on the page is refused and named; nothing on that page is written.
+- A named line that is not on the page refuses the change. The reason, as asked: "A request line that does not match a line on the page is refused and named; nothing on that page is written."
 - The meaning comes from the person, never from the skill. The reason: "The meaning comes from the request's source, never from this skill: a new intent page is /discover-intent's, and a change of meaning is the person's or an approved design's."
 - An intent page is never confirmed by the skill. The reason: "never confirms by itself; the stage is proposed unless the caller names the person who confirmed it".
 - A rewrite keeps what was done. The reason: "On a rewrite it keeps the old page's What-was-done block byte for byte".
 - A feature moves to another capability only when a person approved it. The reason: "A feature that already has a capability moves to another only through `capability` on `update`, when a person approved taking in an old part".
 - A move breaks no link. The reason: "It is refused while any page or record in the model names an old path".
-- A record is changed through the play that owns it. The reason: the edit standard sets one way to change a record, through the play that owns the record.
+- A record is changed through the play that owns it. The reason: the edit standard, "through the play that owns the record."
 - Not decided: how a confirmed intent page records the person's own reply, beyond the name the caller gives.
 
 ## Acceptance criteria

@@ -2,7 +2,7 @@
 
 ## What it does
 Anyone who files a defect or reviews a change gives it one severity, P1 to P4, by written rules that start from an industry standard, and the same value says what is fixed first, so a review, a defect and the tracker speak one scale.
-- Anyone who files a defect or reviews a change gives it one severity, P1 to P4, by written rules that start from an industry standard, and the same value says what gets fixed first.
+- As asked: "Anyone who files a defect or reviews a change gives it one severity, P1 to P4, by written rules that start from an industry standard, and the same value says what gets fixed first."
 - The rules are planned in three layers:
   - generic: the base is Mozilla's S1 to S4 scale, so P1 blocks work or testing, or loses data, with no way around it, and P4 is cosmetic, with little or no impact;
   - surfaces: what blocked means, and what raises or lowers a level, on the web, on a phone, on an API, on a command line, for a coding agent, and for business rules;
@@ -32,7 +32,7 @@ Status: not built. It waits on an architecture memory for teams building a harne
 - One severity, P1 to P4, from the closest industry standard. The reason, in the product owner's words: "pick which is the closest industry standard and use that".
 - Severity and the order of fixing are one value. The reason: "No second priority field and no matrix."
 - A change is not a defect. The reason: "a change is not a defect and gets no severity".
-- Not decided: which of the two P1-to-P4 tables governs where they differ; one must govern.
+- Not decided: which of the two P1-to-P4 tables governs where they differ; "one must govern".
 - Not decided: how the review of each change records a finding that is a change, not a defect.
 
 ## Acceptance criteria

@@ -6,7 +6,7 @@ Each run of a play or a loop records, for each part it ran, the model and the ef
 - What a run records today comes near it in three places, and none is per part:
   - The rebuild eval, a tool Garura's makers use, records each of its own agents' cost: "Every agent's command, exit and cost go to `run.json`."
   - The loop's check record names the checker's kind and model, for that one step.
-  - A play's evidence file, when the evidence setting is on, holds the run's start and end time and a session stamp. The stamp binds the run to its slice of the coding tool's session log, "so spend and behavior are computable OFFLINE". The choice was to work out spend later, outside the run: token-burn-dash computes exact spend from the ledger using the stamp as join key, with no in-run cost. The stamp is for the whole run, names no model or effort, and the evidence setting is off by default: "record: false".
+  - A play's evidence file, when the evidence setting is on, holds the run's start and end time and a session stamp. The stamp binds the run to its slice of the coding tool's session log, "so spend and behavior are computable OFFLINE". The choice was to work out spend later, outside the run: "token-burn-dash computes exact spend from the ledger using the stamp as join key; no in-run cost." The stamp is for the whole run, names no model or effort, and the evidence setting is off by default: "record: false".
 - No play or loop records the model, effort, time or tokens of each part it ran, and no issue plans it.
 - Examples, in different kinds of project:
   - In a shop's checkout project, the record of a plan session shows its drafting skill used most of the run's tokens on `opus`.

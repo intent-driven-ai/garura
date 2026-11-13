@@ -4,7 +4,7 @@
 A check reads every play, skill and sub-agent and names each one that names a tracker or calls a tracker's command line, warning while the parts move onto the Agent-work tool and failing after, so this intent's Must not is held by a machine and not by someone reading the parts.
 - This intent's Must not: "Name a tracker in a play, skill or sub-agent, because they only know the tool."
 - ADR 065, rule 4: "Plays, skills and sub-agents know only the tool, never the tracker. Parts move onto the tool over time."
-- A check is to fail any part that names a tracker directly, once the Agent-work tool reads the tracker setting so no play, skill or sub-agent names a tracker. Today 3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub.
+- It is asked for, with the Agent-work tool that reads the tracker setting so no play, skill or sub-agent names a tracker: "A check fails any part that names a tracker directly." The parts that name one today: "3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub".
 - The product owner answered when it comes and how it turns on: "the check that no part names a tracker comes with [the Agent-work tool], warns until the parts have moved, then fails".
 - The tool that meets the rule belongs to Track execution in the team's tracker: One tool knows the tracker, and no play, skill or sub-agent names it. This feature is the check that the rule holds.
 - Examples, in different kinds of project:

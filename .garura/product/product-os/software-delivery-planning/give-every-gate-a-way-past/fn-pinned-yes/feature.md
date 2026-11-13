@@ -8,11 +8,11 @@ One list names every pinned yes, a checkpoint that no setting, policy or ledger 
   - accepting an ADR, run by hand: "only a person accepts a decision record", and the decision play's accept is "run by hand: never skipped by config or policy.";
   - the shaping checkpoints of /shape-slice, /shape-plan and /shape-eval: in /shape-plan's words, "the product owner decides; never skipped by config";
   - the three checkpoints of /edit-ontology: "three pinned human checkpoints — the product owner decides".
-- One more stays with a person today: nothing is written to an outside system without the person asking.
+- One more stays with a person today: "nothing is written to an outside system without the person asking".
 - Inside a loop, confirming an intent and accepting an ADR are saved as proposed and decided at the loop's end review; any other pinned gate "is asked up front or becomes the loop's question".
 - Before the merge's yes, three machine checks are verified: the change is approved, it can be merged, and no required check fails. "These three are the guard against breaking main"; when one fails, "there is nothing to approve, so the human is not asked."
 - The question is open in the decision still owed on ways past a gate and on two approved pages:
-  - The ADR on ways past a gate is to say whether these are keys of their own kind or exceptions to the principle;
+  - As asked of the ADR on ways past a gate: "The ADR says whether these are keys of their own kind", "or exceptions to the principle.";
   - Ship every change the same way, in Developer tooling, and its feature Merge each change where it lands, on the review's approval and a person's yes (fn-673), each hold it as a Not decided line.
 - The gate rule's pinned set still names grill, launch, learn and deploy: "The pinned list names gone plays."
 - Examples, in different kinds of project:

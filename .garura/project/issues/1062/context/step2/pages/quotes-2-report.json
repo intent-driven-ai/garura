@@ -1,0 +1,684 @@
+{
+  "by": "product-os-keeper (model clean-up, issue 1062 step 2)",
+  "source": "the product owner's approved rule (2026-11-13): inside any quote, a person's or a file's words are never reworded; only the issue number is dropped or bracketed. Second batch: quotes whose marks were dropped",
+  "pages": [
+    {
+      "page": "features/fn-740/feature.md",
+      "changes": [
+        {
+          "old": "- Some checks have no tests: the scoped-write guard, whose 14 copies run unguarded, and the direct-model-write lint checks.",
+          "new": "- Some checks have no tests: the scoped-write guard (\"14 copies run unguarded\") and the direct-model-write lint checks."
+        }
+      ],
+      "lines_before": 76,
+      "lines_after": 76,
+      "lines_added": 0,
+      "lines_kept": 75
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+      "changes": [
+        {
+          "old": "- The architecture is read through the memory tool and cited. The reason: the architecture pages are done when a review agent can find them through the memory tool and cite them.",
+          "new": "- The architecture is read through the memory tool and cited. The reason: the architecture pages are done when \"a review agent can find them through the memory tool and cite them.\""
+        }
+      ],
+      "lines_before": 69,
+      "lines_after": 69,
+      "lines_added": 0,
+      "lines_kept": 68
+    },
+    {
+      "page": "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+      "changes": [
+        {
+          "old": "- Why: an agent can do a play's work without the play. The shortcuts: an agent can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on. The product owner's words: \"yeah dont take shortcuts. and we need to put in guardrails that these shortcuts are not taken\".",
+          "new": "- Why: an agent can do a play's work without the play. The guardrail proposal names the shortcuts: an agent \"can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.\" The product owner's words: \"yeah dont take shortcuts. and we need to put in guardrails that these shortcuts are not taken\"."
+        }
+      ],
+      "lines_before": 51,
+      "lines_after": 51,
+      "lines_added": 0,
+      "lines_kept": 50
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/capability.md",
+      "changes": [
+        {
+          "old": "- A way past records who used it, when, what was skipped, and where the debt is kept so a later play finds it.",
+          "new": "- A way past records what is asked of a key. The reason: a key records \"who used it, when, what was skipped, and where the debt is kept so a later play finds it\"."
+        }
+      ],
+      "lines_before": 107,
+      "lines_after": 107,
+      "lines_added": 0,
+      "lines_kept": 106
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+      "changes": [
+        {
+          "old": "- The shortcuts to guard: an agent can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.",
+          "new": "- The shortcuts the guardrail proposal names: an agent \"can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.\""
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 63
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+      "changes": [
+        {
+          "old": "- Every entry has the same parts. The reason: a key records who used it, when, what was skipped, and where the debt is kept so a later play finds it.",
+          "new": "- Every entry has the same parts. The reason: it is asked that a key record \"who used it, when, what was skipped, and where the debt is kept so a later play finds it\"."
+        }
+      ],
+      "lines_before": 67,
+      "lines_after": 67,
+      "lines_added": 0,
+      "lines_kept": 66
+    },
+    {
+      "page": "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+      "changes": [
+        {
+          "old": "- One more stays with a person today: nothing is written to an outside system without the person asking.",
+          "new": "- One more stays with a person today: \"nothing is written to an outside system without the person asking\"."
+        }
+      ],
+      "lines_before": 65,
+      "lines_after": 65,
+      "lines_added": 0,
+      "lines_kept": 64
+    },
+    {
+      "page": "software-delivery-planning/initialize/capability.md",
+      "changes": [
+        {
+          "old": "- A run can be repeated at any time. A project changes (it gains a database, a web surface or a new tracker) and Phoenix memory changes (a new standard or template), and the set-up must follow both without a reinstall. The reason: a project can run `initialize` again when it changes.",
+          "new": "- A run can be repeated at any time. A project changes (it gains a database, a web surface or a new tracker) and Phoenix memory changes (a new standard or template), and the set-up must follow both without a reinstall. The reason: it is asked that \"a project can run `initialize` again when it changes\"."
+        }
+      ],
+      "lines_before": 115,
+      "lines_after": 115,
+      "lines_added": 0,
+      "lines_kept": 114
+    },
+    {
+      "page": "software-delivery-planning/initialize/fn-883/feature.md",
+      "changes": [
+        {
+          "old": "- How a project learns that a block changed. Each run of initialize reads through the memory tool, for each block in the list, the parts its selection finds in Phoenix memory now. A part the list holds that now reads differently is changed. A part the selection now finds that the list does not hold is added. A part the list holds that the selection no longer finds is taken out. The brief names each one under its block. The reason: initialize can run again to take in changes.",
+          "new": "- How a project learns that a block changed. Each run of initialize reads through the memory tool, for each block in the list, the parts its selection finds in Phoenix memory now. A part the list holds that now reads differently is changed. A part the selection now finds that the list does not hold is added. A part the list holds that the selection no longer finds is taken out. The brief names each one under its block. The reason: it is asked that initialize \"can run again to take in changes\"."
+        }
+      ],
+      "lines_before": 73,
+      "lines_after": 73,
+      "lines_added": 0,
+      "lines_kept": 72
+    },
+    {
+      "page": "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "changes": [
+        {
+          "old": "- The set is short: it asks only what decides memory, review rules or tracker types. A question whose answer changes none of these is not asked, because it costs the person time and sets up nothing. The reason: Initialize is to ask a short set of questions built from Phoenix memory.",
+          "new": "- The set is short: it asks only what decides memory, review rules or tracker types. A question whose answer changes none of these is not asked, because it costs the person time and sets up nothing. The reason: it is asked for \"a short set of questions built from Phoenix memory\"."
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 60
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/capability.md",
+      "changes": [
+        {
+          "old": "- Shown before anything is taken out. The reason: a re-run is to show the person what it will do before it does it, and the take-out play already says \"Prefer `--dry-run` when unsure.\"",
+          "new": "- Shown before anything is taken out. The reason: it is asked that a re-run show \"the person what it will do before it does it\", and the take-out play already says \"Prefer `--dry-run` when unsure.\""
+        }
+      ],
+      "lines_before": 108,
+      "lines_after": 108,
+      "lines_added": 0,
+      "lines_kept": 107
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+      "changes": [
+        {
+          "old": "- Not decided: whether a team may pick a single skill or sub-agent on its own, as part of choosing a subset.",
+          "new": "- Not decided: whether a team may pick a single skill or sub-agent on its own, as the request asks for \"a subset\"."
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 63
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+      "changes": [
+        {
+          "old": "- A guardrail here is a check the coding tool runs before an agent acts, which refuses a shortcut past a play. The shortcuts to guard: an agent can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.",
+          "new": "- A guardrail here is a check the coding tool runs before an agent acts, which refuses a shortcut past a play. The shortcuts the guardrail proposal names: an agent \"can run a play's bundled scripts by hand, write a play's record files itself, edit a compiled play or its ICE without `/edit-play`, or finish a failed step by hand and go on.\""
+        },
+        {
+          "old": "- Each guardrail is laid in the coding tool's own form by Support each coding tool. For Claude Code, that is a hook, a script Claude Code runs before each tool call.",
+          "new": "- Each guardrail is laid in the coding tool's own form by Support each coding tool. For Claude Code, the guardrail proposal names a hook, \"a script Claude Code runs before each tool call\"."
+        },
+        {
+          "old": "Status: not built. The guardrails are not shaped. No install touches the coding tool's own settings today, so \"nothing the install needs there can arrive (the guardrail hooks [this feature lays] will need it)\". An earlier idea, guardrails that ship with the harness and can be turned on or off, was dropped. The approved page for keeping the evals from the builder already leans on this feature: \"Blocking a read with a hook is left to the guardrails the install will lay, which the install does not lay today.\"",
+          "new": "Status: not built. The guardrails are not shaped. No install touches the coding tool's own settings today, so \"nothing the install needs there can arrive (the guardrail hooks of [the guardrail proposal] will need it)\". An earlier idea, guardrails that ship with the harness and can be turned on or off, was dropped. The approved page for keeping the evals from the builder already leans on this feature: \"Blocking a read with a hook is left to the guardrails the install will lay, which the install does not lay today.\""
+        }
+      ],
+      "lines_before": 46,
+      "lines_after": 46,
+      "lines_added": 0,
+      "lines_kept": 43
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+      "changes": [
+        {
+          "old": "- Not decided: how the take-out knows a file Garura laid was changed since. An earlier design kept a fingerprint of every installed file, and the install is asked to know what the project's people changed since; neither is built.",
+          "new": "- Not decided: how the take-out knows a file Garura laid was changed since. An earlier design kept a fingerprint of every installed file, and the install is asked to know \"what the project's people changed since\"; neither is built."
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 63,
+      "lines_added": 0,
+      "lines_kept": 62
+    },
+    {
+      "page": "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+      "changes": [
+        {
+          "old": "- Shown before anything is taken out. The reason: a new run shows the person what it will do before it does it, and taking a play out takes away a command the team may still use.",
+          "new": "- Shown before anything is taken out. The reason: it is asked that a new run show \"the person what it will do before it does it\", and taking a play out takes away a command the team may still use."
+        }
+      ],
+      "lines_before": 53,
+      "lines_after": 53,
+      "lines_added": 0,
+      "lines_kept": 52
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/capability.md",
+      "changes": [
+        {
+          "old": "- An ADR cannot be recorded in the change it belongs to. Run by hand, the decision play opens its own change from main, so the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on a change on a plan's branch.",
+          "new": "- An ADR cannot be recorded in the change it belongs to. Run by hand, the decision play opens its own change from main, so \"the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on [a change on a plan's branch]\"."
+        }
+      ],
+      "lines_before": 111,
+      "lines_after": 111,
+      "lines_added": 0,
+      "lines_kept": 110
+    },
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+      "changes": [
+        {
+          "old": "- Today, run by hand, the decision play opens a change of its own first: its first step \"cuts the branch off fresh main\". So an ADR that belongs to a change on another branch cannot land in that change: the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on a change on a plan's branch.",
+          "new": "- Today, run by hand, the decision play opens a change of its own first: its first step \"cuts the branch off fresh main\". So an ADR that belongs to a change on another branch cannot land in that change, and \"the change lands without its ADR, and the issue stays open until a second, small change records the ADR. This happened on [a change on a plan's branch]\"."
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 60
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-add-found-part/feature.md",
+      "changes": [
+        {
+          "old": "- The shared step any play can point to, by which a feature found during work gets a thin page in the product model, inside the open change, without the full discovery. The shared play step comes later.",
+          "new": "- The shared step any play can point to, by which a feature found during work gets a thin page in the product model, inside the open change, without the full discovery. In its design: \"The shared play step comes later.\""
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 63,
+      "lines_added": 0,
+      "lines_kept": 62
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-change-part/feature.md",
+      "changes": [
+        {
+          "old": "- A record is changed through the play that owns it. The reason: the edit standard sets one way to change a record, through the play that owns the record.",
+          "new": "- A record is changed through the play that owns it. The reason: the edit standard, \"through the play that owns the record.\""
+        }
+      ],
+      "lines_before": 68,
+      "lines_after": 68,
+      "lines_added": 0,
+      "lines_kept": 67
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-index-through-skills/feature.md",
+      "changes": [
+        {
+          "old": "- What the skills must still grow: a new slice, the product profile, an epic's status.",
+          "new": "- What the skills must still grow, as asked: \"a new slice, the product profile, an epic's status.\""
+        },
+        {
+          "old": "- Not decided: the name of the skill that takes a part out. The verb `remove` is not decided here.",
+          "new": "- Not decided: the name of the skill that takes a part out. As asked: \"The verb `remove` is not decided here.\""
+        }
+      ],
+      "lines_before": 58,
+      "lines_after": 58,
+      "lines_added": 0,
+      "lines_kept": 56
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-model-moves-with-work/feature.md",
+      "changes": [
+        {
+          "old": "- The product model keeps up with the work as it is done, and the person decides how fast.",
+          "new": "- In the words of the decisions on how the product model moves with the work: \"The product model keeps up with the work as it is done, and the person decides how fast.\""
+        }
+      ],
+      "lines_before": 48,
+      "lines_after": 48,
+      "lines_added": 0,
+      "lines_kept": 47
+    },
+    {
+      "page": "software-delivery-planning/manage-model/fn-part-approval/feature.md",
+      "changes": [
+        {
+          "old": "- Every piece of the product model says whether a person approved it, changed it, or it is still in progress; agents build only from approved pieces.",
+          "new": "- In the words of the plan for approval states: \"Every piece of the product model says whether a person approved it, changed it, or it is still in progress; agents build only from approved pieces.\""
+        }
+      ],
+      "lines_before": 51,
+      "lines_after": 51,
+      "lines_added": 0,
+      "lines_kept": 50
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+      "changes": [
+        {
+          "old": "  - the rule for asking a person, kept as a shared file on purpose, because it is not memory and not a global rule.",
+          "new": "  - the rule for asking a person, kept as a shared file on purpose: \"it is not memory and not a global rule\"."
+        }
+      ],
+      "lines_before": 64,
+      "lines_after": 64,
+      "lines_added": 0,
+      "lines_kept": 63
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-promote-page/feature.md",
+      "changes": [
+        {
+          "old": "  - The Memory and ADRs section of Argus is to let a person approve a memory update on a card, and write it to its tier: the issue's short-term memory for a researched answer, Garura or Phoenix memory for a promotion.",
+          "new": "  - The Memory and ADRs section of Argus is to let a person approve a memory update on a card in Argus, and write it to its tier: \"the issue's short-term memory for a researched answer, Garura or Phoenix memory for a promotion.\""
+        }
+      ],
+      "lines_before": 68,
+      "lines_after": 68,
+      "lines_added": 0,
+      "lines_kept": 67
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+      "changes": [
+        {
+          "old": "- The lookup rule in Phoenix memory, `standards/rules/resolution.md`, still describes the older four steps, R1 to R4, with a note that ADR 035 section 5 replaces them in part; it is to describe the three tiers and the tool.",
+          "new": "- The lookup rule in Phoenix memory, `standards/rules/resolution.md`, still describes the older four steps, R1 to R4, with a note that ADR 035 section 5 replaces them in part; it is asked that it \"describe the three tiers and the tool\"."
+        }
+      ],
+      "lines_before": 78,
+      "lines_after": 78,
+      "lines_added": 0,
+      "lines_kept": 77
+    },
+    {
+      "page": "software-delivery-planning/settings/capability.md",
+      "changes": [
+        {
+          "old": "- Each setting names who reads it.",
+          "new": "- Each setting names who reads it. The reason, as asked: \"Each setting names who reads it.\""
+        }
+      ],
+      "lines_before": 126,
+      "lines_after": 126,
+      "lines_added": 0,
+      "lines_kept": 125
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-one-settings-file/feature.md",
+      "changes": [
+        {
+          "old": "- The installed copy in this repository is out of step with the source: it has 181 lines against the source's 223, with no `loops`, `plans` or `trackers` block; it has two `product:` keys; it names the review checkpoint by its old name, `review-change: off`, so the gate that should be off is on; and it names the old global gate history.",
+          "new": "- The installed copy in this repository is out of step with the source: it has 181 lines against the source's 223, with no `loops`, `plans` or `trackers` block; it has two `product:` keys; it names the review checkpoint by its old name, `review-change: off`, so \"the gate that should be off is on\"; and it names the old global gate history."
+        }
+      ],
+      "lines_before": 67,
+      "lines_after": 67,
+      "lines_added": 0,
+      "lines_kept": 66
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+      "changes": [
+        {
+          "old": "- Each setting names who reads it.",
+          "new": "- Each setting names who reads it. The reason, as asked: \"Each setting names who reads it.\""
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 60
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-folder/feature.md",
+      "changes": [
+        {
+          "old": "- Every other settings file goes into one folder: `core/config/` in the source, installed into `.garura/core/config/`.",
+          "new": "- What is asked of the settings folder: \"Every other settings file goes into one folder: `core/config/` in the source, installed into `.garura/core/config/`.\""
+        },
+        {
+          "old": "  - and three files that stay as they are: Claude Code's own settings (`.claude/`), the install record (`install-manifest.json`), the engine state (`engine-state.json`).",
+          "new": "  - and three files left as they are: \"Claude Code's own settings (`.claude/`), the install record (`install-manifest.json`), the engine state (`engine-state.json`)\"."
+        }
+      ],
+      "lines_before": 55,
+      "lines_after": 55,
+      "lines_added": 0,
+      "lines_kept": 53
+    },
+    {
+      "page": "software-delivery-planning/settings/fn-settings-others-need/feature.md",
+      "changes": [
+        {
+          "old": "- More settings are planned: Garura's way of working is to be sorted into engine rules and settings, where a setting is a value a project chooses, in its config; and the words on how the tracker works move into settings with the Agent-work tool that reads the tracker setting.",
+          "new": "- More settings are planned: Garura's way of working is to be sorted into engine rules and settings, where a setting is \"a value a project chooses, in its config\"; and the words on how the tracker works move \"into settings\" with the Agent-work tool that reads the tracker setting."
+        }
+      ],
+      "lines_before": 69,
+      "lines_after": 69,
+      "lines_added": 0,
+      "lines_kept": 68
+    },
+    {
+      "page": "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+      "changes": [
+        {
+          "old": "- The docs and the command pages say what Garura does today, and something keeps them in step when a play changes. For Garura's own repository, the commands are its plays; for a product project, they are the commands its own docs list.",
+          "new": "- As asked: \"The docs and the command pages say what Garura does today, and something keeps them in step when a play changes.\" For Garura's own repository, the commands are its plays; for a product project, they are the commands its own docs list."
+        }
+      ],
+      "lines_before": 50,
+      "lines_after": 50,
+      "lines_added": 0,
+      "lines_kept": 49
+    },
+    {
+      "page": "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+      "changes": [
+        {
+          "old": "- A plan's branch reaches main after many reviewed pull requests, one for each issue that landed on it. The review that lands it should not repeat that work, and should not miss anything either.",
+          "new": "- A plan's branch reaches main after many reviewed pull requests, one for each issue that landed on it. As asked: \"The review that lands it should not repeat that work, and should not miss anything either.\""
+        }
+      ],
+      "lines_before": 47,
+      "lines_after": 47,
+      "lines_added": 0,
+      "lines_kept": 46
+    },
+    {
+      "page": "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+      "changes": [
+        {
+          "old": "- Not decided: where the list of names lives and how the scan reads it. One plan puts the rule in Garura's project memory and the list on the machine only; another has the scan read its word list from the project's own memory, and Garura memory sits in the repository.",
+          "new": "- Not decided: where the list of names lives and how the scan reads it. One plan puts the rule in Garura's project memory and the list on the machine only; another says the scan reads \"its word list from the project's own memory\", and Garura memory sits in the repository."
+        }
+      ],
+      "lines_before": 53,
+      "lines_after": 53,
+      "lines_added": 0,
+      "lines_kept": 52
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-one-severity/feature.md",
+      "changes": [
+        {
+          "old": "- Anyone who files a defect or reviews a change gives it one severity, P1 to P4, by written rules that start from an industry standard, and the same value says what gets fixed first.",
+          "new": "- As asked: \"Anyone who files a defect or reviews a change gives it one severity, P1 to P4, by written rules that start from an industry standard, and the same value says what gets fixed first.\""
+        },
+        {
+          "old": "- Not decided: which of the two P1-to-P4 tables governs where they differ; one must govern.",
+          "new": "- Not decided: which of the two P1-to-P4 tables governs where they differ; \"one must govern\"."
+        }
+      ],
+      "lines_before": 53,
+      "lines_after": 53,
+      "lines_added": 0,
+      "lines_kept": 51
+    },
+    {
+      "page": "software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+      "changes": [
+        {
+          "old": "- Asking a person, built in part. One shared file holds \"The rule for how a play, a skill or an agent asks a person a question\": say first what the person decides and what happens with the answer, ask one thing at a time, and show each question with the answer we have or propose, why it matters, and examples from several fields. Only the parts that name it follow it, and the linter checks two plays and three skills: \"The check reads only the parts named in PARTS. Any other part is never an error under this rule.\" The rule for asking a person is to be an engine rule in core: one rule that every play, skill and agent follows whenever it asks a person anything.",
+          "new": "- Asking a person, built in part. One shared file holds \"The rule for how a play, a skill or an agent asks a person a question\": say first what the person decides and what happens with the answer, ask one thing at a time, and show each question with the answer we have or propose, why it matters, and examples from several fields. Only the parts that name it follow it, and the linter checks two plays and three skills: \"The check reads only the parts named in PARTS. Any other part is never an error under this rule.\" It is asked that the rule for asking a person be an engine rule in core, one rule \"that every play, skill and agent follows whenever it asks a person anything.\""
+        },
+        {
+          "old": "- A rule every part follows binds every part, without the part naming it. The reason: the rule is global, so it belongs in the harness engine, in core.",
+          "new": "- A rule every part follows binds every part, without the part naming it. The reason, as asked: \"the rule is global, so it belongs in the harness engine, in core\"."
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 63,
+      "lines_added": 0,
+      "lines_kept": 61
+    },
+    {
+      "page": "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+      "changes": [
+        {
+          "old": "- A run's records are its context, its checks, its evidence, its review records and its gate records. What a run did and decided is kept with the issue that made it, not in a global file.",
+          "new": "- A run's records are its context, its checks, its evidence, its review records and its gate records. As asked: \"What a run did and decided is kept with the issue that made it, not in a global file.\""
+        },
+        {
+          "old": "  - Plays write home-folder paths into the run records they commit. They are written by the component linter's output, the plan play's gather script, the eval play's place and check scripts, the self-review's rules file, and the template manager's manifests. So every change that lands publishes the person's user name and folder layout.",
+          "new": "  - Plays write home-folder paths into the run records they commit. They are written by the component linter's output, the plan play's gather script, the eval play's place and check scripts, the self-review's rules file, and the template manager's manifests. So \"every change that lands publishes the person's user name and folder layout.\""
+        }
+      ],
+      "lines_before": 62,
+      "lines_after": 62,
+      "lines_added": 0,
+      "lines_kept": 60
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+      "changes": [
+        {
+          "old": "- What it does not lay yet: the guardrails, for which a Claude Code hook is planned, a script Claude Code runs before each tool call; and the status display, a plugin installed only when the install chooses Claude Code.",
+          "new": "- What it does not lay yet: the guardrails, for which the guardrail proposal names a Claude Code hook, \"a script Claude Code runs before each tool call\"; and the status display, \"a plugin installed only when the install chooses Claude Code\"."
+        }
+      ],
+      "lines_before": 67,
+      "lines_after": 67,
+      "lines_added": 0,
+      "lines_kept": 66
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+      "changes": [
+        {
+          "old": "- What the redesign must give: a Codex install lays every part a play needs, including its `reference/` files, the shared `_shared/` files and the tools; the installed-layout lint check passes on `.agents/`; and the empty-project install test runs for Codex as it does for Claude Code.",
+          "new": "- What the redesign must give: \"a Codex install lays every part a play needs, including its `reference/` files, the shared `_shared/` files and the tools\"; \"the installed-layout lint check passes on `.agents/`\"; and \"the empty-project install test runs for Codex as it does for Claude Code\"."
+        },
+        {
+          "old": "- How it meets the capability: a project that works with Codex CLI needs a Garura install built for Codex, not a copy of the Claude Code layout.",
+          "new": "- How it meets the capability: the belief behind the redesign, \"a project that works with Codex CLI needs a Garura install built for Codex, not a copy of the Claude Code layout.\""
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 63,
+      "lines_added": 0,
+      "lines_kept": 61
+    },
+    {
+      "page": "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+      "changes": [
+        {
+          "old": "  - Garura's settings file still names Factory's folders, \"Factory Droid derived locations (populated by /sud:install factory adapter)\" (core/config.yaml lines 50-58), and no script in `core/components/` reads them.",
+          "new": "  - Garura's settings file still names Factory's folders, \"Factory Droid derived locations (populated by /sud:install factory adapter)\" (core/config.yaml lines 50-58), and it was found that \"no script in `core/components/` reads them\"."
+        }
+      ],
+      "lines_before": 55,
+      "lines_after": 55,
+      "lines_added": 0,
+      "lines_kept": 54
+    },
+    {
+      "page": "software-delivery-planning/test-security/fn-test-code-security/feature.md",
+      "changes": [
+        {
+          "old": "- The review of each change matches the review's security rules against the lines a change adds, with \"No LLM judgment.\", and a finding of the most serious rank rejects the change. It is live, and it belongs to Check the code against its standards. It reads names and words and runs no scan: its rule for the libraries asks for \"file, cve-list\", a list of known weaknesses, but matches only the name of the file that lists them. It has three defects: it rejects planning pages as security defects, it does not know what the project is, and it classes scripts in plays and skills as prose, so code rules never check them.",
+          "new": "- The review of each change matches the review's security rules against the lines a change adds, with \"No LLM judgment.\", and a finding of the most serious rank rejects the change. It is live, and it belongs to Check the code against its standards. It reads names and words and runs no scan: its rule for the libraries asks for \"file, cve-list\", a list of known weaknesses, but matches only the name of the file that lists them. It has three defects: it rejects planning pages as security defects, it does not know what the project is, and it classes scripts in plays and skills as prose, \"so code rules never check them\"."
+        }
+      ],
+      "lines_before": 73,
+      "lines_after": 73,
+      "lines_added": 0,
+      "lines_kept": 72
+    },
+    {
+      "page": "software-delivery-planning/track-execution/capability.md",
+      "changes": [
+        {
+          "old": "- No tool knows the tracker: 3 plays, 11 skills and 3 agents hold `gh` commands. The settings' `trackers` lines are read by no script, and the older code-host setting names a personal account as the owner, while the trackers name the organization.",
+          "new": "- No tool knows the tracker. In the words of the plan for the Agent-work tool, \"3 plays, 11 skills and 3 agents hold `gh` commands\". The settings' `trackers` lines are read by no script, and the older code-host setting names a personal account as the owner, while the trackers name the organization."
+        }
+      ],
+      "lines_before": 115,
+      "lines_after": 115,
+      "lines_added": 0,
+      "lines_kept": 114
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+      "changes": [
+        {
+          "old": "- It has been done once, by hand. In the reorganisation of the business intents, the open work moved under the new intents with real links across the repos, between two GitHub repositories of one organization. No play makes the link.",
+          "new": "- It has been done once, by hand. In the reorganisation of the business intents, \"the open work moved under the new intents with real links across the repos\", between two GitHub repositories of one organization. No play makes the link."
+        }
+      ],
+      "lines_before": 76,
+      "lines_after": 76,
+      "lines_added": 0,
+      "lines_kept": 75
+    },
+    {
+      "page": "software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+      "changes": [
+        {
+          "old": "- Garura's way of working is defined as engine rules and settings, with the issue types the tracker uses as an example of a setting.",
+          "new": "- Garura's way of working is to be sorted into engine rules and settings, with \"the issue types the tracker uses\" as an example of a setting."
+        }
+      ],
+      "lines_before": 72,
+      "lines_after": 72,
+      "lines_added": 0,
+      "lines_kept": 71
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/capability.md",
+      "changes": [
+        {
+          "old": "- New settings in, the team's values kept. The reason: new keys come in, the project's own values stay, and today a setting added to Garura never reaches a project.",
+          "new": "- New settings in, the team's values kept. The reason: it is asked that \"new keys come in, the project's own values stay\", and today a setting added to Garura never reaches a project."
+        }
+      ],
+      "lines_before": 105,
+      "lines_after": 105,
+      "lines_added": 0,
+      "lines_kept": 104
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+      "changes": [
+        {
+          "old": "- Settings follow renamed parts. The reason: every config key that holds a play, loop, skill or agent name uses its current name, from the rename map, because a setting under an old name is read as missing.",
+          "new": "- Settings follow renamed parts. The reason, as asked: \"every config key that holds a play, loop, skill or agent name uses its current name, from the rename map\", because a setting under an old name is read as missing."
+        }
+      ],
+      "lines_before": 69,
+      "lines_after": 69,
+      "lines_added": 0,
+      "lines_kept": 68
+    },
+    {
+      "page": "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md",
+      "changes": [
+        {
+          "old": "- Shown first, then the yes, then the report. The reason: the upgrade shows the person what it will do before it does it, and reports what it did.",
+          "new": "- Shown first, then the yes, then the report. The reason: it is asked that the upgrade \"shows the person what it will do before it does it, and reports what it did\"."
+        }
+      ],
+      "lines_before": 71,
+      "lines_after": 71,
+      "lines_added": 0,
+      "lines_kept": 70
+    }
+  ],
+  "changed": [
+    "features/fn-740/feature.md",
+    "software-delivery-planning/build-your-own-harness/fn-harness-in-own-repo/feature.md",
+    "software-delivery-planning/build-your-own-harness/fn-mark-play-running/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/capability.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-guardrail-way-past/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md",
+    "software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md",
+    "software-delivery-planning/initialize/capability.md",
+    "software-delivery-planning/initialize/fn-883/feature.md",
+    "software-delivery-planning/initialize/fn-setup-questions/feature.md",
+    "software-delivery-planning/install-into-project/capability.md",
+    "software-delivery-planning/install-into-project/fn-choose-parts/feature.md",
+    "software-delivery-planning/install-into-project/fn-lay-guardrails/feature.md",
+    "software-delivery-planning/install-into-project/fn-take-out/feature.md",
+    "software-delivery-planning/install-into-project/fn-update-parts/feature.md",
+    "software-delivery-planning/manage-adrs/capability.md",
+    "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+    "software-delivery-planning/manage-model/fn-add-found-part/feature.md",
+    "software-delivery-planning/manage-model/fn-change-part/feature.md",
+    "software-delivery-planning/manage-model/fn-index-through-skills/feature.md",
+    "software-delivery-planning/manage-model/fn-model-moves-with-work/feature.md",
+    "software-delivery-planning/manage-model/fn-part-approval/feature.md",
+    "software-delivery-planning/memory/fn-decide-inside-memory/feature.md",
+    "software-delivery-planning/memory/fn-promote-page/feature.md",
+    "software-delivery-planning/memory/fn-read-through-tool/feature.md",
+    "software-delivery-planning/settings/capability.md",
+    "software-delivery-planning/settings/fn-one-settings-file/feature.md",
+    "software-delivery-planning/settings/fn-setting-names-reader/feature.md",
+    "software-delivery-planning/settings/fn-settings-folder/feature.md",
+    "software-delivery-planning/settings/fn-settings-others-need/feature.md",
+    "software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md",
+    "software-delivery-planning/ship-every-change/fn-land-plan-with-evidence/feature.md",
+    "software-delivery-planning/ship-every-change/fn-scan-every-push/feature.md",
+    "software-delivery-planning/standards/fn-one-severity/feature.md",
+    "software-delivery-planning/standards/fn-rules-for-every-part/feature.md",
+    "software-delivery-planning/structure/fn-run-records-with-issue/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-claude-code/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-codex/feature.md",
+    "software-delivery-planning/support-coding-tools/fn-install-for-factory/feature.md",
+    "software-delivery-planning/test-security/fn-test-code-security/feature.md",
+    "software-delivery-planning/track-execution/capability.md",
+    "software-delivery-planning/track-execution/fn-link-work-across-trackers/feature.md",
+    "software-delivery-planning/track-execution/fn-say-what-each-type-means/feature.md",
+    "software-delivery-planning/upgrade-project/capability.md",
+    "software-delivery-planning/upgrade-project/fn-bring-new-settings/feature.md",
+    "software-delivery-planning/upgrade-project/fn-upgrade-in-one-step/feature.md"
+  ]
+}

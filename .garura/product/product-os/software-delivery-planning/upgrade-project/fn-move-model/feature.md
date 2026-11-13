@@ -33,8 +33,8 @@ Status: built in part, by hand, for one move:
 - Out: on a no, the model as it was, and the move named as owed in the report.
 
 ## Rules & behavior
-- Shape only, never meaning. The reason: the product owner agreed that "the model moves only in its structure, shown first and on the person's yes", which answers whether an upgrade changes only the structure (keys, file names, headings), or also meaning.
-- Shown first, then the person's yes. The reason: who may change a project's product model during an upgrade, and with whose yes, must be settled before it moves; today only the plays write the model, and the install does not.
+- Shape only, never meaning. The reason: the product owner agreed that "the model moves only in its structure, shown first and on the person's yes", and the open question "Does an upgrade change only the structure (keys, file names, headings), or also meaning?"
+- Shown first, then the person's yes. The reason: the open question "Who may change a project's product model during an upgrade, and with whose yes?"; today only the plays write the model, and the install does not.
 - Whole or not at all, and one commit. The reason: a half-moved model is read by neither version; the move today "puts every file and folder back as it was" when a step fails, and its one commit lets the team see the whole move.
 - Only inside the project. The reason: the move today refuses "a model folder that lies outside the project", and it "never changes anything outside the project".
 - A no is recorded, and the move stays at hand. The reason: Orchestration must not "Stop a person. Every gate has a way past it that records what's owed.", and the scripts that stop on the old shape must name a move the project can run.

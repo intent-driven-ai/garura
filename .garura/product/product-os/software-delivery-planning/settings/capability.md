@@ -39,7 +39,7 @@ Stops in this capability's built parts, whose way past belongs to Give every gat
 - A loop whose sub-agent checker names no model: its pre-flight stops until a person sets one.
 - A checkpoint turned off passes on its own; its skip is recorded only when the evidence file is on, and the evidence file is off by default.
 
-It matters because agents act on the settings they are given, and a setting that is wrong or read by no one fails in silence. In this intent's words: "Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision." Today nothing says where a new settings file goes, and nothing says which play or tool reads which setting, so a setting no one reads, or one named for a play that is gone, stays unnoticed. The cost shows in the installed config: it still names the review gate by its old play name, so the gate that should be off is on. It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so.
+It matters because agents act on the settings they are given, and a setting that is wrong or read by no one fails in silence. In this intent's words: "Agents follow the rules and memory they're given, so a loose rule or a wrong page reaches every later decision." What happens today: "Nothing says where a new settings file goes, and nothing says which play or tool reads which setting, so a setting no one reads, or one named for a play that is gone, stays unnoticed." The cost: "The installed config still names the review gate by its old play name, so the gate that should be off is on." It sits in software delivery planning with the other capabilities of Standards, structure, settings and memory, and the domain's first paragraph says so.
 
 Features:
 - Keep every setting in one settings file, laid as each project's copy (fn-one-settings-file): every setting that Garura's plays, scripts and loops read is in one settings file, written once in Garura's source and laid by the install as each project's own copy, which that project's plays read.
@@ -69,7 +69,7 @@ What is not built yet:
   - No setting reaches a pinned checkpoint, and with no setting a checkpoint waits.
   - The learned policy is a setting, not memory, and it keeps a person's permanent pins.
   - A tracker is named only in the settings, and a connection names only where its key is kept.
-- How we will know: this intent's proof, "Every tool reads its settings."; no settings file other than `config.yaml` sits outside the config folder, a tool's own folder, or a play's reference folder; and the check runs on the source and on an installed project, and names every key with no reader.
+- How we will know: this intent's proof, "Every tool reads its settings."; and the done means of the settings folder: "No settings file other than `config.yaml` sits outside the config folder, a tool's own folder, or a play's reference folder." and "The check runs on the source and on an installed project, and names every key with no reader."
   - This is not tested today, because the check is not built, and at least six blocks are read by no script or only by a stale play.
 
 ### Boundary (In / Out / Never)
@@ -93,9 +93,9 @@ What is not built yet:
 - Never: treat the learned policy as memory. The reason: "learned checkpoint answers are not memory (ADR 036 §5) — it is the project's gate setting."
 
 ### Guiding rules
-- One settings file is the entry point.
+- One settings file is the entry point. The reason: "It is the entry point."
 - In Garura's own repository, a setting is changed in the source, and reaches the installed copy only by an install. The reason: "One rule with no exception: source is in `core/`, and `.garura/` is the installed copy."
-- Each setting names who reads it.
+- Each setting names who reads it. The reason, as asked: "Each setting names who reads it."
 - Paths go in the settings, not in memory. The reason: "The rule stands: paths go in the config, not in memory."
 - With no setting, the safe side holds: a checkpoint waits, and evidence is kept. The reason: "Absent config block entirely ⇒ `on`", and "absence of config is not a reason to lose evidence."
 - A checkpoint is turned off only in the change that adds the checks that replace it. The reason: off is "granted only in the same change that adds the replacement checks".

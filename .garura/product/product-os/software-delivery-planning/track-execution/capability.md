@@ -35,7 +35,7 @@ Features:
 - Say what each work-item type means (fn-say-what-each-type-means): each type the plays file has one agreed meaning, which Initialize's brief shows. Not built.
 
 What is not built yet:
-- No tool knows the tracker: 3 plays, 11 skills and 3 agents hold `gh` commands. The settings' `trackers` lines are read by no script, and the older code-host setting names a personal account as the owner, while the trackers name the organization.
+- No tool knows the tracker. In the words of the plan for the Agent-work tool, "3 plays, 11 skills and 3 agents hold `gh` commands". The settings' `trackers` lines are read by no script, and the older code-host setting names a personal account as the owner, while the trackers name the organization.
 - /start-change files a new issue through the track-issue skill, which applies labels and sets no type, and its title check asks for a type tag in the title.
 - /list-focus-issues reads labels only, which work items no longer carry, and its table recommends three plays that are gone.
 - Nothing files a bug from a finding, and nothing checks a bug's severity line, one severity from P1 to P4 for findings and defects.

@@ -2,7 +2,7 @@
 
 ## What it does
 Each part of the model is to carry its approval state, approved, changed or in progress, worked out from a fingerprint of the words a person approved, and agents are to build only from approved parts, so a person sees what was agreed and work starts only from words a person accepted.
-- Every piece of the product model says whether a person approved it, changed it, or it is still in progress; agents build only from approved pieces.
+- In the words of the plan for approval states: "Every piece of the product model says whether a person approved it, changed it, or it is still in progress; agents build only from approved pieces."
 - The decision behind it, ADR 033 (accepted): "Approval is part of the product model itself, not a record kept beside it."
 - The three states, in ADR 033: "Approved — a person accepted these exact words. The piece keeps a fingerprint of its words (a short code worked out from the text), who approved it, when, and in which review." Changed: "the piece is new, or its words no longer match the fingerprint it was approved with." In progress: "a person sent it back, and it is being reworked."
 - An edit moves a part to changed by itself: "A piece approved once shows **changed** after any play edits its words, and stays **approved** when nothing touches it — worked out from the fingerprint, with no play having to remember."

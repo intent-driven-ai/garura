@@ -55,4 +55,4 @@ Status: not built. Until Argus exists, the Discovery loop "ends at the pull requ
 - docs/adr/036-approved-answer-lands-in-short-term-memory.md: "Only a person accepts an ADR. Only where the person does it moves."
 - core/tools/memory/README.md: "Only a person decides, one update at a time."
 - The review tool's design: "for example, an intent with no proof", "stays open"
-- core/components/loops/complete-discovery/scripts/record_confirmation.py: "ends at the pull request", "applied_to_model: false # Argus's review step writes the approval"
+- core/components/loops/complete-discovery/scripts/record_confirmation.py: "ends at the pull request", "applied_to_model: false   # Argus's review step writes the approval"

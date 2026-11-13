@@ -29,9 +29,9 @@ Status: built in part, in the install play only. A new run removes each part the
 - Only what the record names. The reason: "Only manifest-recorded paths are candidates", so the team's own parts are never touched.
 - Only inside the project. The reason: the removal already holds that "only paths inside the target are ever touched".
 - The same version. The reason: moving to a new version, and what it changes, is Upgrade a project's.
-- Shown before anything is taken out. The reason: a new run shows the person what it will do before it does it, and taking a play out takes away a command the team may still use.
+- Shown before anything is taken out. The reason: it is asked that a new run show "the person what it will do before it does it", and taking a play out takes away a command the team may still use.
 - Through both front doors. The reason: one engine is behind both, and a one-line install that removes nothing leaves a dropped play in the project as a command that still runs its old way.
-- Not decided: whether a change of choice that would take out a part a person edited stops to ask first. Keeping a person's edits to an installed part is Upgrade a project's.
+- Not decided: whether a change of choice that would take out a part a person edited stops to ask first. Keeping a person's edits to an installed part is Upgrade a project's ("No part is overwritten that a person changed, unless the person says so.").
 
 ## Acceptance criteria
 - Given a full install, when the install runs again with the harness kind, then every part outside the harness kind that the record names is taken out, each is named in the report, and nothing the record does not name changes.

@@ -20,10 +20,10 @@ Before Garura is laid, the team chooses which of its parts the project gets, by 
 - How it meets the capability: this is "chooses what it gets".
 
 Status: built in part, in the install play only:
-- The two kinds are built: full, "every component except the meta harness plays and the harness-only skills", and harness. The option was added by direct edit, so the criterion that the play is recompiled from its ICE, not hand-edited, cannot be met, because the install play has no ICE.
+- The two kinds are built: full, "every component except the meta harness plays and the harness-only skills", and harness. The option was added by direct edit, so its criterion "Play recompiled from its ICE, not hand-edited." cannot be met, because the install play has no ICE.
 - The harness kind is a list kept by hand: "kept play gains a new worker, add it there in the same change.", so a new worker can be left out by mistake.
 - The one-line command gives no choice. It lays every part that is not stale or deprecated, Garura's own build plays and the install plays among them, because its list of left-out parts is empty (installer/install.sh line 18).
-- Not built: the sandbox kind, and naming plays on any kind.
+- Not built: the sandbox kind, and naming plays on any kind ("Let the receiving project choose what it takes rather than accepting everything.").
 
 ## Inputs / Outputs
 - In: the kind the team names, or none for the default.
@@ -33,14 +33,14 @@ Status: built in part, in the install play only:
 - Out: the kind and the named plays, kept in the install record.
 
 ## Rules & behavior
-- Each chosen play comes with its workers, found by the install. The reason: a play hands its work to its workers and cannot run without them, and the installer finds each named play's skills and agents itself; the person does not list them.
+- Each chosen play comes with its workers, found by the install. The reason: a play hands its work to its workers and cannot run without them, and it is asked that "The installer finds each named play's skills and agents itself; the person does not list them."
 - The default fits a product project. The reason: "The meta harness plays are garura's own build tooling", which a product project never uses.
 - The choice is kept in the record. The reason: a later run acts on the record, so "re-running with" the harness kind "over a previously full install retires the out-of-scope components".
-- Named, never all. A person names each extra play. The reason: the extra plays are named, so the harness kind never fills up with product plays by accident.
-- The same choice through both front doors. The reason: one engine is behind both, and the install is one step in which a person can choose a subset of components.
+- Named, never all. A person names each extra play. The reason, as asked: "The extra plays are named", so the harness kind never fills up with product plays by accident.
+- The same choice through both front doors. The reason: one engine is behind both, and one step is asked for, with a way to "choose a subset of components while doing so".
 - No stale or deprecated part, whatever the kind. The reason: "neither ships to a project".
 - Not decided: whether a team may name plays on any kind, or only on the sandbox kind.
-- Not decided: whether a team may pick a single skill or sub-agent on its own, as part of choosing a subset.
+- Not decided: whether a team may pick a single skill or sub-agent on its own, as the request asks for "a subset".
 
 ## Acceptance criteria
 - Given no kind named, when Garura is installed, then the project gets every live part except Garura's own build plays and the skill only they call.

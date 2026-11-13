@@ -8,7 +8,7 @@ A team installs Garura's builders in its own repository and builds its own harne
 - Where it stops today: the builders work on Garura's source layout. /create-loop "writes the compiled loop into core/components/loops/<loop>/", and /create-play reads its rules by source paths. So a team builds its own plays and loops only in a repository laid out like Garura's source.
 - Why: this is by design today. ADR 055 section 5 names the builders among the parts that "work on the source by design", and the harness standard calls them "the exception, by design". Running them on the installed layout needs a new ADR that changes ADR 055 section 5. That ADR is not recorded, and nothing of it is built.
 - A first step exists: the loop linter finds the stamped scripts' sources in either layout, "the source tree, or the installed builders".
-- The written architecture is planned: an architecture memory for a team building a harness, with pages in Phoenix memory on the parts and what each may do, what calls what, memory, what a run leaves behind, the folders (the source, the installed copy, short-term memory), and the decided patterns, each with its decision record. A team reads them without taking the whole of Garura, and a review tests a change against it.
+- The written architecture is planned: an architecture memory for a team building a harness is to add pages in Phoenix memory on "the parts and what each may do", what calls what, memory, what a run leaves behind, "the folders: the source, the installed copy, short-term memory", and the decided patterns, each with its decision record. A team reads them "without taking the whole of Garura, and a review tests a change against it".
 - The harness standard is already "written so that a team can take it and build its own harness the same way".
 - Not there: a starter for a new harness repository, and a guide to building one; the usage folder holds a README and one play page.
 - Examples, in different kinds of project:
@@ -37,7 +37,7 @@ Status: built in part (the install's harness kind), planned in part. Not built, 
 - A harness repository runs no loop. The reason: "a harness repo builds loops but runs none"
 - A product project gets no builder today. The reason: "A product project's ADLC has no use for them, so no target ever receives them under `full`."
 - A part that reaches into the source fails outside Garura. The reason: "A part that reaches into the source works only inside Garura's own repository, and fails everywhere else."
-- The architecture is read through the memory tool and cited. The reason: the architecture pages are done when a review agent can find them through the memory tool and cite them.
+- The architecture is read through the memory tool and cited. The reason: the architecture pages are done when "a review agent can find them through the memory tool and cite them."
 - Not decided: what the new ADR changes in ADR 055 section 5: whether the builders work on the installed layout only, or on both layouts.
 - Not decided: whether a product project may get the builders beside its product plays.
 - Not decided: whether a starter for a new harness repository, or a guide to building one, is part of this feature.

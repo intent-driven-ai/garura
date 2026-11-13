@@ -25,8 +25,8 @@ Every agent reads memory only through the memory tool, by one shared protocol, a
 
 Status: built in part. The protocol, its copy script, the memory guide and the three lint rules are built (decided in ADR 039 section 2 and ADR 055 section 2). Not built, or open:
 - Whether every agent and skill reads memory only through the memory tool, with lint failing any that names a memory path, is not confirmed.
-- Five agents, the /fix-bug play and two skills still name the older memory field `ltm_context`, and the /fix-bug play still passes it, though it is to stop passing `ltm_context`.
-- The lookup rule in Phoenix memory, `standards/rules/resolution.md`, still describes the older four steps, R1 to R4, with a note that ADR 035 section 5 replaces them in part; it is to describe the three tiers and the tool.
+- Five agents, the /fix-bug play and two skills still name the older memory field `ltm_context`, and the /fix-bug play still passes it, though it is asked that "`/fix-bug` stops passing `ltm_context`."
+- The lookup rule in Phoenix memory, `standards/rules/resolution.md`, still describes the older four steps, R1 to R4, with a note that ADR 035 section 5 replaces them in part; it is asked that it "describe the three tiers and the tool".
 - The pointer rule checks agents only.
 
 ## Inputs / Outputs

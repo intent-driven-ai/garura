@@ -36,7 +36,7 @@ Status: not built. Today:
 - Business intents and agent work each have their own tracker setting, and the two can name different trackers. The reason: "Business intents and agent work each live in a tracker named in the project's settings."
 - The code host is its own setting, and the tool reads both. The reason: "The code host is its own setting, and the tool reads both.", "because a team on Jira still keeps pull requests on GitHub or GitLab."
 - Changing the setting changes the tracker, with no other edit. The reason: "A team picks its tracker as a setting, and nothing is hard-coded.", and "A team can choose its tracker as a setting, and a new tracker means changing one tool."
-- A check fails any part that names a tracker. The reason: without it, a reviewer reads a part that still names the tracker as not moved yet, not as broken.
+- A check fails any part that names a tracker. The reason, as asked: "A check fails any part that names a tracker directly."; without it, a reviewer reads a part that still names the tracker "as not moved yet, not as broken."
 - The parts move onto the tool over time, starting from the adapter. The reason: "Parts move onto the tool over time.", and "The tool is the Agent-work tool, starting from the platform-adapter skill, recorded as a feature."
 - One setting says who owns the work tracker. The reason: "Two settings for one tracker can disagree, and on the owner they already do."
 - Not decided: what the tool does when the tracker lacks a type that a play must file. Initialize's approved page has the filing play "stop with a plain message that points to initialize", and the Must not of Orchestration is "Stop a person. Every gate has a way past it that records what's owed."

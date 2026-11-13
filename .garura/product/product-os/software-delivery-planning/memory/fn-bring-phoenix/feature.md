@@ -11,7 +11,7 @@ The first time a command needs Phoenix memory and its place on the machine is em
 - Phoenix memory has one place on the machine, shared by every project.
 - It is read only at its approved version, the commit its setting names. A change reaches it when a person merges it, outside Garura; edits on disk and commits not merged are never read.
 - Once Phoenix memory is on the machine, no command brings a newer version to it: the tool downloads it once and never fetches again.
-- Planned, for the Phoenix install: three steps: the Phoenix install, once per machine; the Garura install once per project, which lays no memory; and `initialize` after it. A person installs Phoenix once on a machine and initializes many projects, each with different memory blocks. A second Phoenix install brings Phoenix memory up to date, and the Phoenix install replaces the download on first use.
+- Planned, for the Phoenix install: three steps, "The Phoenix install, once per machine", the Garura install once per project, which lays no memory, and `initialize` after it. "A person installs Phoenix once on a machine and initializes many projects, each with different memory blocks." A second Phoenix install brings Phoenix memory up to date, and the Phoenix install replaces the download on first use.
 - Examples, in different kinds of project:
   - In a clinic's booking app on a new laptop, the developer's agent searches memory for the first time. The tool downloads Phoenix memory whole, then answers the search from it.
   - In a bank's payments service, the bank's network blocks the source. The download fails, the search answers `tier_missing` for Phoenix memory with the reason, and the agent says so.

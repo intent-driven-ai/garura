@@ -73,7 +73,7 @@ What is not built yet:
 ### Guiding rules
 - A part takes its paths from the settings, never from a path fixed inside it. The reason: the settings file says of short-term memory's paths: "All agents, plays, and skills resolve these from config — never hardcode paths."
 - The issue governs: what a piece of work writes goes under its issue. The reason: "Everything a piece of work writes goes under its issue".
-- A shared place gets a written structure first. The reason: if a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule; and in the product owner's words: "why do we need a global evidence.. if we do then we need to create a proper structure".
+- A shared place gets a written structure first. The reason, as asked: "If a record ever has to be global, it gets a defined structure first (where it sits, what it holds, who reads it), written as a rule.", and in the product owner's words: "why do we need a global evidence.. if we do then we need to create a proper structure".
 - A pointer in an installed part points to an installed file. The reason: "A pointer in an installed file points to another installed file."
 - A change is made in the source, and an install carries it to a project. The reason: "A change is made in `core/`."
 - In Garura's own repository, a decision about `.garura/` is built in the install's source. The reason: "An ADR about `.garura/` is built in the install's source, not by hand here."

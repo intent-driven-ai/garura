@@ -14,7 +14,7 @@ Garura's own repository keeps each kind of part in one known folder of its sourc
 - What the written layout leaves out today:
   - `CLAUDE.md`'s "Architecture" draws `core/components/` with its five folders, and names `core/tools/` only in the rule under it. Its line for the deployed tools names four tools; the install lays five, and the plan tool is not named.
   - The harness standard's table of the parts has no row for a tool, while seven folders sit in `core/tools/`.
-  - A `core/components/tools/` folder is planned for tools as a first-class component, where a tool holds what the harness must know to use it. It is not built.
+  - The plan for tools as a first-class component plans a `core/components/tools/` folder, where "A tool holds what the harness must know to use it". It is not built.
   - A harness layout is planned, with one folder under `core/components/` for each of six harnesses, `p2s` to `r2p`, and a common group for shared skills and agents. It was planned before ADR 066 (names say who does the work, five roles own the verbs).
   - No one written map says where every part of the source lives.
 - Examples, in different kinds of project:

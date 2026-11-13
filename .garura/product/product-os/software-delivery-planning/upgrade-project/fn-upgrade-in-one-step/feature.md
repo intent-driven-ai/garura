@@ -24,7 +24,7 @@ Status: built in part, and each front door does something different:
 - Not built: anything shown before it changes, the person's yes, the notes between the two versions, and a report that names each part.
 - Built only for two steps: the memory tool's new copy "is made whole beside the old one, then swapped in", and the model's move puts back what it moved when a step fails. The rest of an upgrade is not whole or not at all.
 - Not decided: what is shown first, the release notes, the list of this project's changes, or both.
-- Not decided: how an upgrade is undone, and how a person sees what changed. No source answers it.
+- Not decided: how an upgrade is undone. The open question "How does a person see what changed, and undo it?" has no answer in any source.
 
 ## Inputs / Outputs
 - In: the install record, with the version the project has and every part laid.
@@ -37,9 +37,9 @@ Status: built in part, and each front door does something different:
 
 ## Rules & behavior
 - One engine, either front door. The reason: an upgrade is "an engine thing, like installation, not a play", and with two installers a team's upgrade would depend on the door it took.
-- Shown first, then the yes, then the report. The reason: the upgrade shows the person what it will do before it does it, and reports what it did.
-- The report names each part. The reason: the report names every part added, kept, replaced, merged and removed, which a fixed list of folders does not do.
-- Before and after, named and recorded. The reason: an upgrade of an existing install shows which version was there before and which version is there now.
+- Shown first, then the yes, then the report. The reason: it is asked that the upgrade "shows the person what it will do before it does it, and reports what it did".
+- The report names each part. The reason, as asked: "The report names every part added, kept, replaced, merged and removed.", which a fixed list of folders does not do.
+- Before and after, named and recorded. The reason, as asked: "An upgrade of an existing install shows which version was there before and which version is there now."
 - No fallback. A version that does not exist stops the upgrade. The reason: "it never falls back to `main`".
 - Whole or not at all. The reason: a project left half on each version runs neither; the memory tool and the model's move already put back what they changed.
 - A no is recorded, not lost. The reason: Orchestration must not "Stop a person. Every gate has a way past it that records what's owed."
