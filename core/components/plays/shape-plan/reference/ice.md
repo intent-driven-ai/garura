@@ -11,7 +11,8 @@ the intent's one plan, once:
   each slice at Not Started;
 - ONE epic for the plan;
 - one Feature issue for each feature of the plan's slices that is not Completed and not
-  Dropped, found or filed (a closed one is opened again on the person's yes, never filed twice);
+  Dropped, found or filed (one closed as not planned is opened again on the person's yes,
+  never filed twice);
 - in the product model, one field: each Unplanned feature it takes in is set to Planned.
 
 It reads each feature's state from the model, never from the tracker. Each Feature issue holds
@@ -78,16 +79,22 @@ are pieces of work that come later, from the build. When the intent already has 
   out"; a Dropped feature is left out and named under "Dropped, left out". Neither gets a tree
   node or a map line, and the play does not search the tracker for it or write to its issue.
   The play never reads "built" from the tracker.
-- C17 — A closed Feature issue is opened again, never filed twice. When a feature the plan
-  takes in has a Feature issue closed as not planned, or closed as completed while the feature
-  is not Completed, the brief shows the closed issue under "Opened again", with how it was
-  closed. On the person's yes, the same issue is opened again and goes under the plan's epic
-  like any found Feature issue. The play never files a second Feature issue for the feature.
+- C17 — A closed Feature issue is never filed twice. When a feature the plan takes in has a
+  Feature issue closed as not planned, the brief shows the closed issue under "Opened again".
+  On the person's yes, the same issue is opened again and goes under the plan's epic like any
+  found Feature issue. When its Feature issue is closed as completed while the feature is not
+  Completed in the model, the issue was closed by hand: the play does not open it again, files
+  no new issue, writes nothing to it and does not change the feature's state. The plan still
+  holds the feature: its node carries the closed issue at Done, and the epic's map has its
+  line. The brief names it under "Closed as completed by hand: run /reshape-plan to mark it
+  Completed" (ADR 070 gives that close to /reshape-plan). The play never files a second Feature
+  issue for the feature.
 - C18 — The plan sets Planned. After the yes, after the tracker writes and the plan file, each
   feature the plan takes in that is Unplanned is set to Planned in the model, through the
   `product-os-keeper` agent calling the `link-model-part` skill (mode `update`, `status:
-  Planned`, `by: shape-plan (#<plan id>)`). A feature that is already Planned or In progress
-  keeps its state. The brief lists each state change. The play's scoped write guard allows, in
+  Planned`, `by: shape-plan`). The request names no plan and no issue: the model holds none
+  (ADR 069). A feature that is already Planned or In progress keeps its state, and so does a
+  feature whose Feature issue is closed as completed by hand. The brief lists each state change. The play's scoped write guard allows, in
   the model, only the spine file, and a check after the write reads the spine against the
   start of the run: each feature taken in reads Planned or kept its state, and nothing else in
   the model changed.
@@ -127,15 +134,17 @@ are pieces of work that come later, from the build. When the intent already has 
   or had its issue written to, or the brief did not name it under "Built, left out" or "Dropped,
   left out"; the run read "built" from the tracker; or a feature with no state, or a value
   outside the five, was not treated as Unplanned or not named under "Had no state".
-- F17 — A feature the plan takes in has a Feature issue closed as not planned, or closed as
-  completed while the feature is not Completed, and the brief did not show it under "Opened
-  again", it was opened again without the yes, it is still closed after the yes, or a second
-  Feature issue was filed for the feature.
+- F17 — A feature the plan takes in has a Feature issue closed as not planned, and the brief
+  did not show it under "Opened again", it was opened again without the yes, it is still closed
+  after the yes, or a second Feature issue was filed for the feature; or its Feature issue is
+  closed as completed while the feature is not Completed, and the run opened it again, wrote to
+  it, filed a new issue, changed the feature's state, left the feature out of the plan, or did
+  not name it under "Closed as completed by hand".
 - F18 — After the run, a feature the plan takes in that was Unplanned does not read Planned; a
   Planned or In progress feature's state changed; a state change is not in the brief; the
   model write came before the tracker writes and the plan file, or did not go through
-  `product-os-keeper` and `link-model-part`; or anything else in the model changed (another
-  field, another feature, another file).
+  `product-os-keeper` and `link-model-part`; the request names a plan or an issue; or anything
+  else in the model changed (another field, another feature, another file).
 
 ## Context
 
@@ -165,9 +174,6 @@ are pieces of work that come later, from the build. When the intent already has 
   `author-work-items`. The skill that sets a feature's state in the spine: `link-model-part`
   (mode `update`, `status`). The tracker reads, the search and the writes go through the
   code-host adapter.
-- The product owner's decisions: `.garura/project/issues/818/context/decisions.md` (Q-find-1,
-  Q-found-1, Q-label-1, Q-change-1); `.garura/project/issues/1025/context/` (the approved
-  design of this rework).
 - Personas: the product owner (runs /shape-plan, approves the tracker writes, tracks the plan);
   the build play, which reads the Feature issues; the eval play, which reads the epic, its map
   and its Feature issues.
@@ -213,8 +219,8 @@ are pieces of work that come later, from the build. When the intent already has 
   `duplicates` names the feature and both issues; there is no `tracker-record.json`; and no
   plan file is written.
 
-- S16 — (product owner, a closed Feature issue opened again) Given no plan file and an
-  Unplanned feature whose Feature issue is closed as not planned, when the product owner runs
+- S16 — (product owner, a Feature issue closed as not planned is opened again) Given no plan
+  file and an Unplanned feature whose Feature issue is closed as not planned, when the product owner runs
   /shape-plan and types yes, then the same issue is opened again, under the plan's epic, and no
   second Feature issue is filed. Measure: `work-items.json` lists the feature as `reopen` with
   its issue; `brief.md` names it, with its issue number, under "Opened again"; after the write
@@ -233,8 +239,9 @@ are pieces of work that come later, from the build. When the intent already has 
   and types yes, then the Unplanned feature reads Planned in the model and the other two keep
   their states. Measure: `work-items.json` `state_changes` names only the Unplanned feature;
   `brief.md` lists that one change under "State changes in the product model";
-  `planned-request.json` asks `link-model-part` for that one feature, mode `update`, `status:
-  Planned`; after the write `state-check.json` and `guard-report.json` read `ok: true`.
+  `planned-request.json` reads `by: shape-plan`, with no plan id, and asks `link-model-part`
+  for that one feature, mode `update`, `status: Planned`; after the write `state-check.json` and
+  `guard-report.json` read `ok: true`.
 - S19 — (product owner, a feature with no state) Given no plan file and a feature whose spine
   entry has no `status`, or a value outside the five, when the product owner runs /shape-plan
   and types yes, then it is treated as Unplanned, named under "Had no state", taken into the
@@ -242,6 +249,15 @@ are pieces of work that come later, from the build. When the intent already has 
   `had_no_state: true`; `brief.md` names it under "Had no state"; its Feature issue is in the
   plan; and after the write the spine reads `status: Planned` for it and `state-check.json`
   reads `ok: true`.
+- S20 — (product owner, a Feature issue closed as completed by hand) Given no plan file and an
+  Unplanned feature whose Feature issue is closed as completed, when the product owner runs
+  /shape-plan and types yes, then the issue stays as it is, the feature keeps its state, and
+  the plan holds the feature with that closed issue. Measure: `work-items.json` lists the
+  feature as `closed-by-hand` with its issue and no entry in `state_changes`; `brief.md` names it
+  under "Closed as completed by hand: run /reshape-plan to mark it Completed"; the issue is still
+  closed as completed, its body unchanged, with no new Feature issue for the feature;
+  `tracker-record.json` `reopened` does not name it; the plan file has its node at `status:
+  Done` and the map its line; and the plan check, the tracker check and the state check read ok.
 
 ### Done means
 
@@ -302,9 +318,11 @@ are pieces of work that come later, from the build. When the intent already has 
   undo any write to its issue, name it under "Built, left out" or "Dropped, left out", read
   the state again from the spine, and name each feature with no state under "Had no state".
   Handoff: autonomous.
-- REC17 (F17) — show the closed Feature issue under "Opened again" and ask again; after the yes,
-  open the same issue again and put it under the epic; take back a second Feature issue filed
-  for the feature. Handoff: human.
+- REC17 (F17) — for an issue closed as not planned: show it under "Opened again" and ask again;
+  after the yes, open the same issue again and put it under the epic. For an issue closed as
+  completed by hand: close it again as completed, undo any write to it, put back the feature's
+  state, put its node (at Done) and map line back in the plan, and name it under "Closed as
+  completed by hand". Take back a second Feature issue filed for the feature. Handoff: human.
 - REC18 (F18) — put back the spine as it was at the run's start (the guard's restore), then
   run the state step again from `planned-request.json`, through `product-os-keeper` and
   `link-model-part`, and run the state check again. Handoff: autonomous.

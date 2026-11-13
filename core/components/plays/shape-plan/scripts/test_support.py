@@ -285,10 +285,12 @@ def main():
     check("feature_state reads no status, or a value outside the five, as Unplanned with no state (ADR 070)",
           pc.feature_state({}) == ("Unplanned", True) and pc.feature_state({"status": "proposed"}) == ("Unplanned", True)
           and pc.feature_state(None) == ("Unplanned", True))
-    check("the plan takes in a reopened Feature issue, never a Completed or Dropped feature",
+    check("the plan takes in a reopened Feature issue and one closed by hand, never a Completed or "
+          "Dropped feature",
           pc.map_pairs([{"feature": "a", "action": "reopen", "issue": 3},
+                        {"feature": "d", "action": "closed-by-hand", "issue": 4},
                         {"feature": "b", "action": "completed", "issue": None},
-                        {"feature": "c", "action": "dropped", "issue": None}]) == [("a", 3)])
+                        {"feature": "c", "action": "dropped", "issue": None}]) == [("a", 3), ("d", 4)])
     body = pc.with_map("Plan: 1", [("ft-a", 2), ("ft-b", 3)], {"ft-b": 9})
     check("a held_by map line names the epic that holds it, and reads back",
           "- ft-b → #3 (under Epic #9)" in body and pc.read_map(body) == {"ft-a": 2, "ft-b": 3}

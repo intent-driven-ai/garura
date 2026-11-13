@@ -7,8 +7,9 @@
 
 It reads the spine as it was at the start of the run (gather_plan.py copied it) and the spine
 now. `ok: true` only when:
-  - the request (when given) asks for exactly the features of `state_changes`, each with kind
-    feature, mode update and status Planned, and nothing else;
+  - the request (when given) reads `by: shape-plan`, with no plan id or issue number (ADR 069),
+    and asks for exactly the features of `state_changes`, each with kind feature, mode update and
+    status Planned, and nothing else;
   - each feature the plan takes in that was Unplanned (or had no state) now reads
     `status: Planned`, and each that was Planned or In progress reads the same state as before;
   - no other feature's `status` changed;
@@ -64,6 +65,9 @@ def check(before, after, items, request):
     kept = {k["feature"]: k["state"] for k in items.get("kept_states") or []}
     by = (request or {}).get("by")
     if request is not None:
+        if by != "shape-plan":
+            problems.append(f"the request's by is {by!r}, not 'shape-plan': the model holds no plan id "
+                            "or issue number")
         asked = [p.get("id") for p in request.get("parts") or []]
         if sorted(asked) != sorted(changes):
             problems.append(f"the request asks for {sorted(asked)}, the brief showed {sorted(changes)}")

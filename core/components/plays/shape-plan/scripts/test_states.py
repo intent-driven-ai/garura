@@ -55,13 +55,13 @@ def main():
               codes["request"] == 0 and codes["check_states"] == 0)
         req = read_json(p["request"])
         check("the request holds only the Unplanned features taken in, each a feature set to Planned",
-              req["by"] == "shape-plan (#340)"
+              req["by"] == "shape-plan"
               and [x["id"] for x in req["parts"]] == ["ft-pick", "ft-remind"]
               and all(x == {"id": x["id"], "kind": "feature", "mode": "update", "status": "Planned"}
                       for x in req["parts"]))
         check("the skill's stamp on a feature it updated is allowed",
               feature(yaml.safe_load(read(os.path.join(root, "_spine.yaml"))), "ft-pick")["metadata"]["updated_by"]
-              == "shape-plan (#340)")
+              == "shape-plan")
 
         out = os.path.join(tmp, "req.json")
         write(os.path.join(tmp, "no.json"), dict(read_json(p["approval"]), decision="stop"))
@@ -108,6 +108,10 @@ def main():
         code, res = verdict(root, p, os.path.join(tmp, "req2.json"))
         check("a request that does not ask for each change the brief showed: not ok",
               code == 1 and any("the brief showed" in x for x in res["problems"]))
+        write(os.path.join(tmp, "req4.json"), dict(req, by="shape-plan (#340)"))
+        code, res = verdict(root, p, os.path.join(tmp, "req4.json"))
+        check("a request whose by names the plan id: not ok (the model holds no plan id, ADR 069)",
+              code == 1 and any("no plan id" in x for x in res["problems"]))
         write(os.path.join(tmp, "req3.json"), dict(req, parts=[dict(req["parts"][0], one_line="x"), req["parts"][1]]))
         code, res = verdict(root, p, os.path.join(tmp, "req3.json"))
         check("a request part that asks for more than the status: not ok",

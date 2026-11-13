@@ -22,6 +22,8 @@ tracker. Then:
     its body (every line of the body stays, checked before the write), the "Represents" line
     when it has none, type Feature when it has another, its labels taken off, and becomes a
     sub-issue of the epic when it is not one;
+  - `closed-by-hand`: nothing is written to the issue; the feature stays in the plan with it
+    (its map line; `held_by` when another epic holds it), listed in `closed_by_hand` (C17);
   - `held`, `completed`, `dropped`, `skip`: nothing is written; a held Feature issue keeps its
     epic and its map line names that epic; a Completed or Dropped feature is left out of the
     plan, and the tracker is not read for it (C16);
@@ -37,7 +39,8 @@ play still writes the plan file from it, so the next run finds those issues and 
 Record:
     {ok, plan_id, approval_at, epic, slices: [ids], created: [{issue, kind, represents, title, state}],
      updated: [{issue, kind, represents, changes: [..], lines_kept}],
-     reopened: [{issue, feature, closed_as}], moved_out: [{issue, feature, epic}],
+     reopened: [{issue, feature, closed_as}], closed_by_hand: {feature: issue},
+     moved_out: [{issue, feature, epic}],
      features: {feature: issue}, held: {feature: epic}, map: {feature: issue},
      titles: {issue: title}, left_out: [{feature, issue, reason, kind}],
      skipped: [{feature, reason, issue}], failed, error}
@@ -181,6 +184,15 @@ def write_plan(w, items, drafted, drafts, pages, plan_id):
             w.do(f"open Feature issue #{f['issue']} of {fid} again", tracker.reopen, int(f["issue"]))
             rec["reopened"].append({"issue": int(f["issue"]), "feature": fid, "closed_as": f.get("closed_as")})
             w.save()
+        if act == "closed-by-hand":
+            rec["closed_by_hand"][fid] = int(f["issue"])
+            rec["features"][fid] = int(f["issue"])
+            rec["titles"][str(f["issue"])] = f.get("title") or fid
+            if f.get("held_by") is not None:
+                rec["held"][fid] = int(f["held_by"])
+            keep_map()
+            w.save()
+            continue
         if act == "held" or (act == "reopen" and f.get("held_by") is not None):
             rec["held"][fid] = int(f["held_by"])
             rec["features"][fid] = int(f["issue"])
@@ -285,7 +297,7 @@ def main(argv=None):
     approval = pc.read_json(args.approval, "approval.json")
     rec = {"ok": True, "plan_id": str(args.plan_id), "approval_at": approval.get("at"), "epic": None,
            "slices": [s.get("id") for s in items.get("slices") or []],
-           "created": [], "updated": [], "reopened": [], "moved_out": [], "features": {}, "held": {},
+           "created": [], "updated": [], "reopened": [], "closed_by_hand": {}, "moved_out": [], "features": {}, "held": {},
            "map": {}, "titles": {}, "left_out": [], "skipped": [], "failed": None, "error": None}
     w = Writer(tracker, rec, args.out)
     try:

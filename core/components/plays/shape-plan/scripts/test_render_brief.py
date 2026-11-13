@@ -34,7 +34,9 @@ def main():
         code, text = brief(p)
         check("exit 0, and the brief has its sections", code == 0 and all(h in text for h in (
             "## What the run writes in the tracker", "### The plan's epic", "### The Feature issues",
-            "## Held by another plan's epic", "## Opened again", "## Built, left out", "## Dropped, left out",
+            "## Held by another plan's epic", "## Opened again",
+            "## Closed as completed by hand: run /reshape-plan to mark it Completed",
+            "## Built, left out", "## Dropped, left out",
             "## Had no state", "## State changes in the product model", "## The plan file",
             "## Skipped features", "## Your answer")))
         check("one new epic is shown with its type and title, standing for the plan",
@@ -87,6 +89,17 @@ def main():
         check("a found Feature issue shows the sections it gains and its labels",
               "Use Feature issue #43" in text and "\"Scope of work\" and \"Context guidance\"" in text
               and "work-item" in text)
+        set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind"])
+        gather(root, p)
+        empty_tracker(p, [issue(45, "Send a reminder", "Feature", full_body("ft-remind"), state="closed",
+                                reason="completed")])
+        code, by_hand_text = brief(p)
+        part = by_hand_text.split("## Closed as completed by hand: run /reshape-plan to mark it Completed")[1].split("##")[0]
+        check("a Feature issue closed as completed by hand is named under its heading, pointing to /reshape-plan, "
+              "and is not opened again (C17)",
+              "ft-remind: Feature issue #45" in part and "Run /reshape-plan 340 to mark it Completed." in part
+              and "Open Feature issue #45" not in by_hand_text
+              and "ft-remind" not in by_hand_text.split("## Opened again")[1].split("##")[0])
     return finish()
 
 

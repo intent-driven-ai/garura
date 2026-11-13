@@ -95,10 +95,13 @@ def main():
         code, items, fs = find(p)
         check("a Feature issue under another plan's epic is held_by that epic, never moved (C3)",
               fs["ft-pick"]["action"] == "held" and fs["ft-pick"]["held_by"] == 40 and code == 0)
-        check("a Feature issue closed as completed while the feature is not Completed opens again: "
-              "the tracker does not say built (C16, C17)",
-              fs["ft-remind"]["action"] == "reopen" and fs["ft-remind"]["issue"] == 42
-              and fs["ft-remind"]["closed_as"] == "completed" and fs["ft-remind"]["attached"] is False)
+        check("a Feature issue closed as completed while the feature is not Completed is closed-by-hand: "
+              "not opened again, the tracker does not say built (C16, C17)",
+              fs["ft-remind"]["action"] == "closed-by-hand" and fs["ft-remind"]["issue"] == 42
+              and fs["ft-remind"]["closed_as"] == "completed")
+        check("a feature closed by hand keeps its state: no state change, named as kept (C17, C18)",
+              "ft-remind" not in [c["feature"] for c in items["state_changes"]]
+              and {"feature": "ft-remind", "state": "Unplanned"} in items["kept_states"])
 
         empty_tracker(p, [issue(42, "Send a reminder", "Feature", full_body("ft-remind"), state="closed",
                                 reason="not_planned")])

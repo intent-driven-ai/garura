@@ -12,7 +12,8 @@
   - its `slices` list holds each slice of gather.json once, each with a status a person can set
     (Not Started, In Progress, Done or Dropped);
   - each feature the record puts in the plan (its map) has exactly one feature node under the
-    epic node, with the same issue, and a `held_by` feature's node names its epic;
+    epic node, with the same issue, and a `held_by` feature's node names its epic; the node of a
+    feature whose Feature issue is closed as completed by hand is at Done;
   - no feature node stands for a feature that is in no slice of the plan, or that is left out
     (Completed or Dropped in the model) or skipped (not ready);
   - the plan file holds no "Fails if" line, the words "Fails if", or a recovery phrase.
@@ -93,6 +94,9 @@ def check(plan_path, gather, rec):
         tree_map[fid] = int(k.get("issue") or -1)
         if fid in held and str(k.get("held_by")) != str(held[fid]):
             problems.append(f"the node of {fid} does not say held_by: {held[fid]}")
+        if fid in (rec.get("closed_by_hand") or {}) and k.get("status") != "Done":
+            problems.append(f"the node of {fid} holds a Feature issue closed as completed, but its status "
+                            f"is {k.get('status')!r}, not Done")
     rec_map = {f: int(n) for f, n in (rec.get("map") or {}).items()}
     for fid in rec_map:
         if fid not in tree_map:

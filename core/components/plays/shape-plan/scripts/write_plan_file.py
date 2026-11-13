@@ -11,6 +11,8 @@ of the plan with `status: Not Started`) and the `tree`: the plan's one epic node
 `feature` node under it for each line of the epic's map (`issue`, `kind: feature`, `title`,
 `status`, `represents`, and `held_by: <epic>` for a Feature issue another plan's epic holds).
 A feature left out of the plan (Completed or Dropped in the model, or not ready) gets no node.
+A feature whose Feature issue is closed as completed by hand (`closed_by_hand` in the record)
+gets its node with `status: Done`: its item follows its own issue (ADR 064).
 
 When the plan file is there, it is updated: the `epic:` mark and each missing slice of the
 `slices` list are added, the epic node is added when the tree has none with that issue, a
@@ -144,10 +146,10 @@ def find_issue(nodes, issue):
     return next((n for n in nodes if str(n["keys"].get("issue", (None, ""))[1]) == str(issue)), None)
 
 
-def render(d, issue, kind, title, represents=None, held_by=None, kids=()):
+def render(d, issue, kind, title, represents=None, held_by=None, kids=(), status="Not Started"):
     p = " " * d
     out = [f"{p}- issue: {scalar(issue)}", f"{p}  kind: {kind}", f"{p}  title: {scalar(title)}",
-           f"{p}  status: Not Started"]
+           f"{p}  status: {status}"]
     if represents:
         out.append(f"{p}  represents: {scalar(represents)}")
     if held_by is not None:
@@ -204,6 +206,7 @@ def edit(lines, gather, rec):
     added, removed = [], []
     titles = rec.get("titles") or {}
     held = rec.get("held") or {}
+    done = rec.get("closed_by_hand") or {}
     added_slices = ensure_top(lines, rec)
     if rec.get("epic") is None:
         return added, removed, added_slices
@@ -212,7 +215,8 @@ def edit(lines, gather, rec):
     t, d, tree = parse_tree(lines)
     node = find_issue(tree, epic_no)
     if node is None:
-        kids = [(n, "feature", titles.get(str(n), f), f, held.get(f)) for f, n in pairs]
+        kids = [(n, "feature", titles.get(str(n), f), f, held.get(f), (),
+                 "Done" if f in done else "Not Started") for f, n in pairs]
         block = render(d, epic_no, "epic", titles.get(str(epic_no), f"Plan {gather.get('plan_id')}"),
                        None, None, kids)
         if tree:
@@ -241,7 +245,8 @@ def edit(lines, gather, rec):
         if any(rep(c) == f for c in node["children"]):
             continue
         ci = node["indent"] + 2
-        new = (n, "feature", titles.get(str(n), f), f, held.get(f))
+        new = (n, "feature", titles.get(str(n), f), f, held.get(f), (),
+               "Done" if f in done else "Not Started")
         if node["children"]:
             cd = node["children"][-1]["indent"]
             at = node["children"][-1]["end"]

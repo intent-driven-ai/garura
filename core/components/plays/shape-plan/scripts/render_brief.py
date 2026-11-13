@@ -9,8 +9,11 @@ The brief is built from the run's records only, so no write can be left out of i
     Feature issue (make, use, add sections, open again), with the text a new item or a new
     section gets, and each type, label or sub-issue change on an item that exists;
   - the Feature issues another plan's epic holds (`held_by`): shown, never moved;
-  - under "Opened again", each closed Feature issue of a feature the plan takes in, with its
-    issue number and how it was closed: on the yes the same issue opens again (C17);
+  - under "Opened again", each Feature issue closed as not planned of a feature the plan takes
+    in, with its issue number: on the yes the same issue opens again (C17);
+  - under "Closed as completed by hand: run /reshape-plan to mark it Completed", each Feature
+    issue closed as completed while its feature is not Completed: nothing is written to it, and
+    the plan holds it at Done (C17);
   - under "Built, left out" and "Dropped, left out", each feature whose state in the model is
     Completed or Dropped: no tracker search, no write (C16);
   - under "Had no state", each feature whose spine entry has no `status`, or a value outside
@@ -79,7 +82,7 @@ def render(gather, items, drafts):
              "<what> to have it drafted again, or stop to write nothing.", ""]
     lines += ["## What the run writes in the tracker", "", "### The plan's epic", ""]
     writes, adds, removes = 0, [], []
-    held, reopened, built, dropped, skipped = [], [], [], [], []
+    held, reopened, by_hand, built, dropped, skipped = [], [], [], [], [], []
     if epic.get("action") == "make":
         writes += 1
         lines += [f"- Make a new epic, type {pc.EPIC_TYPE}, no label: \"{depic.get('title', '')}\"",
@@ -156,6 +159,13 @@ def render(gather, items, drafts):
                         f"#{f.get('held_by')}. It stays there; the plan shows it as held_by: {f.get('held_by')}, "
                         "and the epic's map names that epic. It moves only on your answer.")
             adds.append(f"a feature node for {fid}, held_by {f.get('held_by')}")
+        elif act == "closed-by-hand":
+            by_hand.append(f"{fid}: Feature issue #{f.get('issue')} \"{f.get('title') or ''}\" is closed as "
+                           f"completed, but the feature is {f.get('state')} in the model. Nothing is written "
+                           "to it and its state does not change; the plan holds it at Done"
+                           + (f", under epic #{f.get('held_by')}" if f.get("held_by") else "")
+                           + f". Run /reshape-plan {plan_id} to mark it Completed.")
+            adds.append(f"a feature node for {fid} at Done" + (f", held_by {f.get('held_by')}" if f.get("held_by") else ""))
         elif act == "completed":
             built.append(f"{fid}: it is Completed in the model. It is not in the plan, and the tracker "
                          "is not searched or written for it.")
@@ -175,6 +185,8 @@ def render(gather, items, drafts):
     lines += [f"- {h}" for h in held] or ["- None."]
     lines += ["", "## Opened again", ""]
     lines += [f"- {x}" for x in reopened] or ["- None."]
+    lines += ["", "## Closed as completed by hand: run /reshape-plan to mark it Completed", ""]
+    lines += [f"- {x}" for x in by_hand] or ["- None."]
     lines += ["", "## Built, left out", ""]
     lines += [f"- {x}" for x in built] or ["- None. No feature of the plan is Completed."]
     lines += ["", "## Dropped, left out", ""]

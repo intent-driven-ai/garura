@@ -16,6 +16,9 @@ the --tracker-file fixture). `ok: true` only when:
     plan already placed under it), no more;
   - each Feature issue the run opened again is open, and no Feature issue was filed for its
     feature (C17);
+  - each Feature issue closed as completed by hand is still closed as completed, was not
+    opened again, and no Feature issue was filed for its feature; it need not be under the
+    epic, because the run writes nothing to it (C17);
   - no Feature issue was filed for a feature left out as Completed or Dropped (C16);
   - no body this run made holds the words "Fails if" or a recovery phrase (a found item's own
     lines are a person's, and are kept as they are);
@@ -63,9 +66,17 @@ def check(rec, tracker, kept_subs=()):
         problems.append("the record names no epic for the plan")
     the_map = {f: int(n) for f, n in (rec.get("map") or {}).items()}
     held = {f: int(e) for f, e in (rec.get("held") or {}).items()}
+    by_hand = {f: int(n) for f, n in (rec.get("closed_by_hand") or {}).items()}
     for fid, n in the_map.items():
         it = fetch(n, f"the Feature issue of {fid}")
         if it is None:
+            continue
+        if fid in by_hand:
+            if not pc.finished(it):
+                problems.append(f"Feature issue #{n} of {fid} was closed as completed by hand and must stay "
+                                f"so, but it is {it['state']}")
+            if not pc.has_line(it["body"], pc.represents_line(fid)):
+                problems.append(f"Feature issue #{n} has no line \"{pc.represents_line(fid)}\"")
             continue
         feature_shape(it, n, fid)
         if fid in held:
@@ -96,6 +107,13 @@ def check(rec, tracker, kept_subs=()):
             problems.append(f"epic #{epic_no} holds #{n}{title}, which the plan does not place: file "
                             "it in its own place and take it off the epic (C13)")
     created_for = {c.get("represents") for c in rec.get("created") or []}
+    for fid, n in by_hand.items():
+        if fid in created_for:
+            problems.append(f"the run filed a Feature issue for {fid}, whose Feature issue #{n} is closed "
+                            "as completed by hand")
+        if any(int(ro["issue"]) == n for ro in rec.get("reopened") or []):
+            problems.append(f"the run opened Feature issue #{n} of {fid} again; it was closed as completed "
+                            "by hand and stays closed")
     for ro in rec.get("reopened") or []:
         it = fetch(ro["issue"], f"the Feature issue of {ro.get('feature')} opened again")
         if it is not None and it["state"] != "open":

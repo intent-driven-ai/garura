@@ -10,11 +10,12 @@ nothing written) unless approval.json reads yes, the tracker record reads `ok: t
 plan file was written (`plan-write.json` reads `ok: true`). Then it writes the request the
 `product-os-keeper` agent hands to the `link-model-part` skill:
 
-    {"by": "shape-plan (#<id>)",
+    {"by": "shape-plan",
      "parts": [{"id": "<feature id>", "kind": "feature", "mode": "update", "status": "Planned"}]}
 
 one part for each feature of `state_changes` in work-items.json (each feature the plan takes in
-that is Unplanned, or had no state). A feature that is Planned or In progress keeps its state
+that is Unplanned, or had no state). `by` names the play only: the model holds no plan id and
+no issue number (ADR 069), so the plan id stays in the brief and the commit message. A feature that is Planned or In progress keeps its state
 and is not in the request. Each feature of the request must be in the plan: in the record's
 map. With no state change the request has no parts, and the play skips the model write.
 
@@ -30,6 +31,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plan_common as pc  # noqa: E402
 
+BY = "shape-plan"
+
 
 def build(items, rec, plan_id):
     in_plan = set((rec.get("map") or {}).keys())
@@ -41,7 +44,7 @@ def build(items, rec, plan_id):
         if c.get("to") != "Planned":
             raise pc.Refused(f"{fid}: the plan sets only Planned, not {c.get('to')!r}")
         parts.append({"id": fid, "kind": "feature", "mode": "update", "status": "Planned"})
-    return {"by": f"shape-plan (#{plan_id})", "parts": parts}
+    return {"by": BY, "parts": parts}
 
 
 def main(argv=None):

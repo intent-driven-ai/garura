@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_scenarios.py — the scenarios S12 and S15 to S19 of /shape-plan, end to end with the file tracker.
+"""test_scenarios.py — the scenarios S12 and S15 to S20 of /shape-plan, end to end with the file tracker.
 
     python3 test_scenarios.py
 
@@ -124,7 +124,7 @@ def main():
               and "ft-pick: Unplanned → Planned." in part and "ft-remind: stays Planned." in part
               and "ft-pay: stays In progress." in part)
         check("the request asks link-model-part for that one feature, mode update, status Planned",
-              request == {"by": "shape-plan (#340)", "parts": [{"id": "ft-pick", "kind": "feature",
+              request == {"by": "shape-plan", "parts": [{"id": "ft-pick", "kind": "feature",
                                                                "mode": "update", "status": "Planned"}]})
         check("after the write: Planned, the others kept, and the state check reads ok",
               spine_status(root) == {"ft-pick": "Planned", "ft-remind": "Planned", "ft-pay": "In progress",
@@ -146,6 +146,32 @@ def main():
               "ft-remind: its spine entry has no status" in read(p["brief"]).split("## Had no state")[1])
         check("it is in the plan, and after the write it reads Planned",
               "ft-remind" in rec["map"] and spine_status(root)["ft-remind"] == "Planned"
+              and read_json(p["state_check"])["ok"] is True)
+    print("S20 — a Feature issue closed as completed by hand")
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp), paths(tmp)
+        empty_tracker(p, [issue(9, "Pay the fee", "Feature", full_body("ft-pay"), state="closed",
+                                reason="completed")])
+        before = tracker(p)[9]
+        codes = flow(root, p)
+        items, rec, its = read_json(p["items"]), read_json(p["record"]), tracker(p)
+        pay = next(f for f in items["features"] if f["feature"] == "ft-pay")
+        plan = yaml.safe_load(read(p["plan_file"]))
+        node = next(k for k in plan["tree"][0]["children"] if k["represents"] == "ft-pay")
+        check("every step reads ok", all(c == 0 for c in codes.values()))
+        check("the find lists it as closed-by-hand, with no state change",
+              pay["action"] == "closed-by-hand" and pay["issue"] == 9
+              and "ft-pay" not in [c["feature"] for c in items["state_changes"]])
+        check("the brief names it under its heading and points to /reshape-plan",
+              "ft-pay: Feature issue #9" in read(p["brief"]).split(
+                  "## Closed as completed by hand: run /reshape-plan to mark it Completed")[1].split("##")[0])
+        check("the issue stays as it is: closed as completed, body unchanged, not opened again, no new issue",
+              all(its[9].get(k) == v for k, v in before.items()) and rec["reopened"] == []
+              and not any(c["represents"] == "ft-pay" for c in rec["created"]))
+        check("the plan holds it: its node at Done and its map line",
+              node["issue"] == 9 and node["status"] == "Done" and rec["map"]["ft-pay"] == 9
+              and rec["closed_by_hand"] == {"ft-pay": 9})
+        check("its state does not change", spine_status(root)["ft-pay"] == "Unplanned"
               and read_json(p["state_check"])["ok"] is True)
     return finish()
 

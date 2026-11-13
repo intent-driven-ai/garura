@@ -685,7 +685,7 @@ def with_map(body, pairs, held=None):
     return "\n".join(lines).rstrip() + "\n"
 
 
-IN_PLAN = ("make", "use", "add-sections", "held", "reopen")
+IN_PLAN = ("make", "use", "add-sections", "held", "reopen", "closed-by-hand")
 
 
 def map_pairs(features, made=None):

@@ -18,10 +18,13 @@ slices that hold it and its state from the model (gather.json, ADR 070). Then:
     tracker's search (C3). Two Feature issues name the feature → a duplicate: the run names
     both and stops (S15);
   - its ICE is not ready → `skip`, with its reason; its issue stays as it is (C9);
-  - its Feature issue is closed (as not planned, or as completed while the feature is not
-    Completed) → `reopen`, with `closed_as`: on the yes the same issue is opened again and goes
-    under the epic like a found one (`missing`, `attached`, `parent`; `held_by` when another
-    epic holds it), and no second Feature issue is filed (C17);
+  - its Feature issue is closed as not planned → `reopen`: on the yes the same issue is opened
+    again and goes under the epic like a found one (`missing`, `attached`, `parent`; `held_by`
+    when another epic holds it), and no second Feature issue is filed (C17);
+  - its Feature issue is closed as completed while the feature is not Completed in the model →
+    `closed-by-hand`: nothing is written to it and the feature keeps its state, but the plan
+    holds it (its node at Done, its map line; `held_by` when another epic holds it), and the
+    brief points to /reshape-plan, which marks it Completed (C17, ADR 070);
   - its Feature issue is open → `use` (it has "Scope of work" and "Context guidance") or
     `add-sections` (`missing` names what it lacks); `attached` says whether it is a sub-issue
     of the plan's epic, and `parent` names a parent it would leave. When it sits under another
@@ -29,7 +32,7 @@ slices that hold it and its state from the model (gather.json, ADR 070). Then:
   - it has no Feature issue → `make`.
   - `state_changes` lists each feature the plan takes in (make, use, add-sections, held,
     reopen) whose state is Unplanned: it is set to Planned after the yes (C18). `kept_states`
-    lists each feature taken in that is Planned or In progress: it keeps its state.
+    lists each feature taken in that keeps its state: Planned, In progress, or closed by hand.
     `no_state` lists each feature that had no state, or a value outside the five (C16);
   - `move_out` lists each feature node under the epic's node in the plan file whose feature is
     in no slice of the plan;
@@ -176,11 +179,13 @@ def find(gather, plan, tracker):
             items.append(item)
             continue
         held = placement(item, it, tracker, epic)
-        if it["state"] != "open":
-            closed_as = "completed" if pc.finished(it) else "not planned"
-            item.update(action="reopen", closed_as=closed_as,
-                        reason=f"its Feature issue #{it['number']} is closed as {closed_as}, and the "
+        if it["state"] != "open" and pc.finished(it):
+            item.update(action="closed-by-hand", closed_as="completed",
+                        reason=f"its Feature issue #{it['number']} is closed as completed, but the "
                                f"feature is {f.get('state')} in the model")
+        elif it["state"] != "open":
+            item.update(action="reopen", closed_as="not planned",
+                        reason=f"its Feature issue #{it['number']} is closed as not planned")
         elif held:
             item["action"] = "held"
         else:
@@ -209,9 +214,10 @@ def find(gather, plan, tracker):
     taken = [i for i in items if i["action"] in pc.IN_PLAN]
     state_changes = [{"feature": i["feature"], "from": i["status"], "to": "Planned",
                       "had_no_state": i["had_no_state"]}
-                     for i in taken if i["state"] == "Unplanned"]
+                     for i in taken if i["state"] == "Unplanned" and i["action"] != "closed-by-hand"]
     kept_states = [{"feature": i["feature"], "state": i["state"]}
-                   for i in taken if i["state"] in ("Planned", "In progress")]
+                   for i in taken if i["state"] in ("Planned", "In progress")
+                   or i["action"] == "closed-by-hand"]
     no_state = [{"feature": i["feature"], "status": i["status"]} for i in items if i["had_no_state"]]
     return {"ok": not problems and not duplicates and not misplaced,
             "plan_file_exists": plan is not None, "problems": problems, "duplicates": duplicates,

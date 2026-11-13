@@ -81,6 +81,12 @@ def main():
               code == 1 and any("left out" in x for x in res["problems"]))
         write(p["record"], rec)
 
+        write(p["record"], dict(rec, closed_by_hand={"ft-pay": rec["map"]["ft-pay"]}))
+        code, res = verdict(p)
+        check("a feature closed by hand whose node is not at Done: not ok (C17)",
+              code == 1 and any("not Done" in x for x in res["problems"]))
+        write(p["record"], rec)
+
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-pay", "ft-wait"])
         flow(root, p)
         code, res = verdict(p)

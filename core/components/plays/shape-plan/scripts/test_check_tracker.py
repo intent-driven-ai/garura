@@ -131,6 +131,25 @@ def main():
         code, res = verdict(p)
         check("a Feature issue filed for a feature left out as Completed: not ok (C16)",
               code == 1 and any("left out" in x for x in res["problems"]))
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
+        empty_tracker(p, [{"number": 30, "title": "Send a reminder", "type": "Feature", "labels": [],
+                           "state": "closed", "state_reason": "completed", "body": full_body("ft-remind"),
+                           "sub_issues": []}])
+        flow(root, p)
+        code, res = verdict(p)
+        check("a Feature issue closed as completed by hand, left as it is and not under the epic: ok (C17)",
+              code == 0 and 30 in res["checked"])
+        edit(p, 30, state="open", state_reason="reopened")
+        code, res = verdict(p)
+        check("a Feature issue closed by hand that is open now: not ok",
+              code == 1 and any("by hand" in x for x in res["problems"]))
+        edit(p, 30, state="closed", state_reason="completed")
+        rec = read_json(p["record"])
+        write(p["record"], dict(rec, reopened=[{"issue": 30, "feature": "ft-remind", "closed_as": "completed"}]))
+        code, res = verdict(p)
+        check("a run that opened again an issue closed by hand: not ok",
+              code == 1 and any("stays closed" in x for x in res["problems"]))
     return finish()
 
 
