@@ -1,0 +1,41 @@
+---
+# assess-changes output, issue 1059
+needs_judgment: false
+
+change_groups:
+  - id: product-model-feature-state
+    issue: 1059
+    commit_type: chore
+    scope: product-os
+    subject: "mark 21 features completed, drop 3 duplicates, reword one epic per plan"
+    files:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md
+      - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md
+  - id: run-records
+    issue: 1059
+    commit_type: chore
+    scope: stm
+    subject: "record model cleanup run records"
+    files:
+      - .garura/project/issues/1059/context/analysis.yaml
+      - .garura/project/issues/1059/context/cleanup/lines-report-2.json
+      - .garura/project/issues/1059/context/cleanup/lines-report-3.json
+      - .garura/project/issues/1059/context/cleanup/lines-report.json
+      - .garura/project/issues/1059/context/cleanup/lines-request-2.json
+      - .garura/project/issues/1059/context/cleanup/lines-request-3.json
+      - .garura/project/issues/1059/context/cleanup/lines-request.json
+      - .garura/project/issues/1059/context/cleanup/link-report.json
+      - .garura/project/issues/1059/context/cleanup/link-request.json
+
+exclusions: []
+
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "11 files in 2 groups, each in exactly one group"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

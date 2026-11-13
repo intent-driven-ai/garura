@@ -1,0 +1,15 @@
+{
+  "by": "product-os-keeper (model clean-up)",
+  "source": "The product owner's words, 2026-11-13: the current play names are /design-slice, /specify-domains and /specify-capabilities; play names only.",
+  "pages": [
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
+      "changes": [
+        {
+          "old": "> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.",
+          "new": "> To be deepened later: written by /design-slice at the directional depth. /specify-domains or /specify-capabilities raises it to the detailed depth."
+        }
+      ]
+    }
+  ]
+}

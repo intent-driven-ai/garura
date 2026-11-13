@@ -1,0 +1,17 @@
+{
+  "by": "product-os-keeper (model clean-up)",
+  "parts": [
+    {
+      "id": "fn-818",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-798",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    }
+  ]
+}

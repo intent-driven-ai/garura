@@ -1,0 +1,42 @@
+{
+  "by": "product-os-keeper (model clean-up)",
+  "source": "The product owner's words, 2026-11-13: /shape-slice is now /design-slice; play name only.",
+  "pages": [
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
+      "changes": [
+        {
+          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818).",
+          "new": "/shape-plan <intent> runs after /design-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818)."
+        },
+        {
+          "old": "> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.",
+          "new": "> To be deepened later: written by /design-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth."
+        },
+        {
+          "old": "- The play runs after /shape-slice, on its own, and needs the slice to exist.",
+          "new": "- The play runs after /design-slice, on its own, and needs the slice to exist."
+        },
+        {
+          "old": "- The play never writes a failure or recovery condition. The slice's hidden file belongs to /shape-slice (decision 6).",
+          "new": "- The play never writes a failure or recovery condition. The slice's hidden file belongs to /design-slice (decision 6)."
+        },
+        {
+          "old": "- The slice and its hidden file. /shape-slice writes them (fn-795).",
+          "new": "- The slice and its hidden file. /design-slice writes them (fn-795)."
+        },
+        {
+          "old": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue.",
+          "new": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /design-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue."
+        }
+      ],
+      "lines_before": 60,
+      "lines_after": 60,
+      "lines_added": 0,
+      "lines_kept": 54
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/turn-intents-into-work/fn-818/feature.md"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "resolved": true,
+  "issue_number": 1059,
+  "title": "[TASK] Model clean-up: mark the features built before ADR 068 Completed and drop the duplicates",
+  "created": true
+}

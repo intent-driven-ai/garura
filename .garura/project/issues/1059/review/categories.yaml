@@ -1,0 +1,45 @@
+# Category assessment, PR #1060 (issue 1059). Treatments taken from the playbook copies in
+# .garura/project/issues/1059/context/memory/knowledge/review/ (manifest.json beside them).
+categories:
+  - name: Product model
+    new_category: true
+    playbook: null
+    playbook_note: "playbook missing: no review/ playbook covers the product model (spine + feature pages). Nearest are memory.md and docs.md; neither fits."
+    design_bearing: true
+    evidence:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md
+      - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md
+    treatment:
+      layers: [1, 2]
+      linters: []
+      runnable_checks:
+        - "spine parses (yaml.safe_load)"
+        - "features 239 = 21 Completed + 3 Dropped (fn-727, fn-728, fn-931) + 215 Unplanned"
+        - "vs main: only status, metadata.updated_by, one_line of fn-818 and fn-798 changed"
+        - "no updated_by names an issue number"
+        - "pages name no old play (/shape-slice, /shape-eval, /discover-*)"
+      layer2: "ground from base-ref ontology, ADR 068, ADR 069, glossary; never from the branch's pr-body or self-review"
+    checks:
+      spine_parses: "PASS. Top keys: domains, capabilities, features, profile, slices, ices."
+      feature_counts: "PASS. 239 = 21 Completed + 3 Dropped + 215 Unplanned. Dropped ids are fn-727, fn-728, fn-931. Same 239 ids as main."
+      changes_vs_main: "PASS. Feature fields changed: status 24, metadata.updated_by 24, one_line 2 (fn-818, fn-798). No other feature field and no other top-level section (domains, capabilities, profile, slices, ices) changed."
+      updated_by_no_issue_number: "PASS for the lines the PR adds: every added updated_by reads 'product-os-keeper (model clean-up)' (0 added lines hold #N). NOTE: 15 older records already on main still name '#1021'; unchanged by this PR."
+      pages_name_no_old_play: "FAIL. /shape-slice and /shape-eval are gone (both pages now say /design-slice, /design-eval). But /discover-* remains: fn-818/feature.md lines 6 and 46 ('/discover-domains or /discover-capabilities', '/discover-capabilities'); fn-798/feature.md line 38 ('/discover-capabilities'). No discover-* play exists in core/components/plays."
+  - name: Run records
+    new_category: true
+    playbook: null
+    playbook_note: "playbook missing: no playbook covers a Garura run record (issue STM files under .garura/project/issues/<n>/context/)."
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/1059/context/ (12 files: analysis.yaml, args.json, branch.json, commits.yaml, issue.json, plan.json, pr-body.md, pr.json, resolved-rules.json, self-review.md, target.json, work-description.txt)
+      - .garura/project/issues/1059/context/cleanup/ (10 files: lines-/link- request and report json)
+    treatment:
+      layers: [1]
+      linters: []
+      runnable_checks:
+        - "grep for home-folder, temp or personal/company names"
+    checks:
+      personal_paths_grep: "FAIL (1 file). No home-folder, temp-folder, personal or company name hit. But .garura/project/issues/1059/context/resolved-rules.json lines 3-4 hold '~/.phoenix/core/memory/standards/rules/self-review.md' and '~/.phoenix/core/memory/standards/rules'. It is in changed_paths, so it is committed. pr-body.md line 37 and self-review.md line 29 only mention the issue in prose."
+out_of_catalog_note: "No harness, ADR, code, config-map, test or docs category is present. Shelf docs.md and memory.md were read and rejected as force-fits."
+design_bearing_categories: [Product model]

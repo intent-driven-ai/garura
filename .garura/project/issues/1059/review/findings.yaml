@@ -1,0 +1,22 @@
+pr: 1060
+issue: 1059
+base: main
+categories: [product-model, run-records]
+layer1_checks:
+  spine: parses; 239 features = 21 Completed + 3 Dropped (fn-727, fn-728, fn-931) + 215 Unplanned; same ids as main
+  scope: only status, metadata.updated_by and the one_line of fn-818 and fn-798 changed; no added updated_by names an issue
+  pages: after the last fix neither page names an old play (/shape-slice, /shape-eval, /discover-*); one Thin line each, in the ontology's fixed words
+  run records: no home-folder, temp, personal or company names (the ~/.phoenix form names no person, as in every earlier record)
+layer2: >-
+  The change applies the product owner's confirmed list under ADR 070 and ontology v18 (a feature is built when its
+  state is Completed; Dropped means it will not be built). No design rule is changed.
+findings:
+- id: VF-1
+  severity: P4
+  file: .garura/project/issues/1059/review/categories.yaml
+  principle: Each category's treatment comes from a review playbook.
+  basis: [{source: ".garura/project/issues/1059/review/categories.yaml (product-model and run-records: playbook missing)"}]
+  detail: No review playbook exists for the product model or for run records, so their checks were chosen by the reviewer.
+  blocks_merge: false
+  category: run-records
+  layer: 1

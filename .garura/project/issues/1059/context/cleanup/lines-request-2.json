@@ -1,0 +1,140 @@
+{
+  "by": "product-os-keeper (model clean-up)",
+  "source": "The product owner's words, 2026-11-13 (\"adress fn-818 an fn-798\"), in full: one epic per plan and one Feature issue per feature, no stories filed (ADR 068, ADR 069); /design-eval writes the plan's one eval from the plan's epic, its Feature issues and each slice's hidden file; the slice's hidden file is /design-slice's; fn-798 is Completed.",
+  "pages": [
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
+      "changes": [
+        {
+          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).",
+          "new": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818)."
+        },
+        {
+          "old": "- Out: on the epic, the feature-to-story map: for each feature of the slice, the story that delivers it (ontology v11, Epic). It agrees with the plan's Tree.",
+          "new": "- Out: on the epic, the feature-to-Feature-issue map: for each feature of the slice, the Feature issue that delivers it (ontology v11, Epic). It agrees with the plan's Tree."
+        },
+        {
+          "old": "- Thin: the fields of the plan file and of each story are not set yet.",
+          "new": "- Thin: the fields of the plan file and of each Feature issue are not set yet."
+        },
+        {
+          "old": "- Each story carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE.",
+          "new": "- Each Feature issue carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE."
+        },
+        {
+          "old": "- The story is not the build's whole brief. The builder reads the story and the context that its context sub-agent collects from the story's Context guidance.",
+          "new": "- The Feature issue is not the build's whole brief. The builder reads the Feature issue and the context that its context sub-agent collects from the Feature issue's Context guidance."
+        },
+        {
+          "old": "- A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898).",
+          "new": "- A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898)."
+        },
+        {
+          "old": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three stories exist.",
+          "new": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three Feature issues exist."
+        },
+        {
+          "old": "- Given the stories and the plan file, when a person reads them, then none holds a failure or recovery condition.",
+          "new": "- Given the Feature issues and the plan file, when a person reads them, then none holds a failure or recovery condition."
+        },
+        {
+          "old": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-story map: one line for each feature, with the story that delivers it.",
+          "new": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-Feature-issue map: one line for each feature, with the Feature issue that delivers it."
+        },
+        {
+          "old": "- A change to a plan that exists, a later slice's epic and stories included. /update-plan makes it (fn-730).",
+          "new": "- A change to a plan that exists, a later slice's Feature issues included. /update-plan makes it (fn-730)."
+        },
+        {
+          "old": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story.",
+          "new": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or Feature issue."
+        },
+        {
+          "old": "- Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.",
+          "new": "- Limit: Write only the plan file, the epic and the Feature issues. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval."
+        },
+        {
+          "old": "- Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.",
+          "new": "- Limit: Each Feature issue holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE."
+        },
+        {
+          "old": "- Limit: A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.",
+          "new": "- Limit: A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either."
+        },
+        {
+          "old": "- Fails if: a feature of the slice has no story.",
+          "new": "- Fails if: a feature of the slice has no Feature issue."
+        },
+        {
+          "old": "- Fails if: a story or the plan file holds a failure condition or a recovery condition.",
+          "new": "- Fails if: a Feature issue or the plan file holds a failure condition or a recovery condition."
+        },
+        {
+          "old": "- Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.",
+          "new": "- Fails if: a Feature issue, or its Context guidance, names the eval, the hidden file or the plan's evals folder."
+        },
+        {
+          "old": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818).",
+          "new": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the Feature issues and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818)."
+        },
+        {
+          "old": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.",
+          "new": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
+      "changes": [
+        {
+          "old": "/design-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).",
+          "new": "/design-eval <intent> runs after /shape-plan, on its own. It reads the plan's epic, its Feature issues and each slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898)."
+        },
+        {
+          "old": "- In: the epic of the slice, with its feature-to-story map, and its stories. The map joins each hidden-file entry (by its feature) to its story (ontology v11, Q36).",
+          "new": "- In: the plan's epic, with its feature-to-Feature-issue map, and its Feature issues. The map joins each hidden-file entry (by its feature) to its Feature issue (ontology v11, Q36)."
+        },
+        {
+          "old": "- In: the slice's hidden file (failure-and-recovery.md) from the plan's evals folder.",
+          "new": "- In: each slice's hidden file (failure-and-recovery.md) from the plan's evals folder."
+        },
+        {
+          "old": "- It reads only the epic, its stories and the hidden file. It never reads an ICE page, the usage guide or the code.",
+          "new": "- It reads only the plan's epic, its Feature issues and each slice's hidden file. It never reads an ICE page, the usage guide or the code."
+        },
+        {
+          "old": "- The eval checks from the outside, on the slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project.",
+          "new": "- The plan's eval checks from the outside, on each slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project."
+        },
+        {
+          "old": "- Given a plan with an epic and its stories, when the product owner runs /design-eval, then the eval is in the plan's evals folder.",
+          "new": "- Given a plan with an epic and its Feature issues, when the product owner runs /design-eval, then the plan's one eval is in the plan's evals folder."
+        },
+        {
+          "old": "- Given the eval, when a person reads it, then each goal and expectation of the stories, and each failure condition of the hidden file, has a check or a note that it cannot be tested yet.",
+          "new": "- Given the plan's eval, when a person reads it, then each goal and expectation of the Feature issues, and each failure condition of each slice's hidden file, has a check or a note that it cannot be tested yet."
+        },
+        {
+          "old": "- The slice, the hidden file, the plan, the epic and the stories (fn-795, fn-818).",
+          "new": "- The slice, the hidden file, the plan, the epic and the Feature issues (fn-795, fn-818)."
+        },
+        {
+          "old": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.",
+          "new": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on each slice's surface, each goal and expectation of the Feature issues, and that no failure condition in a slice's hidden file happens."
+        },
+        {
+          "old": "- Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.",
+          "new": "- Limit: Read only the plan's epic, its Feature issues and each slice's hidden file; never an ICE page, the usage guide or the code."
+        },
+        {
+          "old": "- Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.",
+          "new": "- Fails if: a Feature issue's goal or expectation, or a failure condition in a slice's hidden file, has no check, and the eval does not say that it cannot test it yet."
+        },
+        {
+          "old": "- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).",
+          "new": "- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches each slice only through its usage guide (guides/<slug>.md)."
+        }
+      ]
+    }
+  ]
+}

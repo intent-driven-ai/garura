@@ -1,0 +1,60 @@
+{
+  "by": "product-os-keeper (model clean-up)",
+  "source": "The product owner's words, 2026-11-13 (\"adress fn-818 an fn-798 / the dupes, lets drop them / yes to finish the work\"): /shape-plan writes the plan, its one epic and one Feature issue per feature, no stories (ADR 068, ADR 069); /design-eval writes the plan's one eval; the slice's hidden file is /design-slice's.",
+  "pages": [
+    {
+      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
+      "changes": [
+        {
+          "old": "# Feature: /shape-plan writes the plan, the epic and the stories",
+          "new": "# Feature: /shape-plan writes the plan, its one epic and one Feature issue per feature"
+        },
+        {
+          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).",
+          "new": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818)."
+        },
+        {
+          "old": "- Out: one epic for the slice and one story for each feature, in the tracker after the product owner's yes.",
+          "new": "- Out: the plan's one epic and one Feature issue for each feature, in the tracker after the product owner's yes."
+        },
+        {
+          "old": "- The eval. /shape-eval writes it (fn-798).",
+          "new": "- The eval. /design-eval writes it (fn-798)."
+        },
+        {
+          "old": "- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.",
+          "new": "- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), its one epic and one Feature issue for each feature of the slice exist."
+        }
+      ]
+    },
+    {
+      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
+      "changes": [
+        {
+          "old": "# Feature: /shape-eval writes the hidden eval",
+          "new": "# Feature: /design-eval writes the plan's eval"
+        },
+        {
+          "old": "/shape-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the eval for the business intent in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).",
+          "new": "/design-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798)."
+        },
+        {
+          "old": "- Out: one eval for the business intent in `.garura/project/plans/<plan-id>/evals/<slug>/`.",
+          "new": "- Out: the plan's one eval in `.garura/project/plans/<plan-id>/evals/<slug>/`."
+        },
+        {
+          "old": "- Given a plan with an epic and its stories, when the product owner runs /shape-eval, then the eval is in the plan's evals folder.",
+          "new": "- Given a plan with an epic and its stories, when the product owner runs /design-eval, then the eval is in the plan's evals folder."
+        },
+        {
+          "old": "- Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.",
+          "new": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens."
+        },
+        {
+          "old": "- Checked by: the product owner runs /shape-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder.",
+          "new": "- Checked by: the product owner runs /design-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder."
+        }
+      ]
+    }
+  ]
+}

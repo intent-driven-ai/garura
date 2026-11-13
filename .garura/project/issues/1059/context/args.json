@@ -1,0 +1,9 @@
+{
+  "mode": "description",
+  "issue": null,
+  "plan": null,
+  "description": "[TASK] Model clean-up: mark the features built before ADR 068 Completed and drop the duplicate features (ADR 070)",
+  "note": null,
+  "fetched": null,
+  "error": null
+}

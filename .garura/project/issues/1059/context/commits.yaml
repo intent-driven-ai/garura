@@ -1,0 +1,20 @@
+commits:
+  - sha: 58559a49
+    message: "chore(stm): record model cleanup run records (#1059)"
+    files:
+      - .garura/project/issues/1059/context/analysis.yaml
+      - .garura/project/issues/1059/context/cleanup/lines-report-2.json
+      - .garura/project/issues/1059/context/cleanup/lines-report-3.json
+      - .garura/project/issues/1059/context/cleanup/lines-report.json
+      - .garura/project/issues/1059/context/cleanup/lines-request-2.json
+      - .garura/project/issues/1059/context/cleanup/lines-request-3.json
+      - .garura/project/issues/1059/context/cleanup/lines-request.json
+      - .garura/project/issues/1059/context/cleanup/link-report.json
+      - .garura/project/issues/1059/context/cleanup/link-request.json
+    branch: feature/1059-model-cleanup-feature-state
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

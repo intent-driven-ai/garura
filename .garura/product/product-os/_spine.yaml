@@ -687,7 +687,7 @@ features:
   capability: cap-manage-model
   intents:
   - bi-11
-  status: Unplanned
+  status: Completed
   one_line: The ready check says for each part whether work can start, ready, partly
     ready or not ready, with its gaps, and the same model always gives the same answer.
   doc: features/fn-724/feature.md
@@ -695,14 +695,13 @@ features:
   identified_by: ''
   issue: 724
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-597
   slug: fn-597
   capability: cap-define-product
   intents:
   - bi-11
-  status: Unplanned
+  status: Completed
   one_line: The map, at version 15, defines thirteen kinds in two layers, each with
     its properties, links, rules and a real example, answers 45 of its 47 questions,
     and logs each version.
@@ -711,8 +710,7 @@ features:
   identified_by: ''
   issue: 597
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-725
   slug: fn-725
   capability: cap-manage-model
@@ -748,7 +746,7 @@ features:
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: Unplanned
+  status: Completed
   one_line: A person names the change, and its issue is found or filed, its branch
     is cut from the branch it will land on, and its working folder is made.
   doc: features/fn-731/feature.md
@@ -756,13 +754,13 @@ features:
   identified_by: ''
   issue: 731
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-673
   slug: fn-673
   capability: cap-ship-every-change
   intents:
   - bi-8
-  status: Unplanned
+  status: Completed
   one_line: Once the review approved the change and a person typed yes, it is merged
     where its branch lands, its branch is deleted, and an issue in a plan is closed
     with its item set Done.
@@ -771,13 +769,13 @@ features:
   identified_by: ''
   issue: 673
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-727
   slug: fn-727
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: Unplanned
+  status: Dropped
   one_line: Build the plan tree from a business intent
   doc: software-delivery-planning/turn-intents-into-work/fn-727/feature.md
   depends_on:
@@ -785,28 +783,26 @@ features:
   identified_by: ''
   issue: 727
   metadata:
-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
-      last model work; take-in approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-728
   slug: fn-728
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: Unplanned
+  status: Dropped
   one_line: Create or link the epic and the story issues of a plan
   doc: software-delivery-planning/turn-intents-into-work/fn-728/feature.md
   depends_on: []
   identified_by: ''
   issue: 728
   metadata:
-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
-      last model work; take-in approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-729
   slug: fn-729
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: Unplanned
+  status: Completed
   one_line: One card for each plan, from the plan files alone, with its direction,
     Status, Branch, the plans it waits on, and each epic's progress.
   doc: features/fn-729/feature.md
@@ -814,13 +810,13 @@ features:
   identified_by: ''
   issue: 729
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-628
   slug: fn-628
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: Unplanned
+  status: Completed
   one_line: One plan's open work shown, its Done and Dropped work hidden and counted,
     and each plan it needs printed after it.
   doc: features/fn-628/feature.md
@@ -828,13 +824,13 @@ features:
   identified_by: ''
   issue: 628
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-730
   slug: fn-730
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: Unplanned
+  status: Completed
   one_line: In /update-plan, a person sets statuses and the direction in their own
     words, and on one plain "approved" they land in the tracker and the plan file
     in one commit on the plan's branch.
@@ -843,13 +839,13 @@ features:
   identified_by: ''
   issue: 730
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-736
   slug: fn-736
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: 'Every part is named by one rule: plain words, the verb first, one meaning
     per verb, never a coding tool''s own command, with five roles owning the verbs.'
   doc: features/fn-736/feature.md
@@ -857,14 +853,13 @@ features:
   identified_by: ''
   issue: 736
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-737
   slug: fn-737
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: One page names each kind of part, sets out eleven principles, each with
     its reason and the ADR it comes from, and says how the standard is kept.
   doc: features/fn-737/feature.md
@@ -872,14 +867,13 @@ features:
   identified_by: ''
   issue: 737
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-738
   slug: fn-738
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: Every change to the standard or its rule files is an accepted ADR that
     names each older ADR it supersedes or amends, and each older ADR points forward
     to it.
@@ -888,14 +882,13 @@ features:
   identified_by: ''
   issue: 738
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-740
   slug: fn-740
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: The component linter, the play linter, the loop linter and the old-name
     check fail every part that breaks a written rule.
   doc: features/fn-740/feature.md
@@ -903,14 +896,13 @@ features:
   identified_by: ''
   issue: 740
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-741
   slug: fn-741
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: One rename map, and a read-only check that finds each use of an old name
     outside past records.
   doc: features/fn-741/feature.md
@@ -918,14 +910,13 @@ features:
   identified_by: ''
   issue: 741
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-743
   slug: fn-743
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: The harness plays and the loop carry the standard's names, and move to
     each new name the standard sets.
   doc: features/fn-743/feature.md
@@ -934,14 +925,13 @@ features:
   identified_by: ''
   issue: 743
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-744
   slug: fn-744
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: The change, plan, knowledge and record plays carry the standard's names,
     and move to each new name the standard sets.
   doc: features/fn-744/feature.md
@@ -950,14 +940,13 @@ features:
   identified_by: ''
   issue: 744
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-745
   slug: fn-745
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: The lifecycle and lens plays carry the standard's names, and move to each
     new name the standard sets.
   doc: features/fn-745/feature.md
@@ -966,14 +955,13 @@ features:
   identified_by: ''
   issue: 745
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-746
   slug: fn-746
   capability: cap-standards
   intents:
   - bi-10
-  status: Unplanned
+  status: Completed
   one_line: Every skill carries a verb from the skill verb list, and moves to each
     new name the standard sets.
   doc: features/fn-746/feature.md
@@ -982,14 +970,13 @@ features:
   identified_by: ''
   issue: 746
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
-      one-lines taken as approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-748
   slug: fn-748
   capability: cap-upgrade-project
   intents:
   - bi-7
-  status: Unplanned
+  status: Completed
   one_line: On an upgrade, a part under an old name goes once its new name is laid,
     and a part the new version no longer has goes, each only when the record or the
     part's own file proves Garura laid it, even in a project installed before the
@@ -1000,13 +987,13 @@ features:
   identified_by: ''
   issue: 748
   metadata:
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-795
   slug: fn-795
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: Unplanned
+  status: Completed
   one_line: A person names a business intent, and the features in build order, the
     one surface and the tester are chosen from the model and memory, shown in one
     brief and kept only on the person's yes.
@@ -1014,37 +1001,33 @@ features:
   metadata:
     created_by: /shape-slice
     deepen: true
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-818
   slug: fn-818
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: Unplanned
-  one_line: From a shaped slice, /shape-plan writes the intent's one plan file, one
-    epic for the slice and one story for each feature.
+  status: Completed
+  one_line: /shape-plan writes the plan, its one epic and one Feature issue per feature
   doc: software-delivery-planning/turn-intents-into-work/fn-818/feature.md
   metadata:
     created_by: /shape-slice
     deepen: true
     thin: true
-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
-      last model work; take-in approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-798
   slug: fn-798
   capability: cap-write-work-evals
   intents:
   - bi-3
-  status: Unplanned
-  one_line: From the plan's epic and stories, /shape-eval writes the eval of the business
-    intent in the plan's evals folder. The build is given the intent, never the eval.
+  status: Completed
+  one_line: /design-eval writes the plan's eval
   doc: software-delivery-planning/write-work-evals/fn-798/feature.md
   metadata:
     created_by: /shape-slice
     deepen: true
     thin: true
-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
-      last model work; take-in approved by the product owner'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-setup-questions
   slug: fn-setup-questions
   capability: cap-initialize
@@ -1134,7 +1117,7 @@ features:
   capability: cap-orchestrate-agent-work
   intents:
   - bi-9
-  status: Unplanned
+  status: Completed
   one_line: Each plan's branch drawn against main with the commits git counts ahead
     and behind, and the plans with no branch named as on main.
   doc: features/fn-806/feature.md
@@ -1145,13 +1128,13 @@ features:
   metadata:
     created_by: 'the #719 change (view plans)'
     deepen: true
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-931
   slug: fn-931
   capability: cap-turn-intents-into-work
   intents:
   - bi-1
-  status: Unplanned
+  status: Dropped
   one_line: A person names a feature found while a plan is in progress, and on approval
     it joins the product model, its slice and its epic together with the plan file
     and GitHub.
@@ -1164,7 +1147,7 @@ features:
     created_by: '/update-plan (plan 717, the approved session''s new feature, #931)'
     deepen: true
     thin: true
-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
+    updated_by: product-os-keeper (model clean-up)
 - id: fn-specify-intents
   slug: fn-specify-intents
   capability: cap-specify-product
