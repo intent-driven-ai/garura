@@ -1,0 +1,7 @@
+{
+  "branch": "feature/1059-model-cleanup-feature-state",
+  "kind": "one-off",
+  "plan_id": null,
+  "issue": "1059",
+  "base": "main"
+}
