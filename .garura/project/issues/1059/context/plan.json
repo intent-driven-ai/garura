@@ -1,0 +1,12 @@
+{
+  "issue": "1059",
+  "plan_id": null,
+  "plan_branch": null,
+  "issue_branch": "feature/1059-model-cleanup-feature-state",
+  "closed_plan": null,
+  "source": {
+    "ref": "origin/main",
+    "fetched": true,
+    "plan_branches_read": []
+  }
+}

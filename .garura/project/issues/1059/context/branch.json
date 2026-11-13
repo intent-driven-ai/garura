@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/1059-model-cleanup-feature-state",
+  "base_sha": "5d80fbac25e6c53b9534959881258c3d905d49d9",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}

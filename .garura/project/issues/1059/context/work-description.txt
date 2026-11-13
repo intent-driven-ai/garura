@@ -1,0 +1,7 @@
+[TASK] Model clean-up: mark the features built before ADR 068 Completed and drop the duplicate features (ADR 070)
+
+What: the one-time clean-up of Garura's own product model that ADR 070 calls for, after the product owner confirmed the list on 2026-11-13.
+- Mark Completed the 21 features built before ADR 068, each with a Story closed as completed: fn-597, fn-724, fn-736, fn-737, fn-738, fn-740, fn-741, fn-743, fn-744, fn-745, fn-746, fn-748, fn-795, fn-818, fn-798, fn-731, fn-673, fn-729, fn-628, fn-806, fn-730.
+- Set the duplicate features fn-727, fn-728 and fn-931 to Dropped.
+- Fix the wording of fn-818 ("/shape-plan writes the plan, its one epic and one Feature issue per feature") and fn-798 ("/design-eval writes the plan's eval").
+All writes go through product-os-keeper and link-model-part (and the page skill for wording). Later steps of the clean-up (taking issue numbers and decision records out of the model) follow in their own changes.
