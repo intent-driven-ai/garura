@@ -1,0 +1,5 @@
+decision: approve
+decided_by: harness
+reason: "no P1 findings; confidence acceptable"
+blocking: []
+gate: "gate skipped by config (gates.plays.validate-work)"

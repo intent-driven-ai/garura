@@ -1,0 +1,38 @@
+{
+  "pr_number": "1060",
+  "base": "main",
+  "changed_paths": [
+    ".garura/product/product-os/_spine.yaml",
+    ".garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
+    ".garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md",
+    ".garura/project/issues/1059/context/analysis.yaml",
+    ".garura/project/issues/1059/context/args.json",
+    ".garura/project/issues/1059/context/branch.json",
+    ".garura/project/issues/1059/context/cleanup/lines-report-2.json",
+    ".garura/project/issues/1059/context/cleanup/lines-report-3.json",
+    ".garura/project/issues/1059/context/cleanup/lines-report-4.json",
+    ".garura/project/issues/1059/context/cleanup/lines-report.json",
+    ".garura/project/issues/1059/context/cleanup/lines-request-2.json",
+    ".garura/project/issues/1059/context/cleanup/lines-request-3.json",
+    ".garura/project/issues/1059/context/cleanup/lines-request-4.json",
+    ".garura/project/issues/1059/context/cleanup/lines-request.json",
+    ".garura/project/issues/1059/context/cleanup/link-report.json",
+    ".garura/project/issues/1059/context/cleanup/link-request.json",
+    ".garura/project/issues/1059/context/commits.yaml",
+    ".garura/project/issues/1059/context/issue.json",
+    ".garura/project/issues/1059/context/plan.json",
+    ".garura/project/issues/1059/context/pr-body.md",
+    ".garura/project/issues/1059/context/pr.json",
+    ".garura/project/issues/1059/context/resolved-rules.json",
+    ".garura/project/issues/1059/context/self-review.md",
+    ".garura/project/issues/1059/context/target.json",
+    ".garura/project/issues/1059/context/work-description.txt"
+  ],
+  "changed_files_reported": 25,
+  "diff_source": "diff-pr",
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}

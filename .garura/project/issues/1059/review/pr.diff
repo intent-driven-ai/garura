@@ -1,0 +1,1622 @@
+diff --git a/.garura/product/product-os/_spine.yaml b/.garura/product/product-os/_spine.yaml
+index bcf1a38f8..02e8b74ca 100644
+--- a/.garura/product/product-os/_spine.yaml
++++ b/.garura/product/product-os/_spine.yaml
+@@ -687,7 +687,7 @@ features:
+   capability: cap-manage-model
+   intents:
+   - bi-11
+-  status: Unplanned
++  status: Completed
+   one_line: The ready check says for each part whether work can start, ready, partly
+     ready or not ready, with its gaps, and the same model always gives the same answer.
+   doc: features/fn-724/feature.md
+@@ -695,14 +695,13 @@ features:
+   identified_by: ''
+   issue: 724
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-597
+   slug: fn-597
+   capability: cap-define-product
+   intents:
+   - bi-11
+-  status: Unplanned
++  status: Completed
+   one_line: The map, at version 15, defines thirteen kinds in two layers, each with
+     its properties, links, rules and a real example, answers 45 of its 47 questions,
+     and logs each version.
+@@ -711,8 +710,7 @@ features:
+   identified_by: ''
+   issue: 597
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-725
+   slug: fn-725
+   capability: cap-manage-model
+@@ -748,7 +746,7 @@ features:
+   capability: cap-ship-every-change
+   intents:
+   - bi-8
+-  status: Unplanned
++  status: Completed
+   one_line: A person names the change, and its issue is found or filed, its branch
+     is cut from the branch it will land on, and its working folder is made.
+   doc: features/fn-731/feature.md
+@@ -756,13 +754,13 @@ features:
+   identified_by: ''
+   issue: 731
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-673
+   slug: fn-673
+   capability: cap-ship-every-change
+   intents:
+   - bi-8
+-  status: Unplanned
++  status: Completed
+   one_line: Once the review approved the change and a person typed yes, it is merged
+     where its branch lands, its branch is deleted, and an issue in a plan is closed
+     with its item set Done.
+@@ -771,13 +769,13 @@ features:
+   identified_by: ''
+   issue: 673
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-727
+   slug: fn-727
+   capability: cap-turn-intents-into-work
+   intents:
+   - bi-1
+-  status: Unplanned
++  status: Dropped
+   one_line: Build the plan tree from a business intent
+   doc: software-delivery-planning/turn-intents-into-work/fn-727/feature.md
+   depends_on:
+@@ -785,28 +783,26 @@ features:
+   identified_by: ''
+   issue: 727
+   metadata:
+-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
+-      last model work; take-in approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-728
+   slug: fn-728
+   capability: cap-turn-intents-into-work
+   intents:
+   - bi-1
+-  status: Unplanned
++  status: Dropped
+   one_line: Create or link the epic and the story issues of a plan
+   doc: software-delivery-planning/turn-intents-into-work/fn-728/feature.md
+   depends_on: []
+   identified_by: ''
+   issue: 728
+   metadata:
+-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
+-      last model work; take-in approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-729
+   slug: fn-729
+   capability: cap-orchestrate-agent-work
+   intents:
+   - bi-9
+-  status: Unplanned
++  status: Completed
+   one_line: One card for each plan, from the plan files alone, with its direction,
+     Status, Branch, the plans it waits on, and each epic's progress.
+   doc: features/fn-729/feature.md
+@@ -814,13 +810,13 @@ features:
+   identified_by: ''
+   issue: 729
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-628
+   slug: fn-628
+   capability: cap-orchestrate-agent-work
+   intents:
+   - bi-9
+-  status: Unplanned
++  status: Completed
+   one_line: One plan's open work shown, its Done and Dropped work hidden and counted,
+     and each plan it needs printed after it.
+   doc: features/fn-628/feature.md
+@@ -828,13 +824,13 @@ features:
+   identified_by: ''
+   issue: 628
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-730
+   slug: fn-730
+   capability: cap-orchestrate-agent-work
+   intents:
+   - bi-9
+-  status: Unplanned
++  status: Completed
+   one_line: In /update-plan, a person sets statuses and the direction in their own
+     words, and on one plain "approved" they land in the tracker and the plan file
+     in one commit on the plan's branch.
+@@ -843,13 +839,13 @@ features:
+   identified_by: ''
+   issue: 730
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-736
+   slug: fn-736
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: 'Every part is named by one rule: plain words, the verb first, one meaning
+     per verb, never a coding tool''s own command, with five roles owning the verbs.'
+   doc: features/fn-736/feature.md
+@@ -857,14 +853,13 @@ features:
+   identified_by: ''
+   issue: 736
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-737
+   slug: fn-737
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: One page names each kind of part, sets out eleven principles, each with
+     its reason and the ADR it comes from, and says how the standard is kept.
+   doc: features/fn-737/feature.md
+@@ -872,14 +867,13 @@ features:
+   identified_by: ''
+   issue: 737
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-738
+   slug: fn-738
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: Every change to the standard or its rule files is an accepted ADR that
+     names each older ADR it supersedes or amends, and each older ADR points forward
+     to it.
+@@ -888,14 +882,13 @@ features:
+   identified_by: ''
+   issue: 738
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-740
+   slug: fn-740
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: The component linter, the play linter, the loop linter and the old-name
+     check fail every part that breaks a written rule.
+   doc: features/fn-740/feature.md
+@@ -903,14 +896,13 @@ features:
+   identified_by: ''
+   issue: 740
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-741
+   slug: fn-741
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: One rename map, and a read-only check that finds each use of an old name
+     outside past records.
+   doc: features/fn-741/feature.md
+@@ -918,14 +910,13 @@ features:
+   identified_by: ''
+   issue: 741
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-743
+   slug: fn-743
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: The harness plays and the loop carry the standard's names, and move to
+     each new name the standard sets.
+   doc: features/fn-743/feature.md
+@@ -934,14 +925,13 @@ features:
+   identified_by: ''
+   issue: 743
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-744
+   slug: fn-744
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: The change, plan, knowledge and record plays carry the standard's names,
+     and move to each new name the standard sets.
+   doc: features/fn-744/feature.md
+@@ -950,14 +940,13 @@ features:
+   identified_by: ''
+   issue: 744
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-745
+   slug: fn-745
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: The lifecycle and lens plays carry the standard's names, and move to each
+     new name the standard sets.
+   doc: features/fn-745/feature.md
+@@ -966,14 +955,13 @@ features:
+   identified_by: ''
+   issue: 745
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-746
+   slug: fn-746
+   capability: cap-standards
+   intents:
+   - bi-10
+-  status: Unplanned
++  status: Completed
+   one_line: Every skill carries a verb from the skill verb list, and moves to each
+     new name the standard sets.
+   doc: features/fn-746/feature.md
+@@ -982,14 +970,13 @@ features:
+   identified_by: ''
+   issue: 746
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021); pages and
+-      one-lines taken as approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-748
+   slug: fn-748
+   capability: cap-upgrade-project
+   intents:
+   - bi-7
+-  status: Unplanned
++  status: Completed
+   one_line: On an upgrade, a part under an old name goes once its new name is laid,
+     and a part the new version no longer has goes, each only when the record or the
+     part's own file proves Garura laid it, even in a project installed before the
+@@ -1000,13 +987,13 @@ features:
+   identified_by: ''
+   issue: 748
+   metadata:
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-795
+   slug: fn-795
+   capability: cap-orchestrate-agent-work
+   intents:
+   - bi-9
+-  status: Unplanned
++  status: Completed
+   one_line: A person names a business intent, and the features in build order, the
+     one surface and the tester are chosen from the model and memory, shown in one
+     brief and kept only on the person's yes.
+@@ -1014,37 +1001,33 @@ features:
+   metadata:
+     created_by: /shape-slice
+     deepen: true
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-818
+   slug: fn-818
+   capability: cap-turn-intents-into-work
+   intents:
+   - bi-1
+-  status: Unplanned
+-  one_line: From a shaped slice, /shape-plan writes the intent's one plan file, one
+-    epic for the slice and one story for each feature.
++  status: Completed
++  one_line: /shape-plan writes the plan, its one epic and one Feature issue per feature
+   doc: software-delivery-planning/turn-intents-into-work/fn-818/feature.md
+   metadata:
+     created_by: /shape-slice
+     deepen: true
+     thin: true
+-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
+-      last model work; take-in approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-798
+   slug: fn-798
+   capability: cap-write-work-evals
+   intents:
+   - bi-3
+-  status: Unplanned
+-  one_line: From the plan's epic and stories, /shape-eval writes the eval of the business
+-    intent in the plan's evals folder. The build is given the intent, never the eval.
++  status: Completed
++  one_line: /design-eval writes the plan's eval
+   doc: software-delivery-planning/write-work-evals/fn-798/feature.md
+   metadata:
+     created_by: /shape-slice
+     deepen: true
+     thin: true
+-    updated_by: 'product-os-keeper, for #1021 (reorganise the business intents): the
+-      last model work; take-in approved by the product owner'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-setup-questions
+   slug: fn-setup-questions
+   capability: cap-initialize
+@@ -1134,7 +1117,7 @@ features:
+   capability: cap-orchestrate-agent-work
+   intents:
+   - bi-9
+-  status: Unplanned
++  status: Completed
+   one_line: Each plan's branch drawn against main with the commits git counts ahead
+     and behind, and the plans with no branch named as on main.
+   doc: features/fn-806/feature.md
+@@ -1145,13 +1128,13 @@ features:
+   metadata:
+     created_by: 'the #719 change (view plans)'
+     deepen: true
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-931
+   slug: fn-931
+   capability: cap-turn-intents-into-work
+   intents:
+   - bi-1
+-  status: Unplanned
++  status: Dropped
+   one_line: A person names a feature found while a plan is in progress, and on approval
+     it joins the product model, its slice and its epic together with the plan file
+     and GitHub.
+@@ -1164,7 +1147,7 @@ features:
+     created_by: '/update-plan (plan 717, the approved session''s new feature, #931)'
+     deepen: true
+     thin: true
+-    updated_by: 'product-os-keeper (reorganise business intents, #1021)'
++    updated_by: product-os-keeper (model clean-up)
+ - id: fn-specify-intents
+   slug: fn-specify-intents
+   capability: cap-specify-product
+diff --git a/.garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md b/.garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md
+index d31942a9f..f7f03dc6d 100644
+--- a/.garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md
++++ b/.garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md
+@@ -1,41 +1,41 @@
+-# Feature: /shape-plan writes the plan, the epic and the stories
++# Feature: /shape-plan writes the plan, its one epic and one Feature issue per feature
+ 
+ ## What it does
+-/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).
++/shape-plan <intent> runs after /design-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818).
+ 
+-> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
++> To be deepened later: written by /design-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
+ 
+ ## Inputs / Outputs
+ - In: the slice that serves the intent, from the spine.
+ - In: the ICE of each feature of the slice and the ICE of that feature's capability, read once.
+ - Out: the intent's one plan file (`.garura/project/plans/<intent>.yaml`).
+-- Out: one epic for the slice and one story for each feature, in the tracker after the product owner's yes.
+-- Out: on the epic, the feature-to-story map: for each feature of the slice, the story that delivers it (ontology v11, Epic). It agrees with the plan's Tree.
+-- Thin: the fields of the plan file and of each story are not set yet.
++- Out: the plan's one epic and one Feature issue for each feature, in the tracker after the product owner's yes.
++- Out: on the epic, the feature-to-Feature-issue map: for each feature of the slice, the Feature issue that delivers it (ontology v11, Epic). It agrees with the plan's Tree.
++- Thin: the fields of the plan file and of each Feature issue are not set yet.
+ 
+ ## Rules & behavior
+-- The play runs after /shape-slice, on its own, and needs the slice to exist.
+-- Each story carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE.
+-- The play never writes a failure or recovery condition. The slice's hidden file belongs to /shape-slice (decision 6).
++- The play runs after /design-slice, on its own, and needs the slice to exist.
++- Each Feature issue carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE.
++- The play never writes a failure or recovery condition. The slice's hidden file belongs to /design-slice (decision 6).
+ - When the intent already has a plan file, the play stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists (#896).
+ - Nothing goes to the tracker before the product owner's yes.
+-- The story is not the build's whole brief. The builder reads the story and the context that its context sub-agent collects from the story's Context guidance.
+-- A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898).
++- The Feature issue is not the build's whole brief. The builder reads the Feature issue and the context that its context sub-agent collects from the Feature issue's Context guidance.
++- A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898).
+ - A slice that changes after the plan exists is handled by /update-plan, not by a second run of /shape-plan (#896).
+ 
+ ## Acceptance criteria
+-- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three stories exist.
++- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three Feature issues exist.
+ - Given a plan that exists, when the product owner runs /shape-plan, then the play stops before it opens a change or writes anything, and names /update-plan.
+-- Given the stories and the plan file, when a person reads them, then none holds a failure or recovery condition.
++- Given the Feature issues and the plan file, when a person reads them, then none holds a failure or recovery condition.
+ - Given no yes from the product owner, when the play stops, then nothing is in the tracker.
+-- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-story map: one line for each feature, with the story that delivers it.
++- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-Feature-issue map: one line for each feature, with the Feature issue that delivers it.
+ 
+ ## Out of scope
+-- The slice and its hidden file. /shape-slice writes them (fn-795).
+-- The eval. /shape-eval writes it (fn-798).
++- The slice and its hidden file. /design-slice writes them (fn-795).
++- The eval. /design-eval writes it (fn-798).
+ - The build, and the design, test or validation of an epic (#819).
+ - The checks that no build is given the evals folder and that flag a build session that read it (fn-898).
+-- A change to a plan that exists, a later slice's epic and stories included. /update-plan makes it (fn-730).
++- A change to a plan that exists, a later slice's Feature issues included. /update-plan makes it (fn-730).
+ 
+ ## Sources
+ - GitHub #818 (closed): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it.
+@@ -46,15 +46,15 @@
+ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+ 
+ ## Agent intent (ICE)
+-- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.
+-- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story.
+-- Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.
+-- Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.
++- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), its one epic and one Feature issue for each feature of the slice exist.
++- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or Feature issue.
++- Limit: Write only the plan file, the epic and the Feature issues. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.
++- Limit: Each Feature issue holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.
+ - Limit: Nothing goes to the tracker before the product owner's yes.
+-- Limit: A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.
+-- Fails if: a feature of the slice has no story.
+-- Fails if: a story or the plan file holds a failure condition or a recovery condition.
++- Limit: A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.
++- Fails if: a feature of the slice has no Feature issue.
++- Fails if: a Feature issue or the plan file holds a failure condition or a recovery condition.
+ - Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything, or stops without naming /update-plan.
+-- Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.
+-- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818).
+-- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.
++- Fails if: a Feature issue, or its Context guidance, names the eval, the hidden file or the plan's evals folder.
++- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the Feature issues and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818).
++- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /design-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue.
+diff --git a/.garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md b/.garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md
+index b314beabb..72931d336 100644
+--- a/.garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md
++++ b/.garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md
+@@ -1,33 +1,33 @@
+-# Feature: /shape-eval writes the hidden eval
++# Feature: /design-eval writes the plan's eval
+ 
+ ## What it does
+-/shape-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the eval for the business intent in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).
++/design-eval <intent> runs after /shape-plan, on its own. It reads the plan's epic, its Feature issues and each slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898).
+ 
+-> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
++> To be deepened later: written by /design-slice at the directional depth. /specify-domains or /specify-capabilities raises it to the detailed depth.
+ 
+ ## Inputs / Outputs
+-- In: the epic of the slice, with its feature-to-story map, and its stories. The map joins each hidden-file entry (by its feature) to its story (ontology v11, Q36).
+-- In: the slice's hidden file (failure-and-recovery.md) from the plan's evals folder.
+-- Out: one eval for the business intent in `.garura/project/plans/<plan-id>/evals/<slug>/`.
++- In: the plan's epic, with its feature-to-Feature-issue map, and its Feature issues. The map joins each hidden-file entry (by its feature) to its Feature issue (ontology v11, Q36).
++- In: each slice's hidden file (failure-and-recovery.md) from the plan's evals folder.
++- Out: the plan's one eval in `.garura/project/plans/<plan-id>/evals/<slug>/`.
+ - Out (when needed): a handoff plan, which never names a failure condition, its id or its check.
+ - Thin: the format of the eval and of the handoff plan is not set yet.
+ 
+ ## Rules & behavior
+ - The play runs after /shape-plan, on its own.
+-- It reads only the epic, its stories and the hidden file. It never reads an ICE page, the usage guide or the code.
+-- The eval checks from the outside, on the slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project.
++- It reads only the plan's epic, its Feature issues and each slice's hidden file. It never reads an ICE page, the usage guide or the code.
++- The plan's eval checks from the outside, on each slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project.
+ - The running eval reaches the slice only through its usage guide (`guides/<slug>.md`).
+ - When the eval cannot test a goal, an expectation or a failure condition yet, it says so.
+ - The eval stays in plain text in the repo. The build is given the intent, never the eval, and fn-898's check flags a build session that read the evals folder, in that build run's evidence (eval encryption, #828, was dropped on 2026-10-26).
+ 
+ ## Acceptance criteria
+-- Given a plan with an epic and its stories, when the product owner runs /shape-eval, then the eval is in the plan's evals folder.
+-- Given the eval, when a person reads it, then each goal and expectation of the stories, and each failure condition of the hidden file, has a check or a note that it cannot be tested yet.
++- Given a plan with an epic and its Feature issues, when the product owner runs /design-eval, then the plan's one eval is in the plan's evals folder.
++- Given the plan's eval, when a person reads it, then each goal and expectation of the Feature issues, and each failure condition of each slice's hidden file, has a check or a note that it cannot be tested yet.
+ 
+ ## Out of scope
+ - Running the eval after the build.
+ - Encrypting the eval (#828): dropped by the product owner on 2026-10-26.
+-- The slice, the hidden file, the plan, the epic and the stories (fn-795, fn-818).
++- The slice, the hidden file, the plan, the epic and the Feature issues (fn-795, fn-818).
+ - The checks that no build is given the evals folder and that flag a build session that read it, in that build run's evidence (fn-898).
+ 
+ ## Sources
+@@ -38,11 +38,11 @@
+ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+ 
+ ## Agent intent (ICE)
+-- Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.
+-- Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.
++- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on each slice's surface, each goal and expectation of the Feature issues, and that no failure condition in a slice's hidden file happens.
++- Limit: Read only the plan's epic, its Feature issues and each slice's hidden file; never an ICE page, the usage guide or the code.
+ - Limit: The play writes the eval only in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/) and nowhere else.
+ - Fails if: the eval is written outside the plan's evals folder.
+-- Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.
++- Fails if: a Feature issue's goal or expectation, or a failure condition in a slice's hidden file, has no check, and the eval does not say that it cannot test it yet.
+ - Fails if: a handoff plan that the eval writes names a failure condition, its id or the check.
+-- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).
+-- Checked by: the product owner runs /shape-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder.
++- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches each slice only through its usage guide (guides/<slug>.md).
++- Checked by: the product owner runs /design-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder.
+diff --git a/.garura/project/issues/1059/context/analysis.yaml b/.garura/project/issues/1059/context/analysis.yaml
+new file mode 100644
+index 000000000..d728faa1d
+--- /dev/null
++++ b/.garura/project/issues/1059/context/analysis.yaml
+@@ -0,0 +1,41 @@
++---
++# assess-changes output, issue 1059
++needs_judgment: false
++
++change_groups:
++  - id: product-model-feature-state
++    issue: 1059
++    commit_type: chore
++    scope: product-os
++    subject: "mark 21 features completed, drop 3 duplicates, reword one epic per plan"
++    files:
++      - .garura/product/product-os/_spine.yaml
++      - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md
++      - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-798/feature.md
++  - id: run-records
++    issue: 1059
++    commit_type: chore
++    scope: stm
++    subject: "record model cleanup run records"
++    files:
++      - .garura/project/issues/1059/context/analysis.yaml
++      - .garura/project/issues/1059/context/cleanup/lines-report-2.json
++      - .garura/project/issues/1059/context/cleanup/lines-report-3.json
++      - .garura/project/issues/1059/context/cleanup/lines-report.json
++      - .garura/project/issues/1059/context/cleanup/lines-request-2.json
++      - .garura/project/issues/1059/context/cleanup/lines-request-3.json
++      - .garura/project/issues/1059/context/cleanup/lines-request.json
++      - .garura/project/issues/1059/context/cleanup/link-report.json
++      - .garura/project/issues/1059/context/cleanup/link-request.json
++
++exclusions: []
++
++risks:
++  sensitive_files: []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "11 files in 2 groups, each in exactly one group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/1059/context/args.json b/.garura/project/issues/1059/context/args.json
+new file mode 100644
+index 000000000..15727db9e
+--- /dev/null
++++ b/.garura/project/issues/1059/context/args.json
+@@ -0,0 +1,9 @@
++{
++  "mode": "description",
++  "issue": null,
++  "plan": null,
++  "description": "[TASK] Model clean-up: mark the features built before ADR 068 Completed and drop the duplicate features (ADR 070)",
++  "note": null,
++  "fetched": null,
++  "error": null
++}
+diff --git a/.garura/project/issues/1059/context/branch.json b/.garura/project/issues/1059/context/branch.json
+new file mode 100644
+index 000000000..85be25edb
+--- /dev/null
++++ b/.garura/project/issues/1059/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "feature/1059-model-cleanup-feature-state",
++  "base_sha": "5d80fbac25e6c53b9534959881258c3d905d49d9",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": null,
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-report-2.json b/.garura/project/issues/1059/context/cleanup/lines-report-2.json
+new file mode 100644
+index 000000000..60c11bbfd
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-report-2.json
+@@ -0,0 +1,152 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13 (\"adress fn-818 an fn-798\"), in full: one epic per plan and one Feature issue per feature, no stories filed (ADR 068, ADR 069); /design-eval writes the plan's one eval from the plan's epic, its Feature issues and each slice's hidden file; the slice's hidden file is /design-slice's; fn-798 is Completed.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++      "changes": [
++        {
++          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).",
++          "new": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818)."
++        },
++        {
++          "old": "- Out: on the epic, the feature-to-story map: for each feature of the slice, the story that delivers it (ontology v11, Epic). It agrees with the plan's Tree.",
++          "new": "- Out: on the epic, the feature-to-Feature-issue map: for each feature of the slice, the Feature issue that delivers it (ontology v11, Epic). It agrees with the plan's Tree."
++        },
++        {
++          "old": "- Thin: the fields of the plan file and of each story are not set yet.",
++          "new": "- Thin: the fields of the plan file and of each Feature issue are not set yet."
++        },
++        {
++          "old": "- Each story carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE.",
++          "new": "- Each Feature issue carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE."
++        },
++        {
++          "old": "- The story is not the build's whole brief. The builder reads the story and the context that its context sub-agent collects from the story's Context guidance.",
++          "new": "- The Feature issue is not the build's whole brief. The builder reads the Feature issue and the context that its context sub-agent collects from the Feature issue's Context guidance."
++        },
++        {
++          "old": "- A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898).",
++          "new": "- A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898)."
++        },
++        {
++          "old": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three stories exist.",
++          "new": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three Feature issues exist."
++        },
++        {
++          "old": "- Given the stories and the plan file, when a person reads them, then none holds a failure or recovery condition.",
++          "new": "- Given the Feature issues and the plan file, when a person reads them, then none holds a failure or recovery condition."
++        },
++        {
++          "old": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-story map: one line for each feature, with the story that delivers it.",
++          "new": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-Feature-issue map: one line for each feature, with the Feature issue that delivers it."
++        },
++        {
++          "old": "- A change to a plan that exists, a later slice's epic and stories included. /update-plan makes it (fn-730).",
++          "new": "- A change to a plan that exists, a later slice's Feature issues included. /update-plan makes it (fn-730)."
++        },
++        {
++          "old": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story.",
++          "new": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or Feature issue."
++        },
++        {
++          "old": "- Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.",
++          "new": "- Limit: Write only the plan file, the epic and the Feature issues. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval."
++        },
++        {
++          "old": "- Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.",
++          "new": "- Limit: Each Feature issue holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE."
++        },
++        {
++          "old": "- Limit: A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.",
++          "new": "- Limit: A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either."
++        },
++        {
++          "old": "- Fails if: a feature of the slice has no story.",
++          "new": "- Fails if: a feature of the slice has no Feature issue."
++        },
++        {
++          "old": "- Fails if: a story or the plan file holds a failure condition or a recovery condition.",
++          "new": "- Fails if: a Feature issue or the plan file holds a failure condition or a recovery condition."
++        },
++        {
++          "old": "- Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.",
++          "new": "- Fails if: a Feature issue, or its Context guidance, names the eval, the hidden file or the plan's evals folder."
++        },
++        {
++          "old": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818).",
++          "new": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the Feature issues and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818)."
++        },
++        {
++          "old": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.",
++          "new": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue."
++        }
++      ],
++      "lines_before": 60,
++      "lines_after": 60,
++      "lines_added": 0,
++      "lines_kept": 41
++    },
++    {
++      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
++      "changes": [
++        {
++          "old": "/design-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).",
++          "new": "/design-eval <intent> runs after /shape-plan, on its own. It reads the plan's epic, its Feature issues and each slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898)."
++        },
++        {
++          "old": "- In: the epic of the slice, with its feature-to-story map, and its stories. The map joins each hidden-file entry (by its feature) to its story (ontology v11, Q36).",
++          "new": "- In: the plan's epic, with its feature-to-Feature-issue map, and its Feature issues. The map joins each hidden-file entry (by its feature) to its Feature issue (ontology v11, Q36)."
++        },
++        {
++          "old": "- In: the slice's hidden file (failure-and-recovery.md) from the plan's evals folder.",
++          "new": "- In: each slice's hidden file (failure-and-recovery.md) from the plan's evals folder."
++        },
++        {
++          "old": "- It reads only the epic, its stories and the hidden file. It never reads an ICE page, the usage guide or the code.",
++          "new": "- It reads only the plan's epic, its Feature issues and each slice's hidden file. It never reads an ICE page, the usage guide or the code."
++        },
++        {
++          "old": "- The eval checks from the outside, on the slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project.",
++          "new": "- The plan's eval checks from the outside, on each slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project."
++        },
++        {
++          "old": "- Given a plan with an epic and its stories, when the product owner runs /design-eval, then the eval is in the plan's evals folder.",
++          "new": "- Given a plan with an epic and its Feature issues, when the product owner runs /design-eval, then the plan's one eval is in the plan's evals folder."
++        },
++        {
++          "old": "- Given the eval, when a person reads it, then each goal and expectation of the stories, and each failure condition of the hidden file, has a check or a note that it cannot be tested yet.",
++          "new": "- Given the plan's eval, when a person reads it, then each goal and expectation of the Feature issues, and each failure condition of each slice's hidden file, has a check or a note that it cannot be tested yet."
++        },
++        {
++          "old": "- The slice, the hidden file, the plan, the epic and the stories (fn-795, fn-818).",
++          "new": "- The slice, the hidden file, the plan, the epic and the Feature issues (fn-795, fn-818)."
++        },
++        {
++          "old": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.",
++          "new": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on each slice's surface, each goal and expectation of the Feature issues, and that no failure condition in a slice's hidden file happens."
++        },
++        {
++          "old": "- Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.",
++          "new": "- Limit: Read only the plan's epic, its Feature issues and each slice's hidden file; never an ICE page, the usage guide or the code."
++        },
++        {
++          "old": "- Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.",
++          "new": "- Fails if: a Feature issue's goal or expectation, or a failure condition in a slice's hidden file, has no check, and the eval does not say that it cannot test it yet."
++        },
++        {
++          "old": "- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).",
++          "new": "- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches each slice only through its usage guide (guides/<slug>.md)."
++        }
++      ],
++      "lines_before": 48,
++      "lines_after": 48,
++      "lines_added": 0,
++      "lines_kept": 36
++    }
++  ],
++  "changed": [
++    "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++    "software-delivery-planning/write-work-evals/fn-798/feature.md"
++  ]
++}
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-report-3.json b/.garura/project/issues/1059/context/cleanup/lines-report-3.json
+new file mode 100644
+index 000000000..587ae08eb
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-report-3.json
+@@ -0,0 +1,42 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13: /shape-slice is now /design-slice; play name only.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++      "changes": [
++        {
++          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818).",
++          "new": "/shape-plan <intent> runs after /design-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818)."
++        },
++        {
++          "old": "> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.",
++          "new": "> To be deepened later: written by /design-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth."
++        },
++        {
++          "old": "- The play runs after /shape-slice, on its own, and needs the slice to exist.",
++          "new": "- The play runs after /design-slice, on its own, and needs the slice to exist."
++        },
++        {
++          "old": "- The play never writes a failure or recovery condition. The slice's hidden file belongs to /shape-slice (decision 6).",
++          "new": "- The play never writes a failure or recovery condition. The slice's hidden file belongs to /design-slice (decision 6)."
++        },
++        {
++          "old": "- The slice and its hidden file. /shape-slice writes them (fn-795).",
++          "new": "- The slice and its hidden file. /design-slice writes them (fn-795)."
++        },
++        {
++          "old": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue.",
++          "new": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /design-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue."
++        }
++      ],
++      "lines_before": 60,
++      "lines_after": 60,
++      "lines_added": 0,
++      "lines_kept": 54
++    }
++  ],
++  "changed": [
++    "software-delivery-planning/turn-intents-into-work/fn-818/feature.md"
++  ]
++}
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-report-4.json b/.garura/project/issues/1059/context/cleanup/lines-report-4.json
+new file mode 100644
+index 000000000..41083df4f
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-report-4.json
+@@ -0,0 +1,22 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13: the current play names are /design-slice, /specify-domains and /specify-capabilities; play names only.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
++      "changes": [
++        {
++          "old": "> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.",
++          "new": "> To be deepened later: written by /design-slice at the directional depth. /specify-domains or /specify-capabilities raises it to the detailed depth."
++        }
++      ],
++      "lines_before": 48,
++      "lines_after": 48,
++      "lines_added": 0,
++      "lines_kept": 47
++    }
++  ],
++  "changed": [
++    "software-delivery-planning/write-work-evals/fn-798/feature.md"
++  ]
++}
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-report.json b/.garura/project/issues/1059/context/cleanup/lines-report.json
+new file mode 100644
+index 000000000..64f4439b1
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-report.json
+@@ -0,0 +1,72 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13 (\"adress fn-818 an fn-798 / the dupes, lets drop them / yes to finish the work\"): /shape-plan writes the plan, its one epic and one Feature issue per feature, no stories (ADR 068, ADR 069); /design-eval writes the plan's one eval; the slice's hidden file is /design-slice's.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++      "changes": [
++        {
++          "old": "# Feature: /shape-plan writes the plan, the epic and the stories",
++          "new": "# Feature: /shape-plan writes the plan, its one epic and one Feature issue per feature"
++        },
++        {
++          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).",
++          "new": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818)."
++        },
++        {
++          "old": "- Out: one epic for the slice and one story for each feature, in the tracker after the product owner's yes.",
++          "new": "- Out: the plan's one epic and one Feature issue for each feature, in the tracker after the product owner's yes."
++        },
++        {
++          "old": "- The eval. /shape-eval writes it (fn-798).",
++          "new": "- The eval. /design-eval writes it (fn-798)."
++        },
++        {
++          "old": "- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.",
++          "new": "- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), its one epic and one Feature issue for each feature of the slice exist."
++        }
++      ],
++      "lines_before": 60,
++      "lines_after": 60,
++      "lines_added": 0,
++      "lines_kept": 55
++    },
++    {
++      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
++      "changes": [
++        {
++          "old": "# Feature: /shape-eval writes the hidden eval",
++          "new": "# Feature: /design-eval writes the plan's eval"
++        },
++        {
++          "old": "/shape-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the eval for the business intent in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).",
++          "new": "/design-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798)."
++        },
++        {
++          "old": "- Out: one eval for the business intent in `.garura/project/plans/<plan-id>/evals/<slug>/`.",
++          "new": "- Out: the plan's one eval in `.garura/project/plans/<plan-id>/evals/<slug>/`."
++        },
++        {
++          "old": "- Given a plan with an epic and its stories, when the product owner runs /shape-eval, then the eval is in the plan's evals folder.",
++          "new": "- Given a plan with an epic and its stories, when the product owner runs /design-eval, then the eval is in the plan's evals folder."
++        },
++        {
++          "old": "- Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.",
++          "new": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens."
++        },
++        {
++          "old": "- Checked by: the product owner runs /shape-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder.",
++          "new": "- Checked by: the product owner runs /design-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder."
++        }
++      ],
++      "lines_before": 48,
++      "lines_after": 48,
++      "lines_added": 0,
++      "lines_kept": 42
++    }
++  ],
++  "changed": [
++    "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++    "software-delivery-planning/write-work-evals/fn-798/feature.md"
++  ]
++}
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-request-2.json b/.garura/project/issues/1059/context/cleanup/lines-request-2.json
+new file mode 100644
+index 000000000..c46b0fa18
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-request-2.json
+@@ -0,0 +1,140 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13 (\"adress fn-818 an fn-798\"), in full: one epic per plan and one Feature issue per feature, no stories filed (ADR 068, ADR 069); /design-eval writes the plan's one eval from the plan's epic, its Feature issues and each slice's hidden file; the slice's hidden file is /design-slice's; fn-798 is Completed.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++      "changes": [
++        {
++          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).",
++          "new": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818)."
++        },
++        {
++          "old": "- Out: on the epic, the feature-to-story map: for each feature of the slice, the story that delivers it (ontology v11, Epic). It agrees with the plan's Tree.",
++          "new": "- Out: on the epic, the feature-to-Feature-issue map: for each feature of the slice, the Feature issue that delivers it (ontology v11, Epic). It agrees with the plan's Tree."
++        },
++        {
++          "old": "- Thin: the fields of the plan file and of each story are not set yet.",
++          "new": "- Thin: the fields of the plan file and of each Feature issue are not set yet."
++        },
++        {
++          "old": "- Each story carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE.",
++          "new": "- Each Feature issue carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE."
++        },
++        {
++          "old": "- The story is not the build's whole brief. The builder reads the story and the context that its context sub-agent collects from the story's Context guidance.",
++          "new": "- The Feature issue is not the build's whole brief. The builder reads the Feature issue and the context that its context sub-agent collects from the Feature issue's Context guidance."
++        },
++        {
++          "old": "- A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898).",
++          "new": "- A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898)."
++        },
++        {
++          "old": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three stories exist.",
++          "new": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three Feature issues exist."
++        },
++        {
++          "old": "- Given the stories and the plan file, when a person reads them, then none holds a failure or recovery condition.",
++          "new": "- Given the Feature issues and the plan file, when a person reads them, then none holds a failure or recovery condition."
++        },
++        {
++          "old": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-story map: one line for each feature, with the story that delivers it.",
++          "new": "- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-Feature-issue map: one line for each feature, with the Feature issue that delivers it."
++        },
++        {
++          "old": "- A change to a plan that exists, a later slice's epic and stories included. /update-plan makes it (fn-730).",
++          "new": "- A change to a plan that exists, a later slice's Feature issues included. /update-plan makes it (fn-730)."
++        },
++        {
++          "old": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story.",
++          "new": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or Feature issue."
++        },
++        {
++          "old": "- Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.",
++          "new": "- Limit: Write only the plan file, the epic and the Feature issues. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval."
++        },
++        {
++          "old": "- Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.",
++          "new": "- Limit: Each Feature issue holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE."
++        },
++        {
++          "old": "- Limit: A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.",
++          "new": "- Limit: A Feature issue never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either."
++        },
++        {
++          "old": "- Fails if: a feature of the slice has no story.",
++          "new": "- Fails if: a feature of the slice has no Feature issue."
++        },
++        {
++          "old": "- Fails if: a story or the plan file holds a failure condition or a recovery condition.",
++          "new": "- Fails if: a Feature issue or the plan file holds a failure condition or a recovery condition."
++        },
++        {
++          "old": "- Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.",
++          "new": "- Fails if: a Feature issue, or its Context guidance, names the eval, the hidden file or the plan's evals folder."
++        },
++        {
++          "old": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818).",
++          "new": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the Feature issues and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818)."
++        },
++        {
++          "old": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.",
++          "new": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue."
++        }
++      ]
++    },
++    {
++      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
++      "changes": [
++        {
++          "old": "/design-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).",
++          "new": "/design-eval <intent> runs after /shape-plan, on its own. It reads the plan's epic, its Feature issues and each slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898)."
++        },
++        {
++          "old": "- In: the epic of the slice, with its feature-to-story map, and its stories. The map joins each hidden-file entry (by its feature) to its story (ontology v11, Q36).",
++          "new": "- In: the plan's epic, with its feature-to-Feature-issue map, and its Feature issues. The map joins each hidden-file entry (by its feature) to its Feature issue (ontology v11, Q36)."
++        },
++        {
++          "old": "- In: the slice's hidden file (failure-and-recovery.md) from the plan's evals folder.",
++          "new": "- In: each slice's hidden file (failure-and-recovery.md) from the plan's evals folder."
++        },
++        {
++          "old": "- It reads only the epic, its stories and the hidden file. It never reads an ICE page, the usage guide or the code.",
++          "new": "- It reads only the plan's epic, its Feature issues and each slice's hidden file. It never reads an ICE page, the usage guide or the code."
++        },
++        {
++          "old": "- The eval checks from the outside, on the slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project.",
++          "new": "- The plan's eval checks from the outside, on each slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project."
++        },
++        {
++          "old": "- Given a plan with an epic and its stories, when the product owner runs /design-eval, then the eval is in the plan's evals folder.",
++          "new": "- Given a plan with an epic and its Feature issues, when the product owner runs /design-eval, then the plan's one eval is in the plan's evals folder."
++        },
++        {
++          "old": "- Given the eval, when a person reads it, then each goal and expectation of the stories, and each failure condition of the hidden file, has a check or a note that it cannot be tested yet.",
++          "new": "- Given the plan's eval, when a person reads it, then each goal and expectation of the Feature issues, and each failure condition of each slice's hidden file, has a check or a note that it cannot be tested yet."
++        },
++        {
++          "old": "- The slice, the hidden file, the plan, the epic and the stories (fn-795, fn-818).",
++          "new": "- The slice, the hidden file, the plan, the epic and the Feature issues (fn-795, fn-818)."
++        },
++        {
++          "old": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.",
++          "new": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on each slice's surface, each goal and expectation of the Feature issues, and that no failure condition in a slice's hidden file happens."
++        },
++        {
++          "old": "- Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.",
++          "new": "- Limit: Read only the plan's epic, its Feature issues and each slice's hidden file; never an ICE page, the usage guide or the code."
++        },
++        {
++          "old": "- Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.",
++          "new": "- Fails if: a Feature issue's goal or expectation, or a failure condition in a slice's hidden file, has no check, and the eval does not say that it cannot test it yet."
++        },
++        {
++          "old": "- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).",
++          "new": "- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches each slice only through its usage guide (guides/<slug>.md)."
++        }
++      ]
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-request-3.json b/.garura/project/issues/1059/context/cleanup/lines-request-3.json
+new file mode 100644
+index 000000000..8ff3e0eed
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-request-3.json
+@@ -0,0 +1,35 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13: /shape-slice is now /design-slice; play name only.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++      "changes": [
++        {
++          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818).",
++          "new": "/shape-plan <intent> runs after /design-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818)."
++        },
++        {
++          "old": "> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.",
++          "new": "> To be deepened later: written by /design-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth."
++        },
++        {
++          "old": "- The play runs after /shape-slice, on its own, and needs the slice to exist.",
++          "new": "- The play runs after /design-slice, on its own, and needs the slice to exist."
++        },
++        {
++          "old": "- The play never writes a failure or recovery condition. The slice's hidden file belongs to /shape-slice (decision 6).",
++          "new": "- The play never writes a failure or recovery condition. The slice's hidden file belongs to /design-slice (decision 6)."
++        },
++        {
++          "old": "- The slice and its hidden file. /shape-slice writes them (fn-795).",
++          "new": "- The slice and its hidden file. /design-slice writes them (fn-795)."
++        },
++        {
++          "old": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /shape-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue.",
++          "new": "- Checked by: the product owner runs /shape-plan on a business intent in Claude Code after /design-slice and finds the plan file, one epic and one Feature issue for each feature, with no failure line in any Feature issue."
++        }
++      ]
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-request-4.json b/.garura/project/issues/1059/context/cleanup/lines-request-4.json
+new file mode 100644
+index 000000000..1b25bb95f
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-request-4.json
+@@ -0,0 +1,15 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13: the current play names are /design-slice, /specify-domains and /specify-capabilities; play names only.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
++      "changes": [
++        {
++          "old": "> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.",
++          "new": "> To be deepened later: written by /design-slice at the directional depth. /specify-domains or /specify-capabilities raises it to the detailed depth."
++        }
++      ]
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/cleanup/lines-request.json b/.garura/project/issues/1059/context/cleanup/lines-request.json
+new file mode 100644
+index 000000000..f0cc1d58a
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/lines-request.json
+@@ -0,0 +1,60 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "source": "The product owner's words, 2026-11-13 (\"adress fn-818 an fn-798 / the dupes, lets drop them / yes to finish the work\"): /shape-plan writes the plan, its one epic and one Feature issue per feature, no stories (ADR 068, ADR 069); /design-eval writes the plan's one eval; the slice's hidden file is /design-slice's.",
++  "pages": [
++    {
++      "page": "software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
++      "changes": [
++        {
++          "old": "# Feature: /shape-plan writes the plan, the epic and the stories",
++          "new": "# Feature: /shape-plan writes the plan, its one epic and one Feature issue per feature"
++        },
++        {
++          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818).",
++          "new": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818)."
++        },
++        {
++          "old": "- Out: one epic for the slice and one story for each feature, in the tracker after the product owner's yes.",
++          "new": "- Out: the plan's one epic and one Feature issue for each feature, in the tracker after the product owner's yes."
++        },
++        {
++          "old": "- The eval. /shape-eval writes it (fn-798).",
++          "new": "- The eval. /design-eval writes it (fn-798)."
++        },
++        {
++          "old": "- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.",
++          "new": "- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), its one epic and one Feature issue for each feature of the slice exist."
++        }
++      ]
++    },
++    {
++      "page": "software-delivery-planning/write-work-evals/fn-798/feature.md",
++      "changes": [
++        {
++          "old": "# Feature: /shape-eval writes the hidden eval",
++          "new": "# Feature: /design-eval writes the plan's eval"
++        },
++        {
++          "old": "/shape-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the eval for the business intent in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798).",
++          "new": "/design-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798)."
++        },
++        {
++          "old": "- Out: one eval for the business intent in `.garura/project/plans/<plan-id>/evals/<slug>/`.",
++          "new": "- Out: the plan's one eval in `.garura/project/plans/<plan-id>/evals/<slug>/`."
++        },
++        {
++          "old": "- Given a plan with an epic and its stories, when the product owner runs /shape-eval, then the eval is in the plan's evals folder.",
++          "new": "- Given a plan with an epic and its stories, when the product owner runs /design-eval, then the eval is in the plan's evals folder."
++        },
++        {
++          "old": "- Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.",
++          "new": "- Goal: After /design-eval <intent>, the plan's evals folder holds the plan's one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens."
++        },
++        {
++          "old": "- Checked by: the product owner runs /shape-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder.",
++          "new": "- Checked by: the product owner runs /design-eval on a business intent in Claude Code after /shape-plan and finds the eval in its plan's evals folder."
++        }
++      ]
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/cleanup/link-report.json b/.garura/project/issues/1059/context/cleanup/link-report.json
+new file mode 100644
+index 000000000..fd2995fc6
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/link-report.json
+@@ -0,0 +1,36 @@
++{
++  "written": [],
++  "updated": [
++    "fn-597",
++    "fn-724",
++    "fn-736",
++    "fn-737",
++    "fn-738",
++    "fn-740",
++    "fn-741",
++    "fn-743",
++    "fn-744",
++    "fn-745",
++    "fn-746",
++    "fn-748",
++    "fn-795",
++    "fn-818",
++    "fn-798",
++    "fn-731",
++    "fn-673",
++    "fn-729",
++    "fn-628",
++    "fn-806",
++    "fn-730",
++    "fn-727",
++    "fn-728",
++    "fn-931"
++  ],
++  "thin": [],
++  "unthin": [],
++  "moved": [],
++  "changed": [
++    "product-os/_spine.yaml"
++  ],
++  "layout_kept": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/cleanup/link-request.json b/.garura/project/issues/1059/context/cleanup/link-request.json
+new file mode 100644
+index 000000000..3a533c8fd
+--- /dev/null
++++ b/.garura/project/issues/1059/context/cleanup/link-request.json
+@@ -0,0 +1,151 @@
++{
++  "by": "product-os-keeper (model clean-up)",
++  "parts": [
++    {
++      "id": "fn-597",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-724",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-736",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-737",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-738",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-740",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-741",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-743",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-744",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-745",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-746",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-748",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-795",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-818",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed",
++      "one_line": "/shape-plan writes the plan, its one epic and one Feature issue per feature"
++    },
++    {
++      "id": "fn-798",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed",
++      "one_line": "/design-eval writes the plan's eval"
++    },
++    {
++      "id": "fn-731",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-673",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-729",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-628",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-806",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-730",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Completed"
++    },
++    {
++      "id": "fn-727",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Dropped"
++    },
++    {
++      "id": "fn-728",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Dropped"
++    },
++    {
++      "id": "fn-931",
++      "kind": "feature",
++      "mode": "update",
++      "status": "Dropped"
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/commits.yaml b/.garura/project/issues/1059/context/commits.yaml
+new file mode 100644
+index 000000000..812fa3bdf
+--- /dev/null
++++ b/.garura/project/issues/1059/context/commits.yaml
+@@ -0,0 +1,20 @@
++commits:
++  - sha: 58559a49
++    message: "chore(stm): record model cleanup run records (#1059)"
++    files:
++      - .garura/project/issues/1059/context/analysis.yaml
++      - .garura/project/issues/1059/context/cleanup/lines-report-2.json
++      - .garura/project/issues/1059/context/cleanup/lines-report-3.json
++      - .garura/project/issues/1059/context/cleanup/lines-report.json
++      - .garura/project/issues/1059/context/cleanup/lines-request-2.json
++      - .garura/project/issues/1059/context/cleanup/lines-request-3.json
++      - .garura/project/issues/1059/context/cleanup/lines-request.json
++      - .garura/project/issues/1059/context/cleanup/link-report.json
++      - .garura/project/issues/1059/context/cleanup/link-request.json
++    branch: feature/1059-model-cleanup-feature-state
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1059/context/issue.json b/.garura/project/issues/1059/context/issue.json
+new file mode 100644
+index 000000000..328885d0d
+--- /dev/null
++++ b/.garura/project/issues/1059/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 1059,
++  "title": "[TASK] Model clean-up: mark the features built before ADR 068 Completed and drop the duplicates",
++  "created": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/plan.json b/.garura/project/issues/1059/context/plan.json
+new file mode 100644
+index 000000000..9a526b261
+--- /dev/null
++++ b/.garura/project/issues/1059/context/plan.json
+@@ -0,0 +1,12 @@
++{
++  "issue": "1059",
++  "plan_id": null,
++  "plan_branch": null,
++  "issue_branch": "feature/1059-model-cleanup-feature-state",
++  "closed_plan": null,
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": []
++  }
++}
+diff --git a/.garura/project/issues/1059/context/pr-body.md b/.garura/project/issues/1059/context/pr-body.md
+new file mode 100644
+index 000000000..40bb220fc
+--- /dev/null
++++ b/.garura/project/issues/1059/context/pr-body.md
+@@ -0,0 +1,37 @@
++The one-time clean-up of Garura's own product model that ADR 070 calls for, on the product owner's confirmed list (2026-11-13):
++- 21 features built before ADR 068 (each with a Story closed as completed) are now Completed.
++- The duplicate features fn-727, fn-728 and fn-931 are Dropped.
++- fn-818 and fn-798 are reworded to how the plays work now: one epic per plan, one Feature issue per feature, /design-slice and /design-eval.
++The other 215 features stay Unplanned. Nothing else in the model changes. Taking issue numbers and decision records out of the model follows in its own change.
++
++Closes #1059
++
++# Self-review, issue 1059
++
++Scope: `git diff main...HEAD` (4 commits). Rules: the self-review rule, found through the memory tool (Phoenix memory, `standards/rules/self-review.md`).
++
++## Verdict
++
++Ready to raise. No blocking findings. 2 small notes.
++
++## Scope check
++
++The change does what it says and nothing more.
++
++- 21 features set to Completed, 3 duplicates (fn-727, fn-728, fn-931) set to Dropped. The model before: 239 features, all Unplanned. The model after: 239 features, 21 Completed, 3 Dropped, 215 Unplanned. Count: 21 + 3 + 215 = 239. Matches the stated counts.
++- No feature was added or removed (same 239 ids on both sides). Only the features list of the model index changed; no other top-level section changed.
++- In the 24 changed entries, only status and the "updated by" line changed. The one-line text changed for exactly 2 entries: fn-818 and fn-798. Both are the approved rewordings (one epic per plan, one Feature issue per feature, /design-slice, /design-eval).
++- The two feature pages (fn-818, fn-798) carry the same rewording: story becomes Feature issue, /shape-slice becomes /design-slice, /shape-eval becomes /design-eval, one eval for the whole plan.
++- The other 13 files are run records for issue 1059 under its own working folder. No other product, code or plan file changed.
++
++## Quality check
++
++- No "close", "fix" or "resolve" word sits before an issue number in any added line.
++- No absolute path, home folder, personal name or company name in any added line.
++- No attribution line in any commit message or added line.
++- Words are plain; commit messages are in the conventional form and name the issue.
++
++## Notes (not blocking)
++
++1. Both reworded feature pages still say "written by /shape-slice at the directional depth" in their "To be deepened later" line. The old play name is left in one line each. Not part of the approved wording, so left as is.
++2. The working record `resolved-rules.json` (not yet committed) holds a home-folder path (`~/.phoenix/...`). If it is committed, that breaks the no-home-folder rule. Keep it out of the commit or store only the memory-relative path.
+diff --git a/.garura/project/issues/1059/context/pr.json b/.garura/project/issues/1059/context/pr.json
+new file mode 100644
+index 000000000..a05b9b12a
+--- /dev/null
++++ b/.garura/project/issues/1059/context/pr.json
+@@ -0,0 +1,8 @@
++{
++  "number": 1060,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1060",
++  "state": "OPEN",
++  "base": "main",
++  "from_host": true,
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1059/context/resolved-rules.json b/.garura/project/issues/1059/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1059/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1059/context/self-review.md b/.garura/project/issues/1059/context/self-review.md
+new file mode 100644
+index 000000000..121824bed
+--- /dev/null
++++ b/.garura/project/issues/1059/context/self-review.md
+@@ -0,0 +1,29 @@
++# Self-review, issue 1059
++
++Scope: `git diff main...HEAD` (4 commits). Rules: the self-review rule, found through the memory tool (Phoenix memory, `standards/rules/self-review.md`).
++
++## Verdict
++
++Ready to raise. No blocking findings. 2 small notes.
++
++## Scope check
++
++The change does what it says and nothing more.
++
++- 21 features set to Completed, 3 duplicates (fn-727, fn-728, fn-931) set to Dropped. The model before: 239 features, all Unplanned. The model after: 239 features, 21 Completed, 3 Dropped, 215 Unplanned. Count: 21 + 3 + 215 = 239. Matches the stated counts.
++- No feature was added or removed (same 239 ids on both sides). Only the features list of the model index changed; no other top-level section changed.
++- In the 24 changed entries, only status and the "updated by" line changed. The one-line text changed for exactly 2 entries: fn-818 and fn-798. Both are the approved rewordings (one epic per plan, one Feature issue per feature, /design-slice, /design-eval).
++- The two feature pages (fn-818, fn-798) carry the same rewording: story becomes Feature issue, /shape-slice becomes /design-slice, /shape-eval becomes /design-eval, one eval for the whole plan.
++- The other 13 files are run records for issue 1059 under its own working folder. No other product, code or plan file changed.
++
++## Quality check
++
++- No "close", "fix" or "resolve" word sits before an issue number in any added line.
++- No absolute path, home folder, personal name or company name in any added line.
++- No attribution line in any commit message or added line.
++- Words are plain; commit messages are in the conventional form and name the issue.
++
++## Notes (not blocking)
++
++1. Both reworded feature pages still say "written by /shape-slice at the directional depth" in their "To be deepened later" line. The old play name is left in one line each. Not part of the approved wording, so left as is.
++2. The working record `resolved-rules.json` (not yet committed) holds a home-folder path (`~/.phoenix/...`). If it is committed, that breaks the no-home-folder rule. Keep it out of the commit or store only the memory-relative path.
+diff --git a/.garura/project/issues/1059/context/target.json b/.garura/project/issues/1059/context/target.json
+new file mode 100644
+index 000000000..28dce27b7
+--- /dev/null
++++ b/.garura/project/issues/1059/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "feature/1059-model-cleanup-feature-state",
++  "kind": "one-off",
++  "plan_id": null,
++  "issue": "1059",
++  "base": "main"
++}
+diff --git a/.garura/project/issues/1059/context/work-description.txt b/.garura/project/issues/1059/context/work-description.txt
+new file mode 100644
+index 000000000..eeccd372a
+--- /dev/null
++++ b/.garura/project/issues/1059/context/work-description.txt
+@@ -0,0 +1,7 @@
++[TASK] Model clean-up: mark the features built before ADR 068 Completed and drop the duplicate features (ADR 070)
++
++What: the one-time clean-up of Garura's own product model that ADR 070 calls for, after the product owner confirmed the list on 2026-11-13.
++- Mark Completed the 21 features built before ADR 068, each with a Story closed as completed: fn-597, fn-724, fn-736, fn-737, fn-738, fn-740, fn-741, fn-743, fn-744, fn-745, fn-746, fn-748, fn-795, fn-818, fn-798, fn-731, fn-673, fn-729, fn-628, fn-806, fn-730.
++- Set the duplicate features fn-727, fn-728 and fn-931 to Dropped.
++- Fix the wording of fn-818 ("/shape-plan writes the plan, its one epic and one Feature issue per feature") and fn-798 ("/design-eval writes the plan's eval").
++All writes go through product-os-keeper and link-model-part (and the page skill for wording). Later steps of the clean-up (taking issue numbers and decision records out of the model) follow in their own changes.
