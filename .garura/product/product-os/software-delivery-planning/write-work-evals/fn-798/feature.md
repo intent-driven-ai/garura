@@ -3,7 +3,7 @@
 ## What it does
 /design-eval <intent> runs after /shape-plan, on its own. It reads the plan's epic, its Feature issues and each slice's hidden file, and writes the plan's one eval in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). The slice's hidden file is /design-slice's. No build is given that folder: the build is given the business intent, never the eval (fn-898).
 
-> To be deepened later: written by /shape-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
+> To be deepened later: written by /design-slice at the directional depth. /specify-domains or /specify-capabilities raises it to the detailed depth.
 
 ## Inputs / Outputs
 - In: the plan's epic, with its feature-to-Feature-issue map, and its Feature issues. The map joins each hidden-file entry (by its feature) to its Feature issue (ontology v11, Q36).
