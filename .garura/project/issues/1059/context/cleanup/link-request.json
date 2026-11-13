@@ -1,0 +1,151 @@
+{
+  "by": "product-os-keeper (model clean-up)",
+  "parts": [
+    {
+      "id": "fn-597",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-724",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-736",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-737",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-738",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-740",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-741",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-743",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-744",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-745",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-746",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-748",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-795",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-818",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed",
+      "one_line": "/shape-plan writes the plan, its one epic and one Feature issue per feature"
+    },
+    {
+      "id": "fn-798",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed",
+      "one_line": "/design-eval writes the plan's eval"
+    },
+    {
+      "id": "fn-731",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-673",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-729",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-628",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-806",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-730",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Completed"
+    },
+    {
+      "id": "fn-727",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Dropped"
+    },
+    {
+      "id": "fn-728",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Dropped"
+    },
+    {
+      "id": "fn-931",
+      "kind": "feature",
+      "mode": "update",
+      "status": "Dropped"
+    }
+  ]
+}
