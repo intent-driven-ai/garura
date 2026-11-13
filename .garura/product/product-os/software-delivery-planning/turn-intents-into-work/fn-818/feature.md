@@ -3,7 +3,7 @@
 ## What it does
 /shape-plan <intent> runs after /design-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, its one epic, and one Feature issue for each feature. It does not file stories (ADR 068, ADR 069). It never writes a failure or recovery condition: the slice's hidden file is /design-slice's (decision 6 of #844). Built (#818).
 
-> To be deepened later: written by /design-slice at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
+> To be deepened later: written by /design-slice at the directional depth. /specify-domains or /specify-capabilities raises it to the detailed depth.
 
 ## Inputs / Outputs
 - In: the slice that serves the intent, from the spine.
@@ -43,7 +43,7 @@
 - GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
 - ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 
-Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/specify-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), its one epic and one Feature issue for each feature of the slice exist.

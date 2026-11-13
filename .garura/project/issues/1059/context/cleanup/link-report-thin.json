@@ -1,0 +1,19 @@
+{
+  "written": [],
+  "updated": [
+    "fn-818",
+    "fn-798"
+  ],
+  "thin": [
+    "fn-818",
+    "fn-798"
+  ],
+  "unthin": [],
+  "moved": [],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/turn-intents-into-work/fn-818/feature.md",
+    "product-os/software-delivery-planning/write-work-evals/fn-798/feature.md"
+  ],
+  "layout_kept": true
+}
