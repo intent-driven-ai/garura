@@ -1,0 +1,3 @@
+[TASK] Model clean-up part 2: take issue numbers, tracker lines and decision records out of the product model
+
+Note: step 2, the clean-up itself
