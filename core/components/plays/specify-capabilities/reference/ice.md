@@ -56,8 +56,10 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   them in one round of questions — asks the person what the capability is, why it matters,
   and which existing domain it belongs to, records the answers verbatim
   (`<working>/caps/<capability>/seed.yaml`, `answered_by: human`), and seeds it thinly: a
-  spine entry at `status: proposed`, `detail: directional`, under that domain, whose first
-  `capability.md` this run writes straight at the detailed stage. The seed carries only the
+  spine entry at `detail: directional`, under that domain, with no status (only a feature
+  has a state, ontology v18, ADR 070), whose first `capability.md` this run writes straight
+  at the detailed stage; each new feature the run creates gets the state `status: Unplanned`.
+  The seed carries only the
   person's answers, nothing invented; the keyed persist refuses a seed not marked
   `answered_by: human` — or `answered_by: screens` naming the screens it was read from. Run by hand, with no answer or a domain that is not in the spine, it
   halts — before any issue or branch exists — and says plainly what it needs; inside a loop
@@ -251,9 +253,9 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   dimension or the from→to it represents.
 - F9 — Allowlist breach: a capability, feature, or domain other than the targets (and
   their new features) was changed during the run.
-- F10 — Over-reach into prioritization: a slice or an epic was written, or a target
-  capability's status was flipped to active — slices are /design-slice's job, and no play
-  sets a capability active now.
+- F10 — Over-reach into prioritization: a slice or an epic was written, a status was set on
+  a target capability, or a new feature was given a state other than Unplanned — slices are
+  /design-slice's job, and this play never confirms a part or starts work on it by itself.
 - F11 — The run closed COMPLETED without the Done means held (no persist record, the
   profile roll-up not stamped as written, the scoped-write guard report not captured or not
   ok, or the model delta not committed).
@@ -426,9 +428,10 @@ record.
 - REC9 (F9) — trigger: a capability, feature, or domain other than the targets was
   changed. direction: restore the other artifact and re-run writing only the target
   capabilities and their features, after a human confirms the restore. handoff: human.
-- REC10 (F10) — trigger: a slice, an epic, or a capability status flip was written.
-  direction: strip the prioritization over-reach — remove the slice/epic, reset the status —
-  leaving only /specify-capabilities's detailing scope. handoff: autonomous.
+- REC10 (F10) — trigger: a slice, an epic, a capability status, or a new feature state
+  other than Unplanned was written. direction: strip the prioritization over-reach — remove
+  the slice/epic, take the status off the capability, set the feature's state back to
+  Unplanned — leaving only /specify-capabilities's detailing scope. handoff: autonomous.
 - REC11 (F11) — trigger: the run is about to close COMPLETED with the Done means unmet.
   direction: close HALTED with `exit_reason: stop_condition_unmet` and the unmet clauses
   named; fix the state — re-run the keyed persist, re-capture the scoped-write guard report,

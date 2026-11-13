@@ -118,9 +118,31 @@ def test_absent_with_seed():
         cap = spine(root)["capabilities"][0]
         check("the seed joins the named domain", cap["domain"] == "commerce")
         check("the seed is then detailed in the same run", cap["detail"] == "detailed")
-        check("the seed keeps status proposed", cap["status"] == "proposed")
+        check("the seed has no status (only a feature has a state)", "status" not in cap)
+        check("a new feature is Unplanned", spine(root)["features"][0]["status"] == "Unplanned")
         check("the record says seeded",
               read_json(os.path.join(work, "persist.json"))["seeded"] == ["checkout"])
+
+
+def test_new_feature_state():
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp, [{"id": "checkout", "domain": "commerce",
+                                        "detail": "directional", "doc": "commerce/checkout/capability.md"}])
+        with open(os.path.join(work, "enrich.yaml"), "w") as fh:
+            yaml.safe_dump({"enrich": {"capability_ref": "checkout", "capability": {},
+                                       "features": [{"id": "pay", "capability": "checkout",
+                                                     "intents": ["bi-1"], "status": "proposed",
+                                                     "doc": "commerce/checkout/pay/feature.md"},
+                                                    {"id": "refund", "capability": "checkout",
+                                                     "intents": ["bi-1"],
+                                                     "doc": "commerce/checkout/refund/feature.md"}]}}, fh)
+        check("features from a manifest are written", run(base, work) == 0)
+        feats = {f["id"]: f for f in spine(root)["features"]}
+        check("a manifest's old status becomes Unplanned", feats["pay"]["status"] == "Unplanned")
+        check("a feature with no status gets Unplanned, after its intents",
+              list(feats["refund"])[list(feats["refund"]).index("intents") + 1] == "status"
+              and feats["refund"]["status"] == "Unplanned")
+        check("the capability gets no status", "status" not in spine(root)["capabilities"][0])
 
 
 def test_seed_refusals():
@@ -476,7 +498,7 @@ def main():
     for test in (test_existing_seed, test_seed_from_the_screens, test_absent_without_seed, test_absent_with_seed,
                  test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
                  test_sibling_containment,
-                 test_already_detailed, test_box_move_status, test_many_targets,
+                 test_already_detailed, test_box_move_status, test_new_feature_state, test_many_targets,
                  test_many_targets_refusals, test_profile_never_lowered, test_feature_ids,
                  test_record_carries_decision_status, test_slug):
         print(test.__name__)

@@ -23,7 +23,9 @@ node:
   parent: string          # parent node id; null only for a domain
   depends_on: [string]    # ids of OTHER nodes this node needs (cross-tree
                           # dependency lives in STRUCTURE, not in ICE)
-  status: string          # one of: proposed | active | deprecated
+  status: string          # a feature only: Unplanned | Planned | In progress | Completed |
+                          # Dropped — its state (ontology v18, ADR 070); a domain or a
+                          # capability has no status
   ice_ref: string         # id of this node's ICE record (null until seeded)
   decision_refs: [string] # ids of decisions (ADRs) affecting this node
   journey_refs: [string]  # ids of journeys linked to this node

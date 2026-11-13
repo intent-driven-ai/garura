@@ -1,0 +1,26 @@
+{
+  "commits": [
+    {
+      "sha": "d08e03a7",
+      "message": "fix(ready-check): read each part's ICE by its own shape in the ready check and plan helpers (#1025)"
+    },
+    {
+      "sha": "f744c4e4",
+      "message": "feat(shape-plan): use the open story a feature's model entry names instead of filing a second story (#1025)"
+    },
+    {
+      "sha": "4256b3b7",
+      "message": "chore(stm): record the close templates loaded for start-work (#1025)"
+    }
+  ],
+  "groups_skipped_clean": [
+    "adapter-replace-parent"
+  ],
+  "run_state_commit": "30322c1b",
+  "branch": "feature/1025-shape-plan-reuses-open-story",
+  "leftover_uncovered": [],
+  "leftover_count": 0,
+  "tree_clean": true,
+  "out": ".garura/project/issues/1025/context/commit-work/commits.yaml",
+  "pushed": false
+}

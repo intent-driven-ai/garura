@@ -1,0 +1,26 @@
+ M core/components/plays/build-play/references/check_ice_workable.py
+ M core/components/plays/build-play/references/plan_common.py
+ M core/components/plays/build-play/references/platform_adapter.py
+ M core/components/plays/build-play/references/test_check_ice_workable.py
+ M core/components/plays/design-eval/scripts/platform_adapter.py
+ M core/components/plays/design-slice/scripts/platform_adapter.py
+ M core/components/plays/merge-work/scripts/platform_adapter.py
+ M core/components/plays/reshape-plan/scripts/check_ice_workable.py
+ M core/components/plays/reshape-plan/scripts/plan_common.py
+ M core/components/plays/review-work/scripts/platform_adapter.py
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-plan/reference/ice.md
+ M core/components/plays/shape-plan/scripts/check_ice_workable.py
+ M core/components/plays/shape-plan/scripts/find_work_items.py
+ M core/components/plays/shape-plan/scripts/gather_plan.py
+ M core/components/plays/shape-plan/scripts/plan_common.py
+ M core/components/plays/shape-plan/scripts/platform_adapter.py
+ M core/components/plays/shape-plan/scripts/render_brief.py
+ M core/components/plays/shape-plan/scripts/test_find_work_items.py
+ M core/components/plays/shape-plan/scripts/test_gather_plan.py
+ M core/components/plays/shape-plan/scripts/test_support.py
+ M core/components/plays/specify-intent/scripts/check_ice_workable.py
+ M core/components/plays/validate-work/scripts/platform_adapter.py
+ M core/components/skills/track-plan-changes/scripts/platform_adapter.py
+?? .garura/project/issues/1025/context/commit-work/
+?? .garura/project/issues/1025/context/templates/

@@ -1,0 +1,8 @@
+{
+  "resolved": true,
+  "rule": "standards/rules/self-review.md",
+  "tier": "phoenix",
+  "version": "e1cd70d61775",
+  "found_by": "memory tool, find, issue 1025",
+  "is_override": false
+}

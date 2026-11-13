@@ -14,10 +14,10 @@
 # Paths are inside the test project. Answers in `and answer` are given in order, split by " | ".
 #
 # The keys: `schema` (name and version of this format), `kind` (the surface kind, named in a
-# slice file's "Surface kind:" line), `matches` (words of a hidden file's Surface line that
+# slice section's "Surface kind:" line of the plan's eval file), `matches` (words of a hidden file's Surface line that
 # select this library), `steps` (each with `id`, `keyword` Given | When | Then, `text` the
 # sentence with its placeholders, and `does` what a runner does for it). The rules of an eval
-# that uses it: standards/rules/eval-format.md (ADR 057).
+# that uses it: standards/rules/eval-format.md (ADR 069).
 schema: { name: eval-step-library, version: 1 }
 kind: command-line
 matches: ["command line", "command-line", "terminal", "cli"]

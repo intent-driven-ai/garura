@@ -1,0 +1,116 @@
+# Layer 2 design-grounding, category: harness (PR #1047, issues 1025 / 1034 / 1035, base main = origin/main 2c91700)
+# Every basis is a committed source on the base ref (origin/main). Nothing is grounded in the branch's own prose.
+# Severity: pr.md has no Layer-2 row; buckets follow its definitions (P1 blocker, P2 major, P3 minor, P4 nit).
+category: harness
+layer: 2
+pr: 1047
+base: main
+grounding_sources:
+  - {id: G1, source: "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md", lines: "66-72, 84-90", principle: "Each state has one named setter: /shape-plan sets Planned when it makes the plan; Completed is set by /reshape-plan finish, by merge-work, or by /reshape-plan when it catches a Feature issue closed by hand; the state is written on the work's branch; plays read 'built' from the model."}
+  - {id: G2, source: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md", lines: "97 (Decision 2); 117-119 (Decision 4); 155 (Decision 9.4)", principle: "No spine entry holds an issue number; the spine's created_by and updated_by name the play or agent and what it did, never an issue. /design-eval reads the plan's epic, its Feature issues and the hidden files, never the usage guide or the code."}
+  - {id: G3, source: "core/components/memory/standards/schemas/product-os/ontology.md (v18, on main)", lines: "23, 235-237 (Q69), 470, 493, 500, 722", principle: "The model names no plan id or tracker issue number in a spine entry or its metadata (line 23). A plan takes in a Dropped feature that comes back by opening its closed Feature issue again, on the person's yes (Q69). Feature States: Completed is set when its Feature issue closes as completed (line 500). A feature dropped after it joined a plan stays listed as Dropped and the plan's eval does not test it (line 493)."}
+  - {id: G4, source: "docs/standards/harness-standard.md (origin/main)", lines: "50-58 (principle 4); 107-116 (principle 10); 118-140 (principle 11)", principle: "A part is built from its ICE and a change to what it guarantees is made in the ICE and recompiled (4); one name, one meaning (10); installed parts carry no note of origin and point only to installed files (11)."}
+  - {id: G5, source: "CLAUDE.md (origin/main), Play Pipeline Rules", lines: "110-123", principle: "An intent change goes through reference/ice.md and /fix-play; a non-intent change is a direct edit; a hand edit to a generated file is clobbered by the next rebuild unless the compiler reproduces it."}
+  - {id: G6, source: "core/components/memory/standards/rules/direct-model-write.md (origin/main; Phoenix copy via memory tool, grounding-harness/)", lines: "53-60 (outside a play), 71-77 (guard once), 156-164 (declared exception /reshape-plan)", principle: "A shared model file is written only by a keyed script; link-model-part's script, run by product-os-keeper, is the outside-a-play writer; a declared exception writes the model after the person's yes, runs the shared scoped-write guard once and commits on the work's branch."}
+  - {id: G7, source: "core/components/plays/specify-capabilities/reference/ice.md (origin/main)", lines: "59", principle: "C1: a seeded capability's spine entry is written at `status: proposed`, `detail: directional`."}
+  - {id: G8, source: "docs/adr/068-each-product-feature-has-one-feature-issue-that-names-it.md", lines: "91-93, 99-101", principle: "A play finds a feature's issue by the plan file's mark or the exact Represents line, never makes a second issue for one feature; ADR 070 amends 'built' to the model state."}
+conformance_passes:
+  - check: "shape-plan SKILL.md traces to reference/ice.md (G4, G5)"
+    result: pass
+    detail: "SKILL.md fingerprint row (line 724) is sha256:fa45d068...5b0a and equals the sha256 of the branch's reference/ice.md; the base value (feff7656...) differs, so it was refreshed by a recompile. compiled_by reads fix-play (#1025); fix-play (#1025, ADR 070). The ICE constraints C16-C18, failures F16-F18, scenarios S16-S19 and D6 each appear in SKILL.md (Compiled From, Forbidden, Step 8, Step 9, recovery table). stop-condition.yaml adds D6 as the ICE does. lint_play.py: VERDICT PASS, 0 gaps."
+  - check: "design-eval SKILL.md traces to reference/ice.md (G4, G5)"
+    result: pass
+    detail: "SKILL.md fingerprint row (line 562) is sha256:5a2aeb34...7472 and equals the sha256 of the branch's reference/ice.md (base value be4076f1... differs). compiled_by lists fix-play (#1025: one eval for each plan, ADR 069) and fix-play (#1025: Dropped item left out, ontology v18). stop-condition.yaml wording follows the ICE. lint_play.py: VERDICT PASS, 0 gaps. The plan-level read set (plan file, epic, Feature issues, hidden files) matches ADR 069 Decision 4 and 9.4 (G2)."
+  - check: "design-eval never reads the product model (G2, ADR 069 Decision 2)"
+    result: pass
+    detail: "ICE C1 and F1 forbid reading an ICE page, the usage guide, the code or the product model; the SKILL.md Forbidden list and its input check (check_inputs.py FORBIDDEN = product-os, /guides/, plans folder) enforce it; gather_eval.py reads no spine. The Dropped-feature rule reads the plan file's tree, which ontology line 493 and line 722 (G3) ground. No finding."
+  - check: "design-slice SKILL.md edit is non-intent (G5)"
+    result: pass-with-note
+    detail: "The one edit (lines 504-506) re-describes what persist_fills.py writes on a new entry: no old status, `status: Unplanned` on a new feature, none on a domain or capability. design-slice's committed reference/ice.md never names a spine status (no `status: proposed` in it), so no ICE line is contradicted and its fingerprint (sha256:cdb0d821...) is still true. See H4 for the durability note."
+  - check: "shape-plan's new model write follows direct-model-write and ADR 070 (G1, G6)"
+    result: pass
+    detail: "One field only (a feature's `status`, Unplanned to Planned); set by shape-plan as ADR 070 Decision 4 names; written after the yes, after the tracker writes and the plan file; through product-os-keeper handing link-model-part (mode update) the play's planned-request.json, with no spine line written by the play; scoped-write guard allows only _spine.yaml (--modify-only) and plans/<id>.yaml and runs once after the write; check_states.py reads the spine against its start; model delta committed on the work's branch as feat(model) (ADR 070 Decision 7). Same declared-exception shape as /reshape-plan (direct-model-write.md 156-164). The pre-flight clean-tree assert and the feat(model) commit the linter's L-DMW-4 wants are present, so no linter exception is needed. A Planned or In progress feature keeps its state, as the ontology States line (500) says. The ontology and ADR 070 do not forbid the exception, and ADR 070's Affects names shape-plan. The one defect in the write is H1."
+  - check: "installed paths only (G4 principle 11)"
+    result: pass
+    detail: "None of the changed harness files (plays SKILL.md and ICE, stop-conditions, five skills, platform-adapter references, two agents) added a pointer to core/components/, core/tools/ or Garura's docs/. lint-components on the changed harness files reports no violation (the 37 listed are in files this PR does not change). One note of origin is H6."
+  - check: "skills and agents stay on the right side of the wiring (G4 principles 2 and 3, G6)"
+    result: pass
+    detail: "product-os-keeper gathers and hands over files; link-model-part writes (and refuses on bad kind or value); author-work-items drafts no Story and holds no failure condition; evals-engineer writes no scenario; platform-adapter only gains the optional replace_parent flag, in its verb reference. Mechanical work (checks, request, guard) sits in scripts."
+  - check: "design-slice and specify-capabilities spine writers follow ADR 070 Decision 2 and 4 (G1)"
+    result: pass
+    detail: "enrich-capability-ice and author-domains drop `status: proposed`; a new feature entry reads Unplanned; domains and capabilities get none. No other harness .md under core/components still writes `status: proposed` except specify-capabilities' own ICE (see H2)."
+findings:
+  - id: H1
+    severity: P2
+    category: harness
+    layer: 2
+    file: core/components/plays/shape-plan/reference/ice.md
+    also_files: [core/components/plays/shape-plan/SKILL.md, core/components/plays/shape-plan/scripts/planned_request.py, core/components/plays/shape-plan/scripts/check_states.py]
+    principle: "The product model holds no tracker issue number or plan id, not even in a spine entry's metadata: the spine's created_by and updated_by name the play and what it did, never an issue."
+    basis: "docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md line 97 (Decision 2: 'No spine entry holds an issue number. The spine's `created_by` and `updated_by` name the play or the agent and what it did, never an issue.'); ontology.md (v18, origin/main) line 23 ('no plan id ... tracker issue number ... in a spine entry or the spine's metadata')."
+    detail: "C18 (ice.md lines 86-89) and S18 (line 236) set `by: shape-plan (#<plan id>)`. The plan id is the business intent's issue number. link_part.py copies `by` verbatim into metadata.updated_by on each updated entry (lines 216 and 534), and check_states.py line 43 requires updated_by == by, so every run writes `updated_by: shape-plan (#340)`-style text into the live spine, for each feature it sets Planned, and the state check makes that mandatory. SKILL.md lines 454 and 469 carry the same value. This is exactly what ADR 069 and ontology line 23 rule out; the new direct-model-write exception even says the state 'names no plan, no issue'. The state value is clean; its stamp is not."
+    suggested_fix: "Make the request's `by` carry no number (for example `shape-plan (set Planned)`), keep the plan id only in the work side (the feat(model) commit message and the brief), update C18, S18 and the `by` check in check_states.py to match, and recompile through /fix-play (an intent change, because C18 and S18 state the value)."
+    blocks_merge: false
+  - id: H2
+    severity: P3
+    category: harness
+    layer: 2
+    file: core/components/plays/specify-capabilities/SKILL.md
+    principle: "A compiled play carries only what its ICE says; a change to what the play writes is made in reference/ice.md and recompiled, so the ICE and the compiled file never drift apart unseen."
+    basis: "docs/standards/harness-standard.md lines 50-58 (principle 4); CLAUDE.md lines 110-123 (Play Pipeline Rules); core/components/plays/specify-capabilities/reference/ice.md (origin/main) line 59, C1: 'a spine entry at `status: proposed`, `detail: directional`'."
+    detail: "SKILL.md line 523 now reads '(`detail: directional`, no status, under the named domain)'. The play's committed ICE C1 still says the seed is written at `status: proposed`, and the SKILL.md fingerprint (line 926, sha256:b0fd44f3...) is the unchanged hash of that ICE, so the compiled file now says the opposite of the source it claims to be compiled from, and a rebuild from the ICE would put `status: proposed` back. ADR 070 (Affects) names specify-capabilities' reference/ice.md as a change, and lint_play.py cannot see the clash because it checks only the fingerprint. Under the Play Pipeline Rules this is not a non-intent edit: the ICE states the seed's written fields."
+    suggested_fix: "Change C1's seed wording in specify-capabilities/reference/ice.md ('no status; a new feature gets Unplanned', ADR 070), recompile with /fix-play so the fingerprint and compiled_by move with it, and keep the SKILL.md line as the compiler emits it."
+    blocks_merge: false
+  - id: H3
+    severity: P3
+    category: harness
+    layer: 2
+    file: core/components/plays/shape-plan/reference/ice.md
+    also_files: [core/components/plays/shape-plan/SKILL.md]
+    principle: "A decision a play makes about a feature's state has a committed owner. Where the committed records say who handles a Feature issue closed as completed by hand, a second play handling it differently needs a record."
+    basis: "docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md line 71 (Decision 4: Completed is set 'by /reshape-plan when it catches a Feature issue closed by hand'); ontology.md (v18, origin/main) lines 235-237 (Q69: the plan play opens the closed issue again for a Dropped feature that comes back) and line 500 (Completed when its Feature issue closes as completed)."
+    detail: "C17 (ice.md lines 81-85), F17 and S16 make /shape-plan open again a Feature issue 'closed as completed while the feature is not Completed' and take the feature into the plan. Q69 grounds the not-planned case (a dropped feature returning). A Feature issue closed as completed by hand is the case ADR 070 gives to /reshape-plan, which sets the feature Completed, not Planned. No committed ADR or ontology line says /shape-plan may reopen such an issue, so the closed-as-completed half of C17 has no external basis, and it can put a finished feature back into a new plan on a yes the person may give without knowing the close was a finish."
+    suggested_fix: "Either record the choice in an ADR or ontology rule (a closed-as-completed Feature issue of a not-Completed feature is shown to the person, with 'built' and 'opened again' as the two answers), or limit C17 to issues closed as not planned and have the brief name the closed-as-completed ones for /reshape-plan to catch."
+    blocks_merge: false
+  - id: H4
+    severity: P4
+    category: harness
+    layer: 2
+    file: core/components/plays/design-slice/SKILL.md
+    principle: "A hand edit to a compiled play is clobbered by the next rebuild unless the compiler reproduces it; a behaviour the ADR calls an ICE impact belongs in the ICE."
+    basis: "CLAUDE.md lines 110-123 (Play Pipeline Rules, durability rule); docs/adr/070-... line 9 ('ICE impact: /design-slice, through /fix-play: ... a new feature gets Unplanned; it stops writing the old status') and line 8 (Affects: design-slice reference/ice.md and SKILL.md)."
+    detail: "The SKILL.md edit (lines 504-506) is surface prose about what persist_fills.py writes, and design-slice's committed ICE is silent on spine status, so nothing is contradicted today (see the pass above). But ADR 070 itself lists the new-feature Unplanned rule as design-slice ICE impact, and the line lives only in the hand edit; the next /fix-play on design-slice would drop it, as the C6 and C7 change ADR 070 also names for design-slice is still owed."
+    suggested_fix: "Carry the rule into design-slice/reference/ice.md in the /fix-play that ADR 070 already lists for C6 and C7, so the compiler reproduces it. No change needed in this PR."
+    blocks_merge: false
+  - id: H5
+    severity: P4
+    category: harness
+    layer: 2
+    file: core/components/skills/author-slice-eval/SKILL.md
+    also_files: [core/components/agents/evals-engineer.md]
+    principle: "One name, one meaning: a part's name says what it does."
+    basis: "docs/standards/harness-standard.md lines 107-116 (principle 10); docs/adr/069-... lines 117-119 (Decision 4: one eval for each plan, no eval for each slice)."
+    detail: "The skill is still called author-slice-eval but now writes the plan's one eval (a feature file for each Feature issue and one plan file) and the file's description says so. The name now says 'slice eval' for a thing ADR 069 made a plan's eval. Renaming is wider than this PR (the linter's naming map, the agent table, the play), so this is a nit."
+    suggested_fix: "Rename it in a later naming change (for example author-plan-eval) through the harness standard's rename map, or note the slice-eval name is kept on purpose in the ADR that records the rework."
+    blocks_merge: false
+  - id: H6
+    severity: P4
+    category: harness
+    layer: 2
+    file: core/components/plays/shape-plan/reference/ice.md
+    principle: "An installed part carries no note of origin and points only to installed files; background pointers are deleted."
+    basis: "docs/standards/harness-standard.md lines 118-140 (principle 11: 'A note of origin ... is deleted, not reworded'); CLAUDE.md line 41 (Installed parts never touch precompiled source and name only installed files)."
+    detail: "Context lines 168-170 add `.garura/project/issues/1025/context/` ('the approved design of this rework') beside the 818 decisions pointer already there. Both point at one issue's run folder that a project which installs Garura does not have, and 'this rework' is history. The 818 pointer is older; the 1025 one is new on this branch."
+    suggested_fix: "Drop the two issue-folder pointers and the 'this rework' wording from Context when the ICE is next recompiled (for H1), keeping the rule texts (ADR 068, 069, 070) that the play needs."
+    blocks_merge: false
+counts:
+  P1: 0
+  P2: 1
+  P3: 2
+  P4: 3
+  total: 6
+blocks_merge: false
+grounding_unavailable: []
+notes:
+  - "Phoenix memory's direct-model-write.md is older than main's (no 'Outside a play' paragraph); main's version was used where they differ. Ontology was read from origin/main (v18), as the brief allows; Phoenix memory holds v15, per ADR 070 context."
+  - "Not graded here: scripts and tests (executable-code), the memory/standards files (memory), docs/components/agents.md (docs)."

@@ -1,0 +1,12 @@
+{
+  "issue": "1025",
+  "plan_id": null,
+  "plan_branch": null,
+  "issue_branch": "feature/1025-shape-plan-reuses-open-story",
+  "closed_plan": null,
+  "source": {
+    "ref": "origin/main",
+    "fetched": true,
+    "plan_branches_read": []
+  }
+}

@@ -114,6 +114,13 @@ def setup_v6(tmp):
         if part == "cap-thin-text":
             ice["metadata"] = {"thin": "false"}
         ices.append(ice)
+    # #1034: parts not moved yet keep their ICE inline on their own page, with no `ices` entry.
+    for part, body in (("fn-inline", "- Goal: a patient picks a slot.\n"),
+                       ("fn-inline-thin", "Thin: to be deepened.\n- Goal: a reminder goes out.\n"),
+                       ("fn-inline-empty", "")):
+        os.makedirs(os.path.join(root, part))
+        with open(os.path.join(root, part, "feature.md"), "w") as fh:
+            fh.write(f"# Feature: {part}\n\n## What it does\nText.\n\n## Agent intent (ICE)\n{body}")
     spine = {"domains": [{"id": "d1"}],
              "capabilities": [
                  {"id": "cap-a", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-x"},
@@ -133,7 +140,11 @@ def setup_v6(tmp):
                  {"id": "fn-a", "capability": "cap-a", "intents": ["bi-prop"]},
                  {"id": "fn-orphan", "capability": "", "intents": ["bi-ok"]},
                  {"id": "fn-under-prop", "capability": "cap-prop", "intents": ["bi-ok"]},
-                 {"id": "fn-own-needs", "capability": "cap-a", "depends_on": ["cap-prop"]}],
+                 {"id": "fn-own-needs", "capability": "cap-a", "depends_on": ["cap-prop"]},
+                 {"id": "fn-inline", "capability": "cap-a", "doc": "fn-inline/feature.md"},
+                 {"id": "fn-inline-thin", "capability": "cap-a", "doc": "fn-inline-thin/feature.md",
+                  "metadata": {"thin": True}},
+                 {"id": "fn-inline-empty", "capability": "cap-a", "doc": "fn-inline-empty/feature.md"}],
              "ices": ices}
     path = os.path.join(root, "_spine.yaml")
     with open(path, "w") as fh:
@@ -220,11 +231,22 @@ def v6_tests(tmp):
     code, r = node("fn-own-needs", ["--done", done_none])
     check("a feature's own needs are not read (v6: it never needs anything)", r["answer"] == "ready")
 
+    code, r = node("fn-inline")
+    check("#1034: a part not moved yet, with its ICE inline, is read by its own shape — partly ready, never 'no ICE'",
+          code == 0 and r["answer"] == "partly_ready" and r["gaps"] == ["ICE still inside its page"]
+          and r["stops"] == [])
+    code, r = node("fn-inline-thin")
+    check("#1034: an inline ICE takes its thin mark from the part's own metadata",
+          r["answer"] == "partly_ready" and "thin ICE" in r["gaps"] and r["thin"] is True)
+    code, r = node("fn-inline-empty")
+    check("#1034: an inline ICE section with no lines is still 'no ICE'",
+          code == 1 and r["answer"] == "not_ready" and any("no ICE" in s for s in r["stops"]))
+
     code = cw.main(args + ["--out", out])
     with open(out) as fh:
         r = json.load(fh)
-    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 5, "partly_ready": 5,
-                                                                              "not_ready": 6})
+    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 5, "partly_ready": 7,
+                                                                              "not_ready": 7})
     check("an unknown node exits 2", cw.main(args + ["--node", "nope"]) == 2)
 
     here = os.path.join(HERE, "check_ice_workable.py")

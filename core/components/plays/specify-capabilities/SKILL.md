@@ -520,16 +520,19 @@ accepts or drops it. The persist runs before the gate resolves, so `in_loop` —
 outcome — decides the status.
 
 With its `--seed`, an absent target is first added as a thin seed from the person's answers
-(status `proposed`, `detail: directional`, under the named domain) — or, for a `found` target,
+(`detail: directional`, no status, under the named domain) — or, for a `found` target,
 from the screens' reading (`answered_by: screens`, with its intents; under its domain, or in
 the holding folder with its domain empty) — then promoted like any seed; the persist record lists it in `seeded`. Without one, an absent target is refused, and
-an already-detailed target is always refused.
+an already-detailed target is always refused. Each new feature the persist adds gets the
+state `status: Unplanned`, whatever its manifest entry carried (C1; only a feature has a
+state, ontology v18, ADR 070).
 
 **SE-9 (F8):** there is one product-level decision per box-move, each carrying its
 capability (`node_ref`), its dimension, its from→to, and status `accepted` — `proposed` inside a loop (in
 `persist-manifest.json` `box_moves` + the written decision records).
-**SE-11 (F10):** no slice and no epic was written, and no target's `status` was flipped to
-`active` — slices are /design-slice's, and no play sets a capability active now.
+**SE-11 (F10):** no slice and no epic was written, no target capability carries a `status`,
+and every new feature in the spine reads `status: Unplanned` — slices are /design-slice's, and
+this play never confirms a part or starts work on it by itself.
 
 ### Phase: Guard + Classify (over the full delta)
 
@@ -895,7 +898,7 @@ pointer to
 | F7 | an out-of-box need against a `set` box was persisted with no approved decision (inside a loop, no recorded deferral), or a box-move decision was written `accepted` inside a loop | revert the box change, surface the move at the checkpoint, persist only after a human approves it (inside a loop, re-write the decision as `proposed` and record the deferral) | human |
 | F8 | a box-move lacks its decision record, or a decision omits its dimension or from→to | write or complete the product-level decision for each move with its dimension and from→to before persisting | autonomous |
 | F9 | a capability, feature, or domain other than the targets was changed (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only the target capabilities and their features, after a human confirms the restore | human |
-| F10 | a slice, an epic, or a capability status flip was written | strip the prioritization over-reach — remove the slice/epic, reset the status — leaving only /specify-capabilities's detailing scope | autonomous |
+| F10 | a slice, an epic, a capability status, or a new feature state other than Unplanned was written | strip the prioritization over-reach — remove the slice/epic, take the status off the capability, set the feature's state back to Unplanned — leaving only /specify-capabilities's detailing scope | autonomous |
 | F11 | the run is about to close COMPLETED with the Done means unmet | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F12 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line for the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait — render the approval prompt and wait for the typed response — before proceeding | autonomous |
 | F13 | the product-os tree is dirty right after start-work (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /specify-capabilities proceeds | human |
@@ -923,8 +926,8 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:b0fd44f3c0bca5a16d22bbf30fe6bec189b8f82da09df72a71d0c9270e451a7f (of `reference/ice.md`) |
-| compiled_by | fix-play (#884 the content eval settles: kept pass, fix round, notes; C4, REC3, S5, S10); fix-play (#689 ADR 043: writes the capabilities and features, read off the screens, holding folder when no domain: C1, C2, C16); fix-play (#689 the screens decide the features, every page with its sources: C16); fix-play (#661 reads no memory; the run lives in its issue); fix-play (#615 runs inside a loop; one run details every pending capability); fix-play (#616 stands alone); fix-play (#498 direct-model-write, ADR 026); prior: fix-play (#467 Batch B, #466 Batch C) |
+| fingerprint | sha256:3447d6c5aaa8671e503a2bc7ba54edb93dffaef0050779b2b1359e8b4b4748f5 (of `reference/ice.md`) |
+| compiled_by | fix-play (ADR 070: a seeded capability has no status, a new feature is Unplanned: C1, F10); fix-play (#884 the content eval settles: kept pass, fix round, notes; C4, REC3, S5, S10); fix-play (#689 ADR 043: writes the capabilities and features, read off the screens, holding folder when no domain: C1, C2, C16); fix-play (#689 the screens decide the features, every page with its sources: C16); fix-play (#661 reads no memory; the run lives in its issue); fix-play (#615 runs inside a loop; one run details every pending capability); fix-play (#616 stands alone); fix-play (#498 direct-model-write, ADR 026); prior: fix-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-work head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /specify-domains) |
 | workflow_structure | A (single checkpoint carrying box-move approvals — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |

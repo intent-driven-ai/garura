@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
-"""check_plan.py — the plan check (/shape-plan, D1; C1, C3, C4, C5, C6, C9).
+"""check_plan.py — the plan check (/shape-plan, D1; C1, C3, C5, C6, C9, C16, C17).
 
     python3 check_plan.py --plan-file <plans>/<id>.yaml --gather <gather.json> \
         --record <tracker-record.json> --out <working>/plan-check.json
 
 `ok: true` only when:
-  - the plan file exists, and its `id` is the plan's ID;
-  - each slice of gather.json has exactly one epic node (`represents: <slice id>`), with the
-    issue the record names for that slice;
-  - each ready feature of the slice has exactly one story node under that epic node;
-  - no story node under the epic stands for a feature outside its slice;
-  - each epic's map in the record names the same story for each feature as the tree, and the
-    tree has no story node the map leaves out;
+  - the plan file exists, its `id` is the plan's ID, and its first line names the business
+    intent (`intent: bi-<id>`), with its `title`;
+  - its `epic:` mark is the epic the record names, and the tree's top holds exactly one epic
+    node, with that issue;
+  - its `slices` list holds each slice of gather.json once, each with a status a person can set
+    (Not Started, In Progress, Done or Dropped);
+  - each feature the record puts in the plan (its map) has exactly one feature node under the
+    epic node, with the same issue, and a `held_by` feature's node names its epic; the node of a
+    feature whose Feature issue is closed as completed by hand is at Done;
+  - no feature node stands for a feature that is in no slice of the plan, or that is left out
+    (Completed or Dropped in the model) or skipped (not ready);
   - the plan file holds no "Fails if" line, the words "Fails if", or a recovery phrase.
-Features that are not ready are listed in `skipped`, with their reasons; they do not fail
-the check.
+Features that are not ready are listed in `skipped`, and features left out of the plan in
+`left_out`, with their reasons: their state in the model is Completed or Dropped (ADR 070).
+They do not fail the check; a node for one of them does.
 
-Output: {ok, problems: [..], skipped: [{slice, feature, reason}], slices: [{slice, epic, stories}]}
+Output: {ok, problems: [..], skipped: [{feature, reason}], left_out: [{feature, issue, reason}],
+         epic, features: {feature: issue}}
 Exit 0 ok; 1 not ok (written); 2 bad input (nothing written). No git, no network.
 """
 
@@ -28,51 +34,82 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plan_common as pc  # noqa: E402
 
+SLICE_STATUSES = ("Not Started", "In Progress", "Done", "Dropped")
+
 
 def check(plan_path, gather, rec):
-    problems, skipped, slices = [], [], []
+    problems = []
     plan = pc.load_plan(plan_path)
     if plan is None:
-        return {"ok": False, "problems": [f"there is no plan file at {plan_path}"], "skipped": [], "slices": []}
-    if str(plan.get("id")) != str(gather.get("plan_id")):
-        problems.append(f"the plan file's id is {plan.get('id')!r}, not {gather.get('plan_id')}")
+        return {"ok": False, "problems": [f"there is no plan file at {plan_path}"], "skipped": [],
+                "left_out": [], "epic": None, "features": {}}
+    plan_id = str(gather.get("plan_id"))
+    if str(plan.get("id")) != plan_id:
+        problems.append(f"the plan file's id is {plan.get('id')!r}, not {plan_id}")
+    first = next((ln for ln in pc.read_text(plan_path).splitlines() if ln.strip()), "")
+    if first.strip() != f"intent: bi-{plan_id}" or not plan.get("title"):
+        problems.append(f"the plan file does not name its business intent at the top "
+                        f"(intent: bi-{plan_id}, then its title)")
+    want_epic = rec.get("epic")
+    if want_epic is None or str(plan.get("epic")) != str(want_epic):
+        problems.append(f"the plan file's epic mark is {plan.get('epic')!r}, the record says {want_epic}")
     tree = plan.get("tree") or []
-    for sl in gather.get("slices") or []:
-        sid = sl["id"]
-        features = {f["id"]: f for f in sl.get("features") or []}
-        epics = pc.marked(tree, sid)
-        if len(epics) != 1:
-            problems.append(f"slice {sid} has {len(epics)} epic nodes in the plan file, not one")
+    epics = [n for n in tree if str(n.get("kind") or "") == "epic"]
+    if len(epics) != 1:
+        problems.append(f"the plan file has {len(epics)} epic nodes at the top of its tree, not one")
+    node = next((n for n in epics if str(n.get("issue")) == str(want_epic)), None)
+    if epics and node is None:
+        problems.append(f"no epic node of the tree has the issue #{want_epic}")
+    slice_ids = [sl["id"] for sl in gather.get("slices") or []]
+    listed = [s for s in plan.get("slices") or [] if isinstance(s, dict)]
+    for sid in slice_ids:
+        mine = [s for s in listed if str(s.get("id")) == sid]
+        if len(mine) != 1:
+            problems.append(f"the slices list holds {sid} {len(mine)} times, not once")
+        elif mine[0].get("status") not in SLICE_STATUSES:
+            problems.append(f"slice {sid} has the status {mine[0].get('status')!r}, not one of "
+                            + ", ".join(SLICE_STATUSES))
+    in_slices = {f["id"]: f for sl in gather.get("slices") or [] for f in sl.get("features") or []}
+    skipped = [{"feature": fid, "reason": f.get("reason")} for fid, f in in_slices.items()
+               if not f.get("ready") and not f.get("left_out")]
+    left_out = [dict(x) for x in rec.get("left_out") or [] if isinstance(x, dict)]
+    for fid, f in in_slices.items():
+        if f.get("left_out") and fid not in {x.get("feature") for x in left_out}:
+            problems.append(f"{fid} is {f['left_out']} in the model, but the record does not name it as left out")
+    out_ids = {x["feature"] for x in skipped} | {x.get("feature") for x in left_out}
+    tree_map = {}
+    held = {str(k): int(v) for k, v in (rec.get("held") or {}).items()}
+    for k in pc.children(node) if node else []:
+        fid = str(k.get("represents") or "")
+        if not fid:
             continue
-        node = epics[0]
-        want = (rec.get("epics") or {}).get(sid)
-        if want is None or int(node.get("issue") or -1) != int(want):
-            problems.append(f"the epic node of {sid} is #{node.get('issue')}, the record says #{want}")
-        kids = [k for k in pc.children(node) if k.get("represents")]
-        tree_map = {}
-        for k in kids:
-            fid = str(k["represents"])
-            if fid not in features:
-                problems.append(f"story node #{k.get('issue')} under the epic of {sid} stands for "
-                                f"{fid}, which is not a feature of the slice")
-                continue
-            if fid in tree_map:
-                problems.append(f"{fid} has two story nodes under the epic of {sid}")
-            tree_map[fid] = int(k.get("issue") or -1)
-        for fid, f in features.items():
-            if not f.get("ready"):
-                skipped.append({"slice": sid, "feature": fid, "reason": f.get("reason")})
-                continue
-            if fid not in tree_map:
-                problems.append(f"the ready feature {fid} has no story node under the epic of {sid}")
-        rec_map = {f: int(n) for f, n in ((rec.get("maps") or {}).get(sid) or {}).items()}
-        if rec_map != tree_map:
-            problems.append(f"the epic's map of {sid} and the plan file's tree disagree: "
-                            f"map {rec_map}, tree {tree_map}")
-        slices.append({"slice": sid, "epic": node.get("issue"), "stories": tree_map})
+        if fid not in in_slices:
+            problems.append(f"feature node #{k.get('issue')} stands for {fid}, which is in no slice of the plan")
+            continue
+        if fid in out_ids:
+            problems.append(f"{fid} is left out of the plan (Completed, Dropped or not ready), but has a feature node")
+            continue
+        if fid in tree_map:
+            problems.append(f"{fid} has two feature nodes under the epic")
+        tree_map[fid] = int(k.get("issue") or -1)
+        if fid in held and str(k.get("held_by")) != str(held[fid]):
+            problems.append(f"the node of {fid} does not say held_by: {held[fid]}")
+        if fid in (rec.get("closed_by_hand") or {}) and k.get("status") != "Done":
+            problems.append(f"the node of {fid} holds a Feature issue closed as completed, but its status "
+                            f"is {k.get('status')!r}, not Done")
+    rec_map = {f: int(n) for f, n in (rec.get("map") or {}).items()}
+    for fid in rec_map:
+        if fid not in tree_map:
+            problems.append(f"the feature {fid} has no feature node under the epic")
+    for fid, f in in_slices.items():
+        if f.get("ready") and fid not in out_ids and fid not in rec_map:
+            problems.append(f"the ready feature {fid} is not in the plan and is not named as left out")
+    if rec_map != tree_map:
+        problems.append(f"the epic's map and the plan file's tree disagree: map {rec_map}, tree {tree_map}")
     for reason in pc.forbidden_in(pc.read_text(plan_path)):
         problems.append(f"the plan file: {reason}")
-    return {"ok": not problems, "problems": problems, "skipped": skipped, "slices": slices}
+    return {"ok": not problems, "problems": problems, "skipped": skipped, "left_out": left_out,
+            "epic": node.get("issue") if node else None, "features": tree_map}
 
 
 def main(argv=None):

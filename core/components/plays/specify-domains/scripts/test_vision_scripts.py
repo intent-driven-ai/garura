@@ -189,6 +189,8 @@ def test_the_hand_over():
         check("the light domain is raised to detailed and gains the intent",
               doms["shop"]["detail"] == "detailed" and doms["shop"]["intents"] == ["grow-online-sales"])
         check("a second domain is added (a product may sit in several)", "support" in doms)
+        check("a new domain gets no status, even when the delta gives one (only a feature has a state)",
+              "status" not in doms["support"])
         check("/specify-domains leaves the capability alone — still waiting in the holding folder, no domain (ADR 043)",
               cap["domain"] == "" and cap["doc"] == "capabilities/guest-checkout/capability.md"
               and os.path.isfile(os.path.join(m, "capabilities", "guest-checkout", "capability.md")))

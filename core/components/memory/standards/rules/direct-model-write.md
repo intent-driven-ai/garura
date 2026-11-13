@@ -163,6 +163,16 @@ shared scoped-write guard runs once, after the last model write and before the c
 back any model path outside the session's parts. The model change is committed in the session's
 one commit on the plan's branch, with the plan file, not in a separate `feat(model)` commit.
 
+**Declared exception — `/shape-plan` writes one field (ADR 070).** `/shape-plan` makes a plan
+and writes nothing else in the model but one field: a feature's `status`, set to Planned when
+its plan takes the feature in. A feature that is already Planned or In progress keeps its state.
+It writes only after the product owner's yes, after the tracker writes and the plan file. The
+write goes through `product-os-keeper`, which runs `link-model-part` (mode `update`, `status:
+Planned`); the play writes no spine line itself. Its scoped-write guard allows only the spine
+file in the model and puts back any other model path, and a check after the write reads the
+spine against the start of the run: each feature it took in reads Planned or kept its state, and
+nothing else in the model changed. The state names no plan, no issue and no decision record.
+
 ## The shared scoped-write guard
 
 Canonical script: `build-play/references/scoped_write_guard.py`, stamped into each

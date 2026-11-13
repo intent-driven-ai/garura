@@ -501,8 +501,9 @@ python3 scripts/persist_slice.py --root <model> --spine <model>/_spine.yaml \
     --out <working>persist-slice.json
 ```
 
-`persist_fills.py` adds a spine entry for each new part, marked to be deepened (status
-proposed, detail directional, `metadata.deepen: true`); fills each existing part in
+`persist_fills.py` adds a spine entry for each new part, marked to be deepened (detail
+directional, `metadata.deepen: true`; a new feature gets `status: Unplanned`, and a domain or
+capability gets no status, ADR 070); fills each existing part in
 `updates` (the intent added, its domain or capability set when it has none, its spine
 one-line replaced when the update gives one from the person's change, listed in `one_lines`
 with the old and new text; every other field kept); refuses a page outside its folder; moves a capability that gets its domain, and its

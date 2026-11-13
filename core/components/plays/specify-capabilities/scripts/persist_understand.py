@@ -11,7 +11,8 @@ spine-deltas to the live model IN PLACE, keyed to the run's target capabilities 
 capability, #615):
 
   0. (only with --seed, #616) when a target capability is ABSENT from the live spine, a thin
-     seed entry: id, domain, status proposed, detail directional, one_line, doc, intents. The
+     seed entry: id, domain, detail directional, one_line, doc, intents (no status: only a
+     feature has a state, ontology v18, ADR 070). The
      seed comes from the person's recorded answers (`answered_by: human`; the domain must
      already exist) or from a prototype's screens (`answered_by: screens`, ADR 043; it names
      the screens it is seen on, and with no domain in the spine it goes to the holding folder
@@ -25,7 +26,8 @@ capability, #615):
   2. the new `features` entries from each manifest (each must carry an id and
      capability == that manifest's target; additive — an id already present under the same
      capability is left untouched; an id declared twice in the run, or already present under
-     another capability, is refused).
+     another capability, is refused). Each new feature gets its state, `status: Unplanned`
+     (ontology v18, ADR 070), whatever status its manifest entry carried.
   3. the rolled-up `profile` (the firmed box) from the proposed-profile. It refuses a
      profile that is not `set`, lowers a dimension the live box holds, or drops a
      compliance regime — the box only ever goes up (C7).
@@ -146,6 +148,22 @@ def profile_error(live_profile, proposed):
     return None
 
 
+def unplanned(feature):
+    """A copy of a new feature's entry with its state Unplanned (ontology v18, ADR 070): a status
+    it carried is replaced in place; with none, the state goes after its intents, or after its
+    capability when it has no intents."""
+    if "status" in feature:
+        return {k: ("Unplanned" if k == "status" else v) for k, v in feature.items()}
+    after = "intents" if "intents" in feature else "capability"
+    out = {}
+    for key, value in feature.items():
+        out[key] = value
+        if key == after:
+            out["status"] = "Unplanned"
+    out.setdefault("status", "Unplanned")
+    return out
+
+
 def seed_entry(seed, live):
     """Return (entry, error): the thin spine entry for an absent capability."""
     cap_id = seed["id"]
@@ -157,7 +175,7 @@ def seed_entry(seed, live):
         if doc.startswith("/") or ".." in parts or len(parts) != 3 or parts[0] != "capabilities" \
                 or parts[-1] != "capability.md":
             return None, f"seed doc '{doc}' is not 'capabilities/<capability>/capability.md' — refusing"
-        return {"id": cap_id, "domain": "", "intents": intents, "status": "proposed",
+        return {"id": cap_id, "domain": "", "intents": intents,
                 "detail": "directional", "one_line": seed["one_line"], "doc": doc}, None
     domain = find(live.get("domains") or [], seed["domain"])
     if domain is None:
@@ -172,7 +190,7 @@ def seed_entry(seed, live):
     if (doc.startswith("/") or ".." in parts or len(parts) != 3
             or parts[0] != dom_dir or parts[-1] != "capability.md"):
         return None, f"seed doc '{doc}' is not '{dom_dir}/<capability>/capability.md' — refusing"
-    return {"id": cap_id, "domain": seed["domain"], "intents": intents, "status": "proposed",
+    return {"id": cap_id, "domain": seed["domain"], "intents": intents,
             "detail": "directional", "one_line": seed["one_line"], "doc": doc}, None
 
 
@@ -294,7 +312,7 @@ def main(argv=None):
                 return refuse(f"feature '{fid}' already exists under '{have[fid]}' "
                               f"— refusing (containment)")
             if fid not in have:
-                live_funcs.append(f)
+                live_funcs.append(unplanned(f))
                 have[fid] = cap_id
                 changed["features_added"].append(fid)
 

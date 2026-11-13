@@ -1,36 +1,36 @@
 #!/usr/bin/env python3
-"""place_eval.py — put the skill's drafts into each slice's evals folder; an eval is a fixed yardstick (C2, C7).
+"""place_eval.py — put the skill's drafts into the plan's evals folder; an eval is a fixed yardstick (C2, C7).
 
     python3 place_eval.py --inputs <working>inputs.json --drafts <working>drafts \
         --out <working>place.json --yardstick-out <working>yardstick-check.json
     python3 place_eval.py --undo <working>place.json --inputs <working>inputs.json
     python3 place_eval.py --clear <working>clear.json --inputs <working>inputs.json
 
-The drafts are in `<drafts>/<slug>/`: one story file `eval.<feature-id>.feature.md` for each
-story of the slice's map, and the slice file `eval.<slice-id>.md`. For each ready slice:
+The drafts are in `<drafts>/`: one feature file `eval.<feature-id>.feature.md` for each Feature
+issue of the epic's map, and the plan file `eval.<plan-id>.md`. When the plan is ready:
 
-  - A story file the slice does not have yet is written as drafted.
-  - A story file the slice has keeps every line it has. Only the drafted scenarios that cover
+  - A feature file the plan does not have yet is written as drafted.
+  - A feature file the plan has keeps every line it has. Only the drafted scenarios that cover
     something the file does not cover yet (a tag no scenario and no Untestable line of the file
     has) are added, before its "Untestable" section, and only the drafted Untestable lines for
     what is still not covered are added to that section. A file with nothing to add is not
     touched.
-  - A story file whose feature left the slice (in inputs.json `out_of_slice`) stays; its first
-    tag line gains `@out-of-slice`.
-  - The slice file is written from the draft, unless what it says (the stories in order, the
-    stories out of the slice, the surface kind, the time limit, the names) is the same as the file
-    the slice has; then the file is not touched.
-A slice that is not ready gets nothing. Each placing starts from the state before the run: an
-earlier place.json of the run is undone first, and the files the slice had are read from the copies
-in `<working>inputs/existing/<slug>/`, so placing again after a fix gives the same files.
+  - A feature file whose feature left the plan (in inputs.json `out_of_plan`) stays; its first
+    tag line gains `@out-of-plan`.
+  - The plan file is written from the draft, unless what it says (each slice section with its
+    surface kind, its time limit and its features in order, the features out of the plan, the
+    names) is the same as the file the plan has; then the file is not touched.
+A plan that is not ready gets nothing. Each placing starts from the state before the run: an
+earlier place.json of the run is undone first, and the files the plan had are read from the copies
+in `<working>inputs/existing/`, so placing again after a fix gives the same files.
 
-The yardstick check reads each story file the slice had before and the file now: every scenario
+The yardstick check reads each feature file the plan had before and the file now: every scenario
 it had must be in it, word for word (C7). It writes yardstick-check.json {ok, problems, kept,
 added}. place.json lists each file written, with whether it was there before, for the guard and
-for --undo, which puts back each file as it was before the run (a stop or a change, C9). A story
+for --undo, which puts back each file as it was before the run (a stop or a change, C9). A feature
 file's "Lines covered" list only grows: a placed scenario's covered lines are added, and a line the
-file had stays as it was (C16). --clear deletes the drafts, the hidden-file copy and the copies of
-the slice's eval files from before the run, and writes clear.json {ok, removed, left}: run it after
+file had stays as it was (C16). --clear deletes the drafts, the hidden-file copies and the copies of
+the plan's eval files from before the run, and writes clear.json {ok, removed, left}: run it after
 the eval commit and after a stop's undo (C15).
 Exit 0 written and the yardstick holds, 1 the yardstick does not hold, 2 refused.
 """
@@ -44,7 +44,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import eval_common as ec  # noqa: E402
 
-OUT = "out-of-slice"
+OUT = "out-of-plan"
 
 
 def covered(parsed):
@@ -56,9 +56,9 @@ def covered(parsed):
     return tags
 
 
-def merge_story(old, draft):
-    """(new text, scenarios added, untestable lines added) for a story file the slice has."""
-    po, pd = ec.parse_story_file(old), ec.parse_story_file(draft)
+def merge_feature(old, draft):
+    """(new text, scenarios added, untestable lines added) for a feature file the plan has."""
+    po, pd = ec.parse_feature_file(old), ec.parse_feature_file(draft)
     have = covered(po)
     new_sc = [sc for sc in pd["scenarios"] if set(sc["tags"]) - have]
     after = have | {t for sc in new_sc for t in sc["tags"]}
@@ -115,55 +115,54 @@ def mark_out(text):
     return f"`@{OUT}`\n" + text
 
 
-def same_slice(a, b):
-    pa, pb = ec.parse_slice_file(a), ec.parse_slice_file(b)
-    keys = ("stories", "out_of_slice", "surface_kind", "time_limit", "names")
-    return all(pa[k] == pb[k] for k in keys) and sorted(pa["names"]) == sorted(pb["names"])
+def same_plan(a, b):
+    pa, pb = ec.parse_plan_file(a), ec.parse_plan_file(b)
+    return (pa["slices"] == pb["slices"] and pa["out_of_plan"] == pb["out_of_plan"]
+            and sorted(pa["names"]) == sorted(pb["names"]))
 
 
-def plan_slice(sl, working, drafts):
-    existing_dir = os.path.join(working, "inputs", "existing", sl["slug"])
-    draft_dir = os.path.join(drafts, sl["slug"])
+def plan_writes(inputs, working, drafts):
+    existing_dir = os.path.join(working, "inputs", "existing")
     writes, added_sc, added_un, kept, problems = {}, 0, 0, 0, []
 
     def before(name):
         p = os.path.join(existing_dir, name)
         return ec.read_text(p, "an eval file") if os.path.isfile(p) else None
 
-    for story in sl["stories"]:
-        name = ec.story_file_name(story["feature"])
-        dpath = os.path.join(draft_dir, name)
+    for feat in inputs["features"]:
+        name = ec.feature_file_name(feat["feature"])
+        dpath = os.path.join(drafts, name)
         if not os.path.isfile(dpath):
-            problems.append(f"no draft {name} for story #{story['issue']}")
+            problems.append(f"no draft {name} for Feature issue #{feat['issue']}")
             continue
         draft, old = ec.read_text(dpath, "a draft"), before(name)
         if old is None:
             writes[name] = draft
         else:
-            text, n_sc, n_un = merge_story(old, draft)
+            text, n_sc, n_un = merge_feature(old, draft)
             added_sc, added_un = added_sc + n_sc, added_un + n_un
             if text != old:
                 writes[name] = text
-    for name in sl["out_of_slice"]:
+    for name in inputs["out_of_plan"]:
         old = before(name)
         text = mark_out(old)
         if text != old:
             writes[name] = text
-    sname = ec.slice_file_name(sl["slice_id"])
-    spath = os.path.join(draft_dir, sname)
-    if not os.path.isfile(spath):
-        problems.append(f"no draft {sname}")
+    pname = ec.plan_file_name(inputs["plan_id"])
+    ppath = os.path.join(drafts, pname)
+    if not os.path.isfile(ppath):
+        problems.append(f"no draft {pname}")
     else:
-        draft, old = ec.read_text(spath, "a draft"), before(sname)
-        if old is None or not same_slice(old, draft):
-            writes[sname] = draft
-    # the yardstick: every scenario of every story file the slice had stays, word for word
-    for name in sl["existing"]:
+        draft, old = ec.read_text(ppath, "a draft"), before(pname)
+        if old is None or not same_plan(old, draft):
+            writes[pname] = draft
+    # the yardstick: every scenario of every feature file the plan had stays, word for word
+    for name in inputs["existing"]:
         if not name.endswith(".feature.md"):
             continue
         old = before(name)
         now = writes.get(name, old)
-        for sc in ec.parse_story_file(old)["scenarios"]:
+        for sc in ec.parse_feature_file(old)["scenarios"]:
             kept += 1
             if sc["raw"] not in now:
                 problems.append(f"{name}: the scenario '{sc['title']}' changed or went away")
@@ -171,33 +170,29 @@ def plan_slice(sl, working, drafts):
 
 
 def place(inputs, working, drafts):
-    record = {"ok": True, "slices": [], "files": []}
+    record = {"ok": True, "plan": inputs["plan_id"], "files": [], "new_files": [],
+              "added_scenarios": 0, "added_untestable": 0, "skipped": None}
     yard = {"ok": True, "problems": [], "kept": 0, "added": 0}
-    for sl in inputs["slices"]:
-        if not sl["ready"]:
-            record["slices"].append({"slice": sl["slice_id"], "skipped": sl["reason"]})
-            continue
-        writes, n_sc, n_un, kept, problems = plan_slice(sl, working, drafts)
-        yard["kept"] += kept
-        yard["added"] += n_sc
-        missing = [p for p in problems if p.startswith("no draft")]
-        if missing:
-            raise ec.Refused("; ".join(missing))
-        if problems:
-            yard["ok"] = False
-            yard["problems"] += problems
-            continue
-        written = []
-        for name, text in writes.items():
-            path = os.path.join(sl["folder"], name)
-            record["files"].append({"path": path, "existed": name in sl["existing"]})
-            ec.atomic_write(path, text)
-            written.append(path)
-        record["slices"].append({"slice": sl["slice_id"], "written": written,
-                                 "added_scenarios": n_sc, "added_untestable": n_un,
-                                 "new_files": [os.path.join(sl["folder"], n) for n in writes
-                                               if n not in sl["existing"]]})
-    record["ok"] = yard["ok"]
+    if not inputs["ready"]:
+        record["skipped"] = inputs["reasons"]
+        return record, yard
+    writes, n_sc, n_un, kept, problems = plan_writes(inputs, working, drafts)
+    yard["kept"], yard["added"] = kept, n_sc
+    missing = [p for p in problems if p.startswith("no draft")]
+    if missing:
+        raise ec.Refused("; ".join(missing))
+    if problems:
+        yard["ok"] = record["ok"] = False
+        yard["problems"] = problems
+        return record, yard
+    folder = inputs["folder"]
+    for name, text in writes.items():
+        path = os.path.join(folder, name)
+        record["files"].append({"path": path, "existed": name in inputs["existing"]})
+        ec.atomic_write(path, text)
+        if name not in inputs["existing"]:
+            record["new_files"].append(path)
+    record["added_scenarios"], record["added_untestable"] = n_sc, n_un
     return record, yard
 
 
@@ -205,8 +200,8 @@ def clear(working, inputs):
     """C15: delete every copy of an eval or the hidden file from the run's short-term memory."""
     import shutil
     removed = []
-    for path in [os.path.join(working, "drafts"), os.path.join(working, "inputs", "existing")] + \
-            [s["hidden"] for s in inputs["slices"] if s.get("hidden")]:
+    hidden = [s["hidden"] for s in inputs["slices"] if s.get("hidden")]
+    for path in [os.path.join(working, "drafts"), os.path.join(working, "inputs", "existing")] + hidden:
         if os.path.isdir(path):
             shutil.rmtree(path)
             removed.append(path)
@@ -214,19 +209,17 @@ def clear(working, inputs):
             os.unlink(path)
             removed.append(path)
     left = [p for p in (os.path.join(working, "drafts"), os.path.join(working, "inputs", "existing"))
-            if os.path.exists(p)] + [s["hidden"] for s in inputs["slices"] if s.get("hidden") and os.path.exists(s["hidden"])]
+            if os.path.exists(p)] + [h for h in hidden if os.path.exists(h)]
     return {"ok": not left, "removed": removed, "left": left}
 
 
 def undo(place_path, inputs):
     rec = ec.read_json(place_path, "the place record")
-    slug_of = {s["folder"]: s["slug"] for s in inputs["slices"] if s.get("folder")}
     undone = []
     for f in rec.get("files") or []:
         path = f["path"]
         if f["existed"]:
-            slug = slug_of[os.path.dirname(path)]
-            src = os.path.join(inputs["_working"], "inputs", "existing", slug, os.path.basename(path))
+            src = os.path.join(inputs["_working"], "inputs", "existing", os.path.basename(path))
             ec.atomic_write(path, ec.read_text(src, "the copy from before the run"))
         elif os.path.isfile(path):
             os.unlink(path)
@@ -241,7 +234,7 @@ def main(argv=None):
     ap.add_argument("--out")
     ap.add_argument("--yardstick-out")
     ap.add_argument("--undo", help="a place.json: put back each file as it was before the run")
-    ap.add_argument("--clear", help="write clear.json here: delete the drafts and every copy of an eval or hidden file (C15)")
+    ap.add_argument("--clear", help="write clear.json here: delete the drafts and every copy of an eval or a hidden file (C15)")
     args = ap.parse_args(argv)
     try:
         inputs = ec.read_json(args.inputs, "inputs.json")

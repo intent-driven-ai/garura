@@ -1,0 +1,77 @@
+---
+# assess-changes output (judgment path), issue 1025, branch feature/1025-shape-plan-reuses-open-story
+# Order matters: adapter first, then ready check + plan helpers, then the shape-plan change that uses both.
+needs_judgment: false
+
+change_groups:
+  - id: adapter-replace-parent
+    issue: 1025
+    commit_type: feat
+    scope: adapter
+    subject: "let attaching a sub-issue replace the child's current parent"
+    files:
+      - core/components/plays/build-play/references/platform_adapter.py
+      - core/components/plays/design-eval/scripts/platform_adapter.py
+      - core/components/plays/design-slice/scripts/platform_adapter.py
+      - core/components/plays/merge-work/scripts/platform_adapter.py
+      - core/components/plays/review-work/scripts/platform_adapter.py
+      - core/components/plays/shape-plan/scripts/platform_adapter.py
+      - core/components/plays/validate-work/scripts/platform_adapter.py
+      - core/components/skills/track-plan-changes/scripts/platform_adapter.py
+
+  - id: ready-check-reads-each-part-by-its-shape
+    issue: 1025
+    commit_type: fix
+    scope: ready-check
+    subject: "read each part's ICE by its own shape in the ready check and plan helpers"
+    files:
+      - core/components/plays/build-play/references/check_ice_workable.py
+      - core/components/plays/build-play/references/plan_common.py
+      - core/components/plays/build-play/references/test_check_ice_workable.py
+      - core/components/plays/reshape-plan/scripts/check_ice_workable.py
+      - core/components/plays/reshape-plan/scripts/plan_common.py
+      - core/components/plays/shape-plan/scripts/check_ice_workable.py
+      - core/components/plays/shape-plan/scripts/plan_common.py
+      - core/components/plays/specify-intent/scripts/check_ice_workable.py
+
+  - id: shape-plan-reuses-open-story
+    issue: 1025
+    commit_type: feat
+    scope: shape-plan
+    subject: "use the open story a feature's model entry names instead of filing a second story"
+    files:
+      - core/components/plays/shape-plan/SKILL.md
+      - core/components/plays/shape-plan/reference/ice.md
+      - core/components/plays/shape-plan/scripts/find_work_items.py
+      - core/components/plays/shape-plan/scripts/gather_plan.py
+      - core/components/plays/shape-plan/scripts/render_brief.py
+      - core/components/plays/shape-plan/scripts/test_find_work_items.py
+      - core/components/plays/shape-plan/scripts/test_gather_plan.py
+      - core/components/plays/shape-plan/scripts/test_support.py
+
+  - id: stm-close-templates
+    issue: 1025
+    commit_type: chore
+    scope: stm
+    subject: "record the close templates loaded for start-work"
+    files:
+      - .garura/project/issues/1025/context/templates/manifest-close-start-work.json
+      - .garura/project/issues/1025/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1025/context/templates/standards/templates/delivery-report.md
+
+exclusions:
+  - path: ".garura/project/issues/1025/context/commit-work/"
+    reason: "run state of this play (scan, porcelain, analysis); left to the executor's run-state finalization"
+    blocking: false
+    blocking: false
+
+risks:
+  sensitive_files: []
+  notes:
+    - "plan_common.py (3 byte-identical copies) carries both the ICE-shape read change and the add_sub replace_parent change; kept together in the ready-check group so the copies stay identical in one commit, and the subject says so."
+    - "Order dependency: shape-plan test_support.py tests the adapter replace_parent flag and the tracker helper, so it must land after the first two groups."
+    - "Copies verified byte-identical for plan_common.py (md5 07986fc0...)."
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "24 changed files: 8 + 8 + 8 in three groups, plus 2 run-state exclusions (untracked dirs)"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

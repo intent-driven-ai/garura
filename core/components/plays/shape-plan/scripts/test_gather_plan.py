@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_gather_plan.py — gather_plan.py finds the slices of an intent and writes clean ICE copies (C2, C5, C9).
+"""test_gather_plan.py — gather_plan.py finds the slices of an intent and writes clean ICE copies, and reads each feature's state from the model (C2, C3, C5, C9, C16).
 
     python3 test_gather_plan.py
 """
@@ -21,6 +21,15 @@ def main():
         code, out, _ = gather(root, p)
         g = read_json(p["gather"])
         check("exit 0 with one slice", code == 0 and out["ok"] and len(g["slices"]) == 1)
+        import yaml
+        spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+        spine["features"][0]["issue"] = 50
+        write(os.path.join(root, "_spine.yaml"), spine)
+        gather(root, p)
+        check("no feature carries an issue number from the model (ADR 069)",
+              all("issue" not in f for f in read_json(p["gather"])["slices"][0]["features"]))
+        code, out, _ = gather(root, p)
+        g = read_json(p["gather"])
         check("the plan id is the intent's number and the plan file is <plans>/<id>.yaml",
               g["plan_id"] == "340" and g["plan_file"] == os.path.join(p["plans"], "340.yaml"))
         check("the intent's title is read from its page",
@@ -45,8 +54,10 @@ def main():
         si = read(os.path.join(p["working"], "skill-input.json"))
         sij = read_json(os.path.join(p["working"], "skill-input.json"))
         check("skill-input.json names each ready feature and its clean copy, and no ICE page",
-              [f["id"] for f in sij["slices"][0]["features"]] == ["ft-pick", "ft-remind", "ft-pay"]
-              and all(f["clean_ice"].endswith(f"ice/{f['id']}.md") for f in sij["slices"][0]["features"])
+              [f["id"] for f in sij["features"]] == ["ft-pick", "ft-remind", "ft-pay"]
+              and sij["slices"][0]["features"] == ["ft-pick", "ft-remind", "ft-pay"]
+              and all(f["clean_ice"].endswith(f"ice/{f['id']}.md") and f["slices"] == ["sl-self-booking"]
+                      for f in sij["features"])
               and "feature.md" not in si and "capability.md" not in si and "ice_pages" not in si)
         check("the clean copy names no ICE page", not any("feature.md" in read(c) or "capability.md" in read(c)
                                                           for c in copies))
@@ -66,7 +77,7 @@ def main():
         check("a feature whose ICE is not ready is ready false, with a reason",
               code == 0 and wait["ready"] is False and "not ready" in wait["reason"] and wait["clean_ice"] is None)
         check("skill-input.json leaves out a feature that is not ready",
-              [f["id"] for f in read_json(os.path.join(p["working"], "skill-input.json"))["slices"][0]["features"]]
+              [f["id"] for f in read_json(os.path.join(p["working"], "skill-input.json"))["features"]]
               == ["ft-pick"])
         check("no clean copy for it, and old copies of features not ready now are gone",
               sorted(os.path.basename(c) for c in glob.glob(os.path.join(p["working"], "ice", "*.md"))) == ["ft-pick.md"])
@@ -82,13 +93,17 @@ def main():
         code, _, _ = gather(root, p, intent="340")
         check("an intent not of the form bi-<n>: exit 2", code == 2)
     with tempfile.TemporaryDirectory() as tmp:
-        extra = [{"id": "sl-cancel", "slug": "cancel-online", "feature_refs": ["ft-cancel"],
+        extra = [{"id": "sl-cancel", "slug": "cancel-online", "feature_refs": ["ft-cancel", "ft-pick"],
                   "intents": ["bi-340"], "vertical": "the booking page"}]
         root, p = make_model(tmp, extra_slices=extra), paths(tmp)
         gather(root, p)
         g = read_json(p["gather"])
         check("every slice that serves the intent, in spine order",
               [s["id"] for s in g["slices"]] == ["sl-self-booking", "sl-cancel"])
+        sij = read_json(os.path.join(p["working"], "skill-input.json"))
+        check("a feature in two slices is in skill-input.json once, with both slices (S12)",
+              [f["id"] for f in sij["features"]] == ["ft-pick", "ft-remind", "ft-pay", "ft-cancel"]
+              and sij["features"][0]["slices"] == ["sl-self-booking", "sl-cancel"])
     with tempfile.TemporaryDirectory() as tmp:
         root, p = make_model(tmp, features=("ft-pick",)), paths(tmp)
         import yaml
@@ -107,6 +122,52 @@ def main():
               code == 0 and f["ready"] and f["ice_pages"][0].endswith("ices/pick.md")
               and "### Intent" in text and "### Expectation" in text and "Goal" in text)
         check("and their failure lines are taken out", "fails if" not in text.lower() and "two patients" not in text)
+    with tempfile.TemporaryDirectory() as tmp:
+        # #1034: a model part way through the move. ft-pick and its capability have ice.md
+        # pages; ft-remind has no `ices` entry yet and keeps its ICE inline on its page.
+        root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
+        import yaml
+        spine = yaml.safe_load(read(os.path.join(root, "_spine.yaml")))
+        ice = ("# ICE\n\n## Intent\n- **Goal:** a patient picks a slot.\n- **Fails if:** two patients get one slot.\n\n"
+               "## Context\n- **Persona:** the patient.\n\n## Expectation\n- **Scenario:** a slot is booked.\n")
+        spine["ices"] = [{"id": "ice-pick", "for": "ft-pick", "doc": "ices/pick.md"},
+                         {"id": "ice-booking", "for": "cap-booking", "doc": "ices/booking.md"}]
+        write(os.path.join(root, "_spine.yaml"), spine)
+        write(os.path.join(root, "ices", "pick.md"), ice)
+        write(os.path.join(root, "ices", "booking.md"), ice)
+        code, _, _ = gather(root, p)
+        fs = {f["id"]: f for f in read_json(p["gather"])["slices"][0]["features"]}
+        remind = fs["ft-remind"]
+        check("#1034: a feature not moved yet is read by its own shape — ready, its ICE read inline",
+              code == 0 and remind["ready"] and remind["ice_pages"][0].endswith("ft-remind/feature.md")
+              and remind["ice_pages"][1].endswith("ices/booking.md"))
+        text = read(os.path.join(p["working"], "ice", "ft-remind.md"))
+        check("#1034: its clean copy holds its inline ICE and its capability's ice.md, with no failure line",
+              "Feature ICE — ft-remind" in text and "### Intent" in text and "fails if" not in text.lower())
+        check("#1034: the moved feature beside it still reads its ice.md",
+              fs["ft-pick"]["ready"] and fs["ft-pick"]["ice_pages"][0].endswith("ices/pick.md"))
+    with tempfile.TemporaryDirectory() as tmp:
+        root = make_model(tmp, features=("ft-pick", "ft-remind", "ft-pay", "ft-cancel"),
+                          states={"ft-pick": "Completed", "ft-remind": "Dropped", "ft-pay": "In progress",
+                                  "ft-cancel": None})
+        p = paths(tmp)
+        code, _, _ = gather(root, p)
+        fs = {f["id"]: f for f in read_json(p["gather"])["slices"][0]["features"]}
+        check("each feature carries its state from its spine entry (ADR 070)",
+              code == 0 and fs["ft-pay"]["state"] == "In progress" and fs["ft-pay"]["had_no_state"] is False)
+        check("a Completed or Dropped feature is left out: no ready check, no clean copy (C16)",
+              fs["ft-pick"]["left_out"] == "Completed" and fs["ft-remind"]["left_out"] == "Dropped"
+              and fs["ft-pick"]["clean_ice"] is None and fs["ft-pick"]["reason"] == ""
+              and sorted(os.path.basename(c) for c in glob.glob(os.path.join(p["working"], "ice", "*.md")))
+              == ["ft-cancel.md", "ft-pay.md"])
+        check("a feature with no status reads Unplanned, with had_no_state (C16)",
+              fs["ft-cancel"]["state"] == "Unplanned" and fs["ft-cancel"]["had_no_state"] is True
+              and fs["ft-cancel"]["status"] is None)
+        check("skill-input.json leaves out the Completed and Dropped features",
+              [f["id"] for f in read_json(os.path.join(p["working"], "skill-input.json"))["features"]]
+              == ["ft-pay", "ft-cancel"])
+        check("the spine at the start of the run is kept for the state check (C18)",
+              read(os.path.join(p["working"], "spine-before.yaml")) == read(os.path.join(root, "_spine.yaml")))
     return finish()
 
 

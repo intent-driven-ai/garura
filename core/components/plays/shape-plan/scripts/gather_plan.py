@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gather_plan.py — what the plan of one business intent holds (/shape-plan, C1, C2, C5, C9).
+"""gather_plan.py — what the plan of one business intent holds (/shape-plan, C1, C2, C3, C5, C9, C16).
 
     python3 gather_plan.py --root <model dir> --spine <spine> --intent bi-<n> \
         --plans <plans dir> --out <working>/gather.json
@@ -9,7 +9,16 @@ link "slice serves business intent"); it never picks or orders the slices itself
 slice it lists the features (`feature_refs`, in build order), each feature's capability, and the
 page of each of the two ICE: the feature's and its capability's.
 
-For each feature it runs the ready check (check_ice_workable.py, beside this script) on both
+It reads each feature's state from the `status` of its spine entry (ADR 070): Unplanned,
+Planned, In progress, Completed or Dropped. A feature with no `status`, or a value outside the
+five, gets `state: Unplanned` and `had_no_state: true`. A Completed or Dropped feature is
+`left_out` (its state): it is not ready-checked, gets no clean copy and is not in
+skill-input.json. The tracker is never read for "built".
+
+It also copies the spine as it is now to `<working>/spine-before.yaml`, so the state check
+after the model write compares the spine with the spine at the start of the run (C18).
+
+For each other feature it runs the ready check (check_ice_workable.py, beside this script) on both
 ICE. A feature is `ready: false`, with a `reason`, when either ICE is not ready, or has no
 lines. For each ready feature it writes one clean copy, `<working>/ice/<feature id>.md`, that
 holds both ICE with every "Fails if" block taken out: the line and every line under it (nested
@@ -17,17 +26,22 @@ bullets, wrapped text). The clean copy names no ICE page. A clean copy left from
 run for a feature that is not ready now is deleted.
 
 It also writes `<working>/skill-input.json`, the only file the skill reads besides the clean
-copies: the intent and its title, and for each slice its id, name and outcome, and for each
-ready feature its id, name, one line and its clean copy's path. It holds no ICE page path.
+copies: the intent and its title, each slice's id, name and outcome, and each ready feature
+once (a feature in two slices of the plan is listed once, with both slices), with its id,
+name, one line and its clean copy's path. It holds no ICE page path.
+
+The model holds no issue number (ADR 069): nothing here reads one. find_work_items.py finds
+each feature's Feature issue in the tracker (C3).
 
 Output:
     {intent, intent_title, plan_id, plan_file,
      slices: [{id, slug, name, outcome,
-               features: [{id, name, one_line, capability, ready, reason, ice_pages: [..],
-                           clean_ice}]}]}
+               features: [{id, name, one_line, capability, status, state, had_no_state,
+                           left_out, ready, reason, ice_pages: [..], clean_ice}]}]}
 
 skill-input.json:
-    {intent, intent_title, slices: [{id, name, outcome, features: [{id, name, one_line, clean_ice}]}]}
+    {intent, intent_title, slices: [{id, name, outcome, features: [feature ids]}],
+     features: [{id, name, one_line, clean_ice, slices: [slice ids]}]}
 
 Exit 0 written; 2 when no slice serves the intent, or an input is wrong (nothing written).
 No git, no network.
@@ -102,8 +116,18 @@ def gather(args):
             f = pc.entry(spine, "features", fid)
             if f is None:
                 features.append({"id": fid, "name": fid, "one_line": "", "capability": None,
-                                 "ready": False, "reason": "the feature is not in the spine",
+                                 "status": None, "state": None, "had_no_state": False,
+                                 "left_out": None, "ready": False,
+                                 "reason": "the feature is not in the spine",
                                  "ice_pages": [], "clean_ice": None})
+                continue
+            state, had_no_state = pc.feature_state(f)
+            base = {"id": fid, "name": pc.page_title(args.root, f.get("doc"), "Feature:") or fid,
+                    "one_line": f.get("one_line") or "", "capability": f.get("capability"),
+                    "status": f.get("status"), "state": state, "had_no_state": had_no_state,
+                    "left_out": state if state in pc.LEFT_OUT_STATES else None}
+            if base["left_out"]:
+                features.append(dict(base, ready=False, reason="", ice_pages=[], clean_ice=None))
                 continue
             cap = pc.entry(spine, "capabilities", f.get("capability")) if f.get("capability") else None
             f_page, c_page = pc.ice_page(spine, f), pc.ice_page(spine, cap)
@@ -121,10 +145,8 @@ def gather(args):
                     reasons.append(f"the {label} ICE ({part['id']}) has no page")
                 elif not [ln for ln in pc.without_fails_if(lines) if ln.strip()]:
                     reasons.append(f"the {label} ICE ({part['id']}) has no lines")
-            item = {"id": fid, "name": pc.page_title(args.root, f.get("doc"), "Feature:") or fid,
-                    "one_line": f.get("one_line") or "", "capability": f.get("capability"),
-                    "ready": not reasons, "reason": "; ".join(reasons), "ice_pages": pages,
-                    "clean_ice": None}
+            item = dict(base, ready=not reasons, reason="; ".join(reasons), ice_pages=pages,
+                        clean_ice=None)
             if not reasons:
                 path = os.path.join(working, "ice", f"{fid}.md")
                 pc.atomic_write(path, clean_copy(fid, [
@@ -145,13 +167,23 @@ def gather(args):
 
 
 def skill_input(result):
-    """What the skill may read: no ICE page path, no feature that is not ready."""
+    """What the skill may read: no ICE page path, no feature that is not ready, and each
+    feature once, with the slices of the plan that hold it."""
+    features, order = {}, []
+    for sl in result["slices"]:
+        for f in sl["features"]:
+            if not f["ready"]:
+                continue
+            if f["id"] not in features:
+                order.append(f["id"])
+                features[f["id"]] = {"id": f["id"], "name": f["name"], "one_line": f["one_line"],
+                                     "clean_ice": f["clean_ice"], "slices": []}
+            features[f["id"]]["slices"].append(sl["id"])
     return {"intent": result["intent"], "intent_title": result["intent_title"],
             "slices": [{"id": sl["id"], "name": sl["name"], "outcome": sl["outcome"],
-                        "features": [{"id": f["id"], "name": f["name"], "one_line": f["one_line"],
-                                      "clean_ice": f["clean_ice"]}
-                                     for f in sl["features"] if f["ready"]]}
-                       for sl in result["slices"]]}
+                        "features": [f["id"] for f in sl["features"] if f["ready"]]}
+                       for sl in result["slices"]],
+            "features": [features[fid] for fid in order]}
 
 
 def main(argv=None):
@@ -168,11 +200,15 @@ def main(argv=None):
         sys.stderr.write(f"gather_plan.py: {exc}\n")
         print(json.dumps({"ok": False, "reason": str(exc)}))
         return 2
+    working = os.path.dirname(os.path.abspath(args.out))
     pc.write_json(args.out, result)
-    pc.write_json(os.path.join(os.path.dirname(os.path.abspath(args.out)), "skill-input.json"),
-                  skill_input(result))
+    pc.write_json(os.path.join(working, "skill-input.json"), skill_input(result))
+    pc.atomic_write(os.path.join(working, "spine-before.yaml"), pc.read_text(args.spine))
+    feats = [f for s in result["slices"] for f in s["features"]]
     print(json.dumps({"ok": True, "out": args.out, "slices": len(result["slices"]),
-                      "not_ready": sum(not f["ready"] for s in result["slices"] for f in s["features"])}))
+                      "not_ready": sum(not f["ready"] and not f["left_out"] for f in feats),
+                      "left_out": sum(bool(f["left_out"]) for f in feats),
+                      "had_no_state": sum(bool(f["had_no_state"]) for f in feats)}))
     return 0
 
 

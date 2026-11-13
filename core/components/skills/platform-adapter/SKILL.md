@@ -48,7 +48,7 @@ The adapter exposes exactly 25 verbs:
 | `edit-issue-title` | Change an issue's title |
 | `reopen-issue` | Reopen a closed issue |
 | `add-label` | Add labels to an issue or PR |
-| `attach-sub-issue` | Attach a child issue to a parent (GitHub only; GitLab falls back to related-link) |
+| `attach-sub-issue` | Attach a child issue to a parent; optional `replace_parent: "true"` moves a child that already has a parent (GitHub only; GitLab falls back to related-link and ignores the option) |
 | `view-user` | Get the current authenticated user's login |
 | `update-comment` | Update an existing comment in place |
 | `create-issue-typed` | Create an issue with its type and its parent in one call (GitHub only; GitLab stops with a plain message) |

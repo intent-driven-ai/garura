@@ -1,0 +1,111 @@
+# quality-findings.yaml - PR #1047 (issues 1025, 1034, 1035; part of 1056). Layer 1, standards-driven categories only:
+# executable-code, tests, docs, product-model, run-records (101 changed paths). Written by quality-auditor / check-pr-quality.
+meta:
+  pr: 1047
+  scope: standards-driven categories only (executable-code 35, tests 18, docs 2, product-model 1, run-records 45 = 101 paths); harness and memory are not in this file
+  diff_path: '.garura/project/issues/1025/review/pr.diff'
+  taxonomy_path: '.garura/project/issues/1025/context/memory/standards/rules/pr.md'
+  categories_path: '.garura/project/issues/1025/review/categories.yaml'
+  changed_paths_count: 101
+  scan_coverage: 1.0000
+  layer: 1
+findings: []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0
+checks_run:
+  scan:
+    command: "python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy <pr.md copy> --diff pr.diff --paths <the 101 paths>"
+    result: "exit 0, errors=0, scan_coverage 1.0. Raw script count P1=0 P2=4 P3=12 P4=5 (21 hits), CODE-20 catch-all=56 (a count, not findings)"
+    reading: >-
+      All 21 raw hits are pure path rules (no grep rule fired on any added line) and sit on two files:
+      core/tools/plan/test_plan.py (ARCH-02, ARCH-03, ARCH-08, CODE-03, CODE-04, CODE-09, CODE-10, CODE-11,
+      CODE-12, CODE-13, CODE-14, CODE-15, CODE-17, CODE-19; line 1, path only) and core/tools/plan/README.md
+      (DOC-01, DOC-09, DOC-10, DOC-11, DOC-14, DOC-15, DOC-16; line 1, path only). Each row needs evidence the
+      path cannot give (lint message, cycle trace, function score, line count). Each was checked against that
+      evidence below and none holds, so none is entered as a finding. Every .py under core/components is
+      classed garura-prose by the taxonomy's own scoping table, so no path rule reaches those 52 files; the
+      ruff run and the added-line greps below stand in for them.
+    raw_hits_disposition:
+      CODE-03: "ruff E731 at test_plan.py:338 is on a line this PR did not change (line 298 on main): there before"
+      CODE-04: "no formatter config is committed, and ruff format would change all 53 py files and their main versions alike: a repo-wide style, not a defect of this diff"
+      ARCH-02_CODE-14: "no import cycle: test_plan.py imports only the standard library and plan"
+      CODE-09_CODE-10_CODE-11_CODE-15: "ruff C901, PLR0912, PLR0915 on test_plan.py: all checks passed; the one new test function is about 40 lines, 2 levels deep"
+      ARCH-03_ARCH-08_CODE-12_CODE-13_CODE-17_CODE-19: "no new file; the +40 lines are one test; no TODO, no print, no long or oddly named identifier added"
+      DOC-01_DOC-09_DOC-10_DOC-11_DOC-14_DOC-15_DOC-16: "README.md exists and its diff only rewrites the plan-file field list (intent, epic, slices, represents, held_by); every field it names appears in the new test and the tool; no setup, troubleshooting or architecture section was added or removed by this diff"
+  ruff:
+    command: "ruff check (0.15.20, default rules, no committed config) on the 53 changed .py files (35 executable-code + 18 tests)"
+    result: "3 violations, all on lines this PR did not touch; 0 on changed lines; 0 new"
+    there_before:
+      - "core/components/plays/specify-domains/scripts/test_vision_scripts.py:383 E731 lambda assigned (main: line 381)"
+      - "core/components/skills/link-model-part/scripts/test_link_part.py:8 F401 textwrap unused (main: line 8)"
+      - "core/tools/plan/test_plan.py:338 E731 lambda assigned (main: line 298)"
+    main_comparison: "ruff on the main versions of the same files gives the same 3 violations; the 4 new files (check_states.py, planned_request.py, test_scenarios.py, test_states.py) are clean"
+  tests_run:
+    runner: "plain scripts run with python3 from their own folder; the two unittest files run with python3 -m unittest from their own folder (the link-model-part one also from the repo root by path)"
+    all_green: true
+    results:
+      - "core/components/plays/build-play/references/test_check_ice_workable.py: exit 0, 49 passed, 0 failed"
+      - "core/components/plays/design-eval/scripts/test_shape_eval_scripts.py: exit 0, 70 passed, 0 failed"
+      - "core/components/plays/design-slice/scripts/test_shape_slice_scripts.py: exit 0, 131 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_check_drafts.py: exit 0, 18 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_check_plan.py: exit 0, 12 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_check_tracker.py: exit 0, 17 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_find_work_items.py: exit 0, 21 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_gather_plan.py: exit 0, 32 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_render_brief.py: exit 0, 17 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_scenarios.py: exit 0, 23 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_states.py: exit 0, 15 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_support.py: exit 0, 34 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_write_plan_file.py: exit 0, 12 passed, 0 failed"
+      - "core/components/plays/shape-plan/scripts/test_write_work_items.py: exit 0, 26 passed, 0 failed"
+      - "core/components/plays/specify-capabilities/scripts/test_persist_understand.py: exit 0, 103 passed, 0 failed"
+      - "core/components/plays/specify-domains/scripts/test_vision_scripts.py: exit 0, 48 passed, 0 failed"
+      - "core/components/skills/link-model-part/scripts/test_link_part.py (unittest): Ran 58 tests, OK"
+      - "core/tools/plan/test_plan.py (unittest): Ran 21 tests, OK (skipped=1)"
+    totals: "18 suites run, 18 green, 0 red, 0 not run; plain-script checks 628 passed, 0 failed; unittest 79 tests OK, 1 skipped"
+    skipped_test:
+      file: core/tools/plan/test_plan.py
+      line: 353
+      detail: "test_every_plan_of_this_repository_reads_with_the_template skips with 'no plans folder in this checkout'. The skip is a condition on the checkout, not a disabled test, and the line is not in this PR's diff: there before. The repository-plans check does not run in this checkout."
+    working_tree_after_runs: "no new or changed tracked file outside the review run records (checked with git status)"
+  added_line_greps:
+    command: "grep over the 3813 added lines of the 53 changed .py files"
+    patterns: "shell=True, os.system, eval(, exec(, pickle, yaml.load(, unsafe_load, bare except, except Exception: pass, breakpoint, pdb, TODO, FIXME, XXX, http://, hard-coded api key/secret/password/token of 8+ characters, os.environ, md5, sha1, rmtree, os.remove, unlink, shutil.move, skip, xfail, mock, patch(, sleep("
+    result: "no match in code under test. Only deletion calls: 4 test clean-ups (test_shape_eval_scripts.py:462, :475, :665 and test_write_plan_file.py:131) that remove their own temp files or folders; no skipped, mocked or sleeping test"
+  copy_drift:
+    plan_common.py: "3 copies (shape-plan, reshape-plan, build-play/references): all sha1 39005578..., byte-identical"
+    check_ice_workable.py: "4 copies (shape-plan, reshape-plan, specify-intent, build-play/references): all sha1 4e20ac76..., byte-identical"
+    platform_adapter.py: "8 copies (shape-plan, design-eval, design-slice, merge-work, review-work, validate-work, track-plan-changes, build-play/references): all sha1 00d9c34b..., byte-identical"
+    result: "15 files in 3 groups, 0 differ"
+  product_model:
+    file: .garura/product/product-os/_spine.yaml
+    diff_numstat: "239 added, 280 removed"
+    removed_lines: "280 lines, every one 'status: proposed' (1 domain + 40 capabilities + 239 features)"
+    added_lines: "239 lines, every one 'status: Unplanned'"
+    other_change: "none: with status lines stripped, domains, capabilities and features equal their main versions; profile, slices and ices are equal as they stand; counts 1 / 40 / 239 / 3 / 0 / 273 unchanged"
+    after: "parses as YAML; 0 domain and 0 capability entries hold a status; all 239 features hold exactly one status and it is Unplanned (a value ADR 070 names)"
+    migration_record: ".garura/project/issues/1056/context/migrate-status/link-report.json says domains_cleared 1, capabilities_cleared 40, features_set_unplanned 239, features_kept 0: 280 in all, matches"
+    result: "counts match (280 removed, 239 Unplanned, nothing else changed)"
+  run_records:
+    files_checked: 45
+    path_scan: "a grep for home-folder, temp-folder and account-name patterns over the 45 files, in the working tree and in their HEAD versions: 0 matches"
+    manifest_check: ".garura/project/issues/1025/context/memory/manifest.json lists 9 copies; all 9 exist and the sha256 of each copy equals its recorded fingerprint"
+    result: "no home-folder, temp-folder or account-name path in any run record; manifest holds"
+  data_safety_reads_before_writes: >-
+    write_work_items.py refuses (exit 2, nothing written) unless the approval is a yes and matches the hashes of
+    work-items.json and drafts.json, and runs precheck() (which only reads the tracker) before any write; every
+    tracker write goes through Writer.do(), which saves the record after each step and stops at the first failed
+    step (exit 1). The model write is not in these scripts: planned_request.py only builds a request and, with no
+    state change, an empty one (the play skips the write). Reads and checks come before writes.
+there_before_not_findings:
+  - "core/components/plays/specify-domains/scripts/test_vision_scripts.py:383 E731"
+  - "core/components/skills/link-model-part/scripts/test_link_part.py:8 F401"
+  - "core/tools/plan/test_plan.py:338 E731"
+  - "core/tools/plan/test_plan.py:353 conditional skipTest"
+  - "docs/components/agents.md: the product-os-keeper skill pool (line 198 on) does not list link-model-part, which the agent file lists; this PR did not change that table"
+playbook_gaps:
+  - "product-model: no playbook on the review shelf; the checks above are the assessor's, not a playbook treatment"
+  - "run-records: no playbook on the review shelf; the checks above are the assessor's, not a playbook treatment"

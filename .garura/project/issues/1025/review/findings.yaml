@@ -1,0 +1,222 @@
+pr: 1047
+issue: 1025
+base: main
+categories:
+- harness
+- memory
+- executable-code
+- tests
+- docs
+- product-model
+- run-records
+layer1_checks:
+  lint-components (installed, source layout): 36 errors, 1 warning; none in a changed file (there before)
+  lint-play (installed, with the Next-line map): 'shape-plan, design-eval, design-slice, specify-capabilities: PASS,
+    0 gaps'
+  tests: '18 suites green: 628 plain checks, 79 unit tests (1 skipped, there before)'
+  ruff: 3 violations, all on lines this PR did not touch (there before)
+  shared copies: plan_common x3, check_ice_workable x4, platform_adapter x8 byte-identical
+  product model: 280 old status lines removed, 239 Unplanned added, nothing else changed
+  run records: no home-folder, temp or account-name match
+  re-run after fixes: all tests in 10 folders green; lint-play PASS on 4 plays; lint-components 36 errors, none
+    in a changed file; shared copies identical
+findings:
+- id: H4
+  severity: P4
+  category: harness
+  layer: 2
+  file: core/components/plays/design-slice/SKILL.md
+  principle: A hand edit to a compiled play is clobbered by the next rebuild unless the compiler reproduces it;
+    a behaviour the ADR calls an ICE impact belongs in the ICE.
+  basis: 'CLAUDE.md lines 110-123 (Play Pipeline Rules, durability rule); docs/adr/070-... line 9 (''ICE impact:
+    /design-slice, through /fix-play: ... a new feature gets Unplanned; it stops writing the old status'') and line
+    8 (Affects: design-slice reference/ice.md and SKILL.md).'
+  detail: The SKILL.md edit (lines 504-506) is surface prose about what persist_fills.py writes, and design-slice's
+    committed ICE is silent on spine status, so nothing is contradicted today (see the pass above). But ADR 070
+    itself lists the new-feature Unplanned rule as design-slice ICE impact, and the line lives only in the hand
+    edit; the next /fix-play on design-slice would drop it, as the C6 and C7 change ADR 070 also names for design-slice
+    is still owed.
+  suggested_fix: Carry the rule into design-slice/reference/ice.md in the /fix-play that ADR 070 already lists for
+    C6 and C7, so the compiler reproduces it. No change needed in this PR.
+  blocks_merge: false
+- id: H5
+  severity: P4
+  category: harness
+  layer: 2
+  file: core/components/skills/author-slice-eval/SKILL.md
+  also_files:
+  - core/components/agents/evals-engineer.md
+  principle: 'One name, one meaning: a part''s name says what it does.'
+  basis: 'docs/standards/harness-standard.md lines 107-116 (principle 10); docs/adr/069-... lines 117-119 (Decision
+    4: one eval for each plan, no eval for each slice).'
+  detail: The skill is still called author-slice-eval but now writes the plan's one eval (a feature file for each
+    Feature issue and one plan file) and the file's description says so. The name now says 'slice eval' for a thing
+    ADR 069 made a plan's eval. Renaming is wider than this PR (the linter's naming map, the agent table, the play),
+    so this is a nit.
+  suggested_fix: Rename it in a later naming change (for example author-plan-eval) through the harness standard's
+    rename map, or note the slice-eval name is kept on purpose in the ADR that records the rework.
+  blocks_merge: false
+- id: M-1
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/spine.yaml
+  line: 215-225
+  principle: PR-1
+  basis: docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md line 60 ("The name `status` then
+    belongs to the feature's state only"); ontology.md v18 line 23 ("The spine has no `epics` list"); docs/adr/069
+    lines 142 and 173 (the spine's `epics` list leaves the model)
+  detail: 'The schema this PR edits to give `status` one meaning still holds the `epics` list, whose entry has its
+    own `status: ready | in_delivery | validated | fix_required | delivered` (origin/main lines 215-225, unchanged),
+    and its writer line at 259-260 ("epic status chain"). After this PR the file has two meanings of `status` and
+    still describes a list that ontology v18 says is gone. The list was there before the branch (ADR 069 owes its
+    removal), but the branch now claims the spine schema carries the v18 state model.'
+  suggested_fix: Either remove the `epics` list and its writer line in this change (ADR 069 owed it), or add one
+    header line in spine.yaml that the `epics` list is legacy, owed for removal by ADR 069, and that its `status`
+    is not the feature state. Track the removal if it moves out of this PR.
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-2
+  severity: P3
+  file: core/components/memory/standards/rules/direct-model-write.md
+  line: 166-175
+  principle: PR-3
+  basis: 'standards/rules/direct-model-write.md (memory tool copy) lines 148-156: the /reshape-plan exception says
+    where the change is committed ("one commit on the plan''s branch, with the plan file, not in a separate feat(model)
+    commit") and step 7 (lines 82-105) sets the default `feat(model)` commit; docs/adr/070 lines 84-86 (Decision
+    7: the state is written on the work''s branch)'
+  detail: The new /shape-plan exception says when it writes, who writes it, the guard and the after-check, but not
+    where the change is committed. It does not say whether it falls under step 7 (its own `feat(model)` commit)
+    or follows /reshape-plan (one commit with the plan file), and it does not name the branch. The two sibling cases
+    in this same section differ on this point, so a reader cannot tell which one /shape-plan follows. L-DMW-4 (lines
+    240-243) also lists its "Not a finding" cases, and does not say whether /shape-plan is one.
+  suggested_fix: 'Add one sentence to the exception: the state is committed on the work''s branch (ADR 070 Decision
+    7) in its own `feat(model)` commit after the plan file''s commit (step 7 applies), or in the one commit with
+    the plan file, whichever the play does; and say the L-DMW-4 anchors still apply or do not.'
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-3
+  severity: P3
+  file: core/components/memory/standards/rules/eval-format.md
+  line: 8-9
+  principle: PR-4
+  basis: docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md line 119 ("The eval covers every feature
+    of every slice the plan holds"); ontology.md v18 Plan kind, Eval row, line 683 ("every feature of every slice
+    it holds") and Slices row line 678 (a slice status of Dropped is recorded in the plan, not removed from it)
+  detail: 'The rule adds that a slice whose status in the plan file''s Slices list is Dropped gets no section, that
+    a feature only dropped slices hold gets no feature file, and that a feature held by a live slice is tested through
+    it. No committed source says a Dropped slice leaves the eval: ADR 069 and ontology v18 say every slice the plan
+    holds, and a Dropped slice is still in the Slices list. The plan template (eval-plan.md line 5, "one section
+    for each slice the plan holds") and the rules index row do not carry the exclusion, so the three memory files
+    disagree.'
+  suggested_fix: Get the exclusion into a committed source first (an ontology line on the Plan Eval row through
+    /specify-ontology, or a one-line amendment in an ADR), then keep it in eval-format.md and eval-plan.md both.
+    If the product owner has not decided it, remove it and let a Dropped slice keep its section.
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-4
+  severity: P4
+  file: core/components/memory/standards/rules/direct-model-write.md
+  line: 166-175
+  principle: PR-3
+  basis: origin/main core/components/skills/link-model-part/scripts/link_part.py lines 200 and 459 (every update
+    sets `metadata.updated_by`); docs/adr/069 line 8 and ontology v18 line 23 (updated_by names the play and what
+    it did)
+  detail: 'The exception says the after-check confirms "nothing else in the model changed". link-model-part stamps
+    `metadata.updated_by` on each feature entry it updates, so the spine changes in two things: `status` and the
+    stamp. The check_states.py of the play already allows the stamp, so the rule says less than the check does.'
+  suggested_fix: Write "nothing else in the model changed, except the `metadata.updated_by` stamp link-model-part
+    writes on each entry it updates".
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-5
+  severity: P4
+  file: core/components/memory/standards/rules/direct-model-write.md
+  line: 166
+  principle: PR-2
+  basis: 'docs/adr/070 line 145 (Work This Creates: "direct-model-write.md names /start-work and merge-work as writers
+    of one field, on the work''s branch") and ADR 070 line 9 (ICE impact names /shape-plan, but not as a change
+    to this rule)'
+  detail: 'The new paragraph is headed "(ADR 070)" and its content follows ADR 070 Decision 4 and 8. But ADR 070''s
+    own list of changes to this file names /start-work and merge-work, not /shape-plan, and this PR names neither.
+    The rule now declares one of the three writers of the field; the other two stay owed. Not a conflict: a gap
+    between the record and the rule.'
+  suggested_fix: Cite "ADR 070 Decision 4" in the heading, and keep the /start-work and merge-work lines as owed
+    to their own changes (name them in the PR body or the issue so they are not lost).
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-6
+  severity: P4
+  file: core/components/memory/standards/templates/eval-plan.md
+  line: 41-44
+  principle: PR-5
+  basis: ontology.md v18 line 493 (a dropped feature stays listed as Dropped, the plan's eval does not test it);
+    standards/rules/eval-format.md rule on main is silent, but the branch's own rule says "Out of the plan" is for
+    a feature "left the plan, or was dropped from it" - the template line and the rule must agree
+  detail: The template's "Out of the plan" entry reads "its feature left the plan; kept, not run". The rule adds
+    "or was dropped from it". A feature dropped from the plan (ontology line 493) is not a feature that left the
+    plan, so the template's wording does not cover the case the rule adds.
+  suggested_fix: Change the template line to "its feature left the plan or was dropped from it; kept, not run".
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-7
+  severity: P4
+  file: core/components/memory/standards/rules/eval-format.md
+  line: 10-11
+  principle: PR-5
+  basis: ontology.md v18 line 493 (the feature is Dropped) against ontology line 722 (a plan-tree item is Dropped
+    when its issue closes as not planned) and docs/adr/070 lines 72 and 80-82 (Dropped is set by a person through
+    /reshape-plan; nothing says it closes the Feature issue)
+  detail: The rule leaves out a feature "whose Feature issue item in the plan file's tree is Dropped". The ontology
+    says the plan's eval does not test a feature that is Dropped, and a feature's state is only in the model, while
+    the tree item follows its issue. The two coincide only if dropping a feature through /reshape-plan also closes
+    its Feature issue as not planned, which no committed source says. A feature Dropped in the model with an open
+    Feature issue would still be tested.
+  suggested_fix: Ask the ontology (or ADR 070) to say that dropping a feature closes its Feature issue as not planned,
+    or key the rule on both signals (item Dropped, or the feature's state Dropped read by the plan).
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-8
+  severity: P4
+  file: core/components/memory/standards/rules/_index.md
+  line: 11-70
+  principle: PR-6
+  basis: 'knowledge/review/memory.md (memory tool copy), Treatment, Linter bullet: "is it listed in the shelf _index";
+    origin/main lists the same gaps'
+  detail: Index against folder, counted by name. rules/_index.md does not list builder-isolation.md, direct-model-write.md,
+    expectation-generation.md, gate-config.md, grounding-eval.md or user-facing-voice.md (6 of 30 rule files; direct-model-write.md
+    is a file this PR changes). schemas/_index.md does not list expectation.yaml, and schemas/product-os/_index.md
+    (not changed) does not list spine.yaml, which this PR changes. The same gaps are on origin/main; the rows this
+    PR adds or edits are correct, and templates/_index.md and schemas/eval/_index.md are complete. Counted as there
+    before.
+  suggested_fix: Add the missing rows in a follow-up (direct-model-write.md and spine.yaml first, as this PR touches
+    them).
+  blocks_merge: false
+  category: memory
+  layer: 2
+- id: M-9
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/product-os.yaml
+  line: 126-127
+  principle: PR-1
+  basis: docs/adr/070 lines 36-42 (learn-outcomes still writes the old `status`; what it does instead is the person's
+    open decision) and lines 56-60 (a capability has no state)
+  detail: 'The writers list still says "/learn-outcomes writes: status changes driven by real-world outcomes" (product-os.yaml
+    lines 126-127, and spine.yaml lines 262-263), in files this PR edits for the new state. It now reads as a writer
+    of the feature state that Decision 4 does not list. ADR 070 names this as an open point for the person and says
+    nothing is needed now, so it is a note, not a defect.'
+  suggested_fix: Leave it, or add "(legacy; ADR 070 open point)" to the line so the writers list is not read as
+    a fifth setter of the state.
+  blocks_merge: false
+  category: memory
+  layer: 2
+fixed_in_this_round:
+- H1 (no issue number in the model's updated_by stamp)
+- 'H2 (specify-capabilities ICE no longer says status: proposed)'
+- H3 (shape-plan reopens only an issue closed as not planned)
+- H6 (notes of origin out of the shape-plan ICE)

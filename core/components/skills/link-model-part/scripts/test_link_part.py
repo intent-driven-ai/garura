@@ -22,7 +22,6 @@ capabilities:
   domain: ''
   intents:
   - bi-1
-  status: proposed
   one_line: Send mail
   doc: capabilities/cap-1/capability.md
 features:
@@ -31,7 +30,7 @@ features:
   capability: cap-1
   intents:
   - bi-1
-  status: proposed
+  status: Planned
   one_line: Send one message
   doc: features/fn-1/feature.md
   depends_on: []
@@ -111,7 +110,8 @@ class LinkPartTest(unittest.TestCase):
         spine = yaml.safe_load(self.read("_spine.yaml"))
         entry = next(f for f in spine["features"] if f["id"] == "fn-2")
         self.assertEqual(entry["capability"], "cap-1")
-        self.assertEqual(entry["status"], "proposed")
+        self.assertEqual(entry["status"], "Unplanned")
+        self.assertEqual(list(entry).index("status"), list(entry).index("intents") + 1)
         self.assertEqual(entry["issue"], 2)
         self.assertTrue(entry["metadata"]["thin"])
         page = self.read("features/fn-2/feature.md")
@@ -189,6 +189,8 @@ class LinkPartTest(unittest.TestCase):
         cap = next(c for c in spine["capabilities"] if c["id"] == "cap-book")
         self.assertEqual(cap["domain"], "dom-care")
         self.assertEqual(cap["detail"], "directional")
+        self.assertNotIn("status", cap)
+        self.assertNotIn("status", spine["domains"][0])
         self.assertTrue(cap["metadata"]["thin"])
         self.assertEqual(self.read("care/booking/capability.md").count("Thin:"), 1)
         self.assertEqual(report["written"], ["dom-care", "cap-book"])
@@ -579,6 +581,195 @@ class TakeInOldPartsTest(unittest.TestCase):
         self.assertEqual(len(caught.exception.left), 1)
         self.assertIn(spine_path, caught.exception.left[0])
         self.assertEqual(self.read("features/fn-1/feature.md"), PAGE.format(title="Send one message"))
+
+
+OLD_SPINE = """\
+# The spine — a comment that must stay.
+domains:
+- id: dom-1
+  slug: dom-1
+  intents: []
+  status: active
+  one_line: Mail
+  doc: dom-1/domain.md
+capabilities:
+- id: cap-1
+  slug: cap-1
+  domain: dom-1
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Send mail
+  doc: dom-1/cap-1/capability.md
+- id: cap-2
+  slug: cap-2
+  domain: dom-1
+  intents: []
+  one_line: Read mail
+  doc: dom-1/cap-2/capability.md
+features:
+# features keep their order
+- id: fn-1
+  slug: fn-1
+  capability: cap-1
+  intents:
+  - bi-1
+  status: proposed
+  one_line: Send one message
+  doc: dom-1/cap-1/fn-1/feature.md
+- id: fn-2
+  slug: fn-2
+  capability: cap-1
+  intents:
+  - bi-1
+  one_line: Send a reset link
+  doc: dom-1/cap-1/fn-2/feature.md
+  metadata:
+    created_by: /test
+- id: fn-3
+  slug: fn-3
+  capability: cap-1
+  intents: []
+  status: Completed
+  one_line: Send a copy
+  doc: dom-1/cap-1/fn-3/feature.md
+- id: fn-4
+  slug: fn-4
+  capability: cap-1
+  intents: []
+  status: deprecated
+  one_line: Send a fax
+  doc: dom-1/cap-1/fn-4/feature.md
+"""
+
+
+class StateTest(unittest.TestCase):
+    """The feature's state (ontology v18, ADR 070): only a feature has one, one of five."""
+
+    write, read, run_request, new_fn2 = (LinkPartTest.write, LinkPartTest.read,
+                                         LinkPartTest.run_request, LinkPartTest.new_fn2)
+    assert_refused_parts = LinkPartTest.assert_refused_parts
+    setUp, tearDown = LinkPartTest.setUp, LinkPartTest.tearDown
+
+    def feature(self, fid):
+        return next(f for f in yaml.safe_load(self.read("_spine.yaml"))["features"] if f["id"] == fid)
+
+    def test_an_update_sets_a_feature_state_to_each_of_the_five_in_any_order(self):
+        for state in ("Completed", "Unplanned", "Dropped", "In progress", "Planned", "Completed"):
+            r, report = self.run_request(parts=[{"id": "fn-1", "kind": "feature", "mode": "update",
+                                                 "status": state}])
+            self.assertEqual(r.returncode, 0, r.stderr)
+            entry = self.feature("fn-1")
+            self.assertEqual(entry["status"], state)
+            self.assertEqual(entry["one_line"], "Send one message")
+            self.assertEqual(entry["metadata"]["updated_by"], "/test")
+            self.assertEqual(report["updated"], ["fn-1"])
+        self.assertTrue(self.read("_spine.yaml").startswith("# The spine — a comment that must stay."))
+
+    def test_an_update_gives_a_feature_with_no_state_its_state_after_its_intents(self):
+        self.write("_spine.yaml", SPINE.replace("  status: Planned\n", ""))
+        r, _ = self.run_request(parts=[{"id": "fn-1", "kind": "feature", "mode": "update",
+                                        "status": "Planned"}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        entry = self.feature("fn-1")
+        self.assertEqual(list(entry).index("status"), list(entry).index("intents") + 1)
+
+    def test_a_state_outside_the_five_is_refused(self):
+        for bad in ("proposed", "active", "deprecated", "in progress", "Done", "", None, 3):
+            self.assert_refused_parts([{"id": "fn-1", "kind": "feature", "mode": "update", "status": bad}],
+                                      "is not one of Unplanned, Planned, In progress, Completed, Dropped")
+
+    def test_a_state_on_any_other_kind_is_refused(self):
+        self.write("features/fn-1/ice.md", ICE)
+        for part in ({"id": "cap-1", "kind": "capability", "mode": "update", "status": "Planned"},
+                     {"id": "sl-1", "kind": "slice", "mode": "update", "status": "Planned"},
+                     {"id": "ice-1", "kind": "ice", "mode": "new", "for": "fn-1",
+                      "doc": "features/fn-1/ice.md", "status": "Planned"}):
+            self.assert_refused_parts([part], "only a feature has a state")
+        self.write("care/domain.md", "# Domain: Care\n")
+        self.assert_refused_parts([{"id": "dom-care", "kind": "domain", "mode": "new", "slug": "care",
+                                    "intents": ["bi-1"], "one_line": "Care", "doc": "care/domain.md",
+                                    "status": "Planned"}], "only a feature has a state")
+
+    def test_a_state_on_a_new_feature_is_refused(self):
+        self.assert_refused_parts([dict(self.new_fn2(), kind="feature", status="Planned")],
+                                  "a new feature is Unplanned")
+
+    def test_one_bad_state_refuses_the_whole_request(self):
+        self.assert_refused_parts([{"id": "fn-1", "kind": "feature", "mode": "update", "status": "Completed"},
+                                   {"id": "cap-1", "kind": "capability", "mode": "update",
+                                    "status": "Completed"}], "only a feature has a state")
+
+
+class MigrateStatusTest(unittest.TestCase):
+    """The one-time move off the old status (proposed, active, deprecated), ADR 070."""
+
+    write, read = LinkPartTest.write, LinkPartTest.read
+    tearDown = LinkPartTest.tearDown
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.base = self.tmp.name + "/"
+        self.root = os.path.join(self.base, "product-os")
+        self.write("_spine.yaml", OLD_SPINE)
+
+    def migrate(self, body=None):
+        req = os.path.join(self.base, "req.json")
+        with open(req, "w", encoding="utf-8") as fh:
+            json.dump(body if body is not None else {"by": "/test", "migrate_status": True}, fh)
+        out = os.path.join(self.base, "report.json")
+        r = subprocess.run([sys.executable, SCRIPT, "--request", req, "--product-base", self.base,
+                            "--out", out], capture_output=True, text=True)
+        if r.returncode != 0:
+            return r, None
+        with open(out, encoding="utf-8") as fh:
+            return r, json.load(fh)
+
+    def test_the_old_status_goes_and_each_feature_gets_its_state(self):
+        r, report = self.migrate()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        spine = yaml.safe_load(self.read("_spine.yaml"))
+        self.assertNotIn("status", spine["domains"][0])
+        self.assertFalse(any("status" in c for c in spine["capabilities"]))
+        states = {f["id"]: f["status"] for f in spine["features"]}
+        self.assertEqual(states, {"fn-1": "Unplanned", "fn-2": "Unplanned", "fn-3": "Completed",
+                                  "fn-4": "Unplanned"})
+        fn2 = spine["features"][1]
+        self.assertEqual(list(fn2).index("status"), list(fn2).index("intents") + 1)
+        self.assertEqual(report["migrated"], {"domains_cleared": 1, "capabilities_cleared": 1,
+                                              "features_set_unplanned": 3, "features_kept": 1})
+        self.assertEqual(report["changed"], ["product-os/_spine.yaml"])
+        self.assertTrue(report["layout_kept"])
+
+    def test_the_spine_keeps_its_comments_and_its_order(self):
+        self.migrate()
+        text = self.read("_spine.yaml")
+        self.assertTrue(text.startswith("# The spine — a comment that must stay."))
+        self.assertIn("# features keep their order", text)
+        ids = [f["id"] for f in yaml.safe_load(text)["features"]]
+        self.assertEqual(ids, ["fn-1", "fn-2", "fn-3", "fn-4"])
+
+    def test_a_second_run_changes_nothing_and_writes_nothing(self):
+        self.migrate()
+        after = self.read("_spine.yaml")
+        mtime = os.stat(os.path.join(self.root, "_spine.yaml")).st_mtime_ns
+        r, report = self.migrate()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.read("_spine.yaml"), after)
+        self.assertEqual(os.stat(os.path.join(self.root, "_spine.yaml")).st_mtime_ns, mtime)
+        self.assertEqual(report["migrated"], {"domains_cleared": 0, "capabilities_cleared": 0,
+                                              "features_set_unplanned": 0, "features_kept": 4})
+        self.assertEqual(report["changed"], [])
+
+    def test_a_migration_with_parts_or_not_true_is_refused_and_writes_nothing(self):
+        for body in ({"by": "/test", "migrate_status": True, "parts": []},
+                     {"by": "/test", "migrate_status": True, "features": []},
+                     {"by": "/test", "migrate_status": "yes"},
+                     {"by": "/test", "migrate_status": False}):
+            r, _ = self.migrate(body)
+            self.assertEqual(r.returncode, 2, body)
+            self.assertIn("refused, nothing written", r.stderr)
+            self.assertEqual(self.read("_spine.yaml"), OLD_SPINE)
 
 
 if __name__ == "__main__":

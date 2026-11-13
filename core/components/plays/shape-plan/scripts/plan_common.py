@@ -1,33 +1,41 @@
 #!/usr/bin/env python3
 """plan_common.py — the parts the /shape-plan scripts share.
 
-Not run on its own. The scripts beside it import it for four jobs:
+Not run on its own. The scripts beside it import it for five jobs:
 
   - Safe writes. `atomic_write` and `write_json` write through a temp file in the same folder,
     then move it into place with os.replace. A run that stops half way never leaves half a
     file.
   - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
-    `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
-    the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
+    `## Agent intent (ICE)` section of the part's page, or, when the part has an entry in the
+    spine's `ices` list, the `## Intent`, `## Context` and `## Expectation` sections of its
+    ice.md. Each part is read by its own shape (#1034): a part with no `ices` entry is read
+    inline even when other parts have moved.
     `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
     under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
-  - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
+  - The words that must never reach an epic, a Feature issue or a plan file: "Fails if" and the two
     recovery phrases (`forbidden_in`).
   - The tracker. `open_tracker` gives a file tracker (`--tracker-file <json>`, for tests and
     dry runs) or the code host, reached only through platform_adapter.py. Both have the same
-    methods: get, create (title, body, type and parent in one write), set_type, set_body,
-    remove_labels, add_sub, remove_sub, save.
+    methods: get, search (the issues whose title or text holds a phrase, open or closed),
+    create (title, body, type and parent in one write), close, reopen, set_type, set_body,
+    remove_labels, add_sub, remove_sub, save. `feature_issues` finds the Feature issues of a
+    feature by the exact line `Represents: <feature id>` on an issue of type Feature, never by
+    a title (ADR 068).
+  - A feature's state (ADR 070): `feature_state` reads the `status` of a feature's spine entry,
+    one of `STATES`; no status, or a value outside the five, reads as Unplanned and is named as
+    a feature that had no state.
   - The hash of a file (`sha256_of`), so a yes stays tied to the files the person saw.
 
 The file tracker is a JSON file {"issues": [{"number", "title", "type", "labels": [],
-"state", "body", "sub_issues": [numbers]}]}. A new issue takes the next free number. Like a
-real tracker, it keeps each write at once: the file is written after every write. A test can
-make one write fail: `"fail_at_write": <n>` in the file makes the n-th write of the run fail,
-with nothing changed by it.
+"state", "state_reason", "body", "sub_issues": [numbers]}]}. A new issue takes the next free
+number. Like a real tracker, it keeps each write at once: the file is written after every
+write. A test can make one write fail: `"fail_at_write": <n>` in the file makes the n-th write
+of the run fail, with nothing changed by it.
 
-The code host is reached through the adapter's verbs only: view-issue, create-issue-typed,
-set-issue-type, edit-issue-body, remove-label, attach-sub-issue and remove-sub-issue. No
-judgment is made here.
+The code host is reached through the adapter's verbs only: view-issue, list-issues,
+create-issue-typed, close-issue, reopen-issue, set-issue-type, edit-issue-body, remove-label,
+attach-sub-issue and remove-sub-issue. No judgment is made here.
 """
 
 import hashlib
@@ -44,7 +52,9 @@ except ImportError:  # the scripts say so in plain words
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RECOVERY_PHRASES = ("the builder can fix this alone", "a person must decide")
-EPIC_TYPE, STORY_TYPE = "Epic", "Story"
+EPIC_TYPE, FEATURE_TYPE, STORY_TYPE = "Epic", "Feature", "Story"
+STATES = ("Unplanned", "Planned", "In progress", "Completed", "Dropped")
+LEFT_OUT_STATES = ("Completed", "Dropped")
 
 
 class Refused(Exception):
@@ -114,7 +124,7 @@ def norm(text):
 
 
 def forbidden_in(text, fails_lines=()):
-    """What in `text` must never reach an epic, a story or a plan file, as plain reasons."""
+    """What in `text` must never reach an epic, a Feature issue or a plan file, as plain reasons."""
     found = []
     low = norm(text)
     if "fails if" in low:
@@ -162,15 +172,21 @@ def _section(lines, heading):
     return lines[at + 1:end]
 
 
-def ice_page(spine, part):
-    """The page (relative to the model folder) that holds the part's ICE, or None."""
+def ice_entry(spine, part):
+    """The part's entry in the spine's `ices` list, or None (none, or not moved yet)."""
     if part is None:
         return None
-    if "ices" in spine:
-        ice = next((i for i in spine.get("ices") or [] if isinstance(i, dict)
-                    and i.get("for") == part.get("id")), None)
-        return ice.get("doc") if ice else None
-    return part.get("doc")
+    return next((i for i in spine.get("ices") or [] if isinstance(i, dict)
+                 and i.get("for") == part.get("id")), None)
+
+
+def ice_page(spine, part):
+    """The page (relative to the model folder) that holds the part's ICE, or None: its ice.md
+    when it has an `ices` entry, else its own page, where the ICE is inline (#1034)."""
+    if part is None:
+        return None
+    ice = ice_entry(spine, part)
+    return ice.get("doc") if ice else part.get("doc")
 
 
 def ice_lines(root, spine, part):
@@ -182,7 +198,7 @@ def ice_lines(root, spine, part):
     if not os.path.isfile(path):
         return None
     lines = read_text(path).splitlines()
-    if "ices" in spine:
+    if ice_entry(spine, part) is not None:
         out = []
         for head in ICE_PARTS:
             body = _section(lines, head)
@@ -307,8 +323,22 @@ def approval_matches(path, work_items, drafts):
 def _issue(raw):
     return {"number": int(raw["number"]), "title": raw.get("title") or "",
             "type": raw.get("type"), "labels": list(raw.get("labels") or []),
-            "state": (raw.get("state") or "open").lower(), "body": raw.get("body") or "",
-            "sub_issues": [int(n) for n in raw.get("sub_issues") or []]}
+            "state": (raw.get("state") or "open").lower(),
+            "state_reason": (str(raw["state_reason"]).lower() if raw.get("state_reason") else None),
+            "body": raw.get("body") or "",
+            "sub_issues": [int(n) for n in raw.get("sub_issues") or []],
+            "parent": _parent(raw.get("parent"))}
+
+
+def _parent(raw):
+    """The issue's parent as {number, title, repo}, or None. repo is "owner/name" when the
+    tracker gives the parent's address (it may sit in another repository), else None (#1025)."""
+    if not isinstance(raw, dict) or raw.get("number") is None:
+        return None
+    url = str(raw.get("url") or "")
+    parts = url.split("/")
+    repo = f"{parts[3]}/{parts[4]}" if url.startswith("https://") and len(parts) > 6 else raw.get("repo")
+    return {"number": int(raw["number"]), "title": raw.get("title") or "", "repo": repo}
 
 
 class FileTracker:
@@ -329,7 +359,22 @@ class FileTracker:
 
     def get(self, number):
         it = self.issues.get(int(number)) if number is not None else None
-        return json.loads(json.dumps(it)) if it else None
+        if not it:
+            return None
+        it = json.loads(json.dumps(it))
+        if it.get("parent") is None:
+            owner = next((o for o in self.issues.values() if int(number) in o["sub_issues"]), None)
+            it["parent"] = ({"number": owner["number"], "title": owner["title"], "repo": None}
+                            if owner else None)
+        return it
+
+    def search(self, phrase, fields=("title", "body")):
+        """The numbers of the issues, open or closed, whose title or text holds `phrase`
+        (case does not count). Like a real search it may find more than an exact match: the
+        caller checks each issue it finds."""
+        want = " ".join(str(phrase).split()).lower()
+        return sorted(n for n, it in self.issues.items()
+                      if any(want in " ".join(str(it.get(f) or "").split()).lower() for f in fields))
 
     def _must(self, number):
         it = self.issues.get(int(number))
@@ -360,6 +405,18 @@ class FileTracker:
         self._keep()
         return number
 
+    def close(self, number, reason="completed"):
+        self._write("close an issue")
+        it = self._must(number)
+        it["state"], it["state_reason"] = "closed", reason
+        self._keep()
+
+    def reopen(self, number):
+        self._write("open an issue again")
+        it = self._must(number)
+        it["state"], it["state_reason"] = "open", "reopened"
+        self._keep()
+
     def set_type(self, number, type_):
         self._write("set the type")
         self._must(number)["type"] = type_
@@ -377,9 +434,14 @@ class FileTracker:
         self._keep()
 
     def add_sub(self, parent, child):
+        """Make child a sub-issue of parent. Like the real tracker's replace_parent, a child
+        has one parent: it leaves any other parent first (#1025)."""
         self._write("add a sub-issue")
         self._must(child)
         subs = self._must(parent)["sub_issues"]
+        for other in self.issues.values():
+            if other is not self.issues[int(parent)] and int(child) in other["sub_issues"]:
+                other["sub_issues"] = [n for n in other["sub_issues"] if n != int(child)]
         if int(child) not in subs:
             subs.append(int(child))
         self._keep()
@@ -427,8 +489,10 @@ class HostTracker:
         return _issue({"number": raw["number"], "title": raw.get("title"),
                        "type": itype.get("name") if isinstance(itype, dict) else itype,
                        "labels": [lb.get("name") for lb in raw.get("labels") or []],
-                       "state": raw.get("state"), "body": raw.get("body"),
-                       "sub_issues": [s.get("number") for s in subs if isinstance(s, dict)]})
+                       "state": raw.get("state"), "state_reason": raw.get("stateReason"),
+                       "body": raw.get("body"),
+                       "sub_issues": [s.get("number") for s in subs if isinstance(s, dict)],
+                       "parent": raw.get("parent")})
 
     def create(self, title, body, type_, parent=None):
         args = {"title": title, "body": body, "issue_type": type_}
@@ -439,6 +503,24 @@ class HostTracker:
         if not number.isdigit():
             raise TrackerError(f"create-issue-typed gave no issue number: {number!r}")
         return int(number)
+
+    def search(self, phrase, fields=("title", "body")):
+        """The numbers of the issues, open or closed, that the host's search finds for the
+        phrase in their title or text. The caller checks each issue it finds."""
+        where = ",".join(f for f in ("title", "body") if f in fields)
+        res = self._adapter("list-issues", {"query": f'"{phrase}" in:{where}', "state": "all",
+                                            "limit": "100"})
+        try:
+            found = json.loads(res["stdout"] or "[]")
+        except json.JSONDecodeError:
+            raise TrackerError("list-issues gave no list of issues")
+        return sorted(int(i["number"]) for i in found if isinstance(i, dict) and "number" in i)
+
+    def close(self, number, reason="completed"):
+        self._adapter("close-issue", {"issue_number": str(number), "reason": reason})
+
+    def reopen(self, number):
+        self._adapter("reopen-issue", {"issue_number": str(number)})
 
     def set_type(self, number, type_):
         self._adapter("set-issue-type", {"issue_number": str(number), "issue_type": type_})
@@ -451,7 +533,9 @@ class HostTracker:
             self._adapter("remove-label", {"issue_number": str(number), "label": label})
 
     def add_sub(self, parent, child):
-        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
+        """Make child a sub-issue of parent; it leaves any other parent (#1025)."""
+        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child),
+                                           "replace_parent": "true"})
 
     def remove_sub(self, parent, child):
         self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
@@ -509,10 +593,45 @@ def children(node):
     return [c for c in node.get("children") or [] if isinstance(c, dict)]
 
 
+# ---- finding a feature's work (ADR 068, #1025) -----------------------------------------
+
+def represents_line(fid):
+    return f"Represents: {fid}"
+
+
+def feature_issues(tracker, fid):
+    """Every issue of type Feature, open or closed, whose text has the exact line
+    `Represents: <fid>`. A title is never read; a line that is not exact, or the line on an
+    issue of another type, is not a match. Two issues mean a duplicate the person settles."""
+    out = []
+    for n in tracker.search(represents_line(fid), fields=("body",)):
+        it = tracker.get(n)
+        if it and it.get("type") == FEATURE_TYPE and has_line(it["body"], represents_line(fid)):
+            out.append(it)
+    return out
+
+
+def finished(it):
+    """Closed as completed (or closed, when the tracker gives no reason)."""
+    return it["state"] != "open" and (it.get("state_reason") or "completed") == "completed"
+
+
+# ---- a feature's state (ADR 070) --------------------------------------------------------
+
+def feature_state(entry):
+    """(state, had_no_state) of a feature's spine entry: its `status` when it is one of the
+    five, else Unplanned, with had_no_state True."""
+    raw = (entry or {}).get("status") if isinstance(entry, dict) else None
+    if isinstance(raw, str) and raw in STATES:
+        return raw, False
+    return "Unplanned", True
+
+
 # ---- the epic's feature-to-story map ----------------------------------------------------
 
 MAP_HEADING = "Feature-to-story map"
-MAP_LINE = re.compile(r"^\s*[-*]\s+(?P<feature>\S+)\s+→\s+#(?P<issue>\d+)\s*$")
+MAP_LINE = re.compile(r"^\s*[-*]\s+(?P<feature>\S+)\s+→\s+#(?P<issue>\d+)"
+                      r"(?:\s+\(under Epic #(?P<epic>\d+)\))?\s*$")
 
 
 def _map_span(lines):
@@ -528,8 +647,9 @@ def _map_span(lines):
     return at, end
 
 
-def read_map(body):
-    """{feature: issue} from the epic's map section, or None when it has no map section."""
+def read_map(body, held=False):
+    """{feature: issue} from the epic's map section, or None when it has no map section. With
+    held=True, {feature: epic} for each line that names another epic ("(under Epic #M)")."""
     lines = (body or "").splitlines()
     span = _map_span(lines)
     if span is None:
@@ -537,20 +657,23 @@ def read_map(body):
     out = {}
     for ln in lines[span[0] + 1:span[1]]:
         m = MAP_LINE.match(ln)
-        if m:
-            out[m.group("feature")] = int(m.group("issue"))
+        if m and (not held or m.group("epic")):
+            out[m.group("feature")] = int(m.group("epic") if held else m.group("issue"))
     return out
 
 
-def map_lines(pairs):
-    """The map section's text: the heading, then one line "<feature> → #<story>" each."""
-    return [f"## {MAP_HEADING}", ""] + [f"- {f} → #{n}" for f, n in pairs]
+def map_lines(pairs, held=None):
+    """The map section's text: the heading, then one line "<feature> → #<Feature issue>" each;
+    a feature `held` by another epic ({feature: epic}) reads "… (under Epic #<epic>)"."""
+    held = held or {}
+    return [f"## {MAP_HEADING}", ""] + [
+        f"- {f} → #{n}" + (f" (under Epic #{held[f]})" if f in held else "") for f, n in pairs]
 
 
-def with_map(body, pairs):
+def with_map(body, pairs, held=None):
     """The body with its map section written again; every other line stays where it is."""
     lines = (body or "").splitlines()
-    new = map_lines(pairs)
+    new = map_lines(pairs, held)
     span = _map_span(lines)
     if span is None:
         while lines and not lines[-1].strip():
@@ -562,13 +685,19 @@ def with_map(body, pairs):
     return "\n".join(lines).rstrip() + "\n"
 
 
-def map_pairs(slice_items, made=None):
-    """[(feature, story issue)] in the slice's order: each feature that has a story, made in
-    this run (`made`: {feature: issue}) or there before. A moved-out story is not in it."""
+IN_PLAN = ("make", "use", "add-sections", "held", "reopen", "closed-by-hand")
+
+
+def map_pairs(features, made=None):
+    """[(feature, Feature issue)] in the plan's order: each feature that is in the plan (not
+    Completed, not Dropped, not skipped), with its issue made in this run (`made`: {feature: issue}) or there
+    before. A feature left out of the plan is not in it."""
     made = made or {}
     out = []
-    for st in slice_items.get("stories") or []:
-        issue = made.get(st.get("feature")) or st.get("issue")
+    for f in features or []:
+        if f.get("action") not in IN_PLAN:
+            continue
+        issue = made.get(f.get("feature")) or f.get("issue")
         if issue is not None:
-            out.append((st.get("feature"), int(issue)))
+            out.append((f.get("feature"), int(issue)))
     return out
