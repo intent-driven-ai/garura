@@ -1,0 +1,7 @@
+{
+  "branch": "feature/1025-shape-plan-reuses-open-story",
+  "kind": "one-off",
+  "plan_id": null,
+  "issue": "1025",
+  "base": "main"
+}
