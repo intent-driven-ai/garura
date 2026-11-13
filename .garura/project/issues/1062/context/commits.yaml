@@ -1,0 +1,24 @@
+commits:
+  - sha: 3f181df6
+    message: "fix(plays): stop play scripts writing tracker issue and decision fields into the model (#1062)"
+    files:
+      - core/components/plays/specify-domains/scripts/persist_seed.py
+      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
+      - core/components/plays/specify-capabilities/scripts/persist_understand.py
+      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
+      - core/components/plays/reshape-plan/SKILL.md
+      - core/components/plays/reshape-plan/scripts/check_agreement.py
+      - core/components/plays/reshape-plan/scripts/plan_ops.py
+      - core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
+    branch: feature/1062-model-cleanup-skills
+  - sha: 00fe4dc0
+    message: "chore(stm): record run artifacts (#1062)"
+    files:
+      - .garura/project/issues/1062/context/analysis.yaml
+    branch: feature/1062-model-cleanup-skills
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
