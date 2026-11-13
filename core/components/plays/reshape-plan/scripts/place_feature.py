@@ -6,8 +6,9 @@
 
 For each `new-feature` entry of the draft it fills in, and writes back into the draft:
   - `capability`: the one the entry names (the person said it) when it is in the spine; else the
-    spine capability whose `issue` is the issue of the entry's parent in the plan, or of an item
-    above it (a feature item and its capability share an issue number); else none — and a
+    capability the plan file names for the entry's parent, or for an item above it: the first
+    of those nodes whose `represents` is a spine capability (that one) or a spine feature (that
+    feature's capability). No issue number is read from the model (ADR 069). Else none — and a
     question asks which capability, with the placement skill's suggestion when --suggestion
     names one;
   - `slice`: the spine slices whose `intents` hold `bi-<id>`: none → null (a slice is owed);
@@ -43,15 +44,24 @@ def slug(text):
 
 
 def chain(plan, issue):
-    """The issue numbers from the item up to the top of the plan."""
+    """The plan file's nodes from the item up to the top of the plan."""
     out, current = [], issue
     while current is not None:
         node, parent = ps.find(plan, current)
         if node is None:
             break
-        out.append(str(node.get("issue")))
+        out.append(node)
         current = parent.get("issue") if parent else None
     return out
+
+
+def capability_of(node, caps, features):
+    """The capability a plan node names through `represents`: a capability, or a feature's."""
+    rep = str(node.get("represents") or "")
+    if rep in caps:
+        return rep
+    cap = (features.get(rep) or {}).get("capability")
+    return cap if cap in caps else None
 
 
 IN_PROGRESS = ("in_delivery", "validated", "fix_required", "delivered")  # past ready (ADR 058)
@@ -70,15 +80,16 @@ def place(entry, plan, spine, plan_id, suggestion):
     entry.setdefault("capability", None)
     entry.setdefault("slice", None)
     caps = {c.get("id"): c for c in spine.get("capabilities") or []}
-    by_issue = {str(c.get("issue")): c.get("id") for c in caps.values() if c.get("issue") is not None}
+    features = {f.get("id"): f for f in spine.get("features") or [] if isinstance(f, dict)}
     title = entry.get("title") or ""
     named = entry.get("capability")
     if named and named not in caps:
         entry["capability"] = None
     if not entry.get("capability"):
-        for issue in chain(plan, entry.get("parent")):
-            if issue in by_issue:
-                entry["capability"] = by_issue[issue]
+        for node in chain(plan, entry.get("parent")):
+            cap = capability_of(node, caps, features)
+            if cap:
+                entry["capability"] = cap
                 break
     if named and named not in caps:
         found = f" Its parent in the plan points to {entry['capability']}." if entry["capability"] else ""
