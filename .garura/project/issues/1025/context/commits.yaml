@@ -1,34 +1,6 @@
 commits:
-  - sha: 41c6e795
-    message: "feat(product-os-model): carry feature state (work state) through the spine schema, link-model-part and the plays that write the model, ontology v18 and ADR 070 (#1056)"
-    files:
-      - core/components/agents/product-os-keeper.md
-      - core/components/memory/standards/rules/direct-model-write.md
-      - core/components/memory/standards/schemas/product-os/product-os.yaml
-      - core/components/memory/standards/schemas/product-os/spine.yaml
-      - core/components/plays/design-slice/SKILL.md
-      - core/components/plays/design-slice/scripts/persist_fills.py
-      - core/components/plays/design-slice/scripts/test_shape_slice_scripts.py
-      - core/components/plays/specify-capabilities/SKILL.md
-      - core/components/plays/specify-capabilities/scripts/persist_understand.py
-      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
-      - core/components/plays/specify-domains/scripts/persist_seed.py
-      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
-      - core/components/skills/author-domains/SKILL.md
-      - core/components/skills/enrich-capability-ice/SKILL.md
-      - core/components/skills/link-model-part/SKILL.md
-      - core/components/skills/link-model-part/scripts/link_part.py
-      - core/components/skills/link-model-part/scripts/test_link_part.py
-    branch: feature/1025-shape-plan-reuses-open-story
-  - sha: 12807e85
-    message: "chore(product-os): swap Garura's own spine to ontology v18 and record the migrate-status link request and report (#1056)"
-    files:
-      - .garura/product/product-os/_spine.yaml
-      - .garura/project/issues/1056/context/migrate-status/link-report.json
-      - .garura/project/issues/1056/context/migrate-status/link-request.json
-    branch: feature/1025-shape-plan-reuses-open-story
-  - sha: 73842360
-    message: "feat(shape-plan): read and set the feature state when shaping a plan, and reuse an open story, with the shared plan_common copies kept in step (#1025)"
+  - sha: 5844d5a1
+    message: "fix(shape-plan): review fixes: no issue number in the updated_by stamp, reopen only a Feature issue closed as not planned, keep a feature closed as completed by hand in the plan for reshape-plan, drop notes of origin from the ICE (#1025)"
     files:
       - core/components/plays/build-play/references/plan_common.py
       - core/components/plays/reshape-plan/scripts/plan_common.py
@@ -38,36 +10,27 @@ commits:
       - core/components/plays/shape-plan/scripts/check_states.py
       - core/components/plays/shape-plan/scripts/check_tracker.py
       - core/components/plays/shape-plan/scripts/find_work_items.py
-      - core/components/plays/shape-plan/scripts/gather_plan.py
       - core/components/plays/shape-plan/scripts/plan_common.py
       - core/components/plays/shape-plan/scripts/planned_request.py
       - core/components/plays/shape-plan/scripts/render_brief.py
       - core/components/plays/shape-plan/scripts/test_check_plan.py
       - core/components/plays/shape-plan/scripts/test_check_tracker.py
       - core/components/plays/shape-plan/scripts/test_find_work_items.py
-      - core/components/plays/shape-plan/scripts/test_gather_plan.py
       - core/components/plays/shape-plan/scripts/test_render_brief.py
       - core/components/plays/shape-plan/scripts/test_scenarios.py
       - core/components/plays/shape-plan/scripts/test_states.py
       - core/components/plays/shape-plan/scripts/test_support.py
-      - core/components/plays/shape-plan/scripts/test_write_work_items.py
       - core/components/plays/shape-plan/scripts/write_plan_file.py
       - core/components/plays/shape-plan/scripts/write_work_items.py
-      - core/components/plays/shape-plan/stop-condition.yaml
     branch: feature/1025-shape-plan-reuses-open-story
-  - sha: c5231c6a
-    message: "fix(design-eval): leave dropped plan items out of the eval (#1025)"
+  - sha: 59ffbfb9
+    message: "fix(specify-capabilities): ICE says a seeded capability has no status and a new feature is Unplanned, rebuilt (#1056)"
     files:
-      - core/components/memory/standards/rules/eval-format.md
-      - core/components/plays/design-eval/SKILL.md
-      - core/components/plays/design-eval/reference/ice.md
-      - core/components/plays/design-eval/scripts/gather_eval.py
-      - core/components/plays/design-eval/scripts/render_summary.py
-      - core/components/plays/design-eval/scripts/test_shape_eval_scripts.py
-      - core/components/skills/author-slice-eval/SKILL.md
+      - core/components/plays/specify-capabilities/SKILL.md
+      - core/components/plays/specify-capabilities/reference/ice.md
     branch: feature/1025-shape-plan-reuses-open-story
-  - sha: 23c75ec6
-    message: "chore(stm): record the commit-work analysis run for the issue (#1025)"
+  - sha: d57b9a24
+    message: "chore(stm): record run artifacts (#1025)"
     files:
       - .garura/project/issues/1025/context/analysis.yaml
     branch: feature/1025-shape-plan-reuses-open-story
