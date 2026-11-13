@@ -1,6 +1,6 @@
 ---
 name: remove-model-part
-description: Take parts out of the product model once a person has approved it. It repoints what named an old business intent to a new one, or drops it, part by part; removes a business intent's page once nothing names it; merges a capability into another (its features, links, intents and decisions move, and its needs are listed for review, never copied); and removes a slice and its record. Its script does all of it mechanically and all or nothing, on a copy, with every check run before the first write — no name of the person who approved, a part still named by the spine, a page that still names a part being removed (each path and line is named), a capability folder with any other file, or a path that leaves the model refuses the whole request and writes nothing; when a write fails, every file is put back. The spine keeps its comments and layout. It never writes a page's words; the page skill fixes those first, and a survivor's page is the page skill's work. Used through product-os-keeper by any play or run carrying out a removal a person approved.
+description: Take parts out of the product model once a person has approved it. It repoints what named an old business intent to a new one, or drops it, part by part; removes a business intent's page once nothing names it; merges a capability into another (its features, links and intents move, and its needs are listed for review, never copied); removes a slice and its record; and removes the model's decision files, one by one or all at once, with the decisions folder once it is empty, because no decision file lives in the model (ADR 069). Its script does all of it mechanically and all or nothing, on a copy, with every check run before the first write — no name of the person who approved, a part still named by the spine, a page that still names a part or a decision file being removed (each path and line is named), a capability folder with any other file, or a path that leaves the model refuses the whole request and writes nothing; when a write fails, every file is put back. The spine keeps its comments and layout. It never writes a page's words; the page skill fixes those first, and a survivor's page is the page skill's work. Used through product-os-keeper by any play or run carrying out a removal a person approved.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Bash
@@ -27,12 +27,16 @@ replaces it and who approved were decided before it runs.
              {"id": "cap-3", "kind": "capability", "intents": {"bi-2": null}}],
  "remove": [{"kind": "intent", "id": "bi-1"},
             {"kind": "capability", "id": "cap-4", "into": "cap-3"},
-            {"kind": "slice", "id": "sl-old"}]}
+            {"kind": "slice", "id": "sl-old"},
+            {"kind": "decision", "id": "dec-cap-4-security-low-medium"}]}
 ```
+
+To remove every decision file at once, give `{"kind": "decisions"}`, with no id.
 
 A part to repoint is a domain, a capability, a feature or a slice. In `intents`, each old business
 intent maps to its new one, or to `null` to drop it. Two parts that shared an intent can go to
-different new ones. A capability is never simply removed: it merges `into` another.
+different new ones. A capability is never simply removed: it merges `into` another. A decision's
+id is its file's name in the model's `decisions/` folder, less the extension.
 
 ## Process
 
@@ -47,14 +51,14 @@ different new ones. A capability is never simply removed: it merges `into` anoth
    ```
 
    It works on a copy, in this order: repoints, capability merges, slice removals, intent
-   removals. Every check runs, and only then is the first file changed. Exit 0: done. Exit 2:
+   removals, decision file removals. Every check runs, and only then is the first file changed. Exit 0: done. Exit 2:
    nothing was written; the error names the part or the line and why.
 3. **Return the report's path.** Pass on `needs_to_review` as it is: a merged capability's needs
    are for a person to look at.
 
 What a merge does: the capability's features move to the survivor. Whatever was identified by it,
 or depended on it, now names the survivor, never twice and never the survivor itself. The survivor
-gains the intents it lacks, in order, and the decisions. The capability's page goes, and its folder
+gains the intents it lacks, in order. A decisions list never moves: no part holds one (ADR 069). The capability's page goes, and its folder
 when that is then empty.
 
 A merge is a one-time change, so the spine keeps no record of it. The report's `merged` list is the
@@ -81,5 +85,9 @@ script exits 2.
   refuses the request. Nothing under the plans folder is touched, even for a slice.
 - **The removed id stays nowhere.** Anywhere in the changed spine's data it refuses the request,
   naming the part. Comments in the spine do not count.
+- **A decision file goes only when nothing names it.** While any page, record or spine entry
+  names its id, the request is refused, naming each place; take the names out first (the
+  spine's `decisions` lists go with link-model-part's strip request). The decisions folder goes
+  once no file is left in it. A link in the folder refuses the request.
 - **A capability with more than its page does not go.** A folder that holds any other file, or an
   entry in the spine's `ices` list, refuses the merge and is named.

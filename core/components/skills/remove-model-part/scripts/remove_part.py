@@ -17,10 +17,13 @@ remove-request.json:
                  {"id": "cap-3", "kind": "capability", "intents": {"bi-2": null}}],
      "remove": [{"kind": "intent", "id": "bi-1"},
                 {"kind": "capability", "id": "cap-4", "into": "cap-3"},
-                {"kind": "slice", "id": "sl-old"}]}
+                {"kind": "slice", "id": "sl-old"},
+                {"kind": "decision", "id": "dec-cap-4-security-low-medium"},
+                {"kind": "decisions"}]}
 
 `repoint` and `remove` are each optional, but at least one must hold an item. The work is done on
-a copy of the spine, in this order: repoints, capability merges, slice removals, intent removals.
+a copy of the spine, in this order: repoints, capability merges, slice removals, intent removals,
+decision file removals.
 Every check then runs, and only then is the first file changed.
 
 - repoint: kind is domain, capability, feature or slice, and the id must be in the spine under
@@ -34,7 +37,8 @@ Every check then runs, and only then is the first file changed.
     Features whose capability is the id move to `into`. Other capabilities or features
     identified by the id are now identified by `into`, or by nothing when that would be itself.
     Every depends_on list that holds the id holds `into` instead, no duplicates, never itself.
-    The survivor gains the intents it lacks, in order, and the decisions. Non-empty nfr_needs or
+    The survivor gains the intents it lacks, in order; a decisions list does not move, because
+    no part holds one (ADR 069). Non-empty nfr_needs or
     compliance_needs are listed in the report under needs_to_review, and never copied. The spine
     keeps no record of the merge: the report's `merged` list is the run's record, and the merged
     capability's issue number is gone from the model, while the tracker keeps the issue.
@@ -42,6 +46,12 @@ Every check then runs, and only then is the first file changed.
     other file, or when the spine has an `ices` list with an entry for it.
 - remove a slice: its entry goes from `slices`, and its record file (`record`, else
   slices/<id>.yaml) when it is there. Nothing under the plans folder is touched.
+- remove decision files (ADR 069: no decision file lives in the model): `{"kind": "decision",
+  "id": "<id>"}` removes the file in the model's decisions/ folder whose name, less its
+  extension, is the id; `{"kind": "decisions"}`, with no id, removes every file under that
+  folder. The folder goes too, once nothing is left in it. Refused when no such file is there,
+  when the folder holds a link, or while any page, record or spine entry still names a file
+  being removed (its id, as a whole word).
 - mentions: every id being removed must no longer appear as a whole word in any .md or .yaml file
   under the model, other than the files being deleted and _spine.yaml. Anywhere in the changed
   spine's data it refuses, naming the part. Comments in the spine do not count.
@@ -75,7 +85,8 @@ import spine_text  # noqa: E402  (stamped beside this script)
 
 KINDS = {"domain": "domains", "capability": "capabilities", "feature": "features", "slice": "slices"}
 SINGULAR = {key: kind for kind, key in KINDS.items()}
-REMOVABLE = ("intent", "capability", "slice")
+REMOVABLE = ("intent", "capability", "slice", "decision", "decisions")
+DECISIONS = "decisions"
 INTENT_ID = re.compile(r"[a-z0-9][a-z0-9-]*")
 MODEL = "product-os"
 
@@ -142,7 +153,15 @@ def check_request(request):
     for item in remove:
         kind, pid = item.get("kind"), item.get("id")
         if kind not in REMOVABLE:
-            raise Refused(f"{pid!r}: the kind {kind!r} is unknown here; only an intent, a capability or a slice is removed")
+            raise Refused(f"{pid!r}: the kind {kind!r} is unknown here; only an intent, a capability, a slice "
+                          f"or decision files are removed")
+        if kind == "decisions":
+            if set(item) - {"kind"}:
+                raise Refused("`{\"kind\": \"decisions\"}` removes every decision file and takes no other key")
+            if kind in removing:
+                raise Refused("every decision file is removed twice in this request")
+            removing.add(kind)
+            continue
         if not isinstance(pid, str) or not pid:
             raise Refused(f"each item to remove needs an id: {item!r}")
         if pid in removing:
@@ -242,8 +261,6 @@ def merge_capability(root, spine, item, removing, change):
                 part["depends_on"] = pointed_at(part["depends_on"], pid, into, part.get("id"))
 
     survivor["intents"] = no_repeats((survivor.get("intents") or []) + (entry.get("intents") or []))
-    if entry.get("decisions"):
-        survivor["decisions"] = no_repeats((survivor.get("decisions") or []) + entry["decisions"])
     needs = {k: entry[k] for k in ("nfr_needs", "compliance_needs") if entry.get(k)}
     if needs:
         change["needs_to_review"].append(dict({"id": pid}, **needs))
@@ -273,6 +290,42 @@ def remove_intent(root, spine, item, change):
     if named_by:
         raise Refused(f"the business intent {pid} is still named by {', '.join(named_by)}; repoint them first")
     change["deletes"].append(page)
+
+
+def remove_decisions(root, items, change):
+    """Mark the decision files the items name, and the decisions folder when it ends empty, to go.
+    Returns the ids (file names less their extension) of the files that go."""
+    folder = os.path.join(root, DECISIONS)
+    if not os.path.isdir(folder) or os.path.islink(folder):
+        raise Refused("the model has no decisions folder, so there is no decision file to remove")
+    files, links, folders = [], [], []
+    for here, dirs, names in os.walk(folder, topdown=False):
+        links += [os.path.join(here, n) for n in dirs + names if os.path.islink(os.path.join(here, n))]
+        files += [os.path.join(here, n) for n in names if not os.path.islink(os.path.join(here, n))]
+        folders.append(here)
+    if links:
+        raise Refused("the decisions folder holds a link, so nothing in it is removed: "
+                      + ", ".join(sorted(os.path.relpath(p, root) for p in links)))
+    going = []
+    for item in items:
+        if item["kind"] == "decisions":
+            if not files:
+                raise Refused("the decisions folder holds no file to remove")
+            going += files
+            continue
+        pid = item["id"]
+        if not INTENT_ID.fullmatch(pid):
+            raise Refused(f"{pid!r} is not a decision id, or it leaves the model folder")
+        hits = [f for f in files if os.path.dirname(f) == folder
+                and os.path.splitext(os.path.basename(f))[0] == pid]
+        if not hits:
+            raise Refused(f"the decision {pid} has no file in {DECISIONS}/")
+        going += hits
+    going = sorted(set(going))
+    change["deletes"] += going
+    if set(files) <= set(going):
+        change["folders"] += folders
+    return no_repeats(os.path.splitext(os.path.basename(f))[0] for f in going)
 
 
 def places(value, path, word):
@@ -339,6 +392,9 @@ def plan(root, spine, request):
     for item in remove:
         if item["kind"] == "intent":
             remove_intent(root, new_spine, item, change)
+    decision_items = [item for item in remove if item["kind"] in ("decision", "decisions")]
+    decision_ids = remove_decisions(root, decision_items, change) if decision_items else []
+    removing = (removing - {"decisions"}) | set(decision_ids)
     left = [f"{pid} in {place}" for pid in sorted(removing) for place in left_in_spine(new_spine, pid)]
     if left:
         raise Refused("the spine still names a part being removed: " + "; ".join(left))
@@ -347,7 +403,8 @@ def plan(root, spine, request):
         raise Refused("pages still name a part being removed; have the page skill fix these words first: "
                       + "; ".join(lines))
     change["repointed"] = no_repeats(item["id"] for item in repoint)
-    change["removed"] = [item["id"] for item in remove]
+    change["removed"] = no_repeats([item["id"] for item in remove if item["kind"] not in ("decision", "decisions")]
+                                   + decision_ids)
     return new_spine, change
 
 

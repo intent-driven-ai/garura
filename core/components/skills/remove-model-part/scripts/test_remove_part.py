@@ -353,11 +353,11 @@ class MergeCapability(RemovePartCase):
         self.done(request(remove=[self.merge]))
         self.assertEqual(self.part("features", "fn-2")["depends_on"], ["cap-3", "cap-4"])
 
-    def test_the_survivor_gains_its_intents_and_decisions_in_order(self):
+    def test_the_survivor_gains_its_intents_in_order_and_no_decisions_list(self):
         self.done(request(remove=[self.merge]))
         survivor = self.part("capabilities", "cap-3")
         self.assertEqual(survivor["intents"], ["bi-2", "bi-1"])
-        self.assertEqual(survivor["decisions"], ["dec-2"])
+        self.assertNotIn("decisions", survivor)
 
     def test_the_spine_keeps_no_record_of_the_merge(self):
         self.done(request(remove=[self.merge]))
@@ -519,6 +519,86 @@ class RemoveSlice(RemovePartCase):
         epics = "epics:\n- id: ep-1\n  slice: sl-1\n"
         self.write("_spine.yaml", SPINE + epics)
         self.assert_refused(request(remove=[{"kind": "slice", "id": "sl-1"}]), "sl-1", "epic")
+
+
+class RemoveDecisions(RemovePartCase):
+    """The model's decision files go (ADR 069: no decision file lives in the model)."""
+
+    def setUp(self):
+        super().setUp()
+        self.write("_spine.yaml", SPINE.replace("  decisions:\n  - dec-2\n", ""))
+        self.write("decisions/dec-1.yaml", "decision:\n  id: dec-1\n")
+        self.write("decisions/dec-2.yaml", "decision:\n  id: dec-2\n")
+
+    def test_one_decision_file_goes_and_the_folder_stays(self):
+        rep = self.done(request(remove=[{"kind": "decision", "id": "dec-1"}]))
+        self.assertFalse(self.exists("decisions/dec-1.yaml"))
+        self.assertTrue(self.exists("decisions/dec-2.yaml"))
+        self.assertEqual(rep["removed"], ["dec-1"])
+        self.assertEqual(rep["deleted"], ["product-os/decisions/dec-1.yaml"])
+        self.assertEqual(rep["changed"], [])
+
+    def test_every_decision_file_goes_with_the_folder(self):
+        self.write("decisions/old/dec-3.md", "an old note\n")
+        rep = self.done(request(remove=[{"kind": "decisions"}]))
+        self.assertFalse(self.exists("decisions"))
+        self.assertEqual(rep["removed"], ["dec-1", "dec-2", "dec-3"])
+        self.assertEqual(rep["deleted"], ["product-os/decisions/dec-1.yaml", "product-os/decisions/dec-2.yaml",
+                                          "product-os/decisions/old/dec-3.md", "product-os/decisions/old",
+                                          "product-os/decisions"])
+
+    def test_the_last_file_named_one_by_one_takes_the_folder_too(self):
+        self.done(request(remove=[{"kind": "decision", "id": "dec-1"}, {"kind": "decision", "id": "dec-2"}]))
+        self.assertFalse(self.exists("decisions"))
+
+    def test_it_is_refused_while_the_spine_names_it(self):
+        self.write("_spine.yaml", SPINE)
+        self.assert_refused(request(remove=[{"kind": "decisions"}]), "dec-2", "capability cap-2")
+
+    def test_it_is_refused_while_a_page_names_it(self):
+        self.write("capabilities/cap-1/capability.md", "# Capability: Send mail\nSee decisions/dec-1.yaml.\n")
+        self.assert_refused(request(remove=[{"kind": "decision", "id": "dec-1"}]),
+                            "capabilities/cap-1/capability.md:2 names dec-1")
+
+    def test_one_decision_file_naming_another_is_no_problem_when_both_go(self):
+        self.write("decisions/dec-2.yaml", "decision:\n  id: dec-2\n  supersedes: dec-1\n")
+        self.done(request(remove=[{"kind": "decisions"}]))
+        self.assertFalse(self.exists("decisions"))
+
+    def test_refusals(self):
+        self.assert_refused(request(remove=[{"kind": "decision", "id": "dec-9"}]), "dec-9", "no file")
+        self.assert_refused(request(remove=[{"kind": "decision", "id": "../intents/bi-1"}]), "leaves the model")
+        self.assert_refused(request(remove=[{"kind": "decision"}]), "needs an id")
+        self.assert_refused(request(remove=[{"kind": "decisions", "id": "dec-1"}]), "no other key")
+        self.assert_refused(request(remove=[{"kind": "decisions"}, {"kind": "decisions"}]), "twice")
+        self.assert_refused(request(remove=[{"kind": "decision", "id": "dec-1"}], approved_by=""), "approved_by")
+        self.assert_refused({"by": "/test", "remove": [{"kind": "decisions"}]}, "approved_by")
+
+    def test_a_model_with_no_decision_file_is_refused(self):
+        for name in ("dec-1.yaml", "dec-2.yaml"):
+            os.remove(os.path.join(self.root, "decisions", name))
+        self.assert_refused(request(remove=[{"kind": "decisions"}]), "no file to remove")
+        os.rmdir(os.path.join(self.root, "decisions"))
+        self.assert_refused(request(remove=[{"kind": "decisions"}]), "no decisions folder")
+
+    def test_a_link_in_the_folder_is_refused(self):
+        os.symlink(os.path.join(self.root, "intents", "bi-1.md"), os.path.join(self.root, "decisions", "dec-3.yaml"))
+        self.assert_refused(request(remove=[{"kind": "decisions"}]), "holds a link")
+
+    def test_a_delete_that_fails_puts_every_decision_file_back(self):
+        before = self.tree()
+        real = os.rmdir
+
+        def fail(path):
+            raise OSError("no folder removal today")
+
+        with mock.patch.object(remove_part.os, "rmdir", side_effect=fail):
+            with self.assertRaises(OSError):
+                remove_part.apply(os.path.join(self.root, "_spine.yaml"), self.read("_spine.yaml"), None,
+                                  [os.path.join(self.root, "decisions", n) for n in ("dec-1.yaml", "dec-2.yaml")],
+                                  [os.path.join(self.root, "decisions")], self.out, "{}")
+        self.assertIs(os.rmdir, real)
+        self.assertEqual(self.tree(), before)
 
 
 class TheWholeRequest(RemovePartCase):

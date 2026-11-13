@@ -18,14 +18,18 @@ link-request.json:
         "one_line": "...", "doc": "care/domain.md"},
        {"id": "cap-booking", "kind": "capability", "mode": "new", "slug": "booking",
         "domain": "dom-care", "intents": ["bi-1"], "one_line": "...",
-        "doc": "care/booking/capability.md", "issue": 12, "identified_by": "", "thin": true},
+        "doc": "care/booking/capability.md", "identified_by": "", "thin": true},
        {"id": "fn-806", "kind": "feature", "mode": "new", "slug": "fn-806", "capability": "cap-719",
         "intents": ["bi-717"], "one_line": "...", "doc": "features/fn-806/feature.md",
-        "issue": 806, "identified_by": "", "thin": true},
+        "identified_by": "", "thin": true},
        {"id": "fn-628", "kind": "feature", "mode": "update", "one_line": "...", "add_intents": [],
         "thin": true}]}
 
 `features` in place of `parts` is read as a list of features (kind feature), as before.
+
+The model names no tracker issue and no decision record (ADR 069, ontology v18): a part that
+carries `issue` or `decisions`, in any mode, is refused, and a `by` that holds an issue number
+("#" and digits) is refused, because `by` is written as created_by or updated_by.
 
 - mode `new`: the id must not be in the spine; its parent (a capability's domain, a feature's
   capability), when given, must be; its page must be on disk, in its folder:
@@ -37,11 +41,10 @@ link-request.json:
   A new feature's entry gets its state, `status: Unplanned` (ontology v18, ADR 070); a domain
   or capability gets no status, because only a feature has a state. A `status` key on a new
   part is refused: set a feature's state later with mode `update`. The entry also gets detail
-  directional for a domain or capability, its empty lists, and metadata {created_by, deepen:
-  true, thin when thin}.
+  directional for a domain or capability, its empty depends_on list (a capability or feature),
+  and metadata {created_by, deepen: true, thin when thin}; it gets no `issue` and no `decisions`.
 - mode `update`: the id must be in the spine under its kind. `one_line` replaces its one-line,
-  `add_intents` are added to its intents, `issue` names its issue when it names none yet, `thin:
-  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. On a
+  `add_intents` are added to its intents, `thin: true` sets the thin mark, and metadata.updated_by is set. Every other field is kept. On a
   feature only, `status` sets its state, one of Unplanned, Planned, In progress, Completed or
   Dropped; any state may follow any other (there is no workflow). A `status` on any other kind,
   or a value outside the five, is refused. Three more
@@ -84,6 +87,17 @@ entry, whatever it holds; on every feature whose status is not one of the five i
 Unplanned (in place, or after its intents when it has none); a feature that already holds one
 of the five keeps it. The report's `migrated` gives the counts. Run on a model already moved,
 it changes nothing and writes nothing.
+
+A one-time request takes the tracker references out of a model (ADR 069):
+    {"by": "<the play or run that asks>", "strip_tracker_refs": true}
+It carries only those two keys. On every entry of every list in the spine (domains,
+capabilities, features, slices, ices and any other) it removes the keys `issue` and
+`decisions`; and in every created_by and updated_by string anywhere in the spine (its
+metadata too) it removes each issue number ("#" and digits), with the word before it when that
+is "for", "in", "from", "of", "on", "per", "see" or "issue", and cleans the punctuation left
+behind, so "x (reorganise, #12)" reads "x (reorganise)" and "x, for #12 (y)" reads "x (y)". A
+string left empty reads "a play". The report's `stripped` gives the counts: `issue_keys`,
+`decisions_keys` and `by_strings`. Run again, it finds nothing and writes nothing.
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
 writes nothing. When a write itself fails part way, every file already written, deleted or
@@ -339,6 +353,58 @@ def allowed_docs(kind, pid, doc, parent_entry):
     return allowed
 
 
+ISSUE_NUMBER = re.compile(r"#\d+")
+ISSUE_REF = re.compile(r"(?:\b(?:for|in|from|of|on|per|see|issues?)\s+)?#\d+", re.I)
+TRACKER_KEYS = ("issue", "decisions")
+BY_KEYS = ("created_by", "updated_by")
+
+
+def without_issue_refs(text):
+    """`text` with every issue number taken out and the punctuation left behind cleaned."""
+    out = ISSUE_REF.sub("", text)
+    steps = ((r"\(\s*[,;]\s*", "("), (r"\s*[,;]\s*\)", ")"), (r"\(\s*\)", ""),
+             (r",\s*,", ","), (r",\s*;", ";"), (r";\s*,", ";"), (r"[,;]\s*:", ":"),
+             (r",\s*\(", " ("), (r"\s+([,;:)])", r"\1"), (r"\(\s+", "("), (r"\s{2,}", " "))
+    for pattern, new in steps:
+        out = re.sub(pattern, new, out)
+    out = out.strip().strip(",;:").strip()
+    return out or "a play"
+
+
+def plan_strip(spine, request):
+    """The one-time removal of tracker references (ADR 069): no `issue` and no `decisions` key on
+    any entry, and no issue number in any created_by or updated_by."""
+    if set(request) - {"by", "strip_tracker_refs"}:
+        raise Refused("a strip request carries only `by` and `strip_tracker_refs`; "
+                      "link parts in a request of their own")
+    new_spine = copy.deepcopy(spine)
+    counts = {"issue_keys": 0, "decisions_keys": 0, "by_strings": 0}
+    for value in new_spine.values():
+        for e in value if isinstance(value, list) else []:
+            if isinstance(e, dict):
+                for key in TRACKER_KEYS:
+                    if key in e:
+                        del e[key]
+                        counts[f"{key}_keys"] += 1
+
+    def walk(node):
+        if isinstance(node, dict):
+            for key, inner in node.items():
+                if key in BY_KEYS and isinstance(inner, str) and ISSUE_NUMBER.search(inner):
+                    node[key] = without_issue_refs(inner)
+                    counts["by_strings"] += 1
+                else:
+                    walk(inner)
+        elif isinstance(node, list):
+            for inner in node:
+                walk(inner)
+
+    walk(new_spine)
+    report = {"written": [], "updated": [], "thin": [], "unthin": [], "moved": [], "changed": [],
+              "stripped": counts}
+    return new_spine, report
+
+
 def new_entry(kind, p, by):
     e = {"id": p["id"], "slug": p["slug"]}
     if kind in PARENT:
@@ -353,9 +419,6 @@ def new_entry(kind, p, by):
     if kind != "domain":
         e["depends_on"] = []
         e["identified_by"] = p.get("identified_by", "")
-    e["decisions"] = []
-    if p.get("issue") is not None:
-        e["issue"] = p["issue"]
     e["metadata"] = {"created_by": by, "deepen": True}
     return e
 
@@ -405,6 +468,16 @@ def plan_migration(spine, request):
 def plan(root, spine, request):
     if not isinstance(request, dict):
         raise Refused("the request is not a JSON object")
+    if ISSUE_NUMBER.search(str(request.get("by") or "")):
+        raise Refused(f"`by` names an issue number ({request['by']!r}); the model names no tracker issue "
+                      f"(ADR 069), so `by` names only the play or agent and what it did")
+    if "strip_tracker_refs" in request:
+        if request["strip_tracker_refs"] is not True:
+            raise Refused("`strip_tracker_refs` must be true")
+        if "migrate_status" in request:
+            raise Refused("a strip request carries only `by` and `strip_tracker_refs`")
+        new_spine, report = plan_strip(spine, request)
+        return new_spine, {}, report, [], []
     if "migrate_status" in request:
         if request["migrate_status"] is not True:
             raise Refused("`migrate_status` must be true")
@@ -438,6 +511,10 @@ def plan(root, spine, request):
         if pid in seen:
             raise Refused(f"{pid} is given twice")
         seen.add(pid)
+        for key in TRACKER_KEYS:
+            if key in p:
+                raise Refused(f"{pid}: the model names no tracker issue and no decision record (ADR 069), "
+                              f"so a part takes no `{key}`")
         if "status" in p:
             if kind != "feature":
                 raise Refused(f"{pid}: only a feature has a state; a {kind} takes no status")
@@ -504,10 +581,6 @@ def plan(root, spine, request):
                 new = with_state(entry, p["status"])
                 entry.clear()
                 entry.update(new)
-            if p.get("issue") is not None and kind != "domain":
-                if entry.get("issue") not in (None, "", p["issue"]):
-                    raise Refused(f"{pid} already names issue {entry['issue']}")
-                entry["issue"] = p["issue"]
             for i in p.get("add_intents") or []:
                 if i not in entry.setdefault("intents", []):
                     entry["intents"].append(i)

@@ -100,7 +100,7 @@ class LinkPartTest(unittest.TestCase):
 
     def new_fn2(self, **kw):
         f = {"id": "fn-2", "mode": "new", "slug": "fn-2", "capability": "cap-1", "intents": ["bi-1"],
-             "one_line": "Send a reset link", "doc": "features/fn-2/feature.md", "issue": 2, "thin": True}
+             "one_line": "Send a reset link", "doc": "features/fn-2/feature.md", "thin": True}
         f.update(kw)
         return f
 
@@ -112,7 +112,8 @@ class LinkPartTest(unittest.TestCase):
         self.assertEqual(entry["capability"], "cap-1")
         self.assertEqual(entry["status"], "Unplanned")
         self.assertEqual(list(entry).index("status"), list(entry).index("intents") + 1)
-        self.assertEqual(entry["issue"], 2)
+        self.assertNotIn("issue", entry)
+        self.assertNotIn("decisions", entry)
         self.assertTrue(entry["metadata"]["thin"])
         page = self.read("features/fn-2/feature.md")
         self.assertEqual(page.count("Thin: proposed from the person's words; deepen with `/specify-capabilities`."), 1)
@@ -275,13 +276,42 @@ class LinkPartTest(unittest.TestCase):
         self.assertEqual(r.returncode, 2)
         self.assertEqual(self.read("_spine.yaml"), before)
 
-    def test_an_update_names_the_issue_once(self):
-        self.run_request(parts=[dict(self.new_fn2(), kind="feature", issue=None)])
-        r, _ = self.run_request(parts=[{"id": "fn-2", "kind": "feature", "mode": "update", "issue": 7}])
+    def test_no_new_entry_names_an_issue_or_a_decisions_list(self):
+        self.write("care/domain.md", "# Domain: Care\n")
+        r, _ = self.run_request(parts=[
+            {"id": "dom-care", "kind": "domain", "mode": "new", "slug": "care", "intents": ["bi-1"],
+             "one_line": "Care", "doc": "care/domain.md"},
+            dict(self.new_fn2(), kind="feature")])
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(yaml.safe_load(self.read("_spine.yaml"))["features"][1]["issue"], 7)
-        r, _ = self.run_request(parts=[{"id": "fn-2", "kind": "feature", "mode": "update", "issue": 8}])
-        self.assertEqual(r.returncode, 2)
+        spine = yaml.safe_load(self.read("_spine.yaml"))
+        for entry in (spine["domains"][0], spine["features"][1]):
+            self.assertNotIn("issue", entry)
+            self.assertNotIn("decisions", entry)
+
+    def test_a_part_carrying_an_issue_or_decisions_is_refused_in_either_mode(self):
+        for part in (dict(self.new_fn2(), kind="feature", issue=2),
+                     dict(self.new_fn2(), kind="feature", issue=None),
+                     dict(self.new_fn2(), kind="feature", decisions=[]),
+                     {"id": "fn-1", "kind": "feature", "mode": "update", "issue": 7},
+                     {"id": "cap-1", "kind": "capability", "mode": "update", "decisions": ["dec-1"]}):
+            key = "issue" if "issue" in part else "decisions"
+            self.assert_refused_parts([part], f"takes no `{key}`")
+
+    def test_a_by_that_names_an_issue_number_is_refused(self):
+        before = self.read("_spine.yaml")
+        req = os.path.join(self.base, "req.json")
+        out = os.path.join(self.base, "report.json")
+        for by in ("product-os-keeper (fix it, #12)", "#7", "a run for #1021"):
+            for body in ({"by": by, "parts": [dict(self.new_fn2(), kind="feature")]},
+                         {"by": by, "strip_tracker_refs": True},
+                         {"by": by, "migrate_status": True}):
+                with open(req, "w", encoding="utf-8") as fh:
+                    json.dump(body, fh)
+                r = subprocess.run([sys.executable, SCRIPT, "--request", req, "--product-base", self.base,
+                                    "--out", out], capture_output=True, text=True)
+                self.assertEqual(r.returncode, 2, body)
+                self.assertIn("names an issue number", r.stderr)
+        self.assertEqual(self.read("_spine.yaml"), before)
 
     def test_a_malformed_request_is_refused_and_writes_nothing(self):
         before = self.read("_spine.yaml")
@@ -770,6 +800,154 @@ class MigrateStatusTest(unittest.TestCase):
             self.assertEqual(r.returncode, 2, body)
             self.assertIn("refused, nothing written", r.stderr)
             self.assertEqual(self.read("_spine.yaml"), OLD_SPINE)
+
+
+STRIP_SPINE = """\
+# The spine — a comment that must stay.
+domains:
+- id: dom-1
+  slug: dom-1
+  intents:
+  - bi-1
+  one_line: Mail
+  doc: mail/domain.md
+  decisions: []
+  metadata:
+    created_by: 'product-os-keeper (reorganise business intents, #1021)'
+capabilities:
+- id: cap-1
+  slug: cap-1
+  domain: dom-1
+  intents:
+  - bi-1
+  one_line: Send mail
+  doc: mail/cap-1/capability.md
+  decisions:
+  - dec-cap-1-security-low-medium
+  issue: 12
+  metadata:
+    created_by: 'product-os-keeper, for #1021 (reorganise the business intents)'
+    updated_by: 'product-os-keeper (approved pages for #1021)'
+# features keep their order
+features:
+- id: fn-1
+  slug: fn-1
+  capability: cap-1
+  intents:
+  - bi-1
+  status: Planned
+  one_line: Send one message
+  doc: mail/cap-1/fn-1/feature.md
+  issue: 13
+  decisions: []
+  metadata:
+    created_by: 'the #719 change (view plans)'
+    updated_by: 'product-os-keeper, for #1021: BI-10 close, item 4'
+- id: fn-2
+  slug: fn-2
+  capability: cap-1
+  intents:
+  - bi-1
+  status: Unplanned
+  one_line: Send a reset link
+  doc: mail/cap-1/fn-2/feature.md
+  metadata:
+    created_by: /design-slice
+slices:
+- id: sl-1
+  slug: sl-1
+  feature_refs:
+  - fn-1
+  issue: 40
+  intents:
+  - bi-1
+"""
+
+
+class StripTrackerRefsTest(unittest.TestCase):
+    """The one-time removal of tracker references from a model (ADR 069)."""
+
+    write, read = LinkPartTest.write, LinkPartTest.read
+    tearDown = LinkPartTest.tearDown
+    migrate = MigrateStatusTest.migrate
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.base = self.tmp.name + "/"
+        self.root = os.path.join(self.base, "product-os")
+        self.write("_spine.yaml", STRIP_SPINE)
+
+    def strip(self, body=None):
+        return self.migrate(body if body is not None else {"by": "/test", "strip_tracker_refs": True})
+
+    def test_every_issue_and_decisions_key_and_every_issue_number_in_by_goes(self):
+        r, report = self.strip()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        spine = yaml.safe_load(self.read("_spine.yaml"))
+        for key in ("domains", "capabilities", "features", "slices"):
+            for e in spine[key]:
+                self.assertNotIn("issue", e)
+                self.assertNotIn("decisions", e)
+        self.assertEqual(spine["domains"][0]["metadata"]["created_by"],
+                         "product-os-keeper (reorganise business intents)")
+        cap = spine["capabilities"][0]["metadata"]
+        self.assertEqual(cap["created_by"], "product-os-keeper (reorganise the business intents)")
+        self.assertEqual(cap["updated_by"], "product-os-keeper (approved pages)")
+        fn1 = spine["features"][0]["metadata"]
+        self.assertEqual(fn1["created_by"], "the change (view plans)")
+        self.assertEqual(fn1["updated_by"], "product-os-keeper: BI-10 close, item 4")
+        self.assertEqual(spine["features"][1]["metadata"]["created_by"], "/design-slice")
+        self.assertEqual(spine["features"][0]["status"], "Planned")
+        self.assertEqual(spine["slices"][0]["feature_refs"], ["fn-1"])
+        self.assertEqual(report["stripped"], {"issue_keys": 3, "decisions_keys": 3, "by_strings": 5})
+        self.assertEqual(report["changed"], ["product-os/_spine.yaml"])
+        self.assertTrue(report["layout_kept"])
+
+    def test_the_spine_keeps_its_comments_and_its_order(self):
+        self.strip()
+        text = self.read("_spine.yaml")
+        self.assertTrue(text.startswith("# The spine — a comment that must stay."))
+        self.assertIn("# features keep their order", text)
+        self.assertNotIn("#1021", text)
+        self.assertEqual([f["id"] for f in yaml.safe_load(text)["features"]], ["fn-1", "fn-2"])
+        self.assertIn("- id: fn-2\n  slug: fn-2\n", text)
+
+    def test_a_second_run_changes_nothing_and_writes_nothing(self):
+        self.strip()
+        after = self.read("_spine.yaml")
+        mtime = os.stat(os.path.join(self.root, "_spine.yaml")).st_mtime_ns
+        r, report = self.strip()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.read("_spine.yaml"), after)
+        self.assertEqual(os.stat(os.path.join(self.root, "_spine.yaml")).st_mtime_ns, mtime)
+        self.assertEqual(report["stripped"], {"issue_keys": 0, "decisions_keys": 0, "by_strings": 0})
+        self.assertEqual(report["changed"], [])
+
+    def test_a_strip_with_other_keys_or_not_true_is_refused_and_writes_nothing(self):
+        for body in ({"by": "/test", "strip_tracker_refs": True, "parts": []},
+                     {"by": "/test", "strip_tracker_refs": True, "migrate_status": True},
+                     {"by": "/test", "strip_tracker_refs": "yes"},
+                     {"by": "/test", "strip_tracker_refs": False}):
+            r, _ = self.strip(body)
+            self.assertEqual(r.returncode, 2, body)
+            self.assertIn("refused, nothing written", r.stderr)
+            self.assertEqual(self.read("_spine.yaml"), STRIP_SPINE)
+
+    def test_issue_numbers_leave_the_text_readable(self):
+        sys.path.insert(0, HERE)
+        import link_part
+        cases = {
+            "x (reorganise, #12)": "x (reorganise)",
+            "x (reorganise, #12; one-lines approved)": "x (reorganise; one-lines approved)",
+            "x (reorganise, #12); pages approved": "x (reorganise); pages approved",
+            "x, for #12 (y)": "x (y)",
+            "x (plan work, the new feature, #931)": "x (plan work, the new feature)",
+            "x (#12, #13)": "x",
+            "issue #5 fixed by x": "fixed by x",
+            "#12": "a play",
+        }
+        for text, want in cases.items():
+            self.assertEqual(link_part.without_issue_refs(text), want, text)
 
 
 if __name__ == "__main__":
