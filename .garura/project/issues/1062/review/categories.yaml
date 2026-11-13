@@ -1,65 +1,64 @@
-# Assessment of PR #1063 (issue 1062, step 1 of the model clean-up). Derived from the diff.
-# Already run by the orchestrator (recorded, not repeated): lint-components 36 errors, none in a
-# changed file; lint-play PASS on reshape-plan and specify-capabilities; all tests in the touched
-# folders pass.
+# Assessment of PR #1064 (issue 1062, step 2 of the model clean-up). Derived from the diff (348 changed paths).
+# Already run by the orchestrator (recorded, not repeated): lint-components 36 errors, none in a changed
+# file; lint-play reshape-plan PASS; reshape-plan, shape-plan and build-play tests pass; grounding linter
+# 21 errors and 279 warnings, same as before.
 memory_copies:
   review_shelf: .garura/project/issues/1062/context/memory/knowledge/review/
   severity_taxonomy: .garura/project/issues/1062/context/memory/standards/rules/pr.md
   manifest: .garura/project/issues/1062/context/memory/manifest.json
 categories:
+  - name: product-model
+    playbook: missing
+    note: "playbook missing: no review playbook covers the product model pages and index (304 files under .garura/product/product-os/). review/memory covers core/components/memory/** only; review/docs says markdown that is the framework's own knowledge is not docs. Follow-up: add a product-model playbook (the model is design-bearing: its design is ontology v18 and ADR 069/070). Treated as design-bearing."
+    design_bearing: true
+    evidence:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml (deleted)
+      - .garura/product/product-os/software-delivery-planning/ (266 pages: capability.md, feature.md, ice.md)
+      - .garura/product/product-os/features/ (25 pages)
+      - .garura/product/product-os/intents/ (11 pages)
+    treatment:
+      layers: [1, 2]
+      linters:
+        - command: "the grounding linter on the model (orchestrator already ran it: 21 errors, 279 warnings, same as before)"
+      runnable_checks:
+        - "by hand: the model names no tracker issue, issue folder, plan or decision record (ADR 069 Decision 2)"
+        - "by hand: a sample of 25 rewritten lines across page kinds keeps every product fact and every quote"
+        - "by hand: the Initialize page's security line agrees with the product profile"
   - name: harness
     playbook: review/harness
     design_bearing: true
     evidence:
       - core/components/plays/reshape-plan/SKILL.md
-      - core/components/skills/link-model-part/SKILL.md
-      - core/components/skills/remove-model-part/SKILL.md
-      - core/components/agents/product-os-keeper.md
     treatment:
       layers: [1, 2]
       linters:
-        - command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
         - command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/reshape-plan/SKILL.md --next-map <next-map copy>
-        - command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/specify-capabilities/SKILL.md --next-map <next-map copy>
+        - command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
       runnable_checks:
         - only a violation whose file is in the changed paths is a finding; others are counted as "there before"
-        - ICE-source rule applies (the repo holds the plays' source): an intent change traces to reference/ice.md, not a hand edit of SKILL.md
-  - name: memory
-    playbook: review/memory
-    design_bearing: true
-    evidence:
-      - core/components/memory/standards/schemas/product-os/spine.yaml
-    treatment:
-      layers: [1, 2]
-      linters:
-        - command: "none installed (known gap in the playbook)"
-      runnable_checks:
-        - "by hand: structure and cross-reference integrity of the changed schema file (ids, pointers, ADR and ontology references resolve), each check cited"
+        - "ICE-source rule: an intent change traces to reference/ice.md; a non-intent edit of SKILL.md is direct (CLAUDE.md, Play Pipeline Rules)"
   - name: executable-code
     playbook: review/code
     design_bearing: false
     evidence:
-      - core/components/skills/link-model-part/scripts/link_part.py
-      - core/components/skills/remove-model-part/scripts/remove_part.py
-      - core/components/plays/reshape-plan/scripts/check_agreement.py
-      - core/components/plays/reshape-plan/scripts/plan_ops.py
-      - core/components/plays/specify-capabilities/scripts/persist_understand.py
-      - core/components/plays/specify-domains/scripts/persist_seed.py
+      - core/components/plays/reshape-plan/scripts/feature_ice.py
+      - core/components/plays/reshape-plan/scripts/place_feature.py
+      - core/components/plays/reshape-plan/scripts/plan_common.py
+      - core/components/plays/shape-plan/scripts/plan_common.py
+      - core/components/plays/build-play/references/plan_common.py
     treatment:
       layers: [1]
       linters:
-        - command: language linter the repo commits, plus check-pr-quality with the pr.md taxonomy (SEC, CODE, ARCH, BE, PERF, DATA rows)
+        - command: language linter the repo commits, plus check-pr-quality with the pr.md taxonomy
       runnable_checks:
-        - review data-safety and idempotency paths hard (the one-time strip of the spine, the decision-file removal)
+        - "by hand: the three plan_common.py copies stay identical"
   - name: tests
     playbook: review/tests
     design_bearing: false
     evidence:
-      - core/components/skills/link-model-part/scripts/test_link_part.py
-      - core/components/skills/remove-model-part/scripts/test_remove_part.py
+      - core/components/plays/reshape-plan/scripts/test_feature_ice.py
       - core/components/plays/reshape-plan/scripts/test_update_plan_scripts.py
-      - core/components/plays/specify-capabilities/scripts/test_persist_understand.py
-      - core/components/plays/specify-domains/scripts/test_vision_scripts.py
     treatment:
       layers: [1]
       linters:
@@ -68,12 +67,13 @@ categories:
         - run the suites in the touched folders (orchestrator: all pass); a red suite is a blocker
   - name: run-records
     playbook: missing
-    note: "playbook missing: no review playbook covers a run-record folder (issue run artifacts under .garura/project/issues/1062/context/). pr.md classes them as stm-evidence (prose). Follow-up task: add a playbook."
+    note: "playbook missing: no review playbook covers a run-record folder (36 files under .garura/project/issues/1062/context/step2/). pr.md classes them as stm-evidence (prose). Follow-up: add a playbook."
     design_bearing: false
     evidence:
-      - .garura/project/issues/1062/context/analysis.yaml
-      - .garura/project/issues/1062/context/pr-body.md
-      - .garura/project/issues/1062/context/self-review.md
+      - .garura/project/issues/1062/context/step2/analysis.yaml
+      - .garura/project/issues/1062/context/step2/pr-body.md
+      - .garura/project/issues/1062/context/step2/self-review.md
+      - .garura/project/issues/1062/context/step2/strip/strip-report.json
     treatment:
       layers: []
       linters: []

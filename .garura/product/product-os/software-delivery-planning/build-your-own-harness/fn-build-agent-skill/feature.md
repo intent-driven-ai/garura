@@ -44,10 +44,10 @@ Status: not built. No issue files it. What exists: the written standards for sub
 - Building the play that runs them. Build a play from its ICE (fn-build-play) does it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, lines 117-118, the product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way.", "plays and loops carry their ICE, skills and sub-agents follow the written standard for their kind and are checked against it"
+- The product owner on 2026-11-11: "You can keep building your harness with your own plays, loops, sub-agents and skills, in a consistent way.", "plays and loops carry their ICE, skills and sub-agents follow the written standard for their kind and are checked against it"
 - docs/standards/harness-standard.md, lines 36-37: "The agent gathers context and calls skills, and each skill writes its artifact to disk"
 - core/components/plays/create-play/references/agent-audit.md, lines 1-22: the eleven principles, and "Audit each agent the play depends on against all 11."
 - core/components/plays/create-play/SKILL.md, line 177: "whether it already exists or must be created"
 - docs/components/agents.md, line 161: "If no matching skill exists for an artifact the agent is asked to produce, it returns a structured failure requesting skill creation — it never authors artifacts inline."
 - docs/components/agents.md and docs/components/skills.md: the written standards for sub-agents and skills.
-- The stock-take of this intent, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.3, 2.3 and 10 (item 2): "No Garura part builds a sub-agent or a skill."
+- The stock-take of this intent (2026-11-11), sections 1.3, 2.3 and 10 (item 2): "No Garura part builds a sub-agent or a skill."

@@ -11,7 +11,7 @@ Machine checks read the parts of the harness and fail each one that breaks a wri
 - What they show on 2026-11-11, run from the repository root:
   - the component linter on the source: 36 errors and 1 warning. 22 errors are in the six plays written by hand, missing sections and close anchors; 14 are in five skills, `check-quality`, `find-matching-issues`, `merge-pr`, `open-pr` and `propose-kb-node`, missing sections and `model` and `allowed-tools` lines. No naming, memory-reading or installed-path error;
   - the old-name check: 12 uses of 9 old names.
-- What it took over: this feature was "The component linter fails any name that breaks the standard" (#740). It widens here from names to every check.
+- What it took over: this feature was "The component linter fails any name that breaks the standard". It widens here from names to every check.
 - Approved pages hand more checks here: a check that fails a gate with no way past, from Give every gate a way past, and the lint that the docs check of Keep the docs and command pages in step with each change runs in.
 - Examples, in different kinds of project:
   - In a bank's payments service, a developer's new skill has no `model` line, and the component linter fails it before the change is merged.
@@ -19,12 +19,12 @@ Machine checks read the parts of the harness and fail each one that breaks a wri
   - In a game studio's build harness, a loop's ICE changed after it was built, and the loop linter fails it until the loop is built again.
 - How it meets the capability: these are the "checks that hold them" of the line.
 
-Status: built in part, in the component linter, the play linter, the loop linter and the old-name check; the naming checks came first, with #740 (the component linter fails any name that breaks the standard, closed), before any rename. Not built, or open:
+Status: built in part, in the component linter, the play linter, the loop linter and the old-name check; the naming checks came first, so the component linter fails any name that breaks the standard, before any rename. Not built, or open:
 - They run only on what a change touched, inside the review, and no build server runs them: the repository's one workflow only makes a release. The 36 errors on the source stay.
 - The play linter does not compare a play's fingerprint with its ICE.
 - In an installed project, the naming rules come only from a copy fetched through the memory tool; with none, the naming check does not run. Phoenix memory's copy differs from the source.
-- No check holds the layer rule (#856, no skill names a play or another skill), a tracker named in a part (fn-check-no-tracker-named), or a gate with no way past.
-- Some checks have no tests: the scoped-write guard ("14 copies run unguarded", #507) and the direct-model-write lint checks (#508), under #511 (component quality and governance).
+- No check holds the layer rule, that no skill names a play or another skill, a tracker named in a part (fn-check-no-tracker-named), or a gate with no way past.
+- Some checks have no tests: the scoped-write guard ("14 copies run unguarded") and the direct-model-write lint checks.
 
 ## Inputs / Outputs
 - In: the parts, in the source or in an installed project.
@@ -60,7 +60,7 @@ Status: built in part, in the component linter, the play linter, the loop linter
 - The way past a failed check. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 8: "the check that no part names a tracker comes with #1023, warns until the parts have moved, then fails"
+- The product owner's answer 8 (2026-11-11): "the check that no part names a tracker comes with [the Agent-work tool], warns until the parts have moved, then fails"
 - .garura/product/product-os/intents/bi-10.md, line 10: "The checks hold every part to the standard."
 - core/tools/lint-components/index.js, lines 7-14: the eight rule families
 - core/tools/lint-components/lib/rules/naming.js, lines 3-4, 10 and 12-23: "Every rule's data lives in memory/standards/rules/naming.yaml; this file holds no rule of its own.", the list of shortened words, and the installed layout that reads the rules only from a copy handed to it
@@ -73,5 +73,4 @@ Status: built in part, in the component linter, the play linter, the loop linter
 - .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-way-past-every-gate/feature.md, line 58: "A check that fails a play whose gate names no way past."
 - .garura/product/product-os/software-delivery-planning/ship-every-change/fn-keep-docs-in-step/feature.md, line 42: "The lint itself and its other rules."
 - The component linter on the source and the old-name check, run from the repository root on 2026-11-11: 36 errors and 1 warning; 12 uses of 9 old names
-- GitHub #740 (closed); #507 (open): "Unit-test scoped_write_guard.py — 14 copies run unguarded"; #508 (open): "Unit-test the L-DMW lint checks — the linter that guards 13 plays has no tests"; #511 (open): "Component quality and governance"; #856 (open)
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.5 and 8
+- The stock-take (2026-11-11), sections 1.5 and 8

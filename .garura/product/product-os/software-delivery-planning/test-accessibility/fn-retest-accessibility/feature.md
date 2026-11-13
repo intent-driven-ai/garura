@@ -54,11 +54,11 @@ Status: not built. What exists covers only part of it:
 - Running the tools, walking the build, giving one verdict and writing each handoff plan. The other three features of this capability do them.
 
 ## Sources
-- The capability list the product owner agreed on 2026-11-03, in .garura/project/issues/1021/context/capabilities.md: "Settings: Everything that can be turned on or off lives in settings.", "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
+- The capability list the product owner agreed on 2026-11-03: "Settings: Everything that can be turned on or off lives in settings.", "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
 - .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory: "The box moves ONLY by an approved decision."
 - .garura/product/product-os/_spine.yaml, Garura's own product profile: it holds reliability, maintainability and security, each "level: medium", and no accessibility level.
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/fn-update-surfaces/feature.md: "Given an accessibility level that rose in the product profile, when an update is proposed, then the accessibility guideline of each surface it touches is proposed at the new level.", "the design system that screens are built from is replaced"
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "Implement ↔ validate is expected to loop — scope narrows per round, 3 rejections halt to a human.", "the escalation record lists each round's findings and fixes."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "Implement ↔ validate is expected to loop — scope narrows per round, 3 rejections halt to a human.", "the escalation record lists each round's findings and fixes."
 - core/components/plays/validate-epic/reference/ice.md: "C10 — Loop cap: after 3 rejections on the same epic, halt to a human instead of looping", "C6 — Blast-radius scope is drawn from recorded change claims, never invented"
-- .garura/project/issues/1021/context/names.md: "/loop-code-validation"
+- The names agreed with the product owner on 2026-11-03: "/loop-code-validation"

@@ -20,10 +20,10 @@ Once a person has approved it, one or more plans are deleted from the plans fold
   - In a bank's payments service, a request removes the plan for the account data feed while the plan for new statements still needs it; it is refused, naming both plans.
 - How it meets the capability: "sees every plan and where it stands" stays true only when the plans no longer wanted can go, on a person's word.
 
-Status: built, in the remove-plan skill, which the issue sub-agent runs. It came with #1019 (three skills let an approved reorganisation remove model parts, write intent pages and delete plans, closed), by ADR 065 (a person may approve deleting a plan). No play runs it, and it has not been run yet. Not built, or open:
+Status: built, in the remove-plan skill, which the issue sub-agent runs, by ADR 065 (a person may approve deleting a plan). No play runs it, and it has not been run yet. Not built, or open:
 - After a plan pauses and its branch lands on main, its file still names the branch until a person sets it to none by hand, and the removal refuses a plan whose file names a branch. Pause a plan and start it again (fn-pause-plan) is not built.
 - A refused request stops the person with no way past it: the person changes the request or the plan file. The way past is Give every gate a way past's, in Orchestration.
-- A plan made again after a removal can make a second set of stories for the same features until the plan play reuses an open story (#1025, /shape-plan reuses an open story instead of filing a second, open).
+- A plan made again after a removal can make a second set of stories for the same features until the plan play reuses an open story.
 
 ## Inputs / Outputs
 - In: the request: who asks, who approved, and the plan ids.
@@ -58,11 +58,10 @@ Status: built, in the remove-plan skill, which the issue sub-agent runs. It came
 - A way past a refused request. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - core/components/skills/remove-plan/SKILL.md: "A plan leaves the plans folder only when a person said so and when no other plan still needs it.", "One bad plan refuses the whole request.", "A plan's folder holds evals no one here may read: files are counted and deleted by name only", "A deleted plan comes back from git, so the skill keeps no copy.", "Issues stay open or closed as they are, and the model is not touched.", "Plan ids are digits only, so no path can leave the folder."
 - core/components/skills/remove-plan/scripts/remove_plans.py: "Every check runs before the first change."
 - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md: "A whole plan, with its folder, may be deleted on a person's named approval, through `remove-plan`.", "Plans sit outside the model and come and go, so no model page may depend on one.", "Deleting a plan deletes its evals, and rebuilding it can make a second set of stories until `/shape-plan` is fixed."
 - docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md: "No script writes `branch: null` when a plan's branch lands on main"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
-- GitHub #1019 (closed): "Three skills let an approved reorganisation remove model parts, write intent pages and delete plans"

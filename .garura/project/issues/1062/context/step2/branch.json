@@ -1,0 +1,9 @@
+{
+  "branch_name": "feature/1062-model-cleanup-strip",
+  "base_sha": "4f6ff4c346bd9ef6106662f216f8a515da0a4729",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": null,
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}

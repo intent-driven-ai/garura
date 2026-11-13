@@ -13,7 +13,6 @@
 **Must not:** Change an intent, or promote memory, without a person.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #6
 
 **Touches:**
 - [Connect to what happens in use and in the market](../software-delivery-planning/connect-use-and-market/capability.md) (capability) — adds

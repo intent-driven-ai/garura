@@ -1,0 +1,5 @@
+{"by": "product-os-keeper (model clean-up, issue 1062 step 2)",
+ "source": "the coordinator's fix for the two lint errors left by the issue-number plan (product owner's yes to all, 2026-11-13)",
+ "pages": [
+  {"page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md", "changes": [{"old": "- What it is to do:", "new": "- What this feature is to do:"}]},
+  {"page": "software-delivery-planning/memory/fn-phoenix-in-step/feature.md", "changes": [{"old": "- What it is to do:", "new": "- What this feature is to do:"}]}]}

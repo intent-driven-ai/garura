@@ -39,7 +39,7 @@ Status: not built. It comes later, only if the records show it pays. Not built, 
 - Carrying a chosen model into each coding tool. Support each coding tool, in Install and distribute, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 4 as recorded on 2026-11-11: "a run-time router comes later only if the records show it pays"
+- The product owner's answer 4 as recorded on 2026-11-11: "a run-time router comes later only if the records show it pays"
 - knowledge/technology/agent-model-selection.md, in Phoenix memory, read through the memory tool, line 31: "Route, don't over-provision."; line 32: "call the frontier model only for the steps that need it"; lines 4-8: its conditions, an agentic feature on Bedrock or Vertex
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 6.4, line 621: "Nothing picks a model or an effort from what a step must do"; and line 1046, the proposed answer the product owner took as yes: "A run-time router comes later, if the records show it pays."
+- The stock-take (2026-11-11), section 6.4: "Nothing picks a model or an effort from what a step must do"; and the proposed answer the product owner took as yes: "A run-time router comes later, if the records show it pays."
 - GitHub, a search of the open issues on 2026-11-11 for model tier, effort, Sonnet, Opus, Haiku and routing: no issue plans model choice

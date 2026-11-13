@@ -15,10 +15,10 @@ When the new version reads the product model in a new shape, the upgrade shows e
 - How it meets the capability: this is "including its model", within the product owner's rule that "the model moves only in its structure, shown first and on the person's yes".
 
 Status: built in part, by hand, for one move:
-- One move exists, for the Feature rename (#807): it moves spine and slice keys, path values, folders, files and page headings; "Prose is left alone, and IDs (fn-...) never change." It makes one commit, refuses a model folder outside the project, and on a failed step "it puts every file and folder back as it was" (#813, closed).
+- One move exists, for the Feature rename: it moves spine and slice keys, path values, folders, files and page headings; "Prose is left alone, and IDs (fn-...) never change." It makes one commit, refuses a model folder outside the project, and on a failed step "it puts every file and folder back as it was".
 - "A person runs this script by hand; nothing runs it on its own". It sits in the install play's own folder, which no project receives, so a team runs it from a copy of Garura's source.
 - Every script that reads the model stops on the old names and says "To upgrade the model to the new names, a person runs the script that moves it", naming a path no project has.
-- No install moves the model: "The install never changes a product model the project already has (#813)."
+- No install moves the model: "The install never changes a product model the project already has."
 - Not built: the move shown and run by the upgrade, with the person's yes.
 - Not built: the moves laid in the project, so a move said no to can be run later.
 - Not decided: how the upgrade tells which shape a model is in. The spine records no version of its shape, so today only the old names tell.
@@ -33,8 +33,8 @@ Status: built in part, by hand, for one move:
 - Out: on a no, the model as it was, and the move named as owed in the report.
 
 ## Rules & behavior
-- Shape only, never meaning. The reason: the product owner agreed that "the model moves only in its structure, shown first and on the person's yes", and #835 asks "Does an upgrade change only the structure (keys, file names, headings), or also meaning?"
-- Shown first, then the person's yes. The reason: #835 asks "Who may change a project's product model during an upgrade, and with whose yes?"; today only the plays write the model, and the install does not.
+- Shape only, never meaning. The reason: the product owner agreed that "the model moves only in its structure, shown first and on the person's yes", and the open question "Does an upgrade change only the structure (keys, file names, headings), or also meaning?"
+- Shown first, then the person's yes. The reason: the open question "Who may change a project's product model during an upgrade, and with whose yes?"; today only the plays write the model, and the install does not.
 - Whole or not at all, and one commit. The reason: a half-moved model is read by neither version; the move today "puts every file and folder back as it was" when a step fails, and its one commit lets the team see the whole move.
 - Only inside the project. The reason: the move today refuses "a model folder that lies outside the project", and it "never changes anything outside the project".
 - A no is recorded, and the move stays at hand. The reason: Orchestration must not "Stop a person. Every gate has a way past it that records what's owed.", and the scripts that stop on the old shape must name a move the project can run.
@@ -55,12 +55,10 @@ Status: built in part, by hand, for one move:
 - Naming each move in the release notes. Cut a Garura release, with notes on what it changes (fn-cut-release) does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md: "the model moves only in its structure, shown first and on the person's yes", "including its model"
+- The product owner on 2026-11-10: "the model moves only in its structure, shown first and on the person's yes", "including its model"
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - core/components/plays/install-garura/scripts/migrate_model.py: "Prose is left alone, and IDs (fn-...) never change.", "A person runs this script by hand; nothing runs it on its own", "it puts every file and folder back as it was", "a model folder that lies outside the project", "it never changes anything outside the project"
 - core/components/skills/link-model-part/scripts/model_names.py (one of its alike copies): "To upgrade the model to the new names, a person runs the script that moves it"
-- core/components/plays/install-garura/scripts/install.py: "The install never changes a product model the project already has (#813)."
+- core/components/plays/install-garura/scripts/install.py: "The install never changes a product model the project already has."
 - docs/adr/055-installed-parts-read-only-installed-files.md: "A pointer in an installed file points to another installed file."
-- GitHub #813 (closed): "The install does not change an existing product model (product owner, 2026-10-23, review of PR #834)."
-- GitHub #835 (open): "Who may change a project's product model during an upgrade, and with whose yes?", "Does an upgrade change only the structure (keys, file names, headings), or also meaning?"
 - The spine's top keys, .garura/product/product-os/_spine.yaml: `domains`, `capabilities`, `features`, `profile`, `slices` and `ices`, with no key for the version of its shape.

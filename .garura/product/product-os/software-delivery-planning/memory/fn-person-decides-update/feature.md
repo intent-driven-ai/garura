@@ -17,9 +17,9 @@ When no tier of memory answers, an agent drafts the answer as a memory update in
   - In a news site's publishing tool, an agent raises an update that does not block. It goes on with the rest of the work, and the person decides the update a day later.
 - How it meets the capability: "people control what enters them" is this feature: nothing a model or a web page drafted enters memory until a person says so, one update at a time.
 
-Status: built, in the memory tool's `propose`, `updates`, `decide` and `apply`; built under #658 (closed, an agent raises a memory update a person approves) and #662 (closed, which added deciding in a session); decided in ADR 035 and ADR 036. Not built, or open:
+Status: built, in the memory tool's `propose`, `updates`, `decide` and `apply`, including deciding in a session; decided in ADR 035 and ADR 036. Not built, or open:
 - Nothing reminds anyone of an update that waits, and an update has no end date. Five wait today; the oldest has waited since 2026-10-24.
-- The cards where a person decides each update in the Memory section of Argus are not built (#664, the Memory and ADRs section); a person types the decision in a session.
+- The cards where a person decides each update in the Memory section of Argus are not built; a person types the decision in a session.
 - The tool records the name it is given; it does not check that the one who decides is a person.
 
 ## Inputs / Outputs
@@ -60,14 +60,13 @@ Status: built, in the memory tool's `propose`, `updates`, `decide` and `apply`; 
 - The way past an update that blocks, and where what is owed is kept. Give every gate a way past, in Orchestration, owns them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 114, the list set on 2026-11-11: "people control what enters them"
+- The capability list set on 2026-11-11: "people control what enters them"
 - core/tools/memory/README.md, lines 134-139 and 143-151: "Nothing in it is used until a person approves it.", "a person's word on a waiting update: approve or reject, who, their exact reply, and where they decided", "Only a person decides, one update at a time.", the four states, and "the person types the decision in a Claude Code session that records their exact reply"
 - core/tools/memory/updates.py, lines 88-93, 114-115, 128-129 and 130-132: the target in the issue's own folder, "a person decides an update once.", "only an update a person approved is written.", "changed after the update was proposed; propose again from the current text."
 - core/tools/memory/GUIDE.md, lines 57-58 and 87-88: "Your work goes on while the update waits, unless you cannot go on without it.", "Never decide from another issue's short-term memory, from a waiting memory update, or from an earlier decision record."
 - docs/adr/036-approved-answer-lands-in-short-term-memory.md, section 2, line 50: "A draft from the web or the model never goes straight to Garura or Phoenix memory."
 - docs/adr/035-agents-work-only-from-memory.md, section 5: when no tier answers, an agent raises a memory update, and nothing in it is used until a person approves it.
-- The memory tool's list of memory updates, 2026-11-11: 13 applied, 5 waiting, 1 rejected; the oldest waiting update, mu-20261024-001 of #844, raised on 2026-10-24.
+- The memory tool's list of memory updates, 2026-11-11: 13 applied, 5 waiting, 1 rejected; the oldest waiting update, mu-20261024-001, raised on 2026-10-24.
 - docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md: the rule for asking a person is a shared file.
-- GitHub #658 and #662 (closed): updates, and deciding in a session; #664 (open): the Memory and ADRs section of the review tool.
 - .garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md: the card where the person decides; the examples of the cart and the reset link follow its own.
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 5.2 and 9.
+- The stock-take (2026-11-11), sections 5.2 and 9.

@@ -18,7 +18,7 @@
 - The plan's eval checks from the outside, on each slice's surface. For Garura that surface is often a play, so the eval runs the play on a test project.
 - The running eval reaches the slice only through its usage guide (`guides/<slug>.md`).
 - When the eval cannot test a goal, an expectation or a failure condition yet, it says so.
-- The eval stays in plain text in the repo. The build is given the intent, never the eval, and fn-898's check flags a build session that read the evals folder, in that build run's evidence (eval encryption, #828, was dropped on 2026-10-26).
+- The eval stays in plain text in the repo. The build is given the intent, never the eval, and fn-898's check flags a build session that read the evals folder, in that build run's evidence (eval encryption was dropped on 2026-10-26).
 
 ## Acceptance criteria
 - Given a plan with an epic and its Feature issues, when the product owner runs /design-eval, then the plan's one eval is in the plan's evals folder.
@@ -26,14 +26,12 @@
 
 ## Out of scope
 - Running the eval after the build.
-- Encrypting the eval (#828): dropped by the product owner on 2026-10-26.
+- Encrypting the eval: dropped by the product owner on 2026-10-26.
 - The slice, the hidden file, the plan, the epic and the Feature issues (fn-795, fn-818).
 - The checks that no build is given the evals folder and that flag a build session that read it, in that build run's evidence (fn-898).
 
 ## Sources
-- GitHub #798 (open): the eval play.
-- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
-- GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped the encryption of the eval on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 
 Thin: proposed from the person's words; deepen with `/specify-capabilities`.
 

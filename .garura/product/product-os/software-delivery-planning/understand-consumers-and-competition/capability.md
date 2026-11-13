@@ -62,7 +62,7 @@ What is not built yet:
 - Out: keeping the spec matched to what the agents built, and changing any page or link. Keep the spec matched to what's built owns it; this capability only names a gap it sees.
 - Out: turning what a person gives into intents, domains, capabilities and features. Specify the product owns it.
 - Out: fixing a defect, which Fix defects test first owns; recording it in the tracker, which Orchestration owns; and a failure an eval finds before the work is accepted, which goes back to the builder of the work.
-- Out: judging whether an intent is met, and measuring each intent, which is parked (#545); and choosing and promoting what is learned into Garura memory or Phoenix memory, which the review of Memory owns.
+- Out: judging whether an intent is met, and measuring each intent, which is parked; and choosing and promoting what is learned into Garura memory or Phoenix memory, which the review of Memory owns.
 - Never: change an intent, a page, the model's index, a link, memory, the tracker or a connected tool. The reason: the next capability owns changes, and Run → Product must not "Change an intent, or promote memory, without a person."
 - Never: state a finding without the items it rests on, or quote an item other than as it was taken in. The reason: "Each finding says where it comes from. The reason: a person can then check each finding without a search."
 - Never: read what people say or do anywhere but in the items the first capability took in: no outside tool, forum or web page, and never production. The reason: reading belongs to the first capability, through connections the product owner said yes to, and "We are never touching production."
@@ -82,11 +82,11 @@ What is not built yet:
 - The project's memory first, then Garura memory, then Phoenix memory, then research through a memory update a person approves. What nothing answers stays open, with no default. The reason: research is new knowledge that nobody has checked yet, and the person's approval is the check.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-2/page-approvals.md, spelling tidied: "start understanding what it is that the consumers want and what the competition is doing", "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "basically reflecting and telling us what needs to be done.", "not what the user is telling"
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Understand what consumers want and what the competition is doing.", "Build features into the product, or update the product intent model, automatically, or at least recommend those changes.", "measuring each intent (#545, parked)", "Not on this list: choosing and promoting learnings to Garura or Phoenix memory"
+- The product owner on 2026-11-10, spelling tidied: "start understanding what it is that the consumers want and what the competition is doing", "start building features into the product or start updating the product intent model automatically, or at least making those recommendations", "This needs to be built for high autonomy.", "basically reflecting and telling us what needs to be done.", "not what the user is telling"
+- The list the product owner set on 2026-11-10: "Understand what consumers want and what the competition is doing.", "Build features into the product, or update the product intent model, automatically, or at least recommend those changes.", "measuring each intent", "Not on this list: choosing and promoting learnings to Garura or Phoenix memory"
 - .garura/product/product-os/intents/bi-6.md: "What happens in use flows back.", "What happened is compared with what was intended", "Change an intent, or promote memory, without a person."
 - .garura/product/product-os/software-delivery-planning/connect-use-and-market/capability.md: "What is taken in is each figure, message or post a connection holds, kept as the tool gave it, with the connection it came from, where it was, and when it was read.", "It reads and keeps; it never interprets.", "Out: understanding what consumers want and what the competition is doing from what is taken in, which includes sorting it, summing it and placing it on the intents it bears on. The second capability of Run → Product owns it.", "Never: make a choice from what the AI agent knows by itself. The reason: a source in the project or in memory can be checked and read back, while the agent's own knowledge cannot."
-- .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, the product owner on 2026-11-10: "We are never touching production."
+- The product owner on 2026-11-10: "We are never touching production."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md: "What users say once the product runs is not part of it. Run → Product handles that.", "Each fix is made by the part that owns it"
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-find-spec-drift/feature.md: "Each finding says where it comes from. The reason: a person can then check each finding without a search."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "The product is understood from what a person gives"
@@ -97,7 +97,7 @@ What is not built yet:
 - core/components/skills/author-business-intent/SKILL.md: "Every part is mapped to the intent it serves (the coverage map)"
 - core/components/skills/find-work-placement/SKILL.md: "Search the product knowledge base for where a piece of work belongs — its domain, capability, and feature"
 - core/tools/memory/GUIDE.md: "names every decision whose source no longer says what it said.", "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"
-- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model (#855)"
+- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model"
 - core/components/skills/author-learnings/SKILL.md: "Each proposed change carries the outcome that justifies it and a confidence tier."
 - core/components/skills/research-domain-context/SKILL.md: "Search the web for market data, competitive landscape, industry trends, regulatory context", "Write domain-context.md to the specified STM path"
 - docs/design/playbook-catalog.md: "Discovery draft. Not scoped, not implemented.", "Ingest customer feedback (tickets, sentiment, analytics) → cluster into themes → auto-file via `capture` → link to existing capabilities."
@@ -105,4 +105,4 @@ What is not built yet:
 - knowledge/architecture/agentic-guardrails-baseline.md, in Phoenix memory: "prompt-injection and untrusted-content defense"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "Only a person confirms or drops it; an agent never does."
 - The short line beside each feature: the opening words of that feature's own page.
-- Shelf: none. No knowledge shelf covers this work: a placement over the ten domain shelves found none (.garura/project/issues/1021/context/bi-6-capability-2/placement/routing-result.json, unmatched).
+- Shelf: none. No knowledge shelf covers this work: a placement over the ten domain shelves found none (the placement's routing result, unmatched).

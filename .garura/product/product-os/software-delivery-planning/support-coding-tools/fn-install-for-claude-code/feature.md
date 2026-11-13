@@ -10,7 +10,7 @@ A team that works in Claude Code installs Garura through either front door (the 
   - Garura's instructions as `CLAUDE.md` when the project has none, and as `CLAUDE.md.new` beside the team's own when it has one;
   - Garura's settings file, with every kind of part pointed at its Claude Code folder.
 - It writes nothing for Claude Code outside the project: "Claude Code has no machine-global model/sandbox config to write."
-- What it does not lay yet: the guardrails, for which #893 names a Claude Code hook, "a script Claude Code runs before each tool call"; and the status display, "a plugin installed only when the install chooses Claude Code".
+- What it does not lay yet: the guardrails, for which the guardrail proposal names a Claude Code hook, "a script Claude Code runs before each tool call"; and the status display, "a plugin installed only when the install chooses Claude Code".
 - What Claude Code loads from a project is in approved memory. Two facts this page uses: a skill "can name its model", "for the rest of the current turn"; and ".claude/settings.json is the shared project file for team permissions, hooks and plugins", where "a PreToolUse hook runs before a tool call and can block it".
 - Examples, in different kinds of project:
   - A new repository for a shop's checkout gets every part in `.claude/agents/` and `.claude/skills/`, and the memory guide in `.claude/rules/`.
@@ -23,7 +23,7 @@ Status: built, through both front doors.
 - The check of the installed layout runs on `.claude` (Phoenix memory, the review shelf on the harness).
 - Gap: the adapter drops the model line on every skill, play and loop, because "A Claude skill has no model field". 75 of them name a tier in their source. A Claude Code skill "can name its model", "for the rest of the current turn".
 - Gap: the place of the memory guide is chosen inside the shared memory step, not in this adapter (core/components/plays/install-garura/scripts/memory_system.py lines 146-152).
-- Not built: the guardrails (#893) and the status display (ADR 041).
+- Not built: the guardrails and the status display (ADR 041).
 
 ## Inputs / Outputs
 - In: the parts of the chosen kind, each with the tier its source names, from the install engine.
@@ -61,8 +61,7 @@ Status: built, through both front doors.
 - knowledge/review/harness.md, in Phoenix memory: "The installed target is `.claude`."
 - standards/rules/run-status.md, in Phoenix memory: "a plugin installed only when the install chooses Claude Code"
 - docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md: "Build the status display for Claude Code as a separate plugin, installed only for Claude Code."
-- GitHub #893 (open): "a script Claude Code runs before each tool call"
 - .garura/product/product-os/intents/bi-7.md: "Change what a project's people changed without asking them."
 - .garura/product/product-os/software-delivery-planning/install-into-project/capability.md: "changes the team's own coding tool settings only on the person's yes"
 - The count of parts that name a tier: `grep "^model:"` over core/components on 2026-11-10, 17 sub-agents and 75 skills, plays and loops.
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md, approved by the product owner on 2026-11-10 as mu-20261110-001, lines 9 and 10: "can name its model", "for the rest of the current turn", ".claude/settings.json is the shared project file for team permissions, hooks and plugins", "a PreToolUse hook runs before a tool call and can block it"
+- The research note "What Claude Code loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-001: "can name its model", "for the rest of the current turn", ".claude/settings.json is the shared project file for team permissions, hooks and plugins", "a PreToolUse hook runs before a tool call and can block it"

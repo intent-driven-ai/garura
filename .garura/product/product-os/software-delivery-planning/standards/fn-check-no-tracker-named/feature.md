@@ -4,8 +4,8 @@
 A check reads every play, skill and sub-agent and names each one that names a tracker or calls a tracker's command line, warning while the parts move onto the Agent-work tool and failing after, so this intent's Must not is held by a machine and not by someone reading the parts.
 - This intent's Must not: "Name a tracker in a play, skill or sub-agent, because they only know the tool."
 - ADR 065, rule 4: "Plays, skills and sub-agents know only the tool, never the tracker. Parts move onto the tool over time."
-- #1023 (an Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker) asks for it: "A check fails any part that names a tracker directly." It counts the parts that name one today: "3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub".
-- The product owner answered when it comes and how it turns on: "the check that no part names a tracker comes with #1023, warns until the parts have moved, then fails".
+- It is asked for, with the Agent-work tool that reads the tracker setting so no play, skill or sub-agent names a tracker: "A check fails any part that names a tracker directly." The parts that name one today: "3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub".
+- The product owner answered when it comes and how it turns on: "the check that no part names a tracker comes with [the Agent-work tool], warns until the parts have moved, then fails".
 - The tool that meets the rule belongs to Track execution in the team's tracker: One tool knows the tracker, and no play, skill or sub-agent names it. This feature is the check that the rule holds.
 - Examples, in different kinds of project:
   - In a bank's payments service that uses Jira, a skill still calls GitHub's command line. The check warns while the parts move, and fails once the tool is in.
@@ -13,7 +13,7 @@ A check reads every play, skill and sub-agent and names each one that names a tr
   - In a game studio's build harness that moves from GitHub to Linear, the team changes only the setting, and the check shows that no part needs an edit.
 - How it meets the capability: this is one of the "checks that hold" the standard, here the one that holds this intent's Must not.
 
-Status: not built. It is planned with #1023 (an Agent-work tool reads the tracker setting, open). Not built, or open:
+Status: not built. It is planned with the Agent-work tool that reads the tracker setting. Not built, or open:
 - No rule of the component linter reads a part for a tracker's name or command line.
 - The parts that name a tracker have not moved onto the tool.
 
@@ -26,7 +26,7 @@ Status: not built. It is planned with #1023 (an Agent-work tool reads the tracke
 ## Rules & behavior
 - No play, skill or sub-agent names a tracker. The reason, this intent's Must not: "Name a tracker in a play, skill or sub-agent, because they only know the tool."
 - It warns until the parts have moved, then fails. The reason, in the product owner's answer: "warns until the parts have moved, then fails"; and the harness standard's principle 6: "missing links are warnings to fix later, not stops".
-- It comes with the Agent-work tool. The reason, in the product owner's answer: "comes with #1023".
+- It comes with the Agent-work tool. The reason, in the product owner's answer: "comes with [the Agent-work tool]".
 - Not decided: what counts as naming a tracker: a tracker's command line such as `gh`, a tracker's name in words, or both.
 - Not decided: when the check moves from a warning to a failure, and who says the parts have moved.
 
@@ -42,9 +42,8 @@ Status: not built. It is planned with #1023 (an Agent-work tool reads the tracke
 
 ## Sources
 - .garura/product/product-os/intents/bi-10.md, line 14: "Name a tracker in a play, skill or sub-agent, because they only know the tool."
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 8: "the check that no part names a tracker comes with #1023, warns until the parts have moved, then fails"
+- The product owner's answer 8 (2026-11-11): "the check that no part names a tracker comes with [the Agent-work tool], warns until the parts have moved, then fails"
 - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md, line 143: "Plays, skills and sub-agents know only the tool, never the tracker. Parts move onto the tool over time."
 - docs/standards/harness-standard.md, lines 71-72: "missing links are warnings to fix later, not stops"
-- GitHub #1023 (open): "A check fails any part that names a tracker directly.", "3 plays, 11 skills and 3 agents hold `gh` commands, and 10 plays, 6 skills and 1 agent name GitHub"
 - .garura/product/product-os/software-delivery-planning/track-execution/fn-one-tool-knows-tracker/feature.md, line 56: "the rule that no play, skill or sub-agent names a tracker. Standards, structure, settings and memory owns them; this feature holds the tool that meets the rule."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.5, 1.8 and 10
+- The stock-take (2026-11-11), sections 1.5, 1.8 and 10

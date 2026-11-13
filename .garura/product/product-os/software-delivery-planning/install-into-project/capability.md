@@ -37,7 +37,7 @@ What is not built yet:
 - Found and not filed: the one-line command's first install writes over an instructions file the project already has (installer/install.sh line 371). It does not lay the agents' shared files either (lines 275-285).
 - Found and not filed: on a first install, both front doors replace a part of the project's own that has the same name as a Garura part.
 - The one-line command lays Garura's own development guide, cut down, as the project's instructions, and Garura's own build plays. The install play lays a short guide to running plays instead, because the guide "would put how Garura is built into every agent of the project".
-- No guardrail is laid by any install (#893).
+- No guardrail is laid by any install.
 - Only Claude Code gets an install. The Codex install is stopped: "`--tool codex` stops with a plain message and writes nothing."
 
 ### Benefit hypothesis
@@ -64,7 +64,7 @@ What is not built yet:
 - Out: what a guardrail guards, and how a person gets past one. Orchestration owns it, under its Must not: "Stop a person. Every gate has a way past it that records what's owed."
 - Out: what each setting means and who reads it (Settings); how the memory tool works, when Phoenix memory reaches a machine and when the machine-wide copy of all memory stops being laid (Memory); and where each installed part lives (Structure). Standards, structure, settings and memory owns them, and the install lays what they define.
 - Never: write over, move or delete a file of the project's own, on any install or take-out, without the person's yes. Garura's version of a file the project already has goes beside it. The reason: Install and distribute must not "Change what a project's people changed without asking them.", and the product owner agreed that "a first install never writes over a project's own files".
-- Never: change the project's product model or its work. The reason: "The install never changes a product model the project already has (#813).", and the take-out "never deletes work".
+- Never: change the project's product model or its work. The reason: "The install never changes a product model the project already has.", and the take-out "never deletes work".
 - Never: lay a stale or deprecated part, or Garura's own development guide, into a product project. The reason: a stale part waits for a rebuild and a deprecated one is retired, so "neither ships to a project"; and the guide "would put how Garura is built into every agent of the project".
 - Never: lay a part without what it needs to run. The reason: an installed part reads only installed files, "A pointer in an installed file points to another installed file.", so a part laid without its shared files or its workers breaks in the project.
 - Never: touch production. The install works only in the project's folder and the machine's own Garura folders. The reason, in the product owner's words: "We are never touching production."
@@ -72,18 +72,18 @@ What is not built yet:
 
 ### Guiding rules
 - One engine, two front doors. The one-line command and the install play run the same steps and lay the same parts for the same version and kind. The reason: the product owner's "an engine thing, like installation, not a play", read as one engine behind both, which he agreed; today the two already share the memory and tools steps, "Both install paths call this".
-- One step, and no copy of Garura's source. The reason: Install and distribute's first proof is "A first install takes one step.", and #513 asks that "Someone with no prior exposure to Garura can install it into their project in one step".
-- A fixed version, named, recorded and shown. The reason: #568 asked that "The installed project records which Garura version it has, so a later upgrade and a bug report can name it." Not decided: which version the one step gives by default.
+- One step, and no copy of Garura's source. The reason: Install and distribute's first proof is "A first install takes one step.", and it is asked that "Someone with no prior exposure to Garura can install it into their project in one step".
+- A fixed version, named, recorded and shown. The reason, as asked: "The installed project records which Garura version it has, so a later upgrade and a bug report can name it." Not decided: which version the one step gives by default.
 - The record is the line between Garura's parts and the team's. Only what the record names is ever taken out. The reason: "Only manifest-recorded paths are candidates", and the take-out "never removes a file it cannot prove the installer placed".
 - Beside, never over. Garura's version of a file the project already has goes beside it, and a part of the project's own with a Garura part's name is named, not replaced. The reason: the Must not, and what the install play already does for the instructions file: "never clobber the user's own".
 - Whole, and checked before it counts. Every part is laid with its workers and shared files, and the memory tool and each tool are checked to run. The reason: installed parts read only installed files, and "A laid tool must pass its smoke check."
 - No memory comes with the install. The reason: "install finishes without any memory."; Initialize gives the project its own memory after it.
-- Shown before anything is taken out. The reason: #945 asks that a re-run show "the person what it will do before it does it", and the take-out play already says "Prefer `--dry-run` when unsure."
+- Shown before anything is taken out. The reason: it is asked that a re-run show "the person what it will do before it does it", and the take-out play already says "Prefer `--dry-run` when unsure."
 - No coding tool in the engine. Each tool's shape is laid by that tool's own part. The reason: "The adapter is the seam.", so a new tool needs no change to the engine.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md: "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.", "It is an engine thing, like installation, not a play.", "one install engine behind both the one-line command and the install play", "also keeps a record of what it laid, removes what Garura dropped, offers a choice of parts and can be taken out again; a first install never writes over a project's own files", "yes, record it and draft the first one"
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.", "Support each coding tool: Each team gets an install built for its tool", "Set a project up after the install (Initialize): new on this list.", "Garura's own releases and their notes sit here."
+- The product owner on 2026-11-10: "Install into a project: A team installs Garura, chooses what it gets, and can take it out again.", "It is an engine thing, like installation, not a play.", "one install engine behind both the one-line command and the install play", "also keeps a record of what it laid, removes what Garura dropped, offers a choice of parts and can be taken out again; a first install never writes over a project's own files", "yes, record it and draft the first one"
+- The list the product owner set on 2026-11-10: "Upgrade a project: A project moves to a new version knowing what changes, including its model, without losing its own work.", "Support each coding tool: Each team gets an install built for its tool", "Set a project up after the install (Initialize): new on this list.", "Garura's own releases and their notes sit here."
 - .garura/product/product-os/intents/bi-7.md: "A team can only use Garura once it's in their project, and only keeps using it if upgrades are safe.", "A first install takes one step.", "Change what a project's people changed without asking them."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/initialize/capability.md: "Initialize starts where that install stops, so a project has no Garura memory of its own until initialize runs, and the two never write the same files."
@@ -91,7 +91,7 @@ What is not built yet:
 - installer/install.sh: "install the latest published release", "This release has no memory system; skipped.", the first install's write of the instructions file at line 371, and the agents' own files only at lines 275-285
 - README.md: "A version that does not exist stops the install with a message; it never falls back to `main`."
 - core/components/plays/install-garura/SKILL.md: "The adapter is the seam.", "Only manifest-recorded paths are candidates"
-- core/components/plays/install-garura/scripts/install.py: "The install never changes a product model the project already has (#813).", "which would put how Garura is built into every agent of the project"
+- core/components/plays/install-garura/scripts/install.py: "The install never changes a product model the project already has.", "which would put how Garura is built into every agent of the project"
 - core/components/plays/install-garura/scripts/adapters/common.py: "neither ships to a project"
 - core/components/plays/install-garura/scripts/adapters/claude.py: "never clobber the user's own"
 - core/components/plays/install-garura/scripts/memory_system.py: "Both install paths call this"
@@ -100,13 +100,9 @@ What is not built yet:
 - docs/adr/038-install-brings-no-memory.md, section 1, the product owner on 19 October: "install finishes without any memory."
 - docs/adr/055-installed-parts-read-only-installed-files.md: "A pointer in an installed file points to another installed file.", "A laid tool must pass its smoke check.", "`--tool codex` stops with a plain message and writes nothing."
 - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md, section 5: "Initialize, seeding memory and upgrade are engine things, not plays."
-- GitHub #513 (open): "Someone with no prior exposure to Garura can install it into their project in one step, and choose a subset of components while doing so."
-- GitHub #568 (closed): "The installed project records which Garura version it has, so a later upgrade and a bug report can name it."
-- GitHub #893 (open): "The guardrails are laid by the Garura install, so every project that uses Garura gets them, not only Garura's own repo."
-- GitHub #945 (open): "It shows the person what it will do before it does it, and reports what it did."
 - standards/rules/naming.yaml, in Phoenix memory: "install: Harness. Put Garura into a project.", "uninstall: Harness. Take Garura out of a project."
 - The release facts: git tag v3.0.0 of 2026-10-07, and `git rev-list --count v3.0.0..main` read 1790 on 2026-11-10.
-- The stock-take of Install and distribute, .garura/project/issues/1021/context/bi-7-inventory/inventory.md, sections 1, 2 and 8.
+- The stock-take of Install and distribute (2026-11-10), sections 1, 2 and 8.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers installing, distributing or taking out a harness.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in."

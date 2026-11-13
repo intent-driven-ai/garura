@@ -496,9 +496,18 @@ class NewFeatureTest(Session):
 
 
 class PlaceFeatureTest(Session):
-    SPINE = ("capabilities:\n- id: cap-41\n  issue: 41\n- id: cap-other\n  issue: 7\n"
-             "features:\n- id: fn-undo-the-last-booking\n"
+    # The model holds no issue number (ADR 069): the plan file's `represents` names the part.
+    SPINE = ("capabilities:\n- id: cap-41\n- id: cap-other\n"
+             "features:\n- id: fn-undo-the-last-booking\n- id: fn-pick-a-slot\n  capability: cap-41\n"
              "slices:\n- id: sl-a\n  intents: [bi-40]\n- id: sl-b\n  intents: [bi-99]\n")
+
+    def setUp(self):
+        super().setUp()
+        with open(self.plan, encoding="utf-8") as fh:
+            text = fh.read()
+        text = text.replace("    title: Pick a free slot\n", "    title: Pick a free slot\n    represents: fn-pick-a-slot\n")
+        with open(self.plan, "w", encoding="utf-8") as fh:
+            fh.write(text)
 
     def place(self, entry, spine=None, *extra, fresh=True):
         path = os.path.join(self.d, "spine.yaml")
@@ -518,6 +527,23 @@ class PlaceFeatureTest(Session):
         self.assertEqual(e["one_line"], "Undo the last booking")
         self.assertNotIn("ice", e)
         self.assertEqual((got["questions"], got["placement_questions"], e["slice_in_progress"]), ([], [], []))
+
+    def test_a_node_that_represents_a_capability_names_it(self):
+        with open(self.plan, encoding="utf-8") as fh:
+            text = fh.read()
+        with open(self.plan, "w", encoding="utf-8") as fh:
+            fh.write(text.replace("  title: Cancel online\n", "  title: Cancel online\n  represents: cap-other\n"))
+        e = self.place({"op": "new-feature", "issue": None, "title": "Undo", "parent": 45})["entries"][0]
+        self.assertEqual(e["capability"], "cap-other")
+
+    def test_an_issue_number_in_the_model_places_nothing(self):
+        # ADR 069: the spine's `issue` is not read; a plan node with no `represents` names no capability
+        spine = ("capabilities:\n- id: cap-41\n  issue: 41\n- id: cap-45\n  issue: 45\n"
+                 "slices:\n- id: sl-a\n  intents: [bi-40]\n")
+        got = self.place({"op": "new-feature", "issue": None, "title": "Undo", "parent": 45}, spine)
+        self.assertIsNone(got["entries"][0]["capability"])
+        self.assertEqual(len(got["placement_questions"]), 1)
+        self.assertIn("names no capability", got["placement_questions"][0]["answer"])
 
     def test_an_existing_story_keeps_its_number(self):
         e = self.place({"op": "new-feature", "issue": 44, "title": "Remind", "parent": 41})["entries"][0]

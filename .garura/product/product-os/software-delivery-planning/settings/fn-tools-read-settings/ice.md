@@ -8,7 +8,7 @@
 - Fails if: A team must change a tool, or every command that runs it, to change what the tool does.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: each of Garura's tools and where it takes each value from, its own settings file where it has one, the project's settings it is meant to read, the plays that run each tool and what they pass to it, and #946 and #1023.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: each of Garura's tools and where it takes each value from, its own settings file where it has one, the project's settings it is meant to read, the plays that run each tool and what they pass to it, the plan for one settings folder with each setting naming its reader, and the plan for the Agent-work tool that reads the tracker setting.
 - Never read: any memory file by its path, any ICE page, and the value of any access key or other secret.
 - Persona: the technical lead, who changes a setting and expects every tool to follow it; and the developer, a person or an AI agent who builds the code, whose plays run the tools.
 - Scope: In: every tool reading the settings meant for it, from the project's settings file or its own. Out: building the Agent-work tool, where each tool lives, laying a tool and its settings, how the memory tool finds memory, and what each setting holds.

@@ -23,7 +23,7 @@ When the work of a change is done, every changed file is committed on the change
 Status: built, in /commit-change. Not built, or open:
 - A secret's pattern in a document is only a warning, so a real secret written in a document is not stopped.
 - The scan looks for secrets only. It does not look for client, company or personal references, or for home-folder paths. Scan every push for client, company and personal references (fn-scan-every-push) does that, and it is not built.
-- Its record can read clean on a tree that is not (#537), its record sits outside the folder its last step commits (#857), and a double quote in a subject breaks its record (#996).
+- Its record can read clean on a tree that is not, its record sits outside the folder its last step commits, and a double quote in a subject breaks its record.
 
 ## Inputs / Outputs
 - In: the uncommitted changes on the change's branch.
@@ -59,11 +59,8 @@ Status: built, in /commit-change. Not built, or open:
 - Testing the code for security. Test security, in Code → Validation, does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
+- The product owner on 2026-11-10: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
 - core/components/plays/commit-change/SKILL.md: "commits only; it does not push", "exactly one issue reference", "reviewable from the log alone"
 - core/components/plays/commit-change/reference/ice.md: "Work is committed on a feature branch, never on main.", "Changes are grouped by concern; each commit holds one coherent concern.", "Every changed file lands in a commit or has a stated exclusion reason", "Sensitive files (secrets, credentials, keys) are never committed; their presence blocks the commit.", "an iteration cap of 5"
 - core/components/plays/commit-change/scripts/analyze_changeset.py: "A content match in these paths is a NON-BLOCKING warning", "a content match anywhere else, and every FILENAME match (.env, .pem, id_rsa, ...), stays a hard block."
 - .garura/product/product-os/software-delivery-planning/test-security/capability.md: "keeping a secret's value out of each commit, and landing the change. Ship every change the same way, in Developer tooling, owns them."
-- GitHub #537 (open): "The working tree ended clean" can read held on a dirty tree
-- GitHub #857 (open): "commit-change never reads its own record as clean"
-- GitHub #996 (open): "writes a broken commit record when a commit subject holds a double quote"

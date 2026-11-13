@@ -15,10 +15,10 @@ A person changes the map only through /edit-ontology, one need at a time, and th
   - In a harness repository for a game studio's build, the write leaves a link to a kind that is not defined. The check fails, the play fixes the link and runs the check again, and the change does not land until the check reads valid.
 - How it meets the capability: this is "changed only on purpose": one play, one need, and the product owner's typed yes.
 
-Status: built, in /edit-ontology (#777, a play changes the ontology and calls author-product-ontology, closed), with its skill run only by the play (#778, the skill was one a person could run, closed). Not built, or open:
+Status: built, in /edit-ontology, with its skill run only by the play. Not built, or open:
 - The play checks only the map and its change. It runs none of the model's checks (fn-check-model-on-change).
 - A product project cannot change or extend the map (fn-extend-ontology).
-- The three pinned checkpoints have no way past. Whether the typed yes is the way past or a stop kept on purpose is open (#992, every gate has a key).
+- The three pinned checkpoints have no way past. Whether the typed yes is the way past or a stop kept on purpose is open.
 - The skill's own default names a machine-wide copy of memory in the home folder. The play passes the source path, so the play does not use the default.
 - The play changes only the kinds its need touches, so it never moves the page templates, the index's schema, the structure check or the glossary with the map (fn-readers-in-step).
 
@@ -42,7 +42,7 @@ Status: built, in /edit-ontology (#777, a play changes the ontology and calls au
 - No real name. The reason: the run fails when "A page names a real person".
 - The play is the only way to run its skill. The reason: "This play is the only way to run the `author-product-ontology` skill."
 - The change lands through the change plays. The reason: "The run opens its own change, and lands it through commit-change, propose-change, check-change and merge-change."
-- Not decided: whether the three pinned yeses are the way past that Orchestration's Must not asks for, or stops kept on purpose (#992, every gate has a key).
+- Not decided: whether the three pinned yeses are the way past that Orchestration's Must not asks for, or stops kept on purpose.
 
 ## Acceptance criteria
 - Given a need that touches one kind, when the run ends, then only that kind, the kinds it links to, the questions, the version and the log changed, and the change report says so.
@@ -61,12 +61,11 @@ Status: built, in /edit-ontology (#777, a play changes the ontology and calls au
 - Bringing a changed map to Phoenix memory. Memory, in Standards, structure, settings and memory, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 122: "Define what a product is made of: People and agents share one agreed map of what a product is made of, changed only on purpose."
+- The capability list: "Define what a product is made of: People and agents share one agreed map of what a product is made of, changed only on purpose."
 - core/components/plays/edit-ontology/reference/ice.md, lines 8-10: "A person changes Garura's product ontology — its kinds, their links and their rules — one need at a time."; lines 14-19: "Every run works on one need, and changes only the kinds that need touches.", "The product owner decides. The run stops for a typed yes at three points: the questions the ontology must answer, the kinds, and the links and rules.", "Nothing is written as agreed before that yes.", "Reuse before you invent. An existing kind is never redefined without a log line that says so."; lines 25-30: "A script decides whether the ontology is valid, not the model. The run ends only when the ontology check passes.", "The ontology version goes up by one, the date is set, and one log line says what changed and why.", "The run opens its own change, and lands it through commit-change, propose-change, check-change and merge-change."; line 39: "A page names a real person"
 - core/components/plays/edit-ontology/SKILL.md, lines 12-13: "The product owner decides at three checkpoints; a script decides whether the result is valid; the change lands through the change plays."; line 15: "This play is the only way to run the `author-product-ontology` skill."; line 65: "**Clean ontology**", "Hard halt (REC1)"; lines 147-150: "**pinned** — the product owner decides, C2; never skipped by config", "Record the answer verbatim"; lines 168 and 181-182, the two other pinned checkpoints; lines 214-231, the change check: "no kind outside `## Touches` changed", "the version is up by one", "there is exactly one new log line"
 - core/components/skills/author-product-ontology/SKILL.md, line 11: "**Run by the `edit-ontology` play only.**"; line 15: "It is installed only in a harness repo, never into a product project."; line 34: the skill's default for `ontology_path`, a machine-wide copy of memory in the home folder
 - core/components/plays/install-garura/scripts/install.py, lines 214-218: `META_PLAYS` holds "edit-ontology", and `META_SKILLS = {"author-product-ontology"}`, "Never installed under `full`."
-- The stock-take of Product model, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 1.2, 1.6 and 5: the tests of the play's scripts (11 passed) and of the check (27 passed), on 2026-11-11.
+- The stock-take of Product model (2026-11-11), sections 1.2, 1.6 and 5: the tests of the play's scripts (11 passed) and of the check (27 passed), on 2026-11-11.
 - .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-pinned-yes/feature.md, line 10: the three checkpoints of /edit-ontology on the list of pinned yeses.
 - .garura/product/product-os/intents/bi-9.md, line 13: "Stop a person. Every gate has a way past it that records what's owed."
-- GitHub #777 (closed): "A play changes the ontology and calls author-product-ontology"; #778 (closed): "The skill author-product-ontology is user-invocable"; #992 (open): "A gate in Garura is never a hard stop: it always has a key to pass it, and using the key records what must be done later."

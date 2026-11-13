@@ -14,7 +14,7 @@ Once a piece of work is built and the record of the build's separate test run sh
 - How it meets the capability: this is the test of the code at rest that the old slice check ran as "static analysis, lint, dependency scans", now against the profile's security level and for the whole built work.
 
 Status: not built. What exists covers only part of it:
-- The review of each change matches the review's security rules against the lines a change adds, with "No LLM judgment.", and a finding of the most serious rank rejects the change. It is live, and it belongs to Check the code against its standards. It reads names and words and runs no scan: its rule for the libraries asks for "file, cve-list", a list of known weaknesses, but matches only the name of the file that lists them. Three of its defects are open: #438, #890 and #535; by #890, scripts in plays and skills are classed as prose, "so code rules never check them".
+- The review of each change matches the review's security rules against the lines a change adds, with "No LLM judgment.", and a finding of the most serious rank rejects the change. It is live, and it belongs to Check the code against its standards. It reads names and words and runs no scan: its rule for the libraries asks for "file, cve-list", a list of known weaknesses, but matches only the name of the file that lists them. It has three defects: it rejects planning pages as security defects, it does not know what the project is, and it classes scripts in plays and skills as prose, "so code rules never check them".
 - The old slice check, /validate-epic, is stale. It ran "static analysis, lint, dependency scans" through a family of tool runners, compared the results with the profile's bars, and held that "An unmeasured bar is not a passed bar."
 - The quality auditor, an agent, can "Run dependency vulnerability scan" and "Run SAST scan", a static security scan, when a check asks for them; only the stale plays ask.
 - No memory tier holds what a security test of code must cover.
@@ -38,7 +38,7 @@ Status: not built. What exists covers only part of it:
 - Memory first, and no tool or number is a rule here. The reason: the bar is set per product, as memory's own learning says: "The NUMBERS live in the product profile, per product — never in this KB."
 - Not decided: what a test of the code must cover for a pass bar that names a security standard. No memory tier holds it, so it waits for research that a person approves as a memory update.
 - Not decided: where the test runs while no testing environment and no deployment design exist, as today.
-- Not decided: the rank given to each finding, while #934, one severity from P1 to P4 for findings and defects, is open.
+- Not decided: the rank given to each finding, while one severity from P1 to P4 for findings and defects is itself not decided.
 
 ## Acceptance criteria
 - Given built code that uses one library version with a known weakness that the pass bar does not allow, when the test runs, then a finding names the library, its version and where the code uses it.
@@ -56,12 +56,12 @@ Status: not built. What exists covers only part of it:
 - Keeping a secret's value out of each commit. Ship every change the same way, in Developer tooling, does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "Test security, against the product profile's security level.", "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
+- The list the product owner approved on 2026-11-09: "Test security, against the product profile's security level.", "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence."
 - standards/rules/pr.md, in Phoenix memory: "No LLM judgment.", "file, cve-list", "redacted-snippet"
 - core/components/plays/check-change/SKILL.md: "if any P1 finding (or a runnable suite is red)"
 - core/components/skills/check-pr-quality/SKILL.md: "Use only from check-change play; never invoke standalone for full-repo audits."
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "static analysis, lint, dependency scans", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "static analysis, lint, dependency scans", "An unmeasured bar is not a passed bar."
 - core/components/plays/validate-epic/reference/ice.md: "Green is the entry condition, never the verdict"
 - core/components/agents/quality-auditor.md: "Run dependency vulnerability scan", "Run SAST scan"
 - core/components/skills/check-quality/SKILL.md: "security/owasp-secure-coding.md"
@@ -70,8 +70,4 @@ Status: not built. What exists covers only part of it:
 - .garura/product/product-os/software-delivery-planning/deployment-design/capability.md: "so a secret written there is no longer secret.", "This capability says which tests run in which environment and what a change must pass to move on."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "is not where the path's tests are counted"
 - core/components/plays/commit-change/SKILL.md: "C6's guarantee is unchanged: actual secrets never commit."
-- GitHub #438 (open): "review-change rejects planning docs and skill prose as P1 security defects"
-- GitHub #890 (open): "the review's path table treats scripts in plays and skills as prose, so code rules never check them"
-- GitHub #535 (open): "has no model of what the project is, so Garura's own scripts are never code-checked"
-- GitHub #934 (open): "Findings and defects get one severity, P1 to P4"
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:"

@@ -27,11 +27,10 @@ While working on a plan, a person finds a feature the plan did not know about an
 - Shaping a new slice: that is /shape-slice's.
 - Writing an eval scenario: the eval scenarios for the feature are owed to /shape-eval afterwards.
 - Changing work already in the plan.
-- The session itself (#730) and the thin page and model entry of a part found during work (#979): this feature uses them.
+- The session itself and the thin page and model entry of a part found during work: this feature uses them.
 
 ## Sources
 - An approved /update-plan session, entry 3: "A person adds a new feature found while a plan is in progress, to the model, its slice and its epic"
-- Issue #931, the story that found it
 
 Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
@@ -48,5 +47,5 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: the feature joins a slice it does not fit, and the person was not told and offered what works.
 - Fails if: after the landing, the epic's feature-to-story list does not match the plan file.
 - Fails if: the feature joins the running list without being shown and confirmed first.
-- Context: A builder or the product owner works on a plan and finds a feature the plan did not know about. In the /update-plan session they say so in their own words; the play works out its capability, slice and epic, shows it, and asks before it joins the running list, because a model change is big. It lands with everything else on one "approved". It builds on the session (#730) and uses the landed model skills for a part found during work (#979's thin page and spine entry). The eval scenarios for the feature are owed to /shape-eval afterwards.
+- Context: A builder or the product owner works on a plan and finds a feature the plan did not know about. In the /update-plan session they say so in their own words; the play works out its capability, slice and epic, shows it, and asks before it joins the running list, because a model change is big. It lands with everything else on one "approved". It builds on the session and uses the landed model skills for a part found during work. The eval scenarios for the feature are owed to /shape-eval afterwards.
 - Checked by: A test session that names one new feature, approved once: before approval nothing changed; after it, the feature's page holds its thin ICE, its page and model entry both carry the thin mark, it is linked to the intent and to the issue that found it, its story sits under its slice's epic and on the epic's list, and the compare of the plan file, GitHub and the model finds no difference.

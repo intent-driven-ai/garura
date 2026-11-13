@@ -10,7 +10,7 @@ On the session's one "approved", the feature lands with everything else on the l
 The feature exists because the intent's work must include what was found, and the model must hold it too, so later work and later stories start from it.
 
 Status: built, but it writes the older shape, and it likely refuses now that the model's index holds ICE entries.
-Known break: #1036. A found feature cannot land, because the thin mark goes to a page with no ICE section.
+Known break: a found feature cannot land, because the thin mark goes to a page with no ICE section.
 
 ## Inputs / Outputs
 - In: the person's words that name the feature, and the work item it was found under.
@@ -49,4 +49,3 @@ Known break: #1036. A found feature cannot land, because the thin mark goes to a
 - core/components/plays/update-plan/SKILL.md: "the capability the person named, else the one that shares an issue number with the item's parent"
 - .garura/product/product-os/features/fn-931/feature.md: "because a model change is big", "Bugs, chores and spikes never change the model."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "it warns the person that a thin ICE can cause problems later"
-- GitHub #931 (closed): /update-plan adds a new feature found during work to the model, its slice and its epic.

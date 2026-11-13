@@ -21,8 +21,8 @@ Status: built, in `lint_grounding.py`, 13 copies kept the same, run by four live
 - It still gives 249 warnings that read "no '## Agent intent (ICE)' yet", though since the ontology's version 6 "The ICE is on its own page, never a section of the capability page."
 - The model fails it today, with 21 errors.
 - It does not check needs or "identified by" links. Link the parts by the map's rules: what each serves, what it needs and what led us to find it (fn-725) is to add it.
-- /shape-slice's model check stops the run until it reads valid, and its fix loop cannot clear 7 "thin mark drift" problems on an older slice (#1033). This is a stop with no way past.
-- The review of a change has no playbook for model pages: "No installed linter reads the product model, so Layer 1 was a by-hand check" (#870, check-change has no review playbook for product model pages).
+- /shape-slice's model check stops the run until it reads valid, and its fix loop cannot clear 7 "thin mark drift" problems on an older slice. This is a stop with no way past.
+- The review of a change has no playbook for model pages: "No installed linter reads the product model, so Layer 1 was a by-hand check".
 - No step in /edit-ontology runs it before and after a change to the ontology.
 
 ## Inputs / Outputs
@@ -37,7 +37,7 @@ Status: built, in `lint_grounding.py`, 13 copies kept the same, run by four live
 - Each part has one ICE, and a part with none is a warning. The reason: "each part has exactly one ICE (a part with none is a warning)".
 - A new rule never turns an older page's gap into an error. The reason, from the old capability Link the product model: "Old pages still pass. A gap in a page made before these rules is a warning, not an error. A new rule must not break an old model."
 - Every play runs the same check. The reason: it is "the SHARED structural linter for product-model grounding docs."
-- Not decided: whether /shape-slice's model check keeps its stop, or lists its findings with a way past that records what is owed (#992, every gate has a key).
+- Not decided: whether /shape-slice's model check keeps its stop, or lists its findings with a way past that records what is owed.
 
 ## Acceptance criteria
 - Given a feature page with no Acceptance criteria section, when the check runs, then it names the page and the section as an error.
@@ -62,9 +62,6 @@ Status: built, in `lint_grounding.py`, 13 copies kept the same, run by four live
 - core/components/plays/shape-slice/SKILL.md, lines 607-608: "the run does not go on until it reads valid"
 - standards/schemas/product-os/ontology.md, in Phoenix memory, lines 25 and 362: "What a rule can stop is work, never a write", "The ICE is on its own page, never a section of the capability page."
 - docs/standards/harness-standard.md, lines 71-72: "missing links are warnings to fix later, not stops"
-- .garura/project/issues/1021/context/bi-11-write/old-pages/link-the-product-model.md, the copy of the old page of Link the product model, line 27: "Old pages still pass. A gap in a page made before these rules is a warning, not an error. A new rule must not break an old model."
-- .garura/project/issues/1021/context/capabilities.md, line 125: "Yes, every ontology should run the model before and after.", "Managing the model should hold any checks of the model as well."
-- GitHub #1033 (open): 7 "thin mark drift" problems, "and the fix loop cannot clear them"
-- GitHub #870 (open): "No installed linter reads the product model, so Layer 1 was a by-hand check"
-- GitHub #992 (open): every gate has a key
-- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 1.4, 1.6, 2.7 and 5, and section 9, questions 3 and 6
+- The copy of the old page of Link the product model: "Old pages still pass. A gap in a page made before these rules is a warning, not an error. A new rule must not break an old model."
+- The capability list: "Yes, every ontology should run the model before and after.", "Managing the model should hold any checks of the model as well."
+- The stock-take (2026-11-11), sections 1.4, 1.6, 2.7 and 5, and section 9, questions 3 and 6

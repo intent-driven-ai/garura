@@ -17,7 +17,7 @@ When the design of the chosen work no longer matches the work, the technical lea
 Status: not built. What exists covers only parts of it:
 - The bug fix play sends a failed fix back to its design agent: after two failed tries, the agent revises the fix design and its test, and the fix goes on. It belongs to Fix defects test first.
 - In the bug fix play, a check fails a file the builder changed that the design did not name, unless the builder wrote down why. The design itself is not updated.
-- Bringing the design up to what was built, as a new version with both versions kept, is recorded and not built (#990). Agreeing a change to a design first, and writing a last change into the design before the build starts, is recorded and not built (#978).
+- Bringing the design up to what was built, as a new version with both versions kept, is recorded and not built. Agreeing a change to a design first, and writing a last change into the design before the build starts, is recorded and not built.
 
 ## Inputs / Outputs
 - In: the design in force, and what changed: the work items under the chosen item, a project standard, a gap closed, the developer's departure with its reason, or the technical lead's change.
@@ -57,13 +57,11 @@ Status: not built. What exists covers only parts of it:
 
 ## Sources
 - The product owner on 2026-11-07, in .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "this should be reflected as updating arch. as the project changes."
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-3-capability-1b/page-approvals.md: "designs are going to be done by, let's say, a technical lead or an architect, maybe a technical lead."
-- The product owner on 2026-11-09, on the first overlap brief for this capability, in .garura/project/issues/1021/context/bi-3-capability-3/page-approvals.md: "this design is input for writing code and building the application", "knowledge of deployment should also feed into technical design", "the style of design can be configured"
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "the code, when being written, should not get to see what tests there were", "This intent's job is to execute on the plan"
+- The product owner on 2026-11-09: "designs are going to be done by, let's say, a technical lead or an architect, maybe a technical lead."
+- The product owner on 2026-11-09, on the first overlap brief for this capability: "this design is input for writing code and building the application", "knowledge of deployment should also feed into technical design", "the style of design can be configured"
+- The product owner on 2026-11-09: "the code, when being written, should not get to see what tests there were", "This intent's job is to execute on the plan"
 - .garura/product/product-os/intents/bi-2.md: "Each position is written down and can change later."
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "Never: change the architecture's words in place. An update replaces what held before and keeps it.", "work already built on the old architecture must still be explainable."
 - core/components/plays/fix-bug/SKILL.md: "on exhaustion it re-invokes", "`tech-designer` to revise the design/test and resumes — it does not halt blindly."
 - core/components/plays/fix-bug/scripts/check_scope.py: "A modified file is in-scope when it appears in design.affected_files, OR it carries a", "non-empty deviation_justification."
-- GitHub #990 (open): "When the build drifts from the design, the design file is brought up to what was built.", "as a new version", "Both versions are kept, with who approved the first, who changed it, and why.", "The harness never stops a person."
-- GitHub #978 (open): "so the file always says what was agreed.", "A last change is agreed and written into `design.md` before the build starts."
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:", "An update always goes to the issue's short-term memory, and it is used only after a person"

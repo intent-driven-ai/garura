@@ -21,10 +21,10 @@ While a decision is drafted as an ADR, the agent gathers each thing it found on 
   - In a harness repository, the agent finds that a memory page is older than the source it was made from. The point names the memory tier, the page and the lines that differ, and asks whether the page is corrected now or later.
 - How it meets the capability: a decision is "recorded closely as they're made" only when what was found while it was made is recorded with it, for the person who decides.
 
-Status: built in part. The section in the template, the agent's gathering of the points, the skill's section in the draft and the template's check of each point are built: "A decision record tells the person accepting it what was found on the way" (#930, closed), and "ADR 059 is the first such record." Not built, or open:
-- The decision play does not check that the points were gathered, or that each is whole, before it asks the person: "So if the agent gathers no points, or a point misses one of its five parts in the gathered context, the play still passes." (#935).
-- The template's check reads a point only when the section is in the draft: "The ADR linter (`adr.py lint`) catches a broken point only when the section is in the record at all." (#935).
-- The templates index does not name the section, so "An agent reading the row alone does not learn the section exists." (#941).
+Status: built in part. The section in the template, the agent's gathering of the points, the skill's section in the draft and the template's check of each point are built: "A decision record tells the person accepting it what was found on the way", and "ADR 059 is the first such record." Not built, or open:
+- The decision play does not check that the points were gathered, or that each is whole, before it asks the person: "So if the agent gathers no points, or a point misses one of its five parts in the gathered context, the play still passes."
+- The template's check reads a point only when the section is in the draft: "The ADR linter (`adr.py lint`) catches a broken point only when the section is in the record at all."
+- The templates index does not name the section, so "An agent reading the row alone does not learn the section exists."
 
 ## Inputs / Outputs
 - In: what the agent found while it gathered the context: the older ADRs, and the files, rules, schemas, plays and agents it read.
@@ -47,8 +47,8 @@ Status: built in part. The section in the template, the agent's gathering of the
 - Given a point without what the person decides, when the draft is checked, then the check names the point and the missing part, and the draft goes back to the skill.
 - Given a section with no point under it, when the draft is checked, then the check fails.
 - Given a drafted ADR with points, when it is shown to the person, then the section is shown as it will read, before the answer.
-- Given a run whose gathered context has no points and does not say that none were found, when the play checks the context, then it stops before the person is asked. This is not built (#935).
-- Given an agent that reads the templates index, when it reads the ADR template's row, then the row names the section. This is not built (#941).
+- Given a run whose gathered context has no points and does not say that none were found, when the play checks the context, then it stops before the person is asked. This is not built.
+- Given an agent that reads the templates index, when it reads the ADR template's row, then the row names the section. This is not built.
 
 ## Out of scope
 - Drafting the rest of the ADR and its other checks. Record a decision as an ADR, with what it overrides and what it changes (fn-record-adr) does it.
@@ -56,7 +56,7 @@ Status: built in part. The section in the template, the agent's gathering of the
 - The ADR template as a standard, and the templates index. Standards, structure, settings and memory owns them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
+- The capability list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
 - core/components/agents/adr-keeper.md: "each thing you found on the way that the brief did not ask about"
 - core/components/skills/author-decision/SKILL.md: "Give the detail itself, never a summary", "A finding you only mention in passing in Context belongs here instead."
 - core/components/skills/author-decision/scripts/adr.py: the check of each point's five parts, and of a section with no point
@@ -64,6 +64,4 @@ Status: built in part. The section in the template, the agent's gathering of the
 - standards/templates/adr.md, in Phoenix memory: "A point for the person who accepts it is written for someone who was not in the work.", "gives the detail itself (the lines, the names, the dates), not a summary"
 - standards/templates/_index.md, in Phoenix memory: the row for the ADR template, which does not name the section
 - docs/adr/059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md, and ADRs 060, 061, 062, 064, 065 and 066: each has the section For the Person Who Accepts This
-- GitHub #930 (closed), the product owner on 2026-10-28: "update the ADR template so that things that I should know should be properly explained.", "A decision record tells the person accepting it what was found on the way", "ADR 059 is the first such record."
-- GitHub #935 (open): "So if the agent gathers no points, or a point misses one of its five parts in the gathered context, the play still passes.", "The ADR linter (`adr.py lint`) catches a broken point only when the section is in the record at all.", "A record can reach the person who accepts it with nothing explained."
-- GitHub #941 (open): "An agent reading the row alone does not learn the section exists."
+- The product owner on 2026-10-28: "update the ADR template so that things that I should know should be properly explained.", "A decision record tells the person accepting it what was found on the way", "ADR 059 is the first such record."

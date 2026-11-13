@@ -1,0 +1,36 @@
+{
+  "by": "product-os-keeper (model clean-up, issue 1062 step 2)",
+  "source": "the coordinator's approved wording to clear the two lint errors (product owner's yes to all, 2026-11-13)",
+  "pages": [
+    {
+      "page": "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+      "changes": [
+        {
+          "old": "- What this feature is to do:",
+          "new": "- What this feature is to do, in full:"
+        }
+      ],
+      "lines_before": 61,
+      "lines_after": 61,
+      "lines_added": 0,
+      "lines_kept": 60
+    },
+    {
+      "page": "software-delivery-planning/memory/fn-phoenix-in-step/feature.md",
+      "changes": [
+        {
+          "old": "- What this feature is to do:",
+          "new": "- What this feature is to do, in full:"
+        }
+      ],
+      "lines_before": 59,
+      "lines_after": 59,
+      "lines_added": 0,
+      "lines_kept": 58
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/manage-adrs/fn-adr-in-its-change/feature.md",
+    "software-delivery-planning/memory/fn-phoenix-in-step/feature.md"
+  ]
+}

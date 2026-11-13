@@ -9,7 +9,7 @@
 - Fails if: A newer approved version exists and a machine has no way to take it.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the memory tool's settings for Phoenix memory's place, source and approved version; how the tool downloads and versions Phoenix memory; what the install's check reports; and the plan for the Phoenix install in #883 (the Phoenix install).
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the memory tool's settings for Phoenix memory's place, source and approved version; how the tool downloads and versions Phoenix memory; what the install's check reports; and the plan for the Phoenix install.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the developer, a person or an AI agent who builds the code on a machine where Phoenix memory is not there yet, or is out of date.
 - Scope: In: the download on first use, the approved version, the one place on the machine, the `health` report; and, not built yet, the Phoenix install and bringing Phoenix memory up to date. Out: laying the tool in a project and the install's check, building a project's Garura memory, what a version of Phoenix memory holds, retiring the machine-wide copy, and what each setting means.

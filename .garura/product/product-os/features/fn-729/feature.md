@@ -19,10 +19,10 @@ Anyone, a person or an agent, runs /list-plans and sees every plan of the projec
   - In a team's planning tool, a new team member runs it on the first day and reads the plain line that there are no plans yet.
 - How it meets the capability: this is "sees every plan and where it stands": the whole of the work is on one screen, as a person set it.
 
-Status: built, in /list-plans and the plan tool's list. Its first form was #729 (list every plan, from the plan files alone, closed), under #719 (view plans: see every plan, and any one plan as a tree, closed). The card came with #983 (each plan as a card with its direction, status, branch, waits on and each epic's progress, closed). Not built, or open:
-- The run ends on its run summary, not on the cards, so the person is left looking at the summary (#1018, open).
+Status: built, in /list-plans and the plan tool's list. Its first form listed every plan, from the plan files alone. The card came later: each plan as a card with its direction, status, branch, waits on and each epic's progress. Not built, or open:
+- The run ends on its run summary, not on the cards, so the person is left looking at the summary.
 - Waits on is printed as the plan file holds it. Nothing works it out from the plan's parts; Work out the plans a plan waits on (fn-work-out-waits-on) is not built.
-- The plan files that exist today are for older business intents, and the reorganisation of the business intents deletes them (#1021). No plan exists yet for the current intents.
+- The plan files that exist today are for older business intents, and the reorganisation of the business intents deletes them. No plan exists yet for the current intents.
 
 ## Inputs / Outputs
 - In: every plan file in the plans folder, `.garura/project/plans/<id>.yaml`: its id, title, status, direction, branch, needs_plans and tree.
@@ -61,13 +61,9 @@ Status: built, in /list-plans and the plan tool's list. Its first form was #729 
 - The issues in the tracker. Track execution in the team's tracker owns them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - core/components/plays/list-plans/reference/ice.md: "The plan files are a cache: they exist so that no one has to read every issue to know where the work stands.", "A part of the list is never shown.", "Any other mode stops the play; it is never guessed.", "the play writes no plan file, no issue and no branch", "A plan in the plans folder is missing from the output, or is in it twice."
 - core/tools/plan/README.md: "the same files print the same way every time", "Every mark and line comes from the `plan-view.md` template"
 - core/tools/plan/plan.py: "Status and Direction are read from the plan file as a person set them, never worked out from the work."
 - standards/templates/plan-view.md, in Phoenix memory: "Set by a person, never worked out from the work.", "It is directional, not a ranking: several plans may share a level."
-- .garura/project/issues/1021/context/bi-9-capability-1/research.md, the page this one replaces as it read on 2026-11-10: "Print one list of every plan from the plan files"
-- GitHub #729 (closed): "List every plan, from the plan files alone"
-- GitHub #719 (closed): "View plans: see every plan, and any one plan as a tree"
-- GitHub #983 (closed): "/list-plans shows each plan as a card: direction, status, branch, waits on, and each epic with its progress"
-- GitHub #1018 (open): "You didn't show me any plans. You showed me a run summary."
+- The research and drafts for Orchestrate agent work through planning, the page this one replaces as it read on 2026-11-10: "Print one list of every plan from the plan files"

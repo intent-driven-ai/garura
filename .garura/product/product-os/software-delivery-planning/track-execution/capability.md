@@ -35,13 +35,13 @@ Features:
 - Say what each work-item type means (fn-say-what-each-type-means): each type the plays file has one agreed meaning, which Initialize's brief shows. Not built.
 
 What is not built yet:
-- No tool knows the tracker. In the words of the issue that plans it, "3 plays, 11 skills and 3 agents hold `gh` commands" (#1023, an Agent-work tool reads the tracker setting). The settings' `trackers` lines are read by no script, and the older code-host setting names a personal account as the owner, while the trackers name the organization.
+- No tool knows the tracker. In the words of the plan for the Agent-work tool, "3 plays, 11 skills and 3 agents hold `gh` commands". The settings' `trackers` lines are read by no script, and the older code-host setting names a personal account as the owner, while the trackers name the organization.
 - /start-change files a new issue through the track-issue skill, which applies labels and sets no type, and its title check asks for a type tag in the title.
 - /list-focus-issues reads labels only, which work items no longer carry, and its table recommends three plays that are gone.
-- Nothing files a bug from a finding, and nothing checks a bug's severity line (#934, findings and defects get one severity, P1 to P4).
-- No play links a piece of work to its intent across trackers. The open work of Garura's own intents was moved under them by hand, in #1021 (the reorganisation of the business intents).
-- No part says what each type means, so Initialize's brief has no words to show (#881, Initialize sets up the tracker's work-item types).
-- The merge closes the item above a landed issue once every issue under it is closed, against the rule that nothing rolls up (#1014, merge-change closes the top item of a plan's tree when every issue under it is closed).
+- Nothing files a bug from a finding, and nothing checks a bug's severity line, one severity from P1 to P4 for findings and defects.
+- No play links a piece of work to its intent across trackers. The open work of Garura's own intents was moved under them by hand, in the reorganisation of the business intents.
+- No part says what each type means, so Initialize's brief has no words to show.
+- The merge closes the item above a landed issue once every issue under it is closed, against the rule that nothing rolls up.
 - Only GitHub is exercised. On GitLab the actions that set an issue's type stop with a plain message. Jira and Linear are not reached at all.
 
 ### Benefit hypothesis
@@ -87,7 +87,7 @@ What is not built yet:
 - Not decided: what "the backlog" of the agreed line is: the open work items in the tracker, or the open items of the plan files.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the list the product owner locked on 2026-11-03: "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog."; and his words of 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
+- The capability list the product owner locked on 2026-11-03: "Track execution in the team's tracker: The product's execution is tracked in the tracker Garura connects to, for completion status and the backlog."; and his words of 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed.", "Any work traces up to its intent and down to its result."
 - core/config.yaml: "Tools read this; plays, skills and sub-agents never name a tracker.", "platform: github"
 - core/components/skills/platform-adapter/SKILL.md: "Exposes exactly 25 verbs", "Create an issue with its type and its parent in one call (GitHub only; GitLab stops with a plain message)"
@@ -101,7 +101,7 @@ What is not built yet:
 - core/tools/plan/README.md: "Nothing rolls up: the item's parent is never changed."
 - .garura/user-provided/managing-work.md: "Type lives in the type field.", "Never encode the type as a title prefix", "the field is the only place it belongs.", "No labels, for now.", "anything the builder could read, it would end up writing to."
 - docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md: "A reader sees what an issue is from its type, as the tracker shows it.", "It never finds one by its issue type or by its title.", "A Spike, a Chore and a Bug keep the label `work-item`."
-- docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md: "An item's status in a plan file follows its own GitHub issue.", "A parent never changes because its children closed", and the product owner (#1007): "When I said status cannot be updated, I mean don't do rollups."
+- docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md: "An item's status in a plan file follows its own GitHub issue.", "A parent never changes because its children closed", and the product owner: "When I said status cannot be updated, I mean don't do rollups."
 - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md: "Plays, skills and sub-agents know only the tool, never the tracker.", "A team can choose its tracker as a setting, and a new tracker means changing one tool.", "Two settings for one tracker can disagree, and on the owner they already do."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "the label `work-item` on a Spike, a Chore or a Bug only"
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "In: keeping the plan file's list of work items in step with the tracker."
@@ -109,12 +109,7 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/initialize/capability.md: "what each tracker type means is for Track execution in the team's tracker, in Orchestration, to say"
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "recording a defect in the tracker, as a bug under the story that brought it in, with its text and its severity. Orchestration owns it"
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md: "Tracking the agent work's own status in the tracker. Track execution in the team's tracker owns it."
-- GitHub #1023 (open): "An Agent-work tool reads the tracker setting, so no play, skill or sub-agent names a tracker", "3 plays, 11 skills and 3 agents hold `gh` commands"
-- GitHub #1014 (open): "merge-change closes the top item of a plan's tree (the Epic) when every issue under it is closed, against the no-roll-up rule"
-- GitHub #934 (open): "Findings and defects get one severity, P1 to P4"
-- GitHub #881 (open): "Initialize sets up the tracker's work-item types"
-- GitHub #1021 (open): "the open work moved under the new intents with real links across the repos"
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 3, 6.3, 6.4, 9, 10 and 11 (lean 5).
+- The stock-take of Orchestration (2026-11-10), sections 3, 6.3, 6.4, 9, 10 and 11 (lean 5).
 - The short line beside each built feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers how a team tracks its work in a tracker.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."

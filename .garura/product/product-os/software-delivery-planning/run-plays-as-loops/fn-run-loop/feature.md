@@ -27,8 +27,8 @@ When a person runs a loop with its goal, the loop takes the same steps whatever 
 
 Status: built, in the Shared Loop Run and its scripts, used by the one loop built, the Discovery loop. It has run on the Argus mockup and in a test project. Not built, or open:
 - A round's plays run one after another. Run a round's plays side by side (fn-run-plays-side-by-side) would run them at once, and it is not built.
-- Only a person starts a loop, and no single record tells the next round what was tried and whether it worked. Start a loop from a schedule or a hook, and keep a record across rounds (fn-start-loop-on-trigger) adds them (#699, the loop builders check the loop principles).
-- No part of a loop says what context each play gets, or how it is trimmed across rounds (#699, the loop builders check the loop principles).
+- Only a person starts a loop, and no single record tells the next round what was tried and whether it worked. Start a loop from a schedule or a hook, and keep a record across rounds (fn-start-loop-on-trigger) adds them.
+- No part of a loop says what context each play gets, or how it is trimmed across rounds.
 - The step after each round closes the product model's gaps. A loop whose plays build or test code has no step of its own there yet.
 - No loop is installed in Garura's own repository, so none runs there.
 
@@ -84,7 +84,7 @@ Status: built, in the Shared Loop Run and its scripts, used by the one loop buil
 - A way past a halt, and the record of what is owed. Give every gate a way past owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md, lines 97 and 101: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met.", "we are building from what already exists"
+- The product owner on 2026-11-10: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met.", "we are building from what already exists"
 - core/components/loops/_shared/loop-run.md, lines 3-11, 45-63, 65-91, 92-102, 151-257 and 395-422: "So the run is the same for every loop and lives once", "one issue, one branch for the whole loop", "Everything the loop and its plays write goes under that issue", "only what the loop itself needs from the person to start", "what memory can answer is for its plays' agents, through the memory tool.", "A loop never writes the document itself.", "The first build runs the plays one after another, in turn", "A headless session ends its turn while a background sub-agent runs, and stops it 10 minutes later.", "so the next play does not start on an unclean tree.", "It never takes another play's output as its input", "the merge keeping its pinned human approval", "a re-run resumes from the first play not done."
 - core/components/loops/complete-discovery/SKILL.md, lines 106-120 and 126-127: "no issue or branch exists for a prototype that does not run."
 - core/components/loops/complete-discovery/scripts/loop_preflight.py, lines 1-23 and 114-141: "these plays cannot run inside a loop (they check no loop contract)", "the runner is unknown"
@@ -95,11 +95,11 @@ Status: built, in the Shared Loop Run and its scripts, used by the one loop buil
 - core/components/loops/complete-discovery/scripts/run_play_headless.py, lines 1-17: "for a loop started outside an interactive session"
 - core/config.yaml, lines 119-145: "A loop always records its evidence", "max_rounds: 3", "runner: subagent"
 - standards/rules/loop-contract.md, in Phoenix memory, lines 63-80: "The loop opens and lands the change.", "A pinned checkpoint is never deferred by a contract."
-- docs/components/loops.md, lines 52-54: "No trigger part: schedules and hooks are not supported (#699)", "No part of a loop says what context each play gets, or how it is trimmed across rounds (#699)", "No single record tells the next round what was tried and whether it worked (#699)"
+- docs/components/loops.md, lines 52-54: "No trigger part: schedules and hooks are not supported", "No part of a loop says what context each play gets, or how it is trimmed across rounds", "No single record tells the next round what was tried and whether it worked"
 - docs/adr/029-drives.md, lines 36 and 39: "that would push the decision onto the model.", "Ends with the check and an evidence record."
 - docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md, lines 7 and 107: "after Kickoff runs 1–5 on the Argus mockup", "More rounds cost more time and tokens.", "The round limit bounds it."
 - docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md, the product owner on 2026-10-21, lines 16 and 20: "One error at the top spread to every node below it.", "The whole point of a drive is that these loops are closed"
 - docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md, line 36: "These are run steps. They are not rules about the product."
 - core/components/plays/install-garura/scripts/install.py, line 265: "a harness repo builds loops but runs none"
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md, line 48: "The work of managing the model owns the link rules."
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 2.1, 2.2, 2.4 and 2.7: the run, the one loop and its test runs, the settings, and the step after each round that only a model-writing loop has.
+- The stock-take of Orchestration (2026-11-10), sections 2.1, 2.2, 2.4 and 2.7: the run, the one loop and its test runs, the settings, and the step after each round that only a model-writing loop has.

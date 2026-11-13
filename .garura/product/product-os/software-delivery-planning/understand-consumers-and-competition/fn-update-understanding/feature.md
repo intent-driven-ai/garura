@@ -45,7 +45,7 @@ Status: not built. What exists covers only patterns for it:
 - Changing the connections. Update the connections as the product and its tools change does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-2/page-approvals.md, spelling tidied: "This needs to be built for high autonomy."
+- The product owner on 2026-11-10, spelling tidied: "This needs to be built for high autonomy."
 - The product owner on 2026-11-07, in .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "this should be reflected as updating arch. as the project changes."
 - .garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md: "a person confirms an update, and what held before stays readable with why it changed"
 - .garura/product/product-os/software-delivery-planning/connect-use-and-market/fn-update-connections/feature.md: "As the product and its tools change, this feature proposes a new, changed or dropped connection"

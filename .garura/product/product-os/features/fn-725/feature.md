@@ -6,7 +6,7 @@ Each capability and feature is linked by the ontology's rules, the business inte
 - Needs: "Other capabilities that must be done first — capabilities only". It is the only link that sets an order of work, and the ready check reads it.
 - Identified by: "The other capabilities that led us to find it — capabilities only, and may name more than one; empty when it was found on its own". It records where a part came from, and never sets an order. A part found on its own is not a gap.
 - A feature needs nothing and is identified by nothing. Its order of work comes from its capability, and the order of features is kept in the slices. This page once said "A feature can need a capability or another feature"; the ontology since its version 6, and the product owner on 2026-11-11, say it cannot.
-- The rename: the index's field for needs is still `depends_on`. #725 renames it `needs`, in the index and in every file that reads it, with every value kept.
+- The rename: the index's field for needs is still `depends_on`. It is to be renamed `needs`, in the index and in every file that reads it, with every value kept.
 - The check: each need and each "identified by" link is to name a capability that exists, and never work, a business intent, a domain or a feature; each one that does not is a finding, never a stop.
 - This feature comes from the old capability Link the product model, whose page said: "Each capability links to the business intents it serves. Each feature links to the capability that holds it."
 - Examples, in different kinds of project:
@@ -16,7 +16,7 @@ Each capability and feature is linked by the ontology's rules, the business inte
 - How it meets the capability: a living map holds together as it grows only when its parts link by one set of rules, the same on both sides.
 
 Status: built in part. Built: the serves link on both sides, with the intent page's side written by one script in the plays that save intents and domains, in /shape-slice and in the gap closer; and the rules for needs and "identified by", in the ontology. Not built, or open:
-- The rename and the check that each link points at a part that exists (#725, "Needs" and "identified by" link capabilities, open). Today the structure check does not read `depends_on` or `identified_by`.
+- The rename and the check that each link points at a part that exists. Today the structure check does not read `depends_on` or `identified_by`.
 - 21 serves links are kept on one side only, in the gap finder's run on 2026-11-11. The two index skills and /discover-capabilities write no Touches line: "A part linked or moved through them is missing from its intent's page."
 - The index holds six needs from one feature to another: fn-727 needs fn-724, and fn-743, fn-744, fn-745, fn-746 and fn-748 need fn-741. They are facts of the index today; by the ontology and the product owner's answer, a feature does not need another feature.
 - The index holds one id for "identified by", while the ontology says it "may name more than one". One capability holds one today.
@@ -65,8 +65,8 @@ Status: built in part. Built: the serves link on both sides, with the intent pag
 
 ## Sources
 - .garura/product/product-os/features/fn-725/feature.md, the old page, lines 6, 21, 23, 24 and 34: ""Identified by" says which node led us to find this one. It records where a node came from. It never sets an order.", "A feature can need a capability or another feature.", "Empty means that the node was found on its own. This is normal and gives no warning.", "Work never has these links.", "The rename keeps every value."; line 50, the index's needs it names
-- .garura/project/issues/1021/context/bi-11-write/old-pages/link-the-product-model.md, the copy of the old page of Link the product model, lines 6 and 29: "Each capability links to the business intents it serves. Each feature links to the capability that holds it.", "Business intents never need each other."
-- .garura/project/issues/1021/context/capabilities.md, line 125: "I don't understand question 4. I'll go with your proposal of no.", "Apart from being found on its own, no, a feature doesn't need another feature. All of that is managed in the slices."
+- The copy of the old page of Link the product model: "Each capability links to the business intents it serves. Each feature links to the capability that holds it.", "Business intents never need each other."
+- The capability list: "I don't understand question 4. I'll go with your proposal of no.", "Apart from being found on its own, no, a feature doesn't need another feature. All of that is managed in the slices."
 - standards/schemas/product-os/ontology.md, in Phoenix memory, lines 205, 344-345, 364 and 409: "A slice serves it — the link is kept on the slice's side only", "Other capabilities that must be done first — capabilities only", "The other capabilities that led us to find it — capabilities only, and may name more than one; empty when it was found on its own", "A capability's "needs" and "identified by" name other capabilities only — never a feature, a business intent or a work item.", "It never needs anything and is never identified by anything. Its order of work comes from its parent capability."
 - core/components/plays/shape-slice/scripts/intent_touches.py, lines 12-14: "Any play that links a node to an intent writes both sides", "It is never written by an LLM."
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/capability.md, line 28: "A part linked or moved through them is missing from its intent's page."
@@ -75,5 +75,4 @@ Status: built in part. Built: the serves link on both sides, with the intent pag
 - core/components/plays/create-play/references/lint_grounding.py: no line reads `depends_on` or `identified_by` (a search on 2026-11-11)
 - A read of the index, .garura/product/product-os/_spine.yaml, on 2026-11-11: six needs from one feature to another, and one capability with an "identified by"
 - The gap finder, run from the repository root on 2026-11-11: 21 links kept on one side only
-- GitHub #725 (open): "\"Needs\" and \"identified by\" link capabilities"
-- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 1.5, 2.5 and 4, and section 9, questions 4 and 5
+- The stock-take (2026-11-11), sections 1.5, 2.5 and 4, and section 9, questions 4 and 5

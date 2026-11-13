@@ -41,7 +41,7 @@ Status: neither. Nothing is built and no issue names GitHub Copilot (issue title
 - What each guardrail guards. Orchestration owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md: "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory."
+- The product owner on 2026-11-10: "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory."
 - product/user-provided/project-brief.md, in Garura memory: "IDE integrations (Claude Code, Copilot, Cursor, Codex CLI, Factory.ai)", "Installers (npm, Claude Code, Copilot)"
 - knowledge/review/config-maps.md, in Phoenix memory: "COPILOT.md"
 - core/components/plays/install-garura/scripts/install.py: the tools on offer are the adapters known, `choices=known()`, at line 529
@@ -49,4 +49,4 @@ Status: neither. Nothing is built and no issue names GitHub Copilot (issue title
 - core/tools/memory/GUIDE.md, the memory guide the install lays for every agent: "Never answer from what you already know, and never from the web, without a memory update a person approved."
 - .garura/product/product-os/intents/bi-7.md: "Change what a project's people changed without asking them."
 - The issue search on 2026-11-10: no issue title or body names Copilot.
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md, approved by the product owner on 2026-11-10 as mu-20261110-003, lines 5, 6, 9 and 11: "VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations", "one CLAUDE.md or GEMINI.md at the root", ".github/skills, .claude/skills or .agents/skills", "a preToolUse hook can approve or deny a tool call"
+- The research note "What GitHub Copilot loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-003: "VS Code, Visual Studio, JetBrains IDEs, Eclipse, Xcode, GitHub.com (the cloud agent) and Copilot CLI, each with its own set of customizations", "one CLAUDE.md or GEMINI.md at the root", ".github/skills, .claude/skills or .agents/skills", "a preToolUse hook can approve or deny a tool call"

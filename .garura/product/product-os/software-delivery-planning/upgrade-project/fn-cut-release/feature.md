@@ -17,8 +17,8 @@ When Garura's newest work is ready for teams, the product owner of Garura cuts a
 
 Status: built in part, by hand:
 - Each release has a hand-written entry in `CHANGELOG.md`: what it set out to do, what it delivered, and "Known issues at the tag". Each tag that starts with `v` makes a GitHub release with notes GitHub writes from the merged changes (`.github/workflows/release.yml`).
-- The last release, v3.0.0 of 7 October 2026, was cut through a release issue (#591, closed): its blockers closed, a changelog entry "in plain language", a tag from main, a GitHub release "marked Latest", and "A fresh install with no version given installs v3.0.0".
-- Cutting a release is by hand: "Cutting a release stays a manual step." (#568).
+- The last release, v3.0.0 of 7 October 2026, was cut by hand: its blockers closed, a changelog entry "in plain language", a tag from main, a GitHub release "marked Latest", and "A fresh install with no version given installs v3.0.0".
+- Cutting a release is by hand: "Cutting a release stays a manual step."
 - Not built: notes for Garura's newest work. The changelog has no entry after v3.0.0, and main is 1,790 commits past it, so a team that asks for the newest work gets no notes, and a team that takes the default gets a release that has neither the memory system nor the current plays.
 - Not built: a line in the notes for what a team must do on an upgrade, such as a move of its model.
 - Not decided: how often a release is cut, and who drafts its notes.
@@ -31,12 +31,12 @@ Status: built in part, by hand:
 - Out: the changelog entry for the release, in plain words.
 
 ## Rules & behavior
-- A fixed, named version. The reason: #568 was filed because "Two people who install a week apart get different Garura.", so nobody could name the version they had.
-- Every release has notes in plain words. The reason: a team knows what an upgrade changes only when the version says so; #591 asked for an entry "that says what changed since v2.0.0, in plain language".
+- A fixed, named version. The reason: the version was fixed because "Two people who install a week apart get different Garura.", so nobody could name the version they had.
+- Every release has notes in plain words. The reason: a team knows what an upgrade changes only when the version says so; the v3.0.0 release asked for an entry "that says what changed since v2.0.0, in plain language".
 - The notes say what a team must do. The reason: a move of the model or a renamed play changes what the team runs, and the notes are what it reads before its yes.
-- Cut by hand, on the product owner's yes. The reason: "Cutting a release stays a manual step.", and #568 kept releases on every merge out of its scope.
-- A release waits on its blockers. The issues it must not go out without are agreed first, and each is closed before the tag. The reason: #591 was done only when "The blocker list is agreed and every issue on it is closed."
-- A fresh install gets it. The reason: #591 counted the release done only when "A fresh install with no version given installs v3.0.0".
+- Cut by hand, on the product owner's yes. The reason: "Cutting a release stays a manual step.", and a release on every merge is out of scope.
+- A release waits on its blockers. The issues it must not go out without are agreed first, and each is closed before the tag. The reason: the v3.0.0 release was done only when "The blocker list is agreed and every issue on it is closed."
+- A fresh install gets it. The reason: the v3.0.0 release counted as done only when "A fresh install with no version given installs v3.0.0".
 - A release is prepared with stricter checks. The reason: Garura's branch rule has a branch for "Release preparation", where "Quality gates elevated to must-have".
 - Not decided: how often a release is cut. While the one-step install gives the latest release by default, a release left far behind gives every new team an old Garura, as v3.0.0 does today.
 
@@ -53,12 +53,9 @@ Status: built in part, by hand:
 - Releasing a team's own product to its users. Validation → Run owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-2/page-approvals.md: "Garura's own releases and their notes sit here", "A project moves to a new version knowing what changes"
+- The product owner on 2026-11-10: "Garura's own releases and their notes sit here", "A project moves to a new version knowing what changes"
 - CHANGELOG.md: "Known issues at the tag:", "What it set out to do:", "What it delivered:"
 - .github/workflows/release.yml: "generate_release_notes: true"
-- GitHub #568 (closed): "Two people who install a week apart get different Garura.", "Cutting a release stays a manual step.", "Set up automatic releases on every merge."
-- GitHub #591 (closed): "The blocker list is agreed and every issue on it is closed.", "that says what changed since v2.0.0, in plain language", "marked Latest", "A fresh install with no version given installs v3.0.0"
-- GitHub #921 (open): "Each Phoenix memory release has a version that matches the Garura release it goes with, and its own release notes"
 - standards/rules/git.md, in Phoenix memory: "Release preparation", "Quality gates elevated to must-have"
 - The release facts: git tags v0.9.0, v2.0.0 and v3.0.0, v3.0.0 of 2026-10-07 and the last entry in CHANGELOG.md, and `git rev-list --count v3.0.0..main` read 1790 on 2026-11-10.
-- The stock-take of the run after Validation, .garura/project/issues/1021/context/bi-5-inventory/inventory.md, section 13: "Garura's own releases"
+- The stock-take of the run after Validation (2026-11-10), section 13: "Garura's own releases"

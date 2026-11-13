@@ -29,9 +29,9 @@ Status: built in part, in the install play only. A new run removes each part the
 - Only what the record names. The reason: "Only manifest-recorded paths are candidates", so the team's own parts are never touched.
 - Only inside the project. The reason: the removal already holds that "only paths inside the target are ever touched".
 - The same version. The reason: moving to a new version, and what it changes, is Upgrade a project's.
-- Shown before anything is taken out. The reason: #945 asks that a new run show "the person what it will do before it does it", and taking a play out takes away a command the team may still use.
+- Shown before anything is taken out. The reason: it is asked that a new run show "the person what it will do before it does it", and taking a play out takes away a command the team may still use.
 - Through both front doors. The reason: one engine is behind both, and a one-line install that removes nothing leaves a dropped play in the project as a command that still runs its old way.
-- Not decided: whether a change of choice that would take out a part a person edited stops to ask first. Keeping a person's edits to an installed part is Upgrade a project's (#945: "No part is overwritten that a person changed, unless the person says so.").
+- Not decided: whether a change of choice that would take out a part a person edited stops to ask first. Keeping a person's edits to an installed part is Upgrade a project's ("No part is overwritten that a person changed, unless the person says so.").
 
 ## Acceptance criteria
 - Given a full install, when the install runs again with the harness kind, then every part outside the harness kind that the record names is taken out, each is named in the report, and nothing the record does not name changes.
@@ -43,14 +43,11 @@ Status: built in part, in the install play only. A new run removes each part the
 ## Out of scope
 - The first install. Install Garura in one step, with a record of what it laid (fn-install-in-one-step) does it.
 - The kinds themselves. Choose what the project gets (fn-choose-parts) holds them.
-- Moving to a new version, removing parts Garura renamed, a project installed before the record existed (#938), and keeping a person's edits to an installed part. Upgrade a project owns them.
+- Moving to a new version, removing parts Garura renamed, a project installed before the record existed, and keeping a person's edits to an installed part. Upgrade a project owns them.
 - Taking all of Garura out. Take Garura out of the project again (fn-take-out) does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-1/page-approvals.md: "removes what Garura dropped", "chooses what it gets"
+- The product owner on 2026-11-10: "removes what Garura dropped", "chooses what it gets"
 - core/components/plays/install-garura/SKILL.md: "Only manifest-recorded paths are candidates", "over a previously full install retires the out-of-scope components", and the removal from the last record at lines 169-173
 - core/components/plays/install-garura/scripts/install.py: "only paths inside the target are ever touched"
-- GitHub #945 (open): "It shows the person what it will do before it does it, and reports what it did.", "No part is overwritten that a person changed, unless the person says so."
-- GitHub #843 (open): "so a later plain `harness` install (or an uninstall) takes them out again."
-- GitHub #938 (open): "A reinstall removes the parts Garura no longer has, even in a project installed before the install record"
-- The stock-take of Install and distribute, .garura/project/issues/1021/context/bi-7-inventory/inventory.md, section 3: "The one-line installer removes nothing, so a dropped play still shows as a command and runs its old way"
+- The stock-take of Install and distribute (2026-11-10), section 3: "The one-line installer removes nothing, so a dropped play still shows as a command and runs its old way"

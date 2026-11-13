@@ -16,9 +16,9 @@ Each decision an agent makes is recorded in the issue's short-term memory with i
   - In a game studio's build, a decision rests on a memory update the product owner approved. The record names the update, and its written file is the source of the step.
 - How it meets the capability: agents "decide from three tiers of memory" in a way a person can check only when each decision says which lines of which tier it rested on, and says so again when those lines change.
 
-Status: built, in the memory tool's `cite` and `citations`; built under #659 (closed, every decision names the memory it came from, and a script checks it); decided in ADR 035 section 6 and ADR 037. Not built, or open:
-- A decision that a later decision replaced cannot be marked, so the check of such an issue never reads clean (#852, replaced decisions in the trace check): "it has no way to mark a record as replaced by a later decision".
-- A decision recorded again keeps its old record beside the new one, and the check reads both (#852, replaced decisions in the trace check).
+Status: built, in the memory tool's `cite` and `citations`; decided in ADR 035 section 6 and ADR 037. Not built, or open:
+- A decision that a later decision replaced cannot be marked, so the check of such an issue never reads clean: "it has no way to mark a record as replaced by a later decision".
+- A decision recorded again keeps its old record beside the new one, and the check reads both.
 - The Agent decisions section of Argus, where a person reads each trace, is not built (Review what agents make, in Developer tooling).
 
 ## Inputs / Outputs
@@ -36,7 +36,7 @@ Status: built, in the memory tool's `cite` and `citations`; built under #659 (cl
 - An agent never decides from its own earlier decision. The reason: "A lookup never reads them: an agent never decides from its own earlier decision".
 - A decision names the update it rests on. The reason: "A decision that rests on an approved memory update names it".
 - A broken record stops only its own issue. The reason: "other issues are not stopped."
-- Not decided: whether a replaced decision is marked with the record that replaces it, or withdrawn with the person's reason (#852, replaced decisions in the trace check).
+- Not decided: whether a replaced decision is marked with the record that replaces it, or withdrawn with the person's reason.
 
 ## Acceptance criteria
 - Given a decision with three steps, each with a source read through the tool, when the agent records it, then the record holds the three steps in order, each with its exact text, fingerprint and up to three lines around it.
@@ -44,7 +44,7 @@ Status: built, in the memory tool's `cite` and `citations`; built under #659 (cl
 - Given a recorded decision whose source later changed, when the check runs, then it names that record and step as `source_changed`, with the lines now.
 - Given a record with no trace, when the check runs, then it names it as `no_source`.
 - Given a decision that rests on an approved update, when it is recorded, then the record names the update.
-- Given a decision that a later decision of the person replaced, when the check runs, then it reports the old record apart and the check can read clean. This is not built (#852, replaced decisions in the trace check).
+- Given a decision that a later decision of the person replaced, when the check runs, then it reports the old record apart and the check can read clean. This is not built.
 
 ## Out of scope
 - Showing each trace to a person, and their answer on it. Review what agents make (Argus), in Developer tooling, owns it.
@@ -54,13 +54,11 @@ Status: built, in the memory tool's `cite` and `citations`; built under #659 (cl
 - Naming a page that is out of date before any agent uses it. Check what memory holds: pages out of date, sources that changed (fn-check-memory) is to do it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 114, the list set on 2026-11-11: "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them."
+- The capability list set on 2026-11-11: "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them."
 - core/tools/memory/README.md, lines 47, 127-128 and 220: "A lookup never reads them: an agent never decides from its own earlier decision", what `cite` and `citations` do, "A decision from an approved memory update names it", "other issues are not stopped."
 - core/tools/memory/GUIDE.md, lines 76-79: "A decision that rests on an approved memory update names it", "`cite` refuses a source that is gone or changed."
 - core/tools/memory/citations.py: the record, the three lines around each source, and the problems `no_source`, `source_missing` and `source_changed`.
 - docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md, sections 1 and 2, lines 39 and 43-44: the product owner's words, "the source should show a few lines before and after", "i dont think it will be only 1 line that decided. it will be multiple."; "The check names the step whose source changed or is gone.", "A decision with no trace is flagged."
 - docs/adr/035-agents-work-only-from-memory.md, section 6: every decision names the memory it came from.
-- GitHub #659 (closed): every decision names the memory it came from, and a script checks it.
-- GitHub #852 (open): "it has no way to mark a record as replaced by a later decision", "So the check can never read clean", and the fix it asks for, a record that names the one it replaces, or a withdraw with the person's reason.
 - .garura/product/product-os/software-delivery-planning/review-agent-work/fn-check-agent-decisions/feature.md, line 42: "Recording a decision and its trace, and checking its sources. Memory, in Standards, structure, settings and memory, owns them."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 5.2.
+- The stock-take (2026-11-11), section 5.2.

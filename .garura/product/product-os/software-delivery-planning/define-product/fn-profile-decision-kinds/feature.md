@@ -38,9 +38,8 @@ Status: not built. No issue asks for it.
 - The setup answers themselves. Set a project up after the install (Initialize), in Install and distribute, owns them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 126, as read: "8, read as yes, the product profile and the product decision become kinds of the ontology"; line 129: "Question 8 stays yes (the product profile and the product decision become kinds of the ontology)."
-- The stock-take of Product model, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, lines 807-814, question 8, and its examples; section 1.5, point 4.
-- .garura/product/product-os/_spine.yaml, line 4284: the `profile` block; .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: "Raise the product's security level from none to medium so the box admits".
+- The capability list, as read (2026-11-11): "8, read as yes, the product profile and the product decision become kinds of the ontology"; "Question 8 stays yes (the product profile and the product decision become kinds of the ontology)."
+- The stock-take of Product model (2026-11-11), question 8, and its examples; section 1.5, point 4.
 - standards/schemas/product-os/product-profile.yaml, in Phoenix memory, line 3: "The profile is THE BOX — the product's committed boundaries."; standards/schemas/product-os/decision.yaml, in Phoenix memory, line 3: "A decision record IS an ADR — usable at product, capability, feature, or".
 - standards/schemas/product-os/ontology.md, in Phoenix memory, line 9: "It grows one kind at a time, through the `edit-ontology` play, and the product owner agrees each change."; a search of its text on 2026-11-11 finds no "profile".
 - .garura/product/product-os/software-delivery-planning/manage-adrs/capability.md, line 63: "Out: product decisions in the product model, such as a move of the product profile, kept as a `decision.yaml` record. Product model owns them."

@@ -18,7 +18,7 @@ The person starts Argus once, as a small server on their laptop or, later, on a 
   - A content team's product, which is not Garura, sends its own kinds of piece, such as an article, and Argus shows them without a change to its code.
 - How it meets the capability: this is the "one tool", kept apart so it can serve Garura and move without it.
 
-Status: not built (#641, #642). No folder holds Argus, in Garura or in any other repository, and no setting in Garura names its address. The stories still say it lives in a folder inside Garura, while it was decided on 20 October 2026 that "the review tool needs to be built separately".
+Status: not built. No folder holds Argus, in Garura or in any other repository, and no setting in Garura names its address. The stories still say it lives in a folder inside Garura, while it was decided on 20 October 2026 that "the review tool needs to be built separately".
 
 ## Inputs / Outputs
 - In: the review packs and the requests Garura sends, at Argus's address.
@@ -50,10 +50,7 @@ Status: not built (#641, #642). No folder holds Argus, in Garura or in any other
 - Moving Argus into Griffin, which comes later.
 
 ## Sources
-- GitHub #641 (open): "The review tool has a written contract for what Garura sends it and what comes back", "No file path appears in a pack: pieces are by meaning, not by file.", "The tool lives in `core/tools/outcome-review/`"
-- GitHub #642 (open): "The review tool runs as a server that keeps every review action as a numbered event", "Storage sits behind one small store interface; today it is files on disk."
-- GitHub #680 (closed as not planned on 2026-11-02, replaced by BI-8's tracker issue): "built separately from Garura and tracked in the Phoenix project under Garura tools", "imports no Garura code, so it can move into Griffin later"
-- .garura/project/issues/617/specs/review-tool.md, the design, with the product owner's words: "The way I want you to build the tool is that it is easily extractable and movable out of Garura.", "The line between the tool and Garura is the contract", "Garura words are data, not code.", "A product other than Garura could send its own kinds.", "Moving the tool to Griffin means moving one folder and changing one address in Garura's config.", "Every event has a number and is kept in a log.", "Claude only checks `/v1/health` and never starts it.", "On a laptop it listens only on 127.0.0.1 with a token.", "It works offline on a laptop", "the review tool needs to be built separately"
+- The review tool's design, with the product owner's words: "The way I want you to build the tool is that it is easily extractable and movable out of Garura.", "The line between the tool and Garura is the contract", "Garura words are data, not code.", "A product other than Garura could send its own kinds.", "Moving the tool to Griffin means moving one folder and changing one address in Garura's config.", "Every event has a number and is kept in a log.", "Claude only checks `/v1/health` and never starts it.", "On a laptop it listens only on 127.0.0.1 with a token.", "It works offline on a laptop", "the review tool needs to be built separately"
 - .garura/user-provided/managing-work.md: "Tools built beside Garura", "are Phoenix tools"
 - .garura/product/product-os/intents/bi-8.md: "ship with Garura"
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md: "in one tool"
+- The product owner on 2026-11-10: "in one tool"

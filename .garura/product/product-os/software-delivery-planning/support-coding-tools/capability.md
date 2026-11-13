@@ -24,7 +24,7 @@ It matters because Install and distribute promises that a team "uses it on which
 
 Features:
 - Install Garura for Claude Code (fn-install-for-claude-code): every sub-agent, play, loop and skill is laid where Claude Code reads it, each sub-agent with its tier, with the shared files, the memory guide every agent reads, and Garura's instructions beside the team's own. Built.
-- Install Garura for Codex (fn-install-for-codex): every part a play needs is laid where Codex reads it, with the memory guide as a marked block in the team's own instructions file. Stopped until its redesign (#863).
+- Install Garura for Codex (fn-install-for-codex): every part a play needs is laid where Codex reads it, with the memory guide as a marked block in the team's own instructions file. Stopped until its redesign.
 - Install Garura for GitHub Copilot (fn-install-for-copilot): every part laid where GitHub Copilot reads it, through its own adapter. Neither built nor filed.
 - Install Garura for Antigravity (fn-install-for-antigravity): every part laid where Antigravity reads it, through its own adapter. Neither built nor filed.
 - Install Garura for Factory (fn-install-for-factory): every part laid where Factory's agent reads it, through its own adapter. Supported once, then removed.
@@ -32,11 +32,11 @@ Features:
 
 What is not built yet:
 - Only Claude Code gets an install, through either front door. The one-line command lays every part under Claude Code's own folder and has no other tool.
-- The Codex install is stopped: "`--tool codex` stops with a plain message and writes nothing." Its adapter "leaves out each play's `reference/` folder" (#863). Found and not filed: it also writes Codex settings in the Codex home folder on the machine, when none are there, which is outside the project's folder and Garura's own folders.
-- Factory was supported once, by a sync skill that "Transforms Claude Code agent definitions into Factory Droid format", and that skill was removed. Found and not filed: two leftovers. Garura's settings file still names Factory's folders (core/config.yaml lines 50-58), and no script reads them (#947). Garura's own AGENTS.md is written "to Factory Droids" and names "The sudarshan `/sud:install` factory adapter", which does not exist.
+- The Codex install is stopped: "`--tool codex` stops with a plain message and writes nothing." Its adapter "leaves out each play's `reference/` folder". Found and not filed: it also writes Codex settings in the Codex home folder on the machine, when none are there, which is outside the project's folder and Garura's own folders.
+- Factory was supported once, by a sync skill that "Transforms Claude Code agent definitions into Factory Droid format", and that skill was removed. Found and not filed: two leftovers. Garura's settings file still names Factory's folders (core/config.yaml lines 50-58), and no script reads them. Garura's own AGENTS.md is written "to Factory Droids" and names "The sudarshan `/sud:install` factory adapter", which does not exist.
 - GitHub Copilot and Antigravity have nothing built and no issue.
 - Found and not filed: the place of the memory guide for each tool is chosen inside the shared memory step, with one branch for Claude Code and one for Codex, not by the tool's adapter.
-- No guardrail is laid for any tool (#893), and the status display planned for Claude Code is not built.
+- No guardrail is laid for any tool, and the status display planned for Claude Code is not built.
 - The naming rule's check of built-in commands lists only Claude Code and Codex: "No name is, or starts with, a built-in command of Claude Code or Codex."
 - What each tool loads from a project is in approved memory, one file for each tool. Two of its facts differ from Garura's adapters: a Claude Code skill "can name its model", and the Claude Code adapter drops it; and Codex has custom agents as "standalone TOML files in .codex/agents/", while the stopped Codex adapter says "There is no named-subagent file".
 
@@ -83,8 +83,8 @@ What is not built yet:
 - Not decided: whether one project may hold Garura for more than one coding tool at once. The install record names one tool.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md: "Support each coding tool: Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.", "one feature per tool, with each tool's state named", "yes, record it and draft the first one"
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Support each coding tool, as above, one feature per tool with each tool's state named.", "Assumed: Antigravity is Google's agent IDE and Factory is Factory.ai's Droids", "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
+- The product owner on 2026-11-10: "Support each coding tool: Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory.", "one feature per tool, with each tool's state named", "yes, record it and draft the first one"
+- The list the product owner set on 2026-11-10: "Support each coding tool, as above, one feature per tool with each tool's state named.", "Assumed: Antigravity is Google's agent IDE and Factory is Factory.ai's Droids", "Intelligent model routing: Each part runs on the right model and effort for its job, for speed and token cost, on each harness that supports it."
 - .garura/product/product-os/intents/bi-7.md: "uses it on whichever coding tool it has", "Each tool gets what it supports.", "Change what a project's people changed without asking them."
 - .garura/product/product-os/software-delivery-planning/install-into-project/capability.md: "No coding tool in the engine. Each tool's shape is laid by that tool's own part.", "The install works only in the project's folder and in the machine's own Garura folders"
 - .garura/product/product-os/software-delivery-planning/install-into-project/ice.md: "names no coding tool in its own steps"
@@ -101,16 +101,12 @@ What is not built yet:
 - AGENTS.md: "This file provides guidance to Factory Droids when working with code in this repository.", "The sudarshan `/sud:install` factory adapter"
 - docs/adr/055-installed-parts-read-only-installed-files.md: "`--tool codex` stops with a plain message and writes nothing.", "A pointer in an installed file points to another installed file."
 - docs/adr/046-one-naming-standard-for-every-harness-part.md: "No name is, or starts with, a built-in command of Claude Code or Codex."
-- GitHub #863 (open): "leaves out each play's `reference/` folder"
-- GitHub #123 (closed): "Transforms Claude Code agent definitions into Factory Droid format"
-- GitHub #893 (open): "The guardrails are laid by the Garura install, so every project that uses Garura gets them, not only Garura's own repo."
-- GitHub #947 (open): "no script in `core/components/` reads them"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-claude-code.md, approved by the product owner on 2026-11-10 as mu-20261110-001, lines 3 and 9: "What Claude Code loads from a project", "can name its model"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-codex.md, approved by the product owner on 2026-11-10 as mu-20261110-002, lines 3, 8 and 13: "What Codex loads from a project", "standalone TOML files in .codex/agents/", "There is no named-subagent file"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-github-copilot.md, approved by the product owner on 2026-11-10 as mu-20261110-003, line 3: "What GitHub Copilot loads from a project"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md, approved by the product owner on 2026-11-10 as mu-20261110-004, lines 3 and 5: "What Antigravity loads from a project", "Google Antigravity, Google's agentic coding platform"
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-factory.md, approved by the product owner on 2026-11-10 as mu-20261110-005, lines 3 and 5: "What Factory loads from a project", "Factory (Factory.ai)", "whose agent is Droid"
-- The stock-take of Install and distribute, .garura/project/issues/1021/context/bi-7-inventory/inventory.md, sections 4, 9, 10 and 12.
+- The research note "What Claude Code loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-001: "What Claude Code loads from a project", "can name its model"
+- The research note "What Codex loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-002: "What Codex loads from a project", "standalone TOML files in .codex/agents/", "There is no named-subagent file"
+- The research note "What GitHub Copilot loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-003: "What GitHub Copilot loads from a project"
+- The research note "What Antigravity loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-004: "What Antigravity loads from a project", "Google Antigravity, Google's agentic coding platform"
+- The research note "What Factory loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-005: "What Factory loads from a project", "Factory (Factory.ai)", "whose agent is Droid"
+- The stock-take of Install and distribute (2026-11-10), sections 4, 9, 10 and 12.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge shelf in any memory tier covers what a coding tool loads from a project.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also gets Garura itself into a project, sets the project up for it, keeps it current, and serves whichever coding tool the team works in."

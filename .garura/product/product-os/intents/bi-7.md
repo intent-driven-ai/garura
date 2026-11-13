@@ -15,7 +15,6 @@
 **Must not:** Change what a project's people changed without asking them.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #7
 
 **Touches:**
 - [Install into a project](../software-delivery-planning/install-into-project/capability.md) (capability) — adds

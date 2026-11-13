@@ -8,7 +8,7 @@
 - Fails if: A kind of part that the harness has is missing from the standard's parts.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the harness standard, the ADRs each principle names, the accepted ADRs that change it such as ADR 066, the naming rule files, the kinds of part the harness has today, and the open issues that change a principle such as #992 (every gate has a key) and #620 (tools become a first-class Garura component).
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the harness standard, the ADRs each principle names, the accepted ADRs that change it such as ADR 066, the naming rule files, the kinds of part the harness has today, and the planned changes to a principle, such as that every gate has a key and that tools become a first-class Garura component.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the technical lead, who keeps the standard; the developer, a person or an AI agent who builds the code, who reads it before building a part; and the product owner, who decides each principle.
 - Scope: In: the parts, the principles with their reasons and ADRs, the naming rules in short, and how the standard is kept. Out: recording the ADR, the naming rule files, the standard for each kind of part, the checks, and the way past each gate.

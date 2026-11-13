@@ -21,7 +21,7 @@ When a round ends with questions still open and the loop cannot go on alone, bec
 - How it meets the capability: "until the goal is met" does not mean asking the person at every step: the loop asks only what none of its plays, its memory or approved research could close, in one brief, and the person can always stop it.
 
 Status: built, in the Shared Loop Run's knowledge step and brief, the knowledge-builder agent and the skills it calls, and three scripts. Not built, or open:
-- A yes takes every proposal and every page at once. The loop principles name this as a gap (#699, the loop builders check the loop principles).
+- A yes takes every proposal and every page at once. The loop principles name this as a gap.
 - Only the Discovery loop runs this step today, because it is the only loop built, and its grouping of questions is written for questions about a product, such as its speed or its proof.
 - An approved knowledge page is not promoted by the loop; a person promotes it later.
 
@@ -66,7 +66,7 @@ Status: built, in the Shared Loop Run's knowledge step and brief, the knowledge-
 - A way past a gate, and the one record of what is owed. Give every gate a way past owns them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md, line 97: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
+- The product owner on 2026-11-10: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
 - core/components/loops/_shared/loop-run.md, lines 151-183 and 258-350: "A question one play cannot answer is the **loop's** question, not a stop", "once per stop", "with a brief, never a questionnaire", "still not clean halts the loop", "an approved page is not yet promoted — a person promotes it later", "The person may type **stop**", "stopped_at_question"
 - core/components/loops/complete-discovery/scripts/group_questions.py, lines 1-30: "the same business proof once per intent and once per play"
 - core/components/loops/complete-discovery/scripts/record_review.py, lines 1-34: "so the next round's plays read them", "leaves a gap or page undecided"
@@ -75,6 +75,6 @@ Status: built, in the Shared Loop Run's knowledge step and brief, the knowledge-
 - docs/adr/029-drives.md, line 36: "It never picks an answer for itself."
 - docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md, the product owner on 2026-10-20, lines 20, 41-43, 52, 78 and 91: "asking 80 questions and then building memory doesn't seem realistic.", "The other plays, and the next round, may answer it.", "only what none of its plays, no memory and no approved research can answer", "It does so after a round that answered nothing new, or at its round limit.", "nothing in them is used before approval", "An agent never decides a memory update.", "Nothing from the model or the web is used before a person approves it"
 - docs/adr/059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md, lines 28-29: "three pre-flights, three loop-contract checks, three stop conditions and three closes, for one agent's job."
-- docs/components/loops.md, line 57: "which invites cognitive surrender (#699)"
+- docs/components/loops.md, line 57: "which invites cognitive surrender"
 - standards/rules/loop-contract.md, in Phoenix memory, lines 84-99: "never picks an answer for itself"
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 2.1, 5 and 11 (lean 4): the knowledge step and the brief, and the stop at the round limit.
+- The stock-take of Orchestration (2026-11-10), sections 2.1, 5 and 11 (lean 4): the knowledge step and the brief, and the stop at the round limit.

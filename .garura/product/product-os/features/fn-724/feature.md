@@ -18,10 +18,10 @@ Before a play plans or builds from a part, the ready check gives each part one o
   - In a bank's payments service, a capability's only intent is still proposed. It reads not ready, and its page is kept as it was written.
 - How it meets the capability: the map decides when work can start, part by part, without blocking work because the map is incomplete.
 
-Status: built, in `check_ice_workable.py`, four copies kept the same, with its tests (#724 and #760, closed). It is out of step with the product owner's answers in two ways, named below. Not built, or open:
+Status: built, in `check_ice_workable.py`, four copies kept the same, with its tests. It is out of step with the product owner's answers in two ways, named below. Not built, or open:
 - It counts a missing "identified by" as a gap, as the ontology's rule says, so no part reads ready. By the product owner's answer of 2026-11-11, a part found on its own is not a gap. The rule changes through /edit-ontology, in Define what a product is made of, and the check follows.
-- The 13 older parts whose ICE is still inside their page read not ready, "has no ICE", and /shape-plan would skip them (#1033, plays read the whole model by one rule once its index has ICE entries, so older parts break). This breaks Product model's Must not, "Block work because the model is incomplete". #765 moves each ICE section to its own page.
-- Without the done list, a capability with an open need reads ready, and nothing says the needs were not checked (#805, the ready check says when needs were not checked).
+- The 13 older parts whose ICE is still inside their page read not ready, "has no ICE", and /shape-plan would skip them: plays read the whole model by one rule once its index has ICE entries, so older parts break. This breaks Product model's Must not, "Block work because the model is incomplete". Each ICE section is to move to its own page.
+- Without the done list, a capability with an open need reads ready, and nothing says the needs were not checked.
 - Its older rule, kept for a model with no ICE list, still reads a feature's own needs. By the product owner's answer of 2026-11-11, a feature does not need another feature.
 
 ## Inputs / Outputs
@@ -41,8 +41,8 @@ Status: built, in `check_ice_workable.py`, four copies kept the same, with its t
 - A feature is read through its capability. The reason: "A feature's own `intents` and `depends_on` are not read (v6: it finds its business intents through its parent and never needs anything)."
 - A thin ICE is a gap, and only its marks are read. The reason: "the check does not count lines or judge richness; it reads only the thin mark".
 - The copies stay the same. The reason: "Thus every play gives the same ready answer for the same model."
-- A need that was not checked is named. The reason: #805, "A part with needs and no done list reads partly ready with the gap "needs not checked"".
-- Not decided: how the check reads an older part whose ICE is still inside its page, by its own shape as #1033 proposes, or only once #765 moves its ICE to its own page.
+- A need that was not checked is named. The reason, as asked: "A part with needs and no done list reads partly ready with the gap "needs not checked"".
+- Not decided: how the check reads an older part whose ICE is still inside its page, by its own shape, or only once each ICE section moves to its own page.
 
 ## Acceptance criteria
 - Given a capability with no domain that serves a confirmed intent, has an ICE with its three parts and needs nothing, when the check runs on it, then it reads partly ready with the gap "has no domain yet", and work starts.
@@ -64,12 +64,9 @@ Status: built, in `check_ice_workable.py`, four copies kept the same, with its t
 - core/components/plays/create-play/references/check_ice_workable.py, lines 4-17, 34-36 and 44: "computed each run and never stored", the three answers as quoted, "A feature's own `intents` and `depends_on` are not read (v6: it finds its business intents through its parent and never needs anything).", "the check does not count lines or judge richness; it reads only the thin mark", "Without it, needs are listed but not judged. Writing is never blocked; this check stops work, not writes.", "No git, no network, no LLM."; its three other copies, in discover-intent, shape-plan and update-plan, are the same file (compared on 2026-11-11)
 - core/components/plays/shape-plan/SKILL.md, line 5: "a feature whose ICE is not ready is skipped and named"
 - .garura/product/product-os/features/fn-724/feature.md, the old page, lines 1, 4 and 28: "A capability or feature is ready without a domain", "A missing domain is a warning, never a block.", "Thus every play gives the same ready answer for the same model."
-- .garura/project/issues/1021/context/bi-11-write/old-pages/link-the-product-model.md, the copy of the old page of Link the product model, line 26: "One answer for one model. The ready check is a script, not a judgment. The same model always gives the same answer."
-- .garura/project/issues/1021/context/capabilities.md, line 125: "I don't understand question 4. I'll go with your proposal of no.", "a feature doesn't need another feature"
+- The copy of the old page of Link the product model: "One answer for one model. The ready check is a script, not a judgment. The same model always gives the same answer."
+- The capability list: "I don't understand question 4. I'll go with your proposal of no.", "a feature doesn't need another feature"
 - standards/schemas/product-os/ontology.md, in Phoenix memory, line 369: "A missing domain or a missing "identified by" never stops work; it is a gap, and its ICE is partly ready."
 - .garura/product/product-os/intents/bi-11.md, line 15: "Block work because the model is incomplete"
 - The ready check, run from the repository root on 2026-11-11, writing its report outside the repository: 0 ready, 249 partly ready, 13 not ready
-- GitHub #1033 (open): "Once the ICE list exists, `check_ice_workable.py` reads only ICE entries, so a part with its ICE inside its page "has no ICE".", "Read each part by its own shape, not the whole model by one rule."
-- GitHub #805 (open): "Without `--done`, needs are not judged: a capability with an open need is answered ready, and nothing in the answer says needs were not checked.", "A part with needs and no done list reads partly ready with the gap "needs not checked""
-- GitHub #724 and #760 (closed); #765 (open): "Move each ICE section to its own ICE node, and lose nothing"
-- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 1.5, 2.6 and 5: the gaps "has no identified by" on 257 parts, "thin ICE" on 129, "has no domain yet" on 5
+- The stock-take (2026-11-11), sections 1.5, 2.6 and 5: the gaps "has no identified by" on 257 parts, "thin ICE" on 129, "has no domain yet" on 5

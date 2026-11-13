@@ -53,9 +53,9 @@ Status: not built. What exists covers only patterns for it:
 - Adding a measure or a feedback form to the product. That changes the product, which this capability never does.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md: "keys kept where the deployment design keeps secrets, never written down"
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "This needs to be built for high autonomy."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Connect to what happens in use and in the market: tools that access web analytics, product analytics, user feedback, and forums like Reddit."
+- The product owner on 2026-11-10: "keys kept where the deployment design keeps secrets, never written down"
+- The product owner on 2026-11-10, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "This needs to be built for high autonomy."
+- The list the product owner set on 2026-11-10: "Connect to what happens in use and in the market: tools that access web analytics, product analytics, user feedback, and forums like Reddit."
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings."
 - .garura/product/product-os/intents/bi-10.md: "Name a tracker in a play, skill or sub-agent, because they only know the tool."
 - core/config.yaml: "Tools read this; plays, skills and sub-agents never name a tracker."

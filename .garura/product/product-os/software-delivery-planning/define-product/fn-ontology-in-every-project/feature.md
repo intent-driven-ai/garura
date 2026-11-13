@@ -5,7 +5,7 @@ Every project reads the same current map by its place in memory, through the mem
 - The settings name the map by its place in memory, not by a path: `ontology: standards/schemas/product-os/ontology.md`. A play hands that name to its agent, and the agent reads the map through the memory tool.
 - Phoenix memory holds the map. On 2026-11-11 the memory tool answered it from Phoenix memory at version 15, and its 893 lines were the same as Garura's source, word for word. Garura memory in this repository holds no copy, so a lookup goes on to Phoenix memory.
 - Plays read it this way today. /discover-intent's sub-agent reads "the ontology through the memory tool (by its name, the config's `product.ontology`)". /shape-slice's sub-agent copies the Business Intent kind into the issue's short-term memory through the memory tool, and hands that copy to the skill that drafts the intent.
-- #868 (the current ontology and other current standards are in no memory tier) was filed when Phoenix memory held version 4. Its part on the map holds today. Its wider check, of every standard the parts read, is Memory's, under #921 (Phoenix memory stays up to date as Garura is built).
+- The gap that the current ontology and other current standards are in no memory tier was found when Phoenix memory held version 4. Its part on the map holds today. Its wider check, of every standard the parts read, is Memory's, so that Phoenix memory stays up to date as Garura is built.
 - Examples, in different kinds of project:
   - In a clinic's booking app, the sub-agent that drafts a new intent reads the Business Intent kind through the memory tool, and gets version 15, the same as Garura's source.
   - In a bank's payments service, the project's own memory holds no copy of the map, so the memory tool answers from Phoenix memory.
@@ -13,9 +13,9 @@ Every project reads the same current map by its place in memory, through the mem
 - How it meets the capability: "People and agents share one agreed map" only when every project reads the same one.
 
 Status: built. Not built, or open:
-- A change to the map lands in Garura's source. It reaches Phoenix memory only by hand, and nothing checks that the two still agree after a change (#966 and #921, Phoenix memory in step and versioned; #949, Phoenix memory behind the source in 60 places).
-- Phoenix memory has no version for each release, and no notes (#921, Phoenix memory stays up to date as Garura is built).
-- Phoenix memory still holds an old page template, for the Functionality kind that the map renamed Feature (#868, the current ontology and other current standards are in no memory tier).
+- A change to the map lands in Garura's source. It reaches Phoenix memory only by hand, and nothing checks that the two still agree after a change.
+- Phoenix memory has no version for each release, and no notes.
+- Phoenix memory still holds an old page template, for the Functionality kind that the map renamed Feature.
 
 ## Inputs / Outputs
 - In: the settings' place of the map in memory.
@@ -41,12 +41,10 @@ Status: built. Not built, or open:
 - The memory tool itself. Memory, in Standards, structure, settings and memory, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 122: "People and agents share one agreed map of what a product is made of, changed only on purpose."
+- The capability list: "People and agents share one agreed map of what a product is made of, changed only on purpose."
 - core/config.yaml, lines 181-183: "The ontology — the shape of the product model — by its place in memory.", "the agent reads it through the memory tool", "ontology: standards/schemas/product-os/ontology.md"
 - core/components/plays/discover-intent/SKILL.md, line 75: "the ontology through the memory tool (by its name, the config's `product.ontology`)"
 - core/components/plays/shape-slice/SKILL.md, line 251: "copy the ontology's Business Intent kind (the config's product.ontology) into short-term memory through the memory tool"
 - The memory tool, run on 2026-11-11: `find` for the map answered from Phoenix memory, `standards/schemas/product-os/ontology.md`, and found nothing in Garura memory; a read of all 893 lines was the same as Garura's source, word for word. A `find` for the page templates found `functionality.md` in Phoenix memory beside `feature.md`.
 - .garura/product/product-os/software-delivery-planning/memory/capability.md, line 42: Keep Phoenix memory in step with Garura's source, versioned per release with its notes (fn-phoenix-in-step); line 49: "A change reaches Phoenix memory only by hand, and Phoenix memory has no version per release and no notes"
-- GitHub #868 (open): "the current ontology (version 11, with the Slice kind) is in no memory tier", "A memory-tool lookup finds only Phoenix memory's copy, which is version 4.", "Phoenix has the old grounding template `functionality.md`, not `feature.md`."
-- GitHub #921 (open): "Phoenix memory stays up to date as Garura is built, and is versioned per release with its own release notes"; #966 (open, Phoenix memory stays in step with Garura's source and is versioned per release) and #949 (open, Phoenix memory has fallen behind Garura's source in 60 places).
-- The stock-take of Product model, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, section 1.3.
+- The stock-take of Product model (2026-11-11), section 1.3.

@@ -39,8 +39,8 @@ Status: not built. No issue asks for it.
 - Upgrading a project to a new version. Upgrade a project, in Install and distribute, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 125, the product owner's answers of 2026-11-11: "No, the team can extend the ontology that Corona provides. It's not linked, but if they do extend it, they would need to go back and change the place as well. Changing the ontology will break the place. It all has to go hand in hand, but it is extendable, which is fine."; line 126, as read: "a team can extend the ontology Garura provides, and extending it means changing the plays with it ("Corona" and "the place" read as Garura and the plays)"
-- The stock-take of Product model, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, lines 745-754, question 2: "Is the ontology Garura's alone, or may a team's project change or extend it with kinds of its own?", and its examples; section 1.2.
+- The product owner's answers of 2026-11-11: "No, the team can extend the ontology that Corona provides. It's not linked, but if they do extend it, they would need to go back and change the place as well. Changing the ontology will break the place. It all has to go hand in hand, but it is extendable, which is fine."; as read: "a team can extend the ontology Garura provides, and extending it means changing the plays with it ("Corona" and "the place" read as Garura and the plays)"
+- The stock-take of Product model (2026-11-11), question 2: "Is the ontology Garura's alone, or may a team's project change or extend it with kinds of its own?", and its examples; section 1.2.
 - core/components/skills/author-product-ontology/SKILL.md, line 15: "It is installed only in a harness repo, never into a product project."
 - core/components/plays/install-garura/scripts/install.py, lines 214-218: `META_PLAYS` holds "edit-ontology", and `META_SKILLS = {"author-product-ontology"}`, "Never installed under `full`."
 - .garura/product/product-os/intents/bi-7.md, lines 11 and 15: "An upgrade loses nothing the team changed.", "Change what a project's people changed without asking them."

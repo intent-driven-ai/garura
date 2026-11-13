@@ -53,15 +53,15 @@ Status: not built. What exists covers only parts of it:
 - Setting a level, a pass bar or a capability's need. Specify the product sets them, and only an approved decision moves them.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
+- The list the product owner approved on 2026-11-09: "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence."
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Out: checking the code against the project's standards. Check the code against its standards, in Code → Validation, owns it; the build follows the standards while it writes."
 - .garura/product/product-os/software-delivery-planning/test-security/fn-test-code-security/feature.md: "It tests the whole of the built work, not only the lines a change added."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "We are never touching production."
 - .garura/product/product-os/_spine.yaml, Garura's own product profile: "lint_grounding.py --spine link check + check_ice_workable.py tests", "ready-check and linter tests; spine before/after diff on the rename"
-- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)", "everything mechanically through a per-tool runner family", "An unmeasured bar is not a passed bar."
+- core/components/plays/validate-epic/SKILL.md: "waits for the rebuild of the execute loop on the plan and eval plays (ADR 049)", "everything mechanically through a per-tool runner family", "An unmeasured bar is not a passed bar."
 - core/components/plays/validate-epic/reference/ice.md: "Green is the entry condition, never the verdict"
 - core/components/agents/quality-auditor.md: "Independently verifies code quality standards: linting, unit tests, type checking, build, and project-defined quality vision gates."
 - core/components/skills/check-quality-gates/SKILL.md: "never a silent pass"
 - knowledge/technology/validation-floor-profile-benchmarks.md, in Phoenix memory: "The NUMBERS live in the product profile, per product — never in this KB."
-- .garura/project/issues/1021/context/names.md: "/validate-slice (was /validate-epic)"
+- The names agreed with the product owner on 2026-11-03: "/validate-slice (was /validate-epic)"

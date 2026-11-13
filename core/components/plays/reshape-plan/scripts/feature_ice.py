@@ -12,8 +12,10 @@ feature_ice.py — reach the product model from an /reshape-plan session (#1002)
         --record <feature-ice.json> | --body <story-body.md> --story-draft <story-draft-<i>.json>)
 
 `find` looks a feature up in the model index: by its id, its slug or its page title (`--ref`),
-or as the feature whose story is issue n (`--story`): the feature that names that issue in the
-model index, or the one a plan file's item for issue n `represents`. It writes {found, feature, one_line,
+or as the feature whose story is issue n (`--story`): the one a plan file's item for issue n
+`represents`. `story` is the issue of the plan file's item that `represents` the feature, or
+null when no item names it (the caller asks the person). No issue number is read from the model
+index (ADR 069). It writes {found, feature, one_line,
 capability, ice_pages: [feature page, capability page], story}. `found: false` when nothing
 matches, and `matches` when a name fits more than one feature (the person names one).
 `--collect` also adds the record to a running list ({found: [...]}) that the `model` screen shows.
@@ -65,8 +67,8 @@ def pages_of(spine, f):
     return cap, [p for p in (pc.ice_page(spine, f), pc.ice_page(spine, cap)) if p]
 
 
-def represented_by(plans_dir, story):
-    """The feature ids that plan items for issue `story` represent."""
+def plan_nodes(plans_dir):
+    """Every item of every plan file in `plans_dir` that has an issue and `represents`."""
     out = []
     if not plans_dir or not os.path.isdir(plans_dir):
         return out
@@ -81,19 +83,29 @@ def represented_by(plans_dir, story):
         while stack:
             n = stack.pop()
             if isinstance(n, dict):
-                if str(n.get("issue")) == str(story) and n.get("represents"):
-                    out.append(n["represents"])
+                if n.get("represents") and n.get("issue") is not None:
+                    out.append(n)
                 stack += n.get("children") or []
     return out
+
+
+def represented_by(plans_dir, story):
+    """The feature ids that plan items for issue `story` represent."""
+    return [n["represents"] for n in plan_nodes(plans_dir) if str(n.get("issue")) == str(story)]
+
+
+def story_of(plans_dir, fid):
+    """The issue of the plan item that represents `fid`; None when no item, or more than one
+    issue, names it (the caller asks the person)."""
+    issues = {n["issue"] for n in plan_nodes(plans_dir) if str(n.get("represents")) == str(fid)}
+    return issues.pop() if len(issues) == 1 else None
 
 
 def find(root, spine, ref=None, story=None, plans_dir=None):
     features = [f for f in spine.get("features") or [] if isinstance(f, dict)]
     if story is not None:
-        hits = [f for f in features if str(f.get("issue")) == str(story)]
-        if not hits:
-            ids = set(represented_by(plans_dir, story))
-            hits = [f for f in features if f.get("id") in ids]
+        ids = set(represented_by(plans_dir, story))
+        hits = [f for f in features if f.get("id") in ids]
     else:
         want = str(ref).strip().lower()
         hits = [f for f in features if want in (str(f.get("id")).lower(), str(f.get("slug")).lower())]
@@ -106,7 +118,8 @@ def find(root, spine, ref=None, story=None, plans_dir=None):
     f = hits[0]
     cap, pages = pages_of(spine, f)
     return {"found": True, "feature": f.get("id"), "one_line": f.get("one_line"),
-            "capability": f.get("capability"), "ice_pages": pages, "story": f.get("issue")}
+            "capability": f.get("capability"), "ice_pages": pages,
+            "story": story_of(plans_dir, f.get("id")) or (int(story) if str(story).isdigit() else story)}
 
 
 def ready_check(spine_path, intents_dir, node):

@@ -1,0 +1,69 @@
+{
+ "by": "product-os-keeper (model clean-up, issue 1062 step 2)",
+ "source": "the product owner's typed \"yes to all\" on 2026-11-13 (ADR 069 section 2: the model names no decision record; the security level moves onto the Initialize page)",
+ "pages": [
+  {
+   "page": "software-delivery-planning/initialize/capability.md",
+   "changes": [
+    {
+     "after": "- No tracker in Initialize's own steps. Each tracker is reached through the adapter, GitHub first. The reason: Standards, structure, settings and memory must not \"Name a tracker in a play, skill or sub-agent, because they only know the tool.\"",
+     "add": "- Security: medium. Nothing is written to the tracker, and no mapping is set, before the product owner's typed yes; initialize writes no Phoenix memory and no other project's memory."
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/check-code-against-standards/capability.md",
+   "changes": [
+    {
+     "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"the box moves only by an approved decision.\"",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/define-product/fn-profile-decision-kinds/feature.md",
+   "changes": [
+    {
+     "old": "- .garura/product/product-os/_spine.yaml, line 4284: the `profile` block; .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"Raise the product's security level from none to medium so the box admits\".",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/manage-adrs/capability.md",
+   "changes": [
+    {
+     "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: the one product decision in the model, \"decided_by: /discover-capabilities\"",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/test-security/capability.md",
+   "changes": [
+    {
+     "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"A capability need above the box stops for the product owner, and the box moves only by an approved decision.\"",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/test-security/fn-retest-security/feature.md",
+   "changes": [
+    {
+     "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"a later capability's security need is compared against medium, not none\"",
+     "new": null
+    }
+   ]
+  },
+  {
+   "page": "software-delivery-planning/test-security/fn-send-security-findings/feature.md",
+   "changes": [
+    {
+     "old": "- .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml: \"A capability need above the box stops for the product owner\"",
+     "new": null
+    }
+   ]
+  }
+ ]
+}

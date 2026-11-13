@@ -16,9 +16,9 @@ One file maps every old name of a part to its new name, and a check searches the
   - In a harness repository, an old ADR names an old play. The check leaves it, because an accepted ADR is not edited.
 - How it meets the capability: this is one of the "checks that hold" the naming standard: a rename is done when the check says so.
 
-Status: built, in `rename-map.yaml`, `check_old_names.py` and `apply_renames.py`, by #741 (a rename map, and a check that no old name is left, closed), before any family was renamed. Not built, or open:
+Status: built, in `rename-map.yaml`, `check_old_names.py` and `apply_renames.py`, before any family was renamed. Not built, or open:
 - On 2026-11-11 the check exits 1: 12 uses of 9 old names, in ADR 062 and `docs/philosophy/intent-and-adlc.md`.
-- The handling of a name removed with no successor has no test: "Neither behavior has a test in `core/tools/naming/test_naming_tools.py`; both were checked by hand only." (#936, open).
+- The handling of a name removed with no successor has no test: "Neither behavior has a test in `core/tools/naming/test_naming_tools.py`; both were checked by hand only."
 - ADR 066's renames are not in the map; they join it with the rename.
 - No play runs the check; a person runs it by hand. The harness standard says to run it "for any name changed by the rename map".
 
@@ -51,15 +51,14 @@ Status: built, in `rename-map.yaml`, `check_old_names.py` and `apply_renames.py`
 - The other checks. Check every part against the standard (fn-740) does them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 117: "fn-741 keeping its id for BI-7's fn-748"
+- The capability list: "fn-741 keeping its id for BI-7's fn-748"
 - core/components/memory/standards/rules/rename-map.yaml, lines 1-3 and 23-26: "A name mapped to `null` was removed with no successor: the check still reports it.", "`null` keeps the old name caught by the old-name check; the install has no new name to lay."
 - core/tools/naming/check_old_names.py, lines 5-23 and 46-49: "A one-word old name (vision, run, quality) is an everyday word, so plain prose is not searched for it.", "Past records keep their old words and are not searched: .garura/, CHANGELOG.md, the ADRs before ADR 046, and ADR 046 and ADR 048 (they record the renames).", "Read only: no git, no network, no LLM.", "An accepted ADR is not edited (only a forward pointer may be added), so the check does not search these."
-- core/tools/naming/apply_renames.py, lines 3 and 12: "move every component to its new name and update every reference (#743-#746)", "Names and references only: no behaviour changes."
+- core/tools/naming/apply_renames.py, lines 3 and 12: "move every component to its new name and update every reference", "Names and references only: no behaviour changes."
 - core/components/plays/install-garura/scripts/install.py, lines 472-480: "is removed once its new name is laid"
 - docs/standards/harness-standard.md, lines 62-65 and 164-165: "The check that proves a change is done is built before the change, and it is run first against today's code, where it must fail.", "a change judged by reading it is a change nobody proved.", "for any name changed by the rename map"
 - docs/adr/046-one-naming-standard-for-every-harness-part.md, lines 80-81: "`core/tools/naming/check_old_names.py` fails while any old name is still used outside past records."
 - .garura/product/product-os/_spine.yaml, the entry of fn-748: "depends_on: - fn-741"
 - .garura/product/product-os/features/fn-741/feature.md, the old page, line 1: "A rename map, and a check that no old name is left"
 - The old-name check, run from the repository root on 2026-11-11: exit 1, 12 uses of 9 old names
-- GitHub #741 (closed); GitHub #936 (open): "Neither behavior has a test in `core/tools/naming/test_naming_tools.py`; both were checked by hand only."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.5 and 8
+- The stock-take (2026-11-11), sections 1.5 and 8

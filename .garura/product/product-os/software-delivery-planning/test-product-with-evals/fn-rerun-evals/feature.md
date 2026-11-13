@@ -51,14 +51,14 @@ Status: not built. What exists covers only part of it:
 - Running the eval and giving one verdict, and writing each handoff plan. The other two features of this capability do them.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "each slice's eval runs on the built work", "Automated functional testing (planned): What the product does is tested automatically."
+- The list the product owner approved on 2026-11-09: "each slice's eval runs on the built work", "Automated functional testing (planned): What the product does is tested automatically."
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings.", "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
 - standards/templates/eval-slice.md, in Phoenix memory: "The eval passes only when every scenario of every story below passes."
 - docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "A fixed yardstick: a later run cannot weaken an eval to make a build pass."
 - core/components/plays/validate-epic/SKILL.md: "Implement ↔ validate is expected to loop — scope narrows per round, 3 rejections halt to a human."
 - core/components/plays/validate-epic/reference/ice.md: "prior delivered behavior inside that scope is re-verified as baseline regression", "C10 — Loop cap: after 3 rejections on the same epic, halt to a human instead of looping again.", "the escalation record lists each round's findings and fixes."
 - core/components/loops/_shared/loop-run.md: "the most rounds before the loop asks (default 3)."
-- .garura/project/issues/1021/context/names.md: "/loop-code-validation"
+- The names agreed with the product owner on 2026-11-03: "/loop-code-validation"
 - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md: "A loop has no role. There is one for each transition between the phases"
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Nothing that passed before breaks.", "Stuck goes back, never round in circles."
 - .garura/product/product-os/software-delivery-planning/write-work-evals/fn-update-evals/feature.md: "A scenario that is there is never changed or deleted, and a recorded story line is never changed."

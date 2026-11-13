@@ -13,7 +13,6 @@
 **Must not:** Stop a person. Every gate has a way past it that records what's owed.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #9
 
 **Touches:**
 - [Orchestrate agent work through planning](../software-delivery-planning/orchestrate-agent-work/capability.md) (capability) — adds

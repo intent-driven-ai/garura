@@ -14,7 +14,7 @@ When a review opens, the person reads, in one calm page, the whole model's appro
   - A bank's payments service: the person picks Everything, to read the whole product as it stands, and sees which parts are approved and which changed since.
 - How it meets the capability: this is the reading half of the capability's line for the business intents, their ICE and the product: what the person reads before answering each piece.
 
-Status: not built. The design and its mockup show it, the mockup with "made-up shop data", and the Discovery loop's test runs read the mockup as a prototype. No page of Argus is built (#643).
+Status: not built. The design and its mockup show it, the mockup with "made-up shop data", and the Discovery loop's test runs read the mockup as a prototype. No page of Argus is built.
 
 ## Inputs / Outputs
 - In: the review pack: each piece with its kind, words before and after, approval state, links, place and why it changed.
@@ -45,9 +45,8 @@ Status: not built. The design and its mockup show it, the mockup with "made-up s
 - A dark page. The design is light only.
 
 ## Sources
-- .garura/project/issues/617/specs/review-tool.md, the design, with the product owner's words: "the full model, the full set of intents, the final version, the changes to the version. The user can swap between the two.", "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.", "We don't want it to be a massive PR and add complex cognition load on the user.", "Kickoff changed 3 intents and 14 parts of the product.", "so nothing is answered twice", "because that is the review", "No file paths, no field names, no YAML."
-- .garura/project/issues/617/specs/review-tool-mockup.html: "made-up shop data", "Needs you", "Waiting for you"
-- GitHub #643 (open): "A person can read a review: the whole model's approval state, each intent with its ICE, and the product", "Section headings come from the page templates and cannot be edited."
+- The review tool's design, with the product owner's words: "the full model, the full set of intents, the final version, the changes to the version. The user can swap between the two.", "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.", "We don't want it to be a massive PR and add complex cognition load on the user.", "Kickoff changed 3 intents and 14 parts of the product.", "so nothing is answered twice", "because that is the review", "No file paths, no field names, no YAML."
+- The review tool's mockup: "made-up shop data", "Needs you", "Waiting for you"
 - docs/adr/032-drive-review-of-outcomes.md: "in the business intents", "in the product model", "The plan is not reviewed here."
 - docs/adr/033-approval-in-the-product-model.md: "Only changed" means "everything not approved".
 - docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md: "after Kickoff runs 1–5 on the Argus mockup"

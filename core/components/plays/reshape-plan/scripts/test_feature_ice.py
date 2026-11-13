@@ -108,10 +108,16 @@ class FeatureIceTest(unittest.TestCase):
             self.assertEqual(rec["feature"], "fn-1")
             self.assertEqual(rec["ice_pages"], ["clinic/cap-1/fn-1/feature.md", "clinic/cap-1/capability.md"])
 
-    def test_find_a_story_through_the_model_index_or_a_plan_file(self):
-        self.assertEqual(self.found("--story", "44")["feature"], "fn-2")
-        self.assertEqual(self.found("--story", "42")["feature"], "fn-1")
+    def test_find_a_story_through_a_plan_file_never_the_model_index(self):
+        rec = self.found("--story", "42")
+        self.assertEqual((rec["feature"], rec["story"]), ("fn-1", 42))
+        # ADR 069: fn-2 names issue 44 in the model, but no plan item represents it
+        self.assertFalse(self.found("--story", "44")["found"])
         self.assertFalse(self.found("--story", "99")["found"])
+
+    def test_the_story_comes_from_the_plan_file_or_is_none(self):
+        self.assertEqual(self.found("--ref", "fn-1")["story"], 42)
+        self.assertIsNone(self.found("--ref", "fn-2")["story"])       # the model's issue 44 is not read
 
     def test_mark_names_the_feature_or_asks_and_never_guesses(self):
         draft = os.path.join(self.d, "draft.json")

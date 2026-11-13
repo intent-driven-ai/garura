@@ -45,20 +45,19 @@ Status: not built. Nothing connects to an analytics tool or reads one:
 - Choosing and connecting the tools. Choose the tools and forums a project reads, and connect to them (fn-connect-tools) does it.
 - Reading what people say. Take in what people say about the product and its market, from feedback tools and forums (fn-take-in-what-people-say) does it.
 - Understanding what the figures mean for what consumers want. The next capability of Run → Product does it.
-- Measuring whether an intent got what it wanted. It is parked (#545).
+- Measuring whether an intent got what it wanted. It is parked.
 - Adding a measure to the product's code. That changes the product, which this capability never does.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md: "one Garura tool reads the settings and reaches each connection, and can later read what a listener outside Garura reports"
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-1/page-approvals.md, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "This needs to be built for high autonomy.", "We are never touching production."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Understand what consumers want and what the competition is doing.", "Assumed: reading web analytics, product analytics, user feedback and forums through their own tools is not touching production", "measuring each intent (#545, parked)"
+- The product owner on 2026-11-10: "one Garura tool reads the settings and reaches each connection, and can later read what a listener outside Garura reports"
+- The product owner on 2026-11-10, spelling tidied: "connect to tools that access web analytics, product analytics, user feedback, and forums like Reddit", "This needs to be built for high autonomy.", "We are never touching production."
+- The list the product owner set on 2026-11-10: "Understand what consumers want and what the competition is doing.", "Assumed: reading web analytics, product analytics, user feedback and forums through their own tools is not touching production", "measuring each intent"
 - knowledge/domains/analytics.md, in Phoenix memory: "Web analytics — the existing page-load/CTA layer", "Product analytics — feature usage, adoption, retention, cohorts, paths.", "measure me without abusing my data"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "It is kept as it was when read; the snapshot never changes afterwards."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md: "The reason: the Source must outlive the link or the file.", "a model drawn from a source nobody read has no basis."
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md: "the review already treats real personal data in an environment other than production as a finding"
 - .garura/product/product-os/software-delivery-planning/initialize/capability.md: "A tracker is an outside system, and a write there is visible to the whole team."
-- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model (#855)"
+- core/components/plays/learn-outcomes/SKILL.md: "waits for the rebuild of the learn loop on the current product model"
 - core/components/plays/learn-outcomes/reference/ice.md: "what production actually needed versus what was planned"
 - core/components/plays/shape-marketing-lens/SKILL.md: "the reach signals worth capturing"
-- .garura/project/issues/1021/context/names.md: "Dropped: /shape-marketing-lens, /shape-measure-lens."
-- GitHub #545 (open, parked): "Did the org get what it wanted"
+- The names agreed with the product owner on 2026-11-03: "Dropped: /shape-marketing-lens, /shape-measure-lens."

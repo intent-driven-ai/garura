@@ -19,11 +19,11 @@ Before a change is merged, a part that is not its builder reads which kinds of w
 
 Status: built in part. The review of each change, /check-change, runs on every change in Garura's own repository. It reads the change from the code host, has an agent sort it into kinds of work and take each kind's treatment from the review's rules in memory, matches the rule table with a tool and "No LLM judgment.", runs the project's linter, Garura's own linters for its plays, skills and agents, and the tests when a change touches them, has an agent check the design of Garura's harness and memory against committed sources, and records each finding with its basis. Not built:
 - Reading the record of the build's separate test run instead of running the tests; that separate run is not built either.
-- Running only the rule groups that fit the project: Initialize, which sets a project up for Garura after the install, writes the record of them in an approved feature, and "Changing the review play (/check-change) to read this record" is left to a later story (#862).
-- Checking a product's code against its own coding standards, its architecture or the design of its work. For code the review's standard is "industry best practice", and no review reads a project's coding standards. An architecture memory for a harness to review against is planned (#933, #967).
+- Running only the rule groups that fit the project: Initialize, which sets a project up for Garura after the install, writes the record of them in an approved feature, and "Changing the review play (/check-change) to read this record" is left to a later story.
+- Checking a product's code against its own coding standards, its architecture or the design of its work. For code the review's standard is "industry best practice", and no review reads a project's coding standards. An architecture memory for a harness to review against is planned.
 - Rules that measure. The rule table matches names and words; a rule whose evidence asks for a figure, such as a function's complexity, matches only a file's name. In practice the review's agent also reads the code against the review's rubric for code and ranks each finding by the table's words; these findings carry no rule of the table.
-- Checking the scripts inside plays and skills as code: the review classes them as prose, "so code rules never check them" (#890, #535).
-- A standard for product model pages (#870), leaving the agents' working records out of the review (#939), and stopping when the review's rules cannot be found (#974).
+- Checking the scripts inside plays and skills as code: the review classes them as prose, "so code rules never check them".
+- A standard for product model pages, leaving the agents' working records out of the review, and stopping when the review's rules cannot be found.
 
 ## Inputs / Outputs
 - In: the change: what it adds, the files it changes, and what was committed before it.
@@ -46,7 +46,7 @@ Status: built in part. The review of each change, /check-change, runs on every c
 - The review's rules must be there. When they cannot be found in any tier, the review stops and says what is missing and where it looked. The reason: "It should stop and say the rules are missing."
 - The agents' working records stay out; the product model and memory stay in. The reason: "The product model and the project's memory are outputs of the change and must be reviewed."
 - Not decided: how the record of the build's separate test run is matched to the code a change holds.
-- Not decided: whether the review may write a treatment by hand for a kind of work no standard covers, as it does today for product model pages (#870).
+- Not decided: whether the review may write a treatment by hand for a kind of work no standard covers, as it does today for product model pages.
 - Not decided: whether a finding that blocks needs a second, independent run before it counts, while an agent's judgment may not repeat.
 - Not decided: where the checks run while no deployment design places them; today the review runs in the session that raised the change.
 
@@ -68,7 +68,7 @@ Status: built in part. The review of each change, /check-change, runs on every c
 - Running the tests inside the code as part of the build. Build the work test first does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
+- The list the product owner approved on 2026-11-09: "reviewing a change against its standards is BI-4's", "BI-4 takes the record of BI-3's separate test run as evidence and does not run the same tests again."
 - .garura/product/product-os/intents/bi-4.md: "A builder believes its own work, so its opinion isn't evidence.", "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/capability.md: "Out: checking the code against the project's standards. Check the code against its standards, in Code → Validation, owns it; the build follows the standards while it writes."
 - .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "Each slice is then designed and built on the project's architecture, and does not choose its own."
@@ -76,15 +76,8 @@ Status: built in part. The review of each change, /check-change, runs on every c
 - core/components/plays/check-change/reference/ice.md: "The guiding rule: the change under review is never its own standard.", "what categories of work the diff actually contains"
 - core/components/plays/check-change/SKILL.md: "Neither is a pass, and neither stops the review."
 - core/components/skills/check-pr-quality/SKILL.md: "MUST produce a byte-identical"
-- .garura/project/issues/1031/review/quality-findings.yaml: "rubric_findings - defects found by reading the code against the playbooks' rubric and by running it."
+- A change's quality findings record: "rubric_findings - defects found by reading the code against the playbooks' rubric and by running it."
 - standards/rules/pr.md, in Phoenix memory: "No LLM judgment.", "file, function, complexity-score"
 - knowledge/review/code.md, in Phoenix memory: "the standard is industry best practice, not a garura-internal design."
 - knowledge/review/harness.md, in Phoenix memory: "otherwise the branch grades its own homework."
 - knowledge/review/tests.md, in Phoenix memory: "execute the test suite and confirm it passes."
-- GitHub #862 (open): "a review in that project runs only the rule groups that fit it"
-- GitHub #933 (open): "a review tests a change against it."
-- GitHub #890 (open): "so code rules never check them"
-- GitHub #535 (open): "has no model of what the project is, so Garura's own scripts are never code-checked"
-- GitHub #870 (open): "check-change has no review playbook for two kinds of change that plays make all the time"
-- GitHub #939 (open): "The product model and the project's memory are outputs of the change and must be reviewed."
-- GitHub #974 (open): "It should stop and say the rules are missing."

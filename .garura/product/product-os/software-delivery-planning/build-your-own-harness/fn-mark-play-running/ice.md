@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: Two plays built at different times write their markers in different ways.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: #893 (guardrails laid by the install) and its proposed design, the session stamp each play writes today, the shared close, the play compiler's shared scripts, the guardrails the install is to lay, and the review of each change.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the proposed design of the guardrails laid by the install, the session stamp each play writes today, the shared close, the play compiler's shared scripts, the guardrails the install is to lay, and the review of each change.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the developer or an agent who runs a play, and the technical lead who wants no shortcut taken past one.
 - Scope: In: the record a play writes at its start and clears at its close, the same in every play. Out: what each guardrail guards and its way past, laying the guardrails, the hook's form in each coding tool, and the review's check.

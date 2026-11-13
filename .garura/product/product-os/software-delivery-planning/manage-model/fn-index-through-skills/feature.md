@@ -4,10 +4,10 @@
 Every play and skill that adds, changes or takes out a part in the model's index does it through the two index skills, link-model-part and remove-model-part, in place of a script of its own, so the index has one way in, each change is all or nothing and lists what it changed, and a reviewer can tell a play that broke the rule from one not yet moved.
 - The decision, ADR 065 rule 1: "`link-model-part` adds or changes a part. `remove-model-part` takes a part out, with the name of the person who approved it." "Plays move onto these two skills over time, in place of writing the index with their own scripts."
 - Who writes through them today: the keeper, for a part found during work, an ICE's entry, an old part a person approved taking in, and a take-out a person approved; and /update-plan, for a feature found in a planning session.
-- Who still writes with a script of its own (#1024): "`/discover-domains`, `/discover-capabilities`, `/shape-slice`, `/learn-outcomes`, `/shape-measure-lens`, `/build-epic`, `/validate-epic`, `/release-epic`". The first three are live; the other five are marked stale.
-- What the skills must still grow, in #1024's words: "a new slice, the product profile, an epic's status."
+- Who still writes with a script of its own: "`/discover-domains`, `/discover-capabilities`, `/shape-slice`, `/learn-outcomes`, `/shape-measure-lens`, `/build-epic`, `/validate-epic`, `/release-epic`". The first three are live; the other five are marked stale.
+- What the skills must still grow, as asked: "a new slice, the product profile, an epic's status."
 - Inside a loop, the gap closer is a third writer for now.
-- The product owner's reason, in #1024: "The product owner wants no redundant writers: if something needs to change the index, it uses the skill."
+- The product owner's reason: "The product owner wants no redundant writers: if something needs to change the index, it uses the skill."
 - Examples, in different kinds of project:
   - In a clinic's booking app, /shape-slice writes a new slice for "patients book online". Once moved, it asks the keeper, and link-model-part writes the slice's entry.
   - In a shop's checkout service, /discover-capabilities saves three capabilities, and the index changes only through link-model-part, with every file it changed listed.
@@ -15,7 +15,7 @@ Every play and skill that adds, changes or takes out a part in the model's index
 - How it meets the capability: the map is "added to, changed and pruned" through one door, so every change to the index is made, checked and listed the same way.
 
 Status: built in part. Built: the two index skills, each all or nothing, with their tests, and the keeper and /update-plan writing the index through them. Not built, or open:
-- Three live plays, /discover-domains, /discover-capabilities and /shape-slice, still write the index with their own scripts, and five stale plays too (#1024, plays change the model's index through the two index skills).
+- Three live plays, /discover-domains, /discover-capabilities and /shape-slice, still write the index with their own scripts, and five stale plays too.
 - The skills do not yet write a new slice, the product profile or an epic's status: "Neither skill writes the profile block in the spine or an epic's status."
 - The gap closer still writes the index itself inside a loop.
 - The copy of the model-write rule in Phoenix memory still reads: "Outside a loop, the play's keyed script is still the only writer of shared files." ADR 065 names that rule among what it changes.
@@ -34,7 +34,7 @@ Status: built in part. Built: the two index skills, each all or nothing, with th
 - A stale play moves when it is rebuilt. The reason: "Stale plays move when they are rebuilt, not before."
 - The index keeps its comments and layout. The reason: "the spine keeps its comments and layout."
 - Not decided: when each live play moves; in ADR 065's words, ""Over time" has no date and no list."
-- Not decided: the name of the skill that takes a part out. #1024: "The verb `remove` is not decided here."
+- Not decided: the name of the skill that takes a part out. As asked: "The verb `remove` is not decided here."
 
 ## Acceptance criteria
 - Given a part found during work, when the keeper adds it, then its entry is written by link-model-part and by no other script.
@@ -55,5 +55,4 @@ Status: built in part. Built: the two index skills, each all or nothing, with th
 - core/components/agents/product-os-keeper.md, lines 102-109: the routes through link-model-part and remove-model-part, /update-plan's among them
 - standards/rules/direct-model-write.md, in Phoenix memory, lines 51-52: "Outside a loop, the play's keyed script is still the only writer of shared files."
 - core/components/plays/learn-outcomes, shape-measure-lens, build-epic, validate-epic and release-epic: each SKILL.md reads "stale: true"
-- GitHub #1024 (open): "Today eight plays write the index with their own scripts: `/discover-domains`, `/discover-capabilities`, `/shape-slice`, `/learn-outcomes`, `/shape-measure-lens`, `/build-epic`, `/validate-epic`, `/release-epic`. The product owner wants no redundant writers: if something needs to change the index, it uses the skill.", "The skills grow what they need: a new slice, the product profile, an epic's status.", "Stale plays move when they are rebuilt, not before. The verb `remove` is not decided here."
-- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, sections 2.1 and 2.10
+- The stock-take (2026-11-11), sections 2.1 and 2.10

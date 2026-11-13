@@ -16,8 +16,8 @@ When a work item's own issue closes in the tracker, its item in the plan file fo
   - In a logistics app, every story of the epic for carrier tracking is closed, and the epic still reads In Progress until the product owner closes its own issue.
 - How it meets the capability: completion status is tracked only when the plan file says what the tracker says about each item, and never more than the item's own issue says.
 
-Status: built, in the plan tool's plan_status.py and in /update-plan (#1007, an item's status in the plan file follows its own issue, closed; ADR 064). Not built, or open:
-- The merge also closes the item above a landed issue once every issue under it is closed, such as the epic. This is against the rule that nothing rolls up (#1014, merge-change closes the top item of a plan's tree when every issue under it is closed, open).
+Status: built, in the plan tool's plan_status.py and in /update-plan (ADR 064). Not built, or open:
+- The merge also closes the item above a landed issue once every issue under it is closed, such as the epic. This is against the rule that nothing rolls up.
 - An issue closed by hand stays open in the plan file until the next session.
 - /update-plan's words still say "closed on GitHub". ADR 065 reads them as the tracker, and the play's words are not changed yet.
 - On GitLab, the adapter does not pass the close reason when it closes an issue, so a close as not planned cannot be told from a close as completed there.
@@ -38,7 +38,7 @@ Status: built, in the plan tool's plan_status.py and in /update-plan (#1007, an 
 - While its issue is open, an item's status is a person's. The reason: "while the issue is open, a person sets the item's status", and "A person sets every status and the plan's direction."
 - Only the item's own lines change. The reason: the plan tool "leaves every other line, comment and order as it is.", and "Nothing rolls up: the item's parent is never changed."
 - Running it again is safe. The reason: "An item already at that status is left as it is."
-- Not decided: whether the merge keeps closing the item above a landed issue once every issue under it is closed (#1014).
+- Not decided: whether the merge keeps closing the item above a landed issue once every issue under it is closed.
 - Not decided: whether the list of items closed in the tracker, at a session's start, is this feature's or Orchestrate agent work through planning's, which an approved page of Turn intents into agent work names for "items already closed in the tracker".
 
 ## Acceptance criteria
@@ -55,8 +55,8 @@ Status: built, in the plan tool's plan_status.py and in /update-plan (#1007, an 
 - The tracker writes of a session, such as closing an issue an item was set Done for. Land every approved tracker write once (fn-land-tracker-writes-once) makes them.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
-- docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md: "An item's status in a plan file follows its own GitHub issue.", "Closed as completed means Done.", "Closed as not planned means Dropped.", "A parent never changes because its children closed", "The plan's own Status and Direction stay the person's.", "An issue closed by hand is caught at the next /update-plan session and shown before it lands.", "An issue closed by hand stays open in the plan file until the next /update-plan session."; and the product owner (#1007): "If GitHub is updated to be done, then this status here has to be updated. When I said status cannot be updated, I mean don't do rollups."
+- The product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
+- docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md: "An item's status in a plan file follows its own GitHub issue.", "Closed as completed means Done.", "Closed as not planned means Dropped.", "A parent never changes because its children closed", "The plan's own Status and Direction stay the person's.", "An issue closed by hand is caught at the next /update-plan session and shown before it lands.", "An issue closed by hand stays open in the plan file until the next /update-plan session."; and the product owner: "If GitHub is updated to be done, then this status here has to be updated. When I said status cannot be updated, I mean don't do rollups."
 - docs/adr/065-the-models-index-is-changed-through-two-skills-the-model-never-names-a-plan-and-only-tools-know-the-tracker.md: "now read as its own issue in the tracker"
 - core/tools/plan/README.md: "Nothing rolls up: the item's parent is never changed.", "An item already at that status is left as it is."
 - core/tools/plan/plan_status.py: "leaves every other line, comment and order as it is."
@@ -68,5 +68,3 @@ Status: built, in the plan tool's plan_status.py and in /update-plan (#1007, an 
 - .garura/product/product-os/software-delivery-planning/keep-spec-matched/fn-keep-tracker-matched/feature.md: "Tracking the agent work's own status in the tracker. Track execution in the team's tracker owns it."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/fn-change-work-items/feature.md: "The status of each item, the direction of the work, and items already closed in the tracker. Orchestrate agent work through planning owns them."
 - .garura/product/product-os/features/fn-673/feature.md: "An issue that landed on its plan's branch is closed by the merge"
-- GitHub #1007 (closed): "An item's status in the plan file follows its own GitHub issue: merge-change sets it Done, and /update-plan lists items closed on GitHub"
-- GitHub #1014 (open): "merge-change closes the top item of a plan's tree (the Epic) when every issue under it is closed, against the no-roll-up rule"

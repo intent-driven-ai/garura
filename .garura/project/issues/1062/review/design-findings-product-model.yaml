@@ -1,0 +1,50 @@
+category: product-model
+grounding:
+  - principle: "The model holds no tracker issue: no page cites one in its lines or Sources, no spine entry holds an `issue`, `created_by` and `updated_by` name the play or agent and what it did. Where a part came from is kept in git history."
+    source: "main:docs/adr/069-the-plan-is-where-the-product-model-meets-the-work.md, Decision section 2 (bullets 'No page cites a tracker issue' and 'Where a part came from is kept in git history')"
+  - principle: "No decision record lives in the model; the one record is taken out whole; a product decision is kept as the content of the part it decides (for the box: the profile's level and gate); a box-move writes no record, its reason is kept in git."
+    source: "main:docs/adr/069-... Decision section 2 (second list)"
+  - principle: "A part whose subject is plans may still describe plans in general, with placeholders."
+    source: "main:docs/adr/069-... Decision section 2 last bullet (ADR 065 rule 3)"
+  - principle: "Only a feature holds a `status`; the spine has no `epics` list."
+    source: "main:docs/adr/070-each-feature-in-the-product-model-records-its-own-state.md Decision 1 and 2; main ontology.md (version 18)"
+  - principle: "No business intent's title, outcome, why, asked by, proof, must not, rules or stage changes."
+    source: "main:docs/adr/069-... Decision section 2 closing paragraph"
+  - note: "No branch-added file is used as grounding. Page-by-page comparison used `git show main:<path>` and the diff's own removed lines."
+checks_recorded:
+  names_no_tracker_issue_folder_plan_or_decision_record: "Yes for the stated targets. Spine: 23 `issue` keys, 248 `decisions` keys and the issue numbers in `created_by`/`updated_by` are gone (a parsed comparison of main and the branch: the same domains, 40 capabilities, 239 features and 273 ices; apart from those keys the only content change is one feature `one_line` that lost '(#863)'). Pages: no `#<n>` left except three example lines on the link-work-across-trackers page that explain how work numbers are written (approved). No numbered issue-folder path left. The decision file is deleted and no page names it. Remaining mentions are allowed by ADR 069: `docs/adr/...` citations in Sources (code-side ADRs, not model records), generic `.garura/project/plans/<intent>.yaml` paths on pages whose subject is plans, and features whose subject is decision traces. One generic 'issue folder' phrase remains in a one_line (spine, the way-past owed entry), a description of a product behaviour, not a reference."
+  rewritten_line_sample: "25 lines, stratified across feature.md (13), ice.md (6), capability.md (4) and the Initialize pages (2); intent pages only lose their Tracker line (11 lines, checked in the diff). 18 clean (tracker number, tracker clause or issue-folder path cut, fact and quote kept). 7 with a note: see DM-1 (quote marks dropped or quoted words changed) and DM-2 (a descriptive clause went with the number). A wider machine scan of all 1,294 one-for-one rewritten lines found 123 lines on 89 pages where a quoted passage no longer appears word for word, so the sample rate is real, not a one-off."
+  reshape_plan_edits_non_intent: "Yes. reference/ice.md has no line on how a new feature's capability is found (no 'issue number', no placement rule); its C11/F10/S6 are untouched, and the SKILL.md edit only swaps the lookup source (the plan file's `represents` instead of the model's issue). Direct edit is right under CLAUDE.md Play Pipeline Rules. No intent change, no ice.md change in the diff. See harness grounding file for the same call."
+  initialize_security_line_consistent_with_profile: "Yes. The profile (`_spine.yaml` profile.nfr.security) is unchanged by the PR: level medium, gate 'no tracker or mapping write before the typed yes, on a test GitHub organization; no write to Phoenix memory or another project's memory'. The Initialize page line says medium, no tracker write and no mapping before the typed yes, no Phoenix or other project memory write. Same guard, same level. It omits the gate's test-organization wording and the none-to-medium history; see DM-3."
+plans_in_general_note: "Remaining `.garura/project/plans/<intent>.yaml` and `<plan-id>` paths are generic, on pages whose subject is plans; ADR 069 Decision 2 allows them. No violation."
+findings:
+  - id: DM-1
+    severity: P3
+    file: .garura/product/product-os/software-delivery-planning/ (89 pages; for example give-every-gate-a-way-past/fn-pinned-yes/feature.md, upgrade-project/fn-move-model/feature.md, memory/fn-decide-inside-memory/feature.md, track-execution/fn-link-work-across-trackers/feature.md)
+    principle: "The strip removes tracker references and keeps every product fact and every quote (the PR's own promise: 'every product fact and quote kept'); ADR 069 changes no business intent text and removes only references."
+    basis: "main:docs/adr/069-... Decision 2 and the closing paragraph; the PR body (.garura/project/issues/1062/context/step2/pr-body.md); rewritten-line sample items 2, 7 and 13 and the machine scan of the diff's removed/added line pairs"
+    detail: "Where a tracker number sat in front of a quoted passage, the rewrite sometimes dropped the quote marks (a quote becomes a statement: 'In #1021 (...), \"the open work moved...\"' became unquoted text), sometimes reworded the quoted words (a quoted ask of #839 became an unquoted paraphrase; '\"The ADR says whether these are keys of their own kind\", \"or exceptions to the principle.\"' became a paraphrase with no quote), and sometimes replaced words inside the quotes with a bracketed stand-in ('[the Agent-work tool]', '[the docs feature]'). Quotes taken from source files kept the source's words but lost the '(#nnn)' the source holds, so the quote no longer matches its source letter for letter. In total about 123 lines on 89 pages no longer carry a quoted passage word for word. The product facts survive; the evidence that the person or a source said these exact words weakens on those lines. The PR's claim of 'every quote kept' is not exactly true."
+    suggested_fix: "Keep the claim honest: record in the PR body that quotes lost marks or words on about 89 pages, and either restore the marks on the lines where the words are still the person's or the source's (items like fn-pinned-yes and fn-decide-inside-memory), or accept it and say so. A cheap pass: for each line where the old quoted text is missing from the new line, show the person the old and new in one list."
+    blocks_merge: false
+    category: product-model
+    layer: 2
+  - id: DM-2
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/ (for example memory/fn-decide-inside-memory/feature.md, define-product/capability.md, build-your-own-harness/fn-harness-in-own-repo/ice.md, memory/fn-keep-decision-trace/feature.md; and about a dozen whole 'GitHub #n (open): \"...\"' source lines)
+    principle: "A rewrite keeps the product fact on the line; only the reference goes (ADR 069 Decision 2)."
+    basis: "main:docs/adr/069-... Decision 2; sample items 1, 6, 19, 23; the removed unpaired lines in the diff (556 whole lines removed, mostly Sources lines naming issue-folder files or GitHub issues)"
+    detail: "Small losses of meaning with the number: 'the rules are in #952 (...) and #999 (...)' now reads 'the rules are planned as ...' (a change of what is claimed); '(#645, every piece of the model carries its approval state)' left 'No kind carries an approval state.' without the phrase that gave the reason; '(#852, replaced decisions in the trace check)' and 'of #933 (an architecture memory harness)' lost their descriptions. About a dozen Sources lines that quoted a GitHub issue's words (for example the one on `--done` in the fn-724 page) were removed whole, so those quoted source words no longer appear as sources. The page-writer's own note records this (self-review findings 1 and 3)."
+    suggested_fix: "Fix the four named lines to keep the described fact in words. For the removed source quotes, keep the quote where it carries the only evidence for a rule on the page, citing the thing quoted without its tracker number."
+    blocks_merge: false
+    category: product-model
+    layer: 2
+  - id: DM-3
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/initialize/capability.md
+    principle: "A product decision is kept as the content of the part it decides, and the box-move reason is kept in git, not as a record (ADR 069 Decision 2)."
+    basis: "main:.garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml (the deleted record); main:.garura/product/product-os/_spine.yaml profile.nfr.security and cap-initialize nfr_needs.security (unchanged); ADR 069 Decision 2, last bullet of the second list"
+    detail: "Consistent with the profile, and the deleted record is not edited first (it is removed whole, as ADR 069 says). The page line says 'Security: medium' with the typed-yes and memory-scope guard. It does not carry the gate wording 'on a test GitHub organization', and the rejected options (keep none, move to high) and the 'none to medium' history are not on the page; ADR 069 sends the reason to git history, so this is allowed. The profile and the capability's nfr_needs still hold the level and the full gate."
+    suggested_fix: "None needed. Optionally add 'checked on a test GitHub organization' to the page line so the page and the profile read the same."
+    blocks_merge: false
+    category: product-model
+    layer: 2

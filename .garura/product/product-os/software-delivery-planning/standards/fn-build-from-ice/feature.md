@@ -49,12 +49,12 @@ Status: built in part. /create-play, /edit-play, /create-loop and /edit-loop com
 - Running the play linter and the loop linter on every part. Check every part against the standard (fn-740) does it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 110: "Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them. (unique)"
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 1: "plays and loops carry their ICE, skills and sub-agents follow the written standard for their kind and are checked against it"
+- The capability list: "Standards: Everything is built on the ICE model, with written standards for parts, sub-agents and naming, and checks that hold them. (unique)"
+- The product owner's answer 1 (2026-11-11): "plays and loops carry their ICE, skills and sub-agents follow the written standard for their kind and are checked against it"
 - docs/standards/harness-standard.md, lines 52-58: "A play or loop is compiled from its ICE", "The compiled part records a fingerprint of its ICE, so the two never drift apart unseen", "A part edited away from its intent stops doing what was agreed, and nobody can see that it changed."; lines 129-131, the source-only parts
 - CLAUDE.md, lines 105-121: "MUST go through the play's ICE source (`reference/ice.md`) → recompile with `/edit-play`", "rebuilding when intent is unchanged wastes the pipeline.", "`create-play` itself has no ICE source (it is the compiler bootstrap)"
 - core/tools/lint-play/lint_play.py, lines 30 and 310-317: "The Compilation Metadata carries a real fingerprint (not a placeholder).", and the fingerprint check, which reads only whether it is a placeholder
 - core/components/plays/create-loop/scripts/lint_loop.py, lines 19 and 179-190: "the fingerprint is the sha256 of reference/ice.md as it is now", and the message it prints, "reference/ice.md changed since the loop was built — rebuild it (/edit-loop) and recompute the fingerprint"
 - A listing of core/components/plays/*/reference/ice.md and core/components/loops/, 2026-11-11: 31 of 37 plays and the one loop have an ICE source
 - The component linter on the source, run from the repository root on 2026-11-11: 22 errors in the six plays written by hand
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.2 and 1.5
+- The stock-take (2026-11-11), sections 1.2 and 1.5

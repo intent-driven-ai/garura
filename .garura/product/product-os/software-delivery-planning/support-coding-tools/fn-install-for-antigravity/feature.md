@@ -38,11 +38,11 @@ Status: neither. Nothing is built and no issue names Antigravity (searched on 20
 - What each guardrail guards. Orchestration owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-7-capability-3/page-approvals.md: "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory."
-- The list the product owner set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Antigravity is Google's agent IDE"
+- The product owner on 2026-11-10: "Each team gets an install built for its tool: Claude Code, Codex, GitHub Copilot, Antigravity or Factory."
+- The list the product owner set on 2026-11-10: "Antigravity is Google's agent IDE"
 - core/components/plays/install-garura/scripts/install.py: the tools on offer are the adapters known, `choices=known()`, at line 529
 - core/tools/memory/GUIDE.md, the memory guide the install lays for every agent: "Never answer from what you already know, and never from the web, without a memory update a person approved."
 - docs/adr/055-installed-parts-read-only-installed-files.md: "A pointer in an installed file points to another installed file."
 - .garura/product/product-os/intents/bi-7.md: "Change what a project's people changed without asking them."
 - The search on 2026-11-10 of the repository, of every memory tier and of every issue: nothing names Antigravity.
-- .garura/project/issues/1021/context/bi-7-capability-3/answers/coding-tool-antigravity.md, approved by the product owner on 2026-11-10 as mu-20261110-004, lines 5, 6, 8 and 9: "Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK", "a valid trigger", "is silently discarded", "available in the App and the CLI, not the IDE", "a PreToolUse decision of deny hard-blocks the tool call"
+- The research note "What Antigravity loads from a project" (read 2026-11-10), approved by the product owner on 2026-11-10 as mu-20261110-004: "Google Antigravity, Google's agentic coding platform, with an App, a CLI, an IDE, IDE extensions and an SDK", "a valid trigger", "is silently discarded", "available in the App and the CLI, not the IDE", "a PreToolUse decision of deny hard-blocks the tool call"

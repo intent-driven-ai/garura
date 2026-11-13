@@ -1,0 +1,1 @@
+remove_part.py exit 2, refused, nothing written: pages still name dec-cap-initialize-security-none-medium (see report)

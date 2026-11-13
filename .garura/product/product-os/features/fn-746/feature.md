@@ -14,8 +14,8 @@ Every skill is renamed so that its first word is a verb from the skill verbs, ea
   - In a harness repository, a new skill that takes a part out of the model needs a verb the list does not have, and it waits on the later decision on skill verbs.
 - How it meets the capability: the skills, where the work is done, follow the same naming rule as the plays.
 
-Status: built, under ADR 046, by #746 (rename the skills, closed), landed in PR #749, which published the standard. Not built, or open:
-- The later decision on the verbs of skills and sub-agents is not made, and the roles of #1015 are not given to them.
+Status: built, under ADR 046. Not built, or open:
+- The later decision on the verbs of skills and sub-agents is not made, and the five harness roles are not given to them.
 - The verb `remove` is in no decision, and Phoenix memory's copy of the naming rules does not have it, so `remove-model-part` and `remove-plan` "fail the check in any project that reads Phoenix memory's copy".
 
 ## Inputs / Outputs
@@ -53,6 +53,4 @@ Status: built, under ADR 046, by #746 (rename the skills, closed), landed in PR 
 - docs/adr/046-one-naming-standard-for-every-harness-part.md, lines 9, 16-21 and 51-52: "69 skills", "two skills had near-same names for different jobs (`kb-search`, `search-kb`)", "A planned `manage-plan` play clashed with an existing `manage-plan` skill.", "The agent `loop-checker` becomes `result-checker`"
 - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md, lines 19, 29 and 31: "`author` starts 21 live skills", "fail the check in any project that reads Phoenix memory's copy", "Decided: skills and agents keep their verbs for now, and get their own list in a later decision. `remove` stays undecided, in that later decision."
 - .garura/product/product-os/features/fn-746/feature.md, the old page, line 4: "every skill renamed to the skill verb list (to be agreed with the product owner), including the duplicates kb-search / search-kb and the manage-plan skill."
-- GitHub #746 (closed): "Rename the skills"; PR #749 (merged)
-- GitHub #1015 (open): "Every verb gets one role."
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 1.4 and 8
+- The stock-take (2026-11-11), sections 1.4 and 8

@@ -23,8 +23,8 @@ Every setting that Garura's plays, scripts and loops read is kept in one setting
 - How it meets the capability: "Everything that can be turned on or off lives in settings" holds only when there is one place where everything lives.
 
 Status: built, as `core/config.yaml` and its installed copy in each project (ADR 040). Not built, or open:
-- At least six blocks are read by no script or only by a stale play (#946, #947).
-- The installed copy in this repository is out of step with the source: it has 181 lines against the source's 223, with no `loops`, `plans` or `trackers` block; it has two `product:` keys; it names the review checkpoint by its old name, `review-change: off`, so "the gate that should be off is on" (#772, the install keeps old play names in the project config); and it names the old global gate history (#943, gate records in the evidence folder of the issue that made them).
+- At least six blocks are read by no script or only by a stale play.
+- The installed copy in this repository is out of step with the source: it has 181 lines against the source's 223, with no `loops`, `plans` or `trackers` block; it has two `product:` keys; it names the review checkpoint by its old name, `review-change: off`, so "the gate that should be off is on"; and it names the old global gate history.
 - Two settings in the installed copy name a memory folder that does not exist: `standards.pr-severity-taxonomy` and `ltm.project-target`, both under `.garura/core/memory/`.
 - New settings do not reach a project on an upgrade. Bring in new settings, keeping the team's values (fn-bring-new-settings), in Upgrade a project, is to do it, and it is not built.
 
@@ -39,7 +39,7 @@ Status: built, as `core/config.yaml` and its installed copy in each project (ADR
 - In Garura's own repository, the installed copy is not edited to make a change. The reason: "Nothing under it is edited to make a change."
 - A key is written once in the file. The reason: "the old file had two `product:` keys, and the second silently replaced the first".
 - Paths go in the settings, not in memory. The reason: "The rule stands: paths go in the config, not in memory."
-- The settings file is the entry point; any other settings file sits beside it. The reason: #946: "It is the entry point."
+- The settings file is the entry point; any other settings file sits beside it. The reason: "It is the entry point."
 - Not decided: whether the `components` and `claude` blocks, which name the source and installed folders and have no confirmed reader, are settings a team changes or facts of the install.
 
 ## Acceptance criteria
@@ -57,14 +57,11 @@ Status: built, as `core/config.yaml` and its installed copy in each project (ADR
 - Where each part lives in the source and once installed. Structure, in Standards, structure, settings and memory, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 113: "Settings: Everything that can be turned on or off lives in settings."
+- The capability list: "Settings: Everything that can be turned on or off lives in settings."
 - docs/adr/040-config-source-is-core-config-yaml.md, lines 8, 31, 33, 39 and 49: "the old file had two `product:` keys, and the second silently replaced the first", "The config is built in `core/`, like every other source file.", "A project's plays read that installed copy. That does not change.", "Nothing under it is edited to make a change.", "The rule stands: paths go in the config, not in memory."
 - core/config.yaml, 223 lines: the blocks named above; lines 33-43, `components` and `claude`.
 - core/components/plays/create-play/references/preflight.py, lines 140-151: what a play's pre-flight passes on from the settings, such as "stm_base", "evidence_record" and "worktree".
 - .garura/core/config.yaml, the installed copy in this repository, 181 lines: lines 50 and 75, `ltm.project-target` and `standards.pr-severity-taxonomy` under `.garura/core/memory/`; lines 70 and 141, two `product:` keys; line 168, `review-change: off`; line 180, the global gate history.
-- GitHub #946 (open): "It is the entry point."
-- GitHub #772 (open): "The installed config still names the review gate by its old play name, so the gate that should be off is on."
-- GitHub #943 (open): gate records in the evidence folder of the issue that made them.
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 4.1 and 4.4, and Lean 5, item 1.
+- The stock-take (2026-11-11), sections 4.1 and 4.4, and Lean 5, item 1.
 - .garura/product/product-os/software-delivery-planning/upgrade-project/capability.md, line 39: "Both front doors keep the team's settings file whole"
 - .garura/product/product-os/software-delivery-planning/build-or-update-product/fn-act-on-its-own/feature.md, line 59: "Where the project's settings live."; track-execution/fn-say-what-each-type-means/feature.md, line 60: "Where a setting or a memory shelf lives."

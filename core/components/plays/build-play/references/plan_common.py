@@ -691,7 +691,10 @@ IN_PLAN = ("make", "use", "add-sections", "held", "reopen", "closed-by-hand")
 def map_pairs(features, made=None):
     """[(feature, Feature issue)] in the plan's order: each feature that is in the plan (not
     Completed, not Dropped, not skipped), with its issue made in this run (`made`: {feature: issue}) or there
-    before. A feature left out of the plan is not in it."""
+    before. A feature left out of the plan is not in it. An issue there before is the work item's
+    `issue`: the plan file's node whose `represents` is the feature, else the Feature issue whose
+    text has the line `Represents: <feature>` (find_work_items.py). It is never read from the model,
+    which holds no issue number (ADR 069); a feature with no issue gets no pair."""
     made = made or {}
     out = []
     for f in features or []:

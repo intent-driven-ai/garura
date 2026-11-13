@@ -276,8 +276,8 @@ file; each `feature_ref` that `found-<i>.json` did not settle became a question 
 `model-found.json` with a saved `screens/model-<n>.txt`.
 
 When the draft holds a `new-feature` entry, place it by fixed rules before the check — the
-capability the person named, else the one that shares an issue number with the item's parent (or
-an item above it); the slice the plan holds when exactly one serves `bi-<id>`, none when none
+capability the person named, else the one the plan file's item for the parent (or an item above
+it) `represents`, or the capability of the feature it represents; the slice the plan holds when exactly one serves `bi-<id>`, none when none
 does; a feature id; the person's title as its one-line. What no rule settles becomes a question
 for the person, in the four parts of the asking rule, in the draft's `placement_questions` (the
 script replaces its own questions on every run). It also marks a slice in progress (its epic past

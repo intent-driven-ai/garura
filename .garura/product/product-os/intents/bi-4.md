@@ -14,7 +14,6 @@
 **Must not:** Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #4
 
 **Touches:**
 - [Test what the product does, with evals the builder never sees](../software-delivery-planning/test-product-with-evals/capability.md) (capability) — adds

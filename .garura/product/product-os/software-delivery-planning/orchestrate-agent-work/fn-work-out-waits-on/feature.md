@@ -20,7 +20,7 @@ Each plan's Waits on list is worked out from the needs of its parts in the produ
   - In a clinic's booking app, the plan for reminders and the plan for self-booking come to need each other. Both plans are named with the needs that join them, and the product owner's session on reminders still lands.
 - How it meets the capability: "sees every plan and where it stands" includes what each plan waits on, and that is true only when the list comes from the model's needs and not from a hand edit.
 
-Status: not built. No issue is filed for it. The plan file's list is read by /list-plans, /show-plan and the removal of a plan, and it is written by no step. The needs links it reads come with #725 ("Needs" and "identified by" link capabilities and features), whose feature is proposed in the model, so the index's field is still `depends_on`.
+Status: not built. The plan file's list is read by /list-plans, /show-plan and the removal of a plan, and it is written by no step. The needs links it reads come with the feature by which "Needs" and "identified by" link capabilities and features, which is proposed in the model, so the index's field is still `depends_on`.
 
 ## Inputs / Outputs
 - In: every plan file in the plans folder: each plan's id and tree, with the mark on each story that names the feature it stands for.
@@ -59,7 +59,7 @@ Status: not built. No issue is filed for it. The plan file's list is read by /li
 - Writing a link in the tracker. Track execution in the team's tracker, in Orchestration, owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The other plans it needs — worked out from its features' capabilities' needs, never set by hand", "It needs another plan when a feature in it belongs to a capability that needs a capability whose features are in that plan.", "Two plans that need each other are one plan.", "a play finds the Story of a Feature by the `represents` mark only", "While its work is in progress, a plan has its own branch, `plan/<id>/base`, and the plan changes only there."
 - .garura/product/product-os/features/fn-725/feature.md: "Its field is still `depends_on`.", "A need that names a node in a different plan makes this plan need that plan.", "The plan plays find the needs of a plan from the needs of its nodes. Nobody sets them by hand.", "To fix it, drop one need, or merge the plans of the nodes into one plan."
@@ -68,5 +68,5 @@ Status: not built. No issue is filed for it. The plan file's list is read by /li
 - standards/templates/plan-view.md, in Phoenix memory: "each plan it needs, with its title; blank when none."
 - core/components/skills/remove-plan/SKILL.md: "A plan that stays and names a plan being removed in `needs_plans`"
 - 1021/context/answers/bi9-waits-on.md, in short-term memory, from memory update mu-20261110-011, approved by the product owner on 2026-11-10: "GitHub issues can be marked as blocked by, or blocking, other issues"
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, section 1.9: "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`."
-- .garura/project/issues/1021/context/capabilities.md, line 125: "a feature doesn't need another feature. All of that is managed in the slices."
+- The stock-take of Orchestration (2026-11-10), section 1.9: "Nothing is filed for choosing what is built next, a view across every intent, writing the branch field on a pause, or working out `needs_plans`."
+- The capability list: "a feature doesn't need another feature. All of that is managed in the slices."

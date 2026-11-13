@@ -2,7 +2,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Intent
 - Goal: A check reads every play, skill and sub-agent, names each one that names a tracker or calls a tracker's command line with its file and line, warns while the parts move onto the Agent-work tool, and fails once they have moved, so no play, skill or sub-agent names a tracker.
-- Limit: It comes with the Agent-work tool (#1023), not before.
+- Limit: It comes with the Agent-work tool, not before.
 - Limit: It reads the parts and reports; it changes none.
 - Limit: It reads plays, skills and sub-agents; the Agent-work tool, which calls the trackers, is not read.
 - Fails if: A part that names a tracker passes after the parts have moved.
@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: The check names a part that does not name a tracker.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: this intent's Must not, ADR 065's rule 4, #1023 (an Agent-work tool reads the tracker setting) and its count of parts that name a tracker, the tracker settings, the Agent-work tool, and the component linter's rule families.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: this intent's Must not, ADR 065's rule 4, the count of the parts that name a tracker today, the tracker settings, the Agent-work tool and the plan for it, and the component linter's rule families.
 - Never read: any memory file by its path, and any ICE page.
 - Persona: the technical lead, who turns the check from a warning to a failure; and the developer, a person or an AI agent who builds the code, whose part the check names.
 - Scope: In: the check, its warning and its failure. Out: the Agent-work tool, moving the parts onto it, the tracker settings, and the other checks.

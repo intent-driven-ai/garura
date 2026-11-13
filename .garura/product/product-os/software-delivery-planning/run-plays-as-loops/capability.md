@@ -33,18 +33,18 @@ Features:
 - Brief the person only on what no play could close, and let them stop (fn-brief-open-points): a question one play cannot answer is the loop's; when a round closes nothing new or the round limit is reached, one agent closes what it can, and the person gets one brief with our proposed answers, replies once, or types stop.
 - Show what a long run is doing now (fn-show-run-status): the loop keeps one status file current at every step, written whole, kept out of git, holding no secret; the display that would show it is not built.
 - Run each transition between phases as its own loop (fn-loop-per-transition): each of the six transitions is to have one loop named for the two phases it joins, holding only its own values and running that transition's plays; one is built, the Discovery loop.
-- Start a loop from a schedule or a hook, and keep a record across rounds (fn-start-loop-on-trigger): a loop started by a timer or by an event, such as a pull request opening, with one record that tells the next round what was tried and whether it worked. Not built (#699, the loop builders check the loop principles).
+- Start a loop from a schedule or a hook, and keep a record across rounds (fn-start-loop-on-trigger): a loop started by a timer or by an event, such as a pull request opening, with one record that tells the next round what was tried and whether it worked. Not built.
 - Run a round's plays side by side (fn-run-plays-side-by-side): the plays of one round run at the same time, each writing its own kind, instead of one after another. Not built; it waits for a check that can tell two plays' writes apart.
 
 What is not built yet:
 - Only one loop is built, the Discovery loop, still under its old name, /complete-discovery. The other five loops are names only, and nothing is renamed yet.
 - No loop runs in Garura's own repository: "a harness repo builds loops but runs none".
 - No display shows the status file, and no issue carries the display.
-- Only a person starts a loop. No schedule or hook starts one, no single record tells the next round what was tried, and no part of a loop says what context each play gets (#699, the loop builders check the loop principles).
+- Only a person starts a loop. No schedule or hook starts one, no single record tells the next round what was tried, and no part of a loop says what context each play gets.
 - A round's plays run one after another.
 - The step after each round closes the product model's gaps. A loop whose plays build or test code has no step of its own there yet.
 - The checker checks once, at the end, and nothing checks that its model is not the session's: the pre-flight only checks that one is named.
-- The brief takes one yes for every proposal, which the loop principles name as a gap (#699, the loop builders check the loop principles).
+- The brief takes one yes for every proposal, which the loop principles name as a gap.
 - The run-status rule in Phoenix memory still uses the old word for a loop and names a script that is gone, and the loop docs list five loops under their old names.
 
 ### Benefit hypothesis
@@ -98,8 +98,8 @@ What is not built yet:
 - Not decided: whether Garura's own repository runs its own loops.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md, lines 97, 101 and 103: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met.", "we are building from what already exists", "drafted from what is built"
-- .garura/project/issues/1021/context/capabilities.md, line 107: "Owed at BI-9's close: BI-9's page against the five; the domain"
+- The product owner on 2026-11-10: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met.", "we are building from what already exists", "drafted from what is built"
+- The capability list: "Owed at BI-9's close: BI-9's page against the five; the domain"
 - .garura/product/product-os/intents/bi-9.md, line 13: "Stop a person. Every gate has a way past it that records what's owed."
 - .garura/product/product-os/software-delivery-planning/ship-every-change/capability.md, line 9: "A play is a command a person or an agent types to run one piece of work from start to end."
 - core/components/loops/_shared/loop-run.md, lines 3-11, 41, 67, 393, 399 and 421-422: "A loop is a higher-order play: it runs other plays until its intent is met or it fails", "So the run is the same for every loop and lives once", "a direct edit and a rebuild converge", "The loop never shows the status itself and does not know who reads it", "only what the loop itself needs from the person to start", "it is never a pass", "the merge keeping its pinned human approval", "a re-run resumes from the first play not done."
@@ -110,7 +110,7 @@ What is not built yet:
 - core/config.yaml, lines 119-138: "A subagent checker must name its model, one other than the session's", "max_rounds: 3"
 - standards/rules/loop-contract.md, in Phoenix memory, lines 5-6: "The loop owns one issue, one branch and one pull request; the plays inside it open none of their own."
 - standards/rules/run-status.md, in Phoenix memory, lines 6-8: "it works the same in Claude Code, in Codex, or headless."
-- docs/components/loops.md, lines 52-60 and 71-79: "No trigger part: schedules and hooks are not supported (#699)", "No single record tells the next round what was tried and whether it worked (#699)", "It checks once, at the end; inside the rounds the gap check runs in the same session", "That is #699."
+- docs/components/loops.md, lines 52-60 and 71-79: "No trigger part: schedules and hooks are not supported", "No single record tells the next round what was tried and whether it worked", "It checks once, at the end; inside the rounds the gap check runs in the same session", "That is [the work for the loop builders and the loop linter to check the loop principles]."
 - docs/adr/029-drives.md, lines 36-38: "that would push the decision onto the model.", "The drive's one rule is to run its plays. Every other rule lives in the plays.", "At the end, a different model, sub-agent, or coding agent checks the result. Configuration picks which."
 - docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md, the product owner on 2026-10-20, lines 16, 41, 72 and 107: "The idea of a drive is to have it loop between those three things until the job is getting done.", "The other plays, and the next round, may answer it.", "The drive never changes an intent's state.", "More rounds cost more time and tokens.", "The round limit bounds it."
 - docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md, line 16: "One error at the top spread to every node below it."
@@ -119,7 +119,7 @@ What is not built yet:
 - .garura/product/product-os/software-delivery-planning/review-agent-work/capability.md, line 90: "Out: running a loop's rounds, its checker and its questions. Run plays as loops, in Orchestration, owns it."
 - .garura/product/product-os/software-delivery-planning/test-security/fn-retest-security/feature.md, line 35: "When each run starts is the plan's."
 - .garura/product/product-os/software-delivery-planning/specify-product/capability.md, line 48: "The work of managing the model owns the link rules."
-- The stock-take of Orchestration, .garura/project/issues/1021/context/bi-9-inventory/inventory.md, sections 2, 5, 7, 9, 10 and 11 (lean 4), and section 12, questions 7 and 12: "Who owns each loop: Run plays as loops, or the transition whose plays it runs?", "Should Garura's own repository run its own loops?"
+- The stock-take of Orchestration (2026-11-10), sections 2, 5, 7, 9, 10 and 11 (lean 4), and section 12, questions 7 and 12: "Who owns each loop: Run plays as loops, or the transition whose plays it runs?", "Should Garura's own repository run its own loops?"
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none. No knowledge page in any memory tier covers how a team runs its work in loops; Phoenix memory's pages on agent orchestration are written for a product that has agents, not for running a team's plays.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also orchestrates the work: it chooses and orders what runs next, runs plays as loops, tracks the work in the team's tracker, records each decision on how the project is built as an ADR, and gives every gate a way past."

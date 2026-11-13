@@ -13,7 +13,7 @@ In the ADRs section of Argus, the person reads each ADR that waits to be accepte
   - A school's timetable app: an ADR accepted last month shows under the accepted ones, for reference.
 - How it meets the capability: "ADRs" are one of the things people review in the one tool, and their accept moves onto a card.
 
-Status: not built (#664). Today a person accepts an ADR by typing: run by hand, the decision play stops for the person's accept; inside a loop it saves the ADR as proposed, and the person accepts it "at the loop's final review with `/record-decision accept <file>`". The story's text is behind the design: it still names one "Memory and ADRs" section, which was split into three.
+Status: not built. Today a person accepts an ADR by typing: run by hand, the decision play stops for the person's accept; inside a loop it saves the ADR as proposed, and the person accepts it "at the loop's final review with `/record-decision accept <file>`". The story's text is behind the design: it still names one "Memory and ADRs" section, which was split into three.
 
 ## Inputs / Outputs
 - In: each ADR that waits for a person, and the accepted ones, turned by Garura into pieces of the review pack.
@@ -40,10 +40,9 @@ Status: not built (#664). Today a person accepts an ADR by typing: run by hand, 
 - Applying the answers in one commit. Finish the review and have every answer applied in one commit (fn-apply-answers) does it.
 
 ## Sources
-- .garura/project/issues/617/specs/review-tool.md, the design: "the decisions a person records", "the ones waiting to be accepted", "Accept, or send back with a comment."
-- .garura/project/issues/617/specs/review-tool-mockup.html: "The ADR is accepted, and older ones get a pointer.", "reworks it from your comment"
+- The review tool's design: "the decisions a person records", "the ones waiting to be accepted", "Accept, or send back with a comment."
+- The review tool's mockup: "The ADR is accepted, and older ones get a pointer.", "reworks it from your comment"
 - docs/adr/036-approved-answer-lands-in-short-term-memory.md: "Only a person accepts an ADR. Only where the person does it moves."
 - docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md: "the ADRs a person records with `/adr`, waiting for a person"
 - core/components/plays/record-decision/SKILL.md: "at the loop's final review with `/record-decision accept <file>`", "You never accept an ADR yourself"
-- GitHub #664 (open): "A person accepts a proposed ADR on a card.", "Memory and ADRs"
-- The list set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."
+- The list set on 2026-11-10: "Manage ADRs: Decisions on how the project is built are recorded closely as they're made, so agents can coordinate many pieces from them."

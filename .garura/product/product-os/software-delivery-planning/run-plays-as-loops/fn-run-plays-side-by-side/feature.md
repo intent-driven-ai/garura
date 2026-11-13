@@ -14,14 +14,14 @@ The plays of one round run at the same time, each writing its own kind, instead 
 - The Discovery loop's round does not meet two of the five today:
   - A domain's folder holds its capabilities' folders, so the domain play's scope would hold the capability play's scope, and the first condition fails.
   - The domain play and the capability play each write the spine through their own persist, so the second condition fails.
-- The rule does not cover building code side by side. Plays that may touch the same files need a worktree each: #488 plans that, and #501 plans play chains that run on their own in parallel worktrees.
+- The rule does not cover building code side by side. Plays that may touch the same files need a worktree each: a parallel build loop, with worktree isolation, is planned for that, and so are play chains that run on their own in parallel worktrees.
 - Examples, in different kinds of project:
   - In a clinic's booking app, a round of the Discovery loop runs its three plays in turn, because the domain play's folder holds the capability play's folders and both of them write the spine.
   - In a shop's checkout project, a round whose two plays each write only their own pages, and leave their spine changes in their own records for one persist after the join, runs both plays at once and gives the same result as in turn.
-  - In a bank's payments service, a round whose plays write code runs in turn; building code side by side waits for the worktrees that #488 plans.
+  - In a bank's payments service, a round whose plays write code runs in turn; building code side by side waits for the worktrees of the planned parallel build loop.
 - How it meets the capability: a loop runs its plays in rounds until the goal is met. Running a round's plays at once makes each round shorter, and the result stays what it would be in turn.
 
-Status: not built. Today "The first build runs the plays one after another, in turn". Building code side by side is planned elsewhere: #488 (a parallel build loop, with worktree isolation) and #501 (self-contained play chains with parallel worktrees). Not built, or open:
+Status: not built. Today "The first build runs the plays one after another, in turn". Building code side by side is planned elsewhere: a parallel build loop, with worktree isolation, and self-contained play chains with parallel worktrees. Not built, or open:
 - The scoped-write guard is built inside plays, for one step's work, such as /discover-capabilities; the shared run does not use it for a round.
 - No loop's round meets the five conditions today, and no round says that it runs its plays at once.
 
@@ -41,7 +41,7 @@ Status: not built. Today "The first build runs the plays one after another, in t
 - The result is the same at once or in turn. The reason: "Concurrency changes only timing, never the outcome."
 - The round's whole change is checked after the join. The reason: the guard "checks the whole delta against the union of the declared scopes plus the persist's shared files", and fails the run "if any changed model path falls outside the run's declared write scope".
 - No play reads another's output. The reason: "No play takes another play's output as its input".
-- Building code at once is not in this rule. The reason: "Parallel code-building, where sub-tasks may touch the same files and need worktree isolation, is #488 and is NOT covered here."
+- Building code at once is not in this rule. The reason: "Parallel code-building, where sub-tasks may touch the same files and need worktree isolation, is [a parallel build loop with worktree isolation] and is NOT covered here."
 - Not decided: whether running a round's plays at once is worth it for a round that writes the product model.
 - Not decided: how a play that writes many parts declares its write scope.
 
@@ -53,16 +53,16 @@ Status: not built. Today "The first build runs the plays one after another, in t
 
 ## Out of scope
 - How a round is run and decided. Run any loop the same way (fn-run-loop) does it.
-- Building code side by side, each part in its own worktree (#488, a parallel build loop with worktree isolation; #501, self-contained play chains with parallel worktrees). Design → Code (BI-3) owns them.
+- Building code side by side, each part in its own worktree. Design → Code (BI-3) owns them.
 - The rule for fan-out and the scoped-write guard, as standards. Standards, in Standards, structure, settings and memory (BI-10), owns them.
 - What each play writes. The transition intents, Product → Spec (BI-1), Spec → Design (BI-2), Design → Code (BI-3), Code → Validation (BI-4), Validation → Run (BI-5) and Run → Product (BI-6), own them.
 - The link rules of the step that closes the model's gaps after the round. Manage the model, in Product model, owns them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md, line 97: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
+- The product owner on 2026-11-10: "Run plays as loops: A person gives one goal, and a loop runs its plays until the goal is met."
 - core/components/loops/_shared/loop-run.md, lines 153-159: "No play takes another play's output as its input", "The first build runs the plays one after another, in turn; side by side comes once the scoped-write guard can tell two plays' writes apart."
-- standards/rules/concurrent-fanout.md, in Phoenix memory, lines 3-10, 26-51, 61-71 and 92-98: "a single step may run several independent sub-tasks at once", "Parallel code-building, where sub-tasks may touch the same files and need worktree isolation, is #488 and is NOT covered here.", "If any condition fails, the step stays serial", "The conditions are a checklist the step declares, not a judgment call.", "only when all five hold", "the folder of the one node it owns (e.g. `product-os/<domain>/<capability>/`)", "none sits inside another", "the spine `_spine.yaml`, the profile, decisions, any index", "ONE keyed persist writes them after the join", "checks the whole delta against the union of the declared scopes plus the persist's shared files", "No sub-task runs git.", "No later step ever sees a partial set.", "Concurrency changes only timing, never the outcome.", "A scoped-write fan-out says so by name"
+- standards/rules/concurrent-fanout.md, in Phoenix memory, lines 3-10, 26-51, 61-71 and 92-98: "a single step may run several independent sub-tasks at once", "Parallel code-building, where sub-tasks may touch the same files and need worktree isolation, is [a parallel build loop with worktree isolation] and is NOT covered here.", "If any condition fails, the step stays serial", "The conditions are a checklist the step declares, not a judgment call.", "only when all five hold", "the folder of the one node it owns (e.g. `product-os/<domain>/<capability>/`)", "none sits inside another", "the spine `_spine.yaml`, the profile, decisions, any index", "ONE keyed persist writes them after the join", "checks the whole delta against the union of the declared scopes plus the persist's shared files", "No sub-task runs git.", "No later step ever sees a partial set.", "Concurrency changes only timing, never the outcome.", "A scoped-write fan-out says so by name"
 - core/components/plays/discover-capabilities/scripts/scoped_write_guard.py, lines 8-10: "if any changed model path falls outside the run's declared write scope"
 - core/components/plays/discover-domains/SKILL.md, lines 37-38: "Every shared-file mutation (the spine `_spine.yaml` with its `profile` block, and the intent pages' Touches lists) is done by the deterministic keyed persist script"
 - core/components/plays/discover-capabilities/SKILL.md, lines 35-36: "every shared-file mutation (the spine `_spine.yaml`, the profile, the box-move decisions) is done by the deterministic keyed persist script"
-- The BI-9 research, .garura/project/issues/1021/context/bi-9-research/research.md, lines 538-539: "#488 (parallel build loop with worktree isolation) and #501 (self-contained play chains with parallel worktrees), both under BI-3."
+- The BI-9 research: "[a planned build loop] (parallel build loop with worktree isolation) and [a planned change to play chains] (self-contained play chains with parallel worktrees), both under BI-3."

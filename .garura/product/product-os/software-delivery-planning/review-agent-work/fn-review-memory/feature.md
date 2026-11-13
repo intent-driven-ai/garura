@@ -14,7 +14,7 @@ In the Memory section of Argus, the person sees what memory holds, the project's
   - A school's timetable app: the person picks an issue and reads what its short-term memory holds, before they answer.
 - How it meets the capability: "memories" are one of the things people review in the one tool, and Memory's own line says "people control what enters them".
 
-Status: not built (#664). What exists is the memory tool's side, which already keeps each update and records a person's word on it: it raises an update (`propose`), lists them (`updates`), records the decision (`decide`), naming where it was made, "`review-tool`, or `session`", and writes an approved one (`apply`). Until Argus exists, "the person types the decision in a Claude Code session that records their exact reply". The story's text is behind the design: it writes an approved update to "Garura or Phoenix memory for a promotion", while the design says "Moving memory up is not done here".
+Status: not built. What exists is the memory tool's side, which already keeps each update and records a person's word on it: it raises an update (`propose`), lists them (`updates`), records the decision (`decide`), naming where it was made, "`review-tool`, or `session`", and writes an approved one (`apply`). Until Argus exists, "the person types the decision in a Claude Code session that records their exact reply". The story's text is behind the design: it writes an approved update to "Garura or Phoenix memory for a promotion", while the design says "Moving memory up is not done here".
 
 ## Inputs / Outputs
 - In: the memory updates that wait for a person, and what Garura memory and the picked issue's short-term memory hold, turned by Garura into pieces of the review pack.
@@ -44,10 +44,9 @@ Status: not built (#664). What exists is the memory tool's side, which already k
 - Applying the answers in one commit. Finish the review and have every answer applied in one commit (fn-apply-answers) does it.
 
 ## Sources
-- .garura/project/issues/617/specs/review-tool.md, the design, with the product owner's words: "the answer comes with the memory it came from", "no need to build this whole this now", "the same tool under both, just that the interface for tool should be nlp", "STM - always STM", "Nothing is approved in bulk, and an agent never answers one", "Moving memory up is not done here"
-- .garura/project/issues/617/specs/review-tool-mockup.html: "Garura writes it to the issue's short-term memory.", "Nothing is written. Work that waits on it stays stopped."
+- The review tool's design, with the product owner's words: "the answer comes with the memory it came from", "no need to build this whole this now", "the same tool under both, just that the interface for tool should be nlp", "STM - always STM", "Nothing is approved in bulk, and an agent never answers one", "Moving memory up is not done here"
+- The review tool's mockup: "Garura writes it to the issue's short-term memory.", "Nothing is written. Work that waits on it stays stopped."
 - core/tools/memory/README.md: "`review-tool`, or `session`", "Only a person decides, one update at a time.", "the person types the decision in a Claude Code session that records their exact reply"
 - docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md: "It is mocked only for now."
-- GitHub #664 (open): "Garura or Phoenix memory for a promotion"
-- The list set on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "people control what enters them"
-- .garura/project/issues/1021/context/bi-10-close/approval.md, line 3, the product owner's words of 2026-11-11: "Argus can only allow from short term to the project memory. Going to the Phoenix is not designed yet. That would need an organizational change."
+- The list set on 2026-11-10: "people control what enters them"
+- The product owner's words of 2026-11-11: "Argus can only allow from short term to the project memory. Going to the Phoenix is not designed yet. That would need an organizational change."

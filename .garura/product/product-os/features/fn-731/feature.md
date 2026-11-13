@@ -21,9 +21,9 @@ A person names the change, and it is opened where it will land: its issue is fou
   - In a team's planning tool, the product owner types `plan <id>` to start a plan's work. Main's plan file reads In Progress, and the plan's branch is cut from that commit, with no story branch yet.
 - How it meets the capability: this is the opening in "Every change goes from opening to merge through the same steps". Every change starts in the same way, of any kind and for any issue, on the branch it will merge into.
 
-Status: built, in /start-change. Its first form, which cut a plan's branch and each issue's branch from it, was #731 (closed). The cut of a plan's branch main first came after it (ADR 061), and `plan <id>` with the typed change after that (#989, closed). Not built:
-- One run opens one issue. Several ready issues in one change are Land several ready issues in one change (fn-land-several-issues), planned (#976).
-- Running several changes at once, each in its own worktree with its own chain of plays, is planned (#501).
+Status: built, in /start-change. Its first form cut a plan's branch and each issue's branch from it. The cut of a plan's branch main first came after it (ADR 061), and `plan <id>` with the typed change after that. Not built:
+- One run opens one issue. Several ready issues in one change are Land several ready issues in one change (fn-land-several-issues), planned.
+- Running several changes at once, each in its own worktree with its own chain of plays, is planned.
 
 ## Inputs / Outputs
 - In: what the person typed: an issue number with an optional note, a short description, or `plan <id>`.
@@ -61,7 +61,7 @@ Status: built, in /start-change. Its first form, which cut a plan's branch and e
 - Making and changing a plan and its items. Turn intents into agent work, in Product → Spec, and Orchestration own them.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
+- The product owner on 2026-11-10: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
 - core/components/plays/start-change/SKILL.md: "It is never locked to a plan", "the change is what the person typed", "a merge conflict exits 1 and halts for a person", "the workspace opens with a clean tree and its own record"
 - core/components/plays/start-change/reference/ice.md: "Nothing typed starts nothing", "a closed plan's branch is never cut", "An issue in a plan works on `plan/<plan-id>/<issue>-<slug>`, cut from its plan's branch `plan/<plan-id>/base`", "Running it again for the same issue resumes the existing context"
 - core/components/plays/start-change/scripts/validate_issue.py: "title present and >= 15 characters", "title carries a type tag: [ENH] [BUG] [FEAT] [DOCS] [TASK]", "a work description exists"
@@ -70,7 +70,3 @@ Status: built, in /start-change. Its first form, which cut a plan's branch and e
 - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md: "A one-off fix outside any plan still branches from main."
 - docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md: "Every cut goes through one script", "so every cut is made the same way, whichever play starts the work."
 - The page this one replaces, .garura/product/product-os/features/fn-731/feature.md as it read on 2026-11-10: "Every issue in a plan works on a branch cut from its plan's branch.", "A one-off fix outside any plan still branches from main."
-- GitHub #731 (closed): "start-change cuts a plan's branch, and each issue's branch from it"
-- GitHub #989 (closed): "start-change starts a plan on its own: it cuts the plan's branch from main, with no story branch"
-- GitHub #501 (open): "Self-contained play chains + parallel worktree autonomy"
-- GitHub #976 (open): "Several ready issues land in one change: one branch, one pull request, one review"

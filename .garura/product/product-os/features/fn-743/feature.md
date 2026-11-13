@@ -12,7 +12,7 @@ The plays that build and install the harness, and the loop, are renamed to the n
   - In a harness repository, ADR 066 renames the builders to the builder role's verbs, `build` and `fix`, in one change after the reviews.
 - How it meets the capability: the parts that build the harness are named by the same rule that the checks hold every part to.
 
-Status: built, under ADR 046, by #743 (rename the harness plays and the loops, closed), landed in PR #749, which published the standard. Not built, or open:
+Status: built, under ADR 046. Not built, or open:
 - ADR 066's names for this family are decided and not applied. The product owner answered that the rename runs after the reviews of BI-10 and BI-11, as one change.
 
 ## Inputs / Outputs
@@ -42,13 +42,12 @@ Status: built, under ADR 046, by #743 (rename the harness plays and the loops, c
 - Running the loop. Run plays as loops, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 118, the product owner's answer 7: "ADR 066's rename runs after the BI-10 and BI-11 reviews"
+- The product owner's answer 7 (2026-11-11): "ADR 066's rename runs after the BI-10 and BI-11 reviews"
 - core/components/memory/standards/rules/rename-map.yaml, lines 28-31 and 40: the four builders and the loop
 - core/tools/naming/apply_renames.py, line 12: "Names and references only: no behaviour changes."
 - docs/adr/046-one-naming-standard-for-every-harness-part.md, lines 10, 50 and 80-81: "Every ICE source that names a renamed part uses the new name, and its fingerprint is stamped again.", "loops use `complete` (Claude Code has `/run`)", "`core/tools/naming/check_old_names.py` fails while any old name is still used outside past records."
 - core/components/memory/standards/rules/naming.md, lines 32-33: "`complete` is used by loops only, so a loop is told apart from a play at a glance."
 - docs/adr/066-names-say-who-does-the-work-five-roles-own-the-verbs.md, lines 77, 87 and 149: "Only a loop's name starts with `loop`.", the install plays with no role, "The rename, as one change"
-- .garura/project/issues/1021/context/names.md, lines 6, 13, 23 and 30: /specify-ontology, /build-play, /fix-play, /build-loop, /fix-loop, /loop-product-spec, and the install plays that stay
+- The names agreed with the product owner on 2026-11-03: /specify-ontology, /build-play, /fix-play, /build-loop, /fix-loop, /loop-product-spec, and the install plays that stay
 - .garura/product/product-os/features/fn-743/feature.md, the old page, line 4: "the Discovery loop's command → run-discovery"
-- GitHub #743 (closed): "Rename the harness plays and the loops"; PR #749 (merged)
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, section 8
+- The stock-take (2026-11-11), section 8

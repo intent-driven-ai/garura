@@ -50,7 +50,7 @@ Status: not built. What exists covers only patterns for it:
 - Changing the setting. The product owner does it, through Let the changes the product owner allows go ahead on their own, and show each one with a way back (fn-act-on-its-own).
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-6-capability-3/page-approvals.md, spelling tidied: "This needs to be built for high autonomy."
+- The product owner on 2026-11-10, spelling tidied: "This needs to be built for high autonomy."
 - The product owner on 2026-11-07, in .garura/product/product-os/software-delivery-planning/design-technology-architecture/capability.md: "this should be reflected as updating arch. as the project changes."
 - .garura/product/product-os/software-delivery-planning/environment-setup/fn-update-environments/feature.md: "a person confirms an update, and what held before stays readable with why it changed"
 - .garura/product/product-os/software-delivery-planning/understand-consumers-and-competition/fn-update-understanding/feature.md: "As new items come in, the product model changes, or the product owner changes which competitors are followed, this feature updates the findings"

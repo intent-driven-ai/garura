@@ -8,7 +8,7 @@
 - Fails if: A found part lands in a second change, or a discovery play runs to add it.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the words that name the found part, its parent and its intents, the model's index, the page skill's modes and the index skill's request shape, the thin-mark rule, the ICE page's three parts, and the design of the shared step in #979.
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the words that name the found part, its parent and its intents, the model's index, the page skill's modes and the index skill's request shape, the thin-mark rule, the ICE page's three parts, and the design of the shared step.
 - Never read: any memory file by its path, any ICE page, and any file in a plan's evals folder.
 - Persona: the developer, a person or an AI agent who builds the code, who finds a part during work; and the product owner, who approves the words of a page.
 - Scope: In: the found part's page, its ICE page, their index entries, the thin marks, its intent link on both sides, and the shared step. Out: placing a feature in a slice and under its epic, deepening a thin part, changing a part that exists, and the link rules.

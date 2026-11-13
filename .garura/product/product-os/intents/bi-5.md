@@ -13,6 +13,5 @@
 **Must not:** Ship anything unvalidated or uncommitted.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #5
 
 **What was done:** (nothing yet)

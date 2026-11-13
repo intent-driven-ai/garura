@@ -1,8 +1,8 @@
 ## Intent
-- Goal: After initialize, the project holds a record that names every rule group of the review as kept or skipped, each with the answer that decided it, so that a review which reads it, once a later story under #862 changes the review, runs only the kept groups and names the groups it skipped.
+- Goal: After initialize, the project holds a record that names every rule group of the review as kept or skipped, each with the answer that decided it, so that a review which reads it, once a later story of Initialize changes the review, runs only the kept groups and names the groups it skipped.
 - Limit: Skip a rule group only when an answer rules it out; never skip one by silence.
 - Limit: Record which groups fit; never decide what a group checks, and never change a rule inside one.
-- Fails if: the record keeps a rule group the answers rule out, so a review that reads it would run that group, as in #860.
+- Fails if: the record keeps a rule group the answers rule out, so a review that reads it would run that group, as when a review ran database, permission and front-end rules on Garura's own tool files.
 - Fails if: the record skips a group and does not name the answer that skipped it.
 - Fails if: the record skips a group that no answer speaks to.
 

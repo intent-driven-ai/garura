@@ -19,8 +19,8 @@ Anyone runs /show-plan with a plan's number, or with no number while on a plan's
   - In a bank's payments service, the plan for new statements needs the plan for the account data feed, and that plan's tree prints after it on the same screen.
 - How it meets the capability: this is "sees every plan and where it stands", for one plan in full.
 
-Status: built, in /show-plan and the plan tool's show. Its first form was #628 (show one plan as a tree, from its plan file alone, closed), under #719 (view plans: see every plan, and any one plan as a tree, closed). Later came #1005 (the children of an open parent are shown when all of them are Done or Dropped, closed) and #1000 (the plan of the current branch is shown when no number is given, closed). Not built, or open:
-- The run may end on its run summary, not on the tree: #1018 (/list-plans ends on a run summary instead of the plans, open) says /show-plan has the same ending, read from its steps and not seen in a run.
+Status: built, in /show-plan and the plan tool's show. Its first form showed one plan as a tree, from its plan file alone. Later came showing the children of an open parent when all of them are Done or Dropped, and showing the plan of the current branch when no number is given. Not built, or open:
+- The run may end on its run summary, not on the tree: /list-plans ends on a run summary instead of the plans, and /show-plan has the same ending, read from its steps and not seen in a run.
 
 ## Inputs / Outputs
 - In: the plan's number as the person typed it, or the name of the branch the person is on.
@@ -57,13 +57,8 @@ Status: built, in /show-plan and the plan tool's show. Its first form was #628 (
 - What a plan file holds, as the ontology's Plan kind says. Product model owns it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
+- The product owner on 2026-11-10: "A person chooses what is delivered next as a slice, sees every plan and where it stands, and sets the order and status of the work as it runs."
 - core/components/plays/show-plan/reference/ice.md: "The tree shows what is left and what is moving; finished work is a count, not a wall of lines.", "Each node shows the status its plan file gives it: no status is worked out from the nodes under it (no roll-ups).", "so the shown node keeps its place", "so a person sees what was finished under it and can decide on it", "A typed number always wins.", "No line is a bare number.", "the play writes no plan file, no issue and no branch"
 - core/components/plays/show-plan/scripts/resolve_args.py: "The play halts and prints the error; a plan is never guessed."
 - standards/templates/plan-view.md, in Phoenix memory: "A shown node whose children are all Done or Dropped prints those children too, one level down"
-- .garura/project/issues/1021/context/bi-9-capability-1/research.md, the page this one replaces as it read on 2026-11-10: "a reader coming back after two days knows where a plan stands from the tree alone"
-- GitHub #628 (closed): "Show one plan as a tree, from its plan file alone"
-- GitHub #719 (closed): "View plans: see every plan, and any one plan as a tree"
-- GitHub #1005 (closed): "/show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done"
-- GitHub #1000 (closed): "Show the plan of the current branch when /show-plan is given no number"
-- GitHub #1018 (open): "`/show-plan` has the same Step C2, so it should end the same way. This was read from its steps and not seen in a run."
+- The research and drafts for Orchestrate agent work through planning, the page this one replaces as it read on 2026-11-10: "a reader coming back after two days knows where a plan stands from the tree alone"

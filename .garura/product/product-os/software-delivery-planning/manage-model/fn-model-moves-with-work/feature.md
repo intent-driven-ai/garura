@@ -2,21 +2,21 @@
 
 ## What it does
 The model is to keep up with the work as it is done: when a story's design is approved, the keeper updates the model through its skills, each part it changes marked in review; and before a change is proposed, the person chooses to update the model now or leave it, and leaving it puts the change on one list for Learn, so the model never falls behind the work without a record of what is owed.
-- In #990's words: "The product model keeps up with the work as it is done, and the person decides how fast."
+- In the words of the decisions on how the product model moves with the work: "The product model keeps up with the work as it is done, and the person decides how fast."
 - On a design's approval: "When the design is approved, the model sub-agent updates the product model through its skills: domains, capabilities, features and their intent (ICE). Each piece it changes is marked in review, not approved; a person approves it later."
 - Before a change is proposed, the person chooses: update the model now, or leave it. "Leaving it is always allowed, and it leaves a record of what is owed." The change is then written to "one list of changes not yet learned (issue, branch, what was left, who chose, when)", so Learn reads that list and "never hunts through every issue's short-term memory".
 - The product owner decided it on 2026-10-30: "it is better that the model and everything is updated as the work is getting done."
-- Handed here by Give every gate a way past: "Manage the model, in Product model, owns how the model takes in the work (#990)."
+- Handed here by Give every gate a way past: "Manage the model, in Product model, owns how the model takes in the work."
 - Examples, in different kinds of project:
   - In a clinic's booking app, the technical lead approves the design of the reminder story. The keeper adds the Send a reminder feature and changes the Booking capability's page, each marked in review.
   - In a shop's checkout service, the developer proposes a change in a hurry and chooses to leave the model for later. The change goes on, and it joins the list of changes not yet learned.
   - In a bank's payments service, the build drifts from the approved design. The design file is brought up to what was built, and the person sees both model changes in order.
 - How it meets the capability: this is the map "added to, changed and pruned as work is done", at the speed the person chooses.
 
-Status: not built (#990, the product model moves with the work: a design approval updates it, and /propose-change lets the person update it now or leave it for Learn). What exists:
+Status: not built (the product model moves with the work: a design approval updates it, and /propose-change lets the person update it now or leave it for Learn). What exists:
 - A part found during work can be added in the open change. Add a part found during work, with its page and its index entry (fn-add-found-part) does it.
 - /update-plan writes a feature found in a planning session to the model after the person's "approved".
-- No play holds a story's design approval yet (#978, /shape-story: a person designs a story with the agent, then locks and approves its design.md).
+- No play holds a story's design approval yet (a planned /shape-story: a person designs a story with the agent, then locks and approves its design.md).
 
 ## Inputs / Outputs
 - In: an approved design, with who approved it, when, and the fingerprint of the design file.
@@ -43,8 +43,6 @@ Status: not built (#990, the product model moves with the work: a design approva
 - Finding where the model and what was built no longer match. Find where the spec and what's built no longer match (fn-find-spec-drift), in Keep the spec matched to what's built, does it.
 
 ## Sources
-- GitHub #990 (open): "The product model keeps up with the work as it is done, and the person decides how fast.", "Leaving it is always allowed, and it leaves a record of what is owed.", "When the design is approved, the model sub-agent updates the product model through its skills: domains, capabilities, features and their intent (ICE). Each piece it changes is marked in review, not approved; a person approves it later.", "one list of changes not yet learned (issue, branch, what was left, who chose, when)", "never hunts through every issue's short-term memory", "it is better that the model and everything is updated as the work is getting done.", "A build may use its own in-review model pieces."
-- GitHub #978 (open): "/shape-story: a person designs a story with the agent, then locks and approves its design.md (tech and surface)"
-- .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md, line 54: "Manage the model, in Product model, owns how the model takes in the work (#990)."
+- .garura/product/product-os/software-delivery-planning/give-every-gate-a-way-past/fn-keep-what-is-owed/feature.md, line 54: "Manage the model, in Product model, owns how the model takes in the work."
 - core/components/agents/product-os-keeper.md, line 104: /update-plan's new feature is written after the session is approved
-- The stock-take, .garura/project/issues/1021/context/bi-11-inventory/inventory.md, section 2.11
+- The stock-take (2026-11-11), section 2.11

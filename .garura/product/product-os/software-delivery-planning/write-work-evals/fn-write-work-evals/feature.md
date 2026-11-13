@@ -18,10 +18,10 @@ For the stories under the item a person names from the plan, this feature writes
 Status: built in two plays, started from a business intent or a slice today. What differs from this page:
 - The eval play, /shape-eval, writes the eval of every slice in a business intent's plan, after the plan play made the plan. It does not start from an item a person names. It has run once, on one plan.
 - The slice play, /shape-slice, writes the hidden file when it shapes the slice, before any plan exists. A script lists the lines and later checks and writes the file, and a skill drafts the recoveries. Writing it here, just before the evals, changes the decision that gave it to the slice play (ADR 052).
-- On today's model the slice play finds no "Fails if" lines for the older features, whose ICE is inside their page (#1033).
-- The eval play reads the epic and its stories from the tracker. The plays that read the plan must not run until the Agent-work tool, the one tool that knows the tracker, lands (#1023).
+- On today's model the slice play finds no "Fails if" lines for the older features, whose ICE is inside their page.
+- The eval play reads the epic and its stories from the tracker. The plays that read the plan must not run until the Agent-work tool, the one tool that knows the tracker, lands.
 - A slice whose epic, stories or hidden file is missing, or whose kind of surface has no step library, gets no eval, and the summary names it with the reason.
-- Findings left from the review of the eval play wait to be fixed (#912).
+- Findings left from the review of the eval play wait to be fixed.
 - No eval has run: the runner and the usage guide are not built.
 
 ## Inputs / Outputs
@@ -81,9 +81,9 @@ Status: built in two plays, started from a business intent or a slice today. Wha
 - The usage guide, which maps each name to the real thing. Build the work test first delivers it with the build.
 
 ## Sources
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "making evals is going to be critical because those are the evals that are going to be used to check its own work", "Write the evals that will check the work, before anything is built, never shown to the builder.", "Slicing and making the plan leave this intent for wherever the plan is made", "the code, when being written, should not get to see what tests there were"
-- The product owner on 2026-11-09, in .garura/project/issues/1021/context/bi-3-capability-1b/page-approvals.md: "The entire tree needs to be handled. I should say an ID, and anything under it should all be planned."
-- The product owner's yes to the leans and the merge, in .garura/project/issues/1021/context/bi-3-capability-2/page-approvals.md: "the list of what must never happen written here, just before the evals (ADR 052 to change)", "a chosen feature or story writes only the test files under it"
+- The product owner on 2026-11-09: "making evals is going to be critical because those are the evals that are going to be used to check its own work", "Write the evals that will check the work, before anything is built, never shown to the builder.", "Slicing and making the plan leave this intent for wherever the plan is made", "the code, when being written, should not get to see what tests there were"
+- The product owner on 2026-11-09: "The entire tree needs to be handled. I should say an ID, and anything under it should all be planned."
+- The product owner's yes to the leans and the merge (2026-11-09): "the list of what must never happen written here, just before the evals (ADR 052 to change)", "a chosen feature or story writes only the test files under it"
 - .garura/product/product-os/software-delivery-planning/gather-work-under-item/capability.md: "Write the evals that check the work owns it, and it reads the work items itself."
 - core/components/plays/shape-eval/SKILL.md: "It reads only the epic, its stories and the hidden file. It never runs the eval"
 - core/components/plays/shape-eval/reference/ice.md: "Each scenario is written from the outside: what a tester does on the slice's surface and what they see.", "When the surface is a play, the scenario runs the play on a test project."
@@ -100,13 +100,10 @@ Status: built in two plays, started from a business intent or a slice today. Wha
 - core/components/plays/shape-slice/SKILL.md: "how many the builder can fix alone and how many a person must decide, the lines too vague to judge"
 - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md: "The plan play writes only the plan file, the epic and the stories. It writes nothing in the evals folder.", "So each line of an ICE has one interpretation."
 - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md: "First, the plan only plans: it must not write failure conditions."
-- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "Each story has its own file, so a person or a runner can see which story fails.", "The runner that runs the eval is not built yet (#819). Until then an eval is written but never run."
+- docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "Each story has its own file, so a person or a runner can see which story fails.", "The runner that runs the eval is not built yet. Until then an eval is written but never run."
 - docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md: "The names in square brackets depend on the usage guide."
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md: "The build writes the usage guide. It is the eval's only way into the built product."
 - .garura/product/product-os/software-delivery-planning/turn-intents-into-work/capability.md: "The reason: the eval judges the build by these lines, so a builder that saw them would build to pass the check, not to meet the intent."
-- GitHub #1023 (open): "Until this lands, `/shape-slice`, `/shape-plan` and `/shape-eval` read an intent's issue from the wrong repo, so they must not run and no plan is rebuilt."
-- GitHub #1033 (open): "Plays read the whole model by one rule once its index has ICE entries, so older parts break"
-- GitHub #912 (open): "The findings the reviews of PR #900 left open"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "It has one eval, one hidden file and one usage guide, also when two plans hold it.", "The build delivers its usage guide with the slice, in the guides folder beside the evals folder but not in it, so the builder writes the guide and never sees the eval."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "When the build play runs, its context sub-agent reads the story's Context guidance, collects the context, and puts it in the issue's short-term memory"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "the feature (its id and name), its capability, the two ICE it was written from (and which of them is thin)", "The ids never leave the eval folder", "The handoff plan never names the failure condition, its id or the check."

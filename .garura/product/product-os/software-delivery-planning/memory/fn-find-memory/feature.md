@@ -19,8 +19,8 @@ An agent finds what it needs to decide with one memory tool, which looks in the 
   - In a game studio's build, Phoenix memory's place on a new machine is empty and its source does not answer. The lookup answers `tier_missing` for Phoenix memory, and the agent says so instead of deciding.
 - How it meets the capability: "Agents decide from three tiers of memory" only when every agent reaches all three the same way, in the same order, and every answer says where it came from.
 
-Status: built, in the memory tool (contract version 5) and its memory guide, which the install lays for every agent; built under #657 (closed, the memory tool finds memory across the three tiers) and #661 (closed, plays read memory only through the tool), under #653 (open, the memory system). Not built, or open:
-- In this repository Garura memory has no memory folder, so it is only the product model: "In this repository that folder was removed on 2026-10-26" (#942, a project's memory can be managed).
+Status: built, in the memory tool (contract version 5) and its memory guide, which the install lays for every agent. Not built, or open:
+- In this repository Garura memory has no memory folder, so it is only the product model: "In this repository that folder was removed on 2026-10-26".
 - The server engine is not built: the folder engine is "the only engine built". Moving the tool's home to a server is one setting once a server exists.
 - Ask memory, a question box in plain words over the three tiers, is mocked only, in Review what agents make (Argus).
 
@@ -61,7 +61,7 @@ Status: built, in the memory tool (contract version 5) and its memory guide, whi
 - Ask memory, the question box in plain words. Review what agents make (Argus), in Developer tooling, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, line 114, the list set on 2026-11-11: "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them."
+- The capability list set on 2026-11-11: "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them."
 - core/tools/memory/README.md, lines 3-5, 8-11, 33-48, 57-63, 84-111, 158-160 and 224-230: "Agents that call it do not change when that happens, because they only ever talk to this tool", "The tool learns where each tier lives from its settings, never from a fixed path.", "a draft is used only once a person approved it and it was applied", "an agent never decides from its own earlier decision", "the only engine built", "The tool reads Phoenix memory and never copies a file from it into the project", "So the lowest tier answers whenever it can, and Phoenix memory is reached only when the lower tiers have nothing.", "A lookup never skips a tier.", "carries its tier, file, lines and fingerprint.", and the two things that are not memory
 - core/tools/memory/GUIDE.md, line 41: "`tier_missing` means a tier cannot be reached. Say so."
 - core/tools/memory/pull.py, line 10: "Working-tree edits and unmerged commits are never read."
@@ -69,7 +69,5 @@ Status: built, in the memory tool (contract version 5) and its memory guide, whi
 - docs/adr/036-approved-answer-lands-in-short-term-memory.md, section 1, line 43, the product owner's words: "When a short-term memory is looked up, it is looked up only in the current issue, not the other issues. That is critical."
 - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md, section 4, line 72, the product owner's words: "You don't need to copy the entire file."
 - The memory tool's `health` answer, 2026-11-11: all three tiers reachable, Phoenix memory at version b2e40bff2131.
-- GitHub #657 and #661 (closed): the tool and the plays reading through it; #653 (open): the memory system.
-- GitHub #942 (open): "In this repository that folder was removed on 2026-10-26"
 - .garura/product/product-os/software-delivery-planning/review-agent-work/fn-review-memory/feature.md: Ask memory is mocked only.
-- The stock-take, .garura/project/issues/1021/context/bi-10-inventory/inventory.md, sections 5.1 and 5.4.
+- The stock-take (2026-11-11), sections 5.1 and 5.4.

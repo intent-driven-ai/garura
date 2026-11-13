@@ -25,10 +25,10 @@ Once a change is reviewed, or the whole built work is checked, this feature give
 
 Status: built in part. The review of each change gives its verdict by one fixed rule, reject "if any P1 finding (or a runnable suite is red)", with "no LLM judgment."; the project's setting decides whether a person decides it or the rule's verdict stands; the decision is recorded with who made it and posted on the change; and the merge in Developer tooling reads it. Both ways are on record in Garura's own repository: one change decided by the rule ("decided_by: harness") and one by the person ("decided_by: human", "recommended: approve", with the findings left open listed). Not built:
 - A tool that did not run is recorded and is never a pass, but the rule over the findings can still approve the change.
-- Findings come out as "an id, a class and a short label", each naming its rule (#902); they are posted on the change and kept on its branch, where a part that builds the work could read them.
+- Findings come out as "an id, a class and a short label", each naming its rule; they are posted on the change and kept on its branch, where a part that builds the work could read them.
 - Nothing writes a handoff plan, sends a finding to the developer, the test writer or a person by who can fix it, or hands a finding after acceptance to the defect fix.
-- One severity for findings and defects is planned (#934).
-- In Garura's own repository the setting still names the review's old play name, so a person decides there (#772).
+- One severity for findings and defects is planned.
+- In Garura's own repository the setting still names the review's old play name, so a person decides there.
 
 ## Inputs / Outputs
 - In: the findings of the review of each change, or the results of the check of the whole built work, each with the standard it rests on, where it was found and its rank, and each standard not checked, with its reason.
@@ -53,7 +53,7 @@ Status: built in part. The review of each change gives its verdict by one fixed 
 - Before acceptance to the build, after acceptance to the defect fix. The reason: the approved Fix defects test first takes in "a finding in a review".
 - The verdict stays away from the builder. The reason: "giving it to the builder only invites teaching-to-the-test."
 - Not decided: where the verdict and the handoff plans are kept so a person reads them and no part that builds the work does; today the review posts every finding on the change and keeps its records on the change's branch.
-- Not decided: the rank of each finding, while #934, one severity from P1 to P4 for findings and defects, is open.
+- Not decided: the rank of each finding, and whether findings and defects share one severity from P1 to P4.
 
 ## Acceptance criteria
 - Given findings of which none has a rank that blocks, and every standard checked, when the verdict is given, then it is a pass, and each finding still goes back.
@@ -75,11 +75,11 @@ Status: built in part. The review of each change gives its verdict by one fixed 
 - Reviewing again and counting the rounds. Check the code again as the product and its standards change (fn-recheck-code) does it.
 
 ## Sources
-- The list the product owner approved on 2026-11-09, in .garura/project/issues/1021/context/capabilities.md: "reviewing a change against its standards is BI-4's"
+- The list the product owner approved on 2026-11-09: "reviewing a change against its standards is BI-4's"
 - The capability list the product owner agreed on 2026-11-03, in the same file: "Settings: Everything that can be turned on or off lives in settings."
-- The product owner's approval of Test security on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-2/page-approvals.md: "with the line on a finding that changes the architecture, the deployment design or an environment settled as the product owner's"
-- The product owner's approval of Test performance on 2026-11-09, in .garura/project/issues/1021/context/bi-4-capability-3/page-approvals.md: "with the verdict saying so plainly, neither a pass nor a fail, when no performance level is set"
-- The product owner on a defect, 2026-10-27, quoted in GitHub #902 (open): "A defect needs to have a problem statement clearly defined.", "Where is the problem happening, and what would it lead to?", "an id, a class and a short label"
+- The product owner's approval of Test security on 2026-11-09: "with the line on a finding that changes the architecture, the deployment design or an environment settled as the product owner's"
+- The product owner's approval of Test performance on 2026-11-09: "with the verdict saying so plainly, neither a pass nor a fail, when no performance level is set"
+- The product owner on a defect, 2026-10-27: "A defect needs to have a problem statement clearly defined.", "Where is the problem happening, and what would it lead to?", "an id, a class and a short label"
 - .garura/product/product-os/intents/bi-4.md: "Let a builder grade itself, weaken a check to pass, or count a check that did not run as a pass."
 - .garura/product/product-os/software-delivery-planning/build-work-test-first/fn-update-tests-and-code/feature.md: "Only the test writer changes, adds or takes out a test, always with its reason.", "A handoff plan is the exact list of the work it calls for."
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "In: taking in a defect reported anywhere: a person's words, a finding in a review, the eval after the work was accepted, or a bug in a plan.", "Out: recording a defect in the tracker"
@@ -87,11 +87,9 @@ Status: built in part. The review of each change gives its verdict by one fixed 
 - .garura/product/product-os/software-delivery-planning/design-work/capability.md: "the technical lead confirms or changes each choice"
 - core/components/plays/check-change/SKILL.md: "if any P1 finding (or a runnable suite is red)"
 - core/components/plays/check-change/scripts/compute_verdict.py: "no LLM judgment."
-- .garura/project/issues/993/review/decision.yaml: "decided_by: harness"
-- .garura/project/issues/1031/review/decision.yaml: "decided_by: human", "recommended: approve"
+- A change's review decision record, decided by the harness: "decided_by: harness"
+- A change's review decision record, decided by a person: "decided_by: human", "recommended: approve"
 - core/components/plays/validate-epic/SKILL.md: "An unmeasured bar is not a passed bar."
 - standards/rules/expectation-generation.md, in Phoenix memory: "Can the builder fix this from information it already has, deterministically?", "the inverse of the failure, as guidance, never code"
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "The handoff plan never names the failure condition, its id or the check."
 - docs/philosophy/idd-principles.md: "giving it to the builder only invites teaching-to-the-test."
-- GitHub #934 (open): "Findings and defects get one severity, P1 to P4"
-- GitHub #772 (open): "The install keeps old play names in the project config, so the check-change gate is on"

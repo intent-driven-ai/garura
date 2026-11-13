@@ -19,7 +19,7 @@ When a defect is found in a feature that a story delivered, it is recorded in th
   - In a news site whose plan for the weekly digest is Done, a broken link in the digest is found. The bug belongs under the digest's story, but no session can reach a Done plan today.
 - How it meets the capability: the backlog holds defects as well as new work, and only a bug under the story that brought it in keeps the trace of where it came from.
 
-Status: built in part, in /update-plan (#730, the plan session): a person adds a bug under a story in a session. Not built: filing a bug from a finding, finding its story, checking its severity line (#934, findings and defects get one severity, P1 to P4, open), and a bug under the story of a plan that is Done.
+Status: built in part, in /update-plan, the plan session: a person adds a bug under a story in a session. Not built: filing a bug from a finding, finding its story, checking its severity line (one severity, P1 to P4, for findings and defects), and a bug under the story of a plan that is Done.
 
 ## Inputs / Outputs
 - In: the defect: what the product does wrong and the way back, in a person's words or in a handoff plan's.
@@ -31,7 +31,7 @@ Status: built in part, in /update-plan (#730, the plan session): a person adds a
 ## Rules & behavior
 - A bug hangs under the story that brought the defect in. The reason: "Each Bug still hangs under the Story that introduced it, so the trace of where it came from is kept."
 - A bug is type Bug, under its story by a real link, with no label. The reason: "Type lives in the type field.", and a bug sits under a story: "a spike, a chore or a bug under a story".
-- A bug's first line is its severity. The reason: "A Bug carries its severity in its text.", "one value, P1 to P4, that also says what is fixed first."; and "Until the severity rules exist (#934), the product owner sets it."
+- A bug's first line is its severity. The reason: "A Bug carries its severity in its text.", "one value, P1 to P4, that also says what is fixed first."; and "Until the severity rules exist, the product owner sets it."
 - A bug's text never names the test or the check that found it. The reason: "anything the builder could read, it would end up writing to.", and the handoff plans it comes from already follow the rule: "It never names the test, its rule, its id or its tool", and "It never names the failure condition, its id, the scenario, its steps or the check."
 - A bug is a defect, not missing work. The reason: "a missing feature is a Story."
 - It lands only on the person's "approved", once. The reason: it is one entry of a session's list, and "What lands is exactly the list the person saw when they approved it."
@@ -50,11 +50,11 @@ Status: built in part, in /update-plan (#730, the plan session): a person adds a
 - Finding the defect, and the handoff plan each test sends. The tests and the check of the code, in Code → Validation, and the eval after the work was accepted own them.
 - Understanding and fixing the defect. Fix defects test first, in Design → Code, owns it.
 - Changing work items in a session, and where a bug is placed in a plan. Turn intents into agent work, in Product → Spec, owns them; this feature holds the rule for the bug itself.
-- The severity rules, P1 to P4. #934 holds them, under Standards, structure, settings and memory in the tracker.
+- The severity rules, P1 to P4. They belong under Standards, structure, settings and memory.
 - A way past the stop at a Done plan. Give every gate a way past, in Orchestration, owns it.
 
 ## Sources
-- .garura/project/issues/1021/context/capabilities.md, the product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
+- The product owner on 2026-11-10: "Anything that already exists, like managing ADRs and execution tracking, just use what is already built to do that."
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/capability.md: "A defect is a fault in a feature a user wants", "A bug is how a plan keeps a defect as a work item", "recording a defect in the tracker, as a bug under the story that brought it in, with its text and its severity. Orchestration owns it", "The bug fix play starts only from an open issue in the tracker"
 - .garura/product/product-os/software-delivery-planning/fix-defects-test-first/fn-understand-defect/feature.md: "Not decided: whether the understanding is written on the defect's issue in the tracker, as the bug fix play does today.", "Only the tool that knows the tracker may write it, and tracking is Orchestration's."
 - .garura/product/product-os/software-delivery-planning/test-security/fn-send-security-findings/feature.md: "Recording a defect in the tracker. Orchestration owns it.", "It never names the test, its rule, its id or its tool"
@@ -66,8 +66,6 @@ Status: built in part, in /update-plan (#730, the plan session): a person adds a
 - core/components/plays/update-plan/scripts/check_entries.py: "a spike, a chore or a bug under a story", "a new item needs a title"
 - core/components/plays/fix-bug/SKILL.md: "confirm the issue is open"
 - core/tools/plan/plan_branch.py: "A plan that main's file marks Done or Dropped gets no branch", "a person sets its status before work starts again"
-- .garura/user-provided/managing-work.md: "A Bug carries its severity in its text.", "Severity: P<n> — <why, in one line>", "one value, P1 to P4, that also says what is fixed first.", "Until the severity rules exist (#934), the product owner sets it.", "Each Bug still hangs under the Story that introduced it, so the trace of where it came from is kept.", "a missing feature is a Story.", "Type lives in the type field.", "anything the builder could read, it would end up writing to."
+- .garura/user-provided/managing-work.md: "A Bug carries its severity in its text.", "Severity: P<n> — <why, in one line>", "one value, P1 to P4, that also says what is fixed first.", "Until the severity rules exist, the product owner sets it.", "Each Bug still hangs under the Story that introduced it, so the trace of where it came from is kept.", "a missing feature is a Story.", "Type lives in the type field.", "anything the builder could read, it would end up writing to."
 - standards/schemas/product-os/ontology.md, in Phoenix memory: "A bug found after a plan is done sits under the Story that introduced it; no new plan is made, and the done plan is not reopened."
 - .garura/product/product-os/intents/bi-9.md: "Stop a person. Every gate has a way past it that records what's owed."
-- GitHub #730 (closed): "The /update-plan session"
-- GitHub #934 (open): "Findings and defects get one severity, P1 to P4"

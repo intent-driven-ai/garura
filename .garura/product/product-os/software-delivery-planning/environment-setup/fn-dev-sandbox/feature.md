@@ -92,7 +92,7 @@ Status: not built. What exists covers only parts of it, and some of it does not 
 - standards/schemas/product-os/lens/run.yaml, in Phoenix memory: "how to bring it up locally (command / compose file)", "optional — test-data seed step", "order: 0 local, 1 dev, 2 qa, 3 stage, 4 prod."
 - standards/schemas/product-os/grounding/lens/run.md, in Phoenix memory: "the read API and the browser view against fixture files, started with one compose command. No", "cloud, no secrets; fixtures stand in for real sources."
 - core/components/skills/deploy-local-environment/SKILL.md: "`npm run dev`, a compose file, etc.", "docker compose -f compose.dev.yaml up -d", "docker compose -f compose.dev.yaml down", "credentials only for seeded TEST users.", "NEVER stands up a cloud environment (dev/qa/stage/prod)"
-- core/components/agents/environment-operator.md: "waits for the rebuild of /release-epic and /release-increment (#855); only stale plays dispatch it", "for /release-epic's human testing"
+- core/components/agents/environment-operator.md: "waits for the rebuild of /release-epic and /release-increment; only stale plays dispatch it", "for /release-epic's human testing"
 - core/components/plays/release-epic/SKILL.md: "done; the environment is not needed for the close. (On any abort, teardown still runs.)"
 - core/components/plays/fix-bug/SKILL.md: "the failing regression test at the repo's canonical eval path", "a regression test proven red before the fix"
 - core/components/plays/fix-bug/reference/ice.md: "(developer, end to end)"

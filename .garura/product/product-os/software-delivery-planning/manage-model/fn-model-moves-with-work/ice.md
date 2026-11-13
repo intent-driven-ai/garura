@@ -10,7 +10,7 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 - Fails if: A change left for later is missing from the list of changes not yet learned.
 
 ## Context
-- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: #990's flow and its decisions, the approved design and its record, the keeper's skills, the choice at the proposal of a change, the list of changes not yet learned, and how Learn reads it (#977).
+- Read: Gather it from the memory layer. Look first at the project's existing memory and its existing implementation, then Garura memory, then Phoenix memory. If none of them answers, research it and raise a memory update for a person to approve. For this part, look for: the flow by which the model moves with the work, and its decisions, the approved design and its record, the keeper's skills, the choice at the proposal of a change, the list of changes not yet learned, and how Learn reads it.
 - Never read: any memory file by its path, any ICE page, and any file in a plan's evals folder.
 - Persona: the technical lead, who approves a story's design; and the developer, a person or an AI agent who builds the code, who proposes the change and chooses when the model is updated.
 - Scope: In: updating the model on a design's approval, marking each changed part in review, and the list of changes not yet learned. Out: the choice at the proposal of a change, the design of a story, where what is owed is kept, and finding drift from what was built.

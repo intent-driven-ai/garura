@@ -15,7 +15,7 @@ While working, a developer groups several ready issues, often bugs, into one cha
   - In a team's planning tool, the path proposes two of four ready bugs that touch the same screen, and the developer adds a third.
 - How it meets the capability: the steps stay the same; one run of them carries more than one issue, at the cost of one review.
 
-Status: not built. Today one run opens one issue, each commit names exactly one issue, and the merge closes one issue. A loop already lands the child issues of its one main issue on its one branch, but that is one issue and its children, not a group of ready issues. The work guide still says "One issue, one session, one branch, one pull request"; this feature changes that rule, and the guide is the product owner's to update. Planned (#976, open).
+Status: not built. Today one run opens one issue, each commit names exactly one issue, and the merge closes one issue. A loop already lands the child issues of its one main issue on its one branch, but that is one issue and its children, not a group of ready issues. The work guide still says "One issue, one session, one branch, one pull request"; this feature changes that rule, and the guide is the product owner's to update. Planned.
 
 ## Inputs / Outputs
 - In: the ready issues the developer names, or the ones the path proposes.
@@ -42,7 +42,6 @@ Status: not built. Today one run opens one issue, each commit names exactly one 
 - Opening one change for one issue. Open each change where it will land (fn-731) does it.
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-1/page-approvals.md: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
-- GitHub #976 (open): "while working, a person groups several ready issues (often bugs) into one change, so one run of the change pipeline lands them all.", "We need to group as many things as we can do together so that the overhead cost of running the entire change pipeline is reduced.", "Each bug is still logged on its own, as its own issue, under the story that introduced it.", "The person's checkpoints are grouped too", "One run of the change pipeline lands several issues, and each one is closed by it.", "Grouping never moves an issue between plans, slices or epics."
+- The product owner on 2026-11-10: "Ship every change the same way: Every change goes from opening to merge through the same steps, with a self-review, an outside review and a person's yes.", "yes, record it with self-review dropped"
 - .garura/user-provided/managing-work.md: "One issue, one session, one branch, one pull request."
 - core/components/plays/commit-change/SKILL.md: "exactly one issue reference"

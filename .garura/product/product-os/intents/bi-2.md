@@ -12,7 +12,6 @@
 **Must not:** Block other work. Each design can be run at any time.
 
 **Stage:** confirmed — by the product owner, 2026-11-02
-**Tracker:** #2
 
 **Touches:**
 - [Design the technology and architecture](../software-delivery-planning/design-technology-architecture/capability.md) (capability) — adds

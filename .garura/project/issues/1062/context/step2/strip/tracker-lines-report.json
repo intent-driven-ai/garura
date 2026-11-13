@@ -1,0 +1,162 @@
+{
+  "by": "product-os-keeper (model clean-up)",
+  "source": "the clean-up design the product owner approved on 2026-11-12 (ADR 069 section 2: the model names no tracker issue)",
+  "pages": [
+    {
+      "page": "intents/bi-1.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #1",
+          "new": null
+        }
+      ],
+      "lines_before": 49,
+      "lines_after": 48,
+      "lines_added": 0,
+      "lines_kept": 48
+    },
+    {
+      "page": "intents/bi-2.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #2",
+          "new": null
+        }
+      ],
+      "lines_before": 34,
+      "lines_after": 33,
+      "lines_added": 0,
+      "lines_kept": 33
+    },
+    {
+      "page": "intents/bi-3.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #3",
+          "new": null
+        }
+      ],
+      "lines_before": 43,
+      "lines_after": 42,
+      "lines_added": 0,
+      "lines_kept": 42
+    },
+    {
+      "page": "intents/bi-4.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #4",
+          "new": null
+        }
+      ],
+      "lines_before": 50,
+      "lines_after": 49,
+      "lines_added": 0,
+      "lines_kept": 49
+    },
+    {
+      "page": "intents/bi-5.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #5",
+          "new": null
+        }
+      ],
+      "lines_before": 18,
+      "lines_after": 17,
+      "lines_added": 0,
+      "lines_kept": 17
+    },
+    {
+      "page": "intents/bi-6.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #6",
+          "new": null
+        }
+      ],
+      "lines_before": 37,
+      "lines_after": 36,
+      "lines_added": 0,
+      "lines_kept": 36
+    },
+    {
+      "page": "intents/bi-7.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #7",
+          "new": null
+        }
+      ],
+      "lines_before": 50,
+      "lines_after": 49,
+      "lines_added": 0,
+      "lines_kept": 49
+    },
+    {
+      "page": "intents/bi-8.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #8",
+          "new": null
+        }
+      ],
+      "lines_before": 40,
+      "lines_after": 39,
+      "lines_added": 0,
+      "lines_kept": 39
+    },
+    {
+      "page": "intents/bi-9.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #9",
+          "new": null
+        }
+      ],
+      "lines_before": 63,
+      "lines_after": 62,
+      "lines_added": 0,
+      "lines_kept": 62
+    },
+    {
+      "page": "intents/bi-10.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #10",
+          "new": null
+        }
+      ],
+      "lines_before": 75,
+      "lines_after": 74,
+      "lines_added": 0,
+      "lines_kept": 74
+    },
+    {
+      "page": "intents/bi-11.md",
+      "changes": [
+        {
+          "old": "**Tracker:** #11",
+          "new": null
+        }
+      ],
+      "lines_before": 46,
+      "lines_after": 45,
+      "lines_added": 0,
+      "lines_kept": 45
+    }
+  ],
+  "changed": [
+    "intents/bi-1.md",
+    "intents/bi-2.md",
+    "intents/bi-3.md",
+    "intents/bi-4.md",
+    "intents/bi-5.md",
+    "intents/bi-6.md",
+    "intents/bi-7.md",
+    "intents/bi-8.md",
+    "intents/bi-9.md",
+    "intents/bi-10.md",
+    "intents/bi-11.md"
+  ]
+}

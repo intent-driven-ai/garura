@@ -48,4 +48,4 @@ Status: not built. What exists covers only part of it:
 - core/components/plays/shape-eval/reference/ice.md: "A slice whose surface kind has no step library yet gets no eval; the run names it and says why."
 - .garura/product/product-os/software-delivery-planning/manage-surfaces/capability.md: "Write the evals that check the work owns the eval of each slice and the step library of each kind of surface, and Test the user experience on each surface tests each surface against its properties and guidelines.", "A step library is the fixed list of sentences that a test step may use on one kind of surface."
 - core/tools/memory/GUIDE.md: "Do not guess. Draft the answer as a memory update, and a person approves or rejects it:", "to Garura memory or Phoenix memory is a promotion a person makes on purpose, outside your"
-- standards/schemas/eval/steps-command-line.yaml, in Phoenix memory: "The step library of the command-line surface kind (eval format, #798)."
+- standards/schemas/eval/steps-command-line.yaml, in Phoenix memory: "The step library of the command-line surface kind (eval format)."

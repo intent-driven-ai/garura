@@ -33,7 +33,7 @@ Argus is where a person gives these answers, and it changes no rule on who may g
 - Only a person confirms a business intent. Product model must not "let an agent confirm an intent".
 - A memory update is decided by the rules of Memory, in Standards, structure, settings and memory: "Only a person decides, one update at a time."
 - Accepting an ADR follows Manage ADRs, in Orchestration: "Only a person accepts an ADR. Only where the person does it moves."
-- The approval state kept on each piece of the model, and the rule that agents build only from approved pieces, are Product model's (#964). The review step writes it from the person's answers, and "The review tool writes nothing to the model."
+- The approval state kept on each piece of the model, and the rule that agents build only from approved pieces, are Product model's. The review step writes it from the person's answers, and "The review tool writes nothing to the model."
 Once the answers are applied, the change lands through Ship every change the same way, the first capability of Developer tooling, and the merge waits for the person's yes.
 Until Argus exists, a person's answers reach the work in other ways, and each stays as it is:
 - A memory update is decided by typing in a session: "the person types the decision in a Claude Code session that records their exact reply".
@@ -55,14 +55,14 @@ Features:
 - Run Argus apart from Garura, and point Garura at it (fn-run-tool-apart): Argus runs as a small server that a person starts once, holds no Garura code, and meets Garura only through the written contract, at the one address Garura's settings name, so it can move later.
 
 What is not built yet:
-- Nothing of Argus is built, in Garura or in any other repository. Its design is a draft of 18 October 2026, with a mockup of "made-up shop data", and its stories are open (#681, with #641, #642, #643, #644 and #664).
-- Nothing of Garura's side is built. No part builds a review pack, opens a review, keeps the answers, reworks a piece sent back or applies the answers (#648, #649, #650), and no setting names Argus's address.
+- Nothing of Argus is built, in Garura or in any other repository. Its design is a draft of 18 October 2026, with a mockup of "made-up shop data", and its stories are open.
+- Nothing of Garura's side is built. No part builds a review pack, opens a review, keeps the answers, reworks a piece sent back or applies the answers, and no setting names Argus's address.
 - What exists feeds it or stands in for it:
   - Each play inside a loop writes what its checkpoint would have shown into the loop's review folder, and the record reads "decided: false" until the loop's review answers it.
   - The memory tool keeps each memory update and each agent decision with its trace.
   - The Discovery loop "ends at the pull request" with the person's typed confirm or drop, and its record reads "applied_to_model: false".
-- No piece of the model carries an approval state yet (#964), so no answer is kept on the piece it answers.
-- The story for the three sections, #664, is behind the design: it still names one "Memory and ADRs" section, and it writes an approved update to "Garura or Phoenix memory for a promotion", while a page moves up from Argus only to Garura memory, and Phoenix memory is not reached from Garura.
+- No piece of the model carries an approval state yet, so no answer is kept on the piece it answers.
+- The story for the three sections is behind the design: it still names one "Memory and ADRs" section, and it writes an approved update to "Garura or Phoenix memory for a promotion", while a page moves up from Argus only to Garura memory, and Phoenix memory is not reached from Garura.
 
 ### Benefit hypothesis
 - Who it serves: the product owner, who reviews what a run made and gives the answers only a person may give; the agents, which build only from what a person approved; the plays that write each kind of piece, which rework a piece sent back; and Ship every change the same way, which lands the applied answers.
@@ -84,7 +84,7 @@ What is not built yet:
 - In: the review step: applying all the answers in one commit and writing approval from them, for a run that ended and for one that stopped.
 - In: Argus itself, as a Phoenix tool: its contract, its server and its page, built apart from Garura.
 - Out: committing, raising, the outside review, and merging the change with the person's yes. Ship every change the same way, the first capability of Developer tooling, owns them; reviewing a change against its standards is Check the code against its standards, in Code → Validation.
-- Out: the approval state on each piece, the rule that agents build only from approved pieces, and how approval is recorded outside the review step. Product model owns them (#964).
+- Out: the approval state on each piece, the rule that agents build only from approved pieces, and how approval is recorded outside the review step. Product model owns them.
 - Out: what a memory update is, who may decide it, and what moving a page up does. Memory, in Standards, structure, settings and memory, owns them; the person's yes to move a page to Garura memory is given here.
 - Out: recording an ADR, and what accepting one writes. Manage ADRs, in Orchestration, owns it.
 - Out: running a loop's rounds, its checker and its questions. Run plays as loops, in Orchestration, owns it.
@@ -114,21 +114,17 @@ What is not built yet:
 - Not decided: whether Garura's install lays Argus, a setting only points at it, or a team uses it alongside, while BI-8's page says the tools "ship with Garura".
 
 ## Sources
-- The product owner on 2026-11-10, in .garura/project/issues/1021/context/bi-8-capability-2/page-approvals.md: "Review what agents make (Argus): People review ADRs, memories, domains, capabilities and ICE in one tool.", "yes, record it with self-review dropped"
-- The lean he agreed on 2026-11-10, in .garura/project/issues/1021/context/capabilities.md: "its line is widened to name business intents and agent decisions, which the design shows.", "Ship every change the same way", "Manage ADRs", "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them.", "Run plays as loops"
+- The product owner on 2026-11-10: "Review what agents make (Argus): People review ADRs, memories, domains, capabilities and ICE in one tool.", "yes, record it with self-review dropped"
+- The lean he agreed on 2026-11-10: "its line is widened to name business intents and agent decisions, which the design shows.", "Ship every change the same way", "Manage ADRs", "Memory: Agents decide from three tiers of memory (Phoenix global, Garura project, short-term), and people control what enters them.", "Run plays as loops"
 - .garura/product/product-os/intents/bi-8.md: "Agents now make more in one run than a pull request can show.", "Make people read raw files to know what was made.", "ship with Garura"
 - .garura/product/product-os/intents/bi-11.md: "let an agent confirm an intent"
-- .garura/project/issues/617/specs/review-tool.md, the design, with the product owner's words of 17 to 20 October 2026: "The way I want you to build the tool is that it is easily extractable and movable out of Garura.", "Every time a change is made, it should have a direct connection back to Garura for listening.", "We don't want it to be a massive PR and add complex cognition load on the user.", "Any changes have to be entered.", "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.", "One server, one link, one review.", "Every event has a number and is kept in a log.", "Nothing is approved in bulk, and an agent never answers one", "because the person must check it", "Claude still never reads the web page: the answers are files on the branch", "Moving memory up is not done here", "Not in version 1."
-- .garura/project/issues/617/specs/review-tool-mockup.html: "made-up shop data"
+- The review tool's design, with the product owner's words of 17 to 20 October 2026: "The way I want you to build the tool is that it is easily extractable and movable out of Garura.", "Every time a change is made, it should have a direct connection back to Garura for listening.", "We don't want it to be a massive PR and add complex cognition load on the user.", "Any changes have to be entered.", "Every time somebody opens up this tool, they should be able to see what is changed, what is approved, and what is in progress.", "One server, one link, one review.", "Every event has a number and is kept in a log.", "Nothing is approved in bulk, and an agent never answers one", "because the person must check it", "Claude still never reads the web page: the answers are files on the branch", "Moving memory up is not done here", "Not in version 1."
+- The review tool's mockup: "made-up shop data"
 - docs/adr/032-drive-review-of-outcomes.md, with the product owner's words: "That is what we need to review. That's what the outcome is.", "Reviewing the play itself does nothing.", "The play that writes that kind of piece re-runs for that one piece, on the same branch.", "The pull request is not where the person reviews.", "The plan is not reviewed here.", "The merge stays pinned to the person.", "Run by hand, a play's review is unchanged."
 - docs/adr/033-approval-in-the-product-model.md, with the product owner's words: "agents can only work on things which are approved.", "Plays write the model. The review tool writes nothing to the model."
 - docs/adr/036-approved-answer-lands-in-short-term-memory.md: "Only a person accepts an ADR. Only where the person does it moves."
 - docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md: "Intents | Product | ADRs | Memory | Agent decisions."
 - docs/adr/045-a-drive-is-now-called-a-loop.md: "A Drive Is Now Called a Loop"
-- GitHub #680 (closed as not planned on 2026-11-02, replaced by BI-8's tracker issue): "It is a Phoenix tool, built separately from Garura", "it imports no Garura code, so it can move into Griffin later", "After a drive, a person reviews everything it made in Argus — not in a pull request — and every answer is recorded.", "A person can go through a big review one card at a time on a laptop or a phone.", "Argus runs on its own, without Garura's code."
-- GitHub #681 (open): "Argus, the review tool: a person reads a drive's outcome and answers each piece"
-- GitHub #664 (open): "Memory and ADRs", "Garura or Phoenix memory for a promotion"
-- GitHub #964 (open): "Each piece of the product model carries its approval state, and agents build only from approved pieces"
 - core/tools/memory/README.md: "Only a person decides, one update at a time.", "the person types the decision in a Claude Code session that records their exact reply"
 - standards/rules/gate-config.md, in Phoenix memory: "for the typed response"
 - core/components/plays/check-change/SKILL.md: "the comment ALWAYS names its decider"
@@ -136,8 +132,8 @@ What is not built yet:
 - core/components/plays/create-play/references/write_loop_review.py: "decided: false"
 - core/components/loops/complete-discovery/scripts/record_confirmation.py: "ends at the pull request", "applied_to_model: false"
 - .garura/product/product-os/software-delivery-planning/environment-setup/capability.md, the product owner on 2026-11-08: "We are never touching production."
-- The stock-take of Developer tooling, .garura/project/issues/1021/context/bi-8-inventory/inventory.md, sections 2, 3, 6 and 8.
+- The stock-take of Developer tooling (2026-11-10), sections 2, 3, 6 and 8.
 - The short line beside each feature: the opening words of that feature's own page.
 - Shelf: none covers reviewing what agents made. The experience shelf in Phoenix memory, knowledge/domains/experience.md, names "HITL queues & approvals" among the parts that govern the agents built into a product, a loose match only.
 - .garura/product/product-os/software-delivery-planning/domain.md: "It also lands every change the same way, with an outside review and a person's yes, and gives people one tool to review what agents made."
-- .garura/project/issues/1021/context/bi-10-close/approval.md, line 3, the product owner's words of 2026-11-11: "Argus can only allow from short term to the project memory. Going to the Phoenix is not designed yet. That would need an organizational change."
+- The product owner's words of 2026-11-11: "Argus can only allow from short term to the project memory. Going to the Phoenix is not designed yet. That would need an organizational change."
